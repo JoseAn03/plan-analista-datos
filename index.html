@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Plan Ejecutivo Completo · Analista de Datos — 45 Días</title>
+<style>
+:root{
+  --bg:#eef1f7; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+  --brand:#4f46e5; --brand2:#7c3aed; --soft:#eef2ff; --ok:#059669; --warn:#d97706; --bad:#dc2626;
+  --radius:14px; --shadow:0 1px 3px rgba(15,23,42,.08),0 4px 14px rgba(15,23,42,.05);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); padding-bottom:90px}
+h1,h2,h3,h4{line-height:1.2}
+a{color:var(--brand); text-decoration:none}
+.wrap{max-width:1080px; margin:0 auto; padding:0 16px}
+
+/* ---------- Top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex; align-items:center; gap:12px; padding-top:8px; padding-bottom:8px; overflow-x:auto}
+.brand{font-weight:800; font-size:14px; white-space:nowrap; color:var(--brand)}
+.brand small{display:block; font-weight:600; color:var(--muted); font-size:10.5px; letter-spacing:.4px}
+.nav{display:flex; gap:4px; flex:1}
+.nav a{font-size:12.5px; font-weight:600; color:var(--muted); padding:6px 10px; border-radius:8px; white-space:nowrap}
+.nav a:hover{background:var(--soft); color:var(--brand)}
+#pctWrap{white-space:nowrap; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--brand)}
+.ring{width:38px; height:38px; border-radius:50%; background:conic-gradient(var(--brand) calc(var(--p,0)*1%), #e2e8f0 0); display:grid; place-items:center; flex:none}
+.ring b{width:28px; height:28px; border-radius:50%; background:#fff; display:grid; place-items:center; font-size:10.5px; color:var(--ink)}
+
+/* ---------- Cover ---------- */
+.cover{margin:20px 0 24px; border-radius:20px; overflow:hidden; background:linear-gradient(135deg,#312e81 0%,#4f46e5 45%,#7c3aed 100%); color:#fff; box-shadow:var(--shadow)}
+.cover-in{padding:30px 28px}
+.cover .kicker{font-size:11px; letter-spacing:2px; font-weight:700; text-transform:uppercase; opacity:.75}
+.cover h1{font-size:clamp(26px,4.5vw,40px); margin:8px 0 6px; font-weight:800}
+.cover p.sub{max-width:640px; opacity:.92; font-size:15px}
+.cover .rule{margin-top:14px; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); font-size:14px; font-style:italic}
+.cover .meta{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:16px}
+.metabox{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:10px 12px}
+.metabox label{display:block; font-size:10px; letter-spacing:1px; text-transform:uppercase; opacity:.7; font-weight:700}
+.metabox input{width:100%; background:transparent; border:0; color:#fff; font-weight:700; font-size:14px; margin-top:2px; outline:none}
+.metabox input::placeholder{color:rgba(255,255,255,.5)}
+.links{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.links a{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); color:#fff; padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:600}
+.links a:hover{background:#fff; color:var(--brand)}
+
+/* ---------- Sections ---------- */
+section{margin:34px 0}
+.sec-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px}
+.sec-head h2{font-size:21px; font-weight:800; letter-spacing:-.3px}
+.sec-head .n{font-size:11px; font-weight:800; color:#fff; background:var(--brand); border-radius:8px; padding:3px 8px; letter-spacing:1px}
+.sec-head .desc{color:var(--muted); font-size:13px}
+
+/* KPI cards */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px}
+.kpi{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow)}
+.kpi .lab{font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--muted)}
+.kpi .big{font-size:26px; font-weight:800; margin-top:2px}
+.kpi .big small{font-size:14px; color:var(--muted); font-weight:600}
+.kpi .bar{height:7px; border-radius:99px; background:#e2e8f0; margin-top:8px; overflow:hidden}
+.kpi .bar i{display:block; height:100%; border-radius:99px; background:var(--brand); width:0%; transition:width .3s}
+.kpi.good .bar i{background:var(--ok)} .kpi.warn .bar i{background:var(--warn)}
+.kpi .goal{font-size:11.5px; color:var(--muted); margin-top:5px}
+
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow)}
+.card h3{font-size:15px; margin-bottom:8px}
+.card label{display:block; font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin:12px 0 4px}
+.field{width:100%; border:1px solid var(--line); border-radius:10px; padding:9px 11px; font:inherit; background:#fafbfe; color:var(--ink); outline:none}
+.field:focus{border-color:var(--brand); background:#fff}
+textarea.field{min-height:64px; resize:vertical}
+table.t{width:100%; border-collapse:collapse; font-size:13.5px}
+table.t th{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); text-align:left; padding:8px 8px; border-bottom:2px solid var(--line); white-space:nowrap}
+table.t td{padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:middle}
+table.t input[type=text],table.t input[type=date],table.t select{width:100%; border:1px solid transparent; background:transparent; font:inherit; padding:6px 6px; border-radius:8px; outline:none; color:var(--ink)}
+table.t input:focus,table.t select:focus{border-color:var(--brand); background:#fafbfe}
+.btn{border:0; border-radius:10px; font:inherit; font-weight:700; cursor:pointer; padding:9px 14px; background:var(--brand); color:#fff; font-size:13.5px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:#fff; color:var(--brand); border:1.5px solid var(--brand)}
+.btn.ok{background:var(--ok)}
+.btn.danger{background:#fff; color:var(--bad); border:1.5px solid var(--bad)}
+.btn.sm{padding:5px 10px; font-size:12px; border-radius:8px}
+.toolbar{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0}
+
+/* ---------- Days ---------- */
+.week{border-radius:18px; overflow:hidden; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); margin-bottom:20px}
+.week-head{padding:14px 18px; background:linear-gradient(90deg,var(--soft),#fff); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.week-head h3{font-size:16px; font-weight:800}
+.week-head .wbar{width:180px; height:8px; border-radius:99px; background:#e2e8f0; overflow:hidden}
+.week-head .wbar i{display:block; height:100%; background:var(--brand); border-radius:99px; width:0%; transition:width .3s}
+.day{border-top:1px solid var(--line); padding:18px}
+.day:first-of-type{border-top:0}
+.day-head{display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap}
+.day-num{width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; display:grid; place-items:center; font-weight:800; font-size:17px; flex:none}
+.day-head h4{font-size:16.5px; font-weight:800}
+.day-head .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px}
+.chip{font-size:11px; font-weight:700; border-radius:999px; padding:3px 9px; background:var(--soft); color:var(--brand)}
+.chip.time{background:#fef3c7; color:#92400e}
+.chip.out{background:#dcfce7; color:#166534}
+.chip.done{background:var(--ok); color:#fff}
+.done-box{margin-left:auto; display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:var(--muted)}
+.result{margin:12px 0; font-size:13.5px; background:#f8fafc; border-left:3px solid var(--brand); padding:9px 12px; border-radius:0 10px 10px 0}
+.clist{list-style:none; margin-top:8px}
+.clist li{display:flex; gap:10px; align-items:flex-start; padding:7px 8px; border-radius:10px; cursor:pointer}
+.clist li:hover{background:#f8fafc}
+.clist input{width:18px; height:18px; margin-top:2px; accent-color:var(--brand); flex:none; cursor:pointer}
+.clist .it{flex:1}
+.clist .tag{font-size:10px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; border-radius:6px; padding:1px 6px; margin-left:6px; vertical-align:1px}
+.tag.li{background:#e0e7ff; color:#3730a3}
+.tag.app{background:#dcfce7; color:#166534}
+.tag.net{background:#fee2e2; color:#991b1b}
+.tag.ent{background:#ccfbf1;color:#0f766e}
+  .tag.ex{background:#f1f5f9; color:#475569}
+.clist li.off .it{color:var(--muted); text-decoration:line-through}
+.extra{margin-top:12px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px; padding:12px 14px}
+.extra h5{font-size:12px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--brand); margin-bottom:6px}
+.energy{display:flex; gap:6px; margin-top:10px; align-items:center}
+.energy label{font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:.6px; margin-right:4px}
+.energy button{width:34px; height:34px; border-radius:9px; border:1.5px solid var(--line); background:#fff; font-weight:800; color:var(--muted); cursor:pointer; font-size:13px}
+.energy button.on{background:var(--brand); border-color:var(--brand); color:#fff}
+.day-foot{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+@media(max-width:760px){.day-foot{grid-template-columns:1fr}}
+
+/* templates */
+.tpl{background:#0f172a; color:#dbeafe; border-radius:12px; padding:14px 16px; font-size:13px; white-space:pre-wrap; position:relative; margin-top:6px}
+.tpl .copy{position:absolute; top:10px; right:10px}
+pre{font-family:inherit; white-space:pre-wrap}
+
+/* semaforo */
+.sema{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px}
+.sema .st{border-radius:12px; padding:11px 14px; font-size:13px; border:1px solid var(--line); background:var(--card)}
+.sema .st b{display:block; font-size:13px}
+.sema .green{border-left:4px solid var(--ok)} .sema .yellow{border-left:4px solid var(--warn)} .sema .red{border-left:4px solid var(--bad)}
+
+footer{margin-top:40px; text-align:center; color:var(--muted); font-size:12.5px}
+
+
+/* metas totales */
+.metas .meta{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:7px 0; border-bottom:1px dashed var(--line); font-size:14px}
+.metas .meta:last-child{border-bottom:0}
+.sq{display:inline-block; width:14px; height:14px; border:1.5px solid #334155; border-radius:3px; margin-right:7px; vertical-align:middle}
+@media print{
+  .sq{width:12px; height:12px; border-width:1.2px; margin-right:6px}
+  textarea.field{min-height:30px !important; border:none !important; border-bottom:1.5px dashed #94a3b8 !important; border-radius:0 !important; background:transparent !important; padding:3px 2px !important; resize:none !important; overflow:hidden}
+  input.field{border:none !important; border-bottom:1.5px dashed #94a3b8 !important; border-radius:0 !important; background:transparent !important}
+}
+
+
+/* ===== GAMIFICACIÓN ===== */
+.toast-wrap{position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:999; display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none}
+.toast{background:#0f172a; color:#fff; border-radius:12px; padding:10px 18px; font-size:14px; font-weight:700; box-shadow:0 8px 24px rgba(15,23,42,.35); animation:tSlide .35s ease; border:1px solid rgba(255,255,255,.12); max-width:90vw; text-align:center}
+.toast.gold{background:linear-gradient(135deg,#92400e,#b45309); border-color:#fbbf24}
+.toast.lv{background:linear-gradient(135deg,#312e81,#4f46e5); border-color:#818cf8}
+@keyframes tSlide{from{opacity:0; transform:translateY(-14px) scale(.95)} to{opacity:1; transform:translateY(0) scale(1)}}
+.confetti{position:fixed; top:-14px; z-index:998; pointer-events:none; border-radius:2px; animation:cfFall linear forwards}
+@keyframes cfFall{to{transform:translateY(110vh) rotate(720deg); opacity:.9}}
+.lvl-chip{background:linear-gradient(135deg,#312e81,#4f46e5); color:#fff; border-radius:999px; padding:3px 10px; font-size:11.5px; font-weight:800; white-space:nowrap}
+.xpbar{width:90px; height:8px; border-radius:99px; background:#e2e8f0; overflow:hidden; flex:none}
+.xpbar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#4f46e5,#7c3aed); border-radius:99px; transition:width .4s}
+.streak-chip{background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; border-radius:999px; padding:3px 9px; font-size:11.5px; font-weight:800; white-space:nowrap}
+.badge-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:9px; margin-top:10px}
+.badge{background:#f8fafc; border:1.5px solid var(--line); border-radius:12px; padding:9px 6px; text-align:center; transition:transform .15s}
+.badge .ico{font-size:24px; line-height:1}
+.badge .bn{font-size:10.5px; font-weight:700; color:var(--ink); margin-top:4px; line-height:1.2}
+.badge .bd{font-size:9px; color:var(--muted); margin-top:2px; line-height:1.15}
+.badge.locked{filter:grayscale(1); opacity:.45}
+.badge.unlocked{border-color:#fbbf24; background:linear-gradient(180deg,#fffbeb,#fff); box-shadow:0 2px 8px rgba(217,119,6,.18)}
+.badge.unlocked .ico{animation:bdPop .5s ease}
+@keyframes bdPop{0%{transform:scale(.4)} 60%{transform:scale(1.25)} 100%{transform:scale(1)}}
+.xp-line{margin-top:10px; display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700; color:var(--ink)}
+.xp-line .xbar{flex:1; height:10px; border-radius:99px; background:#e2e8f0; overflow:hidden}
+.xp-line .xbar i{display:block; height:100%; background:linear-gradient(90deg,#4f46e5,#7c3aed,#d946ef); border-radius:99px; transition:width .4s}
+
+
+/* ===== MÓVIL MEJORADO ===== */
+@media(max-width:640px){
+  body{font-size:14px; padding-bottom:60px}
+  .cover-in{padding:20px 16px}
+  .cover h1{font-size:24px}
+  .nav a{font-size:11.5px; padding:6px 8px}
+  #gamWrap{gap:5px}
+  .xpbar{width:54px}
+  input[type=checkbox]{width:22px !important; height:22px !important; accent-color:var(--brand); flex:none}
+  .btn{padding:10px 14px; font-size:13.5px}
+  .btn.sm{padding:9px 12px}
+  .day{padding:12px}
+  .day-head{flex-wrap:wrap}
+  .day-num{width:38px; height:38px; font-size:16px}
+  .energy button{width:40px; height:40px; font-size:15px}
+  .clist li{padding:9px 6px; font-size:13.5px}
+  .badge-grid{grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:7px}
+  .kpis{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr !important}
+  .metas .meta{font-size:13px}
+  .sq{width:12px; height:12px; margin-right:5px}
+  input.field, textarea.field, select, input[type=date], input[type=text]{font-size:16px}
+  .t input, .t select{font-size:13px; max-width:100%}
+  .sec-head h2{font-size:18px}
+  .sec-head{flex-wrap:wrap}
+  .week-head h3{font-size:14px}
+  .toast{font-size:13px; padding:9px 14px}
+  .day-foot{grid-template-columns:1fr}
+}
+
+
+/* ===== CANDADO PRIVADO ===== */
+#lockScreen{position:fixed; inset:0; z-index:99999; background:linear-gradient(135deg,#0f172a 0%,#312e81 60%,#4f46e5 100%); display:flex; align-items:center; justify-content:center; padding:20px}
+#lockScreen .box{background:#fff; border-radius:18px; padding:28px 24px; max-width:340px; width:100%; text-align:center; box-shadow:0 24px 70px rgba(0,0,0,.5); animation:lockIn .4s ease}
+@keyframes lockIn{from{opacity:0; transform:translateY(16px) scale(.96)} to{opacity:1; transform:none}}
+#lockScreen.shake .box{animation:lockShake .4s ease}
+@keyframes lockShake{0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)} 40%{transform:translateX(9px)} 60%{transform:translateX(-7px)} 80%{transform:translateX(5px)}}
+@media print{#lockScreen{display:none !important}}
+
+/* print */
+@media print{
+  body{background:#fff; padding:0}
+  .topbar,.toolbar,.no-print,.toast-wrap{display:none !important}
+  section{margin:14px 0; break-inside:avoid}
+  .day,.card,.week{break-inside:avoid; box-shadow:none}
+  .cover{border-radius:12px}
+  *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar no-print">
+  <div class="wrap">
+    <div class="brand">PLAN ANALISTA DE DATOS<small>Ejecutivo · Intensivo · 45 Días</small></div>
+    <nav class="nav">
+      <a href="#tablero">Tablero</a>
+      <a href="#skills">Skills</a>
+      <a href="#fases">Fases</a>
+      <a href="#logros">Logros</a>
+      <a href="#semana1">Semanas</a>
+      <a href="#tracker1">Postulaciones</a>
+      <a href="#tracker2">Networking</a>
+      <a href="#entrevistas">Entrevistas</a>
+      <a href="#plantillas">Plantillas</a>
+      <a href="#cierre">Cierre</a>
+    </nav>
+    <div id="gamWrap" style="display:flex;align-items:center;gap:7px;margin-right:6px"><span class="lvl-chip" id="lvlChip">L1</span><div class="xpbar"><i id="xpFill"></i></div><span class="streak-chip" id="streakChip">🔥 0</span></div><div id="pctWrap"><div class="ring" id="ring"><b id="pctTxt">0%</b></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="storageHint" style="display:none; margin-top:12px; background:#fef3c7; border:1px solid #fcd34d; color:#92400e; border-radius:12px; padding:10px 14px; font-size:13px; font-weight:600">💾 <b>Modo chat:</b> el progreso se mantiene mientras esta pestaña esté abierta, pero este navegador no permite guardado permanente aquí. Descarga el archivo con <b>⬇ Exportar mi progreso</b> de vez en cuando, o abre el archivo HTML descargado en tu navegador para guardado automático completo.</div>
+
+  <!-- ============ COVER ============ -->
+  <div class="cover">
+    <div class="cover-in">
+      <div class="kicker">Plan Ejecutivo Completo · Intensivo · Checklist interactivo · Edición Full</div>
+      <h1>Plan Ejecutivo Completo · Analista de Datos</h1>
+      <p class="sub">Plan intensivo de <b>45 días</b> para convertirte en un candidato imposible de ignorar: <b>3 proyectos publicados</b>, dominio práctico de <b>SQL · Power BI · Python · Excel</b>, <b>45 postulaciones estratégicas</b>, <b>30 contactos directos</b>, <b>8+ entrevistas simuladas</b> y retroalimentación semanal para ajustar con datos. Estudiar, buscar trabajo y preparar entrevistas: todos los días.</p>
+      <div class="meta">
+        <div class="metabox"><label>Nombre</label><input id="fName" value="José Andrés Sequeira"/></div>
+        <div class="metabox"><label>Rol objetivo</label><input id="fRole" value="Data Analyst / BI Analyst Jr"/></div>
+        <div class="metabox"><label>Fecha de inicio</label><input id="fStart" type="date"/></div>
+        <div class="metabox"><label>Fecha de cierre</label><input id="fEnd" type="date"/></div>
+      </div>
+      <div class="links">
+        <a href="https://github.com/JoseAn03" target="_blank" rel="noopener">GitHub · JoseAn03</a>
+        <a href="https://www.linkedin.com/in/jose-andres-sequeira-hernandez-3aaa03285" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/JoseAn03/powerbi-rental-dashboard" target="_blank" rel="noopener">Dashboard Power BI</a>
+        <a href="https://github.com/JoseAn03/sql-decision-intelligence" target="_blank" rel="noopener">SQL Intelligence</a>
+        <a href="https://github.com/JoseAn03/ml-noshow-prediction" target="_blank" rel="noopener">ML No-Show</a>
+      </div>
+      <div class="rule">“No necesitas demostrar que lo sabes todo. Necesitas mostrar que puedes resolver un problema, explicar tu razonamiento y generar una decisión útil.”<br/><b>Regla de ejecución: evidencia antes que perfección.</b></div>
+    </div>
+  </div>
+
+  <!-- ============ TABLERO ============ -->
+  <section id="tablero">
+    <div class="sec-head"><span class="n">01</span><h2>Tablero de mando</h2><span class="desc">KPIs del sprint · se actualizan solos con lo que marcas</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="toolbar no-print">
+      <button class="btn" onclick="doPrint()">🖨️ Imprimir / Guardar PDF</button>
+      <button class="btn ghost" onclick="exportJSON()">⬇️ Exportar mi progreso</button>
+      <button class="btn ghost" onclick="document.getElementById('impFile').click()">⬆️ Importar progreso</button>
+      <input type="file" id="impFile" accept=".json" style="display:none" onchange="importJSON(this)"/>
+      <button class="btn ghost" id="sndBtn" onclick="toggleSound()">🔊</button><button class="btn danger" onclick="resetAll()">↺ Reiniciar todo</button>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card">
+        <h3>📈 KPIs de conversión</h3>
+        <div class="grid2" style="gap:10px">
+          <div><label>Tasa de respuesta</label><input class="field" id="kResp" type="number" min="0" placeholder="Respuestas recibidas"/></div>
+          <div><label>Tasa de entrevista</label><input class="field" id="kEnt" type="number" min="0" placeholder="Entrevistas logradas"/></div>
+        </div>
+        <div id="convOut" style="font-size:13px; margin-top:10px; color:var(--muted)"></div>
+      </div>
+      <div class="card">
+        <h3>🚦 Semáforo del sprint</h3>
+        <div class="sema">
+          <div class="st green"><b>🟢 En curso</b>Al menos 80% de tareas críticas cumplidas.</div>
+          <div class="st yellow"><b>🟡 En riesgo</b>Dos días seguidos sin entrega visible.</div>
+          <div class="st red"><b>🔴 Bloqueado</b>Falta dataset, herramienta o decisión por &gt;24 h. Reduce alcance o pide ayuda.</div>
+        </div>
+        <div id="semaOut" style="margin-top:10px; font-size:13.5px; font-weight:700"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>✍️ Compromiso del sprint</h3>
+      <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0; font-size:14px; font-weight:600; color:var(--ink); margin:0">
+        <input type="checkbox" id="kComp" style="width:18px;height:18px;accent-color:var(--brand)"/> Me comprometo a ejecutar el plan completo de 45 días: estudiar, postular, practicar entrevistas, medir, aprender y ajustar cada semana.
+      </label>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>🎯 Metas totales del plan</h3>
+      <div class="metas">
+        <div class="meta"><b>Postulaciones estratégicas</b><span style="color:var(--muted)">Meta: 45</span><span id="sqApps"></span></div>
+        <div class="meta"><b>Contactos directos</b><span style="color:var(--muted)">Meta: 30</span><span id="sqNets"></span></div>
+        <div class="meta"><b>Proyectos publicados en GitHub</b><span style="color:var(--muted)">Meta: 3</span><span id="sqProjs"></span></div>
+        <div class="meta"><b>Días ejecutados</b><span style="color:var(--muted)">Meta: 45</span><span id="sqDays"></span></div>
+        <div class="meta"><b>Entrevistas (simuladas + reales)</b><span style="color:var(--muted)">Meta: 8</span><span id="sqEntr"></span></div>
+        <div class="meta"><b>Perfil de LinkedIn actualizado</b><span id="sqLi"></span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px" id="logros">
+      <h3>🏆 Logros y niveles <span style="color:var(--muted);font-weight:600;font-size:13px" id="badgeCount">0/20</span></h3>
+      <div class="xp-line" id="xpLine"></div>
+      <div class="badge-grid" id="badgeGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="sec-head"><span class="n">02</span><h2>Mapa de desarrollo</h2><span class="desc">Perfil en “T”: profundidad en análisis y visualización; amplitud para comunicar, automatizar y entender negocio</span></div>
+    <div id="skillsWrap"></div>
+    <div class="card" style="margin-top:12px">
+      <h3>🎯 Mi skill prioritaria este sprint</h3>
+      <input class="field" id="fSkill" placeholder="Ej: DAX en Power BI — es lo que más piden las vacantes que me interesan"/>
+      <label>Evidencia mínima que crearé</label>
+      <textarea class="field" id="fSkillEv" placeholder="Ej: 10 medidas DAX nuevas en el dashboard de rentabilidad, documentadas con su fórmula y decisión que habilitan"></textarea>
+    </div>
+  </section>
+
+
+  <!-- ============ FASES ============ -->
+  <section id="fases">
+    <div class="sec-head"><span class="n">03</span><h2>Fases del plan · Lo más importante</h2><span class="desc">6 fases · 45 días · prioridades no negociables</span></div>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+      <div class="card" style="border-left:5px solid #4f46e5">
+        <h3>Fase 0–1 · Cimientos + SQL (Días 1–7)</h3>
+        <p style="font-size:13px;color:var(--muted)">Diagnóstico, CV maestro, LinkedIn base y SQL hasta window functions.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> SQL es lo primero que evalúan. Domina CTEs y window functions antes que cualquier otra cosa. Postula desde el día 1, no esperes estar “listo”.</p>
+      </div>
+      <div class="card" style="border-left:5px solid #7c3aed">
+        <h3>Fase 1–2 · Proyecto I + Python (Días 8–14)</h3>
+        <p style="font-size:13px;color:var(--muted)">Primer proyecto público y Python/Pandas operativo.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> un proyecto publicado con README vale más que diez cursos. Pandas se aprende limpiando datos reales.</p>
+      </div>
+      <div class="card" style="border-left:5px solid #059669">
+        <h3>Fase 2–3 · Proyecto II + Power BI (Días 15–21)</h3>
+        <p style="font-size:13px;color:var(--muted)">EDA documentado, Power BI, DAX y el dashboard estrella.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> Power BI + DAX (CALCULATE) es el combo más pedido en CR. Cada medida documentada con la decisión que habilita.</p>
+      </div>
+      <div class="card" style="border-left:5px solid #d97706">
+        <h3>Fase 3–4 · Estadística + Marca (Días 22–28)</h3>
+        <p style="font-size:13px;color:var(--muted)">Estadística aplicada, storytelling, CV v2, networking y contenido.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> la estadística se pregunta en entrevistas (correlación, A/B). Networking: relación antes que transacción. 8 historias STAR listas.</p>
+      </div>
+      <div class="card" style="border-left:5px solid #dc2626">
+        <h3>Fase 4–5 · Búsqueda intensiva (Días 29–35)</h3>
+        <p style="font-size:13px;color:var(--muted)">20 postulaciones + 15 contactos + 3 mocks de entrevista.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> volumen con calidad: vacantes A personalizadas primero. Las simuladas grabadas duplican tu nivel en entrevistas reales.</p>
+      </div>
+      <div class="card" style="border-left:5px solid #0d9488">
+        <h3>Fase 5–6 · Entrevistas + Cierre (Días 36–45)</h3>
+        <p style="font-size:13px;color:var(--muted)">Entrevistas reales/simuladas, negociación, embudo y plan siguiente.</p>
+        <p style="font-size:13px"><b>⚠️ Lo más importante:</b> el embudo manda: ajusta con datos qué canal y CV funcionan. Negocia siempre. El plan no termina: se reinicia mejor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEMANA 1 ============ -->
+  <section id="semana1">
+    <div class="sec-head"><span class="n">04</span><h2>Semana 1</h2></div>
+    <div id="week1"></div>
+  </section>
+
+  <!-- ============ SEMANA 2 ============ -->
+  <section id="semana2">
+    <div class="sec-head"><span class="n">05</span><h2>Semana 2</h2></div>
+    <div id="week2"></div>
+  </section>
+
+  <!-- ============ SEMANA 3 ============ -->
+  <section id="semana3">
+    <div class="sec-head"><span class="n">06</span><h2>Semana 3</h2></div>
+    <div id="week3"></div>
+  </section>
+
+  <!-- ============ SEMANA 4 ============ -->
+  <section id="semana4">
+    <div class="sec-head"><span class="n">07</span><h2>Semana 4</h2></div>
+    <div id="week4"></div>
+  </section>
+
+  <!-- ============ SEMANA 5 ============ -->
+  <section id="semana5">
+    <div class="sec-head"><span class="n">08</span><h2>Semana 5</h2></div>
+    <div id="week5"></div>
+  </section>
+
+  <!-- ============ SEMANA 6 ============ -->
+  <section id="semana6">
+    <div class="sec-head"><span class="n">09</span><h2>Semana 6</h2></div>
+    <div id="week6"></div>
+  </section>
+
+  <!-- ============ TRACKER 1 ============ -->
+  <section id="tracker1">
+    <div class="sec-head"><span class="n">10</span><h2>Tracker 1 · Postulaciones estratégicas</h2><span class="desc">Meta: 45 reales (≈1 por día). Una fila debe decirte qué enviaste, a quién y cuál es el siguiente paso. Prioriza vacantes A.</span></div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+        <div style="font-size:13px; color:var(--muted)"><b style="color:var(--ink)" id="appCount">0</b> postulaciones registradas · Prioriza personalización en vacantes <b>A</b></div>
+        <button class="btn sm" onclick="addApp()">+ Añadir postulación</button>
+      </div>
+      <div style="overflow-x:auto; margin-top:10px">
+        <table class="t"><thead><tr><th>#</th><th>Fecha</th><th>Empresa / Rol</th><th>Ajuste</th><th>CV usado</th><th>Estado / Seguimiento</th><th>✅</th><th></th></tr></thead><tbody id="appBody"></tbody></table>
+      </div>
+      <label>Patrones observados</label>
+      <textarea class="field" id="fAppPat" placeholder="Ej: las vacantes A que personalicé responden más; los roles de BI Analyst en CR piden Power BI + SQL…"></textarea>
+    </div>
+  </section>
+
+  <!-- ============ TRACKER 2 ============ -->
+  <section id="tracker2">
+    <div class="sec-head"><span class="n">11</span><h2>Tracker 2 · Contactos directos</h2><span class="desc">Meta: 30 contactos (≈1 cada 2 días). El objetivo no es pedir empleo en el primer mensaje: busca una conversación breve, relevante y respetuosa.</span></div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+        <div style="font-size:13px; color:var(--muted)"><b style="color:var(--ink)" id="netCount">0</b> contactos enviados</div>
+        <button class="btn sm" onclick="addNet()">+ Añadir contacto</button>
+      </div>
+      <div style="overflow-x:auto; margin-top:10px">
+        <table class="t"><thead><tr><th>#</th><th>Fecha</th><th>Persona / Empresa</th><th>Contexto del mensaje</th><th>Respuesta / Próximo paso</th><th>📨</th><th></th></tr></thead><tbody id="netBody"></tbody></table>
+      </div>
+      <label>Aprendizajes de las respuestas</label>
+      <textarea class="field" id="fNetLearn" placeholder="Ej: los mensajes que mencionan un hallazgo concreto del proyecto tienen 3x más respuestas…"></textarea>
+    </div>
+  </section>
+
+  <!-- ============ ENTREVISTAS ============ -->
+  <section id="entrevistas">
+    <div class="sec-head"><span class="n">12</span><h2>Tracker 3 · Entrevistas y simulaciones</h2><span class="desc">Meta: 8+ (simuladas o reales). Cada entrevista es datos: qué preguntaron, qué fallaste, qué ajustar.</span></div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+        <div style="font-size:13px; color:var(--muted)"><b style="color:var(--ink)" id="entrCount">0</b> entrevistas registradas · Simuladas = práctica · Reales = oro</div>
+        <button class="btn sm" onclick="addEntr()">+ Añadir entrevista</button>
+      </div>
+      <div style="overflow-x:auto; margin-top:10px">
+        <table class="t"><thead><tr><th>#</th><th>Fecha</th><th>Tipo (HR / Técnica / Caso / Real)</th><th>Empresa / Tema</th><th>Qué preguntaron / Aprendizaje</th><th>✅</th><th></th></tr></thead><tbody id="entrBody"></tbody></table>
+      </div>
+      <label>Lecciones acumuladas de entrevistas</label>
+      <textarea class="field" id="fEntrLearn" placeholder="Ej: siempre preguntan window functions; tengo que practicar RANK en voz alta…"></textarea>
+    </div>
+  </section>
+
+  <!-- ============ PLANTILLAS ============ -->
+  <section id="plantillas">
+    <div class="sec-head"><span class="n">13</span><h2>Plantillas &amp; recursos</h2><span class="desc">Copia, personaliza, pega. Evita el bloqueo de hoja en blanco.</span></div>
+    <div id="tplWrap"></div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section id="cierre">
+    <div class="sec-head"><span class="n">14</span><h2>Retrospectiva &amp; siguiente fase</h2></div>
+    <div class="grid2">
+      <div class="card"><h3>🔁 Retrospectiva semanal (Días 7, 14, 21, 28, 35, 42)</h3>
+        <label>Seguir haciendo</label><textarea class="field" id="fRetKeep"></textarea>
+        <label>Dejar de hacer</label><textarea class="field" id="fRetStop"></textarea>
+        <label>Mejorar la próxima semana</label><textarea class="field" id="fRetBetter"></textarea>
+      </div>
+      <div class="card"><h3>📅 Plan de la siguiente fase (Día 45)</h3>
+        <label>Agenda de los próximos 15 días (siguiente sprint)</label><textarea class="field" id="fSprint2" style="min-height:120px" placeholder="Lunes: 5 postulaciones A + pulir DAX…"></textarea>
+        <label>Tres logros del plan</label><textarea class="field" id="fLogros" style="min-height:70px" placeholder="1. Tres proyectos públicos documentados 2. 12 posts publicados 3. 30 contactos reales"></textarea>
+        <label>Capacidad que ahora demuestro mejor</label><input class="field" id="fCap"/>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>📊 Análisis de embudo (completar cada semana y al Día 45)</h3>
+      <table class="t"><thead><tr><th>Canal / Rol / CV</th><th>Enviadas</th><th>Respuestas</th><th>Entrevistas</th><th>Lección</th></tr></thead>
+      <tbody>
+        <tr><td><input class="field" placeholder="Ej: LinkedIn Easy Apply"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field"/></td></tr>
+        <tr><td><input class="field" placeholder="Ej: Jobbot + portales locales"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field"/></td></tr>
+        <tr><td><input class="field" placeholder="Ej: Referidos / networking"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field" type="number"/></td><td><input class="field"/></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <footer>Sprint Ejecutivo de 15 Días · Versión Full · <span id="footDate"></span> · Tu progreso se guarda automáticamente en este navegador. ⚡</footer>
+</div>
+
+<script>
+/* ================= DATA ================= */
+function buildSquares(){
+  const mk = n => { let s=""; for(let i=0;i<n;i++) s+='<span class="sq"></span>'; return s; };
+  const a = document.getElementById("sqApps"); if(a) a.innerHTML = mk(45);
+  const b = document.getElementById("sqNets"); if(b) b.innerHTML = mk(30);
+  const c = document.getElementById("sqProjs"); if(c) c.innerHTML = mk(3);
+  const d = document.getElementById("sqDays"); if(d) d.innerHTML = mk(45);
+  const e = document.getElementById("sqLi"); if(e) e.innerHTML = mk(1);
+  const f = document.getElementById("sqEntr"); if(f) f.innerHTML = mk(8);
+}
+document.addEventListener("DOMContentLoaded", buildSquares);
+
+const SAVE_KEY = "sprint15_full_v1";
+
+const SKILLS = [["SQL", "Joins, CTEs, subconsultas, Window Functions y optimización — lo más evaluado en entrevistas"], ["Power BI / DAX", "Modelo estrella, CALCULATE, time intelligence, UX y narrativa ejecutiva"], ["Excel / Power Query", "Limpieza reproducible, tablas dinámicas y automatización"], ["Python / Pandas", "EDA, limpieza, merge, agrupaciones y visualización"], ["Git / GitHub", "Repos legibles, README orientado a negocio y commits claros"], ["Negocio y KPIs", "Definiciones, fórmulas y decisiones accionables"], ["Storytelling", "Resumen ejecutivo de 1 página y demo de 2 minutos"], ["Estadística aplicada", "Distribuciones, correlación, segmentación y A/B básico"], ["Cloud y automatización", "Flujo de datos y reportes automatizados"], ["IA aplicada", "Usar IA para acelerar sin delegar el criterio"], ["Inglés técnico", "Vocabulario de datos + entrevista técnica en inglés"], ["Entrevistas técnicas", "SQL/Python/DAX en vivo, casos de negocio y STAR"]];
+
+
+const DAYS = [{"w": 1, "d": 1, "tag": "Diagnóstico y cimientos", "time": "3 h", "out": "Diagnóstico completo", "result": "Saber exactamente dónde estás, a dónde vas y qué herramientas usarás los 45 días.", "items": [{"t": "Diagnóstico 1–5 de las 12 skills (sección Mapa de desarrollo): SQL, Power BI, Excel, Python, Git, negocio, storytelling, estadística, cloud, IA, inglés, entrevistas.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Fijar metas del plan: 45 postulaciones · 30 contactos · 3 proyectos publicados · 8 entrevistas simuladas. Escríbelas en el Tablero.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): revisar el reporte diario del jobbot y crear alertas en LinkedIn, Indeed, Computrabajo y Empleos.net para: Data Analyst, Junior Data Analyst, BI Analyst, Data Analyst Jr.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Extraer las 15 keywords más repetidas de 10 vacantes de referencia (plantilla en Día 1 de extras).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Preparar entorno: VS Code + extensiones, Git configurado, cuenta GitHub activa (JoseAn03), acceso a los 3 repos existentes.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Notas: escribir en 5 líneas qué sabes hacer hoy y qué te da miedo. Ese papel es tu punto de partida.", "app": false, "li": false, "net": false, "ex": true, "ent": false}], "extras": [{"h": "Plantilla · Extracción de keywords", "c": "Vacante 1: [empresa] — [keywords: SQL, Power BI, ETL…]\nVacante 2: …\n→ Top 15 keywords del mercado CR (usa las 5 más repetidas en CV y LinkedIn):\n1.  2.  3.  4.  5.  6.  7.  8.  9.  10.  11.  12.  13.  14.  15."}]}, {"w": 1, "d": 2, "tag": "Negocio, KPIs y CV maestro v1", "time": "2 h 45 min", "out": "CV maestro + lista KPIs", "result": "Entender cómo se mide el valor en un negocio y tener un CV base que se adapte por vacante.", "items": [{"t": "Estudio (1 h): qué es un KPI, diferencia entre métrica y KPI, ejemplos por área (ventas, marketing, operaciones, RRHH). Escribe 10 KPIs de tu CV.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "CV maestro v1: estructura con logros medibles (fórmula: Verbo + Qué + Resultado con número). Guarda 2 versiones: general y BI Analyst.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes alineadas usando el CV maestro y registrar en el Tracker 1.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (20 min): titular con rol objetivo + keywords del día 1; extracto de 2-3 líneas con valor.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Portafolio: elegir el dataset del Proyecto I (ventas, clientes o logística). Si no tienes, usa uno público de Kaggle.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min): ¿qué aprendí? ¿qué me bloqueó? ¿qué ajusto mañana?", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Bullets de CV con logros", "c": "Fórmula: [Verbo] + [qué hice] + [resultado medible].\nMAL: “Responsable de reportes de ventas”.\nBIEN: “Automaticé el reporte semanal de ventas con Power BI, reduciendo el tiempo de armado de 4 h a 30 min y detectando una caída del 12% en el canal retail”."}]}, {"w": 1, "d": 3, "tag": "SQL esencial y perfil LinkedIn base", "time": "2 h 45 min", "out": "Base SQL sólida + LinkedIn base", "result": "Repasar lo esencial de SQL y dejar el perfil presentable para reclutadores.", "items": [{"t": "Estudio (1 h): SELECT, WHERE, ORDER BY, LIMIT, JOIN (INNER/LEFT), GROUP BY, HAVING, agregaciones (COUNT, SUM, AVG, MIN, MAX). Practica 15 queries en tu repo sql-decision-intelligence.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "LinkedIn (30 min): sección Destacada con tus 3 proyectos + banner profesional + foto adecuada. Activa el modo #OpenToWork visible solo para reclutadores.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes más + guardar 5 vacantes de referencia en un documento.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Inglés (20 min): lista de 20 términos técnicos en inglés (query, dashboard, stakeholder, pipeline, forecast) y su uso en 1 frase cada uno.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min): 3 líneas en tus Notas del día.", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Checklist LinkedIn reclutable", "c": "☐ Titular con rol + keyword (ej: Data Analyst | SQL · Power BI · Python)\n☐ Extracto: quién eres + qué resuelves + llamada a la acción\n☐ 3 proyectos en Destacada con imagen y enlace\n☐ Foto profesional + banner coherente\n☐ Experiencia con logros medibles (no descripciones de tareas)\n☐ OpenToWork para reclutadores"}]}, {"w": 1, "d": 4, "tag": "SQL intermedio: subconsultas y CTEs", "time": "3 h", "out": "Dominio de subconsultas/CTEs", "result": "Resolver consultas de varios pasos que aparecen en el 80% de las pruebas técnicas.", "items": [{"t": "Estudio (1 h 30 min): subconsultas correlacionadas y no correlacionadas, CTEs (WITH), cuándo usar cada una. 10 ejercicios en tu repo.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (30 min): resolver 5 ejercicios de SQL en LeetCode/HackerRank nivel Easy/Medium.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes A/B y registrar CV usado en el Tracker 1.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): comentar con valor en 2 publicaciones de reclutadores o líderes de datos.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min): anota los 3 errores más comunes que cometiste hoy en SQL.", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · CTE vs Subconsulta", "c": "Usa CTE (WITH) cuando:\n· Necesitas referenciar el mismo resultado varias veces\n· La consulta tiene más de 2 niveles de anidación\n· Quieres legibilidad (los reclutadores leen tu código)\nEvita subconsultas correlacionadas pesadas sobre tablas grandes."}]}, {"w": 1, "d": 5, "tag": "SQL avanzado: Window Functions", "time": "3 h", "out": "Window Functions dominadas", "result": "RANK, ROW_NUMBER, LAG/LEAD, SUM OVER — el diferenciador que esperan en entrevistas.", "items": [{"t": "Estudio (1 h 30 min): ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM/AVG OVER (PARTITION BY, ORDER BY). Caso clásico: top 3 por categoría.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (30 min): 5 ejercicios de window functions en HackerRank/LeetCode.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + revisar el jobbot y marcar vacantes A (alto ajuste).", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): publicar un tip corto de SQL con un ejemplo real de hoy.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Ejercicio top-N por grupo", "c": "SELECT categoria, producto, ventas\nFROM (\n  SELECT *, ROW_NUMBER() OVER (PARTITION BY categoria ORDER BY ventas DESC) rn\n  FROM ventas\n) t WHERE rn <= 3;"}]}, {"w": 1, "d": 6, "tag": "Excel: Power Query y tablas dinámicas", "time": "2 h 45 min", "out": "Workflow Excel reproducible", "result": "El Excel que piden las vacantes no es fórmulas sueltas: es limpieza reproducible y análisis rápido.", "items": [{"t": "Estudio (1 h): Power Query (importar, eliminar columnas, cambiar tipos, combinar tablas), tablas dinámicas y slicers.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): limpiar un dataset de ejemplo de inicio a fin solo con Power Query y armar un resumen con tabla dinámica.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + hacer seguimiento a las postulaciones de los días anteriores (estado en Tracker 1).", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): conectar con 3 reclutadores IT de Costa Rica o LATAM.", "app": false, "li": true, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Data Quality Report", "c": "Dataset: ______________\nFilas iniciales: ____ → Filas finales: ____\nNulos por columna: ______________\nDuplicados eliminados: ____\nTipos corregidos: ______________\nOutliers tratados (criterio): ______________\nReglas aplicadas: ______________"}]}, {"w": 1, "d": 7, "tag": "Retro 1 + práctica integradora SQL", "time": "3 h", "out": "Retro semanal + SQL integrado", "result": "Primera parada de retroalimentación: medir, ajustar y consolidar SQL con un caso completo.", "items": [{"t": "Retrospectiva semanal (30 min): completar la sección de Retrospectiva — seguir haciendo, dejar de hacer, mejorar.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica integradora (1 h): resolver un caso SQL completo de 6 preguntas (JOIN + CTE + window function) tipo take-home de entrevista.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (45 min): postular a 3 vacantes (día de mayor volumen) + registrar todo en el Tracker 1.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (20 min): publicar el primer post del plan: qué estás aprendiendo en 45 días para conseguir trabajo como analista.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Revisar KPIs del Tablero: tasa de respuesta y entrevistas hasta ahora.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min) + revisar el compromiso del sprint.", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Guion de retro semanal", "c": "1. ¿Qué entregué esta semana? (evidencias, no intenciones)\n2. ¿Qué funcionó y quiero repetir?\n3. ¿Qué no funcionó y voy a dejar de hacer?\n4. ¿Qué ajusto la próxima semana? (1 solo cambio, concreto)\n5. ¿Mi energía promedio fue 1-5? ¿Por qué?"}]}, {"w": 2, "d": 8, "tag": "Proyecto I: SQL end-to-end", "time": "3 h", "out": "Análisis SQL completo", "result": "Primera evidencia pública: de datos crudos a recomendación con SQL.", "items": [{"t": "Portafolio (1 h 30 min): definir problema de negocio del Proyecto I, cargar dataset y ejecutar limpieza/transformación con SQL.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Portafolio (45 min): responder 5 preguntas de negocio con queries (tendencias, segmentos, anomalías).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Git: commits pequeños y descriptivos del avance del proyecto.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 2, "d": 9, "tag": "Proyecto I: documentación y publicación", "time": "2 h 45 min", "out": "Proyecto I publicado", "result": "Un README que un reclutador entienda en 2 minutos, no un repositorio muerto.", "items": [{"t": "README del Proyecto I: Problema, Datos, Metodología, Solución, Hallazgos (con números), Recomendaciones y Limitaciones.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Publicar en GitHub y verificar enlaces + legibilidad móvil.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "LinkedIn (20 min): post “Estrella” con capturas y 3 hallazgos del proyecto (usa la plantilla).", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes adjuntando el proyecto como evidencia.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Post Estrella de proyecto", "c": "Nuevo proyecto completado: [título] 🚀\n\nEl problema: [problema en 1 línea]\nLo que hice: [datos + herramientas]\n3 hallazgos que importan:\n1. [hallazgo con número]\n2. [hallazgo con número]\n3. [hallazgo con número]\n\nLa decisión que habilita: [recomendación]\nCódigo y datos acá 👇\n🔗 https://github.com/JoseAn03/[repo]\n\n¿Qué métrica crees que debería medir primero? #DataAnalytics #PowerBI #SQL #CostaRica"}]}, {"w": 2, "d": 10, "tag": "Entrevista SQL en vivo + Python base", "time": "3 h", "out": "Primera simulada SQL + base Python", "result": "Primera simulación de entrevista técnica: practicar en voz alta cambia todo.", "items": [{"t": "Entrevista simulada SQL (45 min): cronometrada, 5 preguntas en voz alta sin mirar código. Grábate y escúchate.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Estudio (1 h): Python base — variables, listas, diccionarios, funciones, condicionales, loops. 10 ejercicios.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + registrar entrevistas si ya tienes alguna agendada (Tracker de Entrevistas).", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Inglés (20 min): practicar en voz alta “explain your SQL project” en inglés.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min): escribe 3 preguntas SQL que te costaron y sus respuestas.", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Preguntas SQL típicas", "c": "1. Diferencia entre INNER y LEFT JOIN (con ejemplo).\n2. ¿Qué es una CTE y cuándo la usas?\n3. ¿Cómo eliminarías duplicados? (ROW_NUMBER vs DISTINCT)\n4. Diferencia entre WHERE y HAVING.\n5. Top 3 productos por categoría (window function).\n6. ¿Qué es un índice y por qué importa?\n7. Diferencia entre DELETE y TRUNCATE.\n8. ¿Cómo detectas datos nulos y qué haces con ellos?\n9. ¿Qué es un LEFT JOIN con NULL y cómo lo filtras?\n10. ¿Cómo optimizarías una query lenta?"}]}, {"w": 2, "d": 11, "tag": "Pandas I: carga, filtrado y agrupaciones", "time": "3 h", "out": "Pandas nivel operativo", "result": "Pandas es la segunda herramienta más pedida: domina el ciclo EDA básico.", "items": [{"t": "Estudio (1 h 30 min): read_csv, head/info/describe, selección (loc/iloc), filtros, groupby, agg, sort_values. 10 ejercicios en notebook.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (30 min): cargar el dataset del Proyecto II y explorarlo con Pandas.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): comentar en 2 publicaciones de data.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 2, "d": 12, "tag": "Pandas II: limpieza, merge y fechas", "time": "3 h", "out": "Limpieza profesional con Pandas", "result": "El 80% del trabajo real es limpiar datos: conviértelo en tu fortaleza.", "items": [{"t": "Estudio (1 h 30 min): nulos (fillna/dropna), duplicados, tipos, rename, merge/concat, fechas (to_datetime, resample, dt.month).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): data quality report con Pandas sobre el dataset del Proyecto II.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + actualizar estado de las anteriores.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Pipelines de limpieza", "c": "Orden recomendado:\n1. Copia el dataframe original (nunca trabajes sobre el crudo)\n2. Estandariza nombres de columnas (snake_case)\n3. Corrige tipos de datos\n4. Trata nulos (define criterio por columna: media, mediana, categoría 'desconocido')\n5. Elimina duplicados exactos y lógicos\n6. Valida rangos y outliers\n7. Documenta cada regla (quién la entienda, que la pueda replicar)"}]}, {"w": 2, "d": 13, "tag": "EDA: visualización con matplotlib/seaborn", "time": "2 h 45 min", "out": "EDA visual del Proyecto II", "result": "Un EDA bien hecho es la mitad de la entrevista de caso.", "items": [{"t": "Estudio (1 h): matplotlib/seaborn — histogramas, boxplots, scatter, heatmap de correlación, countplots.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): EDA completo del Proyecto II: distribuciones, outliers, correlaciones, segmentos.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Inglés (20 min): 10 frases para explicar un gráfico en inglés.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 2, "d": 14, "tag": "Proyecto II: EDA completo + Retro 2", "time": "3 h", "out": "Proyecto II documentado", "result": "Segunda evidencia pública + segunda retroalimentación semanal.", "items": [{"t": "Portafolio (1 h 30 min): consolidar el EDA del Proyecto II en notebook ordenado con conclusiones por sección.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retrospectiva semanal (30 min): completar la sección de Retrospectiva.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (45 min): postular a 3 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (20 min): post del Proyecto II con 3 hallazgos visuales.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 3, "d": 15, "tag": "Power BI: modelo de datos", "time": "3 h", "out": "Modelo estrella en Power BI", "result": "Power BI + DAX es el combo más pedido en vacantes de BI Analyst en CR.", "items": [{"t": "Estudio (1 h 30 min): importar datos, modelo estrella, relaciones (1:N), tablas de dimensiones vs hechos.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): construir el modelo del Proyecto III (base: powerbi-rental-dashboard).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Reglas del modelo estrella", "c": "· Hechos: transacciones (granularidad única y explícita)\n· Dimensiones: descriptivas (fecha, producto, cliente, región)\n· Relaciones 1:N de dimensión → hecho\n· Evita relaciones N:N y tablas puente innecesarias\n· Fecha única como dimensión para time intelligence\n· Nombres claros: dim_venta, dim_fecha, fact_ventas"}]}, {"w": 3, "d": 16, "tag": "DAX: CALCULATE y time intelligence", "time": "3 h", "out": "Medidas DAX sólidas", "result": "CALCULATE es la función que separa al que sabe de lo que no.", "items": [{"t": "Estudio (1 h 30 min): CALCULATE, FILTER, ALL, time intelligence (TOTALYTD, SAMEPERIODLASTYEAR, DATESINPERIOD), variables VAR.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): crear 10 medidas nuevas en el dashboard de rentabilidad, documentadas con su fórmula y la decisión que habilitan.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Diccionario de KPIs", "c": "KPI 1: [Ingresos por día]\nDefinición: [suma de ventas netas por fecha]\nFórmula: [CALCULATE(SUM(ventas[neto]))]\nFuente: [tabla ventas] · Frecuencia: [diaria]\nDecisión que habilita: [detectar caídas y activar promoción]\nKPI 2: …\nKPI 3: …"}]}, {"w": 3, "d": 17, "tag": "Entrevista Power BI + Dashboard UX", "time": "3 h", "out": "Simulada Power BI + UX definida", "result": "Practicar preguntas de DAX/modelado en voz alta + diseñar el dashboard con jerarquía.", "items": [{"t": "Entrevista simulada Power BI (45 min): 5 preguntas en voz alta (modelo, CALCULATE, medidas, rendimiento).", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Estudio (45 min): UX/UI de dashboards — jerarquía de decisiones, colores con propósito, KPI arriba, filtros claros.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min): escribe las preguntas de Power BI que te costaron.", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Preguntas Power BI típicas", "c": "1. ¿Qué es CALCULATE y cómo funciona el contexto?\n2. Diferencia entre CALCULATE y FILTER.\n3. ¿Esquema estrella vs copo de nieve?\n4. ¿Cómo haces un YTD? (TOTALYTD / DATESYTD)\n5. ¿Qué es una medida vs una columna calculada? ¿Cuál usar?\n6. ¿Cómo mides el rendimiento de un reporte lento?\n7. ¿Qué es el contexto de filtro vs contexto de fila?\n8. ¿Cómo manejarías una relación N:N?\n9. ¿Qué es un grupo de cálculo? (bonus)\n10. ¿Cómo validas que tus cifras estén correctas?"}]}, {"w": 3, "d": 18, "tag": "Proyecto III: dashboard completo", "time": "3 h", "out": "Dashboard iteración 1", "result": "El tercer proyecto: el más completo, el que mostrarás primero.", "items": [{"t": "Portafolio (1 h 30 min): construir el dashboard del Proyecto III con modelo estrella + 15 medidas DAX + UX limpia.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Portafolio (45 min): jerarquía de decisiones: KPI principales arriba, análisis por sección, filtros funcionales.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 3, "d": 19, "tag": "Estadística: distribuciones y correlación", "time": "3 h", "out": "Estadística aplicada I", "result": "La estadística que piden en entrevistas es la aplicada, no la teórica.", "items": [{"t": "Estudio (1 h 30 min): media/mediana/moda, desviación, distribuciones (normal, sesgada), percentiles, correlación (Pearson) y su interpretación.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): calcular correlaciones en el Proyecto II y documentar 3 insights.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + revisar jobbot.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Estadística en 1 página", "c": "· Media vs mediana: la mediana resiste outliers.\n· Desviación estándar: dispersión típica alrededor de la media.\n· Percentil 90: “el 90% de los valores está por debajo”.\n· Correlación ≠ causalidad (siempre decirlo en entrevista).\n· |r| < 0.3 débil · 0.3–0.7 moderada · > 0.7 fuerte.\n· Segmentación: compara grupos, no promedios globales."}]}, {"w": 3, "d": 20, "tag": "Estadística II: A/B básico y segmentación", "time": "2 h 45 min", "out": "Estadística aplicada II", "result": "El lenguaje de experimentos que usan los equipos de datos en el día a día.", "items": [{"t": "Estudio (1 h): tests A/B — grupo control vs tratamiento, significancia, tamaño de muestra, errores tipo I/II. Sin fórmulas pesadas: con intuición y ejemplos.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): diseñar un A/B de ejemplo end-to-end por escrito (hipótesis, métricas, duración, decisión).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Inglés (20 min): 10 frases de estadística en inglés.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Diseño de A/B en 10 líneas", "c": "1. Objetivo: [aumentar conversión del checkout]\n2. Hipótesis: [si simplifico el formulario, sube la conversión]\n3. Métrica primaria: [tasa de conversión]\n4. Métricas secundarias: [valor promedio, rebote]\n5. Segmento: [tráfico nuevo vs recurrente]\n6. Grupos: control 50% / tratamiento 50%\n7. Duración: [14 días / 2 ciclos completos]\n8. Riesgos: [estacionalidad, novedad]\n9. Regla de decisión: [sube ≥5% con p<0.05 → rollout]\n10. Documentar todo"}]}, {"w": 3, "d": 21, "tag": "Retro 3 + proyecto III finalizado", "time": "3 h", "out": "Proyecto III + Retro 3", "result": "Cerrar el tercer proyecto publicado y la retroalimentación de la semana.", "items": [{"t": "Portafolio (1 h): finalizar dashboard, README con narrativa y publicar en GitHub.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retrospectiva semanal (30 min).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (45 min): postular a 3 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (20 min): post del Proyecto III (dashboard) con captura y narrativa.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Revisar embudo parcial: ¿cuántas respuestas llevas? ¿qué canal funciona?", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 4, "d": 22, "tag": "Storytelling: resumen ejecutivo", "time": "3 h", "out": "Resumen ejecutivo de 1 página", "result": "Saber comunicar resultados es lo que convierte a un técnico en analista.", "items": [{"t": "Estudio (1 h): estructura del resumen ejecutivo — contexto, método, hallazgos, recomendación. Regla: una página, sin jerga.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (1 h): escribir el resumen ejecutivo del Proyecto III y del Proyecto II (2 páginas en total).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Resumen ejecutivo 1 página", "c": "PARA: [rol/equipo] · DE: José Andrés Sequeira · FECHA: ____\n\nPROBLEMA (2-3 líneas): ¿qué decisión necesitaba el negocio?\nQUÉ HICE (3 líneas): datos, herramientas, método.\nHALLAZGOS (3 bullets con números):\n1. …\n2. …\n3. …\nRECOMENDACIÓN (2 líneas): qué haría y por qué.\nPRÓXIMO PASO: [métrica a vigilar]"}]}, {"w": 4, "d": 23, "tag": "CV v2 con logros medibles", "time": "2 h 45 min", "out": "CV v2 + 2 versiones", "result": "Tu CV es tu primera entrevista: que cada bullet demuestre impacto.", "items": [{"t": "CV v2 (1 h): reescribir TODOS los bullets con la fórmula Verbo + Qué + Resultado medible. Sin frases genéricas.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Adaptar (45 min): crear 2 versiones — CV General Data Analyst y CV BI Analyst — y una versión en inglés.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 3 vacantes con el CV v2 (prueba A/B: ¿responde mejor?).", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Verbos para CV", "c": "Analicé · Construí · Automatice · Diseñé · Optimicé · Reduje · Aumenté · Segmenté · Detecté · Documenté · Implementé · Modelé · Visualicé · Validé · Presenté · Lideré\n\nRegla: cada bullet termina con un número (%, tiempo, costo, volumen)."}]}, {"w": 4, "d": 24, "tag": "Entrevista conductual: método STAR", "time": "3 h", "out": "8 historias STAR listas", "result": "Las preguntas conductuales se ganan con historias preparadas, no improvisación.", "items": [{"t": "Estudio (1 h): método STAR (Situación, Tarea, Acción, Resultado) + estructura de respuesta de 90 segundos.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (1 h 30 min): escribir 8 historias STAR reales (logros laborales/académicos/proyectos), 2 por tema: trabajo en equipo, conflicto, error, liderazgo, aprendizaje, datos, cliente, presión.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · STAR (8 historias)", "c": "SITUACIÓN: [contexto en 1 línea]\nTAREA: [tu responsabilidad]\nACCIÓN: [qué hiciste TÚ, con detalle técnico]\nRESULTADO: [número medible + qué aprendiste]\n\nHistoria 1 (datos): …\nHistoria 2 (trabajo en equipo): …\nHistoria 3 (error): …\nHistoria 4 (conflicto): …\nHistoria 5 (liderazgo): …\nHistoria 6 (aprendizaje rápido): …\nHistoria 7 (cliente/stakeholder): …\nHistoria 8 (presión/deadline): …"}]}, {"w": 4, "d": 25, "tag": "Networking: primeros 10 contactos", "time": "2 h 45 min", "out": "10 contactos enviados", "result": "El networking es el canal con mayor tasa de respuesta. Relación antes que transacción.", "items": [{"t": "Estrategia (30 min): listar 20 reclutadores IT + 15 analistas de datos en CR/LATAM en LinkedIn.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Mensajes (1 h): enviar 5 mensajes personalizados (plantilla de networking) — menciona un hallazgo concreto de tus proyectos.", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): comentar en 3 publicaciones de los contactos nuevos.", "app": false, "li": true, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Mensaje de networking frío", "c": "Hola [Nombre], vi que trabajás en [empresa/área] y que [detalle específico de su trabajo o publicación].\n\nEstoy en un plan intensivo de 45 días para entrar como Analista de Datos y acabo de publicar [proyecto] donde [hallazgo con número]. ¿Te parece si te comparto una pregunta puntual sobre [tema relevante para ELLA/ELLO]? Sin compromiso.\n\n¡Gracias por tu tiempo!\nJosé Andrés"}]}, {"w": 4, "d": 26, "tag": "LinkedIn: contenido y SEO", "time": "2 h 45 min", "out": "3 posts + perfil optimizado", "result": "Los reclutadores revisan tu LinkedIn antes de responderte. Que cuente tu historia.", "items": [{"t": "Contenido (1 h): escribir y programar 3 posts para la semana (aprendizaje, proyecto, opinión de datos) usando las plantillas.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "SEO perfil (45 min): keywords en titular, extracto, experiencia y habilidades. Verificar que aparezcas en búsqueda de reclutadores.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + registrar estado.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (30 min): enviar 5 mensajes más (total 10) y dar seguimiento a los primeros.", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Calendario de contenido semanal", "c": "Lunes: post de aprendizaje (tip técnico con ejemplo)\nMiércoles: post de proyecto (hallazgo con visual)\nViernes: post de opinión/perspectiva (datos en CR, consejos)\n\nCada post: hook en la primera línea + 1 visual + llamada a la acción + 3-5 hashtags. Publicar 8-11 am o 6-8 pm."}]}, {"w": 4, "d": 27, "tag": "Portafolio unificado", "time": "2 h 45 min", "out": "GitHub impecable", "result": "Tu GitHub es tu portafolio: que sea navegable y profesional.", "items": [{"t": "Portafolio (1 h): README principal del GitHub con tu perfil, skills y los 3 proyectos destacados con imágenes.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Portafolio (45 min): revisar los 3 repos: READMEs completos, estructura limpia, sin archivos basura, screenshots de dashboards.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Inglés (20 min): traducir el README principal al inglés.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 4, "d": 28, "tag": "Retro 4 + primer mes revisado", "time": "3 h", "out": "Retro 4 + ajuste de estrategia", "result": "Mitad de camino: revisar datos del embudo y ajustar la estrategia de búsqueda.", "items": [{"t": "Retrospectiva semanal (30 min).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Análisis de embudo (45 min): completar la tabla del embudo con datos reales — qué canal responde, qué CV funciona, qué roles te llaman.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Ajuste (30 min): cambiar 1 cosa concreta de la estrategia según los datos (canal, CV, mensajes).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (45 min): postular a 3 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (30 min): enviar 5 mensajes (total 15) + agradecer respuestas.", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 5, "d": 29, "tag": "Búsqueda intensiva día 1", "time": "3 h", "out": "5 postulaciones A", "result": "Volumen + calidad: las vacantes A (alto ajuste) primero, siempre personalizadas.", "items": [{"t": "Empleabilidad (1 h 30 min): postular a 5 vacantes A con CV personalizado y nota breve cuando se pueda.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): actualizar el estado de TODAS las postulaciones anteriores en el Tracker 1.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Estudio (45 min): repasar errores de SQL/Python de las simuladas pasadas.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "LinkedIn (15 min): comentar en 3 publicaciones.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 5, "d": 30, "tag": "Mock entrevista 1: conductual", "time": "2 h 45 min", "out": "Mock conductual grabado", "result": "Primera simulación completa de entrevista con RRHH.", "items": [{"t": "Mock entrevista conductual (1 h): 8 preguntas STAR cronometradas, grabadas, y luego escúchalas y anota muletillas.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Corrección (45 min): reescribir las 3 historias más débiles.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Preguntas conductuales top 10", "c": "1. Cuéntame de ti (pitch 2 min)\n2. ¿Por qué quieres ser analista de datos?\n3. Cuéntame un error y qué aprendiste\n4. Un conflicto con un compañero\n5. Un momento de presión/deadline\n6. Cómo explicarías algo técnico a alguien de negocio\n7. Un logro del que estés orgulloso\n8. Cómo priorizas cuando tienes 5 tareas\n9. Por qué dejaste tu trabajo anterior / por qué te interesa esta empresa\n10. Dónde te ves en 2 años\n\nRegla: respuestas de 90 segundos, con número y con cierre."}]}, {"w": 5, "d": 31, "tag": "Mock entrevista 2: SQL técnico", "time": "2 h 45 min", "out": "Mock SQL aprobado", "result": "Segunda simulación: la prueba técnica más común.", "items": [{"t": "Mock entrevista SQL (1 h): 8 preguntas en vivo (JOINs, CTEs, window functions, optimización) sin internet, cronometradas.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Corrección (45 min): resolver por escrito las que fallaste y archivarlas como repaso.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes + seguimiento.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 5, "d": 32, "tag": "Mock entrevista 3: Power BI/caso", "time": "2 h 45 min", "out": "Mock Power BI + caso", "result": "Tercera simulación: el caso de negocio con datos.", "items": [{"t": "Mock entrevista caso (1 h): te dan un problema de negocio y datos — diseña el análisis, métricas y dashboard en 45 min + presenta 15 min.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Corrección (45 min): documentar el enfoque ideal del caso.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Estructura de caso de negocio", "c": "1. Clarificar: ¿cuál es la decisión? ¿quién la toma? ¿para cuándo?\n2. Enmarcar: hipótesis + qué métricas responden la pregunta\n3. Datos: qué tienes, qué falta, suposiciones explícitas\n4. Analizar: segmenta, compara, encuentra el “por qué”\n5. Recomendar: 1 decisión clara + riesgo + siguiente métrica\n\nEn voz alta SIEMPRE: “asumo que…”, “validaría que…”, “lo que esto habilita es…”"}]}, {"w": 5, "d": 33, "tag": "Búsqueda intensiva día 2", "time": "3 h", "out": "5 postulaciones + follow-ups", "result": "Volumen sostenido + seguimiento: la persistencia se nota.", "items": [{"t": "Empleabilidad (1 h 30 min): postular a 5 vacantes A/B.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (45 min): enviar 5 mensajes (total 20) + follow-up a contactos que respondieron.", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Estudio (30 min): repasar estadística aplicada (plantilla de 1 página).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 5, "d": 34, "tag": "Simulación completa 60 min", "time": "3 h", "out": "Entrevista completa simulada", "result": "Ensayo general: 60 minutos de entrevista de principio a fin.", "items": [{"t": "Simulación completa (1 h): pitch + 2 conductuales + 3 SQL + 1 caso + preguntas para el entrevistador. Todo cronometrado y grabado.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Feedback (45 min): escuchar la grabación y anotar 3 cosas a mejorar + 3 cosas que salieron bien.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "LinkedIn (15 min): post semanal.", "app": false, "li": true, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Preguntas para el entrevistador", "c": "· ¿Qué problema de datos resuelve el equipo hoy?\n· ¿Qué herramienta usan a diario y cuál quieren adoptar?\n· ¿Cómo es el proceso de priorización con el negocio?\n· ¿Qué hizo exitoso/a a la última persona en el rol?\n· ¿Cómo miden el impacto del equipo?\n· ¿Cuáles son los siguientes pasos del proceso?"}]}, {"w": 5, "d": 35, "tag": "Retro 5 + entrevistas reales agendadas", "time": "3 h", "out": "Retro 5 + plan de entrevistas", "result": "Quinta retro + organizar agenda si ya hay entrevistas reales.", "items": [{"t": "Retrospectiva semanal (30 min).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Preparación dirigida (1 h): si tienes entrevistas reales, prepara la empresa (producto, métricas, cultura) y 5 preguntas para ellos. Si no, sigue con simuladas.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Empleabilidad (45 min): postular a 3 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (30 min): 5 mensajes más (total 25).", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 36, "tag": "Búsqueda intensiva día 3", "time": "3 h", "out": "5 postulaciones + canal nuevo", "result": "Expandir canales: no solo LinkedIn, también portales locales y directos.", "items": [{"t": "Empleabilidad (1 h): postular a 3 vacantes A.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (45 min): postular directo en sitios de empresas objetivo (careers pages) + Computrabajo/Empleos.net.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Estudio (30 min): repasar Python/Pandas (pipelines de limpieza).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 37, "tag": "Entrevista real o simulación avanzada", "time": "2 h 45 min", "out": "Entrevista ejecutada", "result": "Si tienes entrevista real: a ganarla. Si no: simulación nivel difícil.", "items": [{"t": "Entrevista (1 h): real o simulada avanzada con casos difíciles. Después de cualquier entrevista real, completa el Tracker de Entrevistas con el aprendizaje.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Post-entrevista (45 min): email de agradecimiento en menos de 2 horas (plantilla).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Agradecimiento post-entrevista", "c": "Asunto: Gracias por la entrevista — [Rol]\n\nHola [Nombre],\nGracias por tu tiempo hoy. Me llevo [algo específico que aprendiste de la empresa].\n\nReforzando lo que conversamos sobre [tema], en mi proyecto [X] logré [hallazgo con número], que es exactamente la habilidad que mencionaste que necesitan.\n\nQuedo atento/a a los siguientes pasos.\n\nSaludos,\nJosé Andrés Sequeira\n[LinkedIn] · [GitHub]"}]}, {"w": 6, "d": 38, "tag": "Negociación y ofertas", "time": "2 h 45 min", "out": "Estrategia de negociación lista", "result": "Prepararte para el momento en que te digan el número.", "items": [{"t": "Estudio (1 h): rango salarial del mercado para Data Analyst Jr en CR/LATAM (Glassdoor, LinkedIn Salary, comparables reales). Define tu piso, objetivo y techo.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Práctica (45 min): role-play de negociación en voz alta (plantilla) — nunca aceptes el primer número sin pedir 24 h.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Guion de negociación", "c": "PASO 1 (cuando dan número): “Gracias, me interesa. ¿Me das 24 horas para revisarlo con calma?”\nPASO 2 (revisar): compara con tu techo objetivo y beneficios (home office, bonos, capacitación).\nPASO 3 (contraoferta): “Considerando mi [logro/evidencia] y el rango de mercado para este rol, ¿es posible acercarnos a [techo]?”\nPASO 4 (cierre): pide TODO por escrito (salario, beneficios, fecha de inicio) antes de renunciar/aceptar."}]}, {"w": 6, "d": 39, "tag": "Búsqueda intensiva día 4", "time": "3 h", "out": "5 postulaciones + referidos", "result": "El canal de referidos tiene la tasa de respuesta más alta.", "items": [{"t": "Empleabilidad (1 h 15 min): postular a 4 vacantes A/B.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (45 min): pedir 2 referidos a contactos que ya respondieron (plantilla de referido).", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Estudio (30 min): repasar storytelling — resumen ejecutivo de tus 3 proyectos en 1 página.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": [{"h": "Plantilla · Pedir referido", "c": "Hola [Nombre], gracias por tu respuesta anterior.\n\nViendo que [empresa] está buscando [rol], y que [razón de ajuste], ¿te sentirías cómodo/a recomendándome? Conozco el rol porque [evidencia de 1 línea].\n\nSi prefieres, te comparto mi CV y una nota de presentación lista para reenviar. ¡Gracias!"}]}, {"w": 6, "d": 40, "tag": "Retro 6 + embudo final parcial", "time": "3 h", "out": "Retro 6 + datos del embudo", "result": "Penúltima retro: los datos mandan, ajusta lo que no funciona.", "items": [{"t": "Retrospectiva semanal (30 min).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Análisis de embudo (45 min): completar la tabla con datos reales y escribir 3 lecciones accionables.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (45 min): postular a 3 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Networking (30 min): 5 mensajes (total 30) + agradecer.", "app": false, "li": false, "net": true, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 41, "tag": "Repaso integral de entrevistas", "time": "3 h", "out": "Repaso completo técnicas", "result": "Repasar TODO lo de entrevistas en un solo bloque: confianza antes de la recta final.", "items": [{"t": "Repaso SQL (45 min): los 10 ejercicios que fallaste en simuladas.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Repaso Python/Pandas (45 min): pipelines de limpieza + EDA rápido.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Repaso Power BI/DAX (45 min): las 10 preguntas típicas en voz alta.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 42, "tag": "Búsqueda intensiva día 5", "time": "3 h", "out": "5 postulaciones finales", "result": "Cerrar el volumen de postulaciones con las mejores vacantes que hayas visto.", "items": [{"t": "Empleabilidad (1 h 30 min): postular a 5 vacantes A (las mejores del jobbot de la semana).", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Empleabilidad (30 min): actualizar TODO el Tracker 1 con estados reales.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Estudio (30 min): repasar tus historias STAR (léelas en voz alta).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 43, "tag": "Entrevistas en curso y casos reales", "time": "2 h 45 min", "out": "Preparación dirigida final", "result": "Si tienes entrevistas agendadas: preparación dirigida. Si no: casos difíciles extra.", "items": [{"t": "Preparación dirigida (1 h 30 min): investigar la empresa, hacer 2 simuladas del estilo que piden, preparar preguntas inteligentes.", "app": false, "li": false, "net": false, "ex": true, "ent": true}, {"t": "Empleabilidad (30 min): postular a 2 vacantes nuevas del jobbot.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 44, "tag": "Plan de la siguiente fase", "time": "2 h 45 min", "out": "Sprint 15 días siguiente listo", "result": "El plan no termina: se reinicia con datos reales.", "items": [{"t": "Planificar (1 h): diseñar el siguiente sprint de 15 días usando los datos del embudo (qué canal priorizar, qué skill reforzar).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Portafolio (45 min): actualizar los 3 repos con lo aprendido en el mes (nuevas medidas, mejoras de README).", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Empleabilidad (30 min): postular a 2 vacantes.", "app": true, "li": false, "net": false, "ex": false, "ent": false}, {"t": "Retro diaria (5 min).", "app": false, "li": false, "net": false, "ex": false, "ent": false}], "extras": []}, {"w": 6, "d": 45, "tag": "Cierre del plan + retro final", "time": "3 h", "out": "Plan completo cerrado", "result": "Celebrar lo logrado, medir el progreso y definir el siguiente ciclo.", "items": [{"t": "Retrospectiva final (45 min): completar TODA la sección de cierre — logros, capacidad que demuestro mejor, agenda del siguiente ciclo.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Medición (30 min): completar KPIs finales, embudo completo y % de avance de las 12 skills.", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Revisar (45 min): los 3 proyectos, el CV y LinkedIn con ojos de reclutador: ¿qué pulirías?", "app": false, "li": false, "net": false, "ex": true, "ent": false}, {"t": "Cierre (30 min): agradecer a los contactos que te ayudaron y publicar el post de cierre del plan (plantilla).", "app": false, "li": true, "net": true, "ex": false, "ent": false}, {"t": "Celebrar: hiciste 45 días intensos. Recompénsate, descansa 1 día y arranca el siguiente sprint.", "app": false, "li": false, "net": false, "ex": true, "ent": false}], "extras": [{"h": "Plantilla · Post de cierre del plan", "c": "Terminé 45 días intensivos para entrar como Analista de Datos. 📊\n\nLo que hice:\n· 3 proyectos públicos en GitHub\n· 45 postulaciones · 30 contactos · [X] entrevistas\n· [X]% de avance en skills clave\n\nLo que aprendí: [lección principal]\nLo que sigue: [siguiente meta]\n\nGracias a [2-3 personas] por su ayuda. Si buscan un analista con hambre de aprender, hablemos. 🔗 [GitHub]"}]}];
+
+
+const TEMPLATES = [{"n": "⭐ Post “Estrella” · Lanzamiento de proyecto", "c": "Nuevo proyecto completado: [título] 🚀\n\nEl problema: [problema de negocio en 1 línea]\nLo que hice: [datos + herramientas: SQL/Python/Power BI]\n3 hallazgos que importan:\n1. [hallazgo con número]\n2. [hallazgo con número]\n3. [hallazgo con número]\n\nLa decisión que habilita: [recomendación accionable]\n\nCódigo, datos y dashboard documentados acá 👇\n🔗 https://github.com/JoseAn03/[repo]\n\n¿Qué métrica crees que debería medir primero? #DataAnalytics #PowerBI #SQL #CostaRica"}, {"n": "🎤 Guion de demo 60–90 segundos", "c": "1. Problema (10 s): “La empresa no sabía qué productos perdían dinero…”\n2. Proceso (20 s): “Conecté ventas e inventario, construí un modelo estrella y 12 medidas DAX.”\n3. Hallazgo (20 s): “El 18% de los SKUs concentra el 64% de la utilidad.”\n4. Decisión (15 s): “Redirigir stock a los SKUs rentables y descontinuar 30.”\n5. Impacto (15 s): “Proyección: +8% de margen en un trimestre.”\n\nPractica hasta que quede en 90 segundos exactos, sin muletillas."}, {"n": "🤝 Mensaje de networking (frío)", "c": "Hola [Nombre], vi que trabajás en [empresa] y que [detalle específico].\n\nEstoy en un plan intensivo de 45 días para entrar como Analista de Datos y acabo de publicar [proyecto] con [hallazgo con número]. ¿Te parece si te hago una pregunta puntual sobre [tema relevante]? Sin compromiso.\n\n¡Gracias!\nJosé Andrés"}, {"n": "🔁 Mensaje de follow-up", "c": "Hola [Nombre], te escribí el [fecha] sobre [tema]. Entiendo que estarás ocupado/a.\n\nSolo quería compartir que [nuevo avance: proyecto, post, curso] — por si te sirve como contexto.\n\nSi en algún momento tenés 10 minutos, me encantaría escuchar tu perspectiva. ¡Gracias!"}, {"n": "💬 Método STAR (8 historias)", "c": "SITUACIÓN: [contexto en 1 línea]\nTAREA: [tu responsabilidad]\nACCIÓN: [qué hiciste TÚ, con detalle]\nRESULTADO: [número + aprendizaje]\n\nHistorias a preparar: 1) datos 2) trabajo en equipo 3) error 4) conflicto 5) liderazgo 6) aprendizaje rápido 7) stakeholder/cliente 8) presión/deadline."}, {"n": "🗃️ Preguntas SQL de entrevista (top 10)", "c": "1. INNER vs LEFT JOIN (con ejemplo)\n2. ¿Qué es una CTE y cuándo la usas?\n3. ¿Cómo eliminas duplicados? (ROW_NUMBER vs DISTINCT)\n4. WHERE vs HAVING\n5. Top 3 por categoría (window function)\n6. ¿Qué es un índice?\n7. DELETE vs TRUNCATE\n8. ¿Cómo tratas nulos?\n9. LEFT JOIN con NULLs\n10. ¿Cómo optimizas una query lenta?\n\nRepaso: cada semana, 5 en voz alta cronometradas."}, {"n": "🐍 Preguntas Python/Pandas de entrevista", "c": "1. ¿Qué es Pandas y cuándo lo usas?\n2. loc vs iloc\n3. ¿Cómo tratas valores nulos? (fillna/dropna)\n4. merge vs concat\n5. groupby: ¿qué devuelve?\n6. List comprehension: ejemplo\n7. ¿Qué es una función lambda?\n8. ¿Cómo detectas outliers?\n9. ¿Qué es un DataFrame?\n10. ¿Cómo exportas resultados?\n\nPractica: escribe cada respuesta a mano, luego en voz alta."}, {"n": "📊 Preguntas Power BI/DAX de entrevista", "c": "1. ¿Qué es CALCULATE?\n2. CALCULATE vs FILTER\n3. Esquema estrella vs copo de nieve\n4. ¿Cómo haces un YTD? (TOTALYTD)\n5. Medida vs columna calculada\n6. ¿Cómo optimizas un reporte lento?\n7. Contexto de filtro vs contexto de fila\n8. Relaciones N:N: ¿cómo las manejas?\n9. ¿Qué es un grupo de cálculo? (bonus)\n10. ¿Cómo validas cifras?"}, {"n": "📈 Preguntas de estadística y negocio", "c": "1. Media vs mediana: ¿cuándo usar cada una?\n2. ¿Qué es la desviación estándar?\n3. Correlación ≠ causalidad: ejemplo\n4. ¿Qué es un percentil?\n5. ¿Cómo diseñarías un A/B test?\n6. ¿Qué KPIs medirías en [empresa]?\n7. Cuéntame un análisis que hayas hecho y la decisión que habilitó\n8. ¿Qué harías con un dataset con 80% de nulos?\n9. ¿Cómo explicas un resultado a un CEO en 60 segundos?\n10. ¿Cómo priorizarías 3 proyectos de datos?"}, {"n": "🧑‍💼 Preguntas conductuales (top 10)", "c": "1. Cuéntame de ti (pitch 2 min)\n2. ¿Por qué analista de datos?\n3. Un error y qué aprendiste\n4. Un conflicto\n5. Momento de presión\n6. Explicar algo técnico a negocio\n7. Un logro del que estés orgulloso\n8. Priorizar 5 tareas\n9. ¿Por qué esta empresa?\n10. ¿Dónde te ves en 2 años?\n\nRegla: STAR, 90 segundos, con número y cierre."}, {"n": "📄 CV: bullets con logros medibles", "c": "Fórmula: [Verbo] + [qué hice] + [resultado con número].\n\nMAL: “Responsable de reportes de ventas”.\nBIEN: “Automaticé el reporte semanal de ventas con Power BI, reduciendo el armado de 4 h a 30 min y detectando una caída del 12% en retail”.\n\nVerbos: analicé, construí, automatice, diseñé, optimicé, reduje, aumenté, segmenté, detecté, documenté, implementé, modelé, visualicé, validé."}, {"n": "✉️ Email de postulación + follow-up", "c": "POSTULACIÓN (si hay email):\nAsunto: Postulación a [Rol] — José Andrés Sequeira\n\nHola [Nombre],\nVi que buscan [rol] y mi perfil encaja: [evidencia con número].\nEj: “Construí un dashboard de rentabilidad con 30 medidas DAX que detectó el 18% de SKUs con el 64% de la utilidad”.\nMi portafolio: [GitHub]. Adjunto CV.\n\nFOLLOW-UP (día 7 sin respuesta):\n“Hola [Nombre], te escribí el [fecha]. Sé que están ocupados; si hay alguna novedad, quedo atento. ¡Gracias!”"}, {"n": "🙏 Agradecimiento post-entrevista", "c": "Asunto: Gracias por la entrevista — [Rol]\n\nHola [Nombre],\nGracias por tu tiempo hoy. Me llevo [algo específico que aprendiste].\n\nReforzando lo de [tema], en mi proyecto [X] logré [hallazgo con número], justo la habilidad que mencionaste.\n\nQuedo atento/a a los siguientes pasos.\n\nSaludos,\nJosé Andrés Sequeira\n[LinkedIn] · [GitHub]"}, {"n": "💵 Negociación de oferta", "c": "PASO 1: “Gracias, me interesa. ¿Me das 24 horas para revisarlo?”\nPASO 2: compara con tu techo y beneficios.\nPASO 3: “Considerando mi [logro] y el rango de mercado, ¿es posible acercarnos a [techo]?”\nPASO 4: pide TODO por escrito antes de aceptar.\n\nNunca aceptes el primer número sin pedir 24 h. Nunca des tu número actual primero: “prefiero escuchar la propuesta”."}];
+
+const WEEKS = ["Días 1–7 · Fase 0–1: Cimientos + SQL a fondo", "Días 8–14 · Fase 1–2: Proyecto I + Python/Pandas", "Días 15–21 · Fase 2–3: Proyecto II + Power BI/DAX", "Días 22–28 · Fase 3–4: Proyecto III + Estadística", "Días 29–35 · Fase 4–5: Marca + Búsqueda intensiva", "Días 36–45 · Fase 5–6: Entrevistas + Cierre"];
+
+
+
+/* ================= GAMIFICACIÓN ================= */
+const LEVELS = [
+ [0,"Aprendiz","🌱"],[150,"Explorador","🔎"],[400,"SQLero","🗃️"],[750,"Constructor","🧱"],
+ [1200,"Maestro de datos","🧠"],[1750,"Dashmaster","📊"],[2400,"Cazador de vacantes","🎯"],
+ [3150,"Analista Jr","💼"],[4000,"Analista Senior","🚀"],[5000,"Imparable","⚡"],
+ [5800,"Leyenda","🏆"],[7000,"Dios de los datos","👑"]
+];
+const BADGES = [
+ {id:"b1",ico:"🐣",n:"Primer paso",d:"Marca tu primera tarea",c:()=>Object.keys(S.checked).length>0},
+ {id:"b2",ico:"🌞",n:"Primer día completo",d:"100% de tareas en un día",c:()=>DAYS.some(d=>dayComplete(d))},
+ {id:"b3",ico:"📦",n:"Primera entrega",d:"Marca tu primer día como cumplido",c:()=>Object.keys(S.done).length>0},
+ {id:"b4",ico:"🔥",n:"Racha de 3",d:"3 días seguidos completados",c:()=>streak()>=3},
+ {id:"b5",ico:"💪",n:"Racha de 7",d:"7 días seguidos completados",c:()=>streak()>=7},
+ {id:"b6",ico:"🥉",n:"Semana 1",d:"Días 1–7 completados",c:()=>weekDone(1)},
+ {id:"b7",ico:"🥈",n:"Semana 2",d:"Días 8–14 completados",c:()=>weekDone(2)},
+ {id:"b8",ico:"🥇",n:"Semana 3",d:"Días 15–21 completados",c:()=>weekDone(3)},
+ {id:"b9",ico:"🏅",n:"Semana 4",d:"Días 22–28 completados",c:()=>weekDone(4)},
+ {id:"b10",ico:"🎖️",n:"Semana 5",d:"Días 29–35 completados",c:()=>weekDone(5)},
+ {id:"b11",ico:"👑",n:"Semana 6",d:"Días 36–45 completados",c:()=>weekDone(6)},
+ {id:"b12",ico:"🐉",n:"Leyenda del plan",d:"Completa los 45 días",c:()=>DAYS.every(d=>dayComplete(d))},
+ {id:"b13",ico:"📨",n:"Primera postulación",d:"Registra tu primera postulación",c:()=>S.app.length>=1},
+ {id:"b14",ico:"🎯",n:"Cazador de vacantes",d:"45 postulaciones registradas",c:()=>S.app.length>=45},
+ {id:"b15",ico:"🤝",n:"Primer contacto",d:"Envía tu primer mensaje",c:()=>S.net.length>=1},
+ {id:"b16",ico:"🌐",n:"Networking total",d:"30 contactos registrados",c:()=>S.net.length>=30},
+ {id:"b17",ico:"🎤",n:"Primera entrevista",d:"Registra tu primera entrevista",c:()=>S.entr.length>=1},
+ {id:"b18",ico:"🏅",n:"Entrevistador vencido",d:"8+ entrevistas registradas",c:()=>S.entr.length>=8},
+ {id:"b19",ico:"💼",n:"Entrevista real",d:"Registra una entrevista de tipo Real",c:()=>S.entr.some(e=>e.t==="Real")},
+ {id:"b20",ico:"✨",n:"Estrella de LinkedIn",d:"12+ tareas de LinkedIn completadas",c:()=>liCount()>=12}
+];
+function dayComplete(d){ const tot=d.items.length; if(!tot) return !!S.done[d.d]; return S.done[d.d] || d.items.every((it,i)=>S.checked[d.d+"-"+i]); }
+function weekDone(w){ return DAYS.filter(d=>d.w===w).every(dayComplete); }
+function streak(){ let s=0; for(let i=1;i<=45;i++){ const dd=DAYS.find(d=>d.d===i); if(dd&&dayComplete(dd)) s++; else break; } return s; }
+function liCount(){ let c=0; DAYS.forEach(d=>d.items.forEach((it,i)=>{ if(it.li&&S.checked[d.d+"-"+i]) c++; })); return c; }
+function gamXp(){ let x=0; DAYS.forEach(d=>{ d.items.forEach((it,i)=>{ if(S.checked[d.d+"-"+i]) x+=10; }); if(S.done[d.d]) x+=50; }); x+=S.app.length*25; x+=S.net.length*25; x+=S.entr.length*40; return x; }
+function levelInfo(xp){ let lv=1,title=LEVELS[0][1],ico=LEVELS[0][2],cur=0,next=LEVELS[1][0]; for(let i=0;i<LEVELS.length;i++){ if(xp>=LEVELS[i][0]){ lv=i+1; cur=LEVELS[i][0]; title=LEVELS[i][1]; ico=LEVELS[i][2]; next=(LEVELS[i+1]?LEVELS[i+1][0]:cur+1); } } return {lv,title,ico,cur,next,pct:next>cur?Math.min(100,Math.round((xp-cur)/(next-cur)*100)):100}; }
+let _prevLv = null;
+function renderGam(){
+  const xp = gamXp(), li = levelInfo(xp);
+  const chip = document.getElementById("lvlChip"); if(chip) chip.textContent = "L"+li.lv+" "+li.ico;
+  const fill = document.getElementById("xpFill"); if(fill) fill.style.width = li.pct+"%";
+  const sc = document.getElementById("streakChip"); if(sc) sc.textContent = "🔥 "+streak();
+  const xl = document.getElementById("xpLine");
+  if(xl) xl.innerHTML = `<span>${li.ico} ${li.title}</span><div class="xbar"><i style="width:${li.pct}%"></i></div><span style="white-space:nowrap">${xp} XP</span>`;
+  const g = document.getElementById("badgeGrid"), bc = document.getElementById("badgeCount");
+  if(g){ g.innerHTML = BADGES.map(b=>{ const on=S.badges.includes(b.id); return `<div class="badge ${on?"unlocked":"locked"}"><div class="ico">${on?b.ico:"🔒"}</div><div class="bn">${b.n}</div><div class="bd">${b.d}</div></div>`; }).join(""); }
+  if(bc) bc.textContent = S.badges.length+"/"+BADGES.length;
+  checkBadges(xp, li);
+}
+function checkBadges(xp, li){
+  let fresh = false;
+  BADGES.forEach(b=>{ if(!S.badges.includes(b.id) && b.c()){ S.badges.push(b.id); fresh=true; showToast("🏆 Logro desbloqueado: "+b.n+"!", "gold"); confetti(60); playPop(); } });
+  if(fresh) saveLight();
+  if(_prevLv!==null && li.lv>_prevLv){ showToast("⬆️ ¡Subiste a Nivel "+li.lv+": "+li.ico+" "+li.title+"!", "lv"); confetti(110); playPop(); }
+  _prevLv = li.lv;
+}
+function showToast(msg, cls, dur){
+  let w = document.getElementById("toastWrap");
+  if(!w){ w = document.createElement("div"); w.id="toastWrap"; w.className="toast-wrap no-print"; document.body.appendChild(w); }
+  const t = document.createElement("div"); t.className = "toast"+(cls?" "+cls:""); t.textContent = msg;
+  w.appendChild(t);
+  setTimeout(()=>{ t.style.opacity="0"; t.style.transition="opacity .3s"; setTimeout(()=>t.remove(),320); }, dur||2400);
+}
+function confetti(n){
+  const cols = ["#4f46e5","#7c3aed","#059669","#d97706","#dc2626","#fbbf24","#06b6d4","#ec4899"];
+  for(let i=0;i<(n||50);i++){
+    const p = document.createElement("div");
+    p.className = "confetti";
+    p.style.left = Math.random()*100+"vw";
+    p.style.width = p.style.height = (6+Math.random()*6)+"px";
+    p.style.background = cols[Math.floor(Math.random()*cols.length)];
+    p.style.animationDuration = (2+Math.random()*1.6)+"s";
+    p.style.animationDelay = (Math.random()*0.4)+"s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 4300);
+  }
+}
+function playPop(){
+  if(S.sound===false) return;
+  try{
+    const C = window.AudioContext||window.webkitAudioContext;
+    if(!window._actx) window._actx = new C();
+    const ctx = window._actx, o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = 760; g.gain.value = 0.06;
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.22); o.stop(ctx.currentTime+0.24);
+  }catch(e){}
+}
+function toggleSound(){
+  S.sound = !(S.sound===false);
+  const b = document.getElementById("sndBtn"); if(b) b.textContent = S.sound?"🔊":"🔇";
+  saveLight(); playPop();
+}
+
+/* ================= STATE ================= */
+let S = {
+ meta:{name:"José Andrés Sequeira", role:"Data Analyst / BI Analyst Jr"},
+ skills:{}, comp:false, resp:0, ent:0, appPat:"", netLearn:"", skillP:"", skillEv:"",
+ ret:{keep:"",stop:"",better:""}, sprint2:"", logros:"", cap:"",
+ checked:{}, energy:{}, done:{}, app:[], net:[], entr:[], entrLearn:"", badges:[], sound:true, extra:{}
+};
+let STORAGE_OK = true;
+
+function load(){
+  try{ const raw = localStorage.getItem(SAVE_KEY); if(raw){ S = Object.assign(S, JSON.parse(raw)); } }
+  catch(e){ STORAGE_OK = false; }
+  const today = new Date();
+  const fmt = d => d.toISOString().slice(0,10);
+  const st = document.getElementById("fStart"), en = document.getElementById("fEnd");
+  if(!st.value) st.value = fmt(today);
+  if(!en.value){ const e = new Date(today); e.setDate(e.getDate()+45); en.value = fmt(e); }
+  document.getElementById("fName").value = S.meta.name || "";
+  document.getElementById("fRole").value = S.meta.role || "";
+  document.getElementById("kResp").value = S.resp || "";
+  document.getElementById("kEnt").value = S.ent || "";
+  document.getElementById("kComp").checked = !!S.comp;
+  document.getElementById("fAppPat").value = S.appPat || "";
+  document.getElementById("fNetLearn").value = S.netLearn || "";
+  document.getElementById("fEntrLearn").value = S.entrLearn || "";
+  document.getElementById("fSkill").value = S.skillP || "";
+  document.getElementById("fSkillEv").value = S.skillEv || "";
+  document.getElementById("fRetKeep").value = S.ret.keep||""; document.getElementById("fRetStop").value = S.ret.stop||"";
+  document.getElementById("fRetBetter").value = S.ret.better||""; document.getElementById("fSprint2").value = S.sprint2||"";
+  document.getElementById("fLogros").value = S.logros||""; document.getElementById("fCap").value = S.cap||"";
+}
+function save(){
+  S.meta.name = document.getElementById("fName").value;
+  S.meta.role = document.getElementById("fRole").value;
+  S.resp = +document.getElementById("kResp").value||0;
+  S.ent = +document.getElementById("kEnt").value||0;
+  S.comp = document.getElementById("kComp").checked;
+  S.appPat = document.getElementById("fAppPat").value;
+  S.netLearn = document.getElementById("fNetLearn").value;
+  S.entrLearn = document.getElementById("fEntrLearn").value;
+  S.skillP = document.getElementById("fSkill").value;
+  S.skillEv = document.getElementById("fSkillEv").value;
+  S.ret = {keep:document.getElementById("fRetKeep").value, stop:document.getElementById("fRetStop").value, better:document.getElementById("fRetBetter").value};
+  S.sprint2 = document.getElementById("fSprint2").value;
+  S.logros = document.getElementById("fLogros").value;
+  S.cap = document.getElementById("fCap").value;
+  // misc fields not bound to S (embudo) saved via their own ids
+  document.querySelectorAll("section#cierre input, section#cierre textarea").forEach(el=>{ if(el.id && el.id.startsWith("f")) S.extra[el.id]=el.value; });
+  try{ localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){}
+  render();
+}
+function saveLight(){
+  try{ localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }
+  catch(e){ STORAGE_OK = false; showStorageHint(); }
+}
+function showStorageHint(){
+  const h = document.getElementById("storageHint");
+  if(h && !h.dataset.shown){ h.style.display = "block"; h.dataset.shown = "1"; }
+}
+
+/* ================= RENDER ================= */
+function dayCompletion(d){
+  const items = d.items, total = items.length;
+  let c = 0; items.forEach((it,i)=>{ if(S.checked[d.d+"-"+i]) c++; });
+  return total? c/total : 0;
+}
+function dayDone(d){ return !!S.done[d.d]; }
+
+function renderSkills(){
+  const w = document.getElementById("skillsWrap"); w.innerHTML = "";
+  SKILLS.forEach((sk,i)=>{
+    const ini = S.skills[sk[0]] ? S.skills[sk[0]].ini : 1;
+    const fin = S.skills[sk[0]] ? S.skills[sk[0]].fin : 1;
+    const div = document.createElement("div");
+    div.className = "card"; div.style.marginBottom = "10px";
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <div><b>${sk[0]}</b><div style="font-size:12.5px;color:var(--muted)">${sk[1]}</div></div>
+        <div style="display:flex;gap:16px;align-items:center;font-size:12px;color:var(--muted);white-space:nowrap">
+          <span>Inicio <b id="iniV${i}">${ini}</b> <input type="range" min="1" max="5" value="${ini}" oninput="setSkill(${i},'ini',this.value)" style="width:70px;accent-color:var(--brand)"/></span>
+          <span>Meta <b id="finV${i}">${fin}</b> <input type="range" min="1" max="5" value="${fin}" oninput="setSkill(${i},'fin',this.value)" style="width:70px;accent-color:var(--brand2)"/></span>
+        </div></div>`;
+    w.appendChild(div);
+  });
+}
+function setSkill(i, k, v){
+  const name = SKILLS[i][0];
+  S.skills[name] = S.skills[name] || {ini:1, fin:1};
+  S.skills[name][k] = +v;
+  document.getElementById(k==="ini"?"iniV"+i:"finV"+i).textContent = v;
+  saveLight();
+}
+
+function renderDays(){
+  const wk1 = document.getElementById("week1"), wk2 = document.getElementById("week2");
+  wk1.querySelectorAll(".day").forEach(el=>el.remove());
+  wk2.querySelectorAll(".day").forEach(el=>el.remove());
+  DAYS.forEach(d=>{
+    const host = document.getElementById("week"+d.w) || wk1;
+    const comp = dayCompletion(d), done = dayDone(d);
+    const pct = Math.round(comp*100);
+    const liTags = t => {
+      let s = "";
+      if(t.li) s += '<span class="tag li">LinkedIn</span>';
+      if(t.app) s += '<span class="tag app">Postular</span>';
+      if(t.net) s += '<span class="tag net">Networking</span>';
+      if(t.ex) s += '<span class="tag ex">Mejora</span>';
+      if(t.ent) s += '<span class="tag ent">Entrevista</span>';
+      return s;
+    };
+    const items = d.items.map((it,i)=>{
+      const cid = d.d+"-"+i, on = !!S.checked[cid];
+      return `<li class="${on?"off":""}" onclick="toggleItem('${cid}',event)">
+        <input type="checkbox" ${on?"checked":""} data-cid="${cid}"/>
+        <span class="it">${it.t}${liTags(it)}</span></li>`;
+    }).join("");
+    const extras = (d.extras||[]).map(x=>`<div class="extra"><h5>${x.h}</h5><div class="tpl">${x.c}<button class="btn sm copy no-print" onclick="copyTpl(event,this)">Copiar</button></div></div>`).join("");
+    const evid = S.checked[d.d+"-evid"] ? S.checked[d.d+"-evid"] : "";
+    const notes = S.checked[d.d+"-notes"] ? S.checked[d.d+"-notes"] : "";
+    host.insertAdjacentHTML("beforeend", `
+    <div class="day" id="dia${d.d}">
+      <div class="day-head">
+        <div class="day-num">${d.d}</div>
+        <div style="flex:1;min-width:200px">
+          <h4>Día ${d.d} · ${d.tag}</h4>
+          <div class="tags">
+            <span class="chip">Semana ${d.w}</span>
+            <span class="chip time">⏱ ${d.time}</span>
+            <span class="chip out">📦 ${d.out}</span>
+            ${done?'<span class="chip done">✓ Completado</span>':''}
+          </div>
+        </div>
+        <label class="done-box"><input type="checkbox" style="width:17px;height:17px;accent-color:var(--ok)" ${done?"checked":""} onchange="toggleDone(${d.d},this.checked)"/> Entrega cumplida</label>
+      </div>
+      <div class="result">🎯 ${d.result}</div>
+      <ul class="clist">${items}</ul>
+      ${extras}
+      <div class="day-foot">
+        <div><label>🔗 Evidencia / enlaces</label><textarea class="field" data-day="${d.d}" data-kind="evid" placeholder="Link al commit, post, screenshot…">${evid}</textarea></div>
+        <div><label>✏️ Notas</label><textarea class="field" data-day="${d.d}" data-kind="notes" placeholder="Qué aprendiste, qué te bloqueó…">${notes}</textarea></div>
+      </div>
+      <div class="energy">
+        <label>Energía:</label>
+        ${[1,2,3,4,5].map(n=>`<button class="${S.energy[d.d]===n?"on":""}" onclick="setEnergy(${d.d},${n})">${n}</button>`).join("")}
+        <span style="font-size:11.5px;color:var(--muted);margin-left:8px">Progreso del día: <b>${pct}%</b></span>
+        <div style="flex:1;height:6px;border-radius:99px;background:#e2e8f0;overflow:hidden;max-width:140px"><i style="display:block;height:100%;width:${pct}%;background:${pct===100?"var(--ok)":"var(--brand)"}"></i></div>
+      </div>
+    </div>`);
+  });
+  // week bars
+  const bar = (arr)=> arr.reduce((a,d)=>a+dayCompletion(d),0)/arr.length*100;
+  for(let w=1; w<=6; w++){
+    const el = document.getElementById("week"+w);
+    const barEl = el ? el.querySelector(".wbar i") : null;
+    if(barEl) barEl.style.width = bar(DAYS.filter(d=>d.w===w))+"%";
+  }
+}
+
+function toggleItem(cid, ev){
+  if(ev && ev.target.tagName==="INPUT"){} // checkbox click already handled by native toggle
+  const dnum = +cid.split("-")[0];
+  const dd = DAYS.find(d=>d.d===dnum);
+  const was = dd ? dayComplete(dd) : false;
+  S.checked[cid] = !S.checked[cid];
+  const on = !!S.checked[cid];
+  render(); saveLight();
+  if(on){ showToast("✅ +10 XP"); playPop(); }
+  if(dd && !was && dayComplete(dd)){ showToast("🎉 ¡Día "+dnum+" completado! +50 XP", "gold", 3000); confetti(90); playPop(); }
+}
+function toggleDone(d, v){ const was=!!S.done[d]; S.done[d] = v; render(); saveLight(); if(v&&!was){ showToast("📦 ¡Entrega cumplida! +50 XP", "gold", 2600); confetti(50); playPop(); } }
+function setEnergy(d, n){ S.energy[d] = S.energy[d]===n ? null : n; render(); saveLight(); }
+
+function render(){ renderSkills(); renderDays(); renderTrackers(); renderTemplates(); kpis(); renderGam(); }
+
+document.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.dataset && t.dataset.day){ S.checked[t.dataset.day+"-"+t.dataset.kind] = t.value; saveLight(); }
+  if(t.id==="fName"||t.id==="fRole"||t.id==="kResp"||t.id==="kEnt"||t.id==="kComp"||t.id==="fAppPat"||t.id==="fNetLearn"||t.id==="fSkill"||t.id==="fSkillEv"||t.id==="fRetKeep"||t.id==="fRetStop"||t.id==="fRetBetter"||t.id==="fSprint2"||t.id==="fLogros"||t.id==="fCap"){ save(); }
+  if(t.id && t.id.startsWith("f") && t.closest("#cierre")){ S.extra[t.id]=t.value; saveLight(); }
+});
+document.addEventListener("input", e=>{
+  const t = e.target;
+  if(t.dataset && t.dataset.day){ S.checked[t.dataset.day+"-"+t.dataset.kind] = t.value; saveLight(); }
+});
+
+/* KPIs */
+function kpis(){
+  const apps = S.app.length, nets = S.net.length;
+  let liDays = 0;
+  DAYS.forEach(d=>{ if(d.items.some((it,i)=>it.li && S.checked[d.d+"-"+i])) liDays++; });
+  const proj = (S.done[4]?1:0)+(S.done[11]?1:0);
+  const d4 = dayCompletion(DAYS[3]), d11 = dayCompletion(DAYS[10]);
+  const projPct = Math.round(((d4+d11)/2)*100);
+  const card = (lab, val, goal, unit, extraLabel) => `
+    <div class="kpi ${val>=goal?"good":val>=goal*0.6?"warn":""}">
+      <div class="lab">${lab}</div>
+      <div class="big">${val}<small> / ${goal}</small></div>
+      <div class="bar"><i style="width:${Math.min(100,val/goal*100)}%"></i></div>
+      <div class="goal">${extraLabel||""}</div>
+    </div>`;
+  document.getElementById("kpis").innerHTML =
+    card("📦 Proyectos documentados", proj, 2, "p", `Avance Proyecto I: ${Math.round(d4*100)}% · Proyecto II: ${Math.round(d11*100)}%`) +
+    card("📨 Postulaciones enviadas", apps, 45, "p", "Prioriza vacantes A: personalización profunda") +
+    card("📣 Posts en LinkedIn", liDays, 12, "p", "Meta: 12 posts en 45 días (≈2 por semana)") +
+    card("🤝 Contactos directos", nets, 30, "p", "Relación antes que transacción");
+  const conv = document.getElementById("convOut");
+  conv.innerHTML = `Respuestas: <b>${S.resp}</b> (${apps?Math.round(S.resp/apps*100):0}% de tasa) · Entrevistas: <b>${S.ent}</b> (${apps?Math.round(S.ent/apps*100):0}%)${S.ent>0?" · ¡Vas bien! 🔥":""}`;
+  const sema = document.getElementById("semaOut");
+  const totalPct = overallPct();
+  sema.innerHTML = totalPct>=80 ? "🟢 <b>En curso:</b> " + totalPct + "% de avance general — sigue así."
+    : totalPct>=40 ? "🟡 <b>En riesgo:</b> " + totalPct + "% — dos días seguidos sin entrega visible = revisar alcance."
+    : "🔴 <b>Arrancando:</b> " + totalPct + "% — bloqueado si falta dataset/herramienta/decisión por +24 h: reduce alcance o pide ayuda.";
+  document.getElementById("appCount").textContent = apps;
+  document.getElementById("netCount").textContent = nets;
+  const ec = document.getElementById("entrCount"); if(ec) ec.textContent = S.entr.length;
+  const p = Math.min(100, Math.round(totalPct));
+  document.getElementById("pctTxt").textContent = p+"%";
+  document.getElementById("ring").style.setProperty("--p", p);
+}
+function overallPct(){
+  const dPct = DAYS.reduce((a,d)=>a+dayCompletion(d),0)/DAYS.length*100;
+  const apps = Math.min(100, S.app.length/45*100);
+  const nets = Math.min(100, S.net.length/30*100);
+  const sk = SKILLS.reduce((a,s)=>a+((S.skills[s[0]]?S.skills[s[0]].fin:1)-1)/4*100,0)/SKILLS.length;
+  return Math.round(dPct*0.55 + apps*0.2 + nets*0.15 + sk*0.1);
+}
+
+/* Trackers */
+function addApp(){ S.app.push({f:"",c:"",a:"B",cv:"Maestra",s:""}); renderTrackers(); saveLight(); showToast("📨 +25 XP · postulación registrada"); playPop(); }
+
+function addEntr(){ S.entr.push({f:"",t:"Simulada",c:"",s:""}); renderTrackers(); saveLight(); showToast("🎤 +40 XP · entrevista registrada"); playPop(); }
+function delEntr(i){ S.entr.splice(i,1); renderTrackers(); saveLight(); }
+
+function addNet(){ S.net.push({f:"",c:"",m:"",s:""}); renderTrackers(); saveLight(); showToast("🤝 +25 XP · contacto registrado"); playPop(); }
+function delApp(i){ S.app.splice(i,1); renderTrackers(); saveLight(); }
+function delNet(i){ S.net.splice(i,1); renderTrackers(); saveLight(); }
+function renderTrackers(){
+  const ab = document.getElementById("appBody"); ab.innerHTML="";
+  S.app.forEach((r,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td style="font-weight:700;color:var(--muted)">${String(i+1).padStart(2,"0")}</td>
+      <td><input type="date" value="${r.f}" onchange="S.app[${i}].f=this.value;saveLight()"/></td>
+      <td><input type="text" placeholder="Empresa / Rol" value="${esc(r.c)}" onchange="S.app[${i}].c=this.value;saveLight()"/></td>
+      <td><select onchange="S.app[${i}].a=this.value;saveLight()">${["A","B","C"].map(x=>`<option ${r.a===x?"selected":""}>${x}</option>`).join("")}</select></td>
+      <td><input type="text" placeholder="Versión CV" value="${esc(r.cv)}" onchange="S.app[${i}].cv=this.value;saveLight()"/></td>
+      <td><input type="text" placeholder="Enviada · En revisión · Entrevista · Rechazo…" value="${esc(r.s)}" onchange="S.app[${i}].s=this.value;saveLight()"/></td>
+      <td style="text-align:center"><input type="checkbox" ${r.ok?"checked":""} style="accent-color:var(--ok);width:17px;height:17px" onchange="S.app[${i}].ok=this.checked;saveLight()"/></td>
+      <td><button class="btn sm danger" onclick="delApp(${i})">✕</button></td>`;
+    ab.appendChild(tr);
+  });
+  const nb = document.getElementById("netBody"); nb.innerHTML="";
+  S.net.forEach((r,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td style="font-weight:700;color:var(--muted)">${String(i+1).padStart(2,"0")}</td>
+      <td><input type="date" value="${r.f}" onchange="S.net[${i}].f=this.value;saveLight()"/></td>
+      <td><input type="text" placeholder="Persona / Empresa" value="${esc(r.c)}" onchange="S.net[${i}].c=this.value;saveLight()"/></td>
+      <td><input type="text" placeholder="Contexto: vi que trabajan en…" value="${esc(r.m)}" onchange="S.net[${i}].m=this.value;saveLight()"/></td>
+      <td><input type="text" placeholder="Respondió / próximo paso…" value="${esc(r.s)}" onchange="S.net[${i}].s=this.value;saveLight()"/></td>
+      <td style="text-align:center"><input type="checkbox" ${r.ok?"checked":""} style="accent-color:var(--ok);width:17px;height:17px" onchange="S.net[${i}].ok=this.checked;saveLight()"/></td>
+      <td><button class="btn sm danger" onclick="delNet(${i})">✕</button></td>`;
+    nb.appendChild(tr);
+  });
+  document.getElementById("appCount").textContent = S.app.length;
+  document.getElementById("netCount").textContent = S.net.length;
+
+  const eb = document.getElementById("entrBody"); if(eb){
+    eb.innerHTML="";
+    S.entr.forEach((r,i)=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td style="font-weight:700;color:var(--muted)">${String(i+1).padStart(2,"0")}</td>
+        <td><input type="date" value="${r.f}" onchange="S.entr[${i}].f=this.value;saveLight()"/></td>
+        <td><select onchange="S.entr[${i}].t=this.value;saveLight()">${["Simulada","HR","Técnica","Caso","Real"].map(x=>`<option ${r.t===x?"selected":""}>${x}</option>`).join("")}</select></td>
+        <td><input type="text" placeholder="Empresa / Tema" value="${esc(r.c)}" onchange="S.entr[${i}].c=this.value;saveLight()"/></td>
+        <td><input type="text" placeholder="Qué preguntaron / Aprendizaje" value="${esc(r.s)}" onchange="S.entr[${i}].s=this.value;saveLight()"/></td>
+        <td style="text-align:center"><input type="checkbox" ${r.ok?"checked":""} style="accent-color:var(--ok);width:17px;height:17px" onchange="S.entr[${i}].ok=this.checked;saveLight()"/></td>
+        <td><button class="btn sm danger" onclick="delEntr(${i})">✕</button></td>`;
+      eb.appendChild(tr);
+    });
+  }
+}
+function esc(s){ return String(s||"").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+
+/* Templates */
+function renderTemplates(){
+  const w = document.getElementById("tplWrap"); w.innerHTML="";
+  TEMPLATES.forEach((t,i)=>{
+    const div = document.createElement("div");
+    div.className="card"; div.style.marginBottom="12px";
+    div.innerHTML = `<h3>${t.n}</h3><div class="tpl">${t.c}<button class="btn sm copy no-print" onclick="copyTpl(event,this)">📋 Copiar</button></div>`;
+    w.appendChild(div);
+  });
+}
+function copyTpl(ev, btn){
+  ev.stopPropagation();
+  const text = btn.closest(".tpl").innerText.replace(/📋 Copiar\s*$/,"").trim();
+  navigator.clipboard.writeText(text).then(()=>{ btn.textContent="✓ Copiado"; setTimeout(()=>btn.textContent="📋 Copiar",1500); }).catch(()=>{});
+}
+
+/* actions */
+function doPrint(){ save(); window.print(); }
+function exportJSON(){
+  save();
+  const blob = new Blob([JSON.stringify(S,null,2)], {type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "sprint15_progreso_" + new Date().toISOString().slice(0,10) + ".json"; a.click();
+}
+function importJSON(input){
+  const f = input.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = ()=>{ try{ S = Object.assign(S, JSON.parse(rd.result)); render(); save(); alert("✅ Progreso importado."); }catch(e){ alert("❌ Archivo inválido."); } };
+  rd.readAsText(f);
+}
+function resetAll(){
+  if(!confirm("¿Seguro que quieres borrar TODO el progreso guardado?")) return;
+  try{ localStorage.removeItem(SAVE_KEY); }catch(e){}
+  location.reload();
+}
+
+/* week headers */
+function buildWeekHeaders(){
+  WEEKS.forEach((t,i)=>{
+    const el = document.getElementById("week"+(i+1));
+    if(el) el.insertAdjacentHTML("afterbegin", `<div class="week-head"><h3>📌 ${t}</h3><div class="wbar"><i></i></div></div>`);
+  });
+}
+
+/* init */
+document.addEventListener("DOMContentLoaded", ()=>{
+  buildWeekHeaders();
+  load();
+  render();
+  document.getElementById("footDate").textContent = new Date().toLocaleDateString("es-CR",{day:"numeric",month:"long",year:"numeric"});
+});
+
+/* ===== CANDADO PRIVADO ===== */
+(function(){
+  const HASH = "eaed56d6", SALT = "|jarvis";
+  function djb2(s){ let h=5381; for(let i=0;i<s.length;i++){ h=((h<<5)+h+s.charCodeAt(i))>>>0; } return h.toString(16); }
+  try{ if(localStorage.getItem("plan_ok")==="1") return; }catch(e){}
+  const ls = document.createElement("div");
+  ls.id = "lockScreen";
+  ls.innerHTML = '<div class="box">' +
+    '<div style="font-size:46px;line-height:1">🔒</div>' +
+    '<h2 style="margin:10px 0 4px;color:#0f172a;font-size:20px">Plan privado</h2>' +
+    '<p style="margin:0 0 16px;color:#64748b;font-size:13.5px;line-height:1.4">Esta página es personal de José Andrés.<br/>Ingresá la contraseña para continuar.</p>' +
+    '<input type="password" placeholder="Contraseña" autocomplete="off" style="width:100%;padding:12px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:16px;outline:none;box-sizing:border-box;text-align:center;font-weight:600"/>' +
+    '<button style="width:100%;margin-top:10px;padding:12px;background:#4f46e5;color:#fff;border:0;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer">Entrar</button>' +
+    '<p style="margin:10px 0 0;color:#dc2626;font-size:12.5px;font-weight:700;display:none">Contraseña incorrecta</p>' +
+    '</div>';
+  document.body.appendChild(ls);
+  document.body.style.overflow = "hidden";
+  const inp = ls.querySelector("input"), btn = ls.querySelector("button"), err = ls.querySelector("p:last-of-type");
+  function tryUnlock(){
+    if(djb2(inp.value + SALT) === HASH){
+      try{ localStorage.setItem("plan_ok","1"); }catch(e){}
+      ls.remove(); document.body.style.overflow = "";
+    } else {
+      ls.classList.add("shake"); err.style.display = "block"; inp.value = ""; inp.focus();
+      setTimeout(()=>ls.classList.remove("shake"), 450);
+    }
+  }
+  btn.onclick = tryUnlock;
+  inp.addEventListener("keydown", e=>{ if(e.key==="Enter") tryUnlock(); });
+  inp.focus();
+})();
+
+</script>
+</body>
+</html>
