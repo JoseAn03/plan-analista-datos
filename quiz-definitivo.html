@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎯 Cuestionario Definitivo — Analista de Soporte</title>
+<style>
+  :root { --azul:#0d2b45; --azul2:#17456e; --accent:#2c6e9c; --ok:#2e7d32; --bad:#c62828; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI', Helvetica, Arial, sans-serif; background:#eef2f7; color:#1a1a1a; line-height:1.5; padding-bottom:40px; }
+  header { background:linear-gradient(135deg,#0d2b45,#2c6e9c); color:#fff; padding:22px 16px 18px; text-align:center; }
+  header h1 { font-size:20px; margin-bottom:4px; }
+  header p { font-size:13px; opacity:.85; }
+  .best { display:inline-block; margin-top:8px; background:rgba(255,255,255,.15); border-radius:20px; padding:4px 14px; font-size:13px; font-weight:600; }
+  .wrap { max-width:640px; margin:0 auto; padding:16px; }
+  .card { background:#fff; border-radius:14px; box-shadow:0 2px 10px rgba(13,43,69,.12); padding:18px; margin-bottom:14px; }
+  .progress { height:8px; background:#dbe4ee; border-radius:6px; overflow:hidden; margin-bottom:12px; }
+  .progress div { height:100%; background:linear-gradient(90deg,#2c6e9c,#4a9bc9); transition:width .3s; }
+  .meta { display:flex; justify-content:space-between; font-size:12px; color:#5a6b7c; margin-bottom:10px; font-weight:600; }
+  .q { font-size:16px; font-weight:700; color:var(--azul); margin-bottom:12px; }
+  .opt { display:block; width:100%; text-align:left; background:#f4f7fb; border:2px solid #dbe4ee; border-radius:10px; padding:12px 14px; margin-bottom:8px; font-size:14px; cursor:pointer; transition:.15s; font-family:inherit; color:#1a1a1a; }
+  .opt:hover { border-color:var(--accent); background:#eaf2f9; }
+  .opt.correct { border-color:var(--ok); background:#e8f5e9; font-weight:700; }
+  .opt.wrong { border-color:var(--bad); background:#ffebee; }
+  .opt:disabled { cursor:default; opacity:.9; }
+  .expl { display:none; border-radius:10px; padding:12px 14px; margin-top:8px; font-size:14px; }
+  .expl.show { display:block; }
+  .expl.good { background:#e8f5e9; border-left:4px solid var(--ok); }
+  .expl.bad { background:#ffebee; border-left:4px solid var(--bad); }
+  .expl p { margin-bottom:4px; }
+  .btn { display:inline-block; background:var(--azul2); color:#fff; border:none; border-radius:10px; padding:12px 26px; font-size:15px; font-weight:700; cursor:pointer; margin-top:12px; }
+  .btn:hover { background:var(--azul); }
+  .btn:disabled { opacity:.4; cursor:default; }
+  .score-big { font-size:52px; font-weight:800; text-align:center; color:var(--azul); }
+  .grade { text-align:center; font-size:20px; font-weight:700; margin-bottom:6px; }
+  .verdict { text-align:center; font-size:14px; color:#5a6b7c; margin-bottom:14px; }
+  .secbar { margin-bottom:10px; }
+  .secbar .row { display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:3px; }
+  .secbar .track { height:7px; background:#dbe4ee; border-radius:5px; overflow:hidden; }
+  .secbar .track div { height:100%; background:var(--accent); }
+  .mistake { background:#fdf3e7; border-left:4px solid #e69138; border-radius:8px; padding:10px 12px; margin-bottom:8px; font-size:13px; }
+  .mistake b { color:var(--bad); }
+  .center { text-align:center; }
+  .small { font-size:12px; color:#5a6b7c; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎯 Cuestionario Definitivo — Analista de Soporte</h1>
+  <p>52 preguntas · examen final · respuesta inmediata + nota por sección</p>
+  <div class="best" id="bestBox">Mejor nota: —</div>
+</header>
+
+<div class="wrap">
+  <div class="card" id="quizCard">
+    <div class="progress"><div id="pbar" style="width:0%"></div></div>
+    <div class="meta"><span id="secLabel">—</span><span id="counter">1 / 52</span></div>
+    <div class="q" id="qText"></div>
+    <div id="opts"></div>
+    <div class="expl" id="expl"></div>
+    <div class="center"><button class="btn" id="nextBtn" disabled onclick="next()">Siguiente →</button></div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <div class="center">
+      <div class="score-big" id="scoreNum">0</div>
+      <div class="grade" id="gradeLabel">—</div>
+      <div class="verdict" id="verdict">—</div>
+    </div>
+    <div id="secResults"></div>
+    <div id="mistakes"></div>
+    <div class="center">
+      <button class="btn" onclick="restart()">🔄 Reintentar</button>
+    </div>
+    <p class="center small" style="margin-top:10px">Tip: repasá las que fallaste y volvé a intentar hasta llegar a 90+. La entrevista se gana con fluidez, no con memorización.</p>
+  </div>
+</div>
+
+<script>
+const QS = [
+{s:"📥 Recepción de solicitudes", q:"En tu trabajo actual (Grupo ANC), ¿cómo recibís las solicitudes de verdad?", o:["Solo por WhatsApp","Por correo electrónico y de forma directa en la operación (mostrador/teléfono, 24/7)","Solo por teléfono fijo","Por un sistema formal de tickets"], a:1, e:"Correo + directo en la operación. Esa es la verdad y suena genuina: es el 'canal de entrada' del ticket."},
+{s:"📥 Recepción de solicitudes", q:"¿Dónde procesás y das seguimiento a las solicitudes en ANC?", o:["En hojas de control / Excel con trazabilidad (500+ reservas diarias)","En un CRM de tickets","En papel","No se registran"], a:0, e:"Hojas de control con trazabilidad: eso es tu 'cola de tickets' de hoy. Registro, seguimiento y cierre en Excel."},
+{s:"📥 Recepción de solicitudes", q:"En Grupo Dokka (call center), ¿qué herramienta usabas para registrar y dar seguimiento a los casos?", o:["Solo Excel sin estructura","Un CRM: registro, priorización y cierre de casos","ServiceNow","Jira"], a:1, e:"CRM. Ahí conocés el flujo completo de casos: registro, priorización, seguimiento y cierre."},
+{s:"📥 Recepción de solicitudes", q:"¿Cómo conectás tu experiencia de hoy con Jira o ServiceNow?", o:["Son herramientas distintas, no tienen relación","El flujo es el mismo: registro, clasificación, priorización y cierre; solo cambia la herramienta. Yo ya domino ese flujo","Las usé por años en ANC","No sabría conectar los conceptos"], a:1, e:"Esa es tu frase estrella: el concepto es el mismo, cambia la herramienta. Y eso es 100% real."},
+{s:"📥 Recepción de solicitudes", q:"¿Qué información pedís SIEMPRE al recibir una solicitud?", o:["Solo el nombre del usuario","Qué pasa, desde cuándo, a quién afecta y capturas / pasos para reproducir","El cargo del usuario","Nada, resuelvo directo"], a:1, e:"Información completa para resolver sin ir y venir. Si falta, el ticket se devuelve al solicitante."},
+{s:"📥 Recepción de solicitudes", q:"¿Cuál es la respuesta completa para '¿cómo recibís y registrás las solicitudes?'", o:["Solo recibo correos y ya","Recibo por correo y directo en la operación, registro en hojas de control con trazabilidad (500+ reservas/día), y en Dokka usaba CRM; el concepto es el mismo que Jira o ServiceNow","Trabajé con Jira 5 años","Prefiero no hablar de eso"], a:1, e:"Esa frase lista conecta todo: recepción real, registro real, CRM real y el puente hacia Jira/ServiceNow."},
+{s:"🪪 El puesto", q:"¿Cuál es el rol principal del puesto de Analista de Soporte?", o:["Construir dashboards de Power BI","Ser el primer punto de contacto de las solicitudes de soporte entrantes","Gestionar redes sociales","Hacer auditorías de datos"], a:1, e:"Puerta de entrada de todos los tickets: portal de operaciones, reportes KPI, BI, accesos y nuevas funcionalidades."},
+{s:"🪪 El puesto", q:"¿Por qué es crítico procesar los incidentes con prontitud?", o:["Porque los clientes se enojan rápido","Los retrasos afectan la toma de decisiones informada y la adopción de herramientas","Porque el gerente lo pide","Para cumplir horario"], a:1, e:"Tu trabajo protege que la gente decida con datos buenos. Esa es la frase que transmite madurez."},
+{s:"🪪 El puesto", q:"¿Cuáles son los tipos de tickets que atiende este puesto?", o:["Solo reportes de ventas","Plataformas, informes de KPI, herramientas de BI, gestión de acceso y nuevas funcionalidades","Solo problemas de hardware","Únicamente vacaciones"], a:1, e:"Los 5 tipos: plataformas, KPI, BI, accesos y nuevas funcionalidades."},
+{s:"🪪 El puesto", q:"¿Qué hay que asegurar al recibir un ticket?", o:["Responder rapidísimo sin preguntar","Recopilar información completa del solicitante","Cerrarlo de inmediato","Reenviarlo al primer correo"], a:1, e:"Información completa (qué, desde cuándo, a quién afecta, capturas) para resolver sin ir y venir."},
+{s:"🔄 Ciclo del ticket", q:"¿Cuál es el orden correcto del ciclo de vida de un ticket?", o:["Clasificación → Recepción → Cierre → Resolución","Recepción → Clasificación → Priorización → Asignación → Resolución → Comunicación → Cierre","Priorización → Recepción → Asignación → Clasificación","Recepción → Cierre → Documentación → Escalamiento"], a:1, e:"Los 7 pasos (ITIL): recepción, clasificación, priorización, asignación, resolución, comunicación y cierre."},
+{s:"🔄 Ciclo del ticket", q:"¿Qué determina la prioridad de un ticket?", o:["El orden de llegada","El nombre del solicitante","El impacto × la urgencia","La antigüedad del usuario"], a:2, e:"Impacto × urgencia → P1/P2/P3/P4. Nunca por orden de llegada."},
+{s:"🔄 Ciclo del ticket", q:"Un dashboard de KPI está caído y un gerente lo necesita para una reunión en 1 hora. ¿Qué prioridad le das?", o:["P4 — se agenda para la próxima semana","P3 — se atiende en el día","P2 — se atiende en 8 horas","P1 — crítica, respuesta inmediata"], a:3, e:"Bloquea una decisión gerencial: P1, respuesta inmediata. Impacto alto + urgencia alta."},
+{s:"🔄 Ciclo del ticket", q:"Una solicitud de nueva funcionalidad ('¿se puede agregar un filtro por región?') ¿cómo se prioriza?", o:["P1 crítica","P2 alta","P3 media","P4 baja — planificada / backlog"], a:3, e:"Mejoras y funcionalidades nuevas son P4: van al backlog con expectativas claras."},
+{s:"🔄 Ciclo del ticket", q:"¿Cuál es la diferencia entre un incidente y una solicitud?", o:["Son lo mismo","Incidente = algo está roto; solicitud = se pide algo nuevo (acceso, funcionalidad)","Incidente = correo; solicitud = teléfono","Incidente = interno; solicitud = externo"], a:1, e:"Incidente: restaurar el servicio. Solicitud: cumplir un pedido según proceso/catálogo."},
+{s:"🔄 Ciclo del ticket", q:"Un ticket P2 tiene impacto significativo sin workaround. ¿Cuál es su tiempo objetivo típico?", o:["Respuesta en ~2 horas hábiles","Respuesta en minutos","Respuesta la próxima semana","No tiene tiempo"], a:0, e:"P1 inmediato · P2 ~2h · P3 ~8h/día hábil · P4 backlog. Memorizá la matriz."},
+{s:"🔄 Ciclo del ticket", q:"¿Cuándo se escala un ticket y cómo se hace?", o:["Cuando me da pereza resolverlo","Nunca se escala","Cuando vence el tiempo, requiere nivel 2/3 o crece el impacto — SIEMPRE con contexto","Solo si el usuario es gerente"], a:2, e:"Escalar con contexto: qué se probó, qué se encontró, qué necesita el siguiente nivel."},
+{s:"🔄 Ciclo del ticket", q:"¿Cuál es la 'regla de oro' al priorizar tickets?", o:["Primero el que llegó primero","Por impacto y urgencia, no por orden de llegada; y siempre comunico el estatus","El que grite más fuerte","Al azar"], a:1, e:"Un P4 puede esperar, un P1 es inmediato. Y un usuario informado es un usuario tranquilo."},
+{s:"🟢 Jira", q:"¿Qué es Jira?", o:["Una base de datos","Una herramienta de seguimiento de trabajo e incidencias (de Atlassian)","Un lenguaje de programación","Un antivirus"], a:1, e:"Jira gestiona issues con tableros, prioridades y workflows. Nació para software, hoy la usa todo equipo."},
+{s:"🟢 Jira", q:"En Jira, ¿cómo se llama un ticket o tarea y qué tipos existen?", o:["Post — tipos: Foto, Video, Texto","Issue — tipos: Bug, Task, Story, Epic","Card — tipos: Roja, Azul, Verde","Slide — tipos: A, B, C"], a:1, e:"El issue es el elemento central. Bug (roto), Task (tarea), Story (funcionalidad), Epic (grupo grande)."},
+{s:"🟢 Jira", q:"¿Cuál es la diferencia entre un tablero Kanban y uno Scrum?", o:["Kanban = flujo continuo con columnas (To Do → In Progress → Done); Scrum = sprints por ciclos","Kanban = sprints; Scrum = flujo continuo","Son lo mismo","Kanban = reportes; Scrum = gráficos"], a:0, e:"Kanban visualiza el flujo continuo; Scrum planifica por ciclos (sprints)."},
+{s:"🟢 Jira", q:"¿Qué es el workflow en Jira?", o:["El horario del equipo","Los estados y las transiciones de un issue (Abierto → En progreso → En revisión → Cerrado)","El logo de la empresa","La contraseña del sistema"], a:1, e:"El workflow define por dónde pasa el ticket y quién lo mueve. Concepto clave de soporte."},
+{s:"🔵 ServiceNow", q:"¿Qué es ServiceNow?", o:["Un juego de mesa","Una plataforma de ITSM (IT Service Management) para la mesa de servicio empresarial","Un editor de fotos","Una red social"], a:1, e:"Gestiona incidentes, solicitudes, cambios y SLAs en empresas grandes."},
+{s:"🔵 ServiceNow", q:"¿Qué módulo de ServiceNow registra y atiende incidentes con formularios estructurados?", o:["Incident Management","Service Catalog","CMDB","Knowledge Base"], a:0, e:"Incident Management: categoría, impacto y urgencia → prioridad automática. Service Catalog es para solicitudes estandarizadas."},
+{s:"🔵 ServiceNow", q:"¿Qué mide y alerta los tiempos comprometidos de atención en ServiceNow?", o:["La memoria del servidor","El módulo de nómina","Los SLAs automáticos","El historial de chat"], a:2, e:"Los SLAs miden respuesta (ej: 30 min) y resolución (ej: 4 h) y alertan automáticamente."},
+{s:"🔵 ServiceNow", q:"¿Para qué sirve la Knowledge Base (KB) en soporte?", o:["Para guardar contraseñas","Para consultar soluciones ya documentadas y resolver más rápido","Para enviar correos masivos","Para calcular salarios"], a:1, e:"La KB es la primera parada: si la solución ya existe, no se reinicia el problema. Y al cerrar un ticket, documentás para la KB."},
+{s:"🔵 ServiceNow", q:"Te preguntan '¿Has usado Jira o ServiceNow?'. ¿Cuál es la respuesta honesta y segura?", o:["'Sí, soy experto' (aunque no sea cierto)","'No, y no sé nada de tickets'","No los he usado directamente, pero trabajo a diario con sistemas de tickets y CRM y conozco el flujo completo; a nivel conceptual conozco Jira y ServiceNow (issues, tableros, SLAs, KB) y me adapto en la primera semana","'Pregúntele a otro'"], a:2, e:"Honestidad + flujo que sí dominás + velocidad de aprendizaje. Nunca un 'sí' falso que se cae en la prueba técnica."},
+{s:"🟠 Power BI", q:"¿Con qué lenguaje se crean las medidas en Power BI?", o:["SQL","Python","DAX","Java"], a:2, e:"DAX: SUM, CALCULATE, TOTALYTD... Las medidas son los cálculos del dashboard."},
+{s:"🟠 Power BI", q:"Un usuario dice 'el reporte está desactualizado'. ¿Qué revisás primero?", o:["El cable de red","El refresh (actualización programada) de los datos","El color del dashboard","El antivirus"], a:1, e:"Los datos se actualizan en horarios. Reporte viejo = problema de refresh o del pipeline."},
+{s:"🟠 Power BI", q:"¿Cómo se gestiona el acceso a un dashboard en Power BI?", o:["Con roles de workspace y RLS (Row-Level Security)","Con contraseñas en un Excel","Nadie puede ver dashboards","Solo el gerente decide"], a:0, e:"Roles (Viewer/Contributor/Admin) + RLS para limitar filas por usuario. 'La medida da mal' o 'no veo mis datos' = tickets típicos."},
+{s:"🟠 Power BI", q:"¿Qué es Power Query en Power BI?", o:["Un lenguaje para crear medidas","La herramienta para extraer y transformar datos antes de cargarlos","Un conector de impresoras","Un tema de color"], a:1, e:"Power Query hace la E y la T del ETL: extraer y transformar antes de cargar."},
+{s:"🟠 Tableau", q:"En Tableau, ¿cuál es la diferencia entre una dimensión y una medida?", o:["No hay diferencia","Dimensión = dato numérico; medida = texto","Dimensión = categoría/texto (ej: región); medida = número (ej: ingresos)","Dimensión = tabla; medida = gráfico"], a:2, e:"Dimensiones agrupan (texto/categoría), medidas se calculan (números). Clásica en entrevistas."},
+{s:"🟠 Power BI", q:"¿En qué es más fuerte Power BI que Tableau?", o:["En visualización libre","En reporting corporativo integrado con el ecosistema Microsoft/Excel y DAX","En animaciones 3D","En edición de video"], a:1, e:"Power BI brilla en reporting corporativo; Tableau en exploración visual libre. Son complementarios."},
+{s:"🟠 Power BI", q:"TU dashboard real: ¿qué números tenés que decir SIEMPRE?", o:["5 medidas y un modelo simple","10 medidas sin modelo","30+ medidas DAX, modelo Star Schema, 4,600+ reservas, usado a diario por la gerencia","100 medidas pero nadie lo usa"], a:2, e:"Tus números: 30+ medidas DAX, Star Schema, 4,600+ reservas. 'Si un ticket de Power BI llega, yo entiendo el DAX, el refresh y los permisos.'"},
+{s:"🟠 Power BI", q:"'Power BI o Tableau, ¿cuál preferís y por qué?' — tu respuesta:", o:["Power BI, porque es mi fuerte: 30+ medidas DAX en producción, usado por gerencia; Tableau lo conozco para exploración visual","Tableau, aunque nunca lo usé","Ninguno, odio los datos","Power BI, porque es más barato"], a:0, e:"Preferencia con argumento real: mi fuerte + producción + complementariedad. Sin inventar experiencia."},
+{s:"📊 Conceptos", q:"¿Qué es un KPI?", o:["Un virus informático","Una métrica ligada a un objetivo de negocio","Un tipo de ticket","Un lenguaje de programación"], a:1, e:"Indicador Clave de Rendimiento. Tus ejemplos: No-Show rate, satisfacción, ADR."},
+{s:"📊 Conceptos", q:"¿Qué es un SLA?", o:["El acuerdo de nivel de servicio: tiempos comprometidos de respuesta y resolución","Una base de datos","Un tipo de gráfico","Una encuesta"], a:0, e:"La promesa medible: responder en X, resolver en Y. Tu trabajo es cumplirlo y avisar si no se va a poder."},
+{s:"📊 Conceptos", q:"¿Qué es un workaround?", o:["Una solución temporal mientras se corrige la causa raíz","Un reporte semanal","Un permiso de acceso","Un error crítico"], a:0, e:"Dejás funcionando un workaround y seguís con la causa raíz. Nunca te quedás sin alternativa."},
+{s:"📊 Conceptos", q:"¿Qué significa ETL?", o:["Extraer, Transformar, Cargar — el pipeline que alimenta los dashboards","Editar, Traducir, Limpiar","Enviar, Transferir, Leer","Evaluar, Testear, Lanzar"], a:0, e:"Construiste pipelines ETL con Python y n8n: sabés de dónde vienen los datos que un reporte muestra."},
+{s:"📊 Conceptos", q:"¿Qué es el escalamiento y cuál es su regla?", o:["Subir el ticket a nivel 2/3 SIEMPRE con contexto: qué se probó, qué se encontró, qué necesita el siguiente nivel","Devolver el ticket al usuario","Cerrarlo sin resolver","Esperar a que se resuelva solo"], a:0, e:"Escalar con contexto completo. Sin contexto, el nivel 2 pierde tiempo — y el usuario nota el retraso."},
+{s:"📊 Conceptos", q:"¿Cómo se da el acceso a un sistema o dashboard?", o:["A todo el mundo, para que no reclamen","Según el rol y mínimo privilegio, con revisión periódica; un permiso mal dado es un riesgo","Según quien lo pida primero","Nunca se da acceso"], a:1, e:"Gestión de acceso: dar/revocar según necesidad del rol y revisar periódicamente."},
+{s:"🎯 Escenarios", q:"Un usuario llega molesto porque su reporte no funciona. ¿Qué hacés primero?", o:["Le digo que espere su turno","Escucho, reconozco la frustración, separo la persona del problema y doy un plan claro con tiempos","Le explico que no es mi culpa","Cierro el ticket"], a:1, e:"Escucha activa + reconocer + plan claro. Con clientes internacionales aprendiste que el tono resuelve la mitad del conflicto."},
+{s:"🎯 Escenarios", q:"No sabés cómo resolver un ticket. ¿Qué hacés?", o:["Invento una solución","Lo dejo sin responder","Reviso la knowledge base y tickets similares; si no, escalo con contexto y comunico el estatus","Lo cierro como resuelto"], a:2, e:"KB primero, escalar con contexto, nunca inventar ni dejar de comunicar."},
+{s:"🎯 Escenarios", q:"Llegan 10 tickets a la vez. ¿Cómo priorizás?", o:["Por orden de llegada","Por impacto y urgencia: P1/P2 primero, mejoras al final; y comunico estatus a todos","Por el que grite más fuerte","Al azar"], a:1, e:"Impacto y urgencia, no orden de llegada. Todos saben que su ticket está recibido con expectativa realista."},
+{s:"🎯 Escenarios", q:"'¿Por qué este puesto si vos sos analista de datos?' — tu respuesta:", o:["Porque no encontré nada mejor","Porque es el punto de contacto entre las personas y los datos: entiendo los reportes Y atiendo gente; es el primer filtro del ciclo de datos — quien entiende el ticket, entiende el negocio","Porque paga bien","No lo había pensado"], a:1, e:"Tu respuesta estrella: puente entre datos y personas. No es un paso atrás, es la puerta de entrada al ciclo de datos."},
+{s:"🎯 Escenarios", q:"'¿Dónde te ves en 2 años?' — tu respuesta:", o:["En otro país","No lo he pensado","En el mismo puesto sin cambios","Dominando el soporte de las herramientas de datos y creciendo hacia un rol donde ayude a mejorarlas: automatizar lo repetitivo, mejores reportes, mejor knowledge base"], a:3, e:"Tu historial dice que automatizás lo repetitivo: eso mismo harías con el soporte. Ambición con dirección."},
+{s:"🎯 Escenarios", q:"'¿Por qué te interesa esta empresa / este puesto?' — tu respuesta:", o:["Porque toca datos y servicio (lo que más me motiva), la modalidad híbrida en Heredia me queda (vivo en Santa Bárbara) y quiero crecer de atender tickets a construir herramientas","Porque paga bien","Porque no encontré otra cosa","Porque me dijeron que viniera"], a:0, e:"Tres razones reales: motivación, logística (híbrido Heredia) y crecimiento. Eso demuestra que ya decidiste."},
+{s:"💪 Tus números", q:"¿Cuántas reservas procesás a diario en ANC?", o:["500+ reservas diarias","50 reservas diarias","10 reservas diarias","No llevo números"], a:0, e:"500+ reservas/día. Es tu carta de volumen operativo: 'más tickets que cualquiera, solo que en Excel'."},
+{s:"💪 Tus números", q:"¿Cuál fue el resultado de tu automatización de reportes?", o:["Nada cambió","De 2 horas a 15 minutos por reporte (87.5% menos) y 10+ horas semanales recuperadas","De 15 minutos a 2 horas","Perdí los datos"], a:1, e:"2h → 15min y 10+ horas/semana al equipo. El número más poderoso de tu CV."},
+{s:"💪 Tus números", q:"Historia STAR 1 (automatización): ¿cuál fue tu ACCIÓN?", o:["Nada, seguí como estaba","Le pedí a otro que lo hiciera","Construí pipelines en Python (pandas, openpyxl), macros VBA, flujos n8n y un dashboard Power BI con 30+ medidas DAX y modelo Star Schema","Compré un software"], a:2, e:"S: reportes a mano (2h). T: automatizar 500+ reservas/día. A: Python + VBA + n8n + Power BI. R: 2h→15min, 10+ hrs."},
+{s:"💪 Tus números", q:"Historia STAR 2 (servicio bilingüe): ¿cuál fue tu RESULTADO?", o:["Perdí clientes","Satisfacción sostenida por encima del 95% con clientes internacionales atendidos en inglés","Cerré el call center","No medí nada"], a:1, e:"Operación 24/7, clientes internacionales, inglés diario. Resultado: satisfacción >95% y clientes que volvían."},
+{s:"💪 Tus números", q:"Historia STAR 3 (Grupo Dokka): ¿qué analizaste para mejorar la conversión?", o:["50+ interacciones diarias y métricas de CRM; identifiqué patrones por horario y guiones de alto rendimiento","Los precios de la competencia","Las vacaciones del equipo","Nada, fue intuición"], a:0, e:"Análisis de 50+ interacciones/día + CRM → patrones → superaste KPIs de conversión, tiempo de gestión y satisfacción."},
+{s:"💪 Tus números", q:"Historia STAR 4 (No-Shows): ¿qué logró tu dashboard?", o:["Nadie lo usó","Fue adoptado como herramienta diaria y ayudó a reducir No-Shows ~3% con decisiones basadas en datos","Se borró solo","Solo lo vio mi mamá"], a:1, e:"S: gerencia sin visibilidad. A: Star Schema + medidas DAX de No-Show e ingresos. R: herramienta diaria, -3% No-Shows."},
+{s:"💪 Tus números", q:"Tu cierre de entrevista en una frase:", o:["'Bueno, gracias, adiós'","'Agradezco el tiempo. Este puesto combina entender los datos y atender personas; puedo aportar desde el primer día en gestión de tickets y entiendo rápido las incidencias que lleguen. ¿Cuáles son los siguientes pasos?'","'¿Cuánto pagan?'","'Ya me voy, ¿sí?'"], a:1, e:"Cierre con valor + pregunta de seguimiento. Terminás vos al mando, no en falso."}
+];
+
+let i=0, score=0, done=[], answered=false;
+
+function render(){
+  const q=QS[i];
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('secLabel').textContent=q.s;
+  document.getElementById('counter').textContent=(i+1)+' / '+QS.length;
+  document.getElementById('pbar').style.width=((i)/QS.length*100)+'%';
+  const box=document.getElementById('opts');
+  box.innerHTML='';
+  q.o.forEach((opt,k)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=opt;
+    b.onclick=()=>pick(k,b);
+    box.appendChild(b);
+  });
+  const ex=document.getElementById('expl');
+  ex.className='expl'; ex.innerHTML='';
+  document.getElementById('nextBtn').disabled=true;
+  answered=false;
+}
+function pick(k,btn){
+  if(answered) return;
+  answered=true;
+  const q=QS[i], correct=k===q.a;
+  if(correct) score++;
+  done.push({s:q.s, q:q.q, ok:correct, yours:q.o[k], right:q.o[q.a], e:q.e});
+  document.querySelectorAll('.opt').forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===q.a) b.classList.add('correct');
+    if(idx===k && !correct) b.classList.add('wrong');
+  });
+  const ex=document.getElementById('expl');
+  ex.className='expl show '+(correct?'good':'bad');
+  ex.innerHTML='<p>'+(correct?'✅ <b>¡Correcto!</b>':'❌ <b>Incorrecto.</b> La respuesta correcta: <b>'+q.o[q.a]+'</b>')+'</p><p>'+q.e+'</p>';
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').textContent=(i===QS.length-1)?'Ver mi nota 🏁':'Siguiente →';
+}
+function next(){
+  i++;
+  if(i<QS.length){ render(); }
+  else { showResult(); }
+}
+function showResult(){
+  document.getElementById('quizCard').style.display='none';
+  document.getElementById('resultCard').style.display='block';
+  const pct=Math.round(score/QS.length*100);
+  document.getElementById('scoreNum').textContent=pct;
+  let grade, verdict;
+  if(pct>=90){ grade='🏆 ¡Excelente!'; verdict='Estás listo. Hoy entrás con fluidez y confianza.'; }
+  else if(pct>=75){ grade='🌟 Muy bien'; verdict='Sólido. Repasá las que fallaste y volvé a intentar para llegar a 90+.'; }
+  else if(pct>=60){ grade='👍 Aceptable'; verdict='Vas bien, pero repasá las secciones con errores y reintentá.'; }
+  else { grade='📚 Todavía no'; verdict='Repetí hasta sacar 90+. La entrevista se gana con fluidez.'; }
+  document.getElementById('gradeLabel').textContent=grade;
+  document.getElementById('verdict').textContent=verdict;
+  const secs={};
+  done.forEach(d=>{ (secs[d.s]=secs[d.s]||{ok:0,t:0}); secs[d.s].t++; if(d.ok) secs[d.s].ok++; });
+  let sr='<h3 style="margin:12px 0 8px;font-size:15px;color:#0d2b45">Resultado por sección</h3>';
+  for(const s in secs){
+    const p=Math.round(secs[s].ok/secs[s].t*100);
+    sr+='<div class="secbar"><div class="row"><span>'+s+'</span><span>'+secs[s].ok+'/'+secs[s].t+' ('+p+'%)</span></div><div class="track"><div style="width:'+p+'%"></div></div></div>';
+  }
+  document.getElementById('secResults').innerHTML=sr;
+  const errs=done.filter(d=>!d.ok);
+  let m='';
+  if(errs.length){
+    m='<h3 style="margin:12px 0 8px;font-size:15px;color:#0d2b45">Repasá estas '+(errs.length>1?'preguntas':'pregunta')+'</h3>';
+    errs.forEach(e=>{ m+='<div class="mistake"><b>'+e.q+'</b><br>Tu respuesta: '+e.yours+'<br>✅ Correcta: '+e.right+'<br><span style="color:#5a6b7c">'+e.e+'</span></div>'; });
+  } else {
+    m='<div class="card" style="background:#e8f5e9;border-left:4px solid #2e7d32;border-radius:8px;padding:12px"><b>🎯 Perfecto: cero errores.</b> Hoy entrás y la rompés. Confianza total.</div>';
+  }
+  document.getElementById('mistakes').innerHTML=m;
+  const best=localStorage.getItem('quizDefinitivoBest')||0;
+  if(pct>best){ localStorage.setItem('quizDefinitivoBest',pct); }
+  document.getElementById('bestBox').textContent='Mejor nota: '+Math.max(best,pct)+' / 100';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  i=0; score=0; done=[];
+  document.getElementById('resultCard').style.display='none';
+  document.getElementById('quizCard').style.display='block';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+const best=localStorage.getItem('quizDefinitivoBest');
+if(best) document.getElementById('bestBox').textContent='Mejor nota: '+best+' / 100';
+render();
+</script>
+</body>
+</html>
