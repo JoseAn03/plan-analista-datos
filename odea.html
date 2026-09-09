@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  ODEA: Operación Dominio de Datos e IA
+  ODEA v2: Operación Dominio de Datos e IA — PLAN MAESTRO 42 DÍAS
   ------------------------------------------------------------
   INSTRUCCIONES DE USO:
-  1. Abre este archivo en cualquier navegador moderno (Chrome,
-     Edge, Firefox, Safari). No requiere internet ni servidor:
-     funciona 100% offline (las fuentes Google Fonts se cargan
-     si hay internet y si no, se usan fuentes alternativas).
-  2. En la primera pantalla escribe tu nombre de recluta.
-  3. Marca las misiones que vayas completando. El progreso se
-     guarda automáticamente en localStorage de tu navegador.
-  4. Para empezar de cero: botón "Reiniciar progreso" abajo.
+  1. Abre este archivo en cualquier navegador moderno. Funciona
+     100% offline (Google Fonts solo si hay internet; si no, se
+     usan fuentes alternativas del sistema).
+  2. En la primera pantalla escribe tu nombre de recluta. El
+     Día 1 de tu campaña arranca ese mismo día.
+  3. Cada día se desbloquea UNA MISIÓN DIARIA nueva. Completa la
+     de hoy para mantener tu RACHA 🔥 (y puedes recuperar días
+     atrasados cuando quieras).
+  4. Cada semana tiene UNA MISIÓN SEMANAL especial.
+  5. Todo se guarda automáticamente en localStorage.
+  6. Botón "Reiniciar progreso" (abajo a la izquierda) para
+     empezar de cero.
   ------------------------------------------------------------
-  CÓDIGO: 100% vanilla JS, sin frameworks. Secciones:
-    A) CSS / Diseño
-    B) HTML / Estructura
-    C) JS / Datos (niveles, capítulos, misiones, logros)
-    D) JS / Estado y persistencia
-    E) JS / Render de interfaz
-    F) JS / Efectos (toasts, level-up, partículas, radar)
-  Comentado en español. ¡Que empiece la operación!
+  ESTRUCTURA DEL CÓDIGO:
+    A) CSS / Diseño           B) HTML / Estructura
+    C) JS / Datos             D) JS / Estado y persistencia
+    E) JS / Render            F) JS / Efectos
+    G) JS / Eventos e init
+  Comentado en español.
 ============================================================ -->
 <html lang="es">
 <head>
@@ -31,37 +33,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================
-   A) CSS / DISEÑO — Cyberpunk neón sobre fondo oscuro
+   A) CSS / DISEÑO — Cyberpunk neón
    ========================================================== */
 :root{
-  --bg:#0a0a1a;          /* fondo principal */
-  --bg2:#1a1a2e;         /* fondo secundario */
-  --tx:#e0e0ff;          /* texto principal */
-  --tx2:#a0a0c0;         /* texto secundario */
-  --glow-green:#00ff88;
-  --glow-cyan:#00ccff;
-  --glow-magenta:#ff00ff;
-  --glow-amber:#ffaa00;
-  --glow-orange:#ff6600;
-  --glow-red:#ff3355;
-  --danger:#ff3355;
-  --ok:#00ff88;
-  --radius:14px;
-  --border:1px solid rgba(160,160,192,.18);
-  --shadow-neon:0 0 18px rgba(0,255,136,.15);
+  --bg:#0a0a1a; --bg2:#1a1a2e; --tx:#e0e0ff; --tx2:#a0a0c0;
+  --glow-green:#00ff88; --glow-cyan:#00ccff; --glow-magenta:#ff00ff;
+  --glow-amber:#ffaa00; --glow-orange:#ff6600; --glow-red:#ff3355;
+  --danger:#ff3355; --ok:#00ff88;
+  --radius:14px; --border:1px solid rgba(160,160,192,.18);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--tx);
   font-family:'Share Tech Mono',Consolas,'Courier New',monospace;
-  min-height:100vh;overflow-x:hidden;
-  line-height:1.55;
+  min-height:100vh;overflow-x:hidden;line-height:1.55;
 }
-h1,h2,h3,.font-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:.5px}
+h1,h2,h3,.f-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:.5px}
 ::selection{background:rgba(0,255,136,.35);color:#fff}
-
-/* --- Grid de fondo animado sutil (canvas aparte + capa CSS) --- */
 #grid-layer{
   position:fixed;inset:0;z-index:-2;pointer-events:none;
   background-image:
@@ -74,297 +63,304 @@ h1,h2,h3,.font-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:
 }
 @keyframes gridPan{from{background-position:0 0,0 0}to{background-position:42px 0,42px 0}}
 #particles-canvas{position:fixed;inset:0;z-index:40;pointer-events:none}
-
-/* --- Scrollbar --- */
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:#2c2c52;border-radius:6px}
 ::-webkit-scrollbar-thumb:hover{background:#3d3d6e}
 
-/* --- Header fijo --- */
+/* --- Header --- */
 header{
-  position:sticky;top:0;z-index:30;
-  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-  padding:10px 20px;
-  background:rgba(10,10,26,.88);
-  backdrop-filter:blur(8px);
-  border-bottom:var(--border);
-  box-shadow:0 2px 24px rgba(0,0,0,.5);
+  position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:10px 20px;background:rgba(10,10,26,.9);backdrop-filter:blur(8px);
+  border-bottom:var(--border);box-shadow:0 2px 24px rgba(0,0,0,.5);
 }
-.logo{
-  font-family:'Orbitron',Verdana,sans-serif;font-weight:900;
-  font-size:1.5rem;letter-spacing:2px;
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:2px;
   color:#fff;text-shadow:0 0 12px var(--glow-green),0 0 30px rgba(0,255,136,.4);
-  cursor:pointer;user-select:none;
+  cursor:pointer;user-select:none;white-space:nowrap}
+.logo small{display:block;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--glow-green);letter-spacing:3px;font-weight:400}
+.hud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-left:auto;font-size:.95rem}
+.streak-chip{
+  font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--glow-amber);
+  border:1px solid rgba(255,170,0,.5);border-radius:99px;padding:5px 12px;background:rgba(255,170,0,.07);
+  box-shadow:0 0 14px rgba(255,170,0,.25);white-space:nowrap;cursor:default;
 }
-.logo small{display:block;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--glow-green);letter-spacing:3px;font-weight:400}
-.hud{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:.95rem}
-.hud .level-badge{
-  font-family:'Orbitron',sans-serif;font-weight:700;color:var(--glow-green);
+.streak-chip .flame{display:inline-block;animation:flameWiggle 1.2s ease-in-out infinite}
+@keyframes flameWiggle{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(10deg) scale(1.15)}}
+.level-badge{font-family:'Orbitron',sans-serif;font-weight:700;color:var(--glow-green);
   border:1px solid rgba(0,255,136,.5);border-radius:10px;padding:4px 12px;
-  text-shadow:0 0 8px rgba(0,255,136,.6);background:rgba(0,255,136,.06);
-  box-shadow:inset 0 0 12px rgba(0,255,136,.08);
-  white-space:nowrap;
-}
-.hud .xp-txt{color:var(--glow-cyan);text-shadow:0 0 8px rgba(0,204,255,.45);white-space:nowrap}
-.progress-wrap{min-width:220px;flex:1 1 220px}
-.progress-top{display:flex;justify-content:space-between;font-size:.8rem;color:var(--tx2);margin-bottom:4px}
-.bar{
-  height:14px;border-radius:99px;background:#12122a;border:1px solid rgba(160,160,192,.22);
-  overflow:hidden;position:relative;
-}
-.bar > span{
-  display:block;height:100%;width:0%;
-  background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan));
-  box-shadow:0 0 14px rgba(0,255,136,.55);
-  transition:width .6s cubic-bezier(.22,1,.36,1);
-  position:relative;
-}
-.bar > span::after{ /* brillo recorriendo la barra */
-  content:'';position:absolute;inset:0;
+  text-shadow:0 0 8px rgba(0,255,136,.6);background:rgba(0,255,136,.06);white-space:nowrap}
+.xp-txt{color:var(--glow-cyan);text-shadow:0 0 8px rgba(0,204,255,.45);white-space:nowrap}
+.progress-wrap{min-width:200px;flex:1 1 200px}
+.progress-top{display:flex;justify-content:space-between;font-size:.78rem;color:var(--tx2);margin-bottom:4px}
+.bar{height:14px;border-radius:99px;background:#12122a;border:1px solid rgba(160,160,192,.22);overflow:hidden;position:relative}
+.bar > span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan));
+  box-shadow:0 0 14px rgba(0,255,136,.55);transition:width .6s cubic-bezier(.22,1,.36,1);position:relative}
+.bar > span::after{content:'';position:absolute;inset:0;
   background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
-  animation:barShine 2.6s linear infinite;
-  width:60%;
-}
+  animation:barShine 2.6s linear infinite;width:60%}
 @keyframes barShine{from{transform:translateX(-100%)}to{transform:translateX(280%)}}
 
-/* --- Layout general --- */
-.layout{display:grid;grid-template-columns:300px 1fr;gap:18px;padding:18px;max-width:1400px;margin:0 auto;align-items:start}
-@media (max-width:900px){.layout{grid-template-columns:1fr}}
+/* --- Layout --- */
+.layout{display:grid;grid-template-columns:290px 1fr;gap:18px;padding:18px;max-width:1440px;margin:0 auto;align-items:start}
+@media (max-width:960px){.layout{grid-template-columns:1fr}}
 
-/* --- Panel lateral de estadísticas --- */
-aside.stats-panel{
-  background:var(--bg2);border:var(--border);border-radius:var(--radius);
-  padding:16px;position:sticky;top:92px;
-  box-shadow:0 0 24px rgba(0,0,0,.35);
+/* --- Pestañas --- */
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{
+  cursor:pointer;padding:10px 18px;border-radius:12px;border:1px solid rgba(160,160,192,.25);
+  background:rgba(26,26,46,.6);color:var(--tx2);font-family:'Orbitron',sans-serif;
+  font-size:.8rem;letter-spacing:1.5px;transition:.25s;user-select:none;
 }
-aside.stats-panel h3{
-  font-size:.9rem;color:var(--tx2);letter-spacing:2px;
-  border-bottom:1px dashed rgba(160,160,192,.25);padding-bottom:8px;margin-bottom:12px;
-  text-transform:uppercase;
+.tab-btn:hover{color:#fff;border-color:var(--glow-cyan)}
+.tab-btn.active{
+  color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
+  border-color:transparent;box-shadow:0 0 20px rgba(0,255,136,.35);font-weight:700;
 }
-.stat-block{margin-bottom:16px}
-.stat-block .stat-head{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:5px}
-.stat-block .stat-head b{font-family:'Orbitron',sans-serif;font-size:.8rem}
-.stat-ico{font-size:1.1rem;margin-right:6px}
-.bar.stat{height:11px}
-.bar.stat.green > span{background:linear-gradient(90deg,#00ff88,#00c9a7)}
-.bar.stat.magenta > span{background:linear-gradient(90deg,#ff00ff,#b026ff)}
-.bar.stat.amber > span{background:linear-gradient(90deg,#ffaa00,#ff6600)}
-.missions-count{
-  font-size:.85rem;color:var(--tx2);text-align:center;margin-top:4px;
-}
-.missions-count b{color:var(--tx);font-family:'Orbitron',sans-serif}
-.time-est{
-  background:rgba(0,204,255,.07);border:1px dashed rgba(0,204,255,.35);
-  border-radius:10px;padding:10px;font-size:.85rem;color:var(--glow-cyan);
-  text-align:center;margin-top:8px;
-}
+.view{display:none}
+.view.active{display:block;animation:fadeSlide .35s ease}
+.hidden{display:none!important}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* --- Panel lateral --- */
+aside.stats-panel{background:var(--bg2);border:var(--border);border-radius:var(--radius);
+  padding:16px;position:sticky;top:96px;box-shadow:0 0 24px rgba(0,0,0,.35)}
+aside.stats-panel h3{font-size:.85rem;color:var(--tx2);letter-spacing:2px;border-bottom:1px dashed rgba(160,160,192,.25);
+  padding-bottom:8px;margin-bottom:12px;text-transform:uppercase}
+.stat-block{margin-bottom:14px}
+.stat-block .stat-head{display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:5px}
+.stat-block .stat-head b{font-family:'Orbitron',sans-serif;font-size:.78rem}
+.stat-ico{margin-right:6px}
+.bar.stat{height:10px}
+.bar.stat.green>span{background:linear-gradient(90deg,#00ff88,#00c9a7)}
+.bar.stat.magenta>span{background:linear-gradient(90deg,#ff00ff,#b026ff)}
+.bar.stat.amber>span{background:linear-gradient(90deg,#ffaa00,#ff6600)}
+.chip-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0}
+.mini-chip{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.2);border-radius:10px;padding:8px 4px;text-align:center}
+.mini-chip .mc-num{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1.05rem;color:#fff;display:block}
+.mini-chip .mc-lab{font-size:.6rem;color:var(--tx2);letter-spacing:1px;text-transform:uppercase}
+.mini-chip.daily .mc-num{color:var(--glow-green)}
+.mini-chip.weekly .mc-num{color:var(--glow-magenta)}
+.mini-chip.camp .mc-num{color:var(--glow-cyan)}
+.time-est{background:rgba(0,204,255,.07);border:1px dashed rgba(0,204,255,.35);border-radius:10px;
+  padding:10px;font-size:.84rem;color:var(--glow-cyan);text-align:center;margin-top:8px}
 .radar-wrap{display:flex;justify-content:center;margin-top:6px}
-#radar-chart{max-width:100%;height:auto}
-.btn-reset{
-  width:100%;margin-top:14px;padding:9px;cursor:pointer;
-  background:transparent;color:var(--danger);
-  border:1px solid rgba(255,51,85,.45);border-radius:10px;
-  font-family:'Share Tech Mono',monospace;font-size:.85rem;letter-spacing:1px;
-  transition:.25s;
-}
+.ach-mini{font-size:.84rem;text-align:center;margin-top:8px;color:var(--glow-amber);cursor:pointer}
+.ach-mini:hover{text-decoration:underline}
+.btn-reset{width:100%;margin-top:14px;padding:9px;cursor:pointer;background:transparent;color:var(--danger);
+  border:1px solid rgba(255,51,85,.45);border-radius:10px;font-family:'Share Tech Mono',monospace;
+  font-size:.85rem;letter-spacing:1px;transition:.25s}
 .btn-reset:hover{background:rgba(255,51,85,.12);box-shadow:0 0 14px rgba(255,51,85,.25)}
 
-/* --- Área principal: capítulos --- */
-main{min-width:0}
-.chapter{
-  background:var(--bg2);border:var(--border);border-radius:var(--radius);
-  margin-bottom:18px;overflow:hidden;
-  box-shadow:0 0 24px rgba(0,0,0,.35);
-  transition:border-color .3s, box-shadow .3s;
-}
-.chapter-head{
-  display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
-  user-select:none;flex-wrap:wrap;
-  border-left:5px solid var(--ch-color);
-}
+/* --- Misiones campaña (capítulos) --- */
+.chapter{background:var(--bg2);border:var(--border);border-radius:var(--radius);margin-bottom:18px;
+  overflow:hidden;box-shadow:0 0 24px rgba(0,0,0,.35)}
+.chapter-head{display:flex;align-items:center;gap:14px;padding:15px 18px;cursor:pointer;user-select:none;
+  flex-wrap:wrap;border-left:5px solid var(--ch-color)}
 .chapter-head:hover{background:rgba(255,255,255,.025)}
-.chapter-ico{font-size:1.9rem;filter:drop-shadow(0 0 10px var(--ch-color))}
-.chapter-title{font-size:1.12rem;font-weight:700;color:#fff;letter-spacing:1px}
-.chapter-title small{display:block;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--ch-color);letter-spacing:2px;text-transform:uppercase}
+.chapter-ico{font-size:1.8rem;filter:drop-shadow(0 0 10px var(--ch-color))}
+.chapter-title{font-size:1.05rem;font-weight:700;color:#fff;letter-spacing:1px}
+.chapter-title small{display:block;font-family:'Share Tech Mono',monospace;font-size:.74rem;
+  color:var(--ch-color);letter-spacing:2px;text-transform:uppercase}
 .chapter-meta{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:.82rem;color:var(--tx2)}
-.chapter-meta .bar{width:120px;height:8px}
-.chapter-meta .bar > span{background:var(--ch-color);box-shadow:0 0 10px var(--ch-color)}
-.ch-chev{transition:transform .3s;color:var(--ch-color);font-size:1.1rem}
+.chapter-meta .bar{width:110px;height:8px}
+.chapter-meta .bar>span{background:var(--ch-color);box-shadow:0 0 10px var(--ch-color)}
+.ch-chev{transition:transform .3s;color:var(--ch-color)}
 .chapter.open .ch-chev{transform:rotate(90deg)}
 .chapter-body{display:none;padding:4px 18px 16px}
 .chapter.open .chapter-body{display:block;animation:fadeSlide .35s ease}
-@keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.ch-narrative{
-  border-left:3px solid var(--ch-color);background:rgba(255,255,255,.025);
-  padding:10px 14px;margin:12px 0 14px;border-radius:0 10px 10px 0;
-  color:var(--tx2);font-style:italic;font-size:.92rem;
-}
+.ch-narrative{border-left:3px solid var(--ch-color);background:rgba(255,255,255,.025);padding:10px 14px;
+  margin:12px 0 14px;border-radius:0 10px 10px 0;color:var(--tx2);font-style:italic;font-size:.9rem}
 .ch-narrative::before{content:'▸ ';color:var(--ch-color);font-style:normal}
-
-/* --- Misiones --- */
-.mission{
-  display:flex;gap:14px;align-items:flex-start;padding:13px 14px;
-  border:1px solid rgba(160,160,192,.13);border-radius:12px;margin-bottom:10px;
-  background:rgba(10,10,26,.35);
-  transition:transform .2s,border-color .25s,background .25s,box-shadow .25s;
-}
+.mission{display:flex;gap:13px;align-items:flex-start;padding:13px 14px;border:1px solid rgba(160,160,192,.13);
+  border-radius:12px;margin-bottom:10px;background:rgba(10,10,26,.35);
+  transition:transform .2s,border-color .25s,background .25s,box-shadow .25s}
 .mission:hover{transform:translateX(4px);border-color:rgba(160,160,192,.35)}
 .mission.done{background:rgba(0,255,136,.045);border-color:rgba(0,255,136,.35)}
-.m-check{
-  flex:0 0 auto;width:26px;height:26px;margin-top:2px;cursor:pointer;
-  border:2px solid rgba(160,160,192,.5);border-radius:8px;position:relative;
-  transition:.25s;background:transparent;
-}
+.m-check{flex:0 0 auto;width:25px;height:25px;margin-top:2px;cursor:pointer;border:2px solid rgba(160,160,192,.5);
+  border-radius:8px;position:relative;transition:.25s;background:transparent}
 .m-check:hover{border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,.35)}
-.mission.done .m-check{
-  background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
-  border-color:var(--glow-green);
-  box-shadow:0 0 16px rgba(0,255,136,.8);
-  animation:checkPop .45s cubic-bezier(.34,1.56,.64,1);
-}
+.mission.done .m-check{background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
+  border-color:var(--glow-green);box-shadow:0 0 16px rgba(0,255,136,.8);animation:checkPop .45s cubic-bezier(.34,1.56,.64,1)}
 @keyframes checkPop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
-.m-check::after{
-  content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  color:#04120b;font-weight:900;font-size:1rem;opacity:0;transform:scale(.3);transition:.2s;
-}
+.m-check::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#04120b;font-weight:900;opacity:0;transform:scale(.3);transition:.2s}
 .mission.done .m-check::after{opacity:1;transform:scale(1)}
 .m-body{flex:1;min-width:0}
-.m-title{font-weight:700;color:#fff;font-size:1rem;font-family:'Orbitron',sans-serif;font-size:.93rem;letter-spacing:.4px}
+.m-title{font-weight:700;color:#fff;font-size:.93rem;font-family:'Orbitron',sans-serif;letter-spacing:.4px}
 .mission.done .m-title{color:var(--glow-green);text-shadow:0 0 8px rgba(0,255,136,.35)}
 .m-desc{color:var(--tx2);font-size:.86rem;margin-top:3px}
 .m-verif{margin-top:6px;font-size:.78rem;color:var(--glow-amber);opacity:.9}
 .m-verif::before{content:'⛭ VERIFICACIÓN: ';color:var(--glow-amber)}
 .m-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.tag{
-  font-size:.7rem;padding:2px 9px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;
-  border:1px solid;background:rgba(255,255,255,.03);
-}
+.tag{font-size:.7rem;padding:2px 9px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;
+  border:1px solid;background:rgba(255,255,255,.03);white-space:nowrap}
 .tag.cat-analyst{color:#00ff88;border-color:rgba(0,255,136,.4)}
 .tag.cat-ai{color:#ff00ff;border-color:rgba(255,0,255,.4)}
 .tag.cat-employability{color:#ffaa00;border-color:rgba(255,170,0,.4)}
 .tag.xp{color:#00ccff;border-color:rgba(0,204,255,.4);font-family:'Orbitron',sans-serif}
 .tag.time{color:#a0a0c0;border-color:rgba(160,160,192,.35)}
 
-/* --- Toasts / notificaciones --- */
-#toast-layer{
-  position:fixed;bottom:20px;right:20px;z-index:60;
-  display:flex;flex-direction:column;gap:10px;max-width:340px;
+/* --- Vista Plan Diario --- */
+.daily-hero{
+  background:linear-gradient(150deg,#141431,#0f0f24 55%,#10101f);
+  border:1px solid var(--hero-color);border-radius:18px;padding:22px;
+  box-shadow:0 0 34px var(--hero-glow),0 10px 30px rgba(0,0,0,.4);
+  margin-bottom:22px;position:relative;overflow:hidden;
 }
-.toast{
-  background:rgba(26,26,46,.96);border:1px solid rgba(0,255,136,.45);
-  border-left:5px solid var(--glow-green);border-radius:12px;
-  padding:12px 16px;color:var(--tx);font-size:.9rem;
-  box-shadow:0 0 22px rgba(0,255,136,.25),0 8px 22px rgba(0,0,0,.5);
-  animation:toastIn .4s cubic-bezier(.22,1.4,.36,1);
-  display:flex;gap:10px;align-items:center;
+.daily-hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 200px at 15% 0%,var(--hero-glow),transparent 60%)}
+.dh-kicker{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:3px;color:var(--hero-color);
+  text-transform:uppercase;text-shadow:0 0 12px var(--hero-color)}
+.dh-title{font-family:'Orbitron',sans-serif;font-size:1.45rem;font-weight:900;color:#fff;margin:8px 0 8px;
+  letter-spacing:1px;text-shadow:0 0 18px var(--hero-glow)}
+.dh-desc{color:var(--tx);max-width:720px;font-size:.98rem}
+.dh-verif{margin-top:8px;font-size:.82rem;color:var(--glow-amber)}
+.dh-verif::before{content:'⛭ VERIFICACIÓN: '}
+.dh-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.dh-actions{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn-complete{
+  cursor:pointer;padding:13px 30px;border:none;border-radius:12px;
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:2px;
+  color:#04120b;background:linear-gradient(135deg,var(--hero-color),var(--hero-color2));
+  box-shadow:0 0 24px var(--hero-glow);transition:.2s;text-transform:uppercase;
 }
+.btn-complete:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 40px var(--hero-glow)}
+.btn-complete.done-btn{color:#e0e0ff;background:rgba(255,255,255,.06);border:1px solid rgba(160,160,192,.4);
+  box-shadow:none;font-size:.8rem;padding:11px 18px}
+.btn-complete.done-btn:hover{border-color:var(--glow-amber);color:var(--glow-amber)}
+.dh-status{font-size:.85rem;color:var(--tx2)}
+.dh-status b{color:var(--glow-green)}
+.week-card{
+  background:var(--bg2);border:1px solid rgba(255,0,255,.35);border-radius:16px;padding:18px 20px;margin-bottom:22px;
+  box-shadow:0 0 20px rgba(255,0,255,.08);
+}
+.week-card .wk-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.week-card .wk-kicker{font-family:'Orbitron',sans-serif;color:var(--glow-magenta);font-size:.75rem;letter-spacing:3px;text-transform:uppercase}
+.week-card .wk-title{font-family:'Orbitron',sans-serif;color:#fff;font-size:1.05rem;font-weight:700}
+.week-card.done{border-color:rgba(0,255,136,.5);box-shadow:0 0 24px rgba(0,255,136,.15)}
+.week-card.done .wk-kicker{color:var(--glow-green)}
+.roadmap-title{font-family:'Orbitron',sans-serif;color:var(--tx2);letter-spacing:2px;font-size:.95rem;
+  margin:24px 0 14px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.roadmap-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(160,160,192,.4),transparent)}
+.week-block{margin-bottom:18px}
+.week-block h4{font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--tx2);letter-spacing:2px;
+  margin-bottom:10px;display:flex;align-items:center;gap:10px;text-transform:uppercase}
+.week-block h4::after{content:'';flex:1;height:1px;border-bottom:1px dashed rgba(160,160,192,.2)}
+.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+.day-card{
+  background:rgba(26,26,46,.75);border:1px solid rgba(160,160,192,.16);border-radius:12px;
+  padding:12px 13px;cursor:pointer;transition:.22s;position:relative;
+}
+.day-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.4);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.day-card .dc-day{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:1.5px;color:var(--glow-cyan)}
+.day-card .dc-title{color:var(--tx);font-size:.85rem;margin-top:4px;line-height:1.35;min-height:2.6em}
+.day-card .dc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:.72rem;color:var(--tx2)}
+.day-card .dc-xp{color:var(--glow-cyan);font-family:'Orbitron',sans-serif}
+.day-card.done{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.05)}
+.day-card.done .dc-day{color:var(--glow-green)}
+.day-card.today{border-color:var(--glow-amber);box-shadow:0 0 18px rgba(255,170,0,.35);background:rgba(255,170,0,.05)}
+.day-card.today .dc-day{color:var(--glow-amber)}
+.day-card.locked{opacity:.45;cursor:not-allowed;filter:saturate(.4)}
+.day-card.selected{border-color:#fff;outline:1px solid var(--glow-cyan)}
+.dc-state{position:absolute;top:8px;right:10px;font-size:1rem}
+.done-mark{color:var(--glow-green);text-shadow:0 0 8px rgba(0,255,136,.8)}
+
+/* --- Toasts / modales (heredan v1) --- */
+#toast-layer{position:fixed;bottom:20px;right:20px;z-index:60;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{background:rgba(26,26,46,.96);border:1px solid rgba(0,255,136,.45);border-left:5px solid var(--glow-green);
+  border-radius:12px;padding:12px 16px;color:var(--tx);font-size:.9rem;
+  box-shadow:0 0 22px rgba(0,255,136,.25),0 8px 22px rgba(0,0,0,.5);animation:toastIn .4s cubic-bezier(.22,1.4,.36,1);
+  display:flex;gap:10px;align-items:center}
 .toast.ach{border-color:rgba(255,170,0,.6);border-left-color:var(--glow-amber);box-shadow:0 0 22px rgba(255,170,0,.3),0 8px 22px rgba(0,0,0,.5)}
-.toast.levelup{border-color:rgba(0,255,136,.8);border-left-color:var(--glow-green);box-shadow:0 0 30px rgba(0,255,136,.45),0 8px 22px rgba(0,0,0,.6)}
+.toast.levelup{border-color:rgba(0,255,136,.8);border-left-color:var(--glow-green);box-shadow:0 0 30px rgba(0,255,136,.45)}
+.toast.raid{border-color:rgba(255,0,255,.6);border-left-color:var(--glow-magenta);box-shadow:0 0 22px rgba(255,0,255,.3)}
 .toast.out{animation:toastOut .35s forwards}
 @keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:none}}
 @keyframes toastOut{to{opacity:0;transform:translateX(60px)}}
 .toast .t-ico{font-size:1.5rem;filter:drop-shadow(0 0 8px currentColor)}
 .toast small{display:block;color:var(--tx2);font-size:.75rem}
-
-/* --- Modal de level-up / pantalla inicio --- */
-#modal-layer{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(5,5,15,.85);backdrop-filter:blur(6px)}
+#modal-layer{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;
+  background:rgba(5,5,15,.85);backdrop-filter:blur(6px)}
 #modal-layer.show{display:flex;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{
-  background:var(--bg2);border:1px solid rgba(0,255,136,.5);border-radius:18px;
-  padding:34px 30px;max-width:480px;width:92%;text-align:center;
-  box-shadow:0 0 60px rgba(0,255,136,.25);
-  animation:modalZoom .45s cubic-bezier(.22,1.4,.36,1);
-}
+.modal{background:var(--bg2);border:1px solid rgba(0,255,136,.5);border-radius:18px;padding:34px 30px;
+  max-width:520px;width:92%;text-align:center;box-shadow:0 0 60px rgba(0,255,136,.25);
+  animation:modalZoom .45s cubic-bezier(.22,1.4,.36,1)}
 @keyframes modalZoom{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
 .modal .big-ico{font-size:4rem;animation:float 2.2s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .modal h2{font-size:1.5rem;color:var(--glow-green);text-shadow:0 0 16px rgba(0,255,136,.6);margin:12px 0 6px;letter-spacing:2px}
-.modal p{color:var(--tx2);font-size:.95rem;margin-bottom:16px}
-.modal input{
-  width:100%;padding:12px 14px;background:#12122a;color:#fff;
-  border:1px solid rgba(0,255,136,.4);border-radius:10px;margin-bottom:16px;
-  font-family:'Share Tech Mono',monospace;font-size:1rem;text-align:center;outline:none;
-}
+.modal p{color:var(--tx2);font-size:.94rem;margin-bottom:16px}
+.modal input{width:100%;padding:12px 14px;background:#12122a;color:#fff;border:1px solid rgba(0,255,136,.4);
+  border-radius:10px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;font-size:1rem;text-align:center;outline:none}
 .modal input:focus{box-shadow:0 0 16px rgba(0,255,136,.35)}
-.btn-neon{
-  cursor:pointer;padding:11px 26px;border:none;border-radius:10px;
-  font-family:'Orbitron',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:2px;
-  color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
-  box-shadow:0 0 22px rgba(0,255,136,.5);
-  transition:.2s;text-transform:uppercase;
-}
+.btn-neon{cursor:pointer;padding:11px 26px;border:none;border-radius:10px;font-family:'Orbitron',sans-serif;
+  font-weight:700;font-size:.95rem;letter-spacing:2px;color:#04120b;
+  background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));box-shadow:0 0 22px rgba(0,255,136,.5);
+  transition:.2s;text-transform:uppercase}
 .btn-neon:hover{transform:translateY(-2px);box-shadow:0 0 34px rgba(0,255,136,.75)}
 .btn-neon.ghost{background:transparent;color:var(--tx2);border:1px solid rgba(160,160,192,.4);box-shadow:none;margin-left:8px}
 .btn-neon.ghost:hover{color:#fff;border-color:#fff}
-.levelup-title{font-size:2.6rem;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan),var(--glow-magenta));-webkit-background-clip:text;background-clip:text;color:transparent;animation:hueShift 3s linear infinite;filter:drop-shadow(0 0 14px rgba(0,255,136,.5))}
-@keyframes hueShift{to{filter:drop-shadow(0 0 22px rgba(255,0,255,.6))}}
-
-/* --- Logros --- */
-#ach-layer{position:fixed;inset:0;z-index:75;display:none;align-items:center;justify-content:center;background:rgba(5,5,15,.9);backdrop-filter:blur(6px)}
+.levelup-title{font-size:2.4rem;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan),var(--glow-magenta));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+#ach-layer{position:fixed;inset:0;z-index:75;display:none;align-items:center;justify-content:center;
+  background:rgba(5,5,15,.9);backdrop-filter:blur(6px)}
 #ach-layer.show{display:flex}
-.ach-modal{background:var(--bg2);border:1px solid rgba(255,170,0,.45);border-radius:18px;padding:26px;max-width:560px;width:94%;max-height:84vh;overflow-y:auto;box-shadow:0 0 50px rgba(255,170,0,.2)}
-.ach-modal h2{color:var(--glow-amber);text-align:center;letter-spacing:2px;margin-bottom:16px;text-shadow:0 0 14px rgba(255,170,0,.5)}
+.ach-modal{background:var(--bg2);border:1px solid rgba(255,170,0,.45);border-radius:18px;padding:26px;
+  max-width:640px;width:94%;max-height:84vh;overflow-y:auto;box-shadow:0 0 50px rgba(255,170,0,.2)}
+.ach-modal h2{color:var(--glow-amber);text-align:center;letter-spacing:2px;margin-bottom:6px;text-shadow:0 0 14px rgba(255,170,0,.5)}
+.ach-modal .ach-sub{color:var(--tx2);text-align:center;font-size:.8rem;margin-bottom:14px}
 .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.ach-item{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.18);border-radius:12px;padding:12px 8px;text-align:center;font-size:.8rem;color:var(--tx2)}
-.ach-item .a-ico{font-size:1.8rem;display:block;margin-bottom:6px}
+.ach-item{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.18);border-radius:12px;
+  padding:12px 8px;text-align:center;font-size:.74rem;color:var(--tx2)}
+.ach-item .a-ico{font-size:1.7rem;display:block;margin-bottom:6px}
+.ach-item .a-xp{display:block;color:var(--glow-cyan);font-size:.68rem;margin-top:4px}
 .ach-item.unlocked{border-color:rgba(255,170,0,.6);color:var(--tx);box-shadow:0 0 14px rgba(255,170,0,.2);background:rgba(255,170,0,.05)}
 .ach-item.unlocked .a-ico{filter:drop-shadow(0 0 10px rgba(255,170,0,.8))}
 .ach-item.locked{opacity:.55;filter:grayscale(.9)}
-.ach-item b{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.5px}
+.ach-item b{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:.66rem;letter-spacing:.5px}
 .close-x{float:right;cursor:pointer;color:var(--tx2);font-size:1.4rem;line-height:1;background:none;border:none}
 .close-x:hover{color:var(--danger)}
-
-/* --- Footer / misc --- */
-footer{text-align:center;color:#55556e;padding:26px 12px 40px;font-size:.78rem;letter-spacing:1px}
+footer{text-align:center;color:#55556e;padding:26px 12px 40px;font-size:.76rem;letter-spacing:1px}
 footer b{color:var(--glow-green)}
 .pulse{animation:pulseGlow 1.6s ease-in-out infinite}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.4)}50%{box-shadow:0 0 26px rgba(0,255,136,.9)}}
-
-/* Responsive extra */
 @media (max-width:640px){
-  .layout{padding:12px}
-  .logo{font-size:1.15rem}
-  .hud{gap:10px}
-  .progress-wrap{flex:1 1 100%;order:5}
-  .chapter-meta .bar{width:70px}
+  .layout{padding:12px}.logo{font-size:1.1rem}.hud{gap:9px}
+  .progress-wrap{flex:1 1 100%;order:5}.chapter-meta .bar{width:60px}
+  .days-grid{grid-template-columns:1fr 1fr}.dh-title{font-size:1.15rem}
 }
 </style>
 </head>
 <body>
-<!-- Capa de rejilla animada + canvas de partículas -->
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 
 <!-- ==========================================================
      B) HTML / ESTRUCTURA
      ========================================================== -->
-<!-- Header fijo: logo ODEA + HUD del jugador -->
 <header>
-  <div class="logo" id="logo" title="Abrir logros">
-    ODEA<small>OPERACIÓN DOMINIO DE DATOS E IA</small>
+  <div class="logo" id="logo" title="Ver salón de logros">
+    ODEA<small>PLAN MAESTRO · 42 DÍAS</small>
   </div>
   <div class="hud">
+    <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
+      <span class="flame">🔥</span> <span id="streak-n">0</span>
+    </span>
     <span class="level-badge" id="hud-level">NIVEL 1</span>
     <span class="xp-txt" id="hud-xp">0 XP</span>
     <div class="progress-wrap">
-      <div class="progress-top">
-        <span id="hud-rank">Novato de Datos</span>
-        <span id="hud-pct">0%</span>
-      </div>
+      <div class="progress-top"><span id="hud-rank">Novato de Datos</span><span id="hud-pct">0%</span></div>
       <div class="bar"><span id="hud-bar"></span></div>
     </div>
   </div>
 </header>
 
 <div class="layout">
-  <!-- Panel lateral: estadísticas del recluta -->
   <aside class="stats-panel">
     <h3>⚡ Perfil del Recluta</h3>
     <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">🛡️</span><b id="s-name">Recluta</b></span><span id="s-lvl">Nv.1</span></div>
+      <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b></span><span id="s-lvl">Nv.1</span></div>
     </div>
     <div class="stat-block">
       <div class="stat-head"><span><span class="stat-ico">📊</span>Nivel Analista</span><span id="stat-analyst-txt">0%</span></div>
@@ -378,44 +374,57 @@ footer b{color:var(--glow-green)}
       <div class="stat-head"><span><span class="stat-ico">💼</span>Poder de Empleabilidad</span><span id="stat-emp-txt">0%</span></div>
       <div class="bar stat amber"><span id="stat-emp"></span></div>
     </div>
-    <div class="missions-count">Misiones: <b id="m-count">0</b> / <b id="m-total">21</b></div>
-    <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
-    <div class="time-est">⏱️ Tiempo estimado total<br><b id="time-total">0 h</b> <span style="opacity:.7">(ruta completa)</span></div>
-    <div class="time-est" style="color:var(--glow-green);border-color:rgba(0,255,136,.35);background:rgba(0,255,136,.05)">
-      🏅 Logros: <b id="ach-count">0</b>/10 — <span id="ach-link" style="text-decoration:underline;cursor:pointer">Ver logros</span>
+    <div class="chip-grid">
+      <div class="mini-chip daily"><span class="mc-num" id="d-count">0/42</span><span class="mc-lab">Días</span></div>
+      <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/6</span><span class="mc-lab">Semanas</span></div>
+      <div class="mini-chip camp"><span class="mc-num" id="c-count">0/21</span><span class="mc-lab">Campaña</span></div>
     </div>
-    <button class="btn-reset" id="btn-reset">⟲ REINICIAR PROGRESO</button>
+    <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
+    <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
+    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">18</span> · Ver salón ▸</div>
+    <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
   </aside>
 
-  <!-- Área principal: capítulos renderizados por JS -->
-  <main id="chapters-root"></main>
+  <div style="min-width:0">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="daily">🗓️ PLAN DIARIO</button>
+      <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA (CAPÍTULOS)</button>
+    </div>
+
+    <!-- ============ VISTA 1: PLAN DIARIO ============ -->
+    <section class="view active" id="view-daily">
+      <div id="daily-hero"></div>
+      <div id="weekly-card"></div>
+      <div class="roadmap-title">🗺️ Ruta de los 42 días</div>
+      <div id="roadmap"></div>
+    </section>
+
+    <!-- ============ VISTA 2: CAMPAÑA ============ -->
+    <section class="view" id="view-campaign">
+      <div id="chapters-root"></div>
+    </section>
+  </div>
 </div>
 
-<footer>
-  <b>ODEA</b> · Operación Dominio de Datos e IA — v1.0 · Tu progreso se guarda automáticamente en este navegador 🔒
-</footer>
+<footer><b>ODEA</b> · Plan Maestro 42 Días — v2.0 · Tu progreso se guarda automáticamente en este navegador 🔒</footer>
 
-<!-- Toasts -->
 <div id="toast-layer"></div>
 
-<!-- Modal de inicio / level-up -->
 <div id="modal-layer">
   <div class="modal" id="modal-box">
     <div class="big-ico" id="modal-ico">🕹️</div>
     <h2 id="modal-title">BIENVENIDO, RECLUTA</h2>
-    <p id="modal-text">Estás a punto de embarcarte en la misión de convertirte en el analista de datos más poderoso del reino digital. Escribe tu nombre de guerra para comenzar.</p>
+    <p id="modal-text"></p>
     <input id="modal-input" placeholder="Tu nombre de recluta..." maxlength="24" autocomplete="off">
-    <div>
-      <button class="btn-neon" id="modal-btn">COMENZAR</button>
-    </div>
+    <div><button class="btn-neon" id="modal-btn">COMENZAR MISIÓN</button></div>
   </div>
 </div>
 
-<!-- Modal de logros -->
 <div id="ach-layer">
   <div class="ach-modal">
     <button class="close-x" id="ach-close">✕</button>
     <h2>🏆 SALÓN DE LOGROS</h2>
+    <p class="ach-sub">Cada logro otorga XP de bonificación. ¡Desbloquéalos todos!</p>
     <div class="ach-grid" id="ach-grid"></div>
   </div>
 </div>
@@ -423,10 +432,8 @@ footer b{color:var(--glow-green)}
 <script>
 "use strict";
 /* ==========================================================
-   C) JS / DATOS — niveles, capítulos, misiones y logros
+   C) JS / DATOS
    ========================================================== */
-
-/* --- Niveles según XP acumulada (spec oficial) --- */
 const LEVELS = [
   { xp: 0,     name: "Novato de Datos" },
   { xp: 500,   name: "Aprendiz Analista" },
@@ -438,371 +445,527 @@ const LEVELS = [
   { xp: 15000, name: "Analista Legendario" },
   { xp: 20000, name: "Dios de los Datos" }
 ];
-const MAX_XP_LEVEL = 20000; // XP del nivel máximo (piso del Dios de los Datos)
+const MAX_XP_LEVEL = 20000;
 
-/* --- Capítulos: meta-información visual y narrativa --- */
 const CHAPTERS = [
-  {
-    id: 0, code: "CAPÍTULO 0", title: "Bootcamp de Supervivencia Técnica",
-    color: "#00ff88", icon: "🛡️",
-    narrative: "Antes de luchar contra dragones de datos, forjas tus armas. El entorno está listo: VS Code, Python y Git. Todo héroe empieza con un solo commit."
-  },
-  {
-    id: 1, code: "CAPÍTULO 1", title: "La Forja del Analista",
-    color: "#00ccff", icon: "⚔️",
-    narrative: "El lenguaje de las bases de datos se revela ante ti. SQL es tu espada, Pandas tu escudo. Prepárate para tu primer jefe final: un proyecto ETL completo."
-  },
-  {
-    id: 2, code: "CAPÍTULO 2", title: "El Despertar de la Máquina (IA)",
-    color: "#ff00ff", icon: "🤖",
-    narrative: "La inteligencia artificial despierta y te elige como aliado. Aprende a hablar su idioma con prompts precisos y tendrás un ejército de código a tus órdenes."
-  },
-  {
-    id: 3, code: "CAPÍTULO 3", title: "Expansión del Arsenal",
-    color: "#ffaa00", icon: "🎯",
-    narrative: "Un analista sin dashboards es un guerrero sin mapa. Expande tu arsenal: visualiza, domina la estadística y cuenta historias que muevan decisiones."
-  },
-  {
-    id: 4, code: "CAPÍTULO 4", title: "Operación Freelance",
-    color: "#ff6600", icon: "💰",
-    narrative: "El reino digital recompensa a quienes demuestran su poder. Construye tu vitrina pública: portafolio, LinkedIn y tus primeros contratos como mercenario de datos."
-  },
-  {
-    id: 5, code: "CAPÍTULO 5", title: "La Forja del Empleo",
-    color: "#ff3355", icon: "🏆",
-    narrative: "La batalla final. 50 aplicaciones, entrevistas simuladas y networking son el asedio que derribará las murallas del empleo. El trono del analista te espera."
-  }
+  { id:0, code:"CAPÍTULO 0", title:"Bootcamp de Supervivencia Técnica", color:"#00ff88", icon:"🛡️",
+    narrative:"Antes de luchar contra dragones de datos, forjas tus armas. El entorno está listo: VS Code, Python y Git. Todo héroe empieza con un solo commit." },
+  { id:1, code:"CAPÍTULO 1", title:"La Forja del Analista", color:"#00ccff", icon:"⚔️",
+    narrative:"El lenguaje de las bases de datos se revela ante ti. SQL es tu espada, Pandas tu escudo. Prepárate para tu primer jefe final: un proyecto ETL completo." },
+  { id:2, code:"CAPÍTULO 2", title:"El Despertar de la Máquina (IA)", color:"#ff00ff", icon:"🤖",
+    narrative:"La inteligencia artificial despierta y te elige como aliado. Aprende a hablar su idioma con prompts precisos y tendrás un ejército de código a tus órdenes." },
+  { id:3, code:"CAPÍTULO 3", title:"Expansión del Arsenal", color:"#ffaa00", icon:"🎯",
+    narrative:"Un analista sin dashboards es un guerrero sin mapa. Expande tu arsenal: visualiza, domina la estadística y cuenta historias que muevan decisiones." },
+  { id:4, code:"CAPÍTULO 4", title:"Operación Freelance", color:"#ff6600", icon:"💰",
+    narrative:"El reino digital recompensa a quienes demuestran su poder. Construye tu vitrina pública: portafolio, LinkedIn y tus primeros contratos como mercenario de datos." },
+  { id:5, code:"CAPÍTULO 5", title:"La Forja del Empleo", color:"#ff3355", icon:"🏆",
+    narrative:"La batalla final. Aplicaciones, entrevistas simuladas y networking son el asedio que derribará las murallas del empleo. El trono del analista te espera." }
 ];
 
-/* --- Misiones: estructura oficial id/chapter/title/description/xp/
-       verification/category/estimatedTime --- */
 const CAT = {
-  analyst:       { label: "Analista",      tag: "cat-analyst" },
-  ai:            { label: "IA",            tag: "cat-ai" },
-  employability: { label: "Empleabilidad", tag: "cat-employability" }
+  analyst:{label:"Analista",tag:"cat-analyst"},
+  ai:{label:"IA",tag:"cat-ai"},
+  employability:{label:"Empleabilidad",tag:"cat-employability"}
 };
+const CAT_COLORS = { analyst:"#00ff88", ai:"#ff00ff", employability:"#ffaa00" };
 
-const missions = [
-  /* ============ CAPÍTULO 0: BOOTCAMP ============ */
-  { id: "m0_1", chapter: 0, title: "El Ritual de Iniciación",
-    description: "Instalar VS Code, Python (Anaconda) y Git. Crear cuenta en GitHub.",
-    xp: 50, category: "analyst", estimatedTime: "2 horas",
-    verification: "Primer commit en GitHub realizado" },
-  { id: "m0_2", chapter: 0, title: "Forjando la Espada (Python Básico)",
-    description: "Dominar variables, listas, diccionarios, bucles for/while, condicionales if/elif/else y funciones en Python.",
-    xp: 200, category: "analyst", estimatedTime: "8 horas",
-    verification: "Completar 50 ejercicios en HackerRank (sección Python)" },
-  { id: "m0_3", chapter: 0, title: "El Arte de la Tabla (Pandas I)",
-    description: "Importar pandas, leer CSV/Excel, explorar DataFrames con head(), info(), describe() y filtrar datos con condiciones.",
-    xp: 200, category: "analyst", estimatedTime: "6 horas",
-    verification: "Completar mini-proyecto de limpieza de dataset" },
-  { id: "m0_4", chapter: 0, title: "Pintando el Caos (Visualización)",
-    description: "Dominar matplotlib y seaborn. Crear gráficos de líneas, barras, dispersión e histogramas.",
-    xp: 150, category: "analyst", estimatedTime: "5 horas",
-    verification: "Crear dashboard estático con 4 gráficos" },
-
-  /* ============ CAPÍTULO 1: FORJA DEL ANALISTA ============ */
-  { id: "m1_1", chapter: 1, title: "El Oráculo (SQL)",
-    description: "Dominar SELECT, WHERE, ORDER BY, GROUP BY, HAVING y JOINs (INNER, LEFT, RIGHT, FULL) en SQLite o PostgreSQL.",
-    xp: 300, category: "analyst", estimatedTime: "10 horas",
-    verification: "Completar 50 ejercicios en SQLZoo o LeetCode" },
-  { id: "m1_2", chapter: 1, title: "Maestría en Pandas II",
-    description: "Dominar groupby, pivot_table, merge, concat y funciones lambda aplicadas a columnas.",
-    xp: 250, category: "analyst", estimatedTime: "8 horas",
-    verification: "Completar proyecto de análisis de ventas por región/producto/tiempo" },
-  { id: "m1_3", chapter: 1, title: "El Primer Jefe Final (Proyecto ETL)",
-    description: "Realizar proyecto completo de Extracción, Transformación y Carga. Tomar datos sucios de 2 fuentes (CSV + SQL o Web), limpiarlos, transformarlos y unirlos.",
-    xp: 400, category: "analyst", estimatedTime: "12 horas",
-    verification: "Subir código a GitHub con README explicativo" },
-
-  /* ============ CAPÍTULO 2: DESPERTAR DE LA IA ============ */
-  { id: "m2_1", chapter: 2, title: "Comunicación con las Máquinas (Prompt Engineering)",
-    description: "Aprender a crear prompts efectivos para ChatGPT/Claude/Gemini que generen código Python, SQL y explicaciones de conceptos complejos.",
-    xp: 150, category: "ai", estimatedTime: "4 horas",
-    verification: "Crear biblioteca personal de 20 prompts en archivo Markdown" },
-  { id: "m2_2", chapter: 2, title: "El Módulo Fantasma (PandasAI)",
-    description: "Aprender a usar la librería pandasai o sklearn para análisis exploratorio automatizado con IA.",
-    xp: 200, category: "ai", estimatedTime: "6 horas",
-    verification: "Usar IA para análisis exploratorio con lenguaje natural" },
-  { id: "m2_3", chapter: 2, title: "El Copiloto (GitHub Copilot)",
-    description: "Aprender a usar GitHub Copilot o Codeium para acelerar la escritura de código en Python y SQL.",
-    xp: 150, category: "ai", estimatedTime: "3 horas",
-    verification: "Refactorizar un proyecto anterior usando Copilot" },
-
-  /* ============ CAPÍTULO 3: EXPANSIÓN DEL ARSENAL ============ */
-  { id: "m3_1", chapter: 3, title: "El Tablero de Mando (Power BI/Tableau)",
-    description: "Aprender a crear dashboards interactivos en Power BI o Tableau Public.",
-    xp: 300, category: "analyst", estimatedTime: "10 horas",
-    verification: "Crear dashboard de 2 páginas con filtros y visualizaciones" },
-  { id: "m3_2", chapter: 3, title: "Estadística para Mortales",
-    description: "Dominar media, mediana, moda, desviación estándar, correlación vs causalidad y probabilidad básica.",
-    xp: 200, category: "analyst", estimatedTime: "6 horas",
-    verification: "Análisis estadístico de dataset con explicación en Markdown" },
-  { id: "m3_3", chapter: 3, title: "El Mapa del Tesoro (Storytelling)",
-    description: "Aprender el marco STAR para comunicar hallazgos de datos efectivamente.",
-    xp: 150, category: "employability", estimatedTime: "3 horas",
-    verification: "Grabar video de 2 minutos explicando hallazgos a audiencia no técnica" },
-
-  /* ============ CAPÍTULO 4: OPERACIÓN FREELANCE ============ */
-  { id: "m4_1", chapter: 4, title: "El Cartel de Recompensas (Portafolio)",
-    description: "Crear portafolio web en GitHub Pages con secciones: Sobre mí, Proyectos (mínimo 4), Habilidades y Contacto.",
-    xp: 300, category: "employability", estimatedTime: "8 horas",
-    verification: "URL en vivo y funcional" },
-  { id: "m4_2", chapter: 4, title: "Puliendo la Armadura (LinkedIn)",
-    description: "Optimizar perfil de LinkedIn: foto profesional, titular \"Data Analyst | IA Aplicada\", sección Acerca de con keywords y añadir proyectos.",
-    xp: 200, category: "employability", estimatedTime: "4 horas",
-    verification: "Conectar con 50 contactos relevantes del sector" },
-  { id: "m4_3", chapter: 4, title: "El Primer Contrato (Freelance)",
-    description: "Crear perfil en Fiverr y Upwork. Escribir 3 propuestas de servicio (Limpieza de datos, Dashboard en Power BI, Reporte automático con IA).",
-    xp: 350, category: "employability", estimatedTime: "6 horas",
-    verification: "Enviar 5 propuestas a proyectos reales" },
-
-  /* ============ CAPÍTULO 5: LA FORJA DEL EMPLEO ============ */
-  { id: "m5_1", chapter: 5, title: "El Mapa del Cazador (Búsqueda)",
-    description: "Identificar 20 empresas objetivo. Buscar ofertas de Data Analyst, Business Analyst o Junior Data Scientist.",
-    xp: 150, category: "employability", estimatedTime: "4 horas",
-    verification: "Crear hoja de cálculo con seguimiento de ofertas" },
-  { id: "m5_2", chapter: 5, title: "El Mensaje en la Botella (CV)",
-    description: "Crear CV en formato ATS-friendly con métricas cuantificables. Escribir 3 modelos de carta de presentación.",
-    xp: 250, category: "employability", estimatedTime: "5 horas",
-    verification: "CV en PDF listo para enviar" },
-  { id: "m5_3", chapter: 5, title: "Simulacro de Batalla (Entrevista)",
-    description: "Practicar con 50 preguntas de entrevista técnica (SQL, Python, Estadística, Casos). Usar IA para simular entrevistas.",
-    xp: 300, category: "employability", estimatedTime: "8 horas",
-    verification: "Completar 3 simulacros de entrevista con IA" },
-  { id: "m5_4", chapter: 5, title: "La Última Puerta (Networking)",
-    description: "Asistir a webinar, meetup o conferencia de datos (virtual o presencial). Conectar con 5 profesionales.",
-    xp: 150, category: "employability", estimatedTime: "3 horas",
-    verification: "Captura de pantalla de conexiones realizadas" },
-  { id: "m5_5", chapter: 5, title: "El Asedio Final (Aplicaciones)",
-    description: "Enviar mínimo 50 aplicaciones de empleo personalizadas (CV + Cover Letter) durante 3 semanas.",
-    xp: 500, category: "employability", estimatedTime: "20 horas",
-    verification: "Registrar todas las aplicaciones en hoja de seguimiento" }
+/* --- Campaña: 21 misiones de la historia original --- */
+const campaignMissions = [
+  { id:"m0_1", chapter:0, title:"El Ritual de Iniciación", description:"Instalar VS Code, Python (Anaconda) y Git. Crear cuenta en GitHub.", xp:50, category:"analyst", estimatedTime:"2 horas", verification:"Primer commit en GitHub realizado" },
+  { id:"m0_2", chapter:0, title:"Forjando la Espada (Python Básico)", description:"Dominar variables, listas, diccionarios, bucles for/while, condicionales if/elif/else y funciones en Python.", xp:200, category:"analyst", estimatedTime:"8 horas", verification:"Completar 50 ejercicios en HackerRank (sección Python)" },
+  { id:"m0_3", chapter:0, title:"El Arte de la Tabla (Pandas I)", description:"Importar pandas, leer CSV/Excel, explorar DataFrames con head(), info(), describe() y filtrar datos con condiciones.", xp:200, category:"analyst", estimatedTime:"6 horas", verification:"Completar mini-proyecto de limpieza de dataset" },
+  { id:"m0_4", chapter:0, title:"Pintando el Caos (Visualización)", description:"Dominar matplotlib y seaborn. Crear gráficos de líneas, barras, dispersión e histogramas.", xp:150, category:"analyst", estimatedTime:"5 horas", verification:"Crear dashboard estático con 4 gráficos" },
+  { id:"m1_1", chapter:1, title:"El Oráculo (SQL)", description:"Dominar SELECT, WHERE, ORDER BY, GROUP BY, HAVING y JOINs (INNER, LEFT, RIGHT, FULL) en SQLite o PostgreSQL.", xp:300, category:"analyst", estimatedTime:"10 horas", verification:"Completar 50 ejercicios en SQLZoo o LeetCode" },
+  { id:"m1_2", chapter:1, title:"Maestría en Pandas II", description:"Dominar groupby, pivot_table, merge, concat y funciones lambda aplicadas a columnas.", xp:250, category:"analyst", estimatedTime:"8 horas", verification:"Completar proyecto de análisis de ventas por región/producto/tiempo" },
+  { id:"m1_3", chapter:1, title:"El Primer Jefe Final (Proyecto ETL)", description:"Realizar proyecto completo de Extracción, Transformación y Carga. Tomar datos sucios de 2 fuentes (CSV + SQL o Web), limpiarlos, transformarlos y unirlos.", xp:400, category:"analyst", estimatedTime:"12 horas", verification:"Subir código a GitHub con README explicativo" },
+  { id:"m2_1", chapter:2, title:"Comunicación con las Máquinas (Prompt Engineering)", description:"Aprender a crear prompts efectivos para ChatGPT/Claude/Gemini que generen código Python, SQL y explicaciones de conceptos complejos.", xp:150, category:"ai", estimatedTime:"4 horas", verification:"Crear biblioteca personal de 20 prompts en archivo Markdown" },
+  { id:"m2_2", chapter:2, title:"El Módulo Fantasma (PandasAI)", description:"Aprender a usar la librería pandasai o sklearn para análisis exploratorio automatizado con IA.", xp:200, category:"ai", estimatedTime:"6 horas", verification:"Usar IA para análisis exploratorio con lenguaje natural" },
+  { id:"m2_3", chapter:2, title:"El Copiloto (GitHub Copilot)", description:"Aprender a usar GitHub Copilot o Codeium para acelerar la escritura de código en Python y SQL.", xp:150, category:"ai", estimatedTime:"3 horas", verification:"Refactorizar un proyecto anterior usando Copilot" },
+  { id:"m3_1", chapter:3, title:"El Tablero de Mando (Power BI/Tableau)", description:"Aprender a crear dashboards interactivos en Power BI o Tableau Public.", xp:300, category:"analyst", estimatedTime:"10 horas", verification:"Crear dashboard de 2 páginas con filtros y visualizaciones" },
+  { id:"m3_2", chapter:3, title:"Estadística para Mortales", description:"Dominar media, mediana, moda, desviación estándar, correlación vs causalidad y probabilidad básica.", xp:200, category:"analyst", estimatedTime:"6 horas", verification:"Análisis estadístico de dataset con explicación en Markdown" },
+  { id:"m3_3", chapter:3, title:"El Mapa del Tesoro (Storytelling)", description:"Aprender el marco STAR para comunicar hallazgos de datos efectivamente.", xp:150, category:"employability", estimatedTime:"3 horas", verification:"Grabar video de 2 minutos explicando hallazgos a audiencia no técnica" },
+  { id:"m4_1", chapter:4, title:"El Cartel de Recompensas (Portafolio)", description:"Crear portafolio web en GitHub Pages con secciones: Sobre mí, Proyectos (mínimo 4), Habilidades y Contacto.", xp:300, category:"employability", estimatedTime:"8 horas", verification:"URL en vivo y funcional" },
+  { id:"m4_2", chapter:4, title:"Puliendo la Armadura (LinkedIn)", description:"Optimizar perfil de LinkedIn: foto profesional, titular \"Data Analyst | IA Aplicada\", sección Acerca de con keywords y añadir proyectos.", xp:200, category:"employability", estimatedTime:"4 horas", verification:"Conectar con 50 contactos relevantes del sector" },
+  { id:"m4_3", chapter:4, title:"El Primer Contrato (Freelance)", description:"Crear perfil en Fiverr y Upwork. Escribir 3 propuestas de servicio (Limpieza de datos, Dashboard en Power BI, Reporte automático con IA).", xp:350, category:"employability", estimatedTime:"6 horas", verification:"Enviar 5 propuestas a proyectos reales" },
+  { id:"m5_1", chapter:5, title:"El Mapa del Cazador (Búsqueda)", description:"Identificar 20 empresas objetivo. Buscar ofertas de Data Analyst, Business Analyst o Junior Data Scientist.", xp:150, category:"employability", estimatedTime:"4 horas", verification:"Crear hoja de cálculo con seguimiento de ofertas" },
+  { id:"m5_2", chapter:5, title:"El Mensaje en la Botella (CV)", description:"Crear CV en formato ATS-friendly con métricas cuantificables. Escribir 3 modelos de carta de presentación.", xp:250, category:"employability", estimatedTime:"5 horas", verification:"CV en PDF listo para enviar" },
+  { id:"m5_3", chapter:5, title:"Simulacro de Batalla (Entrevista)", description:"Practicar con 50 preguntas de entrevista técnica (SQL, Python, Estadística, Casos). Usar IA para simular entrevistas.", xp:300, category:"employability", estimatedTime:"8 horas", verification:"Completar 3 simulacros de entrevista con IA" },
+  { id:"m5_4", chapter:5, title:"La Última Puerta (Networking)", description:"Asistir a webinar, meetup o conferencia de datos (virtual o presencial). Conectar con 5 profesionales.", xp:150, category:"employability", estimatedTime:"3 horas", verification:"Captura de pantalla de conexiones realizadas" },
+  { id:"m5_5", chapter:5, title:"El Asedio Final (Aplicaciones)", description:"Enviar mínimo 50 aplicaciones de empleo personalizadas (CV + Cover Letter) durante 3 semanas.", xp:500, category:"employability", estimatedTime:"20 horas", verification:"Registrar todas las aplicaciones en hoja de seguimiento" }
 ];
 
-/* --- Logros (10): se desbloquean al cumplir su condición --- */
+/* --- Utilidades de horas --- */
+function parseHours(str) {
+  const nums = (String(str).match(/\d+/g) || []).map(Number);
+  if (!nums.length) return { min: 0, max: 0 };
+  return { min: nums[0], max: nums.length > 1 ? nums[1] : nums[0] };
+}
+function fmtHours(totalMin) {
+  const h = Math.round((totalMin / 60) * 10) / 10;
+  return (h % 1 === 0 ? h : h.toFixed(1)) + " h";
+}
+
+/* ==========================================================
+   MISIÓN DIARIA × 42 (una por día, 6 semanas)
+   ========================================================== */
+const dailyMissions = [
+  /* ---- SEMANA 1: CIMIENTOS (días 1-7) ---- */
+  { day:1, week:1, title:"El Ritual de Iniciación", description:"Instalar VS Code, Python (Anaconda) y Git. Crear tu cuenta de GitHub y hacer tu primer commit con un archivo README.", xp:80, category:"analyst", time:120, verification:"Primer commit visible en tu perfil de GitHub" },
+  { day:2, week:1, title:"Despertar Python: Datos", description:"Aprender variables, tipos, listas y diccionarios. Resolver 15 ejercicios de HackerRank (nivel Easy).", xp:100, category:"analyst", time:90, verification:"15 ejercicios Python resueltos en HackerRank (captura)" },
+  { day:3, week:1, title:"Despertar Python: Control", description:"Dominar condicionales if/elif/else y bucles for/while. Resolver 15 ejercicios más de HackerRank.", xp:100, category:"analyst", time:90, verification:"15 ejercicios de bucles y condicionales resueltos" },
+  { day:4, week:1, title:"Despertar Python: Funciones", description:"Dominar funciones, parámetros y retornos. Escribir un script que automatice algo de tu día (renombrar archivos, organizar carpetas...).", xp:120, category:"analyst", time:90, verification:"Script funcional guardado en tu repo de scripts" },
+  { day:5, week:1, title:"Git: El Libro de Hechizos", description:"Aprender a fondo: init, add, commit, branch, merge, push y pull. Subir tu carpeta de scripts a GitHub con commits limpios.", xp:100, category:"analyst", time:75, verification:"Repo público con mínimo 4 commits descriptivos" },
+  { day:6, week:1, title:"Pandas I: Leer el Mundo", description:"Instalar pandas, leer CSV y Excel, explorar con head(), info() y describe(). Usar un dataset real descargado de Kaggle.", xp:130, category:"analyst", time:90, verification:"Script .py explorando un dataset real (guardado en GitHub)" },
+  { day:7, week:1, title:"Consolidación Semana 1", description:"Repasar lo aprendido: escribir tus notas en Markdown y hacer un mini-proyecto que combine Python + Git (listas, funciones y archivos).", xp:120, category:"analyst", time:75, verification:"Notas de la semana + mini-proyecto subidos a GitHub" },
+
+  /* ---- SEMANA 2: MANIPULACIÓN Y VISUALIZACIÓN (8-14) ---- */
+  { day:8, week:2, title:"Pandas II: Filtrar el Caos", description:"Dominar filtros con condiciones, loc/iloc, sort_values y manejo de columnas. Practicar sobre el dataset de Kaggle del día 6.", xp:120, category:"analyst", time:90, verification:"10 filtros y consultas distintos documentados en tu script" },
+  { day:9, week:2, title:"Limpieza de Datos", description:"Detectar y tratar valores nulos, duplicados y tipos incorrectos. Mini-proyecto: dejar un dataset impecable.", xp:140, category:"analyst", time:120, verification:"Dataset limpio exportado a CSV + resumen en tus notas" },
+  { day:10, week:2, title:"Matplotlib: Primera Luz", description:"Crear gráficos de líneas y barras con matplotlib. Darles títulos, etiquetas y colores profesionales.", xp:110, category:"analyst", time:90, verification:"2 gráficos (línea y barras) guardados como PNG" },
+  { day:11, week:2, title:"Seaborn: Ojo de Artista", description:"Dominar histogramas, boxplots, scatterplots y heatmaps con seaborn. Explorar correlaciones de tu dataset.", xp:120, category:"analyst", time:90, verification:"4 tipos de gráfico distintos generados con seaborn" },
+  { day:12, week:2, title:"Dashboard Estático", description:"Crear un dashboard estático con 4 gráficos que cuenten una historia sobre tu dataset, con insights incluidos.", xp:160, category:"analyst", time:120, verification:"Dashboard con 4 gráficos guardado (PNG o HTML)" },
+  { day:13, week:2, title:"Bitácora del Analista", description:"Documentar tu primer análisis completo en un README: problema, proceso, gráficos y conclusiones. Subirlo a GitHub.", xp:120, category:"analyst", time:75, verification:"README con historia de datos publicada en GitHub" },
+  { day:14, week:2, title:"RETO SEMANA 2: EDA Completo", description:"Análisis exploratorio completo de UN dataset nuevo: limpieza, estadística descriptiva, 6+ visualizaciones y 5 insights accionables.", xp:250, category:"analyst", time:180, verification:"Notebook o script completo publicado con insights claros" },
+
+  /* ---- SEMANA 3: SQL (15-21) ---- */
+  { day:15, week:3, title:"SQL: El Idioma de las Tablas", description:"Instalar DB Browser for SQLite. Aprender SELECT, WHERE, ORDER BY y LIMIT. Practicar en SQLZoo (secciones 0-2).", xp:110, category:"analyst", time:90, verification:"Secciones 0-2 de SQLZoo completadas" },
+  { day:16, week:3, title:"SQL: Agrupar el Mundo", description:"Dominar GROUP BY, HAVING y agregaciones (COUNT, SUM, AVG, MIN, MAX). Practicar en SQLZoo (sección 5).", xp:120, category:"analyst", time:90, verification:"10 consultas propias con GROUP BY y HAVING funcionales" },
+  { day:17, week:3, title:"SQL: Unir Reinos (JOINs)", description:"Dominar INNER, LEFT, RIGHT y FULL JOIN. Practicar en SQLZoo (sección 6) y LeetCode (Easy).", xp:130, category:"analyst", time:100, verification:"Sección de JOINs de SQLZoo completada" },
+  { day:18, week:3, title:"SQL: Subconsultas y CTEs", description:"Aprender subconsultas y WITH (CTEs) para consultas complejas y legibles. Resolver 10 ejercicios de LeetCode.", xp:130, category:"analyst", time:100, verification:"10 ejercicios de LeetCode SQL resueltos (Easy/Medium)" },
+  { day:19, week:3, title:"SQL: Entrenamiento Intensivo", description:"Sesión maratón: completar ejercicios SQL hasta acumular 50 resueltos en SQLZoo + LeetCode (meta de la campaña).", xp:150, category:"analyst", time:120, verification:"50 ejercicios SQL totales completados" },
+  { day:20, week:3, title:"SQL: Consultas de Negocio", description:"Crear tu propia base de datos (ej: inventario o ventas) con 3+ tablas relacionadas y escribir 10 consultas de negocio.", xp:150, category:"analyst", time:120, verification:"Base de datos + 10 queries de negocio en tu repo" },
+  { day:21, week:3, title:"RETO SEMANA 3: Proyecto SQL", description:"Publicar tu proyecto SQL en GitHub: schema, 15 queries comentadas y README explicando qué negocio resuelve cada una.", xp:250, category:"analyst", time:150, verification:"Proyecto SQL completo y público en GitHub" },
+
+  /* ---- SEMANA 4: PANDAS AVANZADO + ETL (22-28) ---- */
+  { day:22, week:4, title:"Pandas III: Groupby y Pivot", description:"Dominar groupby, agg, pivot_table y crosstab. Practicar con tu dataset de ventas o uno de Kaggle.", xp:120, category:"analyst", time:90, verification:"Análisis con groupby + pivot_table documentado" },
+  { day:23, week:4, title:"Pandas IV: Fusionar Mundos", description:"Dominar merge, concat y join para combinar datasets. Juntar 2 datasets complementarios en uno solo.", xp:120, category:"analyst", time:90, verification:"Dataset combinado correctamente (script + resultado)" },
+  { day:24, week:4, title:"Lambda: Magia en una Línea", description:"Dominar funciones lambda y apply/applymap para transformar columnas. Refactorizar 5 transformaciones del día 23.", xp:110, category:"analyst", time:75, verification:"Script refactorizado con lambda y apply en tu repo" },
+  { day:25, week:4, title:"Análisis de Ventas", description:"Proyecto: analizar ventas por región, producto y tiempo. Crear tabla resumen + 3 visualizaciones clave.", xp:160, category:"analyst", time:120, verification:"Análisis de ventas completo (código + gráficos + conclusiones)" },
+  { day:26, week:4, title:"ETL I: Extracción", description:"Extraer datos de 2 fuentes distintas: un CSV local y una base SQL (o una API/web). Guardarlos en crudo.", xp:140, category:"analyst", time:100, verification:"2 datasets extraídos de fuentes distintas (código en repo)" },
+  { day:27, week:4, title:"ETL II: Transformación", description:"Limpiar, transformar y unir tus 2 fuentes en un dataset final listo para analizar. Documentar cada paso.", xp:180, category:"analyst", time:130, verification:"Pipeline ETL completo con dataset final limpio" },
+  { day:28, week:4, title:"RETO SEMANA 4: Caso de Estudio ETL", description:"Escribir el caso de estudio de tu ETL (problema, proceso, resultado) y publicar el pipeline completo en GitHub con README.", xp:250, category:"analyst", time:120, verification:"Pipeline ETL público con README de caso de estudio" },
+
+  /* ---- SEMANA 5: IA APLICADA + DASHBOARDS (29-35) ---- */
+  { day:29, week:5, title:"Prompt Engineering", description:"Aprender a crear prompts efectivos para ChatGPT/Claude/Gemini: código Python, SQL y explicaciones. Crear tu biblioteca de 20 prompts.", xp:110, category:"ai", time:75, verification:"Archivo Markdown con 20 prompts propios (guardado)" },
+  { day:30, week:5, title:"Copilot: Tu Escudero", description:"Usar GitHub Copilot, Codeium o la IA de tu editor para acelerar código. Refactorizar un proyecto anterior usándolos.", xp:130, category:"ai", time:90, verification:"Proyecto refactorizado con ayuda de IA (commits visibles)" },
+  { day:31, week:5, title:"PandasAI: Exploración con IA", description:"Probar pandasai o sklearn para análisis exploratorio automatizado. Hacer 5 preguntas de negocio en lenguaje natural.", xp:140, category:"ai", time:100, verification:"Análisis con IA respondiendo 5 preguntas (captura o notas)" },
+  { day:32, week:5, title:"Power BI / Tableau I", description:"Aprender a conectar datos y crear visualizaciones en Power BI Desktop o Tableau Public. Primeras 2 visualizaciones interactivas.", xp:130, category:"analyst", time:100, verification:"Archivo de Power BI o Tableau con 2 visualizaciones" },
+  { day:33, week:5, title:"El Tablero de Mando", description:"Crear un dashboard interactivo de 2 páginas con filtros, segmentadores y visualizaciones cruzadas.", xp:170, category:"analyst", time:140, verification:"Dashboard de 2 páginas con filtros funcionales" },
+  { day:34, week:5, title:"Estadística para Mortales", description:"Dominar media, mediana, moda, desviación estándar, correlación vs causalidad y probabilidad básica con numpy y pandas.", xp:130, category:"analyst", time:100, verification:"Análisis estadístico de un dataset con explicación en Markdown" },
+  { day:35, week:5, title:"RETO SEMANA 5: Presenta tu Historia", description:"Dashboard completo publicado + video de 2 minutos explicando tus hallazgos a audiencia no técnica (marco STAR).", xp:250, category:"ai", time:180, verification:"Dashboard publicado + video de 2 minutos grabado" },
+
+  /* ---- SEMANA 6: EMPLEABILIDAD Y LANZAMIENTO (36-42) ---- */
+  { day:36, week:6, title:"El Cartel de Recompensas (Portafolio)", description:"Crear portafolio web en GitHub Pages: Sobre mí, Proyectos (mínimo 4), Habilidades y Contacto.", xp:160, category:"employability", time:120, verification:"URL de portafolio en vivo y funcional" },
+  { day:37, week:6, title:"Puliendo la Armadura (LinkedIn)", description:"Optimizar LinkedIn: foto profesional, titular Data Analyst | IA Aplicada, sección Acerca de con keywords y añadir proyectos.", xp:140, category:"employability", time:100, verification:"Perfil optimizado + 50 conexiones relevantes del sector" },
+  { day:38, week:6, title:"El Mensaje en la Botella (CV)", description:"Crear CV en formato ATS-friendly con métricas cuantificables. Escribir 3 modelos de carta de presentación.", xp:140, category:"employability", time:100, verification:"CV en PDF listo para enviar + 3 cartas modelo" },
+  { day:39, week:6, title:"El Primer Contrato (Freelance)", description:"Crear perfiles en Fiverr y Upwork. Escribir 3 propuestas de servicio (limpieza de datos, dashboard Power BI, reporte automático con IA).", xp:140, category:"employability", time:100, verification:"Perfiles creados + 3 propuestas de servicio publicadas" },
+  { day:40, week:6, title:"El Mapa del Cazador", description:"Identificar 20 empresas objetivo y buscar ofertas de Data Analyst, Business Analyst o Junior Data Scientist. Crear hoja de seguimiento.", xp:120, category:"employability", time:90, verification:"Hoja de cálculo con 20 empresas y sus ofertas" },
+  { day:41, week:6, title:"Simulacro de Batalla (Entrevista)", description:"Practicar con 50 preguntas de entrevista técnica (SQL, Python, Estadística, Casos). Usar IA para simular 3 entrevistas completas.", xp:160, category:"employability", time:120, verification:"3 simulacros de entrevista completados con IA" },
+  { day:42, week:6, title:"EL ASEDIO FINAL", description:"Enviar 10 aplicaciones de empleo personalizadas (CV + carta adaptada) y registrarlas en tu hoja de seguimiento.", xp:220, category:"employability", time:150, verification:"10 aplicaciones enviadas y registradas en tu hoja" }
+];
+/* ==========================================================
+   MISIÓN SEMANAL × 6 (una por semana)
+   ========================================================== */
+const weeklyMissions = [
+  { week:1, title:"Cimientos del Guerrero", description:"Completar al menos 6 de las 7 misiones diarias de la semana y tener tu entorno listo: VS Code + Python + Git + repo público en GitHub.", xp:350, category:"analyst", time:300, verification:"6+ misiones diarias completadas + entorno verificado" },
+  { week:2, title:"Señor de la Visualización", description:"Completar al menos 6 misiones diarias de la semana y publicar un EDA completo (limpieza + 6+ gráficos + insights) de un dataset real.", xp:400, category:"analyst", time:360, verification:"EDA completo publicado (reto del día 14 incluido)" },
+  { week:3, title:"Oráculo SQL", description:"Completar al menos 6 misiones diarias de la semana y tener 50+ ejercicios SQL resueltos acumulados + proyecto SQL público.", xp:400, category:"analyst", time:360, verification:"50+ ejercicios SQL + proyecto SQL en GitHub" },
+  { week:4, title:"Arquitecto ETL", description:"Completar al menos 6 misiones diarias de la semana y publicar un pipeline ETL completo (2 fuentes → dataset limpio) con README de caso de estudio.", xp:450, category:"analyst", time:360, verification:"Pipeline ETL público con README completo" },
+  { week:5, title:"Brujo de la IA", description:"Completar al menos 6 misiones diarias de la semana y tener un dashboard interactivo publicado + video de 2 minutos contando tu historia con datos.", xp:450, category:"ai", time:360, verification:"Dashboard publicado + video STAR grabado" },
+  { week:6, title:"Conquistador del Empleo", description:"Completar al menos 6 misiones diarias de la semana y lanzar tu ataque final: portafolio en vivo, LinkedIn optimizado, CV ATS y 10 aplicaciones enviadas.", xp:600, category:"employability", time:420, verification:"Portafolio + LinkedIn + CV + 10 aplicaciones enviadas" }
+];
+
+/* ==========================================================
+   LOGROS (18) — cada uno otorga XP de bonificación
+   ========================================================== */
 const achievements = [
-  { id: "ach_first",   ico: "🩸", name: "Primera Sangre",   desc: "Completar tu primera misión" },
-  { id: "ach_ten",     ico: "🗡️", name: "Cazador de Datos", desc: "Completar 10 misiones" },
-  { id: "ach_ch0",     ico: "🛡️", name: "Superviviente Técnico", desc: "Completar todo el Capítulo 0" },
-  { id: "ach_ch1",     ico: "⚔️", name: "Forjador de Análisis", desc: "Completar todo el Capítulo 1" },
-  { id: "ach_ch2",     ico: "🤖", name: "Domador de Máquinas", desc: "Completar todo el Capítulo 2" },
-  { id: "ach_ch3",     ico: "🎯", name: "Arsenal Completo",  desc: "Completar todo el Capítulo 3" },
-  { id: "ach_ch4",     ico: "💰", name: "Mercenario de Datos", desc: "Completar todo el Capítulo 4" },
-  { id: "ach_ch5",     ico: "🏆", name: "Conquistador del Empleo", desc: "Completar todo el Capítulo 5" },
-  { id: "ach_ai",      ico: "🧠", name: "Genio de la IA",   desc: "Completar todas las misiones de categoría IA" },
-  { id: "ach_legend",  ico: "👑", name: "Leyenda de ODEA",  desc: "Completar las 21 misiones: dominio total" }
+  { id:"ach_first",  ico:"🩸", name:"Primera Sangre", desc:"Completar tu primera misión (campaña o diaria)", xp:50 },
+  { id:"ach_ten",    ico:"🗡️", name:"Cazador de Datos", desc:"Completar 10 misiones diarias", xp:100 },
+  { id:"ach_d21",    ico:"⛰️", name:"Mitad del Camino", desc:"Completar 21 misiones diarias", xp:200 },
+  { id:"ach_d42",    ico:"🏁", name:"Campaña Diaria Completa", desc:"Completar las 42 misiones diarias", xp:300 },
+  { id:"ach_st7",    ico:"🔥", name:"Semana Imparable", desc:"Mantener racha de 7 días seguidos", xp:100 },
+  { id:"ach_st14",   ico:"🌋", name:"Quince Días de Fuego", desc:"Mantener racha de 14 días seguidos", xp:150 },
+  { id:"ach_st21",   ico:"⚡", name:"Imparable", desc:"Mantener racha de 21 días seguidos", xp:150 },
+  { id:"ach_st30",   ico:"☄️", name:"Mes de Datos", desc:"Mantener racha de 30 días seguidos", xp:200 },
+  { id:"ach_w3",     ico:"🎯", name:"Cazador Semanal", desc:"Completar 3 misiones semanales", xp:200 },
+  { id:"ach_w6",     ico:"👑", name:"Dominio Semanal Total", desc:"Completar las 6 misiones semanales", xp:300 },
+  { id:"ach_ch0",    ico:"🛡️", name:"Superviviente Técnico", desc:"Completar todo el Capítulo 0 de la campaña", xp:150 },
+  { id:"ach_ch1",    ico:"⚔️", name:"Forjador de Análisis", desc:"Completar todo el Capítulo 1 de la campaña", xp:150 },
+  { id:"ach_ch2",    ico:"🤖", name:"Domador de Máquinas", desc:"Completar todo el Capítulo 2 de la campaña", xp:150 },
+  { id:"ach_ch3",    ico:"🎯", name:"Arsenal Completo", desc:"Completar todo el Capítulo 3 de la campaña", xp:150 },
+  { id:"ach_ch4",    ico:"💰", name:"Mercenario de Datos", desc:"Completar todo el Capítulo 4 de la campaña", xp:150 },
+  { id:"ach_ch5",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar todo el Capítulo 5 de la campaña", xp:150 },
+  { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, 42 días y 6 semanas", xp:500 }
 ];
 
-/* --- Mensajes de ánimo aleatorios (modo historia) --- */
+/* --- Mensajes de ánimo --- */
 const CHEERS = [
   "¡La legión de datos te observa con orgullo!",
   "Un paso más cerca del trono del analista.",
   "Los dragones de SQL tiemblan ante ti.",
-  "Tu nivel de poder se siente en todo el reino digital.",
+  "Tu racha enciende el reino digital.",
   "¡Sigue así, leyenda en construcción!",
   "Cada misión cumplida afila más tu espada.",
   "El dashboard del destino brilla para ti.",
-  "Ni ChatGPT compite con tu determinación.",
+  "Ni la IA más potente supera tu constancia.",
   "Las máquinas reconocen a su futuro maestro.",
   "¡Excelente movimiento, estratega de datos!"
 ];
 
-/* --- Utilidades rápidas derivadas de los datos --- */
-const TOTAL_XP = missions.reduce((a, m) => a + m.xp, 0);     // XP total del juego
-const MISSION_TOTAL = missions.length;                        // nº de misiones
-const XP_BY_CAT = {};                                         // XP total por categoría
-missions.forEach(m => { XP_BY_CAT[m.category] = (XP_BY_CAT[m.category] || 0) + m.xp; });
-const CH_IDS = missions.map(m => m.chapter)
-  .filter((v, i, a) => a.indexOf(v) === i).sort((x, y) => x - y); // ids de capítulos con misiones
-
-/* --- Rango de tiempo estimado: devuelve {min, max} en horas --- */
-function parseHours(str) {
-  const nums = (str.match(/\d+/g) || []).map(Number);
-  if (!nums.length) return { min: 0, max: 0 };
-  return { min: nums[0], max: nums.length > 1 ? nums[1] : nums[0] };
-}
-
 /* ==========================================================
-   D) JS / ESTADO Y PERSISTENCIA (localStorage)
+   D) JS / ESTADO, FECHAS Y CÁLCULOS
    ========================================================== */
-const SAVE_KEY = "odea_save_v1";
+const SAVE_KEY = "odea_save_v2";
+const OLD_KEY = "odea_save_v1";
+const DAILY_TOTAL = dailyMissions.length;
+const WEEKLY_TOTAL = weeklyMissions.length;
+const CAMP_TOTAL = campaignMissions.length;
 
-/* Objeto global de estado (spec oficial) */
+/* Objeto global de estado */
 let gameState = {
   playerName: "Recluta",
-  totalXP: 0,
-  level: 1,
-  completedMissions: [], // array de IDs
-  stats: { analystLevel: 0, aiLevel: 0, employabilityLevel: 0 } // % 0-100 por categoría
+  completedMissions: [],   // campaña: ids "m0_1"...
+  completedDaily: [],      // días 1..42
+  completedWeekly: [],     // semanas 1..6
+  unlockedAch: [],         // ids de logros ganados
+  startDate: null,         // YYYY-MM-DD del día 1
+  lastDailyDate: null,     // última fecha con misión diaria completada
+  streak: 0                // racha de días seguidos
 };
+let selectedDay = 1;       // misión diaria visible en el héroe
+
+/* --- Fechas (todo local) --- */
+function fmtDate(d) {
+  const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, "0"), dd = String(d.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + dd;
+}
+function todayStr() { return fmtDate(new Date()); }
+function diffDays(fromStr, toStr) {
+  const a = new Date(fromStr + "T00:00:00"), b = new Date(toStr + "T00:00:00");
+  return Math.round((b - a) / 86400000);
+}
+
+/* --- Día desbloqueado hoy: 1..42 --- */
+function unlockedDay() {
+  if (!gameState.startDate) return 1;
+  return Math.min(Math.max(diffDays(gameState.startDate, todayStr()) + 1, 1), DAILY_TOTAL);
+}
+function currentWeek() { return Math.ceil(unlockedDay() / 7); }
+function weekAvailable() {
+  const w = currentWeek();
+  for (let i = 1; i <= w; i++) if (!gameState.completedWeekly.includes(i)) return i;
+  return w;
+}
+function isDayUnlocked(day) { return day <= unlockedDay(); }
 
 /* --- Persistencia --- */
 function saveGame() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); }
-  catch (e) { console.warn("No se pudo guardar (modo privado?):", e); }
+  catch (e) { console.warn("No se pudo guardar:", e); }
 }
-
 function loadGame() {
   try {
+    const old = localStorage.getItem(OLD_KEY);
+    if (old && !localStorage.getItem(SAVE_KEY)) {
+      const od = JSON.parse(old);
+      if (od && Array.isArray(od.completedMissions)) {
+        gameState.completedMissions = od.completedMissions.filter(id => campaignMissions.some(m => m.id === id));
+      }
+      localStorage.removeItem(OLD_KEY);
+      return true;
+    }
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return false;
     const data = JSON.parse(raw);
-    if (!data || !Array.isArray(data.completedMissions)) return false;
+    if (!data) return false;
     gameState.playerName = data.playerName || "Recluta";
-    gameState.completedMissions = data.completedMissions.filter(id =>
-      missions.some(m => m.id === id)); // descarta IDs inválidos
+    gameState.completedMissions = (data.completedMissions || []).filter(id => campaignMissions.some(m => m.id === id));
+    gameState.completedDaily = (data.completedDaily || []).filter(n => n >= 1 && n <= DAILY_TOTAL);
+    gameState.completedWeekly = (data.completedWeekly || []).filter(n => n >= 1 && n <= WEEKLY_TOTAL);
+    gameState.unlockedAch = (data.unlockedAch || []).filter(id => achievements.some(a => a.id === id));
+    gameState.startDate = data.startDate || null;
+    gameState.lastDailyDate = data.lastDailyDate || null;
+    gameState.streak = data.streak || 0;
     return true;
   } catch (e) { return false; }
 }
-
 function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
-    playerName: "Recluta", totalXP: 0, level: 1,
-    completedMissions: [],
-    stats: { analystLevel: 0, aiLevel: 0, employabilityLevel: 0 }
+    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [],
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0
   };
-  renderChapters();
-  updateUI();
-  toast("🔄", "Progreso reiniciado", "El camino comienza de nuevo, recluta.");
+  selectedDay = 1;
+  renderAll();
   showWelcome();
+  toast("🔄", "Progreso reiniciado", "El camino comienza de nuevo, recluta.");
 }
 
-/* --- Cálculo del nivel según XP total (spec) --- */
+/* --- Cálculo de nivel (spec) --- */
 function calculateLevel(xp) {
   let lvl = 1;
-  for (let i = 0; i < LEVELS.length; i++) {
-    if (xp >= LEVELS[i].xp) lvl = i + 1;
-  }
+  for (let i = 0; i < LEVELS.length; i++) if (xp >= LEVELS[i].xp) lvl = i + 1;
   return lvl;
 }
-
 function levelName(lvl) { return LEVELS[Math.min(lvl - 1, LEVELS.length - 1)].name; }
 
-/* --- Recalcular todo el estado derivado desde las misiones --- */
+/* --- Totales de XP por categoría (todas las fuentes) --- */
+const XP_CAT_TOTAL = { analyst: 0, ai: 0, employability: 0 };
+campaignMissions.concat(dailyMissions, weeklyMissions).forEach(m => { XP_CAT_TOTAL[m.category] += m.xp; });
+
+function achXPSum(ids) {
+  return achievements.filter(a => ids.includes(a.id)).reduce((s, a) => s + a.xp, 0);
+}
+function campaignXPGain() {
+  return campaignMissions.filter(m => gameState.completedMissions.includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
+function dailyXPGain() {
+  return dailyMissions.filter(m => gameState.completedDaily.includes(m.day)).reduce((s, m) => s + m.xp, 0);
+}
+function weeklyXPGain() {
+  return weeklyMissions.filter(m => gameState.completedWeekly.includes(m.week)).reduce((s, m) => s + m.xp, 0);
+}
+
+/* --- Recalcular todo el estado derivado --- */
 function recomputeState() {
-  const doneSet = new Set(gameState.completedMissions);
-  const done = missions.filter(m => doneSet.has(m.id));
-  // XP total = suma de XP de misiones completadas (fuente única de verdad)
-  gameState.totalXP = done.reduce((a, m) => a + m.xp, 0);
+  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain();
+  gameState.totalXP = base + achXPSum(gameState.unlockedAch);
   gameState.level = calculateLevel(gameState.totalXP);
-  // % por categoría: XP ganado / XP total posible de esa categoría
-  const xpCat = {};
-  done.forEach(m => { xpCat[m.category] = (xpCat[m.category] || 0) + m.xp; });
+  const catGain = { analyst: 0, ai: 0, employability: 0 };
+  campaignMissions.concat(dailyMissions, weeklyMissions).forEach(m => {
+    const done = campaignMissions.includes(m) ? gameState.completedMissions.includes(m.id)
+      : (m.day !== undefined ? gameState.completedDaily.includes(m.day) : gameState.completedWeekly.includes(m.week));
+    if (done) catGain[m.category] += m.xp;
+  });
   gameState.stats = {
-    analystLevel: Math.round(((xpCat.analyst || 0) / (XP_BY_CAT.analyst || 1)) * 100),
-    aiLevel: Math.round(((xpCat.ai || 0) / (XP_BY_CAT.ai || 1)) * 100),
-    employabilityLevel: Math.round(((xpCat.employability || 0) / (XP_BY_CAT.employability || 1)) * 100)
+    analystLevel: Math.round((catGain.analyst / XP_CAT_TOTAL.analyst) * 100),
+    aiLevel: Math.round((catGain.ai / XP_CAT_TOTAL.ai) * 100),
+    employabilityLevel: Math.round((catGain.employability / XP_CAT_TOTAL.employability) * 100)
   };
 }
 
 /* ==========================================================
-   E) JS / RENDER DE INTERFAZ
+   E) JS / LOGROS Y EFECTOS
+   ========================================================== */
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+/* --- Condiciones de logros --- */
+function achievementState() {
+  const doneSet = new Set(gameState.completedMissions);
+  const perChapter = {};
+  campaignMissions.forEach(m => { perChapter[m.chapter] = (perChapter[m.chapter] || 0) + 1; });
+  const donePer = {};
+  campaignMissions.forEach(m => { if (doneSet.has(m.id)) donePer[m.chapter] = (donePer[m.chapter] || 0) + 1; });
+  const aiAll = campaignMissions.filter(m => m.category === "ai").every(m => doneSet.has(m.id));
+  const dailyN = gameState.completedDaily.length;
+  const weekN = gameState.completedWeekly.length;
+  const allCampaign = doneSet.size >= CAMP_TOTAL;
+  const allDaily = dailyN >= DAILY_TOTAL;
+  const allWeekly = weekN >= WEEKLY_TOTAL;
+  const c = {
+    ach_first: () => doneSet.size + dailyN + weekN >= 1,
+    ach_ten: () => dailyN >= 10,
+    ach_d21: () => dailyN >= 21,
+    ach_d42: () => allDaily,
+    ach_st7: () => gameState.streak >= 7,
+    ach_st14: () => gameState.streak >= 14,
+    ach_st21: () => gameState.streak >= 21,
+    ach_st30: () => gameState.streak >= 30,
+    ach_w3: () => weekN >= 3,
+    ach_w6: () => allWeekly,
+    ach_ch0: () => (donePer[0] || 0) >= perChapter[0],
+    ach_ch1: () => (donePer[1] || 0) >= perChapter[1],
+    ach_ch2: () => (donePer[2] || 0) >= perChapter[2],
+    ach_ch3: () => (donePer[3] || 0) >= perChapter[3],
+    ach_ch4: () => (donePer[4] || 0) >= perChapter[4],
+    ach_ch5: () => (donePer[5] || 0) >= perChapter[5],
+    ach_ai: () => aiAll,
+    ach_legend: () => allCampaign && allDaily && allWeekly
+  };
+  return achievements.filter(a => c[a.id] ? c[a.id]() : false);
+}
+
+function checkAchievements() {
+  const fresh = achievementState().filter(a => !gameState.unlockedAch.includes(a.id));
+  fresh.forEach(a => {
+    gameState.unlockedAch.push(a.id);
+    toast(a.ico, "¡LOGRO DESBLOQUEADO! +" + a.xp + " XP", a.name + " — " + a.desc, "ach");
+  });
+  return fresh.length;
+}
+
+function renderAchievements() {
+  const unlocked = new Set(gameState.unlockedAch);
+  document.getElementById("ach-grid").innerHTML = achievements.map(a =>
+    '<div class="ach-item ' + (unlocked.has(a.id) ? "unlocked" : "locked") + '">' +
+      '<span class="a-ico">' + (unlocked.has(a.id) ? a.ico : "🔒") + '</span>' +
+      '<b>' + escapeHtml(a.name) + '</b>' + escapeHtml(a.desc) +
+      '<span class="a-xp">+' + a.xp + ' XP</span>' +
+    '</div>').join("");
+}
+
+/* ==========================================================
+   F) JS / RENDER DE INTERFAZ
    ========================================================== */
 
-/* --- Render de capítulos y misiones en el main --- */
+/* --- Toasts --- */
+function toast(ico, title, sub, cls) {
+  const layer = document.getElementById("toast-layer");
+  const el = document.createElement("div");
+  el.className = "toast" + (cls ? " " + cls : "");
+  el.innerHTML = '<span class="t-ico">' + ico + '</span><div><b>' + escapeHtml(title) + '</b>' +
+    (sub ? '<small>' + escapeHtml(sub) + '</small>' : '') + '</div>';
+  layer.appendChild(el);
+  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 380); }, 3400);
+}
+
+/* --- Helpers de misiones --- */
+function getDaily(day) { return dailyMissions.find(m => m.day === day); }
+function getWeekly(week) { return weeklyMissions.find(m => m.week === week); }
+function catTag(cat) {
+  const c = CAT[cat];
+  return '<span class="tag ' + c.tag + '">' + c.label + '</span>';
+}
+function xpTag(xp) { return '<span class="tag xp">+' + xp + ' XP</span>'; }
+function timeTag(t) { return '<span class="tag time">⏱ ' + t + ' min</span>'; }
+
+/* --- Tarjeta de misión diaria (héroe) --- */
+function renderHero() {
+  const root = document.getElementById("daily-hero");
+  const m = getDaily(selectedDay);
+  if (!m) { root.innerHTML = ""; return; }
+  const unlocked = isDayUnlocked(m.day);
+  const done = gameState.completedDaily.includes(m.day);
+  const isToday = m.day === unlockedDay();
+  const col = CAT_COLORS[m.category];
+  const wkName = ["", "Semana 1 · Cimientos", "Semana 2 · Visualización", "Semana 3 · SQL", "Semana 4 · ETL", "Semana 5 · IA + Dashboards", "Semana 6 · Empleo"][m.week];
+  root.innerHTML =
+    '<div class="daily-hero" style="--hero-color:' + col + ';--hero-color2:' + col + ';--hero-glow:' + col + '55">' +
+      '<div class="dh-kicker">' + (isToday ? "◉ MISIÓN DE HOY" : "MISIÓN DIARIA") + ' · DÍA ' + m.day + '/42 · ' + wkName + '</div>' +
+      '<div class="dh-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
+      '<div class="dh-desc">' + escapeHtml(m.description) + '</div>' +
+      '<div class="dh-verif">' + escapeHtml(m.verification) + '</div>' +
+      '<div class="dh-meta">' + catTag(m.category) + xpTag(m.xp) + timeTag(m.time) +
+        '<span class="tag time">' + (isToday ? "🔥 HOY" : "Día " + m.day) + '</span></div>' +
+      '<div class="dh-actions">' +
+        (done
+          ? '<button class="btn-complete done-btn" id="hero-toggle">↩️ DESHACER MISIÓN</button>'
+          : (unlocked
+              ? '<button class="btn-complete" id="hero-toggle">✓ COMPLETAR MISIÓN DEL DÍA</button>'
+              : '<button class="btn-complete done-btn" disabled style="cursor:not-allowed;opacity:.6">🔒 SE DESBLOQUEA EL DÍA ' + m.day + '</button>')) +
+        '<span class="dh-status">' + statusLine(m.day) + '</span>' +
+      '</div>' +
+    '</div>';
+}
+function statusLine(day) {
+  const done = gameState.completedDaily.filter(d => d <= day).length;
+  const total = Math.min(day, unlockedDay());
+  return "Al día: <b>" + done + "/" + total + "</b> misiones";
+}
+
+/* --- Tarjeta de misión semanal --- */
+function renderWeekly() {
+  const root = document.getElementById("weekly-card");
+  const w = weekAvailable();
+  const m = getWeekly(w);
+  const done = gameState.completedWeekly.includes(w);
+  const col = CAT_COLORS[m.category];
+  root.innerHTML =
+    '<div class="week-card' + (done ? " done" : "") + '">' +
+      '<div class="wk-head">' +
+        '<span class="wk-kicker">📯 Misión Semanal · Semana ' + w + '/6</span>' +
+        '<span class="wk-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</span>' +
+        '<div style="margin-left:auto;display:flex;gap:8px">' + catTag(m.category) + xpTag(m.xp) + '</div>' +
+      '</div>' +
+      '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+      '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+      '<div class="dh-actions">' +
+        (done
+          ? '<button class="btn-complete done-btn" id="weekly-toggle">↩️ DESHACER SEMANA</button>'
+          : '<button class="btn-complete" id="weekly-toggle" style="--hero-color:' + col + ';--hero-color2:#ff00ff;--hero-glow:' + col + '55">✓ COMPLETAR MISIÓN SEMANAL</button>') +
+      '</div>' +
+    '</div>';
+}
+
+/* --- Ruta: los 42 días --- */
+function renderRoadmap() {
+  const root = document.getElementById("roadmap");
+  const wkTitles = ["", "Cimientos", "Manipulación y Visualización", "SQL", "Pandas Avanzado + ETL", "IA + Dashboards", "Empleabilidad"];
+  let html = "";
+  for (let wk = 1; wk <= 6; wk++) {
+    html += '<div class="week-block"><h4>' + wkTitles[wk] +
+      ' <span style="color:var(--tx2);font-weight:400">(días ' + ((wk - 1) * 7 + 1) + '–' + wk * 7 + ')</span></h4><div class="days-grid">';
+    for (let d = (wk - 1) * 7 + 1; d <= wk * 7; d++) html += dayCard(d);
+    html += '</div></div>';
+  }
+  root.innerHTML = html;
+}
+function dayCard(day) {
+  const m = getDaily(day);
+  const done = gameState.completedDaily.includes(day);
+  const isToday = day === unlockedDay();
+  const locked = !isDayUnlocked(day);
+  const sel = day === selectedDay ? " selected" : "";
+  const stateIco = done ? "✓" : (locked ? "🔒" : (isToday ? "🔥" : "○"));
+  return '<div class="day-card' + (done ? " done" : "") + (isToday ? " today" : "") + (locked ? " locked" : "") + sel +
+    '" data-day="' + day + '">' +
+    '<span class="dc-state">' + stateIco + '</span>' +
+    '<div class="dc-day">DÍA ' + day + (isToday ? " · HOY" : "") + '</div>' +
+    '<div class="dc-title">' + escapeHtml(m.title) + '</div>' +
+    '<div class="dc-foot"><span class="dc-xp">+' + m.xp + '</span><span>' + m.time + ' min</span></div>' +
+  '</div>';
+}
+
+/* --- Render completo de la vista diaria --- */
+function renderDailyView() {
+  if (!gameState.startDate) return;
+  renderHero();
+  renderWeekly();
+  renderRoadmap();
+}
+
+/* --- Campaña: capítulos y misiones --- */
 function renderChapters() {
   const root = document.getElementById("chapters-root");
   const doneSet = new Set(gameState.completedMissions);
   root.innerHTML = "";
-
   CHAPTERS.forEach(ch => {
-    const chMissions = missions.filter(m => m.chapter === ch.id);
-    const chDone = chMissions.filter(m => doneSet.has(m.id)).length;
-    const pct = Math.round((chDone / chMissions.length) * 100);
-
+    const chM = campaignMissions.filter(m => m.chapter === ch.id);
+    const chDone = chM.filter(m => doneSet.has(m.id)).length;
+    const pct = Math.round((chDone / chM.length) * 100);
     const sec = document.createElement("section");
-    sec.className = "chapter" + (pct === 100 ? " done-ch" : "");
-    sec.dataset.chapter = ch.id;
+    sec.className = "chapter";
     sec.style.setProperty("--ch-color", ch.color);
     if (pct === 100) sec.style.borderColor = ch.color;
-
     sec.innerHTML =
       '<div class="chapter-head" role="button" tabindex="0" aria-expanded="false">' +
         '<span class="chapter-ico">' + ch.icon + '</span>' +
-        '<div class="chapter-title"><small>' + ch.code + (pct === 100 ? ' · COMPLETADO ✓' : '') + '</small>' + escapeHtml(ch.title) + '</div>' +
-        '<div class="chapter-meta">' +
-          '<span>' + chDone + '/' + chMissions.length + '</span>' +
+        '<div class="chapter-title"><small>' + ch.code + (pct === 100 ? " · COMPLETADO ✓" : "") + '</small>' + escapeHtml(ch.title) + '</div>' +
+        '<div class="chapter-meta"><span>' + chDone + '/' + chM.length + '</span>' +
           '<div class="bar"><span style="width:' + pct + '%"></span></div>' +
-          '<span class="ch-chev">▶</span>' +
-        '</div>' +
+          '<span class="ch-chev">▶</span></div>' +
       '</div>' +
-      '<div class="chapter-body">' +
-        '<p class="ch-narrative">' + escapeHtml(ch.narrative) + '</p>' +
-        chMissions.map(m => missionCard(m, doneSet.has(m.id))).join("") +
+      '<div class="chapter-body"><p class="ch-narrative">' + escapeHtml(ch.narrative) + '</p>' +
+        chM.map(m => campaignCard(m, doneSet.has(m.id))).join("") +
       '</div>';
     root.appendChild(sec);
   });
 }
-
-function missionCard(m, isDone) {
+function campaignCard(m, isDone) {
   const cat = CAT[m.category];
-  return '<div class="mission' + (isDone ? ' done' : '') + '" data-id="' + m.id + '">' +
-    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '" title="Marcar como completada"></div>' +
+  return '<div class="mission' + (isDone ? " done" : "") + '" data-id="' + m.id + '">' +
+    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '"></div>' +
     '<div class="m-body">' +
       '<div class="m-title">' + escapeHtml(m.title) + '</div>' +
       '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
       '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
-      '<div class="m-tags">' +
-        '<span class="tag ' + cat.tag + '">' + cat.label + '</span>' +
-        '<span class="tag xp">+' + m.xp + ' XP</span>' +
-        '<span class="tag time">⏱ ' + escapeHtml(m.estimatedTime) + '</span>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+      '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + '</div>' +
+    '</div></div>';
 }
-
-/* --- Escapar HTML (seguridad ante textos con caracteres raros) --- */
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[c]));
-}
-
-/* --- Actualizar TODA la interfaz (HUD, panel, barras, radar) --- */
-function updateUI() {
-  const done = gameState.completedMissions.length;
-  const total = MISSION_TOTAL;
-  const pct = Math.min(100, Math.round((gameState.totalXP / (MAX_XP_LEVEL || TOTAL_XP)) * 100));
-
-  // HUD superior
-  document.getElementById("hud-level").textContent = "NIVEL " + gameState.level;
-  document.getElementById("hud-rank").textContent = levelName(gameState.level);
-  document.getElementById("hud-xp").textContent = gameState.totalXP.toLocaleString("es-CR") + " XP";
-  document.getElementById("hud-pct").textContent = pct + "%";
-  document.getElementById("hud-bar").style.width = pct + "%";
-
-  // Panel lateral
-  document.getElementById("s-name").textContent = gameState.playerName;
-  document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
-  setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
-  setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
-  setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
-  document.getElementById("m-count").textContent = done;
-  document.getElementById("m-total").textContent = total;
-  document.getElementById("ach-count").textContent = unlockedAchievements().length;
-
-  // Tiempo estimado total (suma min y max de horas)
-  let minH = 0, maxH = 0;
-  missions.forEach(m => {
-    const t = parseHours(m.estimatedTime);
-    minH += t.min; maxH += t.max;
-  });
-  document.getElementById("time-total").textContent =
-    minH === maxH ? minH + " h" : minH + "–" + maxH + " h";
-
-  drawRadar();
-  updateMissionCards();
-}
-
-function setBar(barId, txtId, value) {
-  document.getElementById(barId).style.width = value + "%";
-  document.getElementById(txtId).textContent = value + "%";
-}
-
-/* --- Refrescar visual de tarjetas sin perder scroll (tras cambios) --- */
-function updateMissionCards() {
+function syncMissionCards() {
   const doneSet = new Set(gameState.completedMissions);
   document.querySelectorAll(".mission").forEach(card => {
     const done = doneSet.has(card.dataset.id);
@@ -812,123 +975,50 @@ function updateMissionCards() {
   });
 }
 
-/* ==========================================================
-   F) JS / EFECTOS — toasts, level-up, logros, partículas, radar
-   ========================================================== */
-
-/* --- Toasts --- */
-function toast(ico, title, sub, cls) {
-  const layer = document.getElementById("toast-layer");
-  const el = document.createElement("div");
-  el.className = "toast" + (cls ? " " + cls : "");
-  el.innerHTML = '<span class="t-ico">' + ico + '</span><div><b>' + escapeHtml(title) +
-    '</b>' + (sub ? '<small>' + escapeHtml(sub) + '</small>' : '') + '</div>';
-  layer.appendChild(el);
-  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 380); }, 3400);
+/* --- HUD / panel global --- */
+function updateUI() {
+  const pct = Math.min(100, Math.round((gameState.totalXP / MAX_XP_LEVEL) * 100));
+  document.getElementById("hud-level").textContent = "NIVEL " + gameState.level;
+  document.getElementById("hud-rank").textContent = levelName(gameState.level);
+  document.getElementById("hud-xp").textContent = gameState.totalXP.toLocaleString("es-CR") + " XP";
+  document.getElementById("hud-pct").textContent = pct + "%";
+  document.getElementById("hud-bar").style.width = pct + "%";
+  document.getElementById("s-name").textContent = gameState.playerName;
+  document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
+  document.getElementById("streak-n").textContent = gameState.streak;
+  document.getElementById("streak-chip").style.boxShadow =
+    gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
+  setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
+  setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
+  setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
+  document.getElementById("d-count").textContent = gameState.completedDaily.length + "/" + DAILY_TOTAL;
+  document.getElementById("w-count").textContent = gameState.completedWeekly.length + "/" + WEEKLY_TOTAL;
+  document.getElementById("c-count").textContent = gameState.completedMissions.length + "/" + CAMP_TOTAL;
+  document.getElementById("ach-count").textContent = gameState.unlockedAch.length;
+  document.getElementById("ach-total").textContent = achievements.length;
+  let minT = 0, maxT = 0;
+  campaignMissions.forEach(m => { const t = parseHours(m.estimatedTime); minT += t.min * 60; maxT += t.max * 60; });
+  dailyMissions.forEach(m => { minT += m.time; maxT += m.time; });
+  weeklyMissions.forEach(m => { minT += m.time; maxT += m.time; });
+  document.getElementById("time-total").textContent =
+    minT === maxT ? fmtHours(minT) : fmtHours(minT) + " – " + fmtHours(maxT);
+  drawRadar();
+}
+function setBar(barId, txtId, value) {
+  document.getElementById(barId).style.width = value + "%";
+  document.getElementById(txtId).textContent = value + "%";
 }
 
-/* --- Notificación especial de logro --- */
-function notifyAchievement(ach) {
-  toast(ach.ico, "¡LOGRO DESBLOQUEADO!", ach.name + " — " + ach.desc, "ach");
-}
-
-/* --- Detección de logros desbloqueados (retorna lista de objetos) --- */
-function unlockedAchievements() {
-  const doneSet = new Set(gameState.completedMissions);
-  const perChapter = {};
-  missions.forEach(m => { perChapter[m.chapter] = (perChapter[m.chapter] || 0) + 1; });
-  const donePerChapter = {};
-  missions.forEach(m => { if (doneSet.has(m.id)) donePerChapter[m.chapter] = (donePerChapter[m.chapter] || 0) + 1; });
-  const aiIds = missions.filter(m => m.category === "ai").map(m => m.id);
-  const aiAll = aiIds.every(id => doneSet.has(id));
-
-  const cond = {
-    ach_first:  () => doneSet.size >= 1,
-    ach_ten:    () => doneSet.size >= 10,
-    ach_ch0:    () => (donePerChapter[0] || 0) >= perChapter[0],
-    ach_ch1:    () => (donePerChapter[1] || 0) >= perChapter[1],
-    ach_ch2:    () => (donePerChapter[2] || 0) >= perChapter[2],
-    ach_ch3:    () => (donePerChapter[3] || 0) >= perChapter[3],
-    ach_ch4:    () => (donePerChapter[4] || 0) >= perChapter[4],
-    ach_ch5:    () => (donePerChapter[5] || 0) >= perChapter[5],
-    ach_ai:     () => aiAll,
-    ach_legend: () => doneSet.size >= MISSION_TOTAL
-  };
-  return achievements.filter(a => cond[a.id] ? cond[a.id]() : false);
-}
-
-/* --- Procesar logros nuevos (comparando con últimos conocidos) --- */
-let knownAchievements = new Set();
-function checkAchievements() {
-  const now = unlockedAchievements();
-  const fresh = now.filter(a => !knownAchievements.has(a.id));
-  fresh.forEach(a => { knownAchievements.add(a.id); notifyAchievement(a); });
-  // Actualiza contador en el panel y el modal si está abierto
-  document.getElementById("ach-count").textContent = now.length;
-  if (achLayer.classList.contains("show")) renderAchievements();
-  return fresh.length;
-}
-
-function renderAchievements() {
-  const grid = document.getElementById("ach-grid");
-  const unlocked = new Set(unlockedAchievements().map(a => a.id));
-  grid.innerHTML = achievements.map(a =>
-    '<div class="ach-item ' + (unlocked.has(a.id) ? "unlocked" : "locked") + '">' +
-      '<span class="a-ico">' + (unlocked.has(a.id) ? a.ico : "🔒") + '</span>' +
-      '<b>' + escapeHtml(a.name) + '</b>' + escapeHtml(a.desc) +
-    '</div>').join("");
-}
-
-/* --- Modal genérico --- */
-const modalLayer = document.getElementById("modal-layer");
-const modalBox = document.getElementById("modal-box");
-const achLayer = document.getElementById("ach-layer");
-
-function showWelcome() {
-  document.getElementById("modal-ico").textContent = "🕹️";
-  document.getElementById("modal-title").textContent = "BIENVENIDO, RECLUTA";
-  document.getElementById("modal-text").innerHTML =
-    "Estás en una misión para convertirte en el <b>analista de datos más poderoso del reino digital</b>.<br><br>" +
-    "Completa misiones, gana XP, sube de nivel y desbloquea logros. Escribe tu nombre de guerra para comenzar.";
-  document.getElementById("modal-input").value = gameState.playerName !== "Recluta" ? gameState.playerName : "";
-  document.getElementById("modal-input").style.display = "block";
-  document.getElementById("modal-btn").textContent = "COMENZAR";
-  modalBtn.dataset.mode = "welcome";
-  modalLayer.classList.add("show");
-  setTimeout(() => document.getElementById("modal-input").focus(), 250);
-}
-
-function showLevelUp(newLevel, lvlName) {
-  document.getElementById("modal-ico").textContent = "⚡";
-  document.getElementById("modal-title").className = "levelup-title";
-  document.getElementById("modal-title").textContent = "¡LEVEL UP!";
-  document.getElementById("modal-text").innerHTML =
-    "<b>NIVEL " + newLevel + " — " + escapeHtml(lvlName) + "</b><br>" +
-    "Tu poder crece. El reino digital ya susurra tu nombre.";
-  document.getElementById("modal-input").style.display = "none";
-  document.getElementById("modal-btn").textContent = "CONTINUAR";
-  modalBtn.dataset.mode = "levelup";
-  modalLayer.classList.add("show");
-}
-
-/* --- Radar chart (canvas, 3 habilidades) --- */
+/* --- Radar --- */
 const radar = document.getElementById("radar-chart");
 const radarCtx = radar.getContext("2d");
 function drawRadar() {
-  const W = radar.width, H = radar.height;
-  const cx = W / 2, cy = H / 2 + 6;
-  const R = 74;
-  const vals = [
-    gameState.stats.analystLevel / 100,
-    gameState.stats.aiLevel / 100,
-    gameState.stats.employabilityLevel / 100
-  ];
+  const W = radar.width, H = radar.height, cx = W / 2, cy = H / 2 + 6, R = 74;
+  const vals = [gameState.stats.analystLevel / 100, gameState.stats.aiLevel / 100, gameState.stats.employabilityLevel / 100];
   const colors = ["#00ff88", "#ff00ff", "#ffaa00"];
   const labels = ["Analista", "IA", "Empleab."];
-  const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6]; // arriba, abajo-derecha, abajo-izq
-
+  const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6];
   radarCtx.clearRect(0, 0, W, H);
-  // anillos
   for (let ring = 1; ring <= 4; ring++) {
     const rr = (R * ring) / 4;
     radarCtx.beginPath();
@@ -941,20 +1031,17 @@ function drawRadar() {
     radarCtx.lineWidth = 1;
     radarCtx.stroke();
   }
-  // ejes
   angles.forEach((a, i) => {
     radarCtx.beginPath();
     radarCtx.moveTo(cx, cy);
     radarCtx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
     radarCtx.strokeStyle = "rgba(160,160,192,.25)";
     radarCtx.stroke();
-    // etiquetas
     radarCtx.fillStyle = colors[i];
     radarCtx.font = "11px 'Share Tech Mono', monospace";
     radarCtx.textAlign = "center";
     radarCtx.fillText(labels[i], cx + (R + 24) * Math.cos(a), cy + (R + 24) * Math.sin(a) + 4);
   });
-  // polígono de valor
   radarCtx.beginPath();
   angles.forEach((a, i) => {
     const rr = Math.max(4, R * vals[i]);
@@ -970,7 +1057,6 @@ function drawRadar() {
   radarCtx.shadowBlur = 10;
   radarCtx.stroke();
   radarCtx.shadowBlur = 0;
-  // puntos
   angles.forEach((a, i) => {
     const rr = Math.max(4, R * vals[i]);
     radarCtx.beginPath();
@@ -983,35 +1069,23 @@ function drawRadar() {
   });
 }
 
-/* --- Partículas: destellos al completar + ambiente sutil --- */
+/* --- Partículas --- */
 const pCanvas = document.getElementById("particles-canvas");
 const pCtx = pCanvas.getContext("2d");
 let particles = [];
-function sizeCanvas() {
-  pCanvas.width = window.innerWidth;
-  pCanvas.height = window.innerHeight;
-}
+function sizeCanvas() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
 function burst(x, y, color, n) {
   for (let i = 0; i < (n || 26); i++) {
     const a = Math.random() * Math.PI * 2;
     const v = 1.5 + Math.random() * 5;
-    particles.push({
-      x: x, y: y,
-      vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2,
-      life: 1, decay: .014 + Math.random() * .02,
-      size: 1.5 + Math.random() * 2.6,
-      color: color || "#00ff88"
-    });
+    particles.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2, life: 1, decay: .014 + Math.random() * .02, size: 1.5 + Math.random() * 2.6, color: color || "#00ff88" });
   }
 }
 function loopParticles() {
   pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
   particles = particles.filter(p => p.life > 0);
   particles.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    p.vy += .09;             // gravedad
-    p.vx *= .985;
-    p.life -= p.decay;
+    p.x += p.vx; p.y += p.vy; p.vy += .09; p.vx *= .985; p.life -= p.decay;
     pCtx.globalAlpha = Math.max(0, p.life);
     pCtx.fillStyle = p.color;
     pCtx.shadowColor = p.color;
@@ -1025,13 +1099,201 @@ function loopParticles() {
   requestAnimationFrame(loopParticles);
 }
 
-/* ==========================================================
-   G) JS / EVENTOS E INICIALIZACIÓN
-   ========================================================== */
+/* --- Modales --- */
+const modalLayer = document.getElementById("modal-layer");
 const modalBtn = document.getElementById("modal-btn");
-const achGrid = document.getElementById("ach-grid");
+function showLevelUp(newLevel, name) {
+  document.getElementById("modal-ico").textContent = "⚡";
+  document.getElementById("modal-title").className = "levelup-title";
+  document.getElementById("modal-title").textContent = "¡LEVEL UP!";
+  document.getElementById("modal-text").innerHTML =
+    "<b>NIVEL " + newLevel + " — " + escapeHtml(name) + "</b><br>Tu poder crece. El reino digital ya susurra tu nombre.";
+  document.getElementById("modal-input").style.display = "none";
+  document.getElementById("modal-btn").textContent = "CONTINUAR";
+  modalBtn.dataset.mode = "levelup";
+  modalLayer.classList.add("show");
+}
+function showWelcome() {
+  document.getElementById("modal-ico").textContent = "🕹️";
+  document.getElementById("modal-title").className = "";
+  document.getElementById("modal-title").textContent = "BIENVENIDO, RECLUTA";
+  document.getElementById("modal-text").innerHTML =
+    "Estás en una misión para convertirte en el <b>analista de datos más poderoso del reino digital</b>.<br><br>" +
+    "Tu plan maestro dura <b>42 días (6 semanas)</b>: cada día se desbloquea <b>una misión diaria</b> y cada semana una <b>misión semanal especial</b>. " +
+    "Completa la de hoy para mantener tu <b>racha 🔥</b>. Tu Día 1 empieza hoy mismo.";
+  document.getElementById("modal-input").value = gameState.playerName !== "Recluta" ? gameState.playerName : "";
+  document.getElementById("modal-input").style.display = "block";
+  document.getElementById("modal-btn").textContent = "COMENZAR MISIÓN";
+  modalBtn.dataset.mode = "welcome";
+  modalLayer.classList.add("show");
+  setTimeout(() => document.getElementById("modal-input").focus(), 250);
+}
 
-/* --- Acordeón de capítulos (delegación) --- */
+/* --- Render todo --- */
+function renderAll() {
+  recomputeState();
+  renderDailyView();
+  renderChapters();
+  updateUI();
+}
+
+/* ==========================================================
+   G) JS / ACCIONES, EVENTOS E INICIALIZACIÓN
+   ========================================================== */
+
+/* --- Level-up común tras un cambio --- */
+function celebrateIfLevelUp(oldLevel) {
+  if (gameState.level > oldLevel) {
+    setTimeout(() => showLevelUp(gameState.level, levelName(gameState.level)), 900);
+    const badge = document.getElementById("hud-level");
+    badge.classList.add("pulse");
+    setTimeout(() => badge.classList.remove("pulse"), 1800);
+    burst(window.innerWidth / 2, 130, "#ffaa00", 80);
+    burst(window.innerWidth / 2, 130, "#00ff88", 80);
+  }
+}
+function cheerRandom() {
+  if (Math.random() < .6) {
+    setTimeout(() => toast("🎖️", "General", CHEERS[Math.floor(Math.random() * CHEERS.length)]), 1900);
+  }
+}
+
+/* --- Campaña --- */
+function toggleCampaign(id, el) {
+  const m = campaignMissions.find(x => x.id === id);
+  if (!m) return;
+  const oldLevel = gameState.level;
+  const wasDone = gameState.completedMissions.includes(id);
+  const rect = el.getBoundingClientRect();
+  if (wasDone) {
+    gameState.completedMissions = gameState.completedMissions.filter(x => x !== id);
+  } else {
+    gameState.completedMissions.push(id);
+    burst(rect.left + rect.width / 2, rect.top + rect.height / 2, CAT_COLORS[m.category], 30);
+  }
+  recomputeState();
+  const achFresh = checkAchievements();
+  if (achFresh) recomputeState();
+  syncMissionCards();
+  updateUI();
+  if (wasDone) {
+    toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
+  } else {
+    toast("✅", "¡Misión cumplida! +" + m.xp + " XP", m.title + " · Capítulo " + m.chapter);
+    cheerRandom();
+  }
+  celebrateIfLevelUp(oldLevel);
+  saveGame();
+}
+
+/* --- Racha: al completar una misión diaria hoy --- */
+function updateStreak() {
+  const td = todayStr();
+  if (gameState.lastDailyDate === td) return;
+  if (gameState.lastDailyDate && diffDays(gameState.lastDailyDate, td) === 1) {
+    gameState.streak += 1;
+  } else {
+    gameState.streak = 1;
+  }
+  gameState.lastDailyDate = td;
+  if (gameState.streak === 7) toast("🔥", "¡7 días seguidos!", "Racha en llamas. El logro Semana Imparable (+100 XP) es tuyo.", "ach");
+}
+
+/* --- Misión diaria --- */
+function toggleDaily(day) {
+  const m = getDaily(day);
+  if (!m) return;
+  const oldLevel = gameState.level;
+  const wasDone = gameState.completedDaily.includes(day);
+  if (!wasDone && !isDayUnlocked(day)) {
+    toast("🔒", "Todavía no desbloqueada", "Esta misión se desbloquea el Día " + day + ". Completa las anteriores.");
+    return;
+  }
+  if (wasDone) {
+    gameState.completedDaily = gameState.completedDaily.filter(d => d !== day);
+  } else {
+    gameState.completedDaily.push(day);
+    updateStreak();
+    burst(window.innerWidth * .5, 320, CAT_COLORS[m.category], 40);
+  }
+  recomputeState();
+  const achFresh = checkAchievements();
+  if (achFresh) recomputeState();
+  renderDailyView();
+  updateUI();
+  if (wasDone) {
+    toast("↩️", "Misión del día desmarcada", "-" + m.xp + " XP · Día " + day + " · " + m.title);
+  } else {
+    toast("🎯", "¡Misión diaria cumplida! +" + m.xp + " XP", "Día " + day + "/42 · " + m.title + (gameState.streak > 1 ? " · Racha 🔥" + gameState.streak : ""));
+    cheerRandom();
+  }
+  celebrateIfLevelUp(oldLevel);
+  saveGame();
+}
+
+/* --- Misión semanal --- */
+function toggleWeekly(week) {
+  const m = getWeekly(week);
+  if (!m) return;
+  if (week > currentWeek() && !gameState.completedWeekly.includes(week)) {
+    toast("🔒", "Semana no disponible", "La Semana " + week + " se desbloquea más adelante.");
+    return;
+  }
+  const oldLevel = gameState.level;
+  const wasDone = gameState.completedWeekly.includes(week);
+  if (wasDone) {
+    gameState.completedWeekly = gameState.completedWeekly.filter(w => w !== week);
+  } else {
+    gameState.completedWeekly.push(week);
+    burst(window.innerWidth / 2, 220, "#ff00ff", 60);
+    burst(window.innerWidth / 2, 220, "#ffaa00", 60);
+  }
+  recomputeState();
+  const achFresh = checkAchievements();
+  if (achFresh) recomputeState();
+  renderDailyView();
+  updateUI();
+  if (wasDone) {
+    toast("↩️", "Misión semanal desmarcada", "-" + m.xp + " XP · Semana " + week);
+  } else {
+    toast("📯", "¡MISIÓN SEMANAL CUMPLIDA! +" + m.xp + " XP", "Semana " + week + "/6 · " + m.title, "raid");
+  }
+  celebrateIfLevelUp(oldLevel);
+  saveGame();
+}
+
+/* --- Pestañas --- */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    const tab = btn.dataset.tab;
+    document.getElementById("view-daily").classList.toggle("active", tab === "daily");
+    document.getElementById("view-campaign").classList.toggle("active", tab === "campaign");
+    if (tab === "daily") renderDailyView();
+  });
+});
+
+/* --- Vista diaria: clics --- */
+document.getElementById("daily-hero").addEventListener("click", e => {
+  if (e.target.closest("#hero-toggle")) toggleDaily(selectedDay);
+});
+document.getElementById("weekly-card").addEventListener("click", e => {
+  if (e.target.closest("#weekly-toggle")) toggleWeekly(weekAvailable());
+});
+document.getElementById("roadmap").addEventListener("click", e => {
+  const card = e.target.closest(".day-card");
+  if (!card) return;
+  const day = Number(card.dataset.day);
+  if (!isDayUnlocked(day)) {
+    toast("🔒", "Bloqueado", "Se desbloquea el Día " + day + " (lleva tu racha al día).");
+    return;
+  }
+  selectedDay = day;
+  renderHero();
+  renderRoadmap();
+});
+
+/* --- Vista campaña: acordeón + misiones --- */
 document.getElementById("chapters-root").addEventListener("click", e => {
   const head = e.target.closest(".chapter-head");
   if (head) {
@@ -1040,11 +1302,9 @@ document.getElementById("chapters-root").addEventListener("click", e => {
     head.setAttribute("aria-expanded", String(open));
     return;
   }
-  // Checkbox de misión (clic)
   const check = e.target.closest(".m-check");
-  if (check) toggleMission(check.closest(".mission").dataset.id, check);
+  if (check) toggleCampaign(check.closest(".mission").dataset.id, check);
 });
-
 document.getElementById("chapters-root").addEventListener("keydown", e => {
   if (e.key !== "Enter" && e.key !== " ") return;
   const head = e.target.closest(".chapter-head");
@@ -1053,64 +1313,22 @@ document.getElementById("chapters-root").addEventListener("keydown", e => {
   else if (check) { e.preventDefault(); check.click(); }
 });
 
-/* --- Alternar estado de una misión --- */
-function toggleMission(id, el) {
-  const idx = gameState.completedMissions.indexOf(id);
-  const oldLevel = gameState.level;
-  const mission = missions.find(m => m.id === id);
-  if (!mission) return;
-
-  const wasDone = idx !== -1;
-  const rect = el.getBoundingClientRect();
-
-  if (wasDone) {
-    gameState.completedMissions.splice(idx, 1);
-  } else {
-    gameState.completedMissions.push(id);
-    burst(rect.left + rect.width / 2, rect.top + rect.height / 2, CHAPTERS[mission.chapter].color, 34);
-  }
-
-  recomputeState();
-  const newLevel = gameState.level;
-
-  if (!wasDone) {
-    saveGame();
-    updateUI();
-    // Toast de misión cumplida
-    toast("✅", "¡Misión cumplida! +" + mission.xp + " XP",
-      mission.title + " · " + CHAPTERS[mission.chapter].icon + " " + CHAPTERS[mission.chapter].title,
-      mission.xp >= 300 ? "levelup" : "");
-    // Ánimo aleatorio (modo historia)
-    if (Math.random() < .65) {
-      setTimeout(() => toast("🎖️", "General", CHEERS[Math.floor(Math.random() * CHEERS.length)]), 1900);
-    }
-    checkAchievements();
-    // Level up
-    if (newLevel > oldLevel) {
-      setTimeout(() => showLevelUp(newLevel, levelName(newLevel)), 900);
-      // Doble celebración visual en el HUD
-      document.getElementById("hud-level").classList.add("pulse");
-      setTimeout(() => document.getElementById("hud-level").classList.remove("pulse"), 1800);
-      burst(window.innerWidth / 2, 130, "#ffaa00", 90);
-      burst(window.innerWidth / 2, 130, "#00ff88", 90);
-    }
-  } else {
-    saveGame();
-    updateUI();
-    toast("↩️", "Misión desmarcada", "-" + mission.xp + " XP · " + mission.title);
-  }
-}
-
-/* --- Modal: confirmar nombre / continuar --- */
+/* --- Modal --- */
 modalBtn.addEventListener("click", () => {
   if (modalBtn.dataset.mode === "welcome") {
     const name = document.getElementById("modal-input").value.trim();
     if (name) gameState.playerName = name;
+    if (!gameState.startDate) {
+      gameState.startDate = todayStr();
+      gameState.lastDailyDate = null;
+      gameState.streak = 0;
+      selectedDay = 1;
+    }
     saveGame();
-    document.getElementById("s-name").textContent = gameState.playerName;
     modalLayer.classList.remove("show");
+    renderAll();
     toast("🕹️", "Bienvenido, " + gameState.playerName,
-      "Que la fuerza de los datos te acompañe.");
+      "Día 1 activado. Tu misión de hoy te espera 🔥");
   } else {
     modalLayer.classList.remove("show");
   }
@@ -1120,21 +1338,17 @@ document.getElementById("modal-input").addEventListener("keydown", e => {
   if (e.key === "Enter") modalBtn.click();
 });
 
-/* --- Logros: abrir/cerrar modal --- */
-document.getElementById("ach-link").addEventListener("click", () => {
-  renderAchievements();
-  achLayer.classList.add("show");
-});
-document.getElementById("logo").addEventListener("click", () => {
-  renderAchievements();
-  achLayer.classList.add("show");
-});
+/* --- Logros --- */
+const achLayer = document.getElementById("ach-layer");
+function openAchievements() { renderAchievements(); achLayer.classList.add("show"); }
+document.getElementById("ach-link").addEventListener("click", openAchievements);
+document.getElementById("logo").addEventListener("click", openAchievements);
 document.getElementById("ach-close").addEventListener("click", () => achLayer.classList.remove("show"));
 achLayer.addEventListener("click", e => { if (e.target === achLayer) achLayer.classList.remove("show"); });
 
-/* --- Botón reiniciar --- */
+/* --- Reset --- */
 document.getElementById("btn-reset").addEventListener("click", () => {
-  if (confirm("⚠️ ¿Seguro que deseas reiniciar TODO tu progreso? No hay vuelta atrás.")) {
+  if (confirm("⚠️ ¿Seguro que deseas reiniciar TODO tu progreso (campaña, días, semanas y logros)? No hay vuelta atrás.")) {
     resetGame();
   }
 });
@@ -1146,13 +1360,21 @@ loopParticles();
 
 const hadSave = loadGame();
 recomputeState();
-renderChapters();
-updateUI();
-knownAchievements = new Set(unlockedAchievements().map(a => a.id)); // logros ya ganados: no re-notificar
+// Seleccionar por defecto la primera misión diaria pendiente
+if (gameState.startDate) {
+  selectedDay = 1;
+  for (let d = 1; d <= unlockedDay(); d++) {
+    if (!gameState.completedDaily.includes(d)) { selectedDay = d; break; }
+    selectedDay = d;
+  }
+}
+renderAll();
+if (achLayer) renderAchievements();
 
-if (!hadSave || !gameState.playerName || gameState.playerName === "Recluta") {
+if (!hadSave || !gameState.startDate || !gameState.playerName || gameState.playerName === "Recluta") {
   showWelcome();
 }
+
 </script>
 </body>
 </html>
