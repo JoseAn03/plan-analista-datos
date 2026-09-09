@@ -873,6 +873,18 @@ html{-webkit-text-size-adjust:100%}
 .world-peak .wp-txt{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--tx2);letter-spacing:2px}
 @media (prefers-reduced-motion: reduce){
   .hub-wrap .hub-road.lit,.world-scroll .w-road.lit,.world-scroll .w-road.glit{animation:none!important}
+/* ==========================================================
+   🗺️ V5.2 — Personaje (avatar del recluta) + metáforas Aldea
+   ========================================================== */
+.m-avatar{position:absolute;transform:translate(-50%,-118%);font-size:2rem;line-height:1;z-index:6;pointer-events:none;
+  filter:drop-shadow(0 0 10px rgba(255,215,0,.75)) drop-shadow(0 4px 6px rgba(0,0,0,.6));
+  animation:avFloat 2.3s ease-in-out infinite}
+@keyframes avFloat{0%,100%{transform:translate(-50%,-122%)}50%{transform:translate(-50%,-112%)}}
+.m-avatar .av-gear{position:absolute;top:-10px;right:-16px;font-size:1.05rem;filter:drop-shadow(0 0 6px rgba(255,215,0,.9));animation:gearFloat 3s ease-in-out infinite}
+.hub-wrap .m-avatar{font-size:2.3rem}
+.aldea-zone .az-sub{display:block;font-size:.62rem;color:var(--tx2);font-family:'Share Tech Mono',monospace;margin-top:1px;opacity:.85}
+@media (prefers-reduced-motion: reduce){.m-avatar,.m-avatar .av-gear{animation:none!important}}
+
 }
 
 
@@ -2439,7 +2451,7 @@ function loopParticles() {
     pCtx.shadowColor = p.color;
     pCtx.shadowBlur = 6;
     pCtx.beginPath();
-    pCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    pCtx.arc(p.x, p.y, Math.max(0.1, p.size * p.life), 0, Math.PI * 2);
     pCtx.fill();
   });
   pCtx.globalAlpha = 1;
@@ -4102,6 +4114,7 @@ function aldeaHTML() {
     html += '<div class="aldea-zone" data-w="aldea-zone" data-sub="' + z.k + '" style="--mc:' + z.c + '">' +
       '<span class="az-pct">' + z.pct + "%</span><span class='az-ico'>" + z.ico + "</span>" +
       '<span class="az-name">' + z.n + "</span>" +
+      '<span class="az-sub">' + (AZ_METAFORA[z.k] || "") + "</span>" +
       '<span class="az-rank">' + z.s.name + " · Nv." + z.s.lvl + "</span></div>";
   });
   html += "</div><div class='maps-legend'><span class='lg-cur'>Toca una zona para entrar a su frente</span></div>";
@@ -4131,6 +4144,7 @@ function renderMapStage() {
   mapHudPaint();
   mapPeakPaint();
   mapEndBadge();
+  mapPlaceAvatar();
   const cur = stage.querySelector(".mnode.current, .mworld");
   if (cur && mapSt.w !== null) cur.scrollIntoView({ block: "center", behavior: "auto" });
 }
@@ -4347,6 +4361,48 @@ function mapEndBadge() {
 }
 
 
+/* ==========================================================
+   🗺️ V5.2 — Personaje del recluta sobre el mapa
+   ========================================================== */
+const AZ_METAFORA = {
+  eq: "campo de entrenamiento", kid: "hogar & jardín", cpl: "templo de la unión",
+  pow: "arena del león", men: "biblioteca del saber"
+};
+function mapAvatarIco() {
+  const gear = (gameState.rewards || {}).equipped || null;
+  const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
+  return g ? '🧑‍🚀<span class="av-gear">' + g + "</span>" : "🧑‍🚀";
+}
+function mapPlaceAvatar() {
+  const st = document.getElementById("map-stage");
+  if (!st) return;
+  st.querySelectorAll(".m-avatar").forEach(function (e) { e.remove(); });
+  const mk = function (host, x, y) {
+    const av = document.createElement("div");
+    av.className = "m-avatar";
+    av.innerHTML = mapAvatarIco();
+    av.style.left = x;
+    av.style.top = y;
+    host.appendChild(av);
+  };
+  if (mapSt.w === null) {
+    const camp = st.querySelector('.mworld[data-w="camp"]');
+    if (camp) mk(camp.parentElement, camp.style.left, camp.style.top);
+    return;
+  }
+  if (mapSt.w === "aldea") return;
+  let t = st.querySelector(".mnode.current");
+  if (!t) {
+    const done = st.querySelectorAll(".mnode.done");
+    t = done.length ? done[done.length - 1] : st.querySelector(".mnode");
+  }
+  if (!t) return;
+  const host = t.closest(".world-track") || t.parentElement;
+  mk(host, t.style.left, t.style.top);
+}
+
+/* --- Init --- */
+sizeCanvas();
 window.addEventListener("resize", sizeCanvas);
 loopParticles();
 
