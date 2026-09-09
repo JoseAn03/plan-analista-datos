@@ -566,6 +566,16 @@ html{-webkit-text-size-adjust:100%}
 .lvl-xpbar .progress-top{margin-bottom:3px}
 .bar.stat.violet>span,.lvl-xpbar .bar>span{background:linear-gradient(90deg,var(--lc,#7c6cff),#ff00ff);box-shadow:0 0 12px var(--lc,#7c6cff)}
 /* legado/alianza mini chips de progreso */
+
+/* ==========================================================
+   📈 CAPITAL — estilos (campaña IA + mercados)
+   ========================================================== */
+.bar.stat.cap>span{background:linear-gradient(90deg,#00e5a0,#00ccff);box-shadow:0 0 10px rgba(0,229,160,.5)}
+.chapter.clocked .chapter-head{opacity:.6}
+.ch-lock{padding:16px;border:1px dashed rgba(255,170,0,.4);border-radius:12px;color:var(--glow-amber);font-size:.88rem;text-align:center;background:rgba(255,170,0,.05)}
+#cap-allmsg{margin-top:14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(0,229,160,.1),rgba(124,108,255,.08));border:1px solid rgba(0,229,160,.4);font-size:.88rem;line-height:1.55;display:none}
+#cap-allmsg b{color:#fff}
+.vh-mini-note{font-size:.78rem;color:var(--tx2);margin:10px 0 0;line-height:1.5}
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
 .chip-grid .mc-lab{font-size:.55rem}
@@ -623,6 +633,14 @@ html{-webkit-text-size-adjust:100%}
         <span title="Frente Alianza (tu pareja)">💑 <b id="vm-cpl">Nv.1</b></span>
       </div>
     </div>
+    <div class="stat-block">
+      <div class="stat-head" title="Campaña IA + mercados + inversión: sube de Novato a NIVEL EXTREMO"><span><span class="stat-ico">📈</span>Capital (IA · Mercados)</span><span id="s-clvl">Nv.1</span></div>
+      <div class="bar stat cap"><span id="s-cbar"></span></div>
+      <div class="vida-mini">
+        <span>Rango: <b id="s-crank">Novato del Capital</b></span>
+        <span>⚔️ <b id="s-cdone">0/33</b></span>
+      </div>
+    </div>
     <div class="chip-grid">
       <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
       <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
@@ -636,9 +654,11 @@ html{-webkit-text-size-adjust:100%}
 
   <div class="main-col" style="min-width:0">
     <div class="tabs">
-      <button class="tab-btn active" data-tab="daily">🗓️ PLAN DIARIO</button>
-      <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA (CAPÍTULOS)</button>
-            <button class="tab-btn" data-tab="vida">🧬 VIDA</button><button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
+      <button class="tab-btn active" data-tab="daily">🗓️ DIARIO</button>
+      <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA</button>
+      <button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
+      <button class="tab-btn" data-tab="vida">🧬 VIDA</button>
+      <button class="tab-btn" data-tab="capital">📈 CAPITAL</button>
     </div>
 
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
@@ -695,6 +715,30 @@ html{-webkit-text-size-adjust:100%}
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
       <div id="vida-cpl" class="vida-sub"></div>
+    </section>
+
+    <!-- ============ VISTA 5: CAPITAL (campaña IA + mercados + inversión) ============ -->
+    <section class="view" id="view-capital">
+      <div class="lvl-card" style="--lc:#00e5a0">
+        <div class="lvl-ico">📈</div>
+        <div class="lvl-info">
+          <div class="li-rank" id="cap-rank">Nivel 1 · Modo Campaña</div>
+          <div class="li-name" id="cap-rangoname">Novato del Capital <small>· IA + mercados + futuro</small></div>
+          <div class="kid-chips">
+            <span class="bal-pill" id="cap-miss">🎯 Misiones: 0/33</span>
+            <span class="bal-pill" id="cap-chap">🗺️ Capítulos: 0/7</span>
+            <span class="bal-pill" style="opacity:.5">📚 Educativo · no es consejo de inversión</span>
+          </div>
+        </div>
+        <div class="lvl-xpbar">
+          <div class="progress-top"><span>XP de Capital</span><span class="lm-xp" id="cap-xp">0 XP</span></div>
+          <div class="bar"><span id="cap-bar" style="width:0%"></span></div>
+        </div>
+      </div>
+      <div class="vh-mini-note">Domina la campaña y sube de rango: de 🐣 Novato del Capital hasta 🔥 NIVEL EXTREMO. El mercado y la IA no se detienen, así que esta campaña crece con temporadas nuevas de misiones para mantenerte siempre actualizado.</div>
+      <div class="sect-title">🗺️ Ruta de la Campaña <small>completa un capítulo entero para desbloquear el siguiente</small><span class="count-pill" id="cap-pill">0%</span></div>
+      <div id="cap-allmsg"></div>
+      <div id="capital-root"></div>
     </section>
   </div>
 </div>
@@ -1141,6 +1185,100 @@ const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado",
 const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance" };
 
 /* ==========================================================
+   📈 CAPITAL — DATOS: Operación Capital (IA + mercados +
+   inversión + futuro). Campaña con rangos de Novato a
+   NIVEL EXTREMO. Contenido educativo, no es consejo de
+   inversión. Se refresca con temporadas nuevas.
+   ========================================================== */
+const CAP_LADDER = [
+  { xp: 0,     n: "Novato del Capital" },
+  { xp: 400,   n: "Aprendiz de Mercados" },
+  { xp: 1000,  n: "Principiante Informado" },
+  { xp: 2000,  n: "Explorador de Tendencias" },
+  { xp: 3200,  n: "Inversor en Formación" },
+  { xp: 4800,  n: "Analista de Capital" },
+  { xp: 7000,  n: "Inversor Consistente" },
+  { xp: 10000, n: "Estratega de Cartera" },
+  { xp: 14000, n: "Experto IA & Mercados" },
+  { xp: 20000, n: "Súper Experto" },
+  { xp: 30000, n: "Maestro del Capital" },
+  { xp: 50000, n: "🔥 NIVEL EXTREMO" }
+];
+
+const CAP_CHAPTERS = [
+  { cap: 1, code: "CAPÍTULO 1", title: "El Mapa del Tesoro",        ico: "🗺️", color: "#00ff88",
+    narrative: "Antes de invertir hay que blindar la base: deudas caras fuera, presupuesto claro y el poder del interés compuesto trabajando a tu favor. El dinero primero se protege, luego se multiplica." },
+  { cap: 2, code: "CAPÍTULO 2", title: "El Tablero de Juego",       ico: "📊", color: "#00ccff",
+    narrative: "Bolsa, ETFs, índices, cripto y cómo invertir desde Costa Rica. No puedes jugar bien si no conoces el tablero: aprende las piezas, las reglas y dónde están las trampas." },
+  { cap: 3, code: "CAPÍTULO 3", title: "IA: La Nueva Frontera",     ico: "🤖", color: "#ff00ff",
+    narrative: "La inteligencia artificial está reescribiendo qué empresas ganan. Aprende a leer la cadena de valor de la IA sin caer en el hype — y úsala como tu analista personal." },
+  { cap: 4, code: "CAPÍTULO 4", title: "El Catalejo del Analista",  ico: "🔭", color: "#ffaa00",
+    narrative: "Información de calidad y un ritual semanal: así se mantiene actualizado el que invierte bien. Fuentes serias, reportes de ganancias, métricas y un radar de tendencias." },
+  { cap: 5, code: "CAPÍTULO 5", title: "El Arsenal: Tu Cartera",    ico: "🛡️", color: "#ff6600",
+    narrative: "Con la base lista, se construye la cartera: perfil de riesgo, diversificación, aportes automáticos y reglas escritas para no entrar en pánico. Aquí se hace tu primera piedra." },
+  { cap: 6, code: "CAPÍTULO 6", title: "El General de tu Capital",  ico: "🎖️", color: "#ff3355",
+    narrative: "Invertir es un sistema, no un golpe de suerte: diario de decisiones, automatización, revisiones trimestrales y disciplina. El mercado premia la constancia, no la emoción." },
+  { cap: 7, code: "CAPÍTULO 7", title: "El Oráculo: IA + Futuro",   ico: "🔮", color: "#7c6cff",
+    narrative: "La maestría final: combinar tu cerebro de analista de datos con la IA para construir tu radar de mercado personal y diseñar tu máquina de aprendizaje eterno. Aquí te vuelves el que ve venir las olas." }
+];
+
+const CAP_MISSIONS = [
+  /* CAP 1 — base financiera */
+  { id: "ca1_1", cap: 1, t: "📸 Diagnóstico Financiero Completo", d: "Arma tu fotografía financiera real: ingresos, gastos, deudas, activos y pasivos. No se puede mejorar lo que no se mide.", xp: 150, time: 60, v: "Balance personal completo por escrito (hoja o nota)" },
+  { id: "ca1_2", cap: 1, t: "⚔️ Guerra a la Deuda Cara", d: "Lista todas tus deudas con monto e interés. Diseña el plan: primero las de mayor costo (tarjetas, préstamos personales).", xp: 150, time: 45, v: "Plan de pago de deudas escrito, de mayor a menor interés" },
+  { id: "ca1_3", cap: 1, t: "✨ Interés Compuesto: Tu Octava Maravilla", d: "Entiende el interés compuesto con números tuyos: simula ahorrar lo mismo durante 5, 10 y 20 años. Que el tiempo trabaje para ti.", xp: 180, time: 60, v: "3 proyecciones calculadas (5/10/20 años) documentadas" },
+  { id: "ca1_4", cap: 1, t: "🛡️ Nace el Fondo de Emergencia", d: "Define tu meta (3-6 meses de gastos) y haz HOY tu primer aporte, aunque sea pequeño. Es tu escudo anti-imprevistos.", xp: 250, time: 45, v: "Primer aporte hecho + meta del fondo definida" },
+
+  /* CAP 2 — mercados */
+  { id: "ca2_1", cap: 2, t: "🧩 Anatomía de la Bolsa", d: "Qué son acciones, bonos, ETFs e índices (S&P 500, Nasdaq 100) y cómo se negocian. Construye tu chuleta con 10 conceptos clave.", xp: 180, time: 75, v: "Chuleta propia con 10 conceptos explicados con tus palabras" },
+  { id: "ca2_2", cap: 2, t: "🔍 Cazador de ETFs", d: "Compara 3 ETFs de índice: comisiones, tamaño, réplica, domicilio y liquidez. Educación pura, sin comprar todavía.", xp: 200, time: 90, v: "Comparativa de 3 ETFs documentada (tabla incluida)" },
+  { id: "ca2_3", cap: 2, t: "🫀 El Pulso del Mercado", d: "Qué mueve los precios: tasas de interés, inflación, resultados de empresas y noticias. Sigue el mercado durante 5 días anotando qué pasó.", xp: 220, time: 90, v: "Bitácora de 5 días con los eventos que movieron precios" },
+  { id: "ca2_4", cap: 2, t: "🪙 Cripto sin FOMO", d: "Qué es blockchain, bitcoin y ethereum, su volatilidad y casos de uso reales. Entiende la tecnología antes que el precio.", xp: 200, time: 75, v: "Análisis educativo de 2 criptomonedas (sin comprar aún)" },
+  { id: "ca2_5", cap: 2, t: "🇨🇷 El Tablero desde Costa Rica", d: "Cómo invertir desde tu país: brokers internacionales, envío de dinero, impuestos y reglas. Investiga 2 opciones reales.", xp: 220, time: 90, v: "Nota con 2 opciones reales, requisitos y costos" },
+
+  /* CAP 3 — IA */
+  { id: "ca3_1", cap: 3, t: "🗺️ El Mapa de la IA", d: "Quién gana dinero con IA hoy: semiconductores, nubes, modelos y aplicaciones. Identifica la cadena de valor completa.", xp: 220, time: 90, v: "Mapa de la cadena de valor de la IA con 5+ actores" },
+  { id: "ca3_2", cap: 3, t: "📡 IA que Mueve Mercados", d: "Cómo los anuncios de IA mueven acciones (piensa en las grandes de semiconductores) y cómo leerlo sin caer en el hype.", xp: 220, time: 75, v: "Análisis de un evento real de IA y su efecto en el mercado" },
+  { id: "ca3_3", cap: 3, t: "🧑‍🏫 Tu Analista IA Personal", d: "Usa ChatGPT/Claude como tutor financiero: pídele explicar un concepto y AUDITA su respuesta contra una fuente real. La IA propone, tú verificas.", xp: 200, time: 60, v: "3 conversaciones guardadas + verificación con fuente confiable" },
+  { id: "ca3_4", cap: 3, t: "🫧 Detector de Burbujas", d: "Señales de exceso: valoraciones extremas, FOMO, titulares eufóricos. Estudia un caso histórico (2000 o 2021) y compáralo con el hype actual de IA.", xp: 240, time: 90, v: "Nota comparando una burbuja pasada con el entusiasmo actual" },
+  { id: "ca3_5", cap: 3, t: "⚡ IA + Datos = Tu Ventaja", d: "Conecta con tu plan de analista: script en Python para descargar y graficar un índice (yfinance) o alerta de precios con n8n. Tu skill diferencial.", xp: 300, time: 120, v: "Script o automatización funcionando con datos de mercado" },
+
+  /* CAP 4 — actualizarse */
+  { id: "ca4_1", cap: 4, t: "📰 Tu Arsenal de Fuentes", d: "Arma tu lista de fuentes confiables (prensa financiera seria, canales, newsletters) y elige UNA que seguirás semanal.", xp: 150, time: 60, v: "Lista de 5+ fuentes curadas + newsletter elegida" },
+  { id: "ca4_2", cap: 4, t: "🗓️ El Ritual del Sábado", d: "Bloque semanal de 45 min: qué pasó en mercados y qué tendencias de IA/negocios están creciendo. Sin excepción.", xp: 180, time: 45, v: "4 resúmenes semanales consecutivos (marca el hábito)" },
+  { id: "ca4_3", cap: 4, t: "📑 Leer un Reporte de Ganancias", d: "Ingresos, gastos, márgenes y guía futura: analiza un reporte de ganancias real de una empresa que te interese.", xp: 240, time: 90, v: "Análisis de 1 earnings publicado (notas propias)" },
+  { id: "ca4_4", cap: 4, t: "📐 Métricas que Importan", d: "P/E, crecimiento de ingresos, márgenes y deuda: aprende a leerlas y compara 2 empresas del mismo sector.", xp: 220, time: 90, v: "Comparativa con 6+ métricas documentada" },
+  { id: "ca4_5", cap: 4, t: "🛰️ Radar de Tendencias", d: "Identifica 3 industrias con viento a favor (IA, energía, salud, automatización...) y argumenta POR QUÉ crecerían.", xp: 220, time: 75, v: "Informe de 3 tendencias con argumentos y fuentes" },
+
+  /* CAP 5 — cartera */
+  { id: "ca5_1", cap: 5, t: "🎚️ Perfil de Riesgo y Horizonte", d: "Define tu perfil (conservador, moderado, agresivo) según edad, ingresos y tolerancia a caídas. Sin juicio: con honestidad.", xp: 150, time: 45, v: "Perfil escrito con horizonte y tolerancia definida" },
+  { id: "ca5_2", cap: 5, t: "🏗️ Arquitectura de Cartera", d: "Diseña tu asignación objetivo (educativa): qué porcentaje en índice global, acciones, bonos y efectivo según tu perfil.", xp: 220, time: 90, v: "Asignación objetivo documentada con porcentajes" },
+  { id: "ca5_3", cap: 5, t: "🌧️ Dólar Costo Promedio (DCA)", d: "Por qué aportar igual cada mes vence a intentar adivinar el momento perfecto. Define tu plan mensual automático.", xp: 200, time: 60, v: "Plan de aportes mensuales por escrito" },
+  { id: "ca5_4", cap: 5, t: "🛡️ El Escudo Anti-Pánico", d: "Escribe TUS reglas ANTES de una crisis: qué harás si el mercado cae -10%, -20%, -30%. Decidir con calma hoy te salva mañana.", xp: 220, time: 60, v: "Tus 5 reglas de disciplina escritas y firmadas" },
+  { id: "ca5_5", cap: 5, t: "🧱 La Primera Piedra", d: "Con plataforma elegida, haz tu primera inversión pequeña (o activa tu ahorro programado) con dinero que no necesites a corto plazo.", xp: 400, time: 120, v: "Primera inversión o aporte programado ACTIVO" },
+
+  /* CAP 6 — ejecución */
+  { id: "ca6_1", cap: 6, t: "📓 Diario del Inversor", d: "Crea tu diario: cada decisión con su POR QUÉ y su resultado. Los grandes inversores aprenden de sus bitácoras.", xp: 150, time: 45, v: "Diario con 5 entradas registradas" },
+  { id: "ca6_2", cap: 6, t: "🤖 Casa de Máquinas", d: "Automatiza tu vigilancia: alerta de precios o resumen de noticias con n8n/IA o un feed RSS de tus fuentes.", xp: 250, time: 90, v: "Automatización de alertas funcionando" },
+  { id: "ca6_3", cap: 6, t: "🔄 Rebalanceo y Revisión", d: "Agenda tu revisión trimestral de cartera y practica el ejercicio: volver a tu asignación objetivo.", xp: 200, time: 60, v: "Primera revisión trimestral completada" },
+  { id: "ca6_4", cap: 6, t: "🧾 Impuestos y Reglas", d: "Cómo tributan tus inversiones desde Costa Rica: ganancias, dividendos y declaraciones. Conocer las reglas evita sorpresas.", xp: 200, time: 60, v: "Nota con implicaciones fiscales claras (o cita a contador)" },
+  { id: "ca6_5", cap: 6, t: "🎯 Meta de Capital", d: "Define tu meta con fecha y monto (ej. $X invertidos en 12 meses) y configura el aporte automático para lograrla sin pensarlo.", xp: 300, time: 75, v: "Meta escrita + aporte automático configurado" },
+
+  /* CAP 7 — oráculo */
+  { id: "ca7_1", cap: 7, t: "🔭 Visión de 5 Años", d: "¿Qué industrias crecerán con IA, tecnología y cambios demográficos? Escribe tu tesis de futuro: dónde estará el dinero.", xp: 250, time: 90, v: "Tesis de futuro escrita (5 años)" },
+  { id: "ca7_2", cap: 7, t: "🌊 Cazador de Olas Nuevas", d: "Investiga a fondo 1 tema frontera (agentes de IA, robótica, energía, biotecnología) y mapea su cadena de valor.", xp: 250, time: 90, v: "Informe de la ola elegida con actores clave" },
+  { id: "ca7_3", cap: 7, t: "🧠 Tu Motor de Aprendizaje Eterno", d: "Diseña tu sistema personal para estar SIEMPRE actualizado: fuentes, 1 hora semanal fija, IA como tutor y notas en un solo lugar.", xp: 250, time: 90, v: "Sistema documentado y funcionando 2 semanas" },
+  { id: "ca7_4", cap: 7, t: "👑 Proyecto Maestro: Radar de Mercado", d: "Construye tu radar personal: script que baja datos + IA que resume la semana de mercados e IA. Tu analista virtual de capital.", xp: 450, time: 180, v: "Radar funcionando y probado 2 semanas seguidas" },
+  { id: "ca7_5", cap: 7, t: "🧑‍🏫 El Mentor", d: "Enseña lo aprendido a alguien (pareja, hijo, amigo): explicar es la prueba final de que dominas. Si no lo puedes explicar, no lo sabes.", xp: 300, time: 90, v: "Sesión de enseñanza completada (y agradecimiento recibido)" }
+];
+
+const CAP_OBJ = {};
+CAP_MISSIONS.forEach(m => { CAP_OBJ[m.id] = { xp: m.xp, cap: m.cap }; });
+const CAP_TOTAL = CAP_MISSIONS.length;
+const CAP_CHAP_TOTAL = CAP_CHAPTERS.length;
+const CAP_TOTAL_XP = CAP_MISSIONS.reduce((s, m) => s + m.xp, 0);
+
+/* ==========================================================
    🧬 VIDA — DATOS: Operación Héroe Integral (side quests)
    Pilares: cuerpo/mente/dinero · Frentes: eq (equilibrio),
    kid (legado) y cpl (alianza). Misma temática de juego.
@@ -1316,7 +1454,8 @@ let gameState = {
   lastDailyDate: null,     // última fecha con misión diaria completada
   streak: 0,               // racha de días seguidos
   shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
-  vida: { log: [], growth: [], kid: [], couple: [] } // 🧬 side quests de vida
+  vida: { log: [], growth: [], kid: [], couple: [] }, // 🧬 side quests de vida
+  capital: { done: [] }        // 📈 campaña capital (IA + mercados)
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -1381,6 +1520,10 @@ function loadGame() {
       kid: Array.isArray(vd.kid) ? vd.kid : [],
       couple: Array.isArray(vd.couple) ? vd.couple : []
     };
+    const cp = data.capital || {};
+    gameState.capital = {
+      done: Array.isArray(cp.done) ? cp.done.filter(id => CAP_OBJ[id]) : []
+    };
     return true;
   } catch (e) { return false; }
 }
@@ -1388,7 +1531,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }, capital: { done: [] }
   };
   selectedDay = 1;
   renderAll();
@@ -1965,11 +2108,13 @@ function showWelcome() {
 }
 
 /* --- Render todo --- */
-  renderVida();function renderAll() {
+function renderAll() {
   recomputeState();
   renderDailyView();
   renderChapters();
   updateUI();
+  renderVida();
+  renderCapital();
 }
 
 /* ==========================================================
@@ -2140,13 +2285,14 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
-    ["daily", "campaign", "jobs", "vida"].forEach(t => {
+    ["daily", "campaign", "jobs", "vida", "capital"].forEach(t => {
       const v = document.getElementById("view-" + t);
       if (v) v.classList.toggle("active", tab === t);
     });
     if (tab === "daily") renderDailyView();
     if (tab === "jobs") renderJobs();
     if (tab === "vida") renderVidaSubActiva();
+    if (tab === "capital") renderCapital();
   });
 });
 
@@ -2602,6 +2748,181 @@ function vidaToggle(ev) {
   }
   const view = document.getElementById("view-vida");
   if (view) view.addEventListener("click", vidaToggle);
+})();
+
+/* ==========================================================
+   📈 CAPITAL — MÓDULO: campaña IA + mercados + inversión
+   ========================================================== */
+const capOpenSet = new Set();
+function capMissionsOf(cap) { return CAP_MISSIONS.filter(m => m.cap === cap); }
+function capBossOf(cap) {
+  const list = capMissionsOf(cap);
+  return list.length ? list[list.length - 1] : null;
+}
+function capCompute() {
+  const done = Array.isArray(gameState.capital.done) ? gameState.capital.done : [];
+  const doneSet = new Set(done);
+  let xp = 0;
+  done.forEach(id => { const o = CAP_OBJ[id]; if (o) xp += o.xp; });
+  const li = ladderInfo(CAP_LADDER, xp);
+  const perCap = CAP_CHAPTERS.map(ch => {
+    const list = capMissionsOf(ch.cap);
+    const d = list.filter(m => doneSet.has(m.id)).length;
+    return { cap: ch.cap, done: d, total: list.length, pct: Math.round((d / list.length) * 100), complete: d === list.length };
+  });
+  const capsDone = perCap.filter(p => p.complete).length;
+  const unlockMap = {};
+  CAP_CHAPTERS.forEach((ch, i) => {
+    if (i === 0) { unlockMap[ch.cap] = true; return; }
+    unlockMap[ch.cap] = perCap[i - 1].complete;
+  });
+  return { xp, ladder: li, doneSet, perCap, capsDone, unlockMap, doneCount: done.length };
+}
+function capCardHTML(m, vs) {
+  const isDone = vs.doneSet.has(m.id);
+  const isBoss = m.id === capBossOf(m.cap).id;
+  return '<div class="mission' + (isDone ? " done" : "") + (isBoss ? " boss" : "") + '" data-cid="' + m.id + '">' +
+    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '"></div>' +
+    '<div class="m-body">' +
+    '<div class="m-title">' + (isBoss ? "👑 " : "") + m.t + "</div>" +
+    '<div class="m-desc">' + m.d + "</div>" +
+    '<div class="m-verif">' + m.v + "</div>" +
+    '<div class="m-tags"><span class="tag xp">+' + m.xp + " XP</span>" +
+    '<span class="tag time">⏱ ' + fmtMins(m.time) + "</span>" +
+    (isBoss ? '<span class="tag streak">👑 JEFE DE CAPÍTULO</span>' : "") +
+    "</div></div></div>";
+}
+function fmtMins(min) {
+  if (min < 60) return min + " min";
+  const h = Math.floor(min / 60), r = min % 60;
+  return h + (r ? " h " + r + " min" : " h");
+}
+function capChaptersHTML(vs) {
+  let html = "";
+  CAP_CHAPTERS.forEach(ch => {
+    const pc = vs.perCap.find(p => p.cap === ch.cap);
+    const unlocked = vs.unlockMap[ch.cap];
+    const open = capOpenSet.has(ch.cap);
+    const lockedCls = unlocked ? "" : " clocked";
+    html += '<div class="chapter' + (open ? " open" : "") + lockedCls + '" style="--ch-color:' + ch.color + '">' +
+      '<div class="chapter-head" role="button" tabindex="0" aria-expanded="' + open + '">' +
+      '<span class="chapter-ico">' + (unlocked ? ch.ico : "🔒") + "</span>" +
+      '<div class="chapter-title"><small>' + ch.code + (pc.complete ? " · COMPLETADO ✓" : "") + "</small>" +
+      ch.title + (unlocked ? "" : ' <small style="color:var(--glow-amber)">· bloqueado</small>') + "</div>" +
+      '<div class="chapter-meta"><span>' + pc.done + "/" + pc.total + "</span>" +
+      '<div class="bar"><span style="width:' + pc.pct + '%"></span></div>' +
+      '<span class="ch-chev">▶</span></div></div>';
+    if (unlocked) {
+      html += '<div class="chapter-body"><p class="ch-narrative">' + ch.narrative + "</p>" +
+        capMissionsOf(ch.cap).map(m => capCardHTML(m, vs)).join("") + "</div>";
+    } else {
+      html += '<div class="chapter-body"><div class="ch-lock">🔒 Completa el capítulo anterior <b>entero</b> para desbloquear esta zona del tablero.</div></div>';
+    }
+    html += "</div>";
+  });
+  return html;
+}
+function renderCapitalSide(vs) {
+  const setT = function (id, txt) { const e = document.getElementById(id); if (e) e.textContent = txt; };
+  setT("s-clvl", "Nv." + vs.ladder.lvl);
+  const sb = document.getElementById("s-cbar");
+  if (sb) sb.style.width = vs.ladder.pct + "%";
+  setT("s-cdone", vs.doneCount + "/" + CAP_TOTAL);
+  const sc = document.getElementById("s-crank");
+  if (sc) sc.textContent = vs.ladder.name;
+  setT("cap-rank", "Nivel " + vs.ladder.lvl);
+  setT("cap-rangoname", vs.ladder.name);
+  setT("cap-miss", "🎯 Misiones: " + vs.doneCount + "/" + CAP_TOTAL);
+  setT("cap-chap", "🗺️ Capítulos: " + vs.capsDone + "/" + CAP_CHAP_TOTAL);
+  const nxt = CAP_LADDER[vs.ladder.lvl] || null;
+  setT("cap-xp", vs.xp.toLocaleString("es-CR") + " XP" + (nxt ? " · " + (nxt.xp - vs.xp) + " para " + nxt.n : " · ¡rango máximo!"));
+  const cb = document.getElementById("cap-bar");
+  if (cb) cb.style.width = vs.ladder.pct + "%";
+  const pill = document.getElementById("cap-pill");
+  if (pill) pill.textContent = Math.round((vs.capsDone / CAP_CHAP_TOTAL) * 100) + "%";
+}
+function renderCapital() {
+  const vs = capCompute();
+  renderCapitalSide(vs);
+  const view = document.getElementById("view-capital");
+  if (!view || !view.classList.contains("active")) return;
+  if (capOpenSet.size === 0) {
+    const pend = vs.perCap.find(p => !p.complete);
+    if (pend) capOpenSet.add(pend.cap);
+  }
+  const root = document.getElementById("capital-root");
+  if (root) root.innerHTML = capChaptersHTML(vs);
+  const allDone = vs.capsDone === CAP_CHAP_TOTAL;
+  const msg = document.getElementById("cap-allmsg");
+  if (msg) {
+    msg.style.display = allDone ? "block" : "none";
+    if (allDone) {
+      msg.innerHTML = "🎉 <b>¡Campaña base completada, recluta del capital!</b> Tu rango actual: <b>" + vs.ladder.name + "</b>. El camino hasta <b>NIVEL EXTREMO</b> sigue: se vienen temporadas nuevas con más misiones y frentes (cripto avanzado, bienes raíces, análisis cuantitativo...). Mantente en el radar.";
+    }
+  }
+}
+function capToggleMission(card) {
+  const id = card.dataset.cid;
+  const o = CAP_OBJ[id];
+  if (!o) return;
+  const cap = gameState.capital = gameState.capital || { done: [] };
+  const done = Array.isArray(cap.done) ? cap.done : (cap.done = []);
+  const before = capCompute();
+  const beforeLvl = before.ladder.lvl;
+  const wasDone = done.includes(id);
+  const pcBefore = before.perCap.find(p => p.cap === o.cap);
+  const capCompletedNow = !wasDone && pcBefore.done + 1 === pcBefore.total;
+  if (wasDone) {
+    done.splice(done.indexOf(id), 1);
+  } else {
+    done.push(id);
+    const rect = card.getBoundingClientRect();
+    const ch = CAP_CHAPTERS.find(c => c.cap === o.cap);
+    burst(rect.left + rect.width / 2, rect.top + 20, ch ? ch.color : "#00e5a0", 26);
+  }
+  const vs = capCompute();
+  if (wasDone) {
+    toast("↩️", "Misión desmarcada", "-" + o.xp + " XP");
+  } else {
+    toast("✅", "¡Misión cumplida! +" + o.xp + " XP", o.t);
+    if (capCompletedNow) {
+      const ch = CAP_CHAPTERS.find(c => c.cap === o.cap);
+      setTimeout(() => toast("📜", "¡CAPÍTULO " + ch.cap + " COMPLETADO!", ch.title + " · " + ch.code, "raid"), 1700);
+      const next = CAP_CHAPTERS.find(c => c.cap === o.cap + 1);
+      if (next) {
+        setTimeout(() => toast("🔓", "Zona desbloqueada", "Capítulo " + next.cap + ": " + next.title), 3000);
+      }
+    }
+  }
+  if (!wasDone && vs.ladder.lvl > beforeLvl) {
+    setTimeout(() => toast("📈", "¡RANGO NUEVO: " + vs.ladder.name + "!", "Nivel " + vs.ladder.lvl + " de Capital — sigue subiendo hacia NIVEL EXTREMO"), 2200);
+  }
+  saveGame();
+  renderCapital();
+}
+/* --- Eventos de la vista CAPITAL --- */
+(function () {
+  const view = document.getElementById("view-capital");
+  if (!view) return;
+  view.addEventListener("click", function (e) {
+    const head = e.target.closest(".chapter-head");
+    if (head) {
+      const ch = head.closest(".chapter");
+      if (!ch) return;
+      const idx = CAP_CHAPTERS.findIndex(c => ch.querySelector(".chapter-title").textContent.indexOf(c.title) >= 0);
+      const capNum = idx >= 0 ? CAP_CHAPTERS[idx].cap : null;
+      const vs = capCompute();
+      if (capNum === null || !vs.unlockMap[capNum]) {
+        toast("🔒", "Capítulo bloqueado", "Completa el capítulo anterior entero para desbloquearlo.");
+        return;
+      }
+      if (capOpenSet.has(capNum)) capOpenSet.delete(capNum); else capOpenSet.add(capNum);
+      ch.classList.toggle("open", capOpenSet.has(capNum));
+      return;
+    }
+    const card = e.target.closest(".mission[data-cid]");
+    if (card) capToggleMission(card);
+  });
 })();
 
 /* --- Init --- */
