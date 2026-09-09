@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  ODEA: Operación Dominio de Datos e IA
+  ------------------------------------------------------------
+  INSTRUCCIONES DE USO:
+  1. Abre este archivo en cualquier navegador moderno (Chrome,
+     Edge, Firefox, Safari). No requiere internet ni servidor:
+     funciona 100% offline (las fuentes Google Fonts se cargan
+     si hay internet y si no, se usan fuentes alternativas).
+  2. En la primera pantalla escribe tu nombre de recluta.
+  3. Marca las misiones que vayas completando. El progreso se
+     guarda automáticamente en localStorage de tu navegador.
+  4. Para empezar de cero: botón "Reiniciar progreso" abajo.
+  ------------------------------------------------------------
+  CÓDIGO: 100% vanilla JS, sin frameworks. Secciones:
+    A) CSS / Diseño
+    B) HTML / Estructura
+    C) JS / Datos (niveles, capítulos, misiones, logros)
+    D) JS / Estado y persistencia
+    E) JS / Render de interfaz
+    F) JS / Efectos (toasts, level-up, partículas, radar)
+  Comentado en español. ¡Que empiece la operación!
+============================================================ -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODEA — Operación Dominio de Datos e IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   A) CSS / DISEÑO — Cyberpunk neón sobre fondo oscuro
+   ========================================================== */
+:root{
+  --bg:#0a0a1a;          /* fondo principal */
+  --bg2:#1a1a2e;         /* fondo secundario */
+  --tx:#e0e0ff;          /* texto principal */
+  --tx2:#a0a0c0;         /* texto secundario */
+  --glow-green:#00ff88;
+  --glow-cyan:#00ccff;
+  --glow-magenta:#ff00ff;
+  --glow-amber:#ffaa00;
+  --glow-orange:#ff6600;
+  --glow-red:#ff3355;
+  --danger:#ff3355;
+  --ok:#00ff88;
+  --radius:14px;
+  --border:1px solid rgba(160,160,192,.18);
+  --shadow-neon:0 0 18px rgba(0,255,136,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--tx);
+  font-family:'Share Tech Mono',Consolas,'Courier New',monospace;
+  min-height:100vh;overflow-x:hidden;
+  line-height:1.55;
+}
+h1,h2,h3,.font-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:.5px}
+::selection{background:rgba(0,255,136,.35);color:#fff}
+
+/* --- Grid de fondo animado sutil (canvas aparte + capa CSS) --- */
+#grid-layer{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,255,136,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,136,.045) 1px,transparent 1px);
+  background-size:42px 42px;
+  animation:gridPan 14s linear infinite;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
+}
+@keyframes gridPan{from{background-position:0 0,0 0}to{background-position:42px 0,42px 0}}
+#particles-canvas{position:fixed;inset:0;z-index:40;pointer-events:none}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#2c2c52;border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:#3d3d6e}
+
+/* --- Header fijo --- */
+header{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:10px 20px;
+  background:rgba(10,10,26,.88);
+  backdrop-filter:blur(8px);
+  border-bottom:var(--border);
+  box-shadow:0 2px 24px rgba(0,0,0,.5);
+}
+.logo{
+  font-family:'Orbitron',Verdana,sans-serif;font-weight:900;
+  font-size:1.5rem;letter-spacing:2px;
+  color:#fff;text-shadow:0 0 12px var(--glow-green),0 0 30px rgba(0,255,136,.4);
+  cursor:pointer;user-select:none;
+}
+.logo small{display:block;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--glow-green);letter-spacing:3px;font-weight:400}
+.hud{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:.95rem}
+.hud .level-badge{
+  font-family:'Orbitron',sans-serif;font-weight:700;color:var(--glow-green);
+  border:1px solid rgba(0,255,136,.5);border-radius:10px;padding:4px 12px;
+  text-shadow:0 0 8px rgba(0,255,136,.6);background:rgba(0,255,136,.06);
+  box-shadow:inset 0 0 12px rgba(0,255,136,.08);
+  white-space:nowrap;
+}
+.hud .xp-txt{color:var(--glow-cyan);text-shadow:0 0 8px rgba(0,204,255,.45);white-space:nowrap}
+.progress-wrap{min-width:220px;flex:1 1 220px}
+.progress-top{display:flex;justify-content:space-between;font-size:.8rem;color:var(--tx2);margin-bottom:4px}
+.bar{
+  height:14px;border-radius:99px;background:#12122a;border:1px solid rgba(160,160,192,.22);
+  overflow:hidden;position:relative;
+}
+.bar > span{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan));
+  box-shadow:0 0 14px rgba(0,255,136,.55);
+  transition:width .6s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.bar > span::after{ /* brillo recorriendo la barra */
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
+  animation:barShine 2.6s linear infinite;
+  width:60%;
+}
+@keyframes barShine{from{transform:translateX(-100%)}to{transform:translateX(280%)}}
+
+/* --- Layout general --- */
+.layout{display:grid;grid-template-columns:300px 1fr;gap:18px;padding:18px;max-width:1400px;margin:0 auto;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* --- Panel lateral de estadísticas --- */
+aside.stats-panel{
+  background:var(--bg2);border:var(--border);border-radius:var(--radius);
+  padding:16px;position:sticky;top:92px;
+  box-shadow:0 0 24px rgba(0,0,0,.35);
+}
+aside.stats-panel h3{
+  font-size:.9rem;color:var(--tx2);letter-spacing:2px;
+  border-bottom:1px dashed rgba(160,160,192,.25);padding-bottom:8px;margin-bottom:12px;
+  text-transform:uppercase;
+}
+.stat-block{margin-bottom:16px}
+.stat-block .stat-head{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:5px}
+.stat-block .stat-head b{font-family:'Orbitron',sans-serif;font-size:.8rem}
+.stat-ico{font-size:1.1rem;margin-right:6px}
+.bar.stat{height:11px}
+.bar.stat.green > span{background:linear-gradient(90deg,#00ff88,#00c9a7)}
+.bar.stat.magenta > span{background:linear-gradient(90deg,#ff00ff,#b026ff)}
+.bar.stat.amber > span{background:linear-gradient(90deg,#ffaa00,#ff6600)}
+.missions-count{
+  font-size:.85rem;color:var(--tx2);text-align:center;margin-top:4px;
+}
+.missions-count b{color:var(--tx);font-family:'Orbitron',sans-serif}
+.time-est{
+  background:rgba(0,204,255,.07);border:1px dashed rgba(0,204,255,.35);
+  border-radius:10px;padding:10px;font-size:.85rem;color:var(--glow-cyan);
+  text-align:center;margin-top:8px;
+}
+.radar-wrap{display:flex;justify-content:center;margin-top:6px}
+#radar-chart{max-width:100%;height:auto}
+.btn-reset{
+  width:100%;margin-top:14px;padding:9px;cursor:pointer;
+  background:transparent;color:var(--danger);
+  border:1px solid rgba(255,51,85,.45);border-radius:10px;
+  font-family:'Share Tech Mono',monospace;font-size:.85rem;letter-spacing:1px;
+  transition:.25s;
+}
+.btn-reset:hover{background:rgba(255,51,85,.12);box-shadow:0 0 14px rgba(255,51,85,.25)}
+
+/* --- Área principal: capítulos --- */
+main{min-width:0}
+.chapter{
+  background:var(--bg2);border:var(--border);border-radius:var(--radius);
+  margin-bottom:18px;overflow:hidden;
+  box-shadow:0 0 24px rgba(0,0,0,.35);
+  transition:border-color .3s, box-shadow .3s;
+}
+.chapter-head{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
+  user-select:none;flex-wrap:wrap;
+  border-left:5px solid var(--ch-color);
+}
+.chapter-head:hover{background:rgba(255,255,255,.025)}
+.chapter-ico{font-size:1.9rem;filter:drop-shadow(0 0 10px var(--ch-color))}
+.chapter-title{font-size:1.12rem;font-weight:700;color:#fff;letter-spacing:1px}
+.chapter-title small{display:block;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--ch-color);letter-spacing:2px;text-transform:uppercase}
+.chapter-meta{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:.82rem;color:var(--tx2)}
+.chapter-meta .bar{width:120px;height:8px}
+.chapter-meta .bar > span{background:var(--ch-color);box-shadow:0 0 10px var(--ch-color)}
+.ch-chev{transition:transform .3s;color:var(--ch-color);font-size:1.1rem}
+.chapter.open .ch-chev{transform:rotate(90deg)}
+.chapter-body{display:none;padding:4px 18px 16px}
+.chapter.open .chapter-body{display:block;animation:fadeSlide .35s ease}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.ch-narrative{
+  border-left:3px solid var(--ch-color);background:rgba(255,255,255,.025);
+  padding:10px 14px;margin:12px 0 14px;border-radius:0 10px 10px 0;
+  color:var(--tx2);font-style:italic;font-size:.92rem;
+}
+.ch-narrative::before{content:'▸ ';color:var(--ch-color);font-style:normal}
+
+/* --- Misiones --- */
+.mission{
+  display:flex;gap:14px;align-items:flex-start;padding:13px 14px;
+  border:1px solid rgba(160,160,192,.13);border-radius:12px;margin-bottom:10px;
+  background:rgba(10,10,26,.35);
+  transition:transform .2s,border-color .25s,background .25s,box-shadow .25s;
+}
+.mission:hover{transform:translateX(4px);border-color:rgba(160,160,192,.35)}
+.mission.done{background:rgba(0,255,136,.045);border-color:rgba(0,255,136,.35)}
+.m-check{
+  flex:0 0 auto;width:26px;height:26px;margin-top:2px;cursor:pointer;
+  border:2px solid rgba(160,160,192,.5);border-radius:8px;position:relative;
+  transition:.25s;background:transparent;
+}
+.m-check:hover{border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,.35)}
+.mission.done .m-check{
+  background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
+  border-color:var(--glow-green);
+  box-shadow:0 0 16px rgba(0,255,136,.8);
+  animation:checkPop .45s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes checkPop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.m-check::after{
+  content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#04120b;font-weight:900;font-size:1rem;opacity:0;transform:scale(.3);transition:.2s;
+}
+.mission.done .m-check::after{opacity:1;transform:scale(1)}
+.m-body{flex:1;min-width:0}
+.m-title{font-weight:700;color:#fff;font-size:1rem;font-family:'Orbitron',sans-serif;font-size:.93rem;letter-spacing:.4px}
+.mission.done .m-title{color:var(--glow-green);text-shadow:0 0 8px rgba(0,255,136,.35)}
+.m-desc{color:var(--tx2);font-size:.86rem;margin-top:3px}
+.m-verif{margin-top:6px;font-size:.78rem;color:var(--glow-amber);opacity:.9}
+.m-verif::before{content:'⛭ VERIFICACIÓN: ';color:var(--glow-amber)}
+.m-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.tag{
+  font-size:.7rem;padding:2px 9px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;
+  border:1px solid;background:rgba(255,255,255,.03);
+}
+.tag.cat-analyst{color:#00ff88;border-color:rgba(0,255,136,.4)}
+.tag.cat-ai{color:#ff00ff;border-color:rgba(255,0,255,.4)}
+.tag.cat-employability{color:#ffaa00;border-color:rgba(255,170,0,.4)}
+.tag.xp{color:#00ccff;border-color:rgba(0,204,255,.4);font-family:'Orbitron',sans-serif}
+.tag.time{color:#a0a0c0;border-color:rgba(160,160,192,.35)}
+
+/* --- Toasts / notificaciones --- */
+#toast-layer{
+  position:fixed;bottom:20px;right:20px;z-index:60;
+  display:flex;flex-direction:column;gap:10px;max-width:340px;
+}
+.toast{
+  background:rgba(26,26,46,.96);border:1px solid rgba(0,255,136,.45);
+  border-left:5px solid var(--glow-green);border-radius:12px;
+  padding:12px 16px;color:var(--tx);font-size:.9rem;
+  box-shadow:0 0 22px rgba(0,255,136,.25),0 8px 22px rgba(0,0,0,.5);
+  animation:toastIn .4s cubic-bezier(.22,1.4,.36,1);
+  display:flex;gap:10px;align-items:center;
+}
+.toast.ach{border-color:rgba(255,170,0,.6);border-left-color:var(--glow-amber);box-shadow:0 0 22px rgba(255,170,0,.3),0 8px 22px rgba(0,0,0,.5)}
+.toast.levelup{border-color:rgba(0,255,136,.8);border-left-color:var(--glow-green);box-shadow:0 0 30px rgba(0,255,136,.45),0 8px 22px rgba(0,0,0,.6)}
+.toast.out{animation:toastOut .35s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(60px)}}
+.toast .t-ico{font-size:1.5rem;filter:drop-shadow(0 0 8px currentColor)}
+.toast small{display:block;color:var(--tx2);font-size:.75rem}
+
+/* --- Modal de level-up / pantalla inicio --- */
+#modal-layer{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(5,5,15,.85);backdrop-filter:blur(6px)}
+#modal-layer.show{display:flex;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg2);border:1px solid rgba(0,255,136,.5);border-radius:18px;
+  padding:34px 30px;max-width:480px;width:92%;text-align:center;
+  box-shadow:0 0 60px rgba(0,255,136,.25);
+  animation:modalZoom .45s cubic-bezier(.22,1.4,.36,1);
+}
+@keyframes modalZoom{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.modal .big-ico{font-size:4rem;animation:float 2.2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.modal h2{font-size:1.5rem;color:var(--glow-green);text-shadow:0 0 16px rgba(0,255,136,.6);margin:12px 0 6px;letter-spacing:2px}
+.modal p{color:var(--tx2);font-size:.95rem;margin-bottom:16px}
+.modal input{
+  width:100%;padding:12px 14px;background:#12122a;color:#fff;
+  border:1px solid rgba(0,255,136,.4);border-radius:10px;margin-bottom:16px;
+  font-family:'Share Tech Mono',monospace;font-size:1rem;text-align:center;outline:none;
+}
+.modal input:focus{box-shadow:0 0 16px rgba(0,255,136,.35)}
+.btn-neon{
+  cursor:pointer;padding:11px 26px;border:none;border-radius:10px;
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:2px;
+  color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
+  box-shadow:0 0 22px rgba(0,255,136,.5);
+  transition:.2s;text-transform:uppercase;
+}
+.btn-neon:hover{transform:translateY(-2px);box-shadow:0 0 34px rgba(0,255,136,.75)}
+.btn-neon.ghost{background:transparent;color:var(--tx2);border:1px solid rgba(160,160,192,.4);box-shadow:none;margin-left:8px}
+.btn-neon.ghost:hover{color:#fff;border-color:#fff}
+.levelup-title{font-size:2.6rem;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan),var(--glow-magenta));-webkit-background-clip:text;background-clip:text;color:transparent;animation:hueShift 3s linear infinite;filter:drop-shadow(0 0 14px rgba(0,255,136,.5))}
+@keyframes hueShift{to{filter:drop-shadow(0 0 22px rgba(255,0,255,.6))}}
+
+/* --- Logros --- */
+#ach-layer{position:fixed;inset:0;z-index:75;display:none;align-items:center;justify-content:center;background:rgba(5,5,15,.9);backdrop-filter:blur(6px)}
+#ach-layer.show{display:flex}
+.ach-modal{background:var(--bg2);border:1px solid rgba(255,170,0,.45);border-radius:18px;padding:26px;max-width:560px;width:94%;max-height:84vh;overflow-y:auto;box-shadow:0 0 50px rgba(255,170,0,.2)}
+.ach-modal h2{color:var(--glow-amber);text-align:center;letter-spacing:2px;margin-bottom:16px;text-shadow:0 0 14px rgba(255,170,0,.5)}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.ach-item{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.18);border-radius:12px;padding:12px 8px;text-align:center;font-size:.8rem;color:var(--tx2)}
+.ach-item .a-ico{font-size:1.8rem;display:block;margin-bottom:6px}
+.ach-item.unlocked{border-color:rgba(255,170,0,.6);color:var(--tx);box-shadow:0 0 14px rgba(255,170,0,.2);background:rgba(255,170,0,.05)}
+.ach-item.unlocked .a-ico{filter:drop-shadow(0 0 10px rgba(255,170,0,.8))}
+.ach-item.locked{opacity:.55;filter:grayscale(.9)}
+.ach-item b{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.5px}
+.close-x{float:right;cursor:pointer;color:var(--tx2);font-size:1.4rem;line-height:1;background:none;border:none}
+.close-x:hover{color:var(--danger)}
+
+/* --- Footer / misc --- */
+footer{text-align:center;color:#55556e;padding:26px 12px 40px;font-size:.78rem;letter-spacing:1px}
+footer b{color:var(--glow-green)}
+.pulse{animation:pulseGlow 1.6s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.4)}50%{box-shadow:0 0 26px rgba(0,255,136,.9)}}
+
+/* Responsive extra */
+@media (max-width:640px){
+  .layout{padding:12px}
+  .logo{font-size:1.15rem}
+  .hud{gap:10px}
+  .progress-wrap{flex:1 1 100%;order:5}
+  .chapter-meta .bar{width:70px}
+}
+</style>
+</head>
+<body>
+<!-- Capa de rejilla animada + canvas de partículas -->
+<div id="grid-layer"></div>
+<canvas id="particles-canvas"></canvas>
+
+<!-- ==========================================================
+     B) HTML / ESTRUCTURA
+     ========================================================== -->
+<!-- Header fijo: logo ODEA + HUD del jugador -->
+<header>
+  <div class="logo" id="logo" title="Abrir logros">
+    ODEA<small>OPERACIÓN DOMINIO DE DATOS E IA</small>
+  </div>
+  <div class="hud">
+    <span class="level-badge" id="hud-level">NIVEL 1</span>
+    <span class="xp-txt" id="hud-xp">0 XP</span>
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span id="hud-rank">Novato de Datos</span>
+        <span id="hud-pct">0%</span>
+      </div>
+      <div class="bar"><span id="hud-bar"></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- Panel lateral: estadísticas del recluta -->
+  <aside class="stats-panel">
+    <h3>⚡ Perfil del Recluta</h3>
+    <div class="stat-block">
+      <div class="stat-head"><span><span class="stat-ico">🛡️</span><b id="s-name">Recluta</b></span><span id="s-lvl">Nv.1</span></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-head"><span><span class="stat-ico">📊</span>Nivel Analista</span><span id="stat-analyst-txt">0%</span></div>
+      <div class="bar stat green"><span id="stat-analyst"></span></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-head"><span><span class="stat-ico">🤖</span>Nivel de IA</span><span id="stat-ai-txt">0%</span></div>
+      <div class="bar stat magenta"><span id="stat-ai"></span></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-head"><span><span class="stat-ico">💼</span>Poder de Empleabilidad</span><span id="stat-emp-txt">0%</span></div>
+      <div class="bar stat amber"><span id="stat-emp"></span></div>
+    </div>
+    <div class="missions-count">Misiones: <b id="m-count">0</b> / <b id="m-total">21</b></div>
+    <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
+    <div class="time-est">⏱️ Tiempo estimado total<br><b id="time-total">0 h</b> <span style="opacity:.7">(ruta completa)</span></div>
+    <div class="time-est" style="color:var(--glow-green);border-color:rgba(0,255,136,.35);background:rgba(0,255,136,.05)">
+      🏅 Logros: <b id="ach-count">0</b>/10 — <span id="ach-link" style="text-decoration:underline;cursor:pointer">Ver logros</span>
+    </div>
+    <button class="btn-reset" id="btn-reset">⟲ REINICIAR PROGRESO</button>
+  </aside>
+
+  <!-- Área principal: capítulos renderizados por JS -->
+  <main id="chapters-root"></main>
+</div>
+
+<footer>
+  <b>ODEA</b> · Operación Dominio de Datos e IA — v1.0 · Tu progreso se guarda automáticamente en este navegador 🔒
+</footer>
+
+<!-- Toasts -->
+<div id="toast-layer"></div>
+
+<!-- Modal de inicio / level-up -->
+<div id="modal-layer">
+  <div class="modal" id="modal-box">
+    <div class="big-ico" id="modal-ico">🕹️</div>
+    <h2 id="modal-title">BIENVENIDO, RECLUTA</h2>
+    <p id="modal-text">Estás a punto de embarcarte en la misión de convertirte en el analista de datos más poderoso del reino digital. Escribe tu nombre de guerra para comenzar.</p>
+    <input id="modal-input" placeholder="Tu nombre de recluta..." maxlength="24" autocomplete="off">
+    <div>
+      <button class="btn-neon" id="modal-btn">COMENZAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de logros -->
+<div id="ach-layer">
+  <div class="ach-modal">
+    <button class="close-x" id="ach-close">✕</button>
+    <h2>🏆 SALÓN DE LOGROS</h2>
+    <div class="ach-grid" id="ach-grid"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ==========================================================
+   C) JS / DATOS — niveles, capítulos, misiones y logros
+   ========================================================== */
+
+/* --- Niveles según XP acumulada (spec oficial) --- */
+const LEVELS = [
+  { xp: 0,     name: "Novato de Datos" },
+  { xp: 500,   name: "Aprendiz Analista" },
+  { xp: 1500,  name: "Explorador de Insights" },
+  { xp: 3000,  name: "Caballero SQL" },
+  { xp: 5000,  name: "Mago de Pandas" },
+  { xp: 7500,  name: "Guerrero de la IA" },
+  { xp: 10000, name: "Maestro del Dashboard" },
+  { xp: 15000, name: "Analista Legendario" },
+  { xp: 20000, name: "Dios de los Datos" }
+];
+const MAX_XP_LEVEL = 20000; // XP del nivel máximo (piso del Dios de los Datos)
+
+/* --- Capítulos: meta-información visual y narrativa --- */
+const CHAPTERS = [
+  {
+    id: 0, code: "CAPÍTULO 0", title: "Bootcamp de Supervivencia Técnica",
+    color: "#00ff88", icon: "🛡️",
+    narrative: "Antes de luchar contra dragones de datos, forjas tus armas. El entorno está listo: VS Code, Python y Git. Todo héroe empieza con un solo commit."
+  },
+  {
+    id: 1, code: "CAPÍTULO 1", title: "La Forja del Analista",
+    color: "#00ccff", icon: "⚔️",
+    narrative: "El lenguaje de las bases de datos se revela ante ti. SQL es tu espada, Pandas tu escudo. Prepárate para tu primer jefe final: un proyecto ETL completo."
+  },
+  {
+    id: 2, code: "CAPÍTULO 2", title: "El Despertar de la Máquina (IA)",
+    color: "#ff00ff", icon: "🤖",
+    narrative: "La inteligencia artificial despierta y te elige como aliado. Aprende a hablar su idioma con prompts precisos y tendrás un ejército de código a tus órdenes."
+  },
+  {
+    id: 3, code: "CAPÍTULO 3", title: "Expansión del Arsenal",
+    color: "#ffaa00", icon: "🎯",
+    narrative: "Un analista sin dashboards es un guerrero sin mapa. Expande tu arsenal: visualiza, domina la estadística y cuenta historias que muevan decisiones."
+  },
+  {
+    id: 4, code: "CAPÍTULO 4", title: "Operación Freelance",
+    color: "#ff6600", icon: "💰",
+    narrative: "El reino digital recompensa a quienes demuestran su poder. Construye tu vitrina pública: portafolio, LinkedIn y tus primeros contratos como mercenario de datos."
+  },
+  {
+    id: 5, code: "CAPÍTULO 5", title: "La Forja del Empleo",
+    color: "#ff3355", icon: "🏆",
+    narrative: "La batalla final. 50 aplicaciones, entrevistas simuladas y networking son el asedio que derribará las murallas del empleo. El trono del analista te espera."
+  }
+];
+
+/* --- Misiones: estructura oficial id/chapter/title/description/xp/
+       verification/category/estimatedTime --- */
+const CAT = {
+  analyst:       { label: "Analista",      tag: "cat-analyst" },
+  ai:            { label: "IA",            tag: "cat-ai" },
+  employability: { label: "Empleabilidad", tag: "cat-employability" }
+};
+
+const missions = [
+  /* ============ CAPÍTULO 0: BOOTCAMP ============ */
+  { id: "m0_1", chapter: 0, title: "El Ritual de Iniciación",
+    description: "Instalar VS Code, Python (Anaconda) y Git. Crear cuenta en GitHub.",
+    xp: 50, category: "analyst", estimatedTime: "2 horas",
+    verification: "Primer commit en GitHub realizado" },
+  { id: "m0_2", chapter: 0, title: "Forjando la Espada (Python Básico)",
+    description: "Dominar variables, listas, diccionarios, bucles for/while, condicionales if/elif/else y funciones en Python.",
+    xp: 200, category: "analyst", estimatedTime: "8 horas",
+    verification: "Completar 50 ejercicios en HackerRank (sección Python)" },
+  { id: "m0_3", chapter: 0, title: "El Arte de la Tabla (Pandas I)",
+    description: "Importar pandas, leer CSV/Excel, explorar DataFrames con head(), info(), describe() y filtrar datos con condiciones.",
+    xp: 200, category: "analyst", estimatedTime: "6 horas",
+    verification: "Completar mini-proyecto de limpieza de dataset" },
+  { id: "m0_4", chapter: 0, title: "Pintando el Caos (Visualización)",
+    description: "Dominar matplotlib y seaborn. Crear gráficos de líneas, barras, dispersión e histogramas.",
+    xp: 150, category: "analyst", estimatedTime: "5 horas",
+    verification: "Crear dashboard estático con 4 gráficos" },
+
+  /* ============ CAPÍTULO 1: FORJA DEL ANALISTA ============ */
+  { id: "m1_1", chapter: 1, title: "El Oráculo (SQL)",
+    description: "Dominar SELECT, WHERE, ORDER BY, GROUP BY, HAVING y JOINs (INNER, LEFT, RIGHT, FULL) en SQLite o PostgreSQL.",
+    xp: 300, category: "analyst", estimatedTime: "10 horas",
+    verification: "Completar 50 ejercicios en SQLZoo o LeetCode" },
+  { id: "m1_2", chapter: 1, title: "Maestría en Pandas II",
+    description: "Dominar groupby, pivot_table, merge, concat y funciones lambda aplicadas a columnas.",
+    xp: 250, category: "analyst", estimatedTime: "8 horas",
+    verification: "Completar proyecto de análisis de ventas por región/producto/tiempo" },
+  { id: "m1_3", chapter: 1, title: "El Primer Jefe Final (Proyecto ETL)",
+    description: "Realizar proyecto completo de Extracción, Transformación y Carga. Tomar datos sucios de 2 fuentes (CSV + SQL o Web), limpiarlos, transformarlos y unirlos.",
+    xp: 400, category: "analyst", estimatedTime: "12 horas",
+    verification: "Subir código a GitHub con README explicativo" },
+
+  /* ============ CAPÍTULO 2: DESPERTAR DE LA IA ============ */
+  { id: "m2_1", chapter: 2, title: "Comunicación con las Máquinas (Prompt Engineering)",
+    description: "Aprender a crear prompts efectivos para ChatGPT/Claude/Gemini que generen código Python, SQL y explicaciones de conceptos complejos.",
+    xp: 150, category: "ai", estimatedTime: "4 horas",
+    verification: "Crear biblioteca personal de 20 prompts en archivo Markdown" },
+  { id: "m2_2", chapter: 2, title: "El Módulo Fantasma (PandasAI)",
+    description: "Aprender a usar la librería pandasai o sklearn para análisis exploratorio automatizado con IA.",
+    xp: 200, category: "ai", estimatedTime: "6 horas",
+    verification: "Usar IA para análisis exploratorio con lenguaje natural" },
+  { id: "m2_3", chapter: 2, title: "El Copiloto (GitHub Copilot)",
+    description: "Aprender a usar GitHub Copilot o Codeium para acelerar la escritura de código en Python y SQL.",
+    xp: 150, category: "ai", estimatedTime: "3 horas",
+    verification: "Refactorizar un proyecto anterior usando Copilot" },
+
+  /* ============ CAPÍTULO 3: EXPANSIÓN DEL ARSENAL ============ */
+  { id: "m3_1", chapter: 3, title: "El Tablero de Mando (Power BI/Tableau)",
+    description: "Aprender a crear dashboards interactivos en Power BI o Tableau Public.",
+    xp: 300, category: "analyst", estimatedTime: "10 horas",
+    verification: "Crear dashboard de 2 páginas con filtros y visualizaciones" },
+  { id: "m3_2", chapter: 3, title: "Estadística para Mortales",
+    description: "Dominar media, mediana, moda, desviación estándar, correlación vs causalidad y probabilidad básica.",
+    xp: 200, category: "analyst", estimatedTime: "6 horas",
+    verification: "Análisis estadístico de dataset con explicación en Markdown" },
+  { id: "m3_3", chapter: 3, title: "El Mapa del Tesoro (Storytelling)",
+    description: "Aprender el marco STAR para comunicar hallazgos de datos efectivamente.",
+    xp: 150, category: "employability", estimatedTime: "3 horas",
+    verification: "Grabar video de 2 minutos explicando hallazgos a audiencia no técnica" },
+
+  /* ============ CAPÍTULO 4: OPERACIÓN FREELANCE ============ */
+  { id: "m4_1", chapter: 4, title: "El Cartel de Recompensas (Portafolio)",
+    description: "Crear portafolio web en GitHub Pages con secciones: Sobre mí, Proyectos (mínimo 4), Habilidades y Contacto.",
+    xp: 300, category: "employability", estimatedTime: "8 horas",
+    verification: "URL en vivo y funcional" },
+  { id: "m4_2", chapter: 4, title: "Puliendo la Armadura (LinkedIn)",
+    description: "Optimizar perfil de LinkedIn: foto profesional, titular \"Data Analyst | IA Aplicada\", sección Acerca de con keywords y añadir proyectos.",
+    xp: 200, category: "employability", estimatedTime: "4 horas",
+    verification: "Conectar con 50 contactos relevantes del sector" },
+  { id: "m4_3", chapter: 4, title: "El Primer Contrato (Freelance)",
+    description: "Crear perfil en Fiverr y Upwork. Escribir 3 propuestas de servicio (Limpieza de datos, Dashboard en Power BI, Reporte automático con IA).",
+    xp: 350, category: "employability", estimatedTime: "6 horas",
+    verification: "Enviar 5 propuestas a proyectos reales" },
+
+  /* ============ CAPÍTULO 5: LA FORJA DEL EMPLEO ============ */
+  { id: "m5_1", chapter: 5, title: "El Mapa del Cazador (Búsqueda)",
+    description: "Identificar 20 empresas objetivo. Buscar ofertas de Data Analyst, Business Analyst o Junior Data Scientist.",
+    xp: 150, category: "employability", estimatedTime: "4 horas",
+    verification: "Crear hoja de cálculo con seguimiento de ofertas" },
+  { id: "m5_2", chapter: 5, title: "El Mensaje en la Botella (CV)",
+    description: "Crear CV en formato ATS-friendly con métricas cuantificables. Escribir 3 modelos de carta de presentación.",
+    xp: 250, category: "employability", estimatedTime: "5 horas",
+    verification: "CV en PDF listo para enviar" },
+  { id: "m5_3", chapter: 5, title: "Simulacro de Batalla (Entrevista)",
+    description: "Practicar con 50 preguntas de entrevista técnica (SQL, Python, Estadística, Casos). Usar IA para simular entrevistas.",
+    xp: 300, category: "employability", estimatedTime: "8 horas",
+    verification: "Completar 3 simulacros de entrevista con IA" },
+  { id: "m5_4", chapter: 5, title: "La Última Puerta (Networking)",
+    description: "Asistir a webinar, meetup o conferencia de datos (virtual o presencial). Conectar con 5 profesionales.",
+    xp: 150, category: "employability", estimatedTime: "3 horas",
+    verification: "Captura de pantalla de conexiones realizadas" },
+  { id: "m5_5", chapter: 5, title: "El Asedio Final (Aplicaciones)",
+    description: "Enviar mínimo 50 aplicaciones de empleo personalizadas (CV + Cover Letter) durante 3 semanas.",
+    xp: 500, category: "employability", estimatedTime: "20 horas",
+    verification: "Registrar todas las aplicaciones en hoja de seguimiento" }
+];
+
+/* --- Logros (10): se desbloquean al cumplir su condición --- */
+const achievements = [
+  { id: "ach_first",   ico: "🩸", name: "Primera Sangre",   desc: "Completar tu primera misión" },
+  { id: "ach_ten",     ico: "🗡️", name: "Cazador de Datos", desc: "Completar 10 misiones" },
+  { id: "ach_ch0",     ico: "🛡️", name: "Superviviente Técnico", desc: "Completar todo el Capítulo 0" },
+  { id: "ach_ch1",     ico: "⚔️", name: "Forjador de Análisis", desc: "Completar todo el Capítulo 1" },
+  { id: "ach_ch2",     ico: "🤖", name: "Domador de Máquinas", desc: "Completar todo el Capítulo 2" },
+  { id: "ach_ch3",     ico: "🎯", name: "Arsenal Completo",  desc: "Completar todo el Capítulo 3" },
+  { id: "ach_ch4",     ico: "💰", name: "Mercenario de Datos", desc: "Completar todo el Capítulo 4" },
+  { id: "ach_ch5",     ico: "🏆", name: "Conquistador del Empleo", desc: "Completar todo el Capítulo 5" },
+  { id: "ach_ai",      ico: "🧠", name: "Genio de la IA",   desc: "Completar todas las misiones de categoría IA" },
+  { id: "ach_legend",  ico: "👑", name: "Leyenda de ODEA",  desc: "Completar las 21 misiones: dominio total" }
+];
+
+/* --- Mensajes de ánimo aleatorios (modo historia) --- */
+const CHEERS = [
+  "¡La legión de datos te observa con orgullo!",
+  "Un paso más cerca del trono del analista.",
+  "Los dragones de SQL tiemblan ante ti.",
+  "Tu nivel de poder se siente en todo el reino digital.",
+  "¡Sigue así, leyenda en construcción!",
+  "Cada misión cumplida afila más tu espada.",
+  "El dashboard del destino brilla para ti.",
+  "Ni ChatGPT compite con tu determinación.",
+  "Las máquinas reconocen a su futuro maestro.",
+  "¡Excelente movimiento, estratega de datos!"
+];
+
+/* --- Utilidades rápidas derivadas de los datos --- */
+const TOTAL_XP = missions.reduce((a, m) => a + m.xp, 0);     // XP total del juego
+const MISSION_TOTAL = missions.length;                        // nº de misiones
+const XP_BY_CAT = {};                                         // XP total por categoría
+missions.forEach(m => { XP_BY_CAT[m.category] = (XP_BY_CAT[m.category] || 0) + m.xp; });
+const CH_IDS = missions.map(m => m.chapter)
+  .filter((v, i, a) => a.indexOf(v) === i).sort((x, y) => x - y); // ids de capítulos con misiones
+
+/* --- Rango de tiempo estimado: devuelve {min, max} en horas --- */
+function parseHours(str) {
+  const nums = (str.match(/\d+/g) || []).map(Number);
+  if (!nums.length) return { min: 0, max: 0 };
+  return { min: nums[0], max: nums.length > 1 ? nums[1] : nums[0] };
+}
+
+/* ==========================================================
+   D) JS / ESTADO Y PERSISTENCIA (localStorage)
+   ========================================================== */
+const SAVE_KEY = "odea_save_v1";
+
+/* Objeto global de estado (spec oficial) */
+let gameState = {
+  playerName: "Recluta",
+  totalXP: 0,
+  level: 1,
+  completedMissions: [], // array de IDs
+  stats: { analystLevel: 0, aiLevel: 0, employabilityLevel: 0 } // % 0-100 por categoría
+};
+
+/* --- Persistencia --- */
+function saveGame() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); }
+  catch (e) { console.warn("No se pudo guardar (modo privado?):", e); }
+}
+
+function loadGame() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (!data || !Array.isArray(data.completedMissions)) return false;
+    gameState.playerName = data.playerName || "Recluta";
+    gameState.completedMissions = data.completedMissions.filter(id =>
+      missions.some(m => m.id === id)); // descarta IDs inválidos
+    return true;
+  } catch (e) { return false; }
+}
+
+function resetGame() {
+  localStorage.removeItem(SAVE_KEY);
+  gameState = {
+    playerName: "Recluta", totalXP: 0, level: 1,
+    completedMissions: [],
+    stats: { analystLevel: 0, aiLevel: 0, employabilityLevel: 0 }
+  };
+  renderChapters();
+  updateUI();
+  toast("🔄", "Progreso reiniciado", "El camino comienza de nuevo, recluta.");
+  showWelcome();
+}
+
+/* --- Cálculo del nivel según XP total (spec) --- */
+function calculateLevel(xp) {
+  let lvl = 1;
+  for (let i = 0; i < LEVELS.length; i++) {
+    if (xp >= LEVELS[i].xp) lvl = i + 1;
+  }
+  return lvl;
+}
+
+function levelName(lvl) { return LEVELS[Math.min(lvl - 1, LEVELS.length - 1)].name; }
+
+/* --- Recalcular todo el estado derivado desde las misiones --- */
+function recomputeState() {
+  const doneSet = new Set(gameState.completedMissions);
+  const done = missions.filter(m => doneSet.has(m.id));
+  // XP total = suma de XP de misiones completadas (fuente única de verdad)
+  gameState.totalXP = done.reduce((a, m) => a + m.xp, 0);
+  gameState.level = calculateLevel(gameState.totalXP);
+  // % por categoría: XP ganado / XP total posible de esa categoría
+  const xpCat = {};
+  done.forEach(m => { xpCat[m.category] = (xpCat[m.category] || 0) + m.xp; });
+  gameState.stats = {
+    analystLevel: Math.round(((xpCat.analyst || 0) / (XP_BY_CAT.analyst || 1)) * 100),
+    aiLevel: Math.round(((xpCat.ai || 0) / (XP_BY_CAT.ai || 1)) * 100),
+    employabilityLevel: Math.round(((xpCat.employability || 0) / (XP_BY_CAT.employability || 1)) * 100)
+  };
+}
+
+/* ==========================================================
+   E) JS / RENDER DE INTERFAZ
+   ========================================================== */
+
+/* --- Render de capítulos y misiones en el main --- */
+function renderChapters() {
+  const root = document.getElementById("chapters-root");
+  const doneSet = new Set(gameState.completedMissions);
+  root.innerHTML = "";
+
+  CHAPTERS.forEach(ch => {
+    const chMissions = missions.filter(m => m.chapter === ch.id);
+    const chDone = chMissions.filter(m => doneSet.has(m.id)).length;
+    const pct = Math.round((chDone / chMissions.length) * 100);
+
+    const sec = document.createElement("section");
+    sec.className = "chapter" + (pct === 100 ? " done-ch" : "");
+    sec.dataset.chapter = ch.id;
+    sec.style.setProperty("--ch-color", ch.color);
+    if (pct === 100) sec.style.borderColor = ch.color;
+
+    sec.innerHTML =
+      '<div class="chapter-head" role="button" tabindex="0" aria-expanded="false">' +
+        '<span class="chapter-ico">' + ch.icon + '</span>' +
+        '<div class="chapter-title"><small>' + ch.code + (pct === 100 ? ' · COMPLETADO ✓' : '') + '</small>' + escapeHtml(ch.title) + '</div>' +
+        '<div class="chapter-meta">' +
+          '<span>' + chDone + '/' + chMissions.length + '</span>' +
+          '<div class="bar"><span style="width:' + pct + '%"></span></div>' +
+          '<span class="ch-chev">▶</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="chapter-body">' +
+        '<p class="ch-narrative">' + escapeHtml(ch.narrative) + '</p>' +
+        chMissions.map(m => missionCard(m, doneSet.has(m.id))).join("") +
+      '</div>';
+    root.appendChild(sec);
+  });
+}
+
+function missionCard(m, isDone) {
+  const cat = CAT[m.category];
+  return '<div class="mission' + (isDone ? ' done' : '') + '" data-id="' + m.id + '">' +
+    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '" title="Marcar como completada"></div>' +
+    '<div class="m-body">' +
+      '<div class="m-title">' + escapeHtml(m.title) + '</div>' +
+      '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+      '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+      '<div class="m-tags">' +
+        '<span class="tag ' + cat.tag + '">' + cat.label + '</span>' +
+        '<span class="tag xp">+' + m.xp + ' XP</span>' +
+        '<span class="tag time">⏱ ' + escapeHtml(m.estimatedTime) + '</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+/* --- Escapar HTML (seguridad ante textos con caracteres raros) --- */
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+/* --- Actualizar TODA la interfaz (HUD, panel, barras, radar) --- */
+function updateUI() {
+  const done = gameState.completedMissions.length;
+  const total = MISSION_TOTAL;
+  const pct = Math.min(100, Math.round((gameState.totalXP / (MAX_XP_LEVEL || TOTAL_XP)) * 100));
+
+  // HUD superior
+  document.getElementById("hud-level").textContent = "NIVEL " + gameState.level;
+  document.getElementById("hud-rank").textContent = levelName(gameState.level);
+  document.getElementById("hud-xp").textContent = gameState.totalXP.toLocaleString("es-CR") + " XP";
+  document.getElementById("hud-pct").textContent = pct + "%";
+  document.getElementById("hud-bar").style.width = pct + "%";
+
+  // Panel lateral
+  document.getElementById("s-name").textContent = gameState.playerName;
+  document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
+  setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
+  setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
+  setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
+  document.getElementById("m-count").textContent = done;
+  document.getElementById("m-total").textContent = total;
+  document.getElementById("ach-count").textContent = unlockedAchievements().length;
+
+  // Tiempo estimado total (suma min y max de horas)
+  let minH = 0, maxH = 0;
+  missions.forEach(m => {
+    const t = parseHours(m.estimatedTime);
+    minH += t.min; maxH += t.max;
+  });
+  document.getElementById("time-total").textContent =
+    minH === maxH ? minH + " h" : minH + "–" + maxH + " h";
+
+  drawRadar();
+  updateMissionCards();
+}
+
+function setBar(barId, txtId, value) {
+  document.getElementById(barId).style.width = value + "%";
+  document.getElementById(txtId).textContent = value + "%";
+}
+
+/* --- Refrescar visual de tarjetas sin perder scroll (tras cambios) --- */
+function updateMissionCards() {
+  const doneSet = new Set(gameState.completedMissions);
+  document.querySelectorAll(".mission").forEach(card => {
+    const done = doneSet.has(card.dataset.id);
+    card.classList.toggle("done", done);
+    const box = card.querySelector(".m-check");
+    if (box) box.setAttribute("aria-checked", String(done));
+  });
+}
+
+/* ==========================================================
+   F) JS / EFECTOS — toasts, level-up, logros, partículas, radar
+   ========================================================== */
+
+/* --- Toasts --- */
+function toast(ico, title, sub, cls) {
+  const layer = document.getElementById("toast-layer");
+  const el = document.createElement("div");
+  el.className = "toast" + (cls ? " " + cls : "");
+  el.innerHTML = '<span class="t-ico">' + ico + '</span><div><b>' + escapeHtml(title) +
+    '</b>' + (sub ? '<small>' + escapeHtml(sub) + '</small>' : '') + '</div>';
+  layer.appendChild(el);
+  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 380); }, 3400);
+}
+
+/* --- Notificación especial de logro --- */
+function notifyAchievement(ach) {
+  toast(ach.ico, "¡LOGRO DESBLOQUEADO!", ach.name + " — " + ach.desc, "ach");
+}
+
+/* --- Detección de logros desbloqueados (retorna lista de objetos) --- */
+function unlockedAchievements() {
+  const doneSet = new Set(gameState.completedMissions);
+  const perChapter = {};
+  missions.forEach(m => { perChapter[m.chapter] = (perChapter[m.chapter] || 0) + 1; });
+  const donePerChapter = {};
+  missions.forEach(m => { if (doneSet.has(m.id)) donePerChapter[m.chapter] = (donePerChapter[m.chapter] || 0) + 1; });
+  const aiIds = missions.filter(m => m.category === "ai").map(m => m.id);
+  const aiAll = aiIds.every(id => doneSet.has(id));
+
+  const cond = {
+    ach_first:  () => doneSet.size >= 1,
+    ach_ten:    () => doneSet.size >= 10,
+    ach_ch0:    () => (donePerChapter[0] || 0) >= perChapter[0],
+    ach_ch1:    () => (donePerChapter[1] || 0) >= perChapter[1],
+    ach_ch2:    () => (donePerChapter[2] || 0) >= perChapter[2],
+    ach_ch3:    () => (donePerChapter[3] || 0) >= perChapter[3],
+    ach_ch4:    () => (donePerChapter[4] || 0) >= perChapter[4],
+    ach_ch5:    () => (donePerChapter[5] || 0) >= perChapter[5],
+    ach_ai:     () => aiAll,
+    ach_legend: () => doneSet.size >= MISSION_TOTAL
+  };
+  return achievements.filter(a => cond[a.id] ? cond[a.id]() : false);
+}
+
+/* --- Procesar logros nuevos (comparando con últimos conocidos) --- */
+let knownAchievements = new Set();
+function checkAchievements() {
+  const now = unlockedAchievements();
+  const fresh = now.filter(a => !knownAchievements.has(a.id));
+  fresh.forEach(a => { knownAchievements.add(a.id); notifyAchievement(a); });
+  // Actualiza contador en el panel y el modal si está abierto
+  document.getElementById("ach-count").textContent = now.length;
+  if (achLayer.classList.contains("show")) renderAchievements();
+  return fresh.length;
+}
+
+function renderAchievements() {
+  const grid = document.getElementById("ach-grid");
+  const unlocked = new Set(unlockedAchievements().map(a => a.id));
+  grid.innerHTML = achievements.map(a =>
+    '<div class="ach-item ' + (unlocked.has(a.id) ? "unlocked" : "locked") + '">' +
+      '<span class="a-ico">' + (unlocked.has(a.id) ? a.ico : "🔒") + '</span>' +
+      '<b>' + escapeHtml(a.name) + '</b>' + escapeHtml(a.desc) +
+    '</div>').join("");
+}
+
+/* --- Modal genérico --- */
+const modalLayer = document.getElementById("modal-layer");
+const modalBox = document.getElementById("modal-box");
+const achLayer = document.getElementById("ach-layer");
+
+function showWelcome() {
+  document.getElementById("modal-ico").textContent = "🕹️";
+  document.getElementById("modal-title").textContent = "BIENVENIDO, RECLUTA";
+  document.getElementById("modal-text").innerHTML =
+    "Estás en una misión para convertirte en el <b>analista de datos más poderoso del reino digital</b>.<br><br>" +
+    "Completa misiones, gana XP, sube de nivel y desbloquea logros. Escribe tu nombre de guerra para comenzar.";
+  document.getElementById("modal-input").value = gameState.playerName !== "Recluta" ? gameState.playerName : "";
+  document.getElementById("modal-input").style.display = "block";
+  document.getElementById("modal-btn").textContent = "COMENZAR";
+  modalBtn.dataset.mode = "welcome";
+  modalLayer.classList.add("show");
+  setTimeout(() => document.getElementById("modal-input").focus(), 250);
+}
+
+function showLevelUp(newLevel, lvlName) {
+  document.getElementById("modal-ico").textContent = "⚡";
+  document.getElementById("modal-title").className = "levelup-title";
+  document.getElementById("modal-title").textContent = "¡LEVEL UP!";
+  document.getElementById("modal-text").innerHTML =
+    "<b>NIVEL " + newLevel + " — " + escapeHtml(lvlName) + "</b><br>" +
+    "Tu poder crece. El reino digital ya susurra tu nombre.";
+  document.getElementById("modal-input").style.display = "none";
+  document.getElementById("modal-btn").textContent = "CONTINUAR";
+  modalBtn.dataset.mode = "levelup";
+  modalLayer.classList.add("show");
+}
+
+/* --- Radar chart (canvas, 3 habilidades) --- */
+const radar = document.getElementById("radar-chart");
+const radarCtx = radar.getContext("2d");
+function drawRadar() {
+  const W = radar.width, H = radar.height;
+  const cx = W / 2, cy = H / 2 + 6;
+  const R = 74;
+  const vals = [
+    gameState.stats.analystLevel / 100,
+    gameState.stats.aiLevel / 100,
+    gameState.stats.employabilityLevel / 100
+  ];
+  const colors = ["#00ff88", "#ff00ff", "#ffaa00"];
+  const labels = ["Analista", "IA", "Empleab."];
+  const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6]; // arriba, abajo-derecha, abajo-izq
+
+  radarCtx.clearRect(0, 0, W, H);
+  // anillos
+  for (let ring = 1; ring <= 4; ring++) {
+    const rr = (R * ring) / 4;
+    radarCtx.beginPath();
+    angles.forEach((a, i) => {
+      const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
+      i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
+    });
+    radarCtx.closePath();
+    radarCtx.strokeStyle = "rgba(160,160,192,.18)";
+    radarCtx.lineWidth = 1;
+    radarCtx.stroke();
+  }
+  // ejes
+  angles.forEach((a, i) => {
+    radarCtx.beginPath();
+    radarCtx.moveTo(cx, cy);
+    radarCtx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+    radarCtx.strokeStyle = "rgba(160,160,192,.25)";
+    radarCtx.stroke();
+    // etiquetas
+    radarCtx.fillStyle = colors[i];
+    radarCtx.font = "11px 'Share Tech Mono', monospace";
+    radarCtx.textAlign = "center";
+    radarCtx.fillText(labels[i], cx + (R + 24) * Math.cos(a), cy + (R + 24) * Math.sin(a) + 4);
+  });
+  // polígono de valor
+  radarCtx.beginPath();
+  angles.forEach((a, i) => {
+    const rr = Math.max(4, R * vals[i]);
+    const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
+    i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
+  });
+  radarCtx.closePath();
+  radarCtx.fillStyle = "rgba(0,255,136,.14)";
+  radarCtx.fill();
+  radarCtx.strokeStyle = "rgba(0,255,136,.8)";
+  radarCtx.lineWidth = 1.6;
+  radarCtx.shadowColor = "rgba(0,255,136,.6)";
+  radarCtx.shadowBlur = 10;
+  radarCtx.stroke();
+  radarCtx.shadowBlur = 0;
+  // puntos
+  angles.forEach((a, i) => {
+    const rr = Math.max(4, R * vals[i]);
+    radarCtx.beginPath();
+    radarCtx.arc(cx + rr * Math.cos(a), cy + rr * Math.sin(a), 3.5, 0, Math.PI * 2);
+    radarCtx.fillStyle = colors[i];
+    radarCtx.shadowColor = colors[i];
+    radarCtx.shadowBlur = 8;
+    radarCtx.fill();
+    radarCtx.shadowBlur = 0;
+  });
+}
+
+/* --- Partículas: destellos al completar + ambiente sutil --- */
+const pCanvas = document.getElementById("particles-canvas");
+const pCtx = pCanvas.getContext("2d");
+let particles = [];
+function sizeCanvas() {
+  pCanvas.width = window.innerWidth;
+  pCanvas.height = window.innerHeight;
+}
+function burst(x, y, color, n) {
+  for (let i = 0; i < (n || 26); i++) {
+    const a = Math.random() * Math.PI * 2;
+    const v = 1.5 + Math.random() * 5;
+    particles.push({
+      x: x, y: y,
+      vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2,
+      life: 1, decay: .014 + Math.random() * .02,
+      size: 1.5 + Math.random() * 2.6,
+      color: color || "#00ff88"
+    });
+  }
+}
+function loopParticles() {
+  pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    p.vy += .09;             // gravedad
+    p.vx *= .985;
+    p.life -= p.decay;
+    pCtx.globalAlpha = Math.max(0, p.life);
+    pCtx.fillStyle = p.color;
+    pCtx.shadowColor = p.color;
+    pCtx.shadowBlur = 6;
+    pCtx.beginPath();
+    pCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    pCtx.fill();
+  });
+  pCtx.globalAlpha = 1;
+  pCtx.shadowBlur = 0;
+  requestAnimationFrame(loopParticles);
+}
+
+/* ==========================================================
+   G) JS / EVENTOS E INICIALIZACIÓN
+   ========================================================== */
+const modalBtn = document.getElementById("modal-btn");
+const achGrid = document.getElementById("ach-grid");
+
+/* --- Acordeón de capítulos (delegación) --- */
+document.getElementById("chapters-root").addEventListener("click", e => {
+  const head = e.target.closest(".chapter-head");
+  if (head) {
+    const ch = head.closest(".chapter");
+    const open = ch.classList.toggle("open");
+    head.setAttribute("aria-expanded", String(open));
+    return;
+  }
+  // Checkbox de misión (clic)
+  const check = e.target.closest(".m-check");
+  if (check) toggleMission(check.closest(".mission").dataset.id, check);
+});
+
+document.getElementById("chapters-root").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const head = e.target.closest(".chapter-head");
+  const check = e.target.closest(".m-check");
+  if (head) { e.preventDefault(); head.click(); }
+  else if (check) { e.preventDefault(); check.click(); }
+});
+
+/* --- Alternar estado de una misión --- */
+function toggleMission(id, el) {
+  const idx = gameState.completedMissions.indexOf(id);
+  const oldLevel = gameState.level;
+  const mission = missions.find(m => m.id === id);
+  if (!mission) return;
+
+  const wasDone = idx !== -1;
+  const rect = el.getBoundingClientRect();
+
+  if (wasDone) {
+    gameState.completedMissions.splice(idx, 1);
+  } else {
+    gameState.completedMissions.push(id);
+    burst(rect.left + rect.width / 2, rect.top + rect.height / 2, CHAPTERS[mission.chapter].color, 34);
+  }
+
+  recomputeState();
+  const newLevel = gameState.level;
+
+  if (!wasDone) {
+    saveGame();
+    updateUI();
+    // Toast de misión cumplida
+    toast("✅", "¡Misión cumplida! +" + mission.xp + " XP",
+      mission.title + " · " + CHAPTERS[mission.chapter].icon + " " + CHAPTERS[mission.chapter].title,
+      mission.xp >= 300 ? "levelup" : "");
+    // Ánimo aleatorio (modo historia)
+    if (Math.random() < .65) {
+      setTimeout(() => toast("🎖️", "General", CHEERS[Math.floor(Math.random() * CHEERS.length)]), 1900);
+    }
+    checkAchievements();
+    // Level up
+    if (newLevel > oldLevel) {
+      setTimeout(() => showLevelUp(newLevel, levelName(newLevel)), 900);
+      // Doble celebración visual en el HUD
+      document.getElementById("hud-level").classList.add("pulse");
+      setTimeout(() => document.getElementById("hud-level").classList.remove("pulse"), 1800);
+      burst(window.innerWidth / 2, 130, "#ffaa00", 90);
+      burst(window.innerWidth / 2, 130, "#00ff88", 90);
+    }
+  } else {
+    saveGame();
+    updateUI();
+    toast("↩️", "Misión desmarcada", "-" + mission.xp + " XP · " + mission.title);
+  }
+}
+
+/* --- Modal: confirmar nombre / continuar --- */
+modalBtn.addEventListener("click", () => {
+  if (modalBtn.dataset.mode === "welcome") {
+    const name = document.getElementById("modal-input").value.trim();
+    if (name) gameState.playerName = name;
+    saveGame();
+    document.getElementById("s-name").textContent = gameState.playerName;
+    modalLayer.classList.remove("show");
+    toast("🕹️", "Bienvenido, " + gameState.playerName,
+      "Que la fuerza de los datos te acompañe.");
+  } else {
+    modalLayer.classList.remove("show");
+  }
+});
+modalLayer.addEventListener("click", e => { if (e.target === modalLayer) modalLayer.classList.remove("show"); });
+document.getElementById("modal-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") modalBtn.click();
+});
+
+/* --- Logros: abrir/cerrar modal --- */
+document.getElementById("ach-link").addEventListener("click", () => {
+  renderAchievements();
+  achLayer.classList.add("show");
+});
+document.getElementById("logo").addEventListener("click", () => {
+  renderAchievements();
+  achLayer.classList.add("show");
+});
+document.getElementById("ach-close").addEventListener("click", () => achLayer.classList.remove("show"));
+achLayer.addEventListener("click", e => { if (e.target === achLayer) achLayer.classList.remove("show"); });
+
+/* --- Botón reiniciar --- */
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("⚠️ ¿Seguro que deseas reiniciar TODO tu progreso? No hay vuelta atrás.")) {
+    resetGame();
+  }
+});
+
+/* --- Init --- */
+sizeCanvas();
+window.addEventListener("resize", sizeCanvas);
+loopParticles();
+
+const hadSave = loadGame();
+recomputeState();
+renderChapters();
+updateUI();
+knownAchievements = new Set(unlockedAchievements().map(a => a.id)); // logros ya ganados: no re-notificar
+
+if (!hadSave || !gameState.playerName || gameState.playerName === "Recluta") {
+  showWelcome();
+}
+</script>
+</body>
+</html>
