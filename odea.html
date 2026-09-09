@@ -715,6 +715,121 @@ html{-webkit-text-size-adjust:100%}
 .emp-rank .bar>span{background:linear-gradient(90deg,#ffaa00,#ffd700);box-shadow:0 0 12px rgba(255,170,0,.5)}
 .er-next{font-size:.72rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
 
+/* ==========================================================
+   🗺️ V5.0 — MAPA DE MUNDOS (navegación tipo videojuego)
+   Hub central + submundo por área. Solo navegación visual.
+   ========================================================== */
+.map-head{margin-bottom:14px}
+.map-back{cursor:pointer;background:rgba(26,26,46,.7);border:1px solid rgba(160,160,192,.3);color:var(--tx2);
+  font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:1.5px;padding:7px 14px;border-radius:99px;transition:.2s;margin-bottom:10px}
+.map-back:hover{color:#fff;border-color:var(--glow-cyan);box-shadow:0 0 12px rgba(0,204,255,.25)}
+.map-title{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;color:#fff;letter-spacing:2px;text-shadow:0 0 18px rgba(0,255,136,.35)}
+.map-title .mt-ico{margin-right:6px}
+.map-sub{font-size:.86rem;color:var(--tx2);margin-top:2px}
+/* --- Hub --- */
+.hub-wrap{position:relative;height:min(520px,82vh);min-height:430px;border-radius:20px;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 12%,rgba(0,255,136,.07),transparent 34%),
+    radial-gradient(circle at 18% 46%,rgba(255,170,0,.06),transparent 30%),
+    radial-gradient(circle at 84% 44%,rgba(0,204,255,.07),transparent 32%),
+    radial-gradient(circle at 22% 80%,rgba(255,0,255,.05),transparent 30%),
+    radial-gradient(circle at 80% 82%,rgba(124,108,255,.07),transparent 32%),
+    linear-gradient(165deg,#0c0f22,#10142b 60%,#0a0c1c);
+  border:1px solid rgba(140,150,220,.18);box-shadow:inset 0 0 60px rgba(0,0,0,.45)}
+.hub-wrap svg.hub-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hub-wrap .hub-road{fill:none;stroke:#3a4470;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:7 9;opacity:.85}
+.hub-wrap .hub-road.lit{stroke:#00ff88;stroke-dasharray:none;opacity:.9;filter:drop-shadow(0 0 6px rgba(0,255,136,.8))}
+.mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
+  background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
+  border:2px solid rgba(160,160,192,.25);transition:.25s;padding:0;font-family:inherit;color:#fff}
+.mworld:hover{transform:translate(-50%,-50%) scale(1.07)}
+.mworld .mw-ico{font-size:2.1rem;display:block;filter:drop-shadow(0 0 10px var(--mc))}
+.mworld .mw-name{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:1.5px;color:#fff;display:block;margin-top:2px;text-transform:uppercase}
+.mworld .mw-rank{font-size:.6rem;color:var(--tx2);display:block;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mworld .mw-badges{position:absolute;top:-6px;right:-2px;display:flex;gap:3px}
+.mworld .mw-badge{background:var(--bg2);border:1px solid rgba(160,160,192,.3);border-radius:99px;font-size:.6rem;padding:1px 5px}
+.mworld .mw-ring{position:absolute;inset:-7px;border-radius:50%;pointer-events:none}
+.mworld .mw-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.mworld .mw-ring .rb{fill:none;stroke:rgba(160,160,192,.22);stroke-width:3.5}
+.mworld .mw-ring .rf{fill:none;stroke:var(--mc);stroke-width:3.5;stroke-linecap:round;filter:drop-shadow(0 0 4px var(--mc))}
+.mworld .mw-pulse{position:absolute;inset:-14px;border-radius:50%;border:2px solid var(--mc);opacity:0;animation:nodePulse 2s ease-out infinite;pointer-events:none}
+.mworld .mw-check{position:absolute;top:-8px;left:-8px;width:24px;height:24px;border-radius:50%;background:#ffd700;color:#1a1400;
+  font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(255,215,0,.7)}
+@keyframes nodePulse{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.35);opacity:0}}
+.hub-note{text-align:center;font-size:.72rem;color:var(--tx2);margin-top:10px;font-family:'Share Tech Mono',monospace}
+/* --- Mapas de mundo (caminos) --- */
+.world-scroll{position:relative;max-height:calc(100vh - 210px);min-height:430px;overflow-y:auto;border-radius:20px;
+  background:linear-gradient(180deg,#0b0e20,#10142b 30%,#0b0e1f);border:1px solid rgba(140,150,220,.18);
+  padding:26px 12px 40px;box-shadow:inset 0 0 60px rgba(0,0,0,.45)}
+.world-scroll svg.world-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.world-svg .w-road{fill:none;stroke:#3a4470;stroke-width:6;stroke-linecap:round;stroke-dasharray:2 14;opacity:.8}
+.world-svg .w-road.lit{stroke:url(#roadGrad);stroke-dasharray:none;opacity:1;filter:drop-shadow(0 0 5px rgba(0,255,136,.7))}
+.world-svg .w-road.glit{stroke:#ffd700;filter:drop-shadow(0 0 5px rgba(255,215,0,.8))}
+.mnode{position:absolute;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;border:2px solid rgba(160,160,192,.3);
+  cursor:pointer;background:radial-gradient(circle at 50% 30%,#1b2140,#10142b 75%);transition:.22s;padding:0;color:#fff;font-family:inherit}
+.mnode:hover{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 0 22px color-mix(in srgb,var(--mc) 55%,transparent)}
+.mnode .mn-ico{font-size:1.9rem;display:block;line-height:1;filter:drop-shadow(0 0 8px var(--mc))}
+.mnode .mn-name{position:absolute;left:50%;top:calc(100% + 6px);transform:translateX(-50%);width:140px;text-align:center;
+  font-size:.6rem;font-family:'Share Tech Mono',monospace;color:var(--tx2);letter-spacing:.5px;line-height:1.25;pointer-events:none;white-space:normal}
+.mnode .mn-count{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:#0a0d1f;border:1px solid rgba(160,160,192,.35);
+  border-radius:99px;font-size:.6rem;padding:1px 7px;color:var(--tx2);font-family:'Share Tech Mono',monospace;white-space:nowrap}
+.mnode.locked{opacity:.45;filter:saturate(.2) grayscale(.6);cursor:not-allowed}
+.mnode.locked .mn-name{color:#8a8aa8}
+.mnode.lock-boss{opacity:.8;filter:saturate(.35)}
+.mnode.current{animation:nodeGlow 1.9s ease-in-out infinite}
+@keyframes nodeGlow{0%,100%{box-shadow:0 0 8px color-mix(in srgb,var(--mc) 40%,transparent)}50%{box-shadow:0 0 26px color-mix(in srgb,var(--mc) 90%,transparent)}}
+.mnode.done{border-color:rgba(255,215,0,.7)}
+.mnode.done .mn-ico{filter:drop-shadow(0 0 10px #ffd700)}
+.mnode .mn-check{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;background:#ffd700;color:#1a1400;
+  font-size:.7rem;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(255,215,0,.7)}
+.mnode .mn-boss{position:absolute;top:-8px;right:-6px;font-size:1.05rem;filter:drop-shadow(0 0 6px rgba(255,215,0,.9))}
+.mnode .mn-lock{position:absolute;top:-8px;left:-8px;font-size:1rem}
+.mnode .mn-ring{position:absolute;inset:-5px;border-radius:50%;pointer-events:none}
+.mnode .mn-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.mnode .mn-ring .rb{fill:none;stroke:rgba(160,160,192,.2);stroke-width:3}
+.mnode .mn-ring .rf{fill:none;stroke:var(--mc);stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 4px var(--mc))}
+/* --- Aldea (grid plaza) --- */
+.aldea-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;padding:8px 2px}
+.aldea-zone{position:relative;border-radius:18px;padding:16px 10px 14px;text-align:center;cursor:pointer;border:1px solid rgba(160,160,192,.22);
+  background:radial-gradient(circle at 50% 20%,color-mix(in srgb,var(--mc) 16%,#10142b),#0d1026 78%);transition:.22s;overflow:hidden}
+.aldea-zone:hover{transform:translateY(-4px);box-shadow:0 0 24px color-mix(in srgb,var(--mc) 40%,transparent)}
+.aldea-zone .az-ico{font-size:2.5rem;display:block;filter:drop-shadow(0 0 10px var(--mc))}
+.aldea-zone .az-name{font-family:'Orbitron',sans-serif;font-size:.72rem;color:#fff;letter-spacing:1.5px;display:block;margin-top:6px}
+.aldea-zone .az-rank{font-size:.66rem;color:var(--tx2);display:block;margin-top:2px;font-family:'Share Tech Mono',monospace}
+.aldea-zone .az-pct{position:absolute;top:8px;right:8px;font-family:'Orbitron',sans-serif;font-size:.62rem;color:var(--mc)}
+.aldea-zone.done{border-color:rgba(255,215,0,.55)}
+/* --- Modal de nodo (misiones del capitulo) --- */
+#node-layer{position:fixed;inset:0;z-index:125;display:none;align-items:center;justify-content:center;padding:14px;
+  background:rgba(5,3,10,.85);backdrop-filter:blur(5px)}
+#node-layer.show{display:flex}
+.node-modal{background:linear-gradient(165deg,#151129,#0e0c1e);border:1px solid rgba(140,150,220,.3);border-radius:18px;
+  max-width:640px;width:100%;max-height:86vh;overflow-y:auto;padding:26px 22px 18px;position:relative;
+  box-shadow:0 0 60px rgba(0,0,0,.6);animation:fadeSlide .28s cubic-bezier(.165,.84,.44,1)}
+.node-modal .nm-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.node-modal .nm-ico{font-size:2.2rem;filter:drop-shadow(0 0 12px var(--mc))}
+.node-modal .nm-code{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:2.5px;color:var(--mc);text-transform:uppercase}
+.node-modal .nm-title{font-family:'Orbitron',sans-serif;font-size:1.25rem;font-weight:900;color:#fff;letter-spacing:1px}
+.node-modal .nm-sub{font-size:.78rem;color:var(--tx2);margin:2px 0 4px}
+.node-modal .ch-narrative{margin-top:10px}
+.node-modal .mission{margin-top:10px}
+.node-modal .nm-done{text-align:center;margin-top:14px;padding:12px;border-radius:12px;background:rgba(0,255,136,.07);
+  border:1px dashed rgba(0,255,136,.45);color:var(--glow-green);font-family:'Orbitron',sans-serif;font-size:.85rem;letter-spacing:1px}
+#node-close{position:absolute;top:12px;right:12px}
+.maps-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.7rem;color:var(--tx2);margin-top:10px;justify-content:center}
+.maps-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.maps-legend .lg-done::before{background:#ffd700}.maps-legend .lg-cur::before{background:var(--glow-green);box-shadow:0 0 6px var(--glow-green)}
+.maps-legend .lg-lock::before{background:#555}
+@media (prefers-reduced-motion: reduce){
+  .mworld,.mnode,.aldea-zone{animation:none!important}
+  .mworld .mw-pulse,.mnode.current{animation:none!important}
+}
+@media (max-width:520px){
+  .mworld{width:96px;height:96px}
+  .mworld .mw-ico{font-size:1.8rem}
+  .hub-wrap{height:min(560px,86vh)}
+}
+
+
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
 .chip-grid .mc-lab{font-size:.55rem}
@@ -795,7 +910,8 @@ html{-webkit-text-size-adjust:100%}
 
   <div class="main-col" style="min-width:0">
     <div class="tabs">
-      <button class="tab-btn active" data-tab="daily">🗓️ DIARIO</button>
+      <button class="tab-btn active" data-tab="map">🗺️ MAPA</button>
+      <button class="tab-btn" data-tab="daily">🗓️ DIARIO</button>
       <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA</button>
       <button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
       <button class="tab-btn" data-tab="vida">🧬 VIDA</button>
@@ -803,7 +919,16 @@ html{-webkit-text-size-adjust:100%}
     </div>
 
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
-    <section class="view active" id="view-daily">
+    <!-- ============ VISTA 0: MAPA DE MUNDOS (hub + submundos) ============ -->
+    <section class="view active" id="view-map">
+      <div class="map-head">
+        <button class="map-back hidden" id="map-back">◀ VOLVER AL MAPA</button>
+        <div class="map-title" id="map-title">🗺️ MAPA DE MUNDOS</div>
+        <div class="map-sub" id="map-sub">Tu aventura: toca un mundo para explorar su camino</div>
+      </div>
+      <div id="map-stage"></div>
+    </section>
+    <section class="view" id="view-daily">
       <div id="daily-hero"></div>
       <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
@@ -893,6 +1018,13 @@ html{-webkit-text-size-adjust:100%}
 <footer><b>ODEA</b> · Plan Maestro Avanzado · v4.2 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales + 40 💼 de empleo · Progreso guardado 🔒</footer>
 
 <button id="rw-fab" class="rw-fab" title="Arsenal del Héroe: cofres y accesorios">🎒<span id="rw-badge" class="rw-badge hidden">0</span></button>
+
+<div id="node-layer">
+  <div class="node-modal">
+    <button class="close-x" id="node-close">✕</button>
+    <div id="node-body"></div>
+  </div>
+</div>
 
 <div id="rw-layer">
   <div class="rw-modal">
@@ -2315,6 +2447,7 @@ function renderAll() {
   rwGearRender();
   evalRewards();
   renderReto();
+  renderMap();
 }
 
 /* ==========================================================
@@ -2494,11 +2627,12 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
-    ["daily", "campaign", "jobs", "vida", "capital"].forEach(t => {
+    ["map", "daily", "campaign", "jobs", "vida", "capital"].forEach(t => {
       const v = document.getElementById("view-" + t);
       if (v) v.classList.toggle("active", tab === t);
     });
     if (tab === "daily") renderDailyView();
+    if (tab === "map") renderMapStage();
     if (tab === "jobs") renderJobs();
     if (tab === "jobs") updateEmpRank();
     if (tab === "vida") renderVidaSubActiva();
@@ -3189,6 +3323,7 @@ function playSfx(name) {
   else if (name === "reveal") { [659, 784, 988, 1319, 1568].forEach((f, i) => tone(f, t + .45 + i * .09, .32, "triangle", .15)); }
   else if (name === "error") { tone(190, t, .18, "sawtooth", .1, 120); }
   else if (name === "click") { tone(680, t, .05, "square", .07); }
+  else if (name === "travel") { tone(320, t, .16, "sine", .13, 760); tone(780, t + .09, .15, "sine", .11, 1050); }
 }
 
 /* --- Reto del día (evento aleatorio diario) --- */
@@ -3710,6 +3845,389 @@ function renderVidaMen(vs) {
 }
 
 
+/* ==========================================================
+   🗺️ V5.0 — MAPA DE MUNDOS (navegación por mapas)
+   Solo capa de navegación: consume los renders y datos
+   existentes; NO toca gameState ni el sistema de guardado.
+   ========================================================== */
+let mapSt = { w: null };   // null = hub central; sino: torre|fortaleza|aldea|boveda
+let mapModal = null;       // { kind: 'camp'|'cap'|'jobs', id: ... }
+
+function ringSvg(pct, cls) {
+  const C = (2 * Math.PI * 34).toFixed(2);
+  const off = (C * (1 - Math.max(0, Math.min(100, pct || 0)) / 100)).toFixed(2);
+  return '<svg viewBox="0 0 80 80"><circle class="rb" cx="40" cy="40" r="34"/><circle class="rf" cx="40" cy="40" r="34" stroke-dasharray="' + C + '" stroke-dashoffset="' + off + '"/></svg>';
+}
+function mapRoad(points, off) {
+  if (!points || points.length < 2) return "";
+  let d = "M" + points[0][0] + " " + points[0][1];
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i];
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    const sway = off || 8;
+    d += " Q" + (mx + sway) + " " + (my - sway) + " " + b[0] + " " + b[1];
+  }
+  return d;
+}
+function mapWorldStats() {
+  const vs = vidaCompute(), cap = capCompute();
+  const pendHoy = (function () {
+    const d = firstPendingDay();
+    if (d > DAILY_TOTAL) return 0;
+    return 3 - dayDoneCount(d);
+  })();
+  const retoPend = !(gameState.vida.log || []).some(e => e.indexOf("reto") === 0 && e.indexOf("|" + todayStr()) > 0);
+  return {
+    camp: {
+      pct: Math.min(100, Math.round(((gameState.level - 1) / DAILY_TOTAL) * 100)),
+      rank: "NIVEL " + gameState.level + " · " + levelName(gameState.level),
+      badge: (gameState.streak > 0 ? "🔥" + gameState.streak : "") + (retoPend ? " 🎲" : "") + (pendHoy > 0 ? " ⚔" + pendHoy : "")
+    },
+    torre: {
+      pct: Math.round((gameState.completedMissions.length / CAMP_TOTAL) * 100),
+      rank: (gameState.completedMissions.length || 0) + "/" + CAMP_TOTAL + " misiones",
+      badge: (gameState.completedWeekly.length > 0 ? "🗓" + gameState.completedWeekly.length : "")
+    },
+    fortaleza: {
+      pct: Math.round((jobsDoneCount() / employmentMissions.length) * 100),
+      rank: ladderInfo(EMP_LADDER, jobsXPGain()).name
+    },
+    aldea: {
+      pct: vs.hero.pct,
+      rank: vs.hero.name + " · Nv." + vs.hero.lvl
+    },
+    boveda: {
+      pct: Math.round((cap.doneCount / CAP_TOTAL) * 100),
+      rank: cap.ladder.name
+    }
+  };
+}
+function mapHubHTML() {
+  const s = mapWorldStats();
+  const W = [
+    { k: "camp", ico: "🏕️", n: "Campamento", x: 50, y: 13, c: "#00ff88", lit: true },
+    { k: "fortaleza", ico: "💼", n: "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
+    { k: "torre", ico: "📜", n: "Torre de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
+    { k: "aldea", ico: "🧬", n: "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
+    { k: "boveda", ico: "📈", n: "Bóveda del Capital", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 }
+  ];
+  const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda };
+  let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
+  W.slice(1).forEach(ww => {
+    const lit = ww.lit;
+    svg += '<path class="hub-road' + (lit ? " lit" : "") + '" d="M50 20 Q ' + (ww.x > 50 ? 58 : 42) + " " + ((ww.y + 20) / 2) + " " + ww.x + " " + ww.y + '"/>';
+  });
+  svg += "</svg>";
+  let html = svg;
+  W.forEach(ww => {
+    const st = map[ww.k];
+    html += '<button class="mworld" data-w="' + ww.k + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
+      '<span class="mw-pulse"></span><span class="mw-ring">' + ringSvg(st.pct) + "</span>" +
+      (st.pct >= 100 ? '<span class="mw-check">✓</span>' : "") +
+      '<span class="mw-ico">' + ww.ico + "</span>" +
+      '<span class="mw-name">' + ww.n + "</span>" +
+      '<span class="mw-rank">' + st.rank + "</span>" +
+      (st.badge ? '<span class="mw-badges"><span class="mw-badge">' + st.badge + "</span></span>" : "") +
+      "</button>";
+  });
+  return '<div class="hub-wrap">' + html + '</div><div class="hub-note">🗺️ Cada mundo guarda un camino de misiones · toca uno para explorarlo</div>';
+}
+/* --- nodos genéricos --- */
+function mnodeHTML(x, y, cfg) {
+  let cls = "mnode" + (cfg.done ? " done" : "") + (cfg.locked ? " locked" : "") + (cfg.cur ? " current" : "") + (cfg.bossLock ? " lock-boss" : "");
+  return '<button class="' + cls + '" style="--mc:' + cfg.color + ";left:" + x + "%;top:" + y + 'px" data-act="' + cfg.act + '" data-id="' + cfg.id + '">' +
+    (cfg.done ? '<span class="mn-check">✓</span>' : "") +
+    (cfg.locked ? '<span class="mn-lock">🔒</span>' : (cfg.bossLock ? '<span class="mn-lock">🔒</span>' : "")) +
+    (cfg.boss && !cfg.done ? '<span class="mn-boss">👑</span>' : "") +
+    '<span class="mn-ring">' + ringSvg(cfg.pct) + "</span>" +
+    '<span class="mn-ico">' + cfg.ico + "</span>" +
+    '<span class="mn-name">' + cfg.t + "</span>" +
+    '<span class="mn-count">' + cfg.count + "</span></button>";
+}
+function mapWorldTrack(points, roadCfg, extraDefs) {
+  const H = 940;
+  return '<div class="world-track" style="position:relative;height:' + H + 'px">' +
+    '<svg class="world-svg" viewBox="0 0 100 ' + H + '" preserveAspectRatio="none">' +
+    '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>' +
+    '<path class="w-road' + (roadCfg.litTo ? " lit" : "") + '" d="' + mapRoad(points.slice(0, roadCfg.litTo)) + '"/>' +
+    '<path class="w-road' + (roadCfg.glitTo ? " glit" : "") + '" d="' + (roadCfg.glitTo ? mapRoad(points.slice(0, roadCfg.glitTo)) : "") + '"/>' +
+    '<path class="w-road" d="' + mapRoad(points.slice(Math.max(1, roadCfg.litTo || 0))) + '" style="opacity:.45"/>' +
+    "</svg></div>";
+}
+/* --- Mundos: datos de nodos --- */
+function torreNodes() {
+  const doneSet = new Set(gameState.completedMissions);
+  const out = { nodes: [], points: [] };
+  const firstPend = CHAPTERS.findIndex(ch => {
+    const list = campaignMissions.filter(m => m.chapter === ch.id);
+    const boss = bossMissions.find(b => b.chapter === ch.id);
+    const total = list.length + (boss ? 1 : 0);
+    const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
+    return d < total;
+  });
+  CHAPTERS.forEach((ch, i) => {
+    const list = campaignMissions.filter(m => m.chapter === ch.id);
+    const boss = bossMissions.find(b => b.chapter === ch.id);
+    const total = list.length + (boss ? 1 : 0);
+    const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
+    const x = i % 2 === 0 ? 50 : 30;
+    const y = 80 + i * 106;
+    out.points.push([x, y]);
+    out.nodes.push(mnodeHTML(x, y, {
+      id: "ch" + ch.id, act: "camp-ch", ico: ch.icon, color: ch.color,
+      t: ch.code + " — " + ch.title, count: d + "/" + total,
+      pct: Math.round((d / total) * 100), done: d === total,
+      cur: i === firstPend, boss: boss && !doneSet.has(boss.id),
+      bossLock: boss && !doneSet.has(boss.id) && gameState.level < bossMinLevel(ch.id)
+    }));
+  });
+  return out;
+}
+function bovedaNodes() {
+  const vs = capCompute();
+  const out = { nodes: [], points: [] };
+  const firstPend = CAP_CHAPTERS.findIndex(ch => { const p = vs.perCap.find(x => x.cap === ch.cap); return vs.unlockMap[ch.cap] && !p.complete; });
+  CAP_CHAPTERS.forEach((ch, i) => {
+    const p = vs.perCap.find(x => x.cap === ch.cap);
+    const x = i % 2 === 0 ? 50 : 70;
+    const y = 80 + i * 106;
+    out.points.push([x, y]);
+    out.nodes.push(mnodeHTML(x, y, {
+      id: "cap" + ch.cap, act: "cap-ch", ico: ch.ico, color: ch.color,
+      t: ch.code + " — " + ch.title, count: p.done + "/" + p.total,
+      pct: p.pct, done: p.complete, cur: i === firstPend, locked: !vs.unlockMap[ch.cap]
+    }));
+  });
+  return out;
+}
+function fortalezaNodes() {
+  const doneSet = new Set(gameState.completedJobs);
+  const out = { nodes: [], points: [] };
+  [1, 2, 3, 4, 5, 6].forEach((blk, i) => {
+    const list = employmentMissions.filter(m => m.blk === blk);
+    const d = list.filter(m => doneSet.has(m.id)).length;
+    const x = i % 2 === 0 ? 42 : 60;
+    const y = 90 + i * 138;
+    out.points.push([x, y]);
+    out.nodes.push(mnodeHTML(x, y, {
+      id: "blk" + blk, act: "jobs-blk", ico: (JOBS_BLOCKS[blk] || "").slice(0, 2), color: "#ffaa00",
+      t: (JOBS_BLOCKS[blk] || "Bloque " + blk).replace(/^.. /, ""), count: d + "/" + list.length,
+      pct: Math.round((d / list.length) * 100), done: d === list.length, cur: i === 0 && d === 0
+    }));
+  });
+  return out;
+}
+function mapWorldHTML(w) {
+  let nodes, points, litTo = 1;
+  if (w === "torre") { const t = torreNodes(); nodes = t.nodes; points = t.points; }
+  else if (w === "boveda") { const b = bovedaNodes(); nodes = b.nodes; points = b.points; }
+  else if (w === "fortaleza") { const f = fortalezaNodes(); nodes = f.nodes; points = f.points; }
+  else { return aldeaHTML(); }
+  const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
+  litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
+  let html = '<div class="world-scroll" id="world-scroll"><div style="position:relative;height:940px">' +
+    '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
+    '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
+  points.forEach((p, i) => {
+    if (i === 0) return;
+    const prev = points[i - 1];
+    const lit = i <= litTo;
+    const path = "M" + prev[0] + " " + prev[1] + " Q" + ((prev[0] + p[0]) / 2 + 6) + " " + ((prev[1] + p[1]) / 2 - 4) + " " + p[0] + " " + p[1];
+    html += '<path class="w-road' + (lit ? " lit" : "") + '" d="' + path + '"/>';
+  });
+  html += "</svg>" + nodes.join("") + "</div>" +
+    '<div class="maps-legend"><span class="lg-done">Completado</span><span class="lg-cur">En progreso</span><span class="lg-lock">Bloqueado</span></div></div>';
+  return html;
+}
+function aldeaHTML() {
+  const vs = vidaCompute();
+  const zonas = [
+    { k: "eq", ico: "⚖️", n: "Equilibrio", c: "#00ff88", s: vs.sub.eq, pct: vs.sub.eq.pct, done: false },
+    { k: "kid", ico: "👶", n: "Legado", c: "#00ff88", s: vs.sub.kid, pct: vs.sub.kid.pct, done: false },
+    { k: "cpl", ico: "💑", n: "Alianza", c: "#ff00aa", s: vs.sub.cpl, pct: vs.sub.cpl.pct, done: false },
+    { k: "pow", ico: "🦁", n: "Poder & Imagen", c: "#ffd700", s: vs.sub.pow, pct: vs.sub.pow.pct, done: false },
+    { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", s: vs.sub.men, pct: vs.sub.men.pct, done: false }
+  ];
+  let html = '<div class="aldea-grid">';
+  zonas.forEach(z => {
+    html += '<div class="aldea-zone" data-w="aldea-zone" data-sub="' + z.k + '" style="--mc:' + z.c + '">' +
+      '<span class="az-pct">' + z.pct + "%</span><span class='az-ico'>" + z.ico + "</span>" +
+      '<span class="az-name">' + z.n + "</span>" +
+      '<span class="az-rank">' + z.s.name + " · Nv." + z.s.lvl + "</span></div>";
+  });
+  html += "</div><div class='maps-legend'><span class='lg-cur'>Toca una zona para entrar a su frente</span></div>";
+  return html;
+}
+/* --- render del escenario --- */
+function renderMapStage() {
+  const view = document.getElementById("view-map");
+  if (!view || !view.classList.contains("active")) return;
+  const stage = document.getElementById("map-stage");
+  if (!stage) return;
+  const back = document.getElementById("map-back");
+  const title = document.getElementById("map-title");
+  const sub = document.getElementById("map-sub");
+  const H = {
+    null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
+    torre: { t: "📜 TORRE DE DATOS", s: "8 capítulos para escalar de Novato a Analista Legendario" },
+    fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "6 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas y freelance" },
+    aldea: { t: "🧬 ALDEA DE LA VIDA", s: "5 zonas: equilíbrio, legado, alianza, poder y sabiduría" },
+    boveda: { t: "📈 BÓVEDA DEL CAPITAL", s: "8 capítulos: mercados, IA, cartera y futuro — hasta NIVEL EXTREMO" }
+  };
+  const h = H[mapSt.w] || H.null;
+  title.textContent = h.t;
+  sub.textContent = h.s;
+  back.classList.toggle("hidden", mapSt.w === null);
+  stage.innerHTML = mapSt.w === null ? mapHubHTML() : mapWorldHTML(mapSt.w);
+  const cur = stage.querySelector(".mnode.current, .mworld");
+  if (cur && mapSt.w !== null) cur.scrollIntoView({ block: "center", behavior: "auto" });
+}
+function mapGoHome() {
+  playSfx("click");
+  mapSt.w = null;
+  mapModal = null;
+  renderMapStage();
+}
+function mapEnter(w) {
+  playSfx("travel");
+  if (w === "camp") {
+    document.querySelector('.tab-btn[data-tab="daily"]').click();
+    return;
+  }
+  if (w === "aldea") {
+    mapSt.w = "aldea";
+  } else {
+    mapSt.w = w;
+  }
+  renderMapStage();
+}
+function mapOpenModal(kind, id) {
+  mapModal = { kind: kind, id: id };
+  const layer = document.getElementById("node-layer");
+  const body = document.getElementById("node-body");
+  if (!layer || !body) return;
+  if (kind === "camp-ch") {
+    const n = Number(String(id).replace("ch", ""));
+    const ch = CHAPTERS[n];
+    if (!ch) return;
+    const doneSet = new Set(gameState.completedMissions);
+    const list = campaignMissions.filter(m => m.chapter === ch.id);
+    const boss = bossMissions.find(b => b.chapter === ch.id);
+    const total = list.length + (boss ? 1 : 0);
+    const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
+    let html = '<div style="--mc:' + ch.color + '"><div class="nm-head"><span class="nm-ico">' + ch.icon + "</span>" +
+      '<div><div class="nm-code">' + ch.code + ' · ' + d + "/" + total + " misiones</div>" +
+      '<div class="nm-title">' + ch.title + "</div>" +
+      '<div class="nm-sub">' + (ch.subtitle || "") + "</div></div></div>" +
+      '<p class="ch-narrative">' + ch.narrative + "</p>" +
+      list.map(m => campaignCard(m, doneSet.has(m.id))).join("") +
+      (boss ? bossCard(boss, doneSet.has(boss.id)) : "") +
+      (d === total ? '<div class="nm-done">✓ CAPÍTULO COMPLETADO</div>' : "") + "</div>";
+    body.innerHTML = html;
+  } else if (kind === "cap-ch") {
+    const n = Number(String(id).replace("cap", ""));
+    const ch = CAP_CHAPTERS.find(c => c.cap === n);
+    if (!ch) return;
+    const vs = capCompute();
+    const list = capMissionsOf(n);
+    const d = list.filter(m => vs.doneSet.has(m.id)).length;
+    let html = '<div style="--mc:' + ch.color + '"><div class="nm-head"><span class="nm-ico">' + ch.ico + "</span>" +
+      '<div><div class="nm-code">' + ch.code + ' · ' + d + "/" + list.length + " misiones</div>" +
+      '<div class="nm-title">' + ch.title + "</div></div></div>" +
+      '<p class="ch-narrative">' + ch.narrative + "</p>" +
+      list.map(m => capCardHTML(m, vs)).join("") +
+      (d === list.length ? '<div class="nm-done">✓ CAPÍTULO COMPLETADO</div>' : "") + "</div>";
+    body.innerHTML = html;
+  } else if (kind === "jobs-blk") {
+    const blk = Number(String(id).replace("blk", ""));
+    const list = employmentMissions.filter(m => m.blk === blk);
+    const doneSet = new Set(gameState.completedJobs);
+    let html = '<div style="--mc:#ffaa00"><div class="nm-head"><span class="nm-ico">💼</span>' +
+      '<div><div class="nm-code">FORTALEZA DEL EMPLEO · ' + list.filter(m => doneSet.has(m.id)).length + "/" + list.length + "</div>" +
+      '<div class="nm-title">' + (JOBS_BLOCKS[blk] || "Bloque") + "</div></div></div>" +
+      '<p class="ch-narrative">Completa las misiones de este bloque para reforzar tu fortaleza.</p>' +
+      list.map(m => {
+        const done = doneSet.has(m.id);
+        return '<div class="mission job' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+          '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div><div class="m-body">' +
+          '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
+          '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+          '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+          '<div class="m-tags"><span class="tag time" style="color:#ffaa00;border-color:rgba(255,170,0,.4)">' + (JOBS_TAGS[m.tag] || m.tag) + "</span>" + xpTag(m.xp) + "</div>" +
+          "</div></div>";
+      }).join("") + "</div>";
+    body.innerHTML = html;
+  }
+  playSfx("pop");
+  layer.classList.add("show");
+}
+function mapCloseModal() {
+  mapModal = null;
+  const layer = document.getElementById("node-layer");
+  if (layer) layer.classList.remove("show");
+}
+function mapRefresh() {
+  const sc = document.getElementById("world-scroll");
+  const st = sc ? sc.scrollTop : 0;
+  renderMapStage();
+  if (sc) { const sc2 = document.getElementById("world-scroll"); if (sc2) sc2.scrollTop = st; }
+  if (mapModal) mapOpenModal(mapModal.kind, mapModal.id);
+}
+function mapTabToVida(sub) {
+  playSfx("travel");
+  document.querySelector('.tab-btn[data-tab="vida"]').click();
+  const btn = document.querySelector('.sub-tab[data-sub="' + sub + '"]');
+  if (btn) btn.click();
+}
+function renderMap() {
+  const view = document.getElementById("view-map");
+  if (!view || !view.classList.contains("active")) return;
+  renderMapStage();
+}
+(function () {
+  const stage = document.getElementById("map-stage");
+  if (stage) {
+    stage.addEventListener("click", function (e) {
+      const w = e.target.closest(".mworld");
+      if (w) { mapEnter(w.dataset.w); return; }
+      const zone = e.target.closest(".aldea-zone");
+      if (zone) { mapTabToVida(zone.dataset.sub); return; }
+      const node = e.target.closest(".mnode");
+      if (node) {
+        if (node.classList.contains("locked")) { playSfx("error"); toast("🔒", "Zona bloqueada", "Completa el capítulo anterior para desbloquearla."); return; }
+        mapOpenModal(node.dataset.act, node.dataset.id);
+      }
+    });
+  }
+  const back = document.getElementById("map-back");
+  if (back) back.addEventListener("click", mapGoHome);
+  const layer = document.getElementById("node-layer");
+  if (layer) {
+    layer.addEventListener("click", function (e) {
+      if (e.target === layer) { mapCloseModal(); return; }
+      const card = e.target.closest(".mission[data-id]");
+      if (card) {
+        const modal = mapModal;
+        if (!modal) return;
+        if (modal.kind === "camp-ch") { toggleCampaign(card.dataset.id, card); }
+        else if (modal.kind === "jobs-blk") { toggleJob(card.dataset.id, card); }
+        setTimeout(mapRefresh, 60);
+        return;
+      }
+      const cardC = e.target.closest(".mission[data-cid]");
+      if (cardC && mapModal && mapModal.kind === "cap-ch") {
+        capToggleMission(cardC);
+        setTimeout(mapRefresh, 80);
+      }
+    });
+  }
+  const nclose = document.getElementById("node-close");
+  if (nclose) nclose.addEventListener("click", mapCloseModal);
+})();
+
+/* --- Init --- */
+sizeCanvas();
 window.addEventListener("resize", sizeCanvas);
 loopParticles();
 
