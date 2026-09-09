@@ -277,6 +277,16 @@ aside.stats-panel h3{font-size:.85rem;color:var(--tx2);letter-spacing:2px;border
 .m-check.locked{border-color:rgba(160,160,192,.4);background:rgba(10,10,26,.7);display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:not-allowed}
 .mission.locked{opacity:.8}
 
+/* --- SOLO HOY: extras colapsados + frase --- */
+#daily-extras{margin-top:14px}
+.btn-extra{cursor:pointer;display:block;width:100%;padding:12px;border-radius:12px;border:1px dashed rgba(160,160,192,.35);
+  background:rgba(26,26,46,.5);color:var(--tx2);font-family:'Share Tech Mono',monospace;font-size:.9rem;letter-spacing:1px;transition:.25s}
+.btn-extra:hover{color:var(--glow-cyan);border-color:var(--glow-cyan);box-shadow:0 0 16px rgba(0,204,255,.15)}
+#plan-extra{margin-top:16px}
+.dh-quote{font-style:italic;color:var(--tx2);font-size:.85rem;margin-top:8px;opacity:.9}
+.dh-quote::before{content:'💬 '}
+.tomorrow-preview{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(0,255,136,.05);border:1px dashed rgba(0,255,136,.35);font-size:.85rem;color:var(--glow-green)}
+
 /* --- Misiones dentro de un día (3 por día: A/B/C) --- */
 .dm-list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
 .dm-row{
@@ -528,9 +538,14 @@ html{-webkit-text-size-adjust:100%}
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
     <section class="view active" id="view-daily">
       <div id="daily-hero"></div>
-      <div id="weekly-card"></div>
-      <div class="roadmap-title">🗺️ Ruta de los 56 días</div>
-      <div id="roadmap"></div>
+      <div id="daily-extras">
+        <button class="btn-extra" id="btn-extra">📯 Ver reto semanal y ruta completa ▾</button>
+        <div id="plan-extra" class="hidden">
+          <div id="weekly-card"></div>
+          <div class="roadmap-title">🗺️ Ruta de los 56 días</div>
+          <div id="roadmap"></div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ VISTA 2: CAMPAÑA ============ -->
@@ -1032,7 +1047,8 @@ let gameState = {
   unlockedAch: [],         // ids de logros ganados
   startDate: null,         // YYYY-MM-DD del día 1
   lastDailyDate: null,     // última fecha con misión diaria completada
-  streak: 0                // racha de días seguidos
+  streak: 0,               // racha de días seguidos
+  shieldWeek: null         // semana (ISO) en que se usó el escudo 🛡️
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -1089,6 +1105,7 @@ function loadGame() {
     gameState.startDate = data.startDate || null;
     gameState.lastDailyDate = data.lastDailyDate || null;
     gameState.streak = data.streak || 0;
+    gameState.shieldWeek = data.shieldWeek || null;
     return true;
   } catch (e) { return false; }
 }
@@ -1096,7 +1113,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null
   };
   selectedDay = 1;
   renderAll();
@@ -1247,6 +1264,16 @@ function xpTag(xp) { return '<span class="tag xp">+' + xp + ' XP</span>'; }
 function timeTag(t) { return '<span class="tag time">⏱ ' + t + ' min</span>'; }
 
 /* --- Héroe: tarjeta del día con sus 3 misiones (A/B/C) --- */
+const PHRASES = [
+  "Los hábitos pequeños vencen a las metas gigantes.",
+  "Hoy solo tienes 3 misiones. Nada más. Nada menos.",
+  "El 1% diario compone el 100% en 56 días.",
+  "Un día a la vez: así se domina cualquier cosa.",
+  "Tu futuro yo te agradece cada día completo.",
+  "No necesitas motivación: necesitas el primer clic.",
+  "La constancia vence al talento cuando el talento no es constante.",
+  "Cierra el día con 3 palomitas y el nivel sube solo."
+];
 const SLOT_META = {
   A: { label: "📚 Estudiar",  col: "#00ccff", glow: "rgba(0,204,255,.45)" },
   B: { label: "🛠️ Practicar", col: "#00ff88", glow: "rgba(0,255,136,.45)" },
@@ -1292,6 +1319,8 @@ function renderHero() {
       '<div class="dh-desc" style="max-width:760px">' + (full
         ? "Las 3 misiones de este día están cumplidas. ¡Sigue así, recluta!"
         : "Completa las 3 misiones del día: " + minDay + " min de trabajo · " + xpDay + " XP en total") + '</div>' +
+      (!full ? '<div class="dh-quote">' + PHRASES[(day - 1) % PHRASES.length] + '</div>' : "") +
+      (full && day < DAILY_TOTAL ? '<div class="tomorrow-preview">🔮 Mañana · Día ' + (day + 1) + ': ' + escapeHtml(missionsOfDay(day + 1)[0].title.replace(/^[^ ]+ /, "")) + '</div>' : "") +
       '<div class="day-banner">' +
         '<span class="day-progress' + (full ? " full" : "") + '">' + (full ? "✅ DÍA COMPLETO" : "Progreso del día: <b>" + doneN + "/" + list.length + "</b> misiones") + '</span>' +
         '<span class="dh-status">' + statusLine(day) + '</span>' +
@@ -1329,9 +1358,15 @@ function renderWeekly() {
     '</div>';
 }
 
-/* --- Ruta: los 42 días --- */
+/* --- Ruta --- */
 const WEEK_NAMES = ["", "Semana 1 · Cimientos", "Semana 2 · Visualización", "Semana 3 · SQL", "Semana 4 · ETL", "Semana 5 · IA + Dashboards", "Semana 6 · Empleo", "Semana 7 · Marketing Analytics", "Semana 8 · IA y Lanzamiento"];
 const WEEK_TITLES = ["", "Cimientos", "Manipulación y Visualización", "SQL", "Pandas Avanzado + ETL", "IA + Dashboards", "Empleabilidad", "Marketing Analytics", "IA y Lanzamiento"];
+document.getElementById("btn-extra").addEventListener("click", () => {
+  const box = document.getElementById("plan-extra");
+  const hidden = box.classList.toggle("hidden");
+  document.getElementById("btn-extra").textContent = hidden ? "📯 Ver reto semanal y ruta completa ▾" : "🔼 Ocultar reto semanal y ruta";
+  if (!hidden && !box.dataset.rendered) { box.dataset.rendered = "1"; renderWeekly(); renderRoadmap(); }
+});
 function renderRoadmap() {
   const root = document.getElementById("roadmap");
   const weeks = [...new Set(dailyMissions.map(m => m.week))].sort((a, b) => a - b);
@@ -1721,13 +1756,30 @@ function toggleCampaign(id, el) {
 }
 
 /* --- Racha: al completar una misión diaria hoy --- */
+function isoWeekKey(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  const t = new Date(d.getTime());
+  t.setHours(0, 0, 0, 0);
+  t.setDate(t.getDate() + 3 - ((t.getDay() + 6) % 7));
+  const w1 = new Date(t.getFullYear(), 0, 4);
+  const wk = 1 + Math.round(((t - w1) / 86400000 - 3 + ((w1.getDay() + 6) % 7)) / 7);
+  return t.getFullYear() + "-W" + String(wk).padStart(2, "0");
+}
 function updateStreak() {
   const td = todayStr();
   if (gameState.lastDailyDate === td) return;
   if (gameState.lastDailyDate && diffDays(gameState.lastDailyDate, td) === 1) {
-    gameState.streak += 1;
-  } else {
-    gameState.streak = 1;
+    gameState.streak += 1;   // día consecutivo: racha crece
+  } else if (gameState.lastDailyDate && diffDays(gameState.lastDailyDate, td) > 1) {
+    // hubo un hueco: ¿queda escudo esta semana?
+    const wk = isoWeekKey(td);
+    if (gameState.shieldWeek !== wk) {
+      gameState.shieldWeek = wk;
+      gameState.lastDailyDate = td;
+      toast("🛡️", "¡Escudo de racha activado!", "Un día perdido no rompe tu racha esta semana. Se acabó tu escudo semanal.");
+      return;
+    }
+    gameState.streak = 1;   // sin escudo: la racha se reinicia
   }
   gameState.lastDailyDate = td;
   if (gameState.streak === 7) toast("🔥", "¡7 días seguidos!", "Racha en llamas. El logro Semana Imparable (+100 XP) es tuyo.", "ach");
