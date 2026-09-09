@@ -602,7 +602,7 @@ html{-webkit-text-size-adjust:100%}
 .btn-reto:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(255,215,0,.6)}
 .btn-reto:disabled{background:rgba(26,26,46,.6);color:var(--tx2);box-shadow:none;cursor:default;border:1px solid rgba(0,255,136,.4);transform:none}
 /* --- FAB mochila --- */
-.rw-fab{position:fixed;right:18px;bottom:18px;z-index:90;width:58px;height:58px;border-radius:50%;cursor:pointer;
+.rw-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border-radius:50%;cursor:pointer;
   border:1px solid rgba(255,215,0,.55);background:linear-gradient(145deg,#2a1f05,#1a1508);font-size:1.5rem;
   box-shadow:0 0 22px rgba(255,170,0,.35);transition:.25s;display:flex;align-items:center;justify-content:center}
 .rw-fab:hover{transform:scale(1.1) rotate(-6deg);box-shadow:0 0 32px rgba(255,215,0,.6)}
@@ -700,6 +700,21 @@ html{-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* ==========================================================
+   🎖️ EMPLEO rank / 🦁 PODER / v4.8 extra UI
+   ========================================================== */
+.emp-rank{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 16px;
+  border-radius:14px;background:linear-gradient(120deg,rgba(255,170,0,.12),rgba(26,26,46,.4));
+  border:1px solid rgba(255,170,0,.35);box-shadow:0 0 18px rgba(255,170,0,.12)}
+.emp-rank .er-ico{font-size:1.7rem;filter:drop-shadow(0 0 8px rgba(255,170,0,.6))}
+.emp-rank .er-info{min-width:160px}
+.emp-rank .er-info b{font-family:'Orbitron',sans-serif;font-size:.95rem;color:#ffd700;display:block;letter-spacing:.5px;text-shadow:0 0 10px rgba(255,215,0,.35)}
+.emp-rank .er-info span{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--tx2)}
+.emp-rank .bar{flex:1;min-width:160px;height:10px}
+.emp-rank .bar>span{background:linear-gradient(90deg,#ffaa00,#ffd700);box-shadow:0 0 12px rgba(255,170,0,.5)}
+.er-next{font-size:.72rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
+
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
 .chip-grid .mc-lab{font-size:.55rem}
@@ -756,6 +771,7 @@ html{-webkit-text-size-adjust:100%}
         <span title="Frente Equilibrio (cuerpo, mente, dinero)">⚖️ <b id="vm-eq">Nv.1</b></span>
         <span title="Frente Legado (tu hijo)">👶 <b id="vm-kid">Nv.1</b></span>
         <span title="Frente Alianza (tu pareja)">💑 <b id="vm-cpl">Nv.1</b></span>
+        <span title="Frente Poder e Imagen (mentalidad, presencia, marca)">🦁 <b id="vm-pow">Nv.1</b></span>
       </div>
     </div>
     <div class="stat-block">
@@ -811,6 +827,7 @@ html{-webkit-text-size-adjust:100%}
         <div class="dh-kicker" style="color:var(--glow-amber)">💼 OPERACIÓN EMPLEO · 40 MISIONES</div>
         <div class="dh-title" style="font-size:1.3rem">La campaña que consigue el trabajo</div>
         <div class="dh-desc">Todo lo que tiene que ver con buscar trabajo: enviar currículums, aplicaciones, networking, LinkedIn, entrevistas y freelance. Cada misión suma XP a tu nivel.</div>
+        <div class="emp-rank"><span class="er-ico">🎖️</span><div class="er-info"><b id="emp-rank-name">Novato del Empleo</b><span id="emp-rank-lvl">Nv.1</span></div><div class="bar"><span id="emp-bar"></span></div></div>
         <div class="chip-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">
           <div class="mini-chip daily"><span class="mc-num" id="jb-apps">0/50</span><span class="mc-lab">Aplicaciones</span></div>
           <div class="mini-chip weekly"><span class="mc-num" id="jb-done">0/40</span><span class="mc-lab">Misiones</span></div>
@@ -837,10 +854,12 @@ html{-webkit-text-size-adjust:100%}
         <button class="sub-tab active" data-sub="eq">⚖️ EQUILIBRIO 8-8-8</button>
         <button class="sub-tab" data-sub="kid">👶 LEGADO</button>
         <button class="sub-tab" data-sub="cpl">💑 ALIANZA</button>
+        <button class="sub-tab" data-sub="pow">🦁 PODER & IMAGEN</button>
       </div>
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
       <div id="vida-cpl" class="vida-sub"></div>
+      <div id="vida-pow" class="vida-sub"></div>
     </section>
 
     <!-- ============ VISTA 5: CAPITAL (campaña IA + mercados + inversión) ============ -->
@@ -1361,7 +1380,9 @@ const CAP_CHAPTERS = [
   { cap: 6, code: "CAPÍTULO 6", title: "El General de tu Capital",  ico: "🎖️", color: "#ff3355",
     narrative: "Invertir es un sistema, no un golpe de suerte: diario de decisiones, automatización, revisiones trimestrales y disciplina. El mercado premia la constancia, no la emoción." },
   { cap: 7, code: "CAPÍTULO 7", title: "El Oráculo: IA + Futuro",   ico: "🔮", color: "#7c6cff",
-    narrative: "La maestría final: combinar tu cerebro de analista de datos con la IA para construir tu radar de mercado personal y diseñar tu máquina de aprendizaje eterno. Aquí te vuelves el que ve venir las olas." }
+    narrative: "La maestría final: combinar tu cerebro de analista de datos con la IA para construir tu radar de mercado personal y diseñar tu máquina de aprendizaje eterno. Aquí te vuelves el que ve venir las olas." },
+  { cap: 8, code: "CAPÍTULO 8", title: "IA al Día: Noticias que Valen Oro", ico: "📡", color: "#00e5a0",
+    narrative: "La ventaja silenciosa del profesional moderno: estar SIEMPRE al día con la IA que transforma su propio oficio. Aquí construyes tu radar personal de noticias IA alineado a tu perfil de datos y marketing — no para consumir ruido, sino para detectar las olas antes que los demás." }
 ];
 
 const CAP_MISSIONS = [
@@ -1411,7 +1432,13 @@ const CAP_MISSIONS = [
   { id: "ca7_2", cap: 7, t: "🌊 Cazador de Olas Nuevas", d: "Investiga a fondo 1 tema frontera (agentes de IA, robótica, energía, biotecnología) y mapea su cadena de valor.", xp: 250, time: 90, v: "Informe de la ola elegida con actores clave" },
   { id: "ca7_3", cap: 7, t: "🧠 Tu Motor de Aprendizaje Eterno", d: "Diseña tu sistema personal para estar SIEMPRE actualizado: fuentes, 1 hora semanal fija, IA como tutor y notas en un solo lugar.", xp: 250, time: 90, v: "Sistema documentado y funcionando 2 semanas" },
   { id: "ca7_4", cap: 7, t: "👑 Proyecto Maestro: Radar de Mercado", d: "Construye tu radar personal: script que baja datos + IA que resume la semana de mercados e IA. Tu analista virtual de capital.", xp: 450, time: 180, v: "Radar funcionando y probado 2 semanas seguidas" },
-  { id: "ca7_5", cap: 7, t: "🧑‍🏫 El Mentor", d: "Enseña lo aprendido a alguien (pareja, hijo, amigo): explicar es la prueba final de que dominas. Si no lo puedes explicar, no lo sabes.", xp: 300, time: 90, v: "Sesión de enseñanza completada (y agradecimiento recibido)" }
+  { id: "ca7_5", cap: 7, t: "🧑‍🏫 El Mentor", d: "Enseña lo aprendido a alguien (pareja, hijo, amigo): explicar es la prueba final de que dominas. Si no lo puedes explicar, no lo sabes.", xp: 300, time: 90, v: "Sesión de enseñanza completada (y agradecimiento recibido)" },
+  { id: "ca8_1", cap: 8, t: "📡 Tu Feed de IA Curado", d: "Configura tu arsenal de noticias IA: newsletters, canales y fuentes enfocadas en datos, marketing y negocios (mínimo 5). Nada de scroll sin rumbo: fuentes elegidas a propósito.", xp: 200, time: 75, v: "Lista de 5+ fuentes IA curadas y organizadas" },
+  { id: "ca8_2", cap: 8, t: "☕ Ritual IA del Día", d: "15 minutos diarios de noticias IA durante 7 días, resumiendo cada día 1 línea con ayuda de IA (y verificando la fuente).", xp: 250, time: 90, v: "Bitácora de 7 días con 1 insight por día" },
+  { id: "ca8_3", cap: 8, t: "🧭 Impacto en tu Perfil", d: "Analiza cómo 3 noticias IA recientes afectan a los analistas de datos y al marketing: herramientas, empleos, mercado. ¿Qué significa para TI?", xp: 220, time: 75, v: "Análisis de 3 noticias con implicaciones para tu carrera" },
+  { id: "ca8_4", cap: 8, t: "🔬 Prueba la Herramienta Nueva", d: "Prueba una herramienta IA nueva que mejore tu flujo de analista/marketing y escribe una mini-review honesta: qué resuelve y qué no.", xp: 250, time: 90, v: "Mini-review publicada o documentada de la herramienta" },
+  { id: "ca8_5", cap: 8, t: "💡 Insight Publicado", d: "Publica 1 insight de IA aplicado a datos o marketing en LinkedIn, alineado a tu marca personal. Enséñale al mercado que estás al día.", xp: 300, time: 90, v: "Post en vivo con tu insight de IA" },
+  { id: "ca8_6", cap: 8, t: "👑 Radar IA Mensual (Jefe)", d: "Escribe tu resumen mensual de IA: top 5 noticias, 3 implicaciones para tu carrera y 1 acción concreta. Usa IA para el borrador y audítala contra fuentes reales.", xp: 400, time: 120, v: "Documento mensual de Radar IA terminado" }
 ];
 
 const CAP_OBJ = {};
@@ -1596,7 +1623,7 @@ let gameState = {
   lastDailyDate: null,     // última fecha con misión diaria completada
   streak: 0,               // racha de días seguidos
   shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
-  vida: { log: [], growth: [], kid: [], couple: [] }, // 🧬 side quests de vida
+  vida: { log: [], growth: [], kid: [], couple: [], pow: [] }, // 🧬 side quests de vida
   capital: { done: [] },       // 📈 campaña capital (IA + mercados)
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
@@ -1663,7 +1690,8 @@ function loadGame() {
       log: Array.isArray(vd.log) ? vd.log : [],
       growth: Array.isArray(vd.growth) ? vd.growth : [],
       kid: Array.isArray(vd.kid) ? vd.kid : [],
-      couple: Array.isArray(vd.couple) ? vd.couple : []
+      couple: Array.isArray(vd.couple) ? vd.couple : [],
+      pow: Array.isArray(vd.pow) ? vd.pow : []
     };
     const cp = data.capital || {};
     gameState.capital = {
@@ -1685,7 +1713,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }, capital: { done: [] },
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [] }, capital: { done: [] },
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: null }
   };
@@ -2139,6 +2167,7 @@ function updateUI() {
   drawRadar();
   evalRewards();
   rwGearRender();
+  updateEmpRank();
 }
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
@@ -2468,6 +2497,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     });
     if (tab === "daily") renderDailyView();
     if (tab === "jobs") renderJobs();
+    if (tab === "jobs") updateEmpRank();
     if (tab === "vida") renderVidaSubActiva();
     if (tab === "capital") renderCapital();
   });
@@ -2645,7 +2675,7 @@ function vidaCompute() {
   const gv = gameState.vida || vidaDefault();
   const log = Array.isArray(gv.log) ? gv.log : [];
   const habitDates = {}, dayPilars = {}, balanceDates = new Set();
-  const xp = { eq: 0, kid: 0, cpl: 0 };
+  const xp = { eq: 0, kid: 0, cpl: 0, pow: 0 };
   log.forEach(entry => {
     const i = entry.indexOf("|");
     if (i <= 0) return;
@@ -2667,7 +2697,7 @@ function vidaCompute() {
       if (o) xp[o.cat] += o.xp;
     });
   });
-  const total = xp.eq + xp.kid + xp.cpl;
+  const total = xp.eq + xp.kid + xp.cpl + xp.pow;
   const today = todayStr(), week = isoWeekKey(todayStr());
   const dayP = dayPilars[today] || new Set();
   const kidToday = KID_DAILY.filter(m => log.indexOf(m.id + "|" + today) >= 0).length;
@@ -2687,7 +2717,8 @@ function vidaCompute() {
     sub: {
       eq: ladderInfo(EQ_LADDER, xp.eq),
       kid: ladderInfo(KID_LADDER, xp.kid),
-      cpl: ladderInfo(ALY_LADDER, xp.cpl)
+      cpl: ladderInfo(ALY_LADDER, xp.cpl),
+      pow: ladderInfo(POW_LADDER, xp.pow)
     }
   };
 }
@@ -2833,6 +2864,7 @@ function renderVidaSide(vs) {
   setTxt("vm-eq", "Nv." + vs.sub.eq.lvl);
   setTxt("vm-kid", "Nv." + vs.sub.kid.lvl);
   setTxt("vm-cpl", "Nv." + vs.sub.cpl.lvl);
+  setTxt("vm-pow", "Nv." + vs.sub.pow.lvl);
   setTxt("vh-lvl", "Nv." + vs.hero.lvl);
   const vhL = document.getElementById("vh-lvl");
   if (vhL) vhL.title = vs.hero.name;
@@ -2847,6 +2879,7 @@ function renderVidaSubActiva() {
   if (!st) return;
   if (st.dataset.sub === "eq") renderVidaEq(vs);
   else if (st.dataset.sub === "kid") renderVidaKid(vs);
+  else if (st.dataset.sub === "pow") renderVidaPow(vs);
   else renderVidaCpl(vs);
 }
 function renderVida() {
@@ -2858,6 +2891,7 @@ function renderVida() {
     const name = st ? st.dataset.sub : "eq";
     if (name === "eq") renderVidaEq(vs);
     else if (name === "kid") renderVidaKid(vs);
+    else if (name === "pow") renderVidaPow(vs);
     else renderVidaCpl(vs);
   }
 }
@@ -2879,14 +2913,14 @@ function vidaToggle(ev) {
     const i = log.indexOf(en);
     if (i >= 0) { log.splice(i, 1); done = false; } else { log.push(en); done = true; }
   } else {
-    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : "couple";
+    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : cat === "pow" ? "pow" : "couple";
     const list = gv[listName] = Array.isArray(gv[listName]) ? gv[listName] : [];
     const i = list.indexOf(id);
     if (i >= 0) { list.splice(i, 1); done = false; } else { list.push(id); done = true; }
   }
   gameState.vida = gv;
   const rect = card.getBoundingClientRect();
-  const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa" };
+  const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa", pow: "#ffd700" };
   if (done) burst(rect.left + rect.width / 2, rect.top + 20, colors[cat], 26);
   const vs = vidaCompute();
   if (done) {
@@ -2920,7 +2954,7 @@ function vidaToggle(ev) {
       const b = e.target.closest(".sub-tab");
       if (!b) return;
       document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
-      ["eq", "kid", "cpl"].forEach(n => {
+      ["eq", "kid", "cpl", "pow"].forEach(n => {
         const v = document.getElementById("vida-" + n);
         if (v) v.classList.toggle("active", b.dataset.sub === n);
       });
@@ -3495,6 +3529,98 @@ function flashFx() {
   f.style.opacity = "0";
   if (_flashTimer) clearTimeout(_flashTimer);
   _flashTimer = setTimeout(function () { f.style.opacity = "0"; }, 600);
+}
+
+/* ==========================================================
+   🎖️ EMPLEO — rango propio (caza de trabajo + servicios)
+   ========================================================== */
+const EMP_LADDER = [
+  { xp: 0, n: "Novato del Empleo" },
+  { xp: 400, n: "Rastreador de Vacantes" },
+  { xp: 1000, n: "Arquitecto de CV" },
+  { xp: 1800, n: "Cazador de Oportunidades" },
+  { xp: 3000, n: "Maestro del Networking" },
+  { xp: 4500, n: "Ninja de Entrevistas" },
+  { xp: 6500, n: "Oferta en la Mano" },
+  { xp: 9000, n: "Leyenda del Empleo" }
+];
+function updateEmpRank() {
+  const li = ladderInfo(EMP_LADDER, jobsXPGain());
+  const setT = function (id, txt) { const e = document.getElementById(id); if (e) e.textContent = txt; };
+  setT("emp-rank-name", li.name);
+  setT("emp-rank-lvl", "Nv." + li.lvl);
+  const bar = document.getElementById("emp-bar");
+  if (bar) bar.style.width = li.pct + "%";
+}
+
+/* ==========================================================
+   🦁 PODER & IMAGEN — frente de VIDA (cat "pow")
+   Estrategia, presencia, marca personal y mentalidad.
+   Las 48 Leyes del Poder se estudian como herramienta de
+   influencia y defensa propia, con integridad.
+   ========================================================== */
+const POW_LADDER = [
+  { xp: 0, n: "Observador" },
+  { xp: 250, n: "Aprendiz de Estrategia" },
+  { xp: 600, n: "Hombre de Presencia" },
+  { xp: 1200, n: "Comunicador Magnético" },
+  { xp: 2000, n: "Estratega Silencioso" },
+  { xp: 3200, n: "🦁 León del Poder" }
+];
+const POW_WEEK = [
+  { id: "pwk-ley",    t: "📜 La Ley de la Semana", d: "Estudia 1 ley del poder (o su resumen) y aplícala conscientemente esta semana. Las leyes se entienden aplicándolas.", xp: 45 },
+  { id: "pwk-pres",   t: "🧍 Presencia de Líder", d: "5 min frente al espejo (o en tu día): postura erguida, voz pausada, contacto visual. La presencia se entrena.", xp: 35 },
+  { id: "pwk-img",    t: "🪞 Imagen 10% Mejor", d: "Mejora hoy un detalle de tu imagen profesional: ropa, arreglo personal, foto de perfil. El mensaje empieza antes de hablar.", xp: 35 },
+  { id: "pwk-habla",  t: "🗣️ Habla con Peso", d: "Explica una idea sin muletillas y con estructura clara (situación → idea → cierre). Grábate o pide feedback.", xp: 40 },
+  { id: "pwk-jugada", t: "♟️ Dos Jugadas Adelante", d: "Antes de una decisión importante escribe: qué quiero, qué quiere la otra parte, y mi plan B.", xp: 40 },
+  { id: "pwk-oferta", t: "🛠️ 1h para tu Oferta", d: "1 hora construyendo tu oferta de servicios: qué vendes, a quién, y cuánto cobras (o subes tu precio).", xp: 45 }
+];
+const POW_HITS = [
+  { id: "pow-48",    t: "📕 Las 48 Leyes del Poder", d: "Lee el libro completo (o una guía resumida seria) con notas de las 10 leyes que más te marcaron y cómo las aplicarás con integridad.", xp: 350, v: "Notas de 10 leyes con plan de aplicación" },
+  { id: "pow-3m",    t: "🗓️ 3 Leyes en 3 Meses", d: "Aplica 1 ley al mes durante 3 meses, con reflexión escrita de resultados.", xp: 250, v: "3 reflexiones mensuales documentadas" },
+  { id: "pow-silen", t: "🤐 El Poder del Silencio", d: "Una semana hablando menos y escuchando más (la ley del silencio): responde después de pensar, no en automático.", xp: 200, v: "Semana completada + lección escrita" },
+  { id: "pow-ropa",  t: "👔 Armario de Éxito", d: "Revisa tu armario y arma 3-5 outfits que proyecten profesionalismo y seguridad. Tu imagen trabaja antes que tú.", xp: 200, v: "Outfits definidos y foto de referencia" },
+  { id: "pow-marca", t: "💎 Marca Personal Clara", d: "Define en 1 frase: quién eres, a quién ayudas y con qué resultado. Tu mensaje de presentación profesional.", xp: 250, v: "Frase de marca personal pulida y validada" },
+  { id: "pow-oferta",t: "🛒 Tu Oferta en Venta", d: "Publica tu primer servicio o paquete con precio claro y descripción atractiva (perfil, web, documento).", xp: 350, v: "Oferta publicada y visible" },
+  { id: "pow-cli",   t: "🤝 Primer Cliente", d: "Cierra tu primer cliente o proyecto pago, aunque sea pequeño. El primer sí cambia todo.", xp: 450, v: "Primer cliente confirmado (contrato o mensaje)" },
+  { id: "pow-video", t: "🎥 Video de Autoridad", d: "Graba y publica un video corto mostrando tu expertise (explica un concepto de datos/marketing/IA).", xp: 250, v: "Video publicado" },
+  { id: "pow-pitch", t: "🎤 Pitch de 60 Segundos", d: "Memoriza y presenta tu pitch personal sin titubear: quién eres, qué haces, qué buscas.", xp: 200, v: "Pitch presentado a 3+ personas" },
+  { id: "pow-net",   t: "🌐 Red de Aliados", d: "Conecta con 10 personas estratégicas: colegas, clientes potenciales, referentes. Networking de valor, no de spam.", xp: 250, v: "10 conexiones reales hechas" },
+  { id: "pow-neg",   t: "⚖️ Negociación Maestra", d: "Prepara y ejecuta una negociación importante (precio, salario, contrato): con tu número, alternativas y límite claro.", xp: 350, v: "Negociación realizada + resultado documentado" },
+  { id: "pow-rutina",t: "🎯 Rutina del León", d: "30 días de rutina de campeón: madrugar, planificar el día, leer y entrenar. La disciplina es el poder silencioso.", xp: 350, v: "Calendario de 25+ días cumplidos" },
+  { id: "pow-blind", t: "🧊 Blindaje Emocional", d: "Logra 1 semana sin reaccionar en caliente: ante el conflicto, pausa de 10 segundos antes de responder.", xp: 250, v: "Semana lograda + ejemplo anotado" },
+  { id: "pow-mentor",t: "🧑‍🏫 Tus Modelos", d: "Identifica 3 personas a las que admiras (negocios, carrera, carácter) y estudia su camino con notas.", xp: 200, v: "Estudio de 3 modelos documentado" }
+];
+POW_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "pow", kind: "weekly" }; });
+POW_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "pow", kind: "one" }; });
+
+function vidaPowCounts(vs) {
+  const week = vs.week, log = vs.log;
+  return {
+    week: POW_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length,
+    hits: (vs.gv.pow || []).length
+  };
+}
+function renderVidaPow(vs) {
+  const el = document.getElementById("vida-pow");
+  if (!el) return;
+  const li = vs.sub.pow;
+  const c = vidaPowCounts(vs);
+  let h = '<div class="lvl-card" style="--lc:#ffd700"><div class="lvl-ico">🦁</div><div class="lvl-info">' +
+    '<div class="li-rank">Poder & Imagen · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· presencia, estrategia y marca personal</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (c.week > 0 ? "on" : "off") + '">🗓️ Semana: ' + c.week + "/" + POW_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (c.hits > 0 ? "on" : "off") + '">🏆 Misiones: ' + c.hits + "/" + POW_HITS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP de Poder</span><span class="lm-xp">' +
+    vs.xp.pow.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (POW_LADDER[li.lvl] ? POW_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">🗡️ Prácticas de la Semana <small>entrena presencia y estrategia · 1 vez por semana</small>' +
+    '<span class="count-pill">SEMANA ' + c.week + "/" + POW_WEEK.length + "</span></div>";
+  POW_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🏆 Misiones de Poder & Imagen <small>hitos grandes: mentalidad, marca y venta de servicios</small>' +
+    '<span class="count-pill">' + c.hits + "/" + POW_HITS.length + "</span></div>";
+  POW_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
 }
 
 /* --- Init --- */
