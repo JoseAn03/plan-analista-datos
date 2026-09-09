@@ -829,6 +829,53 @@ html{-webkit-text-size-adjust:100%}
   .hub-wrap{height:min(560px,86vh)}
 }
 
+/* ==========================================================
+   🗺️ V5.1 — Pulido del Mapa (energía, ambiente, HUD)
+   ========================================================== */
+.map-hud{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.map-hud .mh-chip{background:rgba(26,26,46,.8);border:1px solid rgba(160,160,192,.3);color:var(--tx);
+  font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:1.5px;padding:5px 12px;border-radius:99px;text-transform:uppercase}
+.map-hud .mh-chip b{color:var(--glow-cyan)}
+.map-hud .mh-chip.gold{border-color:rgba(255,215,0,.5);color:#ffd700}
+.map-hud .mh-chip.green b{color:var(--glow-green)}
+/* Energia fluyendo por caminos iluminados (marcha de particulas) */
+@keyframes roadFlow{to{stroke-dashoffset:-42}}
+.hub-wrap .hub-road.lit{stroke-dasharray:15 7;animation:roadFlow 1.5s linear infinite}
+.world-scroll .w-road.lit{stroke-dasharray:26 9;animation:roadFlow 1.3s linear infinite}
+.world-scroll .w-road.glit{stroke-dasharray:20 8;animation:roadFlow 1s linear infinite}
+/* Ambiente: estrellas y nebulosa sutil */
+.hub-wrap::after,.world-scroll::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.5), transparent 55%),
+    radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.4), transparent 55%),
+    radial-gradient(1.5px 1.5px at 47% 31%, rgba(0,255,136,.55), transparent 55%),
+    radial-gradient(1px 1px at 61% 12%, rgba(255,255,255,.45), transparent 55%),
+    radial-gradient(1.5px 1.5px at 74% 26%, rgba(0,204,255,.5), transparent 55%),
+    radial-gradient(1px 1px at 88% 9%, rgba(255,255,255,.4), transparent 55%),
+    radial-gradient(1.5px 1.5px at 7% 62%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(1px 1px at 19% 84%, rgba(255,215,0,.5), transparent 55%),
+    radial-gradient(1.5px 1.5px at 36% 71%, rgba(255,255,255,.4), transparent 55%),
+    radial-gradient(1px 1px at 54% 91%, rgba(255,255,255,.3), transparent 55%),
+    radial-gradient(1.5px 1.5px at 68% 66%, rgba(255,0,255,.4), transparent 55%),
+    radial-gradient(1px 1px at 83% 93%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(1.5px 1.5px at 95% 55%, rgba(0,255,136,.4), transparent 55%);
+  opacity:.55}
+.hub-wrap,.world-scroll{position:relative}
+/* Meta visual al conquistar un mundo */
+.world-end{margin:20px auto 6px;max-width:420px;padding:16px 18px;border-radius:16px;text-align:center;
+  background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(0,255,136,.08));border:1px solid rgba(255,215,0,.5);
+  color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;letter-spacing:1px;line-height:1.6;
+  box-shadow:0 0 30px rgba(255,215,0,.25);animation:itemPop .6s cubic-bezier(.34,1.56,.64,1)}
+.world-end small{display:block;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--glow-amber);margin-top:4px;letter-spacing:1px}
+/* Cima del camino (siempre visible como destino) */
+.world-peak{pointer-events:none;position:absolute;left:50%;top:6px;transform:translateX(-50%);text-align:center;opacity:.9}
+.world-peak .wp-ico{font-size:1.9rem;display:block;filter:drop-shadow(0 0 10px #ffd700)}
+.world-peak .wp-txt{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--tx2);letter-spacing:2px}
+@media (prefers-reduced-motion: reduce){
+  .hub-wrap .hub-road.lit,.world-scroll .w-road.lit,.world-scroll .w-road.glit{animation:none!important}
+}
+
+
 
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
@@ -925,6 +972,7 @@ html{-webkit-text-size-adjust:100%}
         <button class="map-back hidden" id="map-back">◀ VOLVER AL MAPA</button>
         <div class="map-title" id="map-title">🗺️ MAPA DE MUNDOS</div>
         <div class="map-sub" id="map-sub">Tu aventura: toca un mundo para explorar su camino</div>
+      <div class="map-hud" id="map-hud" style="display:none"></div>
       </div>
       <div id="map-stage"></div>
     </section>
@@ -3972,7 +4020,7 @@ function torreNodes() {
     const total = list.length + (boss ? 1 : 0);
     const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
     const x = i % 2 === 0 ? 50 : 30;
-    const y = 80 + i * 106;
+    const y = 822 - i * 106;
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "ch" + ch.id, act: "camp-ch", ico: ch.icon, color: ch.color,
@@ -3991,7 +4039,7 @@ function bovedaNodes() {
   CAP_CHAPTERS.forEach((ch, i) => {
     const p = vs.perCap.find(x => x.cap === ch.cap);
     const x = i % 2 === 0 ? 50 : 70;
-    const y = 80 + i * 106;
+    const y = 822 - i * 106;
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "cap" + ch.cap, act: "cap-ch", ico: ch.ico, color: ch.color,
@@ -4026,7 +4074,7 @@ function mapWorldHTML(w) {
   else { return aldeaHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
-  let html = '<div class="world-scroll" id="world-scroll"><div style="position:relative;height:940px">' +
+  let html = '<div class="world-scroll" id="world-scroll"><div class="world-track" style="position:relative;height:940px">' +
     '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   points.forEach((p, i) => {
@@ -4080,6 +4128,9 @@ function renderMapStage() {
   sub.textContent = h.s;
   back.classList.toggle("hidden", mapSt.w === null);
   stage.innerHTML = mapSt.w === null ? mapHubHTML() : mapWorldHTML(mapSt.w);
+  mapHudPaint();
+  mapPeakPaint();
+  mapEndBadge();
   const cur = stage.querySelector(".mnode.current, .mworld");
   if (cur && mapSt.w !== null) cur.scrollIntoView({ block: "center", behavior: "auto" });
 }
@@ -4226,8 +4277,76 @@ function renderMap() {
   if (nclose) nclose.addEventListener("click", mapCloseModal);
 })();
 
-/* --- Init --- */
-sizeCanvas();
+/* ==========================================================
+   🗺️ V5.1 — HUD por mundo + meta de conquista (pulido)
+   ========================================================== */
+function mapHudPaint() {
+  const hud = document.getElementById("map-hud");
+  if (!hud) return;
+  if (mapSt.w === null) { hud.style.display = "none"; hud.innerHTML = ""; return; }
+  hud.style.display = "flex";
+  let chips = [];
+  if (mapSt.w === "torre") {
+    chips.push('<span class="mh-chip gold">⚡ NIVEL <b>' + gameState.level + '</b> · ' + levelName(gameState.level) + "</span>");
+    chips.push('<span class="mh-chip green">🗡 <b>' + gameState.completedMissions.length + "/" + CAMP_TOTAL + "</b> misiones</span>");
+    chips.push('<span class="mh-chip">🗓 ' + fullDaysCount() + "/" + DAILY_TOTAL + " días</span>");
+  } else if (mapSt.w === "boveda") {
+    const cap = capCompute();
+    chips.push('<span class="mh-chip gold">🏦 <b>' + cap.ladder.name + "</b></span>");
+    chips.push('<span class="mh-chip green">📜 <b>' + cap.capsDone + "/" + CAP_CHAP_TOTAL + "</b> capítulos</span>");
+    chips.push('<span class="mh-chip">⚡ ' + cap.xp.toLocaleString("es-CR") + " XP</span>");
+  } else if (mapSt.w === "fortaleza") {
+    const li = ladderInfo(EMP_LADDER, jobsXPGain());
+    chips.push('<span class="mh-chip gold">🎖️ <b>' + li.name + "</b></span>");
+    chips.push('<span class="mh-chip green">💼 <b>' + jobsDoneCount() + "/" + employmentMissions.length + "</b></span>");
+  } else if (mapSt.w === "aldea") {
+    const vs = vidaCompute();
+    chips.push('<span class="mh-chip gold">🧬 <b>' + vs.hero.name + "</b></span>");
+    chips.push('<span class="mh-chip green">⚖️ ' + vs.sub.eq.name + " · 👶 " + vs.sub.kid.name + " · 💑 " + vs.sub.cpl.name + "</span>");
+    chips.push('<span class="mh-chip">🦁 ' + vs.sub.pow.name + " · 🏛️ " + vs.sub.men.name + "</span>");
+  }
+  hud.innerHTML = chips.join("");
+}
+function mapPeakPaint() {
+  const st = document.getElementById("map-stage");
+  if (!st) return;
+  const sc = st.querySelector(".world-scroll");
+  if (!sc || mapSt.w === null) return;
+  const tr = st.querySelector(".world-track");
+  if (!tr) return;
+  const icon = mapSt.w === "torre" ? "🏆" : mapSt.w === "boveda" ? "🔐" : "🏁";
+  const txt = mapSt.w === "torre" ? "CIMA DEL ANALISTA" : mapSt.w === "boveda" ? "BÓVEDA SELLADA" : "CONQUISTA TOTAL";
+  if (!tr.querySelector(".world-peak")) {
+    const pk = document.createElement("div");
+    pk.className = "world-peak";
+    pk.innerHTML = '<span class="wp-ico">' + icon + "</span><span class='wp-txt'>" + txt + "</span>";
+    tr.appendChild(pk);
+  }
+}
+function mapEndBadge() {
+  const st = document.getElementById("map-stage");
+  if (!st) return;
+  let html = "";
+  if (mapSt.w === "torre" && gameState.completedMissions.length >= CAMP_TOTAL) {
+    html = '🏆 ¡TORRE DE DATOS CONQUISTADA!<small>Eres Analista Legendario · sigue con el resto de mundos</small>';
+  } else if (mapSt.w === "boveda" && capCompute().capsDone >= CAP_CHAP_TOTAL) {
+    html = '🏆 ¡BÓVEDA SELLADA!<small>Has dominado la campaña del Capital</small>';
+  } else if (mapSt.w === "fortaleza" && jobsDoneCount() >= employmentMissions.length) {
+    html = '🏆 ¡FORTALEZA CONQUISTADA!<small>Leyenda del Empleo · el trabajo te busca a ti</small>';
+  } else if (mapSt.w === "torre") {
+    html = '🗺️ El camino sigue hacia la cima<small>completa capítulos para encender el sendero</small>';
+  }
+  if (!html) return;
+  const sc = st.querySelector(".world-scroll");
+  if (sc && !sc.querySelector(".world-end")) {
+    const end = document.createElement("div");
+    end.className = "world-end";
+    end.innerHTML = html;
+    sc.appendChild(end);
+  }
+}
+
+
 window.addEventListener("resize", sizeCanvas);
 loopParticles();
 
