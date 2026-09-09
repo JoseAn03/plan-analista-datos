@@ -479,7 +479,96 @@ html{-webkit-text-size-adjust:100%}
 @media (max-width:400px){
   .days-grid{grid-template-columns:1fr 1fr;gap:6px}
   .day-card{padding:8px;min-height:100px}
-  .chip-grid .mc-lab{font-size:.55rem}
+  /* ==========================================================
+   🧬 VIDA — Operación Héroe Integral (side quests)
+   ========================================================== */
+.vida-hero{position:relative;overflow:hidden;background:linear-gradient(150deg,#161032,#190f33 55%,#0e0922);
+  border:1px solid rgba(124,108,255,.5);border-radius:18px;padding:22px;
+  box-shadow:0 0 34px rgba(124,108,255,.25),0 10px 30px rgba(0,0,0,.4)}
+.vida-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,108,255,.22),transparent 70%);pointer-events:none}
+.vh-kicker{font-family:'Orbitron',sans-serif;font-size:.74rem;letter-spacing:3px;color:#b39dff;text-transform:uppercase}
+.vh-title{font-family:'Orbitron',sans-serif;font-size:1.45rem;font-weight:900;color:#fff;margin:8px 0}
+.vh-desc{color:#c9c4e8;max-width:780px;font-size:.95rem;line-height:1.5}
+.vh-desc b{color:#e6deff}
+.vida-chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.vida-chips .mini-chip{flex:1;min-width:110px;max-width:170px;background:rgba(10,10,26,.65)}
+.vida-chips .mini-chip .mc-num{font-size:.95rem}
+.sub-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px}
+.sub-tab{cursor:pointer;padding:8px 14px;border-radius:99px;border:1px solid rgba(160,160,192,.25);
+  background:rgba(26,26,46,.6);color:var(--tx2);font-family:'Orbitron',sans-serif;
+  font-size:.72rem;letter-spacing:1.5px;transition:.25s;user-select:none}
+.sub-tab:hover{color:#fff;border-color:#b39dff}
+.sub-tab.active{background:linear-gradient(135deg,#7c6cff,#ff00ff);color:#fff;border-color:transparent;
+  box-shadow:0 0 18px rgba(124,108,255,.45);font-weight:700}
+.vida-sub{display:none}
+.vida-sub.active{display:block;animation:fadeSlide .3s ease}
+.sect-title{font-family:'Orbitron',sans-serif;font-size:.92rem;color:#fff;letter-spacing:2px;text-transform:uppercase;
+  margin:22px 0 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sect-title small{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--tx2);letter-spacing:1px;text-transform:none}
+.sect-title .count-pill{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--glow-cyan);
+  border:1px solid rgba(0,204,255,.35);border-radius:99px;padding:3px 10px;background:rgba(0,204,255,.06)}
+/* --- Equilibrio 8-8-8 --- */
+.bal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+@media (max-width:760px){.bal-grid{grid-template-columns:1fr}}
+.bal-card{background:rgba(26,26,46,.65);border:1px solid rgba(160,160,192,.18);border-radius:14px;
+  padding:16px 14px;text-align:center;transition:.25s}
+.bal-card:hover{transform:translateY(-3px);border-color:rgba(160,160,192,.4)}
+.bal-card .bc-hour{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.8rem;line-height:1}
+.bal-card.bc-work .bc-hour{color:var(--glow-green);text-shadow:0 0 18px rgba(0,255,136,.5)}
+.bal-card.bc-rest .bc-hour{color:var(--glow-cyan);text-shadow:0 0 18px rgba(0,204,255,.5)}
+.bal-card.bc-grow .bc-hour{color:#b39dff;text-shadow:0 0 18px rgba(179,157,255,.55)}
+.bal-card .bc-ico{font-size:1.3rem;display:block;margin-bottom:6px}
+.bal-card .bc-label{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--tx2);text-transform:uppercase;margin-top:6px}
+.bal-card .bc-desc{font-size:.78rem;color:var(--tx2);margin-top:6px;line-height:1.45}
+.bal-card .bc-rule{margin-top:8px;font-size:.74rem;color:var(--glow-amber);font-family:'Share Tech Mono',monospace}
+.bal-status{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 4px;padding:13px 15px;border-radius:14px;
+  background:rgba(124,108,255,.07);border:1px dashed rgba(124,108,255,.45)}
+.bal-status .bs-txt{font-size:.85rem;color:var(--tx)}
+.bal-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;border:1px solid rgba(160,160,192,.3);
+  font-size:.8rem;color:var(--tx2);font-weight:700}
+.bal-pill.on{color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;
+  box-shadow:0 0 14px rgba(0,255,136,.4)}
+.bal-pill.off{opacity:.6}
+.bal-pill small{font-weight:400;font-size:.68rem}
+.bal-bonus{margin-left:auto;font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--glow-green);text-shadow:0 0 10px rgba(0,255,136,.4)}
+.bal-bonus.no{color:var(--tx2);text-shadow:none}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:8px;align-items:start}
+.pillar{background:var(--bg2);border:var(--border);border-radius:14px;padding:14px 14px 8px;border-top:3px solid var(--p-color);
+  box-shadow:0 0 22px rgba(0,0,0,.3)}
+.pillar>h4{font-family:'Orbitron',sans-serif;font-size:.88rem;color:var(--p-color);letter-spacing:1.5px;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.pillar>h4 small{font-family:'Share Tech Mono',monospace;color:var(--tx2);font-size:.72rem;letter-spacing:1px;font-weight:400}
+.pillar .p-sub{font-size:.75rem;color:var(--tx2);margin:0 0 10px}
+.mission.habit{padding:9px 11px;margin-bottom:7px}
+.mission.habit .m-title{font-size:.85rem}
+.mission.habit .m-desc{font-size:.78rem}
+.mission.habit .m-check{width:22px;height:22px;border-radius:7px}
+.mission.small .m-title{font-size:.87rem}
+.tag.pil-cuerpo{color:#00ff88;border-color:rgba(0,255,136,.4)}
+.tag.pil-mente{color:#00ccff;border-color:rgba(0,204,255,.4)}
+.tag.pil-dinero{color:#ffaa00;border-color:rgba(255,170,0,.4)}
+.tag.streak{color:#ffaa00;border-color:rgba(255,170,0,.5);font-family:'Orbitron',sans-serif}
+.tag.ondone{color:#00ff88;border-color:rgba(0,255,136,.5);background:rgba(0,255,136,.07)}
+.bar.stat.violet>span{background:linear-gradient(90deg,#7c6cff,#ff00ff);box-shadow:0 0 10px rgba(124,108,255,.5)}
+.vida-mini{display:flex;justify-content:space-between;gap:6px;margin-top:8px;font-size:.75rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
+.vida-mini b{font-family:'Orbitron',sans-serif;font-size:.78rem;color:#fff}
+/* --- tarjetas de nivel (legado/alianza) --- */
+.lvl-card{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(26,26,46,.8),rgba(20,20,40,.6));
+  border:1px solid var(--lc, rgba(124,108,255,.4));border-radius:16px;padding:16px 18px;margin-bottom:8px;box-shadow:0 0 24px rgba(0,0,0,.3)}
+.lvl-ico{font-size:2.4rem;filter:drop-shadow(0 0 12px var(--lc))}
+.lvl-info{flex:1;min-width:220px}
+.lvl-info .li-rank{font-family:'Orbitron',sans-serif;color:var(--lc);font-size:.78rem;letter-spacing:2px;text-transform:uppercase}
+.lvl-info .li-name{font-family:'Orbitron',sans-serif;color:#fff;font-size:1.15rem;font-weight:900;margin-top:2px}
+.lvl-info .li-name small{font-weight:400;color:var(--tx2);font-size:.8rem;letter-spacing:1px}
+.lvl-meta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--tx2)}
+.lvl-meta .lm-xp{font-family:'Orbitron',sans-serif;color:var(--glow-cyan)}
+.lvl-xpbar{flex:1;min-width:200px}
+.lvl-xpbar .progress-top{margin-bottom:3px}
+.bar.stat.violet>span,.lvl-xpbar .bar>span{background:linear-gradient(90deg,var(--lc,#7c6cff),#ff00ff);box-shadow:0 0 12px var(--lc,#7c6cff)}
+/* legado/alianza mini chips de progreso */
+.kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
+
+.chip-grid .mc-lab{font-size:.55rem}
 }
 </style>
 </head>
@@ -525,6 +614,15 @@ html{-webkit-text-size-adjust:100%}
       <div class="stat-head"><span><span class="stat-ico">💼</span>Poder de Empleabilidad</span><span id="stat-emp-txt">0%</span></div>
       <div class="bar stat amber"><span id="stat-emp"></span></div>
     </div>
+    <div class="stat-block">
+      <div class="stat-head"><span><span class="stat-ico">🧬</span>Héroe Integral (Vida)</span><span id="s-vlvl">Nv.1</span></div>
+      <div class="bar stat violet"><span id="s-vbar"></span></div>
+      <div class="vida-mini">
+        <span title="Frente Equilibrio (cuerpo, mente, dinero)">⚖️ <b id="vm-eq">Nv.1</b></span>
+        <span title="Frente Legado (tu hijo)">👶 <b id="vm-kid">Nv.1</b></span>
+        <span title="Frente Alianza (tu pareja)">💑 <b id="vm-cpl">Nv.1</b></span>
+      </div>
+    </div>
     <div class="chip-grid">
       <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
       <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
@@ -540,7 +638,7 @@ html{-webkit-text-size-adjust:100%}
     <div class="tabs">
       <button class="tab-btn active" data-tab="daily">🗓️ PLAN DIARIO</button>
       <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA (CAPÍTULOS)</button>
-      <button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
+            <button class="tab-btn" data-tab="vida">🧬 VIDA</button><button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
     </div>
 
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
@@ -574,6 +672,29 @@ html{-webkit-text-size-adjust:100%}
         </div>
       </div>
       <div id="jobs-root"></div>
+    </section>
+
+    <!-- ============ VISTA 4: VIDA (side quests del Héroe Integral) ============ -->
+    <section class="view" id="view-vida">
+      <div class="vida-hero">
+        <div class="vh-kicker">🧬 OPERACIÓN HÉROE INTEGRAL · SIDE QUESTS DE VIDA</div>
+        <div class="vh-title">El guerrero que no se rompe</div>
+        <div class="vh-desc">La campaña principal forja tu carrera; estas misiones forjan a la <b>persona</b> detrás del analista. La regla <b>8+8+8</b>: 8 h de trabajo, 8 h de descanso y 8 h de crecimiento. Entrena tu cuerpo, tu mente y tu dinero; construye el legado de tu hijo y fortalece la alianza con tu pareja. <b>Un día con 1+ hábito de cada pilar = día equilibrado (+30 XP).</b></div>
+        <div class="vida-chips">
+          <div class="mini-chip camp"><span class="mc-num" id="vh-lvl">Nv.1</span><span class="mc-lab">Héroe</span></div>
+          <div class="mini-chip daily"><span class="mc-num" id="vh-bal">0</span><span class="mc-lab">Racha ⚖️</span></div>
+          <div class="mini-chip weekly"><span class="mc-num" id="vh-today">—</span><span class="mc-lab">Hoy</span></div>
+          <div class="mini-chip camp"><span class="mc-num" id="vh-xp">0</span><span class="mc-lab">XP Vida</span></div>
+        </div>
+      </div>
+      <div class="sub-tabs">
+        <button class="sub-tab active" data-sub="eq">⚖️ EQUILIBRIO 8-8-8</button>
+        <button class="sub-tab" data-sub="kid">👶 LEGADO</button>
+        <button class="sub-tab" data-sub="cpl">💑 ALIANZA</button>
+      </div>
+      <div id="vida-eq" class="vida-sub active"></div>
+      <div id="vida-kid" class="vida-sub"></div>
+      <div id="vida-cpl" class="vida-sub"></div>
     </section>
   </div>
 </div>
@@ -1020,6 +1141,144 @@ const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado",
 const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance" };
 
 /* ==========================================================
+   🧬 VIDA — DATOS: Operación Héroe Integral (side quests)
+   Pilares: cuerpo/mente/dinero · Frentes: eq (equilibrio),
+   kid (legado) y cpl (alianza). Misma temática de juego.
+   ========================================================== */
+const LIFE_LADDER = [
+  { xp: 0,     n: "Novato del Equilibrio" },
+  { xp: 400,   n: "Aprendiz del Bien Vivir" },
+  { xp: 900,   n: "Guardián de Hábitos" },
+  { xp: 1600,  n: "Forjador de Cuerpo y Mente" },
+  { xp: 2600,  n: "Sabio del Crecimiento" },
+  { xp: 4000,  n: "Arquitecto del Legado" },
+  { xp: 6000,  n: "Comandante del Hogar" },
+  { xp: 9000,  n: "Constructor de Futuro" },
+  { xp: 13000, n: "Maestro del Equilibrio" },
+  { xp: 20000, n: "HÉROE INTEGRAL" }
+];
+const EQ_LADDER = [
+  { xp: 0, n: "Novato del Equilibrio" }, { xp: 300, n: "Aprendiz del Bien Vivir" },
+  { xp: 800, n: "Guardián de Hábitos" }, { xp: 1500, n: "Forjador de Cuerpo y Mente" },
+  { xp: 2600, n: "Sabio del Crecimiento" }, { xp: 4000, n: "Maestro del Equilibrio" },
+  { xp: 6000, n: "HÉROE INTEGRAL" }
+];
+const KID_LADDER = [
+  { xp: 0, n: "Recluta Junior" }, { xp: 300, n: "Explorador Curioso" },
+  { xp: 700, n: "Aprendiz Veloz" }, { xp: 1200, n: "Capitán de Aventuras" },
+  { xp: 2000, n: "Pequeño Genio" }, { xp: 3000, n: "Héroe en Entrenamiento" }
+];
+const ALY_LADDER = [
+  { xp: 0, n: "Compañeros de Ruta" }, { xp: 250, n: "Equipo en Sintonía" },
+  { xp: 600, n: "Alianza Sólida" }, { xp: 1000, n: "Imperio en Construcción" },
+  { xp: 1600, n: "Dupla Legendaria" }, { xp: 2500, n: "Dinastía" }
+];
+const PILARES = {
+  cuerpo: { ico: "🏋️", n: "Cuerpo", c: "#00ff88" },
+  mente:  { ico: "🧠", n: "Mente",  c: "#00ccff" },
+  dinero: { ico: "💰", n: "Dinero", c: "#ffaa00" }
+};
+const BALANCE_BONUS = 30; // XP extra por día equilibrado (1+ hábito de cada pilar)
+
+const HABITOS = [
+  { id: "hab-gym",    p: "cuerpo", t: "🏋️ Ritual de Hierro",      d: "Gimnasio o entrenamiento de 45 min (fuerza, cardio o tu deporte). La nave necesita motor.", xp: 25, time: "45-60 min" },
+  { id: "hab-sueno",  p: "cuerpo", t: "😴 Toque de Queda Nocturno", d: "Dormir 7-8 horas. Pantallas apagadas 30 min antes.", xp: 20, time: "7-8 h" },
+  { id: "hab-agua",   p: "cuerpo", t: "💧 Combustible Limpio",    d: "2 litros de agua + al menos una comida consciente y sana.", xp: 15, time: "todo el día" },
+  { id: "hab-mov",    p: "cuerpo", t: "🚶 Paso Firme",            d: "8.000 pasos o una caminata activa de 30 min.", xp: 15, time: "30 min" },
+  { id: "hab-leer",   p: "mente",  t: "📖 Lectura del Sabio",      d: "20 min de libro de crecimiento personal, negocios, finanzas o biografías.", xp: 25, time: "20 min" },
+  { id: "hab-journal",p: "mente",  t: "✍️ Bitácora del Héroe",     d: "Escribir 5 min: diario, gratitud o la lección del día.", xp: 15, time: "5 min" },
+  { id: "hab-calma",  p: "mente",  t: "🧘 Sintonía Zen",          d: "10 min de meditación, respiración profunda o silencio sin pantallas.", xp: 15, time: "10 min" },
+  { id: "hab-estudio",p: "mente",  t: "🎓 Sabiduría Diaria",       d: "20 min de curso, podcast o documental que te haga crecer (finanzas, historia, ciencia...).", xp: 20, time: "20 min" },
+  { id: "hab-reg",    p: "dinero", t: "🧾 Auditor del Día",        d: "Registrar cada gasto del día (app, Excel o libreta). Lo que se mide, se mejora.", xp: 15, time: "5 min" },
+  { id: "hab-edufin", p: "dinero", t: "💰 Educación Financiera",   d: "20 min de libro, curso o video sobre dinero, inversión o negocios.", xp: 25, time: "20 min" },
+  { id: "hab-ahorro", p: "dinero", t: "🏦 Siembra de Capital",     d: "Apartar hoy algo para tu ahorro o inversión, sin excusas (lo que sea, cuenta).", xp: 20, time: "5 min" },
+  { id: "hab-idear",  p: "dinero", t: "🚀 15 Min de Imperio",      d: "15 min construyendo tu futuro ingreso extra: idea, producto, cliente o marca personal.", xp: 20, time: "15 min" }
+];
+
+const VIDA_GROWTH = [ /* one-shot: crecimiento personal (equilibrio) */
+  { id: "grw-libro",  t: "📚 Primer Libro del Sabio",      d: "Terminar de leer completo tu primer libro de crecimiento personal o negocios (elige el que más te llame).", xp: 200, v: "Resumen o 3 lecciones aplicadas por escrito" },
+  { id: "grw-biblio", t: "🏛️ Biblioteca del Sabio",        d: "Leer 3 libros de crecimiento, negocios o finanzas en 3 meses, con notas de cada uno.", xp: 400, v: "3 libros terminados con resúmenes documentados" },
+  { id: "grw-presu",  t: "📊 Presupuesto de Combate",       d: "Crear tu presupuesto mensual (ingresos, fijos, ahorro, ocio) y cumplirlo 30 días.", xp: 250, v: "Presupuesto del mes seguido sin romperlo" },
+  { id: "grw-fondo",  t: "🛡️ Colchón de Emergencia",       d: "Ahorrar tu fondo de emergencia inicial: tu primera meta concreta (ej. 1 mes de gastos).", xp: 300, v: "Meta del fondo alcanzada (comprobante o registro)" },
+  { id: "grw-curso",  t: "🎓 Curso de Poder",              d: "Terminar un curso completo (10+ h) de finanzas, ventas, negocios o una habilidad que te fortalezca.", xp: 250, v: "Certificado o proyecto final del curso" },
+  { id: "grw-ideas",  t: "💡 Chispa Emprendedora",         d: "Escribir 10 ideas de negocio o ingreso extra y validar las 3 mejores con personas reales.", xp: 200, v: "Lista de 10 ideas + feedback de 3 validaciones" },
+  { id: "grw-micro",  t: "🛰️ Primer Satélite",             d: "Lanzar tu primer ingreso extra real: freelance, venta, producto digital o servicio.", xp: 400, v: "Primer ingreso extra cobrado" },
+  { id: "grw-mente",  t: "🧠 Mente de Acero",              d: "30 días con meditación o journaling diario (mínimo 25 de 30).", xp: 300, v: "Calendario con 25+ días marcados" },
+  { id: "grw-cuerpo", t: "⚔️ Cuerpo de Guerrero",          d: "30 días entrenando mínimo 4 veces por semana.", xp: 300, v: "Registro de 17+ entrenamientos en 30 días" },
+  { id: "grw-888",    t: "👑 Código 8-8-8",               d: "21 días logrando el día equilibrado completo: 1+ hábito de cada pilar (cuerpo, mente, dinero).", xp: 500, v: "Racha de equilibrio de 21 días en la app" }
+];
+
+const KID_DAILY = [ /* rutina diaria con el mini-recluta */
+  { id: "kd-cuento",  t: "📖 El Cuentacuentos",        d: "Leerle un cuento antes de dormir, con voz de narrador épico.", xp: 20 },
+  { id: "kd-letras",  t: "🔤 Misión Letras y Números", d: "15 min practicando lectura, letras, números o sumas con juegos.", xp: 20 },
+  { id: "kd-juego",   t: "🏃 Hora de Juego Activo",    d: "30 min de juego físico juntos: pelota, correr, bici o escondite.", xp: 20 },
+  { id: "kd-crea",    t: "🎨 Laboratorio Creativo",    d: "20 min de dibujo, LEGO, plastilina, pintura o manualidades.", xp: 20 },
+  { id: "kd-fruta",   t: "🍎 Ejército de la Fruta",    d: "Que coma fruta o verdura hoy (y tú también: predica con el ejemplo).", xp: 15 },
+  { id: "kd-orden",   t: "🧸 Operación Orden",         d: "Recoger los juguetes juntos, convertido en juego de velocidad.", xp: 15 },
+  { id: "kd-sueno",   t: "🌙 Rutina de Sueño",         d: "Rutina tranquila y dormir temprano (aprox. 20:30) sin pelear.", xp: 15 }
+];
+const KID_WEEK = [ /* expediciones semanales */
+  { id: "kwk-parque",  t: "🌳 Expedición al Parque",    d: "Salida al parque, plaza o naturaleza: explorar, correr, descubrir bichos.", xp: 40 },
+  { id: "kwk-cocina",  t: "👨‍🍳 Chef Junior",            d: "Cocinar juntos una receta simple (él mide, mezcla y decora).", xp: 40 },
+  { id: "kwk-biblio",  t: "🏫 Biblioteca o Librería",   d: "Visitar la biblioteca o librería y que él escoja sus cuentos.", xp: 40 },
+  { id: "kwk-leccion", t: "🧭 La Lección Nueva",        d: "Enseñarle algo nuevo y planificado: un valor, una canción, un oficio o un mini-experimento.", xp: 40 },
+  { id: "kwk-familia", t: "👨‍👩‍👦 Día del Escuadrón",   d: "Actividad especial en familia (los tres juntos o con abuelos/primos).", xp: 50 }
+];
+const KID_HITS = [ /* hitos de desarrollo (one-shot) */
+  { id: "kht-zapatos",   t: "👟 Zapatos Atados",      d: "Aprende a amarrarse los zapatos completamente solo.", xp: 100 },
+  { id: "kht-bici",      t: "🚲 Gran Ciclista",       d: "Andar en bicicleta sin rueditas de apoyo.", xp: 150 },
+  { id: "kht-100",       t: "🔢 Contador de Estrellas", d: "Contar hasta 100 y reconocer los números del 1 al 20.", xp: 120 },
+  { id: "kht-leer",      t: "📚 Primer Lector",       d: "Leer sus primeras 10 palabras completamente solo.", xp: 150 },
+  { id: "kht-nadar",     t: "🏊 Pez en el Agua",      d: "Nadar o flotar con confianza en la piscina.", xp: 120 },
+  { id: "kht-dientes",   t: "🦷 Guardián de su Sonrisa", d: "Cepillarse los dientes solo sin pelear durante 2 semanas.", xp: 150 },
+  { id: "kht-bloques",   t: "🧱 Arquitecto en Miniatura", d: "Construir algo complejo: LEGO de 100+ piezas o rompecabezas de 100+ piezas.", xp: 100 },
+  { id: "kht-cocina",    t: "🥞 Pequeño Chef",        d: "Preparar su primer desayuno simple casi solo (cereal, sándwich o fruta).", xp: 120 },
+  { id: "kht-amable",    t: "🤝 Caballero de la Amabilidad", d: "Hábito instalado: por favor, gracias, compartir y esperar turnos.", xp: 100 },
+  { id: "kht-pregunton", t: "❓ Explorador Curioso",   d: "Te hace 10 preguntas que te hacen pensar (anótalas, valen oro).", xp: 100 }
+];
+
+const CPL_WEEK = [ /* misiones semanales de pareja */
+  { id: "cpw-cita",    t: "💞 Misión Cita",          d: "Cita de pareja sin pantallas: salir o quedarse en casa, pero solo ustedes dos.", xp: 50 },
+  { id: "cpw-habla",   t: "🗨️ Conversación Profunda", d: "30 min hablando de sueños, miedos y sentimientos (nada de logística).", xp: 40 },
+  { id: "cpw-camina",  t: "🚶 Caminata en Tándem",   d: "Caminar juntos 30+ min, solos, sin niños ni pantallas.", xp: 35 },
+  { id: "cpw-cumbre",  t: "🏦 Cumbre Financiera",    d: "30 min revisando las finanzas del hogar juntos: números claros, decisiones en equipo.", xp: 45 },
+  { id: "cpw-equipo",  t: "🧹 Escuadrón Hogar",      d: "Tarea grande del hogar en equipo (cocinar, limpiar, ordenar) con música y buen humor.", xp: 30 },
+  { id: "cpw-nopant",  t: "🌌 Noche Sin Pantallas",  d: "Una noche entera sin celulares ni TV: juegos, charla, estrellas.", xp: 45 }
+];
+const CPL_GOALS = [ /* metas de pareja (one-shot) */
+  { id: "cgo-presu",  t: "📊 Presupuesto de Guerra",    d: "Armar juntos el presupuesto familiar mensual: ingresos, gastos, ahorro y metas.", xp: 150, v: "Presupuesto del mes hecho en equipo" },
+  { id: "cgo-vision", t: "🗺️ Mapa de Sueños",          d: "Escribir su visión de pareja a 1, 3 y 5 años: hogar, hijos, trabajo, viajes y dinero.", xp: 150, v: "Visión escrita y acordada por los dos" },
+  { id: "cgo-ahorro", t: "🏺 Arca Común",              d: "Alcanzar su primera meta de ahorro en pareja (la que definan juntos).", xp: 300, v: "Meta de ahorro conjunta alcanzada" },
+  { id: "cgo-extra",  t: "💰 Primera Victoria Juntos", d: "Generar su primer ingreso extra en equipo: venta, servicio, proyecto o negocio.", xp: 350, v: "Primer ingreso conjunto cobrado" },
+  { id: "cgo-plan",   t: "🏗️ Plan del Imperio",        d: "Definir por escrito en qué negocio o fuente de ingreso construirán, con pasos y fechas.", xp: 200, v: "Plan de negocio de pareja escrito" },
+  { id: "cgo-viaje",  t: "✈️ Aventura Planeada",       d: "Elegir y apartar fecha de un viaje o experiencia juntos.", xp: 200, v: "Fecha apartada o reserva hecha" },
+  { id: "cgo-ritual", t: "💍 Ritual Semanal",          d: "Mantener su cita semanal 4 semanas seguidas sin faltar.", xp: 250, v: "4 semanas de cita cumplidas" }
+];
+
+/* Índice global de misiones de vida: id -> {xp, cat, kind, p?} */
+const VIDA_OBJ = {};
+HABITOS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "eq", kind: "daily", p: o.p }; });
+VIDA_GROWTH.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "eq", kind: "one" }; });
+KID_DAILY.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "daily" }; });
+KID_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "weekly" }; });
+KID_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "one" }; });
+CPL_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "cpl", kind: "weekly" }; });
+CPL_GOALS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "cpl", kind: "one" }; });
+const VIDA_GROWTH_TOTAL = VIDA_GROWTH.reduce((s, o) => s + o.xp, 0);
+
+/* helpers de escalera */
+function ladderInfo(ladder, xp) {
+  let lvl = 1;
+  for (let i = 0; i < ladder.length; i++) if (xp >= ladder[i].xp) lvl = i + 1;
+  const cur = ladder[lvl - 1], nxt = ladder[lvl] || null;
+  return {
+    lvl: lvl, name: cur.n,
+    pct: nxt ? Math.min(100, Math.round(((xp - cur.xp) / (nxt.xp - cur.xp)) * 100)) : 100,
+    need: nxt ? nxt.xp - xp : 0
+  };
+}
+
+/* ==========================================================
    D) JS / ESTADO, FECHAS Y CÁLCULOS
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
@@ -1056,7 +1315,8 @@ let gameState = {
   startDate: null,         // YYYY-MM-DD del día 1
   lastDailyDate: null,     // última fecha con misión diaria completada
   streak: 0,               // racha de días seguidos
-  shieldWeek: null         // semana (ISO) en que se usó el escudo 🛡️
+  shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
+  vida: { log: [], growth: [], kid: [], couple: [] } // 🧬 side quests de vida
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -1114,6 +1374,13 @@ function loadGame() {
     gameState.lastDailyDate = data.lastDailyDate || null;
     gameState.streak = data.streak || 0;
     gameState.shieldWeek = data.shieldWeek || null;
+    const vd = data.vida || {};
+    gameState.vida = {
+      log: Array.isArray(vd.log) ? vd.log : [],
+      growth: Array.isArray(vd.growth) ? vd.growth : [],
+      kid: Array.isArray(vd.kid) ? vd.kid : [],
+      couple: Array.isArray(vd.couple) ? vd.couple : []
+    };
     return true;
   } catch (e) { return false; }
 }
@@ -1121,7 +1388,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }
   };
   selectedDay = 1;
   renderAll();
@@ -1698,7 +1965,7 @@ function showWelcome() {
 }
 
 /* --- Render todo --- */
-function renderAll() {
+  renderVida();function renderAll() {
   recomputeState();
   renderDailyView();
   renderChapters();
@@ -1873,12 +2140,13 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
-    ["daily", "campaign", "jobs"].forEach(t => {
+    ["daily", "campaign", "jobs", "vida"].forEach(t => {
       const v = document.getElementById("view-" + t);
       if (v) v.classList.toggle("active", tab === t);
     });
     if (tab === "daily") renderDailyView();
     if (tab === "jobs") renderJobs();
+    if (tab === "vida") renderVidaSubActiva();
   });
 });
 
@@ -2044,6 +2312,297 @@ document.getElementById("diag-skip").addEventListener("click", () => {
   renderAll();
   toast("🕹️", "Bienvenido, " + gameState.playerName, "Empezando desde el Día 1. ¡Tu misión de hoy te espera!");
 });
+
+/* ==========================================================
+   🧬 VIDA — MÓDULO: estado derivado, renders y acciones
+   ========================================================== */
+function vidaDefault() { return { log: [], growth: [], kid: [], couple: [] }; }
+
+function vidaCompute() {
+  const gv = gameState.vida || vidaDefault();
+  const log = Array.isArray(gv.log) ? gv.log : [];
+  const habitDates = {}, dayPilars = {}, balanceDates = new Set();
+  const xp = { eq: 0, kid: 0, cpl: 0 };
+  log.forEach(entry => {
+    const i = entry.indexOf("|");
+    if (i <= 0) return;
+    const id = entry.slice(0, i), key = entry.slice(i + 1);
+    const o = VIDA_OBJ[id];
+    if (!o) return;
+    xp[o.cat] += o.xp;
+    if (id.indexOf("hab-") === 0) {
+      (habitDates[id] = habitDates[id] || new Set()).add(key);
+      (dayPilars[key] = dayPilars[key] || new Set()).add(o.p);
+    }
+  });
+  Object.keys(dayPilars).forEach(k => { if (dayPilars[k].size === 3) balanceDates.add(k); });
+  const bonus = balanceDates.size * BALANCE_BONUS;
+  xp.eq += bonus;
+  ["growth", "kid", "couple"].forEach(list => {
+    (Array.isArray(gv[list]) ? gv[list] : []).forEach(id => {
+      const o = VIDA_OBJ[id];
+      if (o) xp[o.cat] += o.xp;
+    });
+  });
+  const total = xp.eq + xp.kid + xp.cpl;
+  const today = todayStr(), week = isoWeekKey(todayStr());
+  const dayP = dayPilars[today] || new Set();
+  const kidToday = KID_DAILY.filter(m => log.indexOf(m.id + "|" + today) >= 0).length;
+  const kidWeek = KID_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length;
+  const cplWeek = CPL_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length;
+  const habitStreak = {};
+  Object.keys(habitDates).forEach(id => { habitStreak[id] = vidaStreakFrom(habitDates[id]); });
+  return {
+    xp, total, bonus,
+    balanceDates, balanceStreak: vidaStreakFrom(balanceDates),
+    todayBalanced: dayP.size === 3,
+    dayP,
+    habitDates, habitStreak,
+    kidToday, kidWeek, cplWeek,
+    gv, log, week, today,
+    hero: ladderInfo(LIFE_LADDER, total),
+    sub: {
+      eq: ladderInfo(EQ_LADDER, xp.eq),
+      kid: ladderInfo(KID_LADDER, xp.kid),
+      cpl: ladderInfo(ALY_LADDER, xp.cpl)
+    }
+  };
+}
+function vidaStreakFrom(dateSet) {
+  const d = new Date();
+  if (!dateSet.has(fmtDate(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dateSet.has(fmtDate(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function vidaIsDone(vs, o) {
+  const meta = VIDA_OBJ[o.id];
+  if (meta.kind === "daily") return vs.log.indexOf(o.id + "|" + vs.today) >= 0;
+  if (meta.kind === "weekly") return vs.log.indexOf(o.id + "|" + vs.week) >= 0;
+  const list = meta.cat === "eq" ? vs.gv.growth : meta.cat === "kid" ? vs.gv.kid : vs.gv.couple;
+  return (Array.isArray(list) ? list : []).indexOf(o.id) >= 0;
+}
+function vidaTagsHTML(o, vs, extra) {
+  const meta = VIDA_OBJ[o.id];
+  const done = vidaIsDone(vs, o);
+  let html = '<span class="tag xp">+' + meta.xp + ' XP</span>';
+  if (o.time) html += '<span class="tag time">⏱ ' + o.time + '</span>';
+  if (meta.kind === "daily" && meta.cat === "eq") {
+    const st = vs.habitStreak[o.id] || 0;
+    if (st > 0) html += '<span class="tag streak">🔥 ' + st + '</span>';
+  }
+  html += extra || "";
+  html += done
+    ? (meta.kind === "weekly" ? '<span class="tag ondone">✔ SEMANA</span>' : meta.kind === "daily" ? '<span class="tag ondone">✔ HOY</span>' : '<span class="tag ondone">✔ COMPLETADA</span>')
+    : '<span class="tag">' + (meta.kind === "weekly" ? "SEMANA" : meta.kind === "daily" ? "HOY" : "PENDIENTE") + "</span>";
+  return html;
+}
+function vidaCardHTML(o, vs, extra) {
+  const done = vidaIsDone(vs, o);
+  return '<div class="mission small' + (done ? " done" : "") + '" data-mid="' + o.id + '">' +
+    '<div class="m-check"></div><div class="m-body">' +
+    '<div class="m-title">' + o.t + "</div>" +
+    '<div class="m-desc">' + o.d + "</div>" +
+    (o.v ? '<div class="m-verif">' + o.v + "</div>" : "") +
+    '<div class="m-tags">' + vidaTagsHTML(o, vs, extra) + "</div>" +
+    "</div></div>";
+}
+function vidaPillarSection(pkey, habits, vs) {
+  const p = PILARES[pkey];
+  const todayHits = habits.filter(h => vs.log.indexOf(h.id + "|" + vs.today) >= 0).length;
+  let html = '<div class="pillar" style="--p-color:' + p.c + '"><h4>' + p.ico + " " + p.n +
+    "<small>" + todayHits + "/" + habits.length + " hoy</small></h4>" +
+    '<p class="p-sub">' + (pkey === "cuerpo" ? "El templo donde vive tu energía." : pkey === "mente" ? "Lo que lees y piensas te define." : "El combustible que financia tus sueños.") + "</p>";
+  habits.forEach(h => {
+    html += vidaCardHTML(h, vs,
+      '<span class="tag pil-' + pkey + '">' + p.ico + " " + p.n + "</span>");
+  });
+  return html + "</div>";
+}
+function renderVidaEq(vs) {
+  const el = document.getElementById("vida-eq");
+  if (!el) return;
+  let b = "";
+  ["cuerpo", "mente", "dinero"].forEach(pk => {
+    const on = vs.dayP.has(pk);
+    const p = PILARES[pk];
+    b += '<span class="bal-pill ' + (on ? "on" : "off") + '">' + p.ico + " " + p.n + (on ? " ✔" : " ✖") + "</span>";
+  });
+  b += vs.todayBalanced
+    ? '<span class="bal-bonus">⚖️ ¡DÍA EQUILIBRADO! +' + BALANCE_BONUS + " XP</span>"
+    : '<span class="bal-bonus no">Completa 1 hábito de cada pilar → +' + BALANCE_BONUS + " XP</span>";
+  const bal = '<div class="bal-status"><span class="bs-txt">Balance de hoy:</span>' + b + "</div>";
+  const balanceCard = '<div class="sect-title">⚖️ Ley del Guerrero 8+8+8 <small>marco del día: 8 trabajo · 8 descanso · 8 crecimiento</small>' +
+    '<span class="count-pill">Racha equilibrada: ' + (vs.balanceStreak > 0 ? "🔥 " + vs.balanceStreak : "0") + "</span></div>" +
+    '<div class="bal-grid">' +
+    '<div class="bal-card bc-work"><span class="bc-ico">💼</span><div class="bc-hour">8h</div><div class="bc-label">Trabajo</div>' +
+    '<div class="bc-desc">Tu misión profesional: la campaña de datos. Productividad profunda, sin culpa al apagar.</div>' +
+    '<div class="bc-rule">Regla: al cerrar, cierra de verdad.</div></div>' +
+    '<div class="bal-card bc-rest"><span class="bc-ico">😴</span><div class="bc-hour">8h</div><div class="bc-label">Descanso</div>' +
+    '<div class="bc-desc">Sueño, familia y ocio reparador. No es tiempo perdido: es el taller donde se repara el guerrero.</div>' +
+    '<div class="bc-rule">Regla: dormir 7-8 h es prioridad, no premio.</div></div>' +
+    '<div class="bal-card bc-grow"><span class="bc-ico">🌱</span><div class="bc-hour">8h</div><div class="bc-label">Crecimiento</div>' +
+    '<div class="bc-desc">Leer, entrenar, gestionar dinero, criar y amar. Lo que te hace más fuerte como persona.</div>' +
+    '<div class="bc-rule">Regla: crecer un 1% cada día.</div></div></div>' +
+    bal;
+  let pillars = '<div class="sect-title">🏋️ Hábitos Núcleo <small>marca los que cumplas hoy · cada uno suma XP y racha 🔥</small></div>' +
+    '<div class="pillars">';
+  ["cuerpo", "mente", "dinero"].forEach(pk => {
+    pillars += vidaPillarSection(pk, HABITOS.filter(h => h.p === pk), vs);
+  });
+  pillars += "</div>";
+  let growth = '<div class="sect-title">👑 Misiones de Crecimiento <small>raids personales: objetivos grandes, XP grande</small>' +
+    '<span class="count-pill">' + vs.gv.growth.length + "/" + VIDA_GROWTH.length + "</span></div>";
+  VIDA_GROWTH.forEach(m => { growth += vidaCardHTML(m, vs); });
+  el.innerHTML = balanceCard + pillars + growth;
+}
+function renderVidaKid(vs) {
+  const el = document.getElementById("vida-kid");
+  if (!el) return;
+  const li = vs.sub.kid;
+  const hitsN = (vs.gv.kid || []).length;
+  let h = '<div class="lvl-card" style="--lc:#00ff88"><div class="lvl-ico">🧒</div><div class="lvl-info">' +
+    '<div class="li-rank">Legado · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· tu mini-recluta de 6 años</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (vs.kidToday > 0 ? "on" : "off") + '">🎯 Hoy: ' + vs.kidToday + "/" + KID_DAILY.length + "</span>" +
+    '<span class="bal-pill ' + (vs.kidWeek > 0 ? "on" : "off") + '">🗓️ Semana: ' + vs.kidWeek + "/" + KID_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (hitsN > 0 ? "on" : "off") + '">🏆 Hitos: ' + hitsN + "/" + KID_HITS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP del Legado</span><span class="lm-xp">' +
+    vs.xp.kid.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (KID_LADDER[li.lvl] ? KID_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">🎯 Rutina Diaria del Mini-Recluta <small>una vez al día · hábitos sanos y vínculo</small>' +
+    '<span class="count-pill">HOY ' + vs.kidToday + "/" + KID_DAILY.length + "</span></div>";
+  KID_DAILY.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🌍 Expediciones de la Semana <small>aventuras especiales · 1 vez por semana</small>' +
+    '<span class="count-pill">SEMANA ' + vs.kidWeek + "/" + KID_WEEK.length + "</span></div>";
+  KID_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🏆 Hitos del Mini-Recluta <small>logros de desarrollo: se marcan cuando los conquiste</small>' +
+    '<span class="count-pill">' + hitsN + "/" + KID_HITS.length + "</span></div>";
+  KID_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
+}
+function renderVidaCpl(vs) {
+  const el = document.getElementById("vida-cpl");
+  if (!el) return;
+  const li = vs.sub.cpl;
+  const goalsN = (vs.gv.couple || []).length;
+  let h = '<div class="lvl-card" style="--lc:#ff00aa"><div class="lvl-ico">💑</div><div class="lvl-info">' +
+    '<div class="li-rank">Alianza · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· el equipo que construye su imperio</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (vs.cplWeek > 0 ? "on" : "off") + '">🗓️ Semana: ' + vs.cplWeek + "/" + CPL_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (goalsN > 0 ? "on" : "off") + '">🏆 Metas: ' + goalsN + "/" + CPL_GOALS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP de la Alianza</span><span class="lm-xp">' +
+    vs.xp.cpl.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (ALY_LADDER[li.lvl] ? ALY_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">💞 Misiones Semanales de Pareja <small>tiempo de calidad + finanzas en equipo · 1 vez por semana</small>' +
+    '<span class="count-pill">SEMANA ' + vs.cplWeek + "/" + CPL_WEEK.length + "</span></div>";
+  CPL_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">👑 Metas de la Alianza <small>sueños grandes construidos a cuatro manos</small>' +
+    '<span class="count-pill">' + goalsN + "/" + CPL_GOALS.length + "</span></div>";
+  CPL_GOALS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
+}
+function renderVidaSide(vs) {
+  const setTxt = function (id, txt) { const e = document.getElementById(id); if (e) e.textContent = txt; };
+  setTxt("s-vlvl", "Nv." + vs.hero.lvl);
+  const vb = document.getElementById("s-vbar");
+  if (vb) vb.style.width = vs.hero.pct + "%";
+  setTxt("vm-eq", "Nv." + vs.sub.eq.lvl);
+  setTxt("vm-kid", "Nv." + vs.sub.kid.lvl);
+  setTxt("vm-cpl", "Nv." + vs.sub.cpl.lvl);
+  setTxt("vh-lvl", "Nv." + vs.hero.lvl);
+  const vhL = document.getElementById("vh-lvl");
+  if (vhL) vhL.title = vs.hero.name;
+  setTxt("vh-bal", vs.balanceStreak > 0 ? "🔥 " + vs.balanceStreak : "0");
+  setTxt("vh-today", vs.todayBalanced ? "⚖️ EQUILIBRADO" : (vs.dayP.size > 0 ? vs.dayP.size + "/3 pilares" : "—"));
+  setTxt("vh-xp", vs.total.toLocaleString("es-CR"));
+}
+function renderVidaSubActiva() {
+  const vs = vidaCompute();
+  renderVidaSide(vs);
+  const st = document.querySelector(".sub-tab.active");
+  if (!st) return;
+  if (st.dataset.sub === "eq") renderVidaEq(vs);
+  else if (st.dataset.sub === "kid") renderVidaKid(vs);
+  else renderVidaCpl(vs);
+}
+function renderVida() {
+  const vs = vidaCompute();
+  renderVidaSide(vs);
+  const view = document.getElementById("view-vida");
+  if (view && view.classList.contains("active")) {
+    const st = document.querySelector(".sub-tab.active");
+    const name = st ? st.dataset.sub : "eq";
+    if (name === "eq") renderVidaEq(vs);
+    else if (name === "kid") renderVidaKid(vs);
+    else renderVidaCpl(vs);
+  }
+}
+function vidaToggle(ev) {
+  const card = ev.target.closest(".mission[data-mid]");
+  if (!card) return;
+  const id = card.dataset.mid;
+  const o = VIDA_OBJ[id];
+  if (!o) return;
+  const gv = gameState.vida || vidaDefault();
+  const before = vidaCompute();
+  const beforeLv = { hero: before.hero.lvl, eq: before.sub.eq.lvl, kid: before.sub.kid.lvl, cpl: before.sub.cpl.lvl };
+  const beforeBal = before.todayBalanced;
+  let done = false, cat = o.cat;
+  if (o.kind === "daily" || o.kind === "weekly") {
+    const key = o.kind === "daily" ? todayStr() : isoWeekKey(todayStr());
+    const en = id + "|" + key;
+    const log = gv.log = Array.isArray(gv.log) ? gv.log : [];
+    const i = log.indexOf(en);
+    if (i >= 0) { log.splice(i, 1); done = false; } else { log.push(en); done = true; }
+  } else {
+    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : "couple";
+    const list = gv[listName] = Array.isArray(gv[listName]) ? gv[listName] : [];
+    const i = list.indexOf(id);
+    if (i >= 0) { list.splice(i, 1); done = false; } else { list.push(id); done = true; }
+  }
+  gameState.vida = gv;
+  const rect = card.getBoundingClientRect();
+  const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa" };
+  if (done) burst(rect.left + rect.width / 2, rect.top + 20, colors[cat], 26);
+  const vs = vidaCompute();
+  if (done) {
+    const balNow = vs.todayBalanced;
+    toast("✅", "¡Misión de vida cumplida! +" + o.xp + " XP", o.t + (balNow && !beforeBal ? "" : ""));
+    if (balNow && !beforeBal) {
+      setTimeout(() => toast("⚖️", "¡DÍA EQUILIBRADO!", "Completaste los 3 pilares hoy: +" + BALANCE_BONUS + " XP extra 🔥"), 1600);
+    }
+    ["hero", "eq", "kid", "cpl"].forEach(k => {
+      const lv = k === "hero" ? vs.hero.lvl : vs.sub[k].lvl;
+      if (lv > beforeLv[k]) {
+        const rank = k === "hero" ? vs.hero : vs.sub[k];
+        setTimeout(() => toast("🧬", "¡NIVEL " + (k === "hero" ? "DE VIDA " : "") + lv + "!", "Nuevo rango: " + rank.name), 2200);
+      }
+    });
+  } else {
+    toast("↩️", "Misión desmarcada", "-" + o.xp + " XP · " + o.t);
+  }
+  saveGame();
+  renderVidaSubActiva();
+}
+/* --- Eventos: pestañas internas + delegación de clics --- */
+(function () {
+  const subTabs = document.querySelector(".sub-tabs");
+  if (subTabs) {
+    subTabs.addEventListener("click", function (e) {
+      const b = e.target.closest(".sub-tab");
+      if (!b) return;
+      document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
+      ["eq", "kid", "cpl"].forEach(n => {
+        const v = document.getElementById("vida-" + n);
+        if (v) v.classList.toggle("active", b.dataset.sub === n);
+      });
+      renderVidaSubActiva();
+    });
+  }
+  const view = document.getElementById("view-vida");
+  if (view) view.addEventListener("click", vidaToggle);
+})();
 
 /* --- Init --- */
 sizeCanvas();
