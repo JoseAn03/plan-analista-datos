@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  ODEA v2: Operación Dominio de Datos e IA — PLAN MAESTRO 42 DÍAS
+  ODEA v4.1: Operación Dominio de Datos e IA — PLAN MAESTRO AVANZADO 56 DÍAS
   ------------------------------------------------------------
   INSTRUCCIONES DE USO:
   1. Abre este archivo en cualquier navegador moderno. Funciona
@@ -510,11 +510,11 @@ html{-webkit-text-size-adjust:100%}
     <div class="chip-grid">
       <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
       <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
-      <div class="mini-chip camp"><span class="mc-num" id="c-count">0/27</span><span class="mc-lab">Campaña</span></div>
+      <div class="mini-chip camp"><span class="mc-num" id="c-count">0/32</span><span class="mc-lab">Campaña</span></div>
     </div>
     <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
     <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
-    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">18</span> · Ver salón ▸</div>
+    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">21</span> · Ver salón ▸</div>
     <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
   </aside>
 
@@ -528,7 +528,7 @@ html{-webkit-text-size-adjust:100%}
     <section class="view active" id="view-daily">
       <div id="daily-hero"></div>
       <div id="weekly-card"></div>
-      <div class="roadmap-title">🗺️ Ruta de los 42 días</div>
+      <div class="roadmap-title">🗺️ Ruta de los 56 días</div>
       <div id="roadmap"></div>
     </section>
 
@@ -539,7 +539,7 @@ html{-webkit-text-size-adjust:100%}
   </div>
 </div>
 
-<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.0 — 168 misiones diarias + 8 semanales + 6 👑 proyectos finales · 1 día completo = +1 nivel · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.0 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales · 8 capítulos alineados · Progreso guardado 🔒</footer>
 
 <div id="toast-layer"></div>
 
@@ -594,18 +594,22 @@ const LEVELS = [
 const MAX_XP_LEVEL = 20000;
 
 const CHAPTERS = [
-  { id:0, code:"CAPÍTULO 0", title:"Bootcamp de Supervivencia Técnica", color:"#00ff88", icon:"🛡️",
-    narrative:"Antes de luchar contra dragones de datos, forjas tus armas. El entorno está listo: VS Code, Python y Git. Todo héroe empieza con un solo commit." },
-  { id:1, code:"CAPÍTULO 1", title:"La Forja del Analista", color:"#00ccff", icon:"⚔️",
-    narrative:"El lenguaje de las bases de datos se revela ante ti. SQL es tu espada, Pandas tu escudo. Prepárate para tu primer jefe final: un proyecto ETL completo." },
-  { id:2, code:"CAPÍTULO 2", title:"El Despertar de la Máquina (IA)", color:"#ff00ff", icon:"🤖",
-    narrative:"La inteligencia artificial despierta y te elige como aliado. Aprende a hablar su idioma con prompts precisos y tendrás un ejército de código a tus órdenes." },
-  { id:3, code:"CAPÍTULO 3", title:"Expansión del Arsenal", color:"#ffaa00", icon:"🎯",
-    narrative:"Un analista sin dashboards es un guerrero sin mapa. Expande tu arsenal: visualiza, domina la estadística y cuenta historias que muevan decisiones." },
-  { id:4, code:"CAPÍTULO 4", title:"Operación Freelance", color:"#ff6600", icon:"💰",
-    narrative:"El reino digital recompensa a quienes demuestran su poder. Construye tu vitrina pública: portafolio, LinkedIn y tus primeros contratos como mercenario de datos." },
-  { id:5, code:"CAPÍTULO 5", title:"La Forja del Empleo", color:"#ff3355", icon:"🏆",
-    narrative:"La batalla final. Aplicaciones, entrevistas simuladas y networking son el asedio que derribará las murallas del empleo. El trono del analista te espera." }
+  { id:0, code:"CAPÍTULO 0", title:"Cimientos del Analista de Datos", color:"#00ff88", icon:"🛡️",
+    narrative:"Tu arsenal base: entorno profesional, Python limpio y buenas prácticas de código. Sin cimientos sólidos, no hay torre de datos que aguante." },
+  { id:1, code:"CAPÍTULO 1", title:"SQL y Modelado de Negocio", color:"#00ccff", icon:"⚔️",
+    narrative:"El idioma universal de los datos. Domina SQL de verdad y aprende a modelar datos que respondan preguntas de negocio, incluidas las de marketing." },
+  { id:2, code:"CAPÍTULO 2", title:"ETL y Automatización", color:"#7c6cff", icon:"🧬",
+    narrative:"Los datos no llegan solos: extrae, transforma y carga con calidad de producción. Automatiza con n8n y scripts para que el análisis fluya solo." },
+  { id:3, code:"CAPÍTULO 3", title:"IA Aplicada al Análisis", color:"#ff00ff", icon:"🤖",
+    narrative:"La IA es tu escudero: prompts expertos, código asistido y análisis auditados. La máquina acelera, pero tú verificas y decides." },
+  { id:4, code:"CAPÍTULO 4", title:"Dashboards y Storytelling", color:"#ffaa00", icon:"📊",
+    narrative:"Datos sin historia no mueven decisiones. Construye dashboards de nivel consultor y aprende a contar hallazgos con impacto." },
+  { id:5, code:"CAPÍTULO 5", title:"Marketing Analytics", color:"#ff6600", icon:"🎯",
+    narrative:"Tu ventaja diferencial: métricas de negocio, cohortes, A/B testing y web analytics. Convierte el marketing en decisiones basadas en datos." },
+  { id:6, code:"CAPÍTULO 6", title:"IA Productiva y Apps de Datos", color:"#f72585", icon:"👾",
+    narrative:"Del análisis al producto: analistas virtuales con IA, reportes automáticos y un portafolio que demuestra lo que eres capaz de construir." },
+  { id:7, code:"CAPÍTULO 7", title:"Empleo: La Corona Final", color:"#ff3355", icon:"🏆",
+    narrative:"Todo el poder acumulado se lanza al asedio: marca personal, entrevistas impecables y la campaña de aplicaciones que abrirá la puerta." }
 ];
 
 const CAT = {
@@ -615,38 +619,59 @@ const CAT = {
 };
 const CAT_COLORS = { analyst:"#00ff88", ai:"#ff00ff", employability:"#ffaa00" };
 
-/* --- Campaña: 21 misiones de la historia original --- */
+/* --- Campaña: 24 misiones alineadas a las 8 etapas + tu perfil --- */
 const campaignMissions = [
-  { id:"m0_1", chapter:0, title:"El Ritual de Iniciación", description:"Instalar VS Code, Python (Anaconda) y Git. Crear cuenta en GitHub.", xp:50, category:"analyst", estimatedTime:"2 horas", verification:"Primer commit en GitHub realizado" },
-  { id:"m0_2", chapter:0, title:"Forjando la Espada (Python Básico)", description:"Dominar variables, listas, diccionarios, bucles for/while, condicionales if/elif/else y funciones en Python.", xp:200, category:"analyst", estimatedTime:"8 horas", verification:"Completar 50 ejercicios en HackerRank (sección Python)" },
-  { id:"m0_3", chapter:0, title:"El Arte de la Tabla (Pandas I)", description:"Importar pandas, leer CSV/Excel, explorar DataFrames con head(), info(), describe() y filtrar datos con condiciones.", xp:200, category:"analyst", estimatedTime:"6 horas", verification:"Completar mini-proyecto de limpieza de dataset" },
-  { id:"m0_4", chapter:0, title:"Pintando el Caos (Visualización)", description:"Dominar matplotlib y seaborn. Crear gráficos de líneas, barras, dispersión e histogramas.", xp:150, category:"analyst", estimatedTime:"5 horas", verification:"Crear dashboard estático con 4 gráficos" },
-  { id:"m1_1", chapter:1, title:"El Oráculo (SQL)", description:"Dominar SELECT, WHERE, ORDER BY, GROUP BY, HAVING y JOINs (INNER, LEFT, RIGHT, FULL) en SQLite o PostgreSQL.", xp:300, category:"analyst", estimatedTime:"10 horas", verification:"Completar 50 ejercicios en SQLZoo o LeetCode" },
-  { id:"m1_2", chapter:1, title:"Maestría en Pandas II", description:"Dominar groupby, pivot_table, merge, concat y funciones lambda aplicadas a columnas.", xp:250, category:"analyst", estimatedTime:"8 horas", verification:"Completar proyecto de análisis de ventas por región/producto/tiempo" },
-  { id:"m1_3", chapter:1, title:"El Primer Jefe Final (Proyecto ETL)", description:"Realizar proyecto completo de Extracción, Transformación y Carga. Tomar datos sucios de 2 fuentes (CSV + SQL o Web), limpiarlos, transformarlos y unirlos.", xp:400, category:"analyst", estimatedTime:"12 horas", verification:"Subir código a GitHub con README explicativo" },
-  { id:"m2_1", chapter:2, title:"Comunicación con las Máquinas (Prompt Engineering)", description:"Aprender a crear prompts efectivos para ChatGPT/Claude/Gemini que generen código Python, SQL y explicaciones de conceptos complejos.", xp:150, category:"ai", estimatedTime:"4 horas", verification:"Crear biblioteca personal de 20 prompts en archivo Markdown" },
-  { id:"m2_2", chapter:2, title:"El Módulo Fantasma (PandasAI)", description:"Aprender a usar la librería pandasai o sklearn para análisis exploratorio automatizado con IA.", xp:200, category:"ai", estimatedTime:"6 horas", verification:"Usar IA para análisis exploratorio con lenguaje natural" },
-  { id:"m2_3", chapter:2, title:"El Copiloto (GitHub Copilot)", description:"Aprender a usar GitHub Copilot o Codeium para acelerar la escritura de código en Python y SQL.", xp:150, category:"ai", estimatedTime:"3 horas", verification:"Refactorizar un proyecto anterior usando Copilot" },
-  { id:"m3_1", chapter:3, title:"El Tablero de Mando (Power BI/Tableau)", description:"Aprender a crear dashboards interactivos en Power BI o Tableau Public.", xp:300, category:"analyst", estimatedTime:"10 horas", verification:"Crear dashboard de 2 páginas con filtros y visualizaciones" },
-  { id:"m3_2", chapter:3, title:"Estadística para Mortales", description:"Dominar media, mediana, moda, desviación estándar, correlación vs causalidad y probabilidad básica.", xp:200, category:"analyst", estimatedTime:"6 horas", verification:"Análisis estadístico de dataset con explicación en Markdown" },
-  { id:"m3_3", chapter:3, title:"El Mapa del Tesoro (Storytelling)", description:"Aprender el marco STAR para comunicar hallazgos de datos efectivamente.", xp:150, category:"employability", estimatedTime:"3 horas", verification:"Grabar video de 2 minutos explicando hallazgos a audiencia no técnica" },
-  { id:"m4_1", chapter:4, title:"El Cartel de Recompensas (Portafolio)", description:"Crear portafolio web en GitHub Pages con secciones: Sobre mí, Proyectos (mínimo 4), Habilidades y Contacto.", xp:300, category:"employability", estimatedTime:"8 horas", verification:"URL en vivo y funcional" },
-  { id:"m4_2", chapter:4, title:"Puliendo la Armadura (LinkedIn)", description:"Optimizar perfil de LinkedIn: foto profesional, titular \"Data Analyst | IA Aplicada\", sección Acerca de con keywords y añadir proyectos.", xp:200, category:"employability", estimatedTime:"4 horas", verification:"Conectar con 50 contactos relevantes del sector" },
-  { id:"m4_3", chapter:4, title:"El Primer Contrato (Freelance)", description:"Crear perfil en Fiverr y Upwork. Escribir 3 propuestas de servicio (Limpieza de datos, Dashboard en Power BI, Reporte automático con IA).", xp:350, category:"employability", estimatedTime:"6 horas", verification:"Enviar 5 propuestas a proyectos reales" },
-  { id:"m5_1", chapter:5, title:"El Mapa del Cazador (Búsqueda)", description:"Identificar 20 empresas objetivo. Buscar ofertas de Data Analyst, Business Analyst o Junior Data Scientist.", xp:150, category:"employability", estimatedTime:"4 horas", verification:"Crear hoja de cálculo con seguimiento de ofertas" },
-  { id:"m5_2", chapter:5, title:"El Mensaje en la Botella (CV)", description:"Crear CV en formato ATS-friendly con métricas cuantificables. Escribir 3 modelos de carta de presentación.", xp:250, category:"employability", estimatedTime:"5 horas", verification:"CV en PDF listo para enviar" },
-  { id:"m5_3", chapter:5, title:"Simulacro de Batalla (Entrevista)", description:"Practicar con 50 preguntas de entrevista técnica (SQL, Python, Estadística, Casos). Usar IA para simular entrevistas.", xp:300, category:"employability", estimatedTime:"8 horas", verification:"Completar 3 simulacros de entrevista con IA" },
-  { id:"m5_4", chapter:5, title:"La Última Puerta (Networking)", description:"Asistir a webinar, meetup o conferencia de datos (virtual o presencial). Conectar con 5 profesionales.", xp:150, category:"employability", estimatedTime:"3 horas", verification:"Captura de pantalla de conexiones realizadas" },
-  { id:"m5_5", chapter:5, title:"El Asedio Final (Aplicaciones)", description:"Enviar mínimo 50 aplicaciones de empleo personalizadas (CV + Cover Letter) durante 3 semanas.", xp:500, category:"employability", estimatedTime:"20 horas", verification:"Registrar todas las aplicaciones en hoja de seguimiento" }
+  /* CAP 0: Cimientos (semanas 1-2) */
+  { id:"m0_1", chapter:0, title:"Entorno de Nivel Profesional", description:"Configurar VS Code, Python y Git como un profesional: extensiones clave, entornos virtuales, alias y un repo organizado para tus scripts.", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"Repo personal organizado con README y estructura clara" },
+  { id:"m0_2", chapter:0, title:"Trío de Scripts Limpios", description:"Escribir 3 scripts Python con docstrings, manejo de errores y funciones puras: automatización, procesamiento de datos y un caso real.", xp:250, category:"analyst", estimatedTime:"5-6 horas", verification:"3 scripts de calidad publicados en GitHub" },
+  { id:"m0_3", chapter:0, title:"Ritual de Calidad de Código", description:"Aplicar buenas prácticas: requirements, .gitignore, estructura de carpetas y revisión de estilo (PEP8, linters).", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"Repo con requirements, .gitignore y estilo consistente" },
+
+  /* CAP 1: SQL y modelado */
+  { id:"m1_1", chapter:1, title:"SQL Esencial y Avanzado", description:"Completar 60+ ejercicios (SQLZoo, LeetCode) incluyendo JOINs, window functions y CTEs hasta dominarlos.", xp:250, category:"analyst", estimatedTime:"8-10 horas", verification:"60+ ejercicios SQL resueltos y documentados" },
+  { id:"m1_2", chapter:1, title:"Modelo de Datos de Negocio", description:"Diseñar tu propia base de datos (4+ tablas con relaciones) y escribir 25 consultas que respondan preguntas de negocio reales.", xp:300, category:"analyst", estimatedTime:"10-12 horas", verification:"BD propia + 25 queries publicadas con README" },
+  { id:"m1_3", chapter:1, title:"SQL para Marketing", description:"Escribir consultas de cohortes, embudos y segmentación de clientes sobre un dataset de negocio.", xp:200, category:"analyst", estimatedTime:"6-8 horas", verification:"Queries de marketing (cohortes y embudo) funcionando" },
+
+  /* CAP 2: ETL y automatización */
+  { id:"m2_1", chapter:2, title:"Pipeline ETL con Tests", description:"Llevar tu pipeline ETL a producción: tests automatizados, logging y validación de datos en cada etapa.", xp:300, category:"analyst", estimatedTime:"8-10 horas", verification:"Pipeline con tests y logging funcionando" },
+  { id:"m2_2", chapter:2, title:"Automatización con n8n", description:"Crear un workflow de automatización real (alertas, reportes o integración) usando n8n, como tu job aggregator.", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Workflow n8n activo y documentado" },
+  { id:"m2_3", chapter:2, title:"Orquestación y Calidad", description:"Programar tus pipelines (cron/n8n) con monitoreo de errores y notificaciones de éxito o fallo.", xp:200, category:"analyst", estimatedTime:"5-6 horas", verification:"Pipeline programado con alertas automáticas" },
+
+  /* CAP 3: IA aplicada */
+  { id:"m3_1", chapter:3, title:"Prompt Engineering Maestro", description:"Construir una biblioteca de 30 prompts avanzados (rol, few-shot, cadena de pensamiento) para análisis y código.", xp:150, category:"ai", estimatedTime:"4-5 horas", verification:"Biblioteca de 30 prompts documentada" },
+  { id:"m3_2", chapter:3, title:"Código Asistido y Auditado", description:"Refactorizar un proyecto con IA (Copilot/Claude) y auditar cada cambio propuesto contra las reglas del código.", xp:200, category:"ai", estimatedTime:"5-6 horas", verification:"Refactor con IA auditado y documentado" },
+  { id:"m3_3", chapter:3, title:"Análisis Asistido por IA", description:"Realizar un análisis completo con ayuda de IA y verificar cada respuesta contra los datos reales.", xp:250, category:"ai", estimatedTime:"6-8 horas", verification:"Análisis con IA verificado y publicado" },
+
+  /* CAP 4: Dashboards y storytelling */
+  { id:"m4_1", chapter:4, title:"Dashboard de Nivel Consultor", description:"Construir un dashboard de 3 páginas con filtros, medidas DAX y una historia clara sobre datos reales (tipo ANC).", xp:350, category:"analyst", estimatedTime:"10-12 horas", verification:"Dashboard de 3 páginas publicado" },
+  { id:"m4_2", chapter:4, title:"Estadística Aplicada", description:"Proyecto de estadística con Python: distribuciones, intervalos y correlación sobre un dataset real, con scipy.", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Análisis estadístico completo documentado" },
+  { id:"m4_3", chapter:4, title:"Historia con Datos (STAR)", description:"Grabar un video de 3 minutos explicando tus hallazgos con estructura STAR a audiencia no técnica.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Video STAR de 3 minutos grabado" },
+
+  /* CAP 5: Marketing analytics */
+  { id:"m5_1", chapter:5, title:"Cohortes y Embudo en Acción", description:"Analizar retención por cohortes y embudo de conversión con Python/SQL sobre un dataset de e-commerce.", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Análisis de cohortes y embudo documentado" },
+  { id:"m5_2", chapter:5, title:"A/B Testing Real (P2)", description:"Diseñar y ejecutar un A/B test completo: hipótesis, tamaño de muestra, análisis con scipy y reporte ejecutivo.", xp:300, category:"analyst", estimatedTime:"8-10 horas", verification:"Proyecto P2 publicado con reporte y recomendación" },
+  { id:"m5_3", chapter:5, title:"Web Analytics (P4)", description:"Analizar un dataset público estilo GA4: adquisición, comportamiento y conversión, con 5+ insights accionables.", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Análisis web (P4) publicado con insights" },
+
+  /* CAP 6: IA productiva y apps */
+  { id:"m6_1", chapter:6, title:"Analista Virtual con IA (P3)", description:"Construir una app Streamlit con chat que responda preguntas de negocio sobre tus datos, con verificación de cifras.", xp:350, category:"ai", estimatedTime:"10-12 horas", verification:"App P3 publicada y funcionando en línea" },
+  { id:"m6_2", chapter:6, title:"Reportes Automáticos con IA (P6)", description:"Automatizar un reporte semanal: datos procesados, resumen generado con IA y entrega programada.", xp:300, category:"ai", estimatedTime:"8-10 horas", verification:"Reporte automático P6 entregándose solo" },
+  { id:"m6_3", chapter:6, title:"Portafolio de Nivel Experto", description:"Publicar tus proyectos insignia (P1-P5) con casos de estudio, métricas y página STAR en tu portafolio web.", xp:300, category:"employability", estimatedTime:"8-10 horas", verification:"Portafolio experto con P1-P5 publicado" },
+
+  /* CAP 7: Empleo final */
+  { id:"m7_1", chapter:7, title:"Marca Personal en Acción", description:"Publicar contenido en LinkedIn 2 veces por semana contando tus proyectos y aprendizajes, con perfil optimizado.", xp:200, category:"employability", estimatedTime:"5-6 horas", verification:"8+ posts publicados en un mes" },
+  { id:"m7_2", chapter:7, title:"Máquina de Entrevistas", description:"Completar 5 simulacros de entrevista con IA (SQL, Python, métricas y casos) y pulir tus respuestas STAR.", xp:300, category:"employability", estimatedTime:"8-10 horas", verification:"5 simulacros completados con mejoras aplicadas" },
+  { id:"m7_3", chapter:7, title:"Tracker Estratégico de Aplicaciones", description:"Gestionar 50+ aplicaciones con seguimiento de respuestas, iteración de CV y métricas de éxito por canal.", xp:300, category:"employability", estimatedTime:"8-10 horas", verification:"Tracker con 50+ aplicaciones y análisis de respuesta" }
 ];
-/* --- PROYECTOS FINALES (jefes de capítulo): garantizan tu nivel real --- */
+
+/* --- 👑 Proyectos finales (uno por capítulo): garantizan tu nivel real --- */
 const bossMissions = [
-  { id:"b0", chapter:0, boss:true, title:"El Juicio Técnico", description:"Proyecto integrador de fundamentos: un script Python bien estructurado (funciones, archivos, datos) + repo público con README impecable y commits limpios.", xp:300, category:"analyst", estimatedTime:"6-8 horas", verification:"Repo público con proyecto Python documentado de inicio a fin" },
-  { id:"b1", chapter:1, boss:true, title:"El Trono de SQL", description:"Construir una base de datos de negocio propia (4+ tablas) y escribir 25 consultas comentadas que respondan preguntas de negocio reales. Publicarla con README.", xp:450, category:"analyst", estimatedTime:"10-12 horas", verification:"Proyecto SQL completo: schema + 25 queries publicadas" },
-  { id:"b2", chapter:2, boss:true, title:"El Pacto con la Máquina", description:"Usar IA para construir un análisis de datos completo (exploración, limpieza e insights) y auditar cada respuesta contra los datos reales. Documentar los prompts.", xp:250, category:"ai", estimatedTime:"4-6 horas", verification:"Análisis con IA auditado + prompts documentados" },
-  { id:"b3", chapter:3, boss:true, title:"El Artefacto Definitivo", description:"Dashboard interactivo de 3 páginas con filtros, medidas y una historia clara. Publicarlo y grabarlo explicándolo con marco STAR.", xp:400, category:"analyst", estimatedTime:"8-10 horas", verification:"Dashboard de 3 páginas publicado + video STAR" },
-  { id:"b4", chapter:4, boss:true, title:"La Fortaleza Pública", description:"Portafolio profesional completo en vivo: 6+ proyectos (SQL, Python, BI, ETL), métricas de impacto, CV descargable y contacto visible.", xp:450, category:"employability", estimatedTime:"10-12 horas", verification:"Portafolio en vivo con 6+ proyectos de nivel" },
-  { id:"b5", chapter:5, boss:true, title:"La Corona Final", description:"El asedio definitivo: 50 aplicaciones personalizadas registradas, CV ATS final, LinkedIn impecable y 3 entrevistas simuladas superadas.", xp:700, category:"employability", estimatedTime:"20-24 horas", verification:"50 aplicaciones enviadas + CV + entrevistas completadas" }
+  { id:"b0", chapter:0, boss:true, title:"El Juicio Técnico", description:"Proyecto integrador de fundamentos: un script Python bien estructurado (funciones, archivos, datos) + repo público con README impecable y commits limpios.", xp:300, category:"analyst", estimatedTime:"6-8 horas", verification:"Repo público con proyecto Python documentado" },
+  { id:"b1", chapter:1, boss:true, title:"El Trono de SQL", description:"Base de datos de negocio propia (4+ tablas) con 25 consultas comentadas y una sección de consultas para marketing (cohortes). Publicar con README.", xp:450, category:"analyst", estimatedTime:"10-12 horas", verification:"Proyecto SQL completo: schema + 25 queries publicadas" },
+  { id:"b2", chapter:2, boss:true, title:"La Bestia ETL", description:"Pipeline ETL de producción: 2 fuentes, tests automatizados, logging, validaciones y despliegue programado. Documentado como caso de estudio.", xp:400, category:"analyst", estimatedTime:"10-12 horas", verification:"Pipeline ETL en producción con tests y README" },
+  { id:"b3", chapter:3, boss:true, title:"El Pacto con la Máquina", description:"Usar IA para construir un análisis de datos completo y auditar cada respuesta contra los datos reales. Documentar prompts y decisiones.", xp:350, category:"ai", estimatedTime:"6-8 horas", verification:"Análisis con IA auditado + prompts documentados" },
+  { id:"b4", chapter:4, boss:true, title:"El Artefacto Definitivo", description:"Dashboard interactivo de 3 páginas con filtros, medidas y una historia clara. Publicarlo y grabarlo explicándolo con STAR.", xp:400, category:"analyst", estimatedTime:"10-12 horas", verification:"Dashboard de 3 páginas publicado + video STAR" },
+  { id:"b5", chapter:5, boss:true, title:"El Embudo de Oro (P1)", description:"Proyecto insignia de Marketing Analytics: funnel + cohortes + LTV por canal, publicado con código, dashboard y README.", xp:500, category:"analyst", estimatedTime:"12-14 horas", verification:"Proyecto P1 completo publicado" },
+  { id:"b6", chapter:6, boss:true, title:"El Oráculo Digital (P3+P6)", description:"Tu analista virtual con IA en vivo (Streamlit + LLM) y un reporte automático semanal funcionando sin intervención.", xp:550, category:"ai", estimatedTime:"12-14 horas", verification:"App P3 en línea + reporte P6 automático activo" },
+  { id:"b7", chapter:7, boss:true, title:"La Corona Final", description:"El asedio definitivo: 50 aplicaciones personalizadas registradas, CV ATS final, LinkedIn impecable y 5 entrevistas simuladas superadas.", xp:700, category:"employability", estimatedTime:"20-24 horas", verification:"50 aplicaciones + CV + entrevistas completadas" }
 ];
 const campaignAll = campaignMissions.concat(bossMissions);
 
@@ -869,12 +894,14 @@ const achievements = [
   { id:"ach_st30",   ico:"☄️", name:"Mes de Datos", desc:"Mantener racha de 30 días seguidos", xp:200 },
   { id:"ach_w3",     ico:"🎯", name:"Cazador Semanal", desc:"Completar 3 misiones semanales", xp:200 },
   { id:"ach_w6",     ico:"👑", name:"Dominio Semanal Total", desc:"Completar las 6 misiones semanales", xp:300 },
-  { id:"ach_ch0",    ico:"🛡️", name:"Superviviente Técnico", desc:"Completar todo el Capítulo 0 de la campaña", xp:150 },
-  { id:"ach_ch1",    ico:"⚔️", name:"Forjador de Análisis", desc:"Completar todo el Capítulo 1 de la campaña", xp:150 },
-  { id:"ach_ch2",    ico:"🤖", name:"Domador de Máquinas", desc:"Completar todo el Capítulo 2 de la campaña", xp:150 },
-  { id:"ach_ch3",    ico:"🎯", name:"Arsenal Completo", desc:"Completar todo el Capítulo 3 de la campaña", xp:150 },
-  { id:"ach_ch4",    ico:"💰", name:"Mercenario de Datos", desc:"Completar todo el Capítulo 4 de la campaña", xp:150 },
-  { id:"ach_ch5",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar todo el Capítulo 5 de la campaña", xp:150 },
+  { id:"ach_ch0",    ico:"🛡️", name:"Cimientos Sólidos", desc:"Completar el Capítulo 0: Cimientos", xp:150 },
+  { id:"ach_ch1",    ico:"⚔️", name:"Oráculo SQL", desc:"Completar el Capítulo 1: SQL y Negocio", xp:150 },
+  { id:"ach_ch2",    ico:"🧬", name:"Automatizador", desc:"Completar el Capítulo 2: ETL y Automatización", xp:150 },
+  { id:"ach_ch3",    ico:"🤖", name:"Domador de Máquinas", desc:"Completar el Capítulo 3: IA Aplicada", xp:150 },
+  { id:"ach_ch4",    ico:"📊", name:"Narrador Visual", desc:"Completar el Capítulo 4: Dashboards y Storytelling", xp:150 },
+  { id:"ach_ch5",    ico:"🎯", name:"Estratega de Marketing", desc:"Completar el Capítulo 5: Marketing Analytics", xp:150 },
+  { id:"ach_ch6",    ico:"👾", name:"Constructor de IA", desc:"Completar el Capítulo 6: IA Productiva", xp:150 },
+  { id:"ach_ch7",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar el Capítulo 7: Empleo", xp:150 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
   { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días y las 8 semanas", xp:700 }
 ];
@@ -1066,7 +1093,8 @@ function achievementState() {
     ach_first: () => doneSet.size + missN + weekN >= 1,
     ach_ten: () => dailyN >= 10,
     ach_d21: () => dailyN >= 21,
-    ach_d42: () => allDaily,
+    ach_d42: () => dailyN >= 42,
+    ach_d56: () => allDaily,
     ach_st7: () => gameState.streak >= 7,
     ach_st14: () => gameState.streak >= 14,
     ach_st21: () => gameState.streak >= 21,
@@ -1079,6 +1107,8 @@ function achievementState() {
     ach_ch3: () => (donePer[3] || 0) >= perChapter[3],
     ach_ch4: () => (donePer[4] || 0) >= perChapter[4],
     ach_ch5: () => (donePer[5] || 0) >= perChapter[5],
+    ach_ch6: () => (donePer[6] || 0) >= perChapter[6],
+    ach_ch7: () => (donePer[7] || 0) >= perChapter[7],
     ach_ai: () => aiAll,
     ach_legend: () => allCampaign && allDaily && allWeekly
   };
@@ -1467,7 +1497,7 @@ function showWelcome() {
   document.getElementById("modal-title").textContent = "BIENVENIDO, RECLUTA";
   document.getElementById("modal-text").innerHTML =
     "Estás en una misión para convertirte en el <b>analista de datos más poderoso del reino digital</b>.<br><br>" +
-    "Tu plan maestro dura <b>42 días (6 semanas)</b>. Cada día tiene <b>3 misiones</b> " +
+    "Tu plan maestro dura <b>56 días (8 semanas)</b>. Cada día tiene <b>3 misiones</b> " +
     "(📚 estudiar + 🛠️ practicar + 🎯 consolidar ≈ 2.5-3 horas).<br><br>" +
     "🎖️ <b>Al completar un día entero, subes de nivel (+1)</b> y se desbloquea el siguiente día. " +
     "La campaña incluye <b>👑 proyectos finales</b> por capítulo que exigen cierto nivel. " +
