@@ -576,6 +576,97 @@ html{-webkit-text-size-adjust:100%}
 #cap-allmsg{margin-top:14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(0,229,160,.1),rgba(124,108,255,.08));border:1px solid rgba(0,229,160,.4);font-size:.88rem;line-height:1.55;display:none}
 #cap-allmsg b{color:#fff}
 .vh-mini-note{font-size:.78rem;color:var(--tx2);margin:10px 0 0;line-height:1.5}
+
+/* ==========================================================
+   🎮 V4.6 — SFX, RETO DEL DÍA, ARSENAL DEL HÉROE (recompensas)
+   ========================================================== */
+.snd-btn{cursor:pointer;background:rgba(26,26,46,.7);border:1px solid rgba(160,160,192,.3);color:var(--tx);
+  border-radius:10px;width:38px;height:38px;font-size:1.05rem;transition:.2s;line-height:1}
+.snd-btn:hover{border-color:var(--glow-cyan);box-shadow:0 0 12px rgba(0,204,255,.3)}
+.gear-slot{display:inline-block;margin-left:4px;font-size:1.05rem;filter:drop-shadow(0 0 6px rgba(255,215,0,.6))}
+/* --- Reto del día --- */
+.reto-card{margin-top:14px;padding:14px 16px;border-radius:14px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(255,170,0,.12),rgba(255,51,85,.08));
+  border:1px dashed rgba(255,170,0,.5);animation:retoPulse 2.6s ease-in-out infinite}
+@keyframes retoPulse{0%,100%{box-shadow:0 0 0 rgba(255,170,0,.0)}50%{box-shadow:0 0 22px rgba(255,170,0,.22)}}
+.reto-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.reto-dice{font-size:1.7rem;animation:diceSpin 3.4s ease-in-out infinite;display:inline-block}
+@keyframes diceSpin{0%,80%{transform:rotate(0)}86%{transform:rotate(18deg)}92%{transform:rotate(-14deg)}100%{transform:rotate(0)}}
+.reto-title{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:2px;color:var(--glow-amber);text-transform:uppercase}
+.reto-task{font-size:.95rem;color:#fff;margin:6px 0 10px;line-height:1.45}
+.reto-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.reto-xp{font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--glow-cyan)}
+.btn-reto{cursor:pointer;margin-left:auto;padding:9px 20px;border:none;border-radius:10px;font-family:'Orbitron',sans-serif;
+  font-size:.74rem;font-weight:700;letter-spacing:1.5px;color:#1a0d00;background:linear-gradient(135deg,#ffd700,#ffaa00);
+  box-shadow:0 0 16px rgba(255,170,0,.45);transition:.2s}
+.btn-reto:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(255,215,0,.6)}
+.btn-reto:disabled{background:rgba(26,26,46,.6);color:var(--tx2);box-shadow:none;cursor:default;border:1px solid rgba(0,255,136,.4);transform:none}
+/* --- FAB mochila --- */
+.rw-fab{position:fixed;right:18px;bottom:18px;z-index:90;width:58px;height:58px;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(255,215,0,.55);background:linear-gradient(145deg,#2a1f05,#1a1508);font-size:1.5rem;
+  box-shadow:0 0 22px rgba(255,170,0,.35);transition:.25s;display:flex;align-items:center;justify-content:center}
+.rw-fab:hover{transform:scale(1.1) rotate(-6deg);box-shadow:0 0 32px rgba(255,215,0,.6)}
+.rw-fab.bump{animation:fabBump .7s cubic-bezier(.34,1.56,.64,1)}
+@keyframes fabBump{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+.rw-badge{position:absolute;top:-4px;right:-4px;min-width:22px;height:22px;border-radius:99px;padding:0 5px;
+  background:var(--danger);color:#fff;font-family:'Orbitron',sans-serif;font-size:.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(255,51,85,.7);animation:badgeBlink 1.6s infinite}
+@keyframes badgeBlink{0%,100%{opacity:1}50%{opacity:.6}}
+/* --- Arsenal modal --- */
+#rw-layer{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
+  background:rgba(5,3,10,.82);backdrop-filter:blur(4px);padding:14px;overflow-y:auto}
+#rw-layer.show{display:flex}
+.rw-modal{background:linear-gradient(165deg,#1c1730,#12101f);border:1px solid rgba(255,215,0,.35);border-radius:18px;
+  max-width:680px;width:100%;padding:26px 22px;position:relative;box-shadow:0 0 60px rgba(255,170,0,.15);animation:fadeSlide .3s ease}
+.rw-modal h2{font-family:'Orbitron',sans-serif;color:#ffd700;text-align:center;letter-spacing:2px;font-size:1.25rem;text-shadow:0 0 18px rgba(255,215,0,.4)}
+.rw-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px}
+.rw-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.rw-stats .bal-pill{font-size:.75rem}
+.chest-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px;
+  border:1px dashed rgba(255,215,0,.3);border-radius:14px;background:radial-gradient(circle,rgba(255,170,0,.07),transparent 70%);margin-bottom:8px}
+.chest-box{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center}
+.chest-glow{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.4),transparent 70%);animation:chestGlow 1.1s ease-in-out infinite}
+@keyframes chestGlow{0%,100%{opacity:.5;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
+.chest-ico{font-size:4rem;filter:drop-shadow(0 0 14px rgba(255,200,0,.8));animation:chestWob 1.1s ease-in-out infinite;z-index:1}
+@keyframes chestWob{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.06)}}
+.chest-box.opening .chest-ico{animation:chestOpen .8s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes chestOpen{0%{transform:scale(1) rotate(0);opacity:1}45%{transform:scale(1.25) rotate(-10deg)}100%{transform:scale(0) rotate(40deg);opacity:0}}
+.rays{position:absolute;inset:-34px;border-radius:50%;opacity:0;transition:.3s;pointer-events:none;
+  background:conic-gradient(from 0deg,rgba(255,215,0,0) 0 12deg,rgba(255,215,0,.28) 14deg 26deg,rgba(255,215,0,0) 28deg 40deg,rgba(255,215,0,.28) 42deg 54deg,rgba(255,215,0,0) 56deg 68deg,rgba(255,215,0,.28) 70deg 82deg,rgba(255,215,0,0) 84deg);
+  animation:raysSpin 3.2s linear infinite}
+@keyframes raysSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.rays.on{opacity:1}
+.rw-reveal-item{display:flex;flex-direction:column;align-items:center;z-index:2;animation:itemPop .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes itemPop{0%{transform:scale(0) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.rw-reveal-ico{font-size:4.2rem;filter:drop-shadow(0 0 18px rgba(255,215,0,.9))}
+.rw-reveal-new{font-family:'Orbitron',sans-serif;color:var(--glow-green);letter-spacing:2px;font-size:.72rem;margin-top:4px}
+.rw-reveal-name{font-family:'Orbitron',sans-serif;color:#fff;font-weight:800;font-size:1.15rem;margin-top:4px;text-align:center}
+.rw-reveal-sec{font-size:.78rem;color:var(--glow-cyan);margin-top:2px}
+.btn-cofre{margin:10px auto 4px;cursor:pointer;padding:12px 30px;border:none;border-radius:12px;font-family:'Orbitron',sans-serif;
+  font-weight:800;letter-spacing:2px;color:#1a0d00;background:linear-gradient(135deg,#ffd700,#ffaa00);
+  box-shadow:0 0 20px rgba(255,170,0,.5);font-size:.85rem;transition:.2s}
+.btn-cofre:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(255,215,0,.7)}
+.btn-cofre:disabled{background:rgba(26,26,46,.7);color:var(--tx2);box-shadow:none;cursor:default}
+.rw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;margin-top:16px;max-height:340px;overflow-y:auto;padding:4px}
+.rw-item{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.18);border-radius:14px;padding:12px 6px 9px;
+  text-align:center;cursor:pointer;transition:.2s;position:relative;user-select:none}
+.rw-item:hover{transform:translateY(-3px);border-color:rgba(160,160,192,.45)}
+.rw-item .ri-ico{font-size:2rem;display:block;filter:drop-shadow(0 0 8px rgba(255,255,255,.15))}
+.rw-item .ri-name{font-size:.66rem;color:var(--tx2);margin-top:6px;line-height:1.25;display:block}
+.rw-item.locked{opacity:.5;filter:grayscale(.9)}
+.rw-item.locked .ri-ico{content:""}
+.rw-item.locked .ri-hint{font-size:.58rem;color:#666}
+.rw-item.locked:hover{opacity:.8}
+.rw-item.equipped{border-color:#ffd700;background:rgba(255,215,0,.08);box-shadow:0 0 14px rgba(255,215,0,.35)}
+.rw-item.equipped .ri-name{color:#ffd700}
+.rw-item .eq-tag{position:absolute;top:-7px;right:-7px;background:#ffd700;color:#1a0d00;font-size:.55rem;font-weight:800;
+  border-radius:99px;padding:2px 7px;font-family:'Orbitron',sans-serif}
+.rw-item .new-tag{position:absolute;top:-7px;left:-7px;background:var(--glow-green);color:#04120b;font-size:.55rem;font-weight:800;
+  border-radius:99px;padding:2px 7px;font-family:'Orbitron',sans-serif;animation:badgeBlink 1.4s infinite}
+.rw-locked-note{text-align:center;color:#777;font-size:.72rem;margin-top:10px}
+#rw-close{position:absolute;top:12px;right:12px}
+#rw-chest-wrap{display:none}
+#rw-grid-wrap{display:none}
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
 .chip-grid .mc-lab{font-size:.55rem}
@@ -594,6 +685,7 @@ html{-webkit-text-size-adjust:100%}
     ODEA<small>PLAN MAESTRO AVANZADO</small>
   </div>
   <div class="hud">
+    <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar">🔊</button>
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
       <span class="flame">🔥</span> <span id="streak-n">0</span>
     </span>
@@ -610,7 +702,7 @@ html{-webkit-text-size-adjust:100%}
   <aside class="stats-panel">
     <h3>⚡ Perfil del Recluta</h3>
     <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b></span><span id="s-lvl">Nv.1</span></div>
+      <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
     </div>
     <div class="stat-block">
       <div class="stat-head"><span><span class="stat-ico">📊</span>Nivel Analista</span><span id="stat-analyst-txt">0%</span></div>
@@ -664,6 +756,7 @@ html{-webkit-text-size-adjust:100%}
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
     <section class="view active" id="view-daily">
       <div id="daily-hero"></div>
+      <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
         <button class="btn-extra" id="btn-extra">📯 Ver reto semanal y ruta completa ▾</button>
         <div id="plan-extra" class="hidden">
@@ -744,6 +837,22 @@ html{-webkit-text-size-adjust:100%}
 </div>
 
 <footer><b>ODEA</b> · Plan Maestro Avanzado · v4.2 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales + 40 💼 de empleo · Progreso guardado 🔒</footer>
+
+<button id="rw-fab" class="rw-fab" title="Arsenal del Héroe: cofres y accesorios">🎒<span id="rw-badge" class="rw-badge hidden">0</span></button>
+
+<div id="rw-layer">
+  <div class="rw-modal">
+    <button class="close-x" id="rw-close">✕</button>
+    <h2>🎒 ARSENAL DEL HÉROE</h2>
+    <p class="rw-sub">Al lograr hitos desbloqueas accesorios únicos de cada sección. Ábrelos en el cofre y equípalos: lucen junto a tu nombre de recluta.</p>
+    <div class="rw-stats">
+      <span class="bal-pill" id="rw-count">🏅 0/30 desbloqueados</span>
+      <span class="bal-pill">🎒 <b id="rw-queue-n">0</b> en cofre</span>
+    </div>
+    <div id="rw-chest-wrap"></div>
+    <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos. ¡Sigue jugando, recluta!</p></div>
+  </div>
+</div>
 
 <div id="toast-layer"></div>
 
@@ -1455,7 +1564,10 @@ let gameState = {
   streak: 0,               // racha de días seguidos
   shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
   vida: { log: [], growth: [], kid: [], couple: [] }, // 🧬 side quests de vida
-  capital: { done: [] }        // 📈 campaña capital (IA + mercados)
+  capital: { done: [] },       // 📈 campaña capital (IA + mercados)
+  sound: true,                  // 🔊 efectos de sonido
+  reto: { date: null, id: null, done: false }, // 🎲 reto del día
+  rewards: { unlocked: [], queue: [], equipped: null } // 🎒 arsenal del héroe
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -1524,6 +1636,15 @@ function loadGame() {
     gameState.capital = {
       done: Array.isArray(cp.done) ? cp.done.filter(id => CAP_OBJ[id]) : []
     };
+    gameState.sound = data.sound !== false;
+    const rt2 = data.reto || {};
+    gameState.reto = { date: rt2.date || null, id: rt2.id || null, done: !!rt2.done };
+    const rw2 = data.rewards || {};
+    gameState.rewards = {
+      unlocked: Array.isArray(rw2.unlocked) ? rw2.unlocked.filter(id => REWARDS.some(r => r.id === id)) : [],
+      queue: Array.isArray(rw2.queue) ? rw2.queue.filter(id => REWARDS.some(r => r.id === id)) : [],
+      equipped: rw2.equipped || null
+    };
     return true;
   } catch (e) { return false; }
 }
@@ -1531,7 +1652,9 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }, capital: { done: [] }
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [] }, capital: { done: [] },
+    sound: true, reto: { date: null, id: null, done: false },
+    rewards: { unlocked: [], queue: [], equipped: null }
   };
   selectedDay = 1;
   renderAll();
@@ -1939,6 +2062,7 @@ function toggleJob(id, el) {
   } else {
     const apps = roundsDone() * 5;
     toast("💼", "¡Misión de empleo cumplida! +" + m.xp + " XP", m.title + (m.tag === "round" ? " · " + apps + "/50 aplicaciones" : ""));
+    playSfx("coin");
     if (m.tag === "round" && apps >= 50) {
       setTimeout(() => toast("🏆", "¡50 APLICACIONES ENVIADAS!", "Logro Máquina de Aplicaciones desbloqueado", "levelup"), 1700);
     }
@@ -1955,6 +2079,8 @@ function updateUI() {
   document.getElementById("hud-pct").textContent = pct + "%";
   document.getElementById("hud-bar").style.width = pct + "%";
   document.getElementById("s-name").textContent = gameState.playerName;
+  const gearEl = document.getElementById("s-gear");
+  if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === (gameState.rewards || {}).equipped) || {}).ico || "";
   document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
   document.getElementById("streak-n").textContent = gameState.streak;
   document.getElementById("streak-chip").style.boxShadow =
@@ -1978,6 +2104,8 @@ function updateUI() {
   document.getElementById("time-total").textContent =
     minT === maxT ? fmtHours(minT) : fmtHours(minT) + " – " + fmtHours(maxT);
   drawRadar();
+  evalRewards();
+  rwGearRender();
 }
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
@@ -2115,6 +2243,9 @@ function renderAll() {
   updateUI();
   renderVida();
   renderCapital();
+  rwGearRender();
+  evalRewards();
+  renderReto();
 }
 
 /* ==========================================================
@@ -2125,6 +2256,7 @@ function renderAll() {
 function celebrateIfLevelUp(oldLevel) {
   if (gameState.level > oldLevel) {
     setTimeout(() => showLevelUp(gameState.level, levelName(gameState.level)), 900);
+    playSfx("levelup");
     const badge = document.getElementById("hud-level");
     badge.classList.add("pulse");
     setTimeout(() => badge.classList.remove("pulse"), 1800);
@@ -2146,6 +2278,7 @@ function toggleCampaign(id, el) {
   const wasDone = gameState.completedMissions.includes(id);
   if (!wasDone && m.boss && gameState.level < bossMinLevel(m.chapter)) {
     toast("🔒", "👑 Proyecto final bloqueado", "Requiere NIVEL " + bossMinLevel(m.chapter) + " (completa " + (bossMinLevel(m.chapter) - 1) + " días de plan diario). Tu nivel: " + gameState.level);
+    playSfx("error");
     return;
   }
   const rect = el.getBoundingClientRect();
@@ -2165,9 +2298,11 @@ function toggleCampaign(id, el) {
   } else {
     if (m.boss) {
       toast("👑", "¡PROYECTO FINAL COMPLETADO! +" + m.xp + " XP", m.title + " · Capítulo " + m.chapter, "raid");
+      playSfx("fanfare");
       setTimeout(() => toast("🏆", "Nivel garantizado", "Este proyecto demuestra tu nivel real. ¡Impresionante, recluta!"), 1900);
     } else {
       toast("✅", "¡Misión cumplida! +" + m.xp + " XP", m.title + " · Capítulo " + m.chapter);
+      playSfx("coin");
     }
     cheerRandom();
   }
@@ -2217,6 +2352,7 @@ function toggleDailyMission(id, btnEl) {
   const wasDone = gameState.completedDaily.includes(id);
   if (!wasDone && !isDayUnlocked(day)) {
     toast("🔒", "Requiere NIVEL " + day, "Completa el día anterior entero (3 misiones) para subir de nivel y desbloquear este día.");
+    playSfx("error");
     return;
   }
   const rect = btnEl ? btnEl.getBoundingClientRect() : { left: window.innerWidth / 2, top: 300 };
@@ -2237,8 +2373,10 @@ function toggleDailyMission(id, btnEl) {
     toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
   } else {
     toast("✅", "¡Misión cumplida! +" + m.xp + " XP", "Día " + day + " · " + m.title);
+    playSfx("coin");
     if (fullNow && !wasFullBefore) {
       setTimeout(() => toast("🎉", "¡DÍA " + day + " COMPLETO!", "3/3 misiones. " + xpDayOf(day) + " XP en total" + (gameState.streak > 1 ? " · Racha 🔥" + gameState.streak : ""), "levelup"), 1300);
+      playSfx("chime");
       burst(rect.left + 30, rect.top, "#ffaa00", 40);
     }
     cheerRandom();
@@ -2275,6 +2413,7 @@ function toggleWeekly(week) {
     toast("↩️", "Misión semanal desmarcada", "-" + m.xp + " XP · Semana " + week);
   } else {
     toast("📯", "¡MISIÓN SEMANAL CUMPLIDA! +" + m.xp + " XP", "Semana " + week + "/6 · " + m.title, "raid");
+    playSfx("fanfare");
   }
   celebrateIfLevelUp(oldLevel);
   saveGame();
@@ -2718,11 +2857,13 @@ function vidaToggle(ev) {
     if (balNow && !beforeBal) {
       setTimeout(() => toast("⚖️", "¡DÍA EQUILIBRADO!", "Completaste los 3 pilares hoy: +" + BALANCE_BONUS + " XP extra 🔥"), 1600);
     }
+      playSfx("chime");
     ["hero", "eq", "kid", "cpl"].forEach(k => {
       const lv = k === "hero" ? vs.hero.lvl : vs.sub[k].lvl;
       if (lv > beforeLv[k]) {
         const rank = k === "hero" ? vs.hero : vs.sub[k];
         setTimeout(() => toast("🧬", "¡NIVEL " + (k === "hero" ? "DE VIDA " : "") + lv + "!", "Nuevo rango: " + rank.name), 2200);
+        playSfx("levelup");
       }
     });
   } else {
@@ -2730,6 +2871,7 @@ function vidaToggle(ev) {
   }
   saveGame();
   renderVidaSubActiva();
+  evalRewards();
 }
 /* --- Eventos: pestañas internas + delegación de clics --- */
 (function () {
@@ -2888,6 +3030,7 @@ function capToggleMission(card) {
     if (capCompletedNow) {
       const ch = CAP_CHAPTERS.find(c => c.cap === o.cap);
       setTimeout(() => toast("📜", "¡CAPÍTULO " + ch.cap + " COMPLETADO!", ch.title + " · " + ch.code, "raid"), 1700);
+      playSfx("fanfare");
       const next = CAP_CHAPTERS.find(c => c.cap === o.cap + 1);
       if (next) {
         setTimeout(() => toast("🔓", "Zona desbloqueada", "Capítulo " + next.cap + ": " + next.title), 3000);
@@ -2896,9 +3039,11 @@ function capToggleMission(card) {
   }
   if (!wasDone && vs.ladder.lvl > beforeLvl) {
     setTimeout(() => toast("📈", "¡RANGO NUEVO: " + vs.ladder.name + "!", "Nivel " + vs.ladder.lvl + " de Capital — sigue subiendo hacia NIVEL EXTREMO"), 2200);
+    playSfx("levelup");
   }
   saveGame();
   renderCapital();
+  evalRewards();
 }
 /* --- Eventos de la vista CAPITAL --- */
 (function () {
@@ -2914,6 +3059,7 @@ function capToggleMission(card) {
       const vs = capCompute();
       if (capNum === null || !vs.unlockMap[capNum]) {
         toast("🔒", "Capítulo bloqueado", "Completa el capítulo anterior entero para desbloquearlo.");
+        playSfx("error");
         return;
       }
       if (capOpenSet.has(capNum)) capOpenSet.delete(capNum); else capOpenSet.add(capNum);
@@ -2923,6 +3069,340 @@ function capToggleMission(card) {
     const card = e.target.closest(".mission[data-cid]");
     if (card) capToggleMission(card);
   });
+})();
+
+/* ==========================================================
+   🎮 V4.6 — SISTEMA DE JUEGO: SFX, RETO DEL DÍA y ARSENAL
+   ========================================================== */
+/* --- Efectos de sonido (WebAudio, sin archivos) --- */
+let actx = null;
+function sndInit() {
+  if (actx) return;
+  try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { /* sin audio */ }
+}
+document.addEventListener("pointerdown", sndInit, { once: true });
+document.addEventListener("keydown", sndInit, { once: true });
+function tone(f, t0, dur, type, vol, slide) {
+  if (!actx || !gameState.sound) return;
+  try {
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine";
+    o.frequency.setValueAtTime(f, t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, slide), t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.16, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t0); o.stop(t0 + dur + 0.03);
+  } catch (e) { /* ignorar */ }
+}
+function playSfx(name) {
+  if (!actx) return;
+  const t = actx.currentTime + 0.02;
+  if (name === "coin") { tone(880, t, .08, "square", .1, 1318); tone(1318, t + .07, .1, "square", .09); }
+  else if (name === "pop") { tone(480, t, .08, "triangle", .14, 940); }
+  else if (name === "chime") { tone(1568, t, .35, "sine", .11); tone(2093, t + .06, .45, "sine", .09); }
+  else if (name === "fanfare") { [523, 659, 784, 1047].forEach((f, i) => tone(f, t + i * .11, .24, "triangle", .15)); }
+  else if (name === "levelup") { [392, 523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, t + i * .085, .3, "sawtooth", .1)); }
+  else if (name === "chest") { tone(240, t, .28, "sine", .18, 90); tone(90, t + .3, .5, "sine", .18, 45); }
+  else if (name === "reveal") { [659, 784, 988, 1319, 1568].forEach((f, i) => tone(f, t + .45 + i * .09, .32, "triangle", .15)); }
+  else if (name === "error") { tone(190, t, .18, "sawtooth", .1, 120); }
+  else if (name === "click") { tone(680, t, .05, "square", .07); }
+}
+
+/* --- Reto del día (evento aleatorio diario) --- */
+const RETOS = [
+  { id: "reto1",  t: "📖 Lee 20 minutos de tu libro actual", xp: 45 },
+  { id: "reto2",  t: "🏃 Camina 30 minutos sin celular", xp: 45 },
+  { id: "reto3",  t: "🧘 Medita o respira consciente 10 minutos", xp: 40 },
+  { id: "reto4",  t: "💧 Toma 2 litros de agua hoy", xp: 35 },
+  { id: "reto5",  t: "✍️ Escribe 3 cosas por las que estás agradecido", xp: 35 },
+  { id: "reto6",  t: "🧾 Registra y revisa todos tus gastos del día", xp: 45 },
+  { id: "reto7",  t: "🚫 Cero compras impulsivas hoy", xp: 40 },
+  { id: "reto8",  t: "📞 Llama a alguien que quieres y dile algo bonito", xp: 40 },
+  { id: "reto9",  t: "😴 Acuéstate 30 minutos antes de lo normal", xp: 40 },
+  { id: "reto10", t: "🎨 15 minutos de algo creativo (dibujo, música, LEGO)", xp: 40 },
+  { id: "reto11", t: "🧹 Ordena tu espacio 15 minutos (mesa, cuarto, escritorio)", xp: 35 },
+  { id: "reto12", t: "🤝 Haz un favor sin que te lo pidan", xp: 45 },
+  { id: "reto13", t: "☀️ Toma 10 minutos de sol (temprano o tarde)", xp: 35 },
+  { id: "reto14", t: "🎧 Escucha 20 min de podcast o audio educativo", xp: 40 },
+  { id: "reto15", t: "🧠 Aprende 3 palabras nuevas en inglés y úsalas", xp: 35 },
+  { id: "reto16", t: "🥗 Come algo verde y algo de proteína hoy", xp: 35 },
+  { id: "reto17", t: "🏋️ 20 lagartijas + 30 sentadillas (o tu serie del gym)", xp: 40 },
+  { id: "reto18", t: "💡 Escribe 3 ideas de ingreso extra (sin filtros)", xp: 45 },
+  { id: "reto19", t: "📵 1 hora sin redes sociales", xp: 40 },
+  { id: "reto20", t: "🎯 Haz esa cosa que llevas días posponiendo", xp: 50 },
+  { id: "reto21", t: "📚 Lee un cuento extra a tu hijo o llama a tu pareja a media mañana", xp: 40 },
+  { id: "reto22", t: "🪙 Averigua hoy el precio de 1 índice o cripto que sigues", xp: 35 }
+];
+RETOS.forEach(r => { VIDA_OBJ[r.id] = { xp: r.xp, cat: "eq", kind: "daily" }; });
+function retoHoy() {
+  const gsR = gameState.reto || (gameState.reto = { date: null, id: null, done: false });
+  const hoy = todayStr();
+  if (gsR.date !== hoy) {
+    const pool = RETOS.filter(r => r.id !== gsR.id);
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    gsR.date = hoy; gsR.id = pick.id; gsR.done = false;
+  }
+  return RETOS.find(r => r.id === gsR.id) || RETOS[0];
+}
+function renderReto() {
+  const card = document.getElementById("reto-card");
+  if (!card) return;
+  const gsR = gameState.reto || { date: null, id: null, done: false };
+  const reto = retoHoy();
+  const hoy = todayStr();
+  const log = (gameState.vida && gameState.vida.log) || [];
+  const done = log.indexOf(reto.id + "|" + hoy) >= 0;
+  if (done !== gsR.done) { gsR.done = done; }
+  card.classList.remove("hidden");
+  card.innerHTML =
+    '<div class="reto-head"><span class="reto-dice">🎲</span><span class="reto-title">EVENTO DEL DÍA · RETO ALEATORIO</span></div>' +
+    '<div class="reto-task">' + reto.t + "</div>" +
+    '<div class="reto-foot"><span class="reto-xp">⚡ +' + reto.xp + " XP para tu Héroe Integral</span>" +
+    (done
+      ? '<button class="btn-reto" disabled>✔ RETO COMPLETADO HOY</button>'
+      : '<button class="btn-reto" id="reto-go">COMPLETAR RETO ✓</button>') +
+    "</div>";
+  const btn = document.getElementById("reto-go");
+  if (btn) btn.onclick = completarReto;
+}
+function completarReto() {
+  const gsR = gameState.reto || (gameState.reto = {});
+  const reto = RETOS.find(r => r.id === gsR.id) || RETOS[0];
+  const hoy = todayStr();
+  const log = gameState.vida.log = Array.isArray(gameState.vida.log) ? gameState.vida.log : [];
+  const en = reto.id + "|" + hoy;
+  if (log.indexOf(en) >= 0) return;
+  log.push(en);
+  gsR.done = true;
+  playSfx("coin");
+  const rect = document.getElementById("reto-go") ? document.getElementById("reto-go").getBoundingClientRect() : null;
+  if (rect) burst(rect.left + rect.width / 2, rect.top + 10, "#ffaa00", 30);
+  toast("🎲", "¡RETO COMPLETADO! +" + reto.xp + " XP", reto.t);
+  saveGame();
+  renderReto();
+  renderVidaSide(vidaCompute());
+  evalRewards();
+}
+
+/* ==========================================================
+   🎒 ARSENAL DEL HÉROE — recompensas por sección
+   ========================================================== */
+const REWARDS = [
+  /* 🛡️ Campaña de Datos */
+  { id: "rw_d1",    ico: "🧤", sec: "🛡️ Campaña",  n: "Guantelete del Recluta", cond: () => fullDaysCount() >= 1 },
+  { id: "rw_d7",    ico: "🪖", sec: "🛡️ Campaña",  n: "Casco de la Primera Semana", cond: () => fullDaysCount() >= 7 },
+  { id: "rw_d14",   ico: "🦾", sec: "🛡️ Campaña",  n: "Brazo Cibernético", cond: () => fullDaysCount() >= 14 },
+  { id: "rw_d21",   ico: "🛡️", sec: "🛡️ Campaña",  n: "Escudo de los 21 Días", cond: () => fullDaysCount() >= 21 },
+  { id: "rw_d28",   ico: "⚔️", sec: "🛡️ Campaña",  n: "Espada de los 28 Días", cond: () => fullDaysCount() >= 28 },
+  { id: "rw_d42",   ico: "🏆", sec: "🛡️ Campaña",  n: "Corona del Plan Maestro", cond: () => fullDaysCount() >= 42 },
+  { id: "rw_boss3", ico: "🏹", sec: "🛡️ Campaña",  n: "Ballesta de los Capítulos", cond: () => bossDoneCount() >= 3 },
+  { id: "rw_boss6", ico: "🗡️", sec: "🛡️ Campaña",  n: "Espada Legendaria de Datos", cond: () => bossDoneCount() >= 6 },
+  { id: "rw_boss8", ico: "👑", sec: "🛡️ Campaña",  n: "Corona del Analista Legendario", cond: () => bossDoneCount() >= 8 },
+  { id: "rw_sem4",  ico: "🎖️", sec: "🎖️ General", n: "Medalla de la Constancia Semanal", cond: () => gameState.completedWeekly.length >= 4 },
+  { id: "rw_racha", ico: "🔥", sec: "🎖️ General",  n: "Brazalete de Fuego", cond: () => (gameState.streak || 0) >= 7 },
+  { id: "rw_jobs",  ico: "💼", sec: "🎖️ General",  n: "Maletín del Cazador", cond: () => jobsDoneCount() >= 10 },
+  /* ⚖️ Equilibrio (Héroe Integral) */
+  { id: "rw_eq1",   ico: "⚖️", sec: "⚖️ Equilibrio", n: "Amuleto del Equilibrio", cond: () => vidaCompute().balanceDates.size >= 1 },
+  { id: "rw_eq7",   ico: "🧘", sec: "⚖️ Equilibrio", n: "Túnica del Sabio", cond: () => vidaCompute().balanceDates.size >= 7 },
+  { id: "rw_eq21",  ico: "💠", sec: "⚖️ Equilibrio", n: "Gema del Código 8-8-8", cond: () => vidaCompute().balanceStreak >= 21 },
+  { id: "rw_gym",   ico: "🏋️", sec: "⚖️ Equilibrio", n: "Cinturón de Hierro", cond: () => vidaEventCount("hab-gym") >= 10 },
+  { id: "rw_read",  ico: "📚", sec: "⚖️ Equilibrio", n: "Grimorio del Lector", cond: () => vidaEventCount("hab-leer") >= 10 },
+  { id: "rw_ahorro",ico: "🏦", sec: "⚖️ Equilibrio", n: "Llave del Tesoro", cond: () => vidaEventCount("hab-ahorro") >= 10 },
+  { id: "rw_grw",   ico: "🕊️", sec: "⚖️ Equilibrio", n: "Alas del Crecimiento", cond: () => (gameState.vida.growth || []).length >= 3 },
+  /* 👶 Legado */
+  { id: "rw_kd10",  ico: "🧸", sec: "👶 Legado", n: "Medallón de Papá", cond: () => vidaPrefixCount("kd-") >= 10 },
+  { id: "rw_kh3",   ico: "🎖️", sec: "👶 Legado", n: "Estrella del Legado", cond: () => (gameState.vida.kid || []).length >= 3 },
+  { id: "rw_kw5",   ico: "🗺️", sec: "👶 Legado", n: "Brújula del Explorador", cond: () => vidaPrefixCount("kwk-") >= 5 },
+  /* 💑 Alianza */
+  { id: "rw_cw5",   ico: "💞", sec: "💑 Alianza", n: "Anillo de la Alianza", cond: () => vidaPrefixCount("cpw-") >= 5 },
+  { id: "rw_cg2",   ico: "🏺", sec: "💑 Alianza", n: "Copa de los Sueños", cond: () => (gameState.vida.couple || []).length >= 2 },
+  /* 📈 Capital */
+  { id: "rw_cap1",  ico: "🧭", sec: "📈 Capital", n: "Catalejo de Bronce", cond: () => capCapsDone() >= 1 },
+  { id: "rw_cap4",  ico: "🔭", sec: "📈 Capital", n: "Catalejo de Plata", cond: () => capCapsDone() >= 4 },
+  { id: "rw_cap7",  ico: "🔮", sec: "📈 Capital", n: "Orbe del Oráculo", cond: () => capCapsDone() >= 7 },
+  { id: "rw_rang3", ico: "🥉", sec: "📈 Capital", n: "Insignia de Bronce del Capital", cond: () => capCompute().ladder.lvl >= 3 },
+  { id: "rw_rang6", ico: "🥈", sec: "📈 Capital", n: "Insignia de Plata del Capital", cond: () => capCompute().ladder.lvl >= 6 },
+  { id: "rw_rang9", ico: "🥇", sec: "📈 Capital", n: "Insignia de Oro del Capital", cond: () => capCompute().ladder.lvl >= 9 },
+  { id: "rw_life",  ico: "🌟", sec: "🎖️ General", n: "Estrella del Héroe Integral", cond: () => vidaCompute().hero.lvl >= 3 }
+];
+function bossDoneCount() {
+  const done = gameState.completedMissions || [];
+  return bossMissions.filter(b => done.indexOf(b.id) >= 0).length;
+}
+function vidaEventCount(id) {
+  const log = (gameState.vida && gameState.vida.log) || [];
+  return log.filter(en => en.indexOf(id + "|") === 0).length;
+}
+function vidaPrefixCount(pre) {
+  const log = (gameState.vida && gameState.vida.log) || [];
+  return log.filter(en => en.indexOf(pre) === 0).length;
+}
+function capCapsDone() {
+  return capCompute().perCap.filter(p => p.complete).length;
+}
+function rwState() {
+  return gameState.rewards = gameState.rewards || { unlocked: [], queue: [], equipped: null };
+}
+function rwBadgeUpdate(bump) {
+  const st = rwState();
+  const badge = document.getElementById("rw-badge");
+  const fab = document.getElementById("rw-fab");
+  if (badge) {
+    badge.textContent = st.queue.length;
+    badge.classList.toggle("hidden", st.queue.length === 0);
+  }
+  if (fab && st.queue.length > 0 && bump) {
+    fab.classList.remove("bump"); void fab.offsetWidth; fab.classList.add("bump");
+  }
+}
+function evalRewards() {
+  const st = rwState();
+  let fresh = 0;
+  REWARDS.forEach(r => {
+    if (st.unlocked.indexOf(r.id) >= 0 || st.queue.indexOf(r.id) >= 0) return;
+    let ok = false;
+    try { ok = !!r.cond(); } catch (e) { ok = false; }
+    if (ok) { st.queue.push(r.id); fresh++; }
+  });
+  if (fresh > 0) {
+    playSfx("chime");
+    rwBadgeUpdate(true);
+    toast("🎁", "¡Nueva recompensa desbloqueada!", fresh > 1 ? fresh + " accesorios te esperan en tu mochila 🎒" : "Revisa tu mochila 🎒 (abajo a la derecha)");
+  } else {
+    rwBadgeUpdate(false);
+  }
+}
+function rwEquip(id) {
+  const st = rwState();
+  st.equipped = st.equipped === id ? null : id;
+  playSfx("click");
+  saveGame();
+  rwGearRender();
+  rwGridRender();
+}
+function rwGearRender() {
+  const st = rwState();
+  const r = REWARDS.find(x => x.id === st.equipped) || null;
+  const g = document.getElementById("s-gear");
+  if (g) g.textContent = r ? r.ico : "";
+  const snd = document.getElementById("snd-btn");
+  if (snd) snd.textContent = gameState.sound === false ? "🔇" : "🔊";
+}
+function rwGridRender() {
+  const st = rwState();
+  const grid = document.getElementById("rw-grid");
+  if (!grid) return;
+  grid.innerHTML = REWARDS.map(r => {
+    const un = st.unlocked.indexOf(r.id) >= 0;
+    const eq = st.equipped === r.id;
+    const inq = st.queue.indexOf(r.id) >= 0;
+    if (un) {
+      return '<div class="rw-item' + (eq ? " equipped" : "") + '" data-rid="' + r.id + '" title="' + r.sec + '">' +
+        (eq ? '<span class="eq-tag">EQUIPADO</span>' : "") +
+        '<span class="ri-ico">' + r.ico + "</span><span class='ri-name'>" + r.n + "</span></div>";
+    }
+    return '<div class="rw-item locked" title="Aún bloqueado"><span class="ri-ico">❓</span>' +
+      (inq ? '<span class="new-tag">COFRE</span>' : "") +
+      "<span class='ri-name'>???</span><span class='ri-hint'>" + r.sec + "</span></div>";
+  }).join("");
+  grid.querySelectorAll(".rw-item[data-rid]").forEach(el => {
+    el.addEventListener("click", function () { rwEquip(el.dataset.rid); });
+  });
+}
+function rwModalRender() {
+  const st = rwState();
+  const cEl = document.getElementById("rw-count");
+  if (cEl) cEl.textContent = "🏅 " + st.unlocked.length + "/" + REWARDS.length + " desbloqueados";
+  const qEl = document.getElementById("rw-queue-n");
+  if (qEl) qEl.textContent = st.queue.length;
+  const cbox = document.getElementById("rw-chest-wrap");
+  const gridBox = document.getElementById("rw-grid-wrap");
+  if (st.queue.length > 0) {
+    cbox.style.display = "block";
+    gridBox.style.display = "none";
+    cbox.innerHTML =
+      '<div class="chest-stage">' +
+      '<div class="chest-box" id="chest-box"><span class="chest-glow"></span><span class="chest-ico">🎁</span></div>' +
+      '<p class="rw-locked-note" style="color:var(--glow-amber)">Tienes <b>' + st.queue.length + "</b> cofre" + (st.queue.length > 1 ? "s" : "") + " por abrir 🎉</p>" +
+      '<button class="btn-cofre" id="rw-open">🎁 ABRIR COFRE</button></div>';
+    document.getElementById("rw-open").addEventListener("click", rwOpenChest);
+  } else {
+    cbox.style.display = "none";
+    gridBox.style.display = "block";
+    rwGridRender();
+  }
+}
+function rwOpenChest() {
+  const st = rwState();
+  if (st.queue.length === 0) return;
+  playSfx("chest");
+  const wrap = document.getElementById("rw-chest-wrap");
+  wrap.innerHTML =
+    '<div class="chest-stage"><div class="chest-box opening" id="chest-box">' +
+    '<span class="rays" id="chest-rays"></span><span class="chest-glow"></span><span class="chest-ico">🎁</span></div>' +
+    '<div id="rw-reveal-slot"></div></div>';
+  setTimeout(() => {
+    const rays = document.getElementById("chest-rays");
+    if (rays) rays.classList.add("on");
+  }, 350);
+  setTimeout(() => {
+    const id = st.queue.shift();
+    const r = REWARDS.find(x => x.id === id);
+    if (!r) return;
+    st.unlocked.push(id);
+    playSfx("reveal");
+    burst(window.innerWidth / 2, 220, "#ffd700", 90);
+    burst(window.innerWidth / 2, 220, "#00ff88", 60);
+    const slot = document.getElementById("rw-reveal-slot");
+    if (slot) {
+      slot.innerHTML =
+        '<div class="rw-reveal-item"><span class="rw-reveal-ico">' + r.ico + "</span>" +
+        '<span class="rw-reveal-new">✦ ¡ACCESORIO CONSEGUIDO! ✦</span>' +
+        '<span class="rw-reveal-name">' + r.n + "</span>" +
+        '<span class="rw-reveal-sec">' + r.sec + "</span>" +
+        '<button class="btn-cofre" id="rw-claim">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
+    }
+    document.getElementById("rw-claim").addEventListener("click", () => {
+      playSfx("coin");
+      saveGame();
+      rwGearRender();
+      rwBadgeUpdate(false);
+      if (st.queue.length > 0) { rwModalRender(); rwGridRender(); }
+      else {
+        toast("🎒", "Arsenal actualizado", "Toca cualquier accesorio para equiparlo junto a tu nombre. ¡Luce tu progreso!");
+        rwModalRender(); rwGridRender();
+      }
+    });
+  }, 1250);
+}
+function rwOpenArsenal() {
+  const st = rwState();
+  if (st.queue.length > 0) playSfx("click");
+  rwModalRender();
+  document.getElementById("rw-layer").classList.add("show");
+}
+function rwCloseArsenal() {
+  document.getElementById("rw-layer").classList.remove("show");
+}
+(function () {
+  const fab = document.getElementById("rw-fab");
+  if (fab) fab.addEventListener("click", rwOpenArsenal);
+  const close = document.getElementById("rw-close");
+  if (close) close.addEventListener("click", rwCloseArsenal);
+  const layer = document.getElementById("rw-layer");
+  if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) rwCloseArsenal(); });
+  const snd = document.getElementById("snd-btn");
+  if (snd) {
+    snd.addEventListener("click", function () {
+      sndInit();
+      gameState.sound = !gameState.sound;
+      snd.textContent = gameState.sound ? "🔊" : "🔇";
+      if (gameState.sound) playSfx("click");
+      saveGame();
+    });
+  }
 })();
 
 /* --- Init --- */
