@@ -855,11 +855,13 @@ html{-webkit-text-size-adjust:100%}
         <button class="sub-tab" data-sub="kid">👶 LEGADO</button>
         <button class="sub-tab" data-sub="cpl">💑 ALIANZA</button>
         <button class="sub-tab" data-sub="pow">🦁 PODER & IMAGEN</button>
+        <button class="sub-tab" data-sub="men">🏛️ SABIOS & MENTORES</button>
       </div>
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
       <div id="vida-cpl" class="vida-sub"></div>
       <div id="vida-pow" class="vida-sub"></div>
+      <div id="vida-men" class="vida-sub"></div>
     </section>
 
     <!-- ============ VISTA 5: CAPITAL (campaña IA + mercados + inversión) ============ -->
@@ -1623,7 +1625,7 @@ let gameState = {
   lastDailyDate: null,     // última fecha con misión diaria completada
   streak: 0,               // racha de días seguidos
   shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
-  vida: { log: [], growth: [], kid: [], couple: [], pow: [] }, // 🧬 side quests de vida
+  vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, // 🧬 side quests de vida
   capital: { done: [] },       // 📈 campaña capital (IA + mercados)
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
@@ -1691,7 +1693,8 @@ function loadGame() {
       growth: Array.isArray(vd.growth) ? vd.growth : [],
       kid: Array.isArray(vd.kid) ? vd.kid : [],
       couple: Array.isArray(vd.couple) ? vd.couple : [],
-      pow: Array.isArray(vd.pow) ? vd.pow : []
+      pow: Array.isArray(vd.pow) ? vd.pow : [],
+      men: Array.isArray(vd.men) ? vd.men : []
     };
     const cp = data.capital || {};
     gameState.capital = {
@@ -1713,7 +1716,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [] }, capital: { done: [] },
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, capital: { done: [] },
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: null }
   };
@@ -2675,7 +2678,7 @@ function vidaCompute() {
   const gv = gameState.vida || vidaDefault();
   const log = Array.isArray(gv.log) ? gv.log : [];
   const habitDates = {}, dayPilars = {}, balanceDates = new Set();
-  const xp = { eq: 0, kid: 0, cpl: 0, pow: 0 };
+  const xp = { eq: 0, kid: 0, cpl: 0, pow: 0, men: 0 };
   log.forEach(entry => {
     const i = entry.indexOf("|");
     if (i <= 0) return;
@@ -2691,13 +2694,13 @@ function vidaCompute() {
   Object.keys(dayPilars).forEach(k => { if (dayPilars[k].size === 3) balanceDates.add(k); });
   const bonus = balanceDates.size * BALANCE_BONUS;
   xp.eq += bonus;
-  ["growth", "kid", "couple"].forEach(list => {
+  ["growth", "kid", "couple", "pow", "men"].forEach(list => {
     (Array.isArray(gv[list]) ? gv[list] : []).forEach(id => {
       const o = VIDA_OBJ[id];
       if (o) xp[o.cat] += o.xp;
     });
   });
-  const total = xp.eq + xp.kid + xp.cpl + xp.pow;
+  const total = xp.eq + xp.kid + xp.cpl + xp.pow + xp.men;
   const today = todayStr(), week = isoWeekKey(todayStr());
   const dayP = dayPilars[today] || new Set();
   const kidToday = KID_DAILY.filter(m => log.indexOf(m.id + "|" + today) >= 0).length;
@@ -2718,7 +2721,8 @@ function vidaCompute() {
       eq: ladderInfo(EQ_LADDER, xp.eq),
       kid: ladderInfo(KID_LADDER, xp.kid),
       cpl: ladderInfo(ALY_LADDER, xp.cpl),
-      pow: ladderInfo(POW_LADDER, xp.pow)
+      pow: ladderInfo(POW_LADDER, xp.pow),
+      men: ladderInfo(MEN_LADDER, xp.men)
     }
   };
 }
@@ -2880,6 +2884,7 @@ function renderVidaSubActiva() {
   if (st.dataset.sub === "eq") renderVidaEq(vs);
   else if (st.dataset.sub === "kid") renderVidaKid(vs);
   else if (st.dataset.sub === "pow") renderVidaPow(vs);
+  else if (st.dataset.sub === "men") renderVidaMen(vs);
   else renderVidaCpl(vs);
 }
 function renderVida() {
@@ -2892,6 +2897,7 @@ function renderVida() {
     if (name === "eq") renderVidaEq(vs);
     else if (name === "kid") renderVidaKid(vs);
     else if (name === "pow") renderVidaPow(vs);
+    else if (name === "men") renderVidaMen(vs);
     else renderVidaCpl(vs);
   }
 }
@@ -2913,14 +2919,14 @@ function vidaToggle(ev) {
     const i = log.indexOf(en);
     if (i >= 0) { log.splice(i, 1); done = false; } else { log.push(en); done = true; }
   } else {
-    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : cat === "pow" ? "pow" : "couple";
+    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : cat === "pow" ? "pow" : cat === "men" ? "men" : "couple";
     const list = gv[listName] = Array.isArray(gv[listName]) ? gv[listName] : [];
     const i = list.indexOf(id);
     if (i >= 0) { list.splice(i, 1); done = false; } else { list.push(id); done = true; }
   }
   gameState.vida = gv;
   const rect = card.getBoundingClientRect();
-  const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa", pow: "#ffd700" };
+  const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa", pow: "#ffd700", men: "#4dd0ff" };
   if (done) burst(rect.left + rect.width / 2, rect.top + 20, colors[cat], 26);
   const vs = vidaCompute();
   if (done) {
@@ -2954,7 +2960,7 @@ function vidaToggle(ev) {
       const b = e.target.closest(".sub-tab");
       if (!b) return;
       document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
-      ["eq", "kid", "cpl", "pow"].forEach(n => {
+      ["eq", "kid", "cpl", "pow", "men"].forEach(n => {
         const v = document.getElementById("vida-" + n);
         if (v) v.classList.toggle("active", b.dataset.sub === n);
       });
@@ -3623,8 +3629,87 @@ function renderVidaPow(vs) {
   el.innerHTML = h;
 }
 
-/* --- Init --- */
-sizeCanvas();
+/* ==========================================================
+   🏛️ SABIOS & MENTORES — frente de VIDA (cat "men")
+   Estudiar grandes figuras alineadas al perfil (datos,
+   marketing, dinero) + podcasts + sabiduría humana.
+   ========================================================== */
+const MEN_LADDER = [
+  { xp: 0, n: "Curioso" },
+  { xp: 250, n: "Estudiante de Gigantes" },
+  { xp: 600, n: "Discípulo de Maestros" },
+  { xp: 1200, n: "Sabio en Formación" },
+  { xp: 2200, n: "Heredero de la Sabiduría" },
+  { xp: 4000, n: "🏛️ Guardián del Conocimiento" }
+];
+const MEN_WEEK = [
+  { id: "men-ep",     t: "🎧 Episodio de la Semana", d: "Escucha 1 episodio de tus podcasts seleccionados (datos, marketing, negocios o sabiduría) y anota la mejor idea.", xp: 40 },
+  { id: "men-fig",    t: "🏛️ Gran Pensador de la Semana", d: "Estudia 30 min a la figura destacada de la semana (rota entre tus mentores) y escribe su lección más poderosa.", xp: 45 },
+  { id: "men-clase",  t: "📖 Clásico Abierto", d: "20 min de lectura de un clásico de sabiduría (Marco Aurelio, Séneca, Carnegie, Sun Tzu...).", xp: 35 },
+  { id: "men-app",    t: "🧩 Idea Aplicada", d: "Aplica HOY una idea aprendida de un mentor o podcast y anota el resultado real.", xp: 40 },
+  { id: "men-comp",   t: "💬 Enseña la Lección", d: "Comparte con alguien una lección aprendida esta semana: enseñar duplica lo aprendido.", xp: 35 }
+];
+const MEN_HITS = [
+  /* 🧮 Datos & IA */
+  { id: "men-ng",     t: "🎓 Andrew Ng — IA para Todos", d: "Estudia a Andrew Ng (curso, entrevista o bio): cómo la IA se vuelve herramienta escalable de educación, negocio y análisis.", xp: 200, v: "3 lecciones aplicables a tu perfil por escrito" },
+  { id: "men-kozy",   t: "🧠 Cassie Kozyrkov — Decisiones", d: "Estudia a Cassie Kozyrkov (Google): decision intelligence. Los datos solo valen si mejoran decisiones.", xp: 200, v: "Nota: cómo aplicarás el enfoque de decisión" },
+  { id: "men-silver", t: "🎲 Nate Silver — Señal y Ruido", d: "Estudia a Nate Silver: predicción, probabilidad y cómo separar señal del ruido (libro o entrevistas).", xp: 220, v: "3 lecciones sobre análisis y sesgos" },
+  { id: "men-marr",   t: "📣 Bernard Marr — IA Explicada", d: "Estudia a Bernard Marr: cómo comunica la IA y los datos a los negocios. Traducir tecnología a valor.", xp: 180, v: "Ejemplo propio de IA explicada simple" },
+  { id: "men-patil",  t: "💽 DJ Patil — Dato como Producto", d: "Estudia a DJ Patil (primer Data Scientist de EE.UU.): los datos como producto y la ética del dato.", xp: 200, v: "Nota: tu mentalidad de dato-producto" },
+  /* 🎯 Marketing & Ventas */
+  { id: "men-godin",  t: "🦊 Seth Godin — Esto es Marketing", d: "Estudia a Seth Godin (libro o podcast): vender con permiso, tribus y mínimo viable. El marketing de la confianza.", xp: 220, v: "3 ideas aplicadas a cómo venderás tus servicios" },
+  { id: "men-vayner", t: "📱 Gary Vaynerchuk — Marca Personal", d: "Estudia a Gary Vee: trabajar primero gratis, contenido que suma y paciencia. Construye tu nombre antes de vender.", xp: 200, v: "Plan de 1 acción de marca personal" },
+  { id: "men-ogilvy", t: "🖋️ David Ogilvy — El Padre de la Publicidad", d: "Estudia a Ogilvy (Confesiones de un publicitario): escribir para vender con honestidad y claridad.", xp: 200, v: "Reescritura de tu presentación estilo Ogilvy" },
+  { id: "men-cial",   t: "🧲 Robert Cialdini — Influencia", d: "Estudia a Cialdini (Influencia): los 6 principios. Poder de persuasión ético, conectado con tus 48 Leyes.", xp: 220, v: "Nota: 3 principios y cómo usarlos con ética" },
+  /* 💰 Negocios & Riqueza */
+  { id: "men-naval",  t: "🌊 Naval Ravikant — Riqueza sin Suerte", d: "Estudia a Naval (podcast y tweets): conocimiento específico, leverage y dueños de su tiempo. La sabiduría del dinero moderno.", xp: 250, v: "3 lecciones de riqueza aplicadas a tu plan" },
+  { id: "men-munger", t: "🧮 Charlie Munger — Modelos Mentales", d: "Estudia a Munger: inversión, modelos mentales y evitar la tontería. La sabiduría inversa (qué evitar).", xp: 250, v: "Lista de 5 modelos mentales + 1 aplicación" },
+  { id: "men-buffett",t: "🐐 Warren Buffett — Paciencia Compuesta", d: "Estudia a Buffett (cartas a accionistas o biografía): el interés compuesto y la paciencia como superpoder.", xp: 250, v: "Nota: tu horizonte de inversión rediseñado" },
+  { id: "men-dalio",  t: "⚙️ Ray Dalio — Principios", d: "Estudia a Dalio (Principios): la vida como máquina, decisiones basadas en principios escritos.", xp: 220, v: "Tus 5 principios personales escritos" },
+  { id: "men-housel", t: "💵 Morgan Housel — Psicología del Dinero", d: "Estudia a Housel: el comportamiento importa más que el IQ. La relación emocional con el dinero.", xp: 220, v: "3 lecciones de comportamiento financiero" },
+  /* 🧠 Sabiduría Humana */
+  { id: "men-aurelio",t: "🏛️ Marco Aurelio — Meditaciones", d: "Lee Meditaciones: el diario de un emperador estoico. Dominio de uno mismo, deber y ecuanimidad.", xp: 220, v: "5 pasajes que te marcaron + por qué" },
+  { id: "men-seneca", t: "⏳ Séneca — La Brevedad de la Vida", d: "Estudia a Séneca: el tiempo como único bien real. Ocuparse vs entretenerse.", xp: 200, v: "Auditoría de cómo gastas tus horas" },
+  { id: "men-tzu",    t: "⚔️ Sun Tzu — El Arte de la Guerra", d: "Lee El Arte de la Guerra: estrategia, conocer al enemigo (y a ti mismo), ganar sin pelear cuando se puede.", xp: 200, v: "3 estrategias aplicadas a tu carrera" },
+  { id: "men-carnegie",t: "🤝 Dale Carnegie — Cómo Ganar Amigos", d: "Estudia a Carnegie: la sabiduría social del interés genuino, elogiar y escuchar. Influencia con calidez.", xp: 200, v: "Practica 1 principio al día por 1 semana" },
+  { id: "men-frankl", t: "🌅 Viktor Frankl — Sentido de Vida", d: "Estudia a Frankl (El hombre en busca de sentido): el propósito resiste cualquier circunstancia.", xp: 250, v: "Tu declaración de propósito en 3 líneas" },
+  { id: "men-clear",  t: "🌱 James Clear — Hábitos Atómicos", d: "Estudia a Clear: hábitos basados en identidad. Mejorar 1% diario sin depender de la motivación.", xp: 200, v: "Rediseña 1 hábito tuyo con su método" },
+  { id: "men-pods",   t: "🎙️ Tu Biblioteca Sonora", d: "Elige 5 podcasts alineados (datos, marketing, negocios, sabiduría) y organízalos en tu app de podcasts.", xp: 200, v: "Lista de 5 podcasts elegidos y suscritos" },
+  { id: "men-10h",    t: "📻 10 Horas de Sabiduría (Jefe)", d: "Acumula 10 horas de podcasts o audiolibros de tus mentores, con notas de cada sesión.", xp: 400, v: "Registro de 10 horas con ideas anotadas" }
+];
+MEN_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "men", kind: "weekly" }; });
+MEN_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "men", kind: "one" }; });
+
+function vidaMenCounts(vs) {
+  const week = vs.week, log = vs.log;
+  return {
+    week: MEN_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length,
+    hits: (vs.gv.men || []).length
+  };
+}
+function renderVidaMen(vs) {
+  const el = document.getElementById("vida-men");
+  if (!el) return;
+  const li = vs.sub.men;
+  const c = vidaMenCounts(vs);
+  let h = '<div class="lvl-card" style="--lc:#4dd0ff"><div class="lvl-ico">🏛️</div><div class="lvl-info">' +
+    '<div class="li-rank">Sabios & Mentores · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· estudia a los grandes, escucha podcasts que suman</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (c.week > 0 ? "on" : "off") + '">🗓️ Semana: ' + c.week + "/" + MEN_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (c.hits > 0 ? "on" : "off") + '">🏆 Grandes: ' + c.hits + "/" + MEN_HITS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP de Sabiduría</span><span class="lm-xp">' +
+    vs.xp.men.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (MEN_LADDER[li.lvl] ? MEN_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">🎧 Prácticas de la Semana <small>podcasts, clásicos y lecciones aplicadas</small>' +
+    '<span class="count-pill">SEMANA ' + c.week + "/" + MEN_WEEK.length + "</span></div>";
+  MEN_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🏛️ Estudio de los Grandes <small>22 misiones: figuras de datos, marketing, dinero y sabiduría humana</small>' +
+    '<span class="count-pill">' + c.hits + "/" + MEN_HITS.length + "</span></div>";
+  MEN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
+}
+
+
 window.addEventListener("resize", sizeCanvas);
 loopParticles();
 
