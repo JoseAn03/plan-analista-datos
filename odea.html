@@ -310,6 +310,19 @@ aside.stats-panel h3{font-size:.85rem;color:var(--tx2);letter-spacing:2px;border
 .day-progress.full b{color:var(--ok);text-shadow:0 0 10px rgba(0,255,136,.6)}
 
 /* --- Toasts / modales (heredan v1) --- */
+/* --- Diagnóstico de arranque --- */
+#diag-layer{position:fixed;inset:0;z-index:72;display:none;align-items:center;justify-content:center;background:rgba(5,5,15,.9);backdrop-filter:blur(6px)}
+#diag-layer.show{display:flex}
+.diag-modal{max-width:600px;width:94%;max-height:84vh;overflow-y:auto;padding:24px 22px}
+.diag-item{display:flex;align-items:flex-start;gap:11px;padding:10px 12px;border:1px solid rgba(160,160,192,.15);border-radius:11px;margin-bottom:8px;background:rgba(10,10,26,.5);cursor:pointer;transition:.2s;text-align:left;user-select:none}
+.diag-item:hover{border-color:rgba(0,204,255,.5)}
+.diag-item.checked{border-color:var(--glow-green);background:rgba(0,255,136,.06)}
+.diag-item input{width:20px;height:20px;flex:0 0 auto;margin-top:1px;accent-color:var(--glow-green);cursor:pointer}
+.diag-item .d-t{font-size:.88rem;color:var(--tx)}
+.diag-item .d-meta{display:block;font-size:.7rem;color:var(--tx2);margin-top:2px}
+.diag-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.diag-actions .btn-neon{font-size:.8rem;padding:12px 8px}
+@media (max-width:640px){.diag-item{padding:11px 10px}.diag-item .d-t{font-size:.82rem}}
 #toast-layer{position:fixed;bottom:20px;right:20px;z-index:60;display:flex;flex-direction:column;gap:10px;max-width:340px}
 .toast{background:rgba(26,26,46,.96);border:1px solid rgba(0,255,136,.45);border-left:5px solid var(--glow-green);
   border-radius:12px;padding:12px 16px;color:var(--tx);font-size:.9rem;
@@ -461,7 +474,7 @@ html{-webkit-text-size-adjust:100%}
      ========================================================== -->
 <header>
   <div class="logo" id="logo" title="Ver salón de logros">
-    ODEA<small>PLAN MAESTRO · 42 DÍAS</small>
+    ODEA<small>PLAN MAESTRO AVANZADO</small>
   </div>
   <div class="hud">
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
@@ -495,8 +508,8 @@ html{-webkit-text-size-adjust:100%}
       <div class="bar stat amber"><span id="stat-emp"></span></div>
     </div>
     <div class="chip-grid">
-      <div class="mini-chip daily"><span class="mc-num" id="d-count">0/42</span><span class="mc-lab">Días</span></div>
-      <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/6</span><span class="mc-lab">Semanas</span></div>
+      <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
+      <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
       <div class="mini-chip camp"><span class="mc-num" id="c-count">0/27</span><span class="mc-lab">Campaña</span></div>
     </div>
     <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
@@ -526,9 +539,22 @@ html{-webkit-text-size-adjust:100%}
   </div>
 </div>
 
-<footer><b>ODEA</b> · Plan Maestro 42 Días · v3.1 — 126 misiones diarias + 6 semanales + 6 👑 proyectos finales · 1 día completo = +1 nivel · Progreso guardado en este navegador 🔒</footer>
+<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.0 — 168 misiones diarias + 8 semanales + 6 👑 proyectos finales · 1 día completo = +1 nivel · Progreso guardado 🔒</footer>
 
 <div id="toast-layer"></div>
+
+<!-- Modal diagnóstico de arranque (saltar lo que ya dominas) -->
+<div id="diag-layer">
+  <div class="modal diag-modal">
+    <h2 style="color:var(--glow-cyan);text-shadow:0 0 16px rgba(0,204,255,.5)">⚡ DIAGNÓSTICO DE ARRANQUE</h2>
+    <p style="text-align:left">Marca lo que <b>ya dominas</b> para saltarte esas misiones y empezar en tu nivel real (no repetirás lo que ya sabes). Puedes marcar varios.</p>
+    <div id="diag-list"></div>
+    <div class="diag-actions">
+      <button class="btn-neon" id="diag-apply" style="flex:1">✓ APLICAR Y EMPEZAR</button>
+      <button class="btn-neon ghost" id="diag-skip" style="flex:1;margin-left:0">EMPEZAR DESDE EL DÍA 1</button>
+    </div>
+  </div>
+</div>
 
 <div id="modal-layer">
   <div class="modal" id="modal-box">
@@ -770,7 +796,49 @@ const dailyMissions = [
   { id:"41C", day:41, week:6, slot:"C", title:"🎯 Simulacro con IA", description:"Hacer 1 entrevista técnica simulada con IA y anotar tus fallos.", xp:45, category:"employability", time:30, verification:"Simulacro + retroalimentación escrita" },
   { id:"42A", day:42, week:6, slot:"A", title:"📚 Aplicaciones Estratégicas", description:"Estudiar cómo personalizar cada aplicación: research de empresa y cover letters.", xp:60, category:"employability", time:45, verification:"Plantilla de research y cover letter lista" },
   { id:"42B", day:42, week:6, slot:"B", title:"🛠️ EL ASEDIO FINAL", description:"Enviar 10 aplicaciones de empleo personalizadas (CV + carta adaptada) y registrarlas en tu hoja de seguimiento.", xp:220, category:"employability", time:150, verification:"10 aplicaciones enviadas y registradas en tu hoja" },
-  { id:"42C", day:42, week:6, slot:"C", title:"🎯 Kit de Aplicación", description:"Tener lista tu cover letter personalizable y el tracker de aplicaciones.", xp:45, category:"employability", time:30, verification:"Kit listo para el asedio final" }
+  { id:"42C", day:42, week:6, slot:"C", title:"🎯 Kit de Aplicación", description:"Tener lista tu cover letter personalizable y el tracker de aplicaciones.", xp:45, category:"employability", time:30, verification:"Kit listo para el asedio final" },
+  { id:"43A", day:43, week:7, slot:"A", title:"📚 Métricas de Marketing: El Lenguaje", description:"Dominar CAC, LTV, ROAS, CPA, conversión y retención. Qué mide cada una y cómo se calcula.", xp:60, category:"analyst", time:45, verification:"Notas con las 8 métricas clave y su fórmula" },
+  { id:"43B", day:43, week:7, slot:"B", title:"🛠️ Calculadora de Métricas por Canal", description:"Con un dataset de campañas: calcular CAC, LTV, ROAS y conversión por canal. Identificar el canal más rentable.", xp:160, category:"analyst", time:110, verification:"Script con métricas por canal + 3 conclusiones" },
+  { id:"43C", day:43, week:7, slot:"C", title:"🎯 Mini-quiz de Métricas", description:"Autoexamen de 10 preguntas sobre métricas de marketing sin apuntes.", xp:45, category:"analyst", time:30, verification:"Quiz resuelto y corregido" },
+  { id:"44A", day:44, week:7, slot:"A", title:"📚 Cohortes: Retención en el Tiempo", description:"Estudiar análisis de cohortes: qué es, por qué importa y cómo leer una tabla de retención.", xp:60, category:"analyst", time:45, verification:"Notas con ejemplo de cohorte" },
+  { id:"44B", day:44, week:7, slot:"B", title:"🛠️ Análisis de Cohortes Real", description:"Con datos de pedidos: crear cohortes por mes, calcular retención y graficar la tabla de cohortes.", xp:180, category:"analyst", time:120, verification:"Tabla de cohortes + heatmap guardado" },
+  { id:"44C", day:44, week:7, slot:"C", title:"🎯 Explica tu Cohortes", description:"Escribir en 3 líneas qué cuenta la cohorte de tu análisis (insight accionable).", xp:45, category:"analyst", time:30, verification:"Insight de cohorte escrito" },
+  { id:"45A", day:45, week:7, slot:"A", title:"📚 A/B Testing: Diseño y Potencia", description:"Estudiar hipótesis, grupos control/test, tamaño de muestra y poder estadístico.", xp:60, category:"analyst", time:45, verification:"Notas de diseño A/B con ejemplo" },
+  { id:"45B", day:45, week:7, slot:"B", title:"🛠️ Calcula tu Tamaño de Muestra", description:"Hacer power analysis con Python (statsmodels) para un caso real de conversión.", xp:150, category:"analyst", time:100, verification:"Tamaño de muestra calculado y justificado" },
+  { id:"45C", day:45, week:7, slot:"C", title:"🎯 Hipótesis en Papel", description:"Escribir H0 y H1 para 3 casos de negocio de marketing.", xp:45, category:"analyst", time:30, verification:"3 hipótesis bien formuladas" },
+  { id:"46A", day:46, week:7, slot:"A", title:"📚 Pruebas Estadísticas: t-test y chi2", description:"Estudiar cuándo usar t-test, chi-cuadrado y cómo leer el p-valor sin trampas.", xp:60, category:"analyst", time:45, verification:"Notas de pruebas con ejemplos" },
+  { id:"46B", day:46, week:7, slot:"B", title:"🛠️ Analiza un A/B Test en Python", description:"Con scipy: ejecutar t-test y chi2 sobre datos de conversión, interpretar resultados y escribir reporte ejecutivo.", xp:190, category:"analyst", time:120, verification:"Reporte A/B completo con recomendación" },
+  { id:"46C", day:46, week:7, slot:"C", title:"🎯 Verifica Supuestos", description:"Comprobar normalidad/varianzas de tu A/B test y anotar limitaciones.", xp:45, category:"analyst", time:30, verification:"Supuestos validados y documentados" },
+  { id:"47A", day:47, week:7, slot:"A", title:"📚 GA4 y Web Analytics", description:"Estudiar métricas web: sesiones, usuarios, conversión, embudo, adquisición (GA4).", xp:60, category:"analyst", time:45, verification:"Notas de métricas web + glosario" },
+  { id:"47B", day:47, week:7, slot:"B", title:"🛠️ Explora Datos de Google Analytics", description:"Descargar dataset público estilo GA (Google Merchandise) y analizar adquisición y comportamiento.", xp:180, category:"analyst", time:110, verification:"Análisis web con 5+ visualizaciones" },
+  { id:"47C", day:47, week:7, slot:"C", title:"🎯 Insights de Adquisición", description:"Escribir 5 insights accionables sobre canales de adquisición de tu análisis.", xp:45, category:"analyst", time:30, verification:"5 insights de tráfico documentados" },
+  { id:"48A", day:48, week:7, slot:"A", title:"📚 SQL Avanzado para Marketing", description:"Estudiar window functions, CTEs y consultas de cohortes aplicadas a negocio.", xp:60, category:"analyst", time:45, verification:"Notas de SQL avanzado con ejemplos" },
+  { id:"48B", day:48, week:7, slot:"B", title:"🛠️ Query de Cohortes en SQL", description:"Escribir consultas SQL con window functions para calcular cohortes y embudos.", xp:170, category:"analyst", time:110, verification:"Queries de cohorte funcionando (guardadas)" },
+  { id:"48C", day:48, week:7, slot:"C", title:"🎯 Optimiza tus Queries", description:"Revisar 3 queries propias: explicar plan, simplificar y medir mejora.", xp:45, category:"analyst", time:30, verification:"3 queries optimizadas con notas" },
+  { id:"49A", day:49, week:7, slot:"A", title:"📚 Diseño del Proyecto Funnel", description:"Definir el alcance de tu proyecto P1: preguntas de negocio, métricas, datasets a usar y estructura del análisis.", xp:60, category:"analyst", time:45, verification:"Brief del proyecto P1 escrito" },
+  { id:"49B", day:49, week:7, slot:"B", title:"🛠️ RETO SEMANA 7: Funnel a LTV", description:"Proyecto completo: análisis de funnel + cohortes + LTV por canal con visualizaciones y dashboard. Es tu proyecto P1.", xp:280, category:"analyst", time:200, verification:"P1 publicado: código + dashboard + README" },
+  { id:"49C", day:49, week:7, slot:"C", title:"🎯 Autoevaluación P1", description:"Revisar tu proyecto P1 contra una checklist de calidad: datos, análisis, visualización, historia y documentación.", xp:45, category:"analyst", time:30, verification:"Checklist P1 completada" },
+  { id:"50B", day:50, week:8, slot:"B", title:"🛠️ IA Aplicada al Análisis", description:"Estudiar APIs de LLMs, sus límites y buenas prácticas para análisis de datos.", xp:60, category:"ai", time:45, verification:"Notas de IA aplicada + límites" },
+  { id:"50C", day:50, week:8, slot:"C", title:"🎯 Flujo Datos + LLM", description:"Construir un flujo: dataset → pregunta de negocio → respuesta del LLM → verificación contra datos.", xp:170, category:"ai", time:110, verification:"Flujo funcionando en script" },
+  { id:"50A", day:50, week:8, slot:"A", title:"📚 10 Prompts de Análisis", description:"Escribir una biblioteca de 10 prompts de análisis de marketing con IA.", xp:45, category:"ai", time:30, verification:"Biblioteca de prompts en Markdown" },
+  { id:"51B", day:51, week:8, slot:"B", title:"🛠️ Streamlit: Apps de Datos", description:"Estudiar Streamlit: widgets, gráficos y layouts para apps de análisis.", xp:60, category:"ai", time:45, verification:"App mínima funcionando en local" },
+  { id:"51C", day:51, week:8, slot:"C", title:"🎯 Tu Primera App Analítica", description:"Crear una app Streamlit con tu dataset: filtros, KPIs y 2 gráficos interactivos.", xp:180, category:"ai", time:120, verification:"App funcionando con datos reales" },
+  { id:"51A", day:51, week:8, slot:"A", title:"📚 Publica tu App", description:"Desplegar la app en Streamlit Community Cloud y verificar el link.", xp:50, category:"ai", time:40, verification:"App publicada con URL en vivo" },
+  { id:"52B", day:52, week:8, slot:"B", title:"🛠️ LLM dentro de tu App", description:"Estudiar cómo integrar un LLM (API) a Streamlit para responder preguntas de negocio.", xp:60, category:"ai", time:45, verification:"Notas de integración LLM+app" },
+  { id:"52C", day:52, week:8, slot:"C", title:"🎯 Analista Virtual v1", description:"Construir tu proyecto P3: chat sobre tu dataset que responde con verificación (cifras reales).", xp:200, category:"ai", time:130, verification:"Analista virtual v1 funcionando" },
+  { id:"52A", day:52, week:8, slot:"A", title:"📚 Ponlo a Prueba", description:"Hacer 5 preguntas reales, verificar cada respuesta contra los datos y anotar fallos.", xp:45, category:"ai", time:30, verification:"5 preguntas verificadas + mejoras" },
+  { id:"53B", day:53, week:8, slot:"B", title:"🛠️ Reportes Automáticos con IA", description:"Estudiar automatización: scripts + n8n + LLM para reportes programados.", xp:60, category:"ai", time:45, verification:"Notas de arquitectura de reportes" },
+  { id:"53C", day:53, week:8, slot:"C", title:"🎯 Reporte Semanal Automático", description:"Crear tu proyecto P6: reporte semanal automático (datos → resumen IA → mensaje/PDF).", xp:180, category:"ai", time:120, verification:"Reporte automático entregado a tiempo" },
+  { id:"53A", day:53, week:8, slot:"A", title:"📚 Programa y Verifica", description:"Programar tu reporte (cron/n8n) y validar 2 entregas automáticas.", xp:45, category:"ai", time:30, verification:"2 entregas automáticas verificadas" },
+  { id:"54B", day:54, week:8, slot:"B", title:"🛠️ Portafolio Marketing Analytics", description:"Estudiar portafolios de marketing analytics que consiguen entrevistas.", xp:60, category:"employability", time:45, verification:"Análisis de 3 referencias" },
+  { id:"54C", day:54, week:8, slot:"C", title:"🎯 Publica tus Proyectos P1-P5", description:"Subir a GitHub y a tu web: P1 funnel, P2 A/B, P3 analista IA, P4 web analytics, P5 pipeline pulido. Cada uno con README y métricas.", xp:170, category:"employability", time:120, verification:"5 proyectos publicados con casos de estudio" },
+  { id:"54A", day:54, week:8, slot:"A", title:"📚 Página de Proyecto Perfecta", description:"Escribir la página STAR de tu proyecto insignia (problema, métricas, impacto).", xp:45, category:"employability", time:30, verification:"Página de proyecto lista" },
+  { id:"55B", day:55, week:8, slot:"B", title:"🛠️ Entrevista Marketing Analytics", description:"Estudiar preguntas típicas de marketing analytics: métricas, casos, SQL y estadística.", xp:60, category:"employability", time:45, verification:"Lista de 25 preguntas con respuestas clave" },
+  { id:"55C", day:55, week:8, slot:"C", title:"🎯 Simulacro Completo con IA", description:"Hacer una entrevista simulada de Marketing Analytics con IA (SQL + métricas + caso + STAR).", xp:180, category:"employability", time:120, verification:"Simulacro completado con notas de mejora" },
+  { id:"55A", day:55, week:8, slot:"A", title:"📚 Mejora tus Respuestas", description:"Reescribir 3 respuestas STAR con métricas y estructura clara.", xp:45, category:"employability", time:30, verification:"3 respuestas STAR pulidas" },
+  { id:"56B", day:56, week:8, slot:"B", title:"🛠️ Estrategia: Empresas Objetivo", description:"Investigar 15 empresas que contratan marketing analytics/data en CR y remoto.", xp:60, category:"employability", time:45, verification:"Lista de 15 empresas con porqué" },
+  { id:"56C", day:56, week:8, slot:"C", title:"🎯 EL ASEDIO 2.0: 20 Aplicaciones", description:"Enviar 20 aplicaciones personalizadas (CV marketing analytics + cover adaptada) y registrarlas en tu tracker.", xp:230, category:"employability", time:160, verification:"20 aplicaciones enviadas y registradas" },
+  { id:"56A", day:56, week:8, slot:"A", title:"📚 Tracker Final Completo", description:"Actualizar tu hoja de seguimiento: estado de cada aplicación, contactos y próximos pasos.", xp:45, category:"employability", time:30, verification:"Tracker completo al día" }
 ];
 /* ==========================================================
    MISIÓN SEMANAL × 6 (una por semana)
@@ -781,7 +849,9 @@ const weeklyMissions = [
   { week:3, title:"Oráculo SQL", description:"Completar al menos 6 misiones diarias de la semana y tener 50+ ejercicios SQL resueltos acumulados + proyecto SQL público.", xp:400, category:"analyst", time:360, verification:"50+ ejercicios SQL + proyecto SQL en GitHub" },
   { week:4, title:"Arquitecto ETL", description:"Completar al menos 6 misiones diarias de la semana y publicar un pipeline ETL completo (2 fuentes → dataset limpio) con README de caso de estudio.", xp:450, category:"analyst", time:360, verification:"Pipeline ETL público con README completo" },
   { week:5, title:"Brujo de la IA", description:"Completar al menos 6 misiones diarias de la semana y tener un dashboard interactivo publicado + video de 2 minutos contando tu historia con datos.", xp:450, category:"ai", time:360, verification:"Dashboard publicado + video STAR grabado" },
-  { week:6, title:"Conquistador del Empleo", description:"Completar al menos 6 misiones diarias de la semana y lanzar tu ataque final: portafolio en vivo, LinkedIn optimizado, CV ATS y 10 aplicaciones enviadas.", xp:600, category:"employability", time:420, verification:"Portafolio + LinkedIn + CV + 10 aplicaciones enviadas" }
+  { week:6, title:"Conquistador del Empleo", description:"Completar al menos 6 misiones diarias de la semana y lanzar tu ataque final: portafolio en vivo, LinkedIn optimizado, CV ATS y 10 aplicaciones enviadas.", xp:600, category:"employability", time:420, verification:"Portafolio + LinkedIn + CV + 10 aplicaciones enviadas" },
+  { week:7, title:"Operación Marketing Analytics", description:"Completar al menos 6 misiones diarias de la semana y entregar el proyecto P1: funnel + cohortes + LTV por canal, publicado con código, dashboard y README.", xp:500, category:"analyst", time:480, verification:"Proyecto P1 de Marketing Analytics publicado" },
+  { week:8, title:"Lanzamiento del Experto", description:"Completar al menos 6 misiones diarias de la semana y lanzar tu arsenal: proyectos P1-P5 publicados, analista virtual IA en vivo y 20 aplicaciones enviadas.", xp:650, category:"employability", time:540, verification:"P1-P5 publicados + app IA en vivo + 20 aplicaciones" }
 ];
 
 /* ==========================================================
@@ -791,7 +861,8 @@ const achievements = [
   { id:"ach_first",  ico:"🩸", name:"Primera Sangre", desc:"Completar tu primera misión (campaña o diaria)", xp:50 },
   { id:"ach_ten",    ico:"🗡️", name:"Cazador de Datos", desc:"Completar 10 días completos (30 misiones)", xp:100 },
   { id:"ach_d21",    ico:"⛰️", name:"Mitad del Camino", desc:"Completar 21 días completos", xp:200 },
-  { id:"ach_d42",    ico:"🏁", name:"Campaña Diaria Completa", desc:"Completar los 42 días (126 misiones)", xp:300 },
+  { id:"ach_d42",    ico:"🏁", name:"Plan Maestro Completado", desc:"Completar los 42 días del plan maestro", xp:300 },
+  { id:"ach_d56",    ico:"💠", name:"Experto Marketing Analytics", desc:"Completar los 56 días (168 misiones)", xp:500 },
   { id:"ach_st7",    ico:"🔥", name:"Semana Imparable", desc:"Mantener racha de 7 días seguidos", xp:100 },
   { id:"ach_st14",   ico:"🌋", name:"Quince Días de Fuego", desc:"Mantener racha de 14 días seguidos", xp:150 },
   { id:"ach_st21",   ico:"⚡", name:"Imparable", desc:"Mantener racha de 21 días seguidos", xp:150 },
@@ -805,7 +876,7 @@ const achievements = [
   { id:"ach_ch4",    ico:"💰", name:"Mercenario de Datos", desc:"Completar todo el Capítulo 4 de la campaña", xp:150 },
   { id:"ach_ch5",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar todo el Capítulo 5 de la campaña", xp:150 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
-  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, 42 días y 6 semanas", xp:500 }
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días y las 8 semanas", xp:700 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -1072,8 +1143,8 @@ function renderHero() {
   const unlocked = isDayUnlocked(day);
   const doneN = dayDoneCount(day);
   const full = doneN === list.length;
-  const isToday = day === unlockedDay();
-  const wkName = ["", "Semana 1 · Cimientos", "Semana 2 · Visualización", "Semana 3 · SQL", "Semana 4 · ETL", "Semana 5 · IA + Dashboards", "Semana 6 · Empleo"][list[0].week];
+  const isToday = day === firstPendingDay();
+  const wkName = WEEK_NAMES[list[0].week] || "Semana " + list[0].week;
   const xpDay = list.reduce((s, m) => s + m.xp, 0);
   const minDay = list.reduce((s, m) => s + m.time, 0);
   const color = full ? "#00ff88" : CAT_COLORS[list[0].category];
@@ -1099,7 +1170,7 @@ function renderHero() {
   }).join("");
   root.innerHTML =
     '<div class="daily-hero" style="--hero-color:' + color + ';--hero-color2:' + color + ';--hero-glow:' + color + '55">' +
-      '<div class="dh-kicker">' + (isToday ? "◉ TU DÍA DE HOY" : "DÍA PLANIFICADO") + ' · DÍA ' + day + '/42 · ' + wkName + '</div>' +
+      '<div class="dh-kicker">' + (isToday ? "◉ TU DÍA DE HOY" : "DÍA PLANIFICADO") + ' · DÍA ' + day + '/' + DAILY_TOTAL + ' · ' + wkName + '</div>' +
       '<div class="dh-title">' + (full ? "✓ " : "") + "Día " + day + (full ? " COMPLETADO" : "") + '</div>' +
       '<div class="dh-desc" style="max-width:760px">' + (full
         ? "Las 3 misiones de este día están cumplidas. ¡Sigue así, recluta!"
@@ -1127,7 +1198,7 @@ function renderWeekly() {
   root.innerHTML =
     '<div class="week-card' + (done ? " done" : "") + '">' +
       '<div class="wk-head">' +
-        '<span class="wk-kicker">📯 Misión Semanal · Semana ' + w + '/6</span>' +
+        '<span class="wk-kicker">📯 Misión Semanal · Semana ' + w + '/' + WEEKLY_TOTAL + '</span>' +
         '<span class="wk-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</span>' +
         '<div style="margin-left:auto;display:flex;gap:8px">' + catTag(m.category) + xpTag(m.xp) + '</div>' +
       '</div>' +
@@ -1142,23 +1213,27 @@ function renderWeekly() {
 }
 
 /* --- Ruta: los 42 días --- */
+const WEEK_NAMES = ["", "Semana 1 · Cimientos", "Semana 2 · Visualización", "Semana 3 · SQL", "Semana 4 · ETL", "Semana 5 · IA + Dashboards", "Semana 6 · Empleo", "Semana 7 · Marketing Analytics", "Semana 8 · IA y Lanzamiento"];
+const WEEK_TITLES = ["", "Cimientos", "Manipulación y Visualización", "SQL", "Pandas Avanzado + ETL", "IA + Dashboards", "Empleabilidad", "Marketing Analytics", "IA y Lanzamiento"];
 function renderRoadmap() {
   const root = document.getElementById("roadmap");
-  const wkTitles = ["", "Cimientos", "Manipulación y Visualización", "SQL", "Pandas Avanzado + ETL", "IA + Dashboards", "Empleabilidad"];
+  const weeks = [...new Set(dailyMissions.map(m => m.week))].sort((a, b) => a - b);
   let html = "";
-  for (let wk = 1; wk <= 6; wk++) {
-    html += '<div class="week-block"><h4>' + wkTitles[wk] +
-      ' <span style="color:var(--tx2);font-weight:400">(días ' + ((wk - 1) * 7 + 1) + '–' + wk * 7 + ')</span></h4><div class="days-grid">';
-    for (let d = (wk - 1) * 7 + 1; d <= wk * 7; d++) html += dayCard(d);
+  weeks.forEach(wk => {
+    const days = dailyMissions.filter(m => m.week === wk).map(m => m.day);
+    const dMin = Math.min(...days), dMax = Math.max(...days);
+    html += '<div class="week-block"><h4>' + (WEEK_TITLES[wk] || ("Semana " + wk)) +
+      ' <span style="color:var(--tx2);font-weight:400">(días ' + dMin + '–' + dMax + ')</span></h4><div class="days-grid">';
+    for (let d = dMin; d <= dMax; d++) html += dayCard(d);
     html += '</div></div>';
-  }
+  });
   root.innerHTML = html;
 }
 function dayCard(day) {
   const list = missionsOfDay(day);
   const doneN = dayDoneCount(day);
   const full = doneN === list.length;
-  const isToday = day === unlockedDay();
+  const isToday = day === firstPendingDay();
   const locked = !isDayUnlocked(day);
   const sel = day === selectedDay ? " selected" : "";
   const xpSum = list.reduce((s, m) => s + m.xp, 0);
@@ -1490,6 +1565,7 @@ function toggleDailyMission(id, btnEl) {
   const m = dailyMissions.find(x => x.id === id);
   if (!m) return;
   const day = m.day;
+  const frontier = firstPendingDay(); // día objetivo actual
   const wasFullBefore = isDayFull(day);
   const oldLevel = gameState.level;
   const wasDone = gameState.completedDaily.includes(id);
@@ -1508,7 +1584,7 @@ function toggleDailyMission(id, btnEl) {
   const achFresh = checkAchievements();
   if (achFresh) recomputeState();
   const fullNow = isDayFull(day);
-  if (!wasDone && !wasFullBefore && fullNow && day === unlockedDay()) updateStreak();
+  if (!wasDone && !wasFullBefore && fullNow && day === frontier) updateStreak();
   renderDailyView();
   updateUI();
   if (wasDone) {
@@ -1623,9 +1699,13 @@ modalBtn.addEventListener("click", () => {
     }
     saveGame();
     modalLayer.classList.remove("show");
+    if (gameState.completedDaily.length === 0 && gameState.completedMissions.length === 0) {
+      openDiag();
+      return;
+    }
     renderAll();
-    toast("🕹️", "Bienvenido, " + gameState.playerName,
-      "Día 1 activado. Tu misión de hoy te espera 🔥");
+    toast("🕹️", "Bienvenido de nuevo, " + gameState.playerName,
+      "Tu misión de hoy te espera 🔥");
   } else {
     modalLayer.classList.remove("show");
   }
@@ -1648,6 +1728,80 @@ document.getElementById("btn-reset").addEventListener("click", () => {
   if (confirm("⚠️ ¿Seguro que deseas reiniciar TODO tu progreso (campaña, días, semanas y logros)? No hay vuelta atrás.")) {
     resetGame();
   }
+});
+
+/* --- ⚡ Diagnóstico de arranque: saltar lo que ya dominas --- */
+const SKILL_DIAG = [
+  { i:"git",   l:"Entorno, Python básico y Git", meta:"Instalación, scripts, repos y commits", days:[1,2,3,4,5] },
+  { i:"p1",    l:"Pandas: leer, explorar y filtrar", meta:"CSV/Excel, head/info/describe, filtros", days:[6,8] },
+  { i:"clean", l:"Limpieza de datos", meta:"Nulos, duplicados, tipos correctos", days:[9] },
+  { i:"viz",   l:"Matplotlib + Seaborn + dashboard estático", meta:"Líneas, barras, dispersión, histogramas", days:[10,11,12,13] },
+  { i:"eda",   l:"EDA completo", meta:"Dataset → gráficos → insights accionables", days:[14] },
+  { i:"sqla",  l:"SQL: SELECT, WHERE, GROUP BY, HAVING", meta:"Consultas con agregaciones", days:[15,16] },
+  { i:"join",  l:"SQL: JOINs", meta:"INNER, LEFT, RIGHT, FULL", days:[17] },
+  { i:"cte",   l:"SQL: subconsultas y CTEs", meta:"50+ ejercicios resueltos", days:[18,19] },
+  { i:"sqlb",  l:"SQL de negocio + proyecto publicado", meta:"Queries que responden preguntas de negocio", days:[20,21] },
+  { i:"pd2",   l:"Pandas avanzado", meta:"groupby, pivot, merge, concat, lambda", days:[22,23,24] },
+  { i:"ventas",l:"Análisis de ventas", meta:"Región, producto, tiempo", days:[25] },
+  { i:"etl",   l:"Pipeline ETL", meta:"2 fuentes → transformar → dataset limpio", days:[26,27,28] },
+  { i:"prompt",l:"Prompt engineering + IA para código", meta:"20+ prompts y código con IA", days:[29,30] },
+  { i:"bi",    l:"Dashboards Power BI / Tableau", meta:"Interactivos con filtros", days:[32,33] },
+  { i:"stats", l:"Estadística básica aplicada", meta:"Media, desviación, correlación", days:[34] },
+  { i:"star",  l:"Storytelling: video STAR", meta:"Explicar hallazgos a audiencia no técnica", days:[35] },
+  { i:"port",  l:"Portafolio web en vivo", meta:"GitHub Pages con proyectos", days:[36] },
+  { i:"li",    l:"LinkedIn optimizado", meta:"Perfil + 50 conexiones del sector", days:[37] },
+  { i:"cv",    l:"CV ATS con métricas", meta:"Listo en PDF", days:[38] },
+  { i:"mer",   l:"Mapa de empresas objetivo", meta:"20 empresas + hoja de seguimiento", days:[40] },
+  { i:"entr",  l:"Simulacros de entrevista con IA", meta:"SQL, Python y casos", days:[41] }
+];
+const diagLayer = document.getElementById("diag-layer");
+let diagSel = new Set();
+function diagXP(days) { return days.reduce((s, d) => s + missionsOfDay(d).reduce((x, m) => x + m.xp, 0), 0); }
+function renderDiagList() {
+  const box = document.getElementById("diag-list");
+  box.innerHTML = SKILL_DIAG.map(s => {
+    const on = diagSel.has(s.i);
+    return '<label class="diag-item' + (on ? " checked" : "") + '">' +
+      '<input type="checkbox" data-i="' + s.i + '"' + (on ? " checked" : "") + '>' +
+      '<span><span class="d-t">' + escapeHtml(s.l) + '</span>' +
+      '<span class="d-meta">' + escapeHtml(s.meta) + ' · ' + s.days.length + ' día' + (s.days.length > 1 ? "s" : "") + ' · +' + diagXP(s.days) + ' XP</span></span>' +
+    '</label>';
+  }).join("");
+}
+function toggleDiag(id) {
+  if (diagSel.has(id)) diagSel.delete(id); else diagSel.add(id);
+  renderDiagList();
+}
+document.getElementById("diag-list").addEventListener("click", e => {
+  const it = e.target.closest(".diag-item");
+  if (!it) return;
+  const input = it.querySelector("input");
+  const id = input.dataset.i;
+  if (e.target.tagName === "INPUT") { toggleDiag(id); }
+  else { input.checked = !input.checked; toggleDiag(id); }
+});
+function openDiag() { diagSel = new Set(); renderDiagList(); diagLayer.classList.add("show"); }
+function closeDiag() { diagLayer.classList.remove("show"); }
+document.getElementById("diag-apply").addEventListener("click", () => {
+  const daysToFill = new Set();
+  SKILL_DIAG.forEach(s => { if (diagSel.has(s.i)) s.days.forEach(d => daysToFill.add(d)); });
+  const nDays = daysToFill.size;
+  daysToFill.forEach(d => { ["A", "B", "C"].forEach(sl => { const id = d + sl; if (!gameState.completedDaily.includes(id)) gameState.completedDaily.push(id); }); });
+  closeDiag();
+  recomputeState();
+  saveGame();
+  selectedDay = firstPendingDay();
+  renderAll();
+  if (nDays > 0) {
+    toast("⚡", "Diagnóstico aplicado", nDays + " día" + (nDays > 1 ? "s" : "") + " pre-completados (" + (nDays * 3) + " misiones) · Nivel " + gameState.level + " · Sigue en el Día " + selectedDay, "levelup");
+  } else {
+    toast("🕹️", "Bienvenido, " + gameState.playerName, "Empezando desde el Día 1. ¡Tu misión te espera!");
+  }
+});
+document.getElementById("diag-skip").addEventListener("click", () => {
+  closeDiag();
+  renderAll();
+  toast("🕹️", "Bienvenido, " + gameState.playerName, "Empezando desde el Día 1. ¡Tu misión de hoy te espera!");
 });
 
 /* --- Init --- */
