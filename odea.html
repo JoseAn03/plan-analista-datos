@@ -514,7 +514,7 @@ html{-webkit-text-size-adjust:100%}
     </div>
     <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
     <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
-    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">21</span> · Ver salón ▸</div>
+    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">24</span> · Ver salón ▸</div>
     <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
   </aside>
 
@@ -522,6 +522,7 @@ html{-webkit-text-size-adjust:100%}
     <div class="tabs">
       <button class="tab-btn active" data-tab="daily">🗓️ PLAN DIARIO</button>
       <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA (CAPÍTULOS)</button>
+      <button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
     </div>
 
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
@@ -536,10 +537,25 @@ html{-webkit-text-size-adjust:100%}
     <section class="view" id="view-campaign">
       <div id="chapters-root"></div>
     </section>
+
+    <!-- ============ VISTA 3: EMPLEO (solo buscar trabajo) ============ -->
+    <section class="view" id="view-jobs">
+      <div class="jobs-hero">
+        <div class="dh-kicker" style="color:var(--glow-amber)">💼 OPERACIÓN EMPLEO · 40 MISIONES</div>
+        <div class="dh-title" style="font-size:1.3rem">La campaña que consigue el trabajo</div>
+        <div class="dh-desc">Todo lo que tiene que ver con buscar trabajo: enviar currículums, aplicaciones, networking, LinkedIn, entrevistas y freelance. Cada misión suma XP a tu nivel.</div>
+        <div class="chip-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">
+          <div class="mini-chip daily"><span class="mc-num" id="jb-apps">0/50</span><span class="mc-lab">Aplicaciones</span></div>
+          <div class="mini-chip weekly"><span class="mc-num" id="jb-done">0/40</span><span class="mc-lab">Misiones</span></div>
+          <div class="mini-chip camp"><span class="mc-num" id="jb-xp">0</span><span class="mc-lab">XP Empleo</span></div>
+        </div>
+      </div>
+      <div id="jobs-root"></div>
+    </section>
   </div>
 </div>
 
-<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.1 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales · 8 capítulos alineados · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.1 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales + 40 💼 de empleo · Progreso guardado 🔒</footer>
 
 <div id="toast-layer"></div>
 
@@ -893,7 +909,10 @@ const achievements = [
   { id:"ach_st21",   ico:"⚡", name:"Imparable", desc:"Mantener racha de 21 días seguidos", xp:150 },
   { id:"ach_st30",   ico:"☄️", name:"Mes de Datos", desc:"Mantener racha de 30 días seguidos", xp:200 },
   { id:"ach_w3",     ico:"🎯", name:"Cazador Semanal", desc:"Completar 3 misiones semanales", xp:200 },
-  { id:"ach_w6",     ico:"👑", name:"Dominio Semanal Total", desc:"Completar las 6 misiones semanales", xp:300 },
+  { id:"ach_w6",     ico:"👑", name:"Dominio Semanal Total", desc:"Completar las 8 misiones semanales", xp:300 },
+  { id:"ach_j5",     ico:"📮", name:"Primer Envío", desc:"Completar la primera ronda de 5 aplicaciones", xp:80 },
+  { id:"ach_j25",    ico:"🚀", name:"Cazador de Empleo", desc:"Completar 25 aplicaciones (5 rondas)", xp:150 },
+  { id:"ach_j50",    ico:"🏆", name:"Máquina de Aplicaciones", desc:"Completar las 50 aplicaciones (10 rondas)", xp:250 },
   { id:"ach_ch0",    ico:"🛡️", name:"Cimientos Sólidos", desc:"Completar el Capítulo 0: Cimientos", xp:150 },
   { id:"ach_ch1",    ico:"⚔️", name:"Oráculo SQL", desc:"Completar el Capítulo 1: SQL y Negocio", xp:150 },
   { id:"ach_ch2",    ico:"🧬", name:"Automatizador", desc:"Completar el Capítulo 2: ETL y Automatización", xp:150 },
@@ -903,7 +922,7 @@ const achievements = [
   { id:"ach_ch6",    ico:"👾", name:"Constructor de IA", desc:"Completar el Capítulo 6: IA Productiva", xp:150 },
   { id:"ach_ch7",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar el Capítulo 7: Empleo", xp:150 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
-  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días y las 8 semanas", xp:700 }
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 40 misiones de empleo", xp:700 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -919,6 +938,63 @@ const CHEERS = [
   "Las máquinas reconocen a su futuro maestro.",
   "¡Excelente movimiento, estratega de datos!"
 ];
+
+
+/* ==========================================================
+   💼 OPERACIÓN EMPLEO: 40 misiones solo de buscar trabajo
+   (enviar CVs, aplicaciones, networking, LinkedIn,
+    entrevistas, freelance, seguimiento)
+   ========================================================== */
+const employmentMissions = [
+  /* --- BLOQUE 1: Aplicaciones y CV (rondas de 5 = 50 aplicaciones) --- */
+  { id:"j1",  blk:1, tag:"cv",    title:"CV Maestro 2.0", description:"Revisar tu CV con lupa de reclutador: métricas en cada logro, ATS-friendly, una página si es posible, versión ES y EN.", xp:200, verification:"2 versiones de CV (ES/EN) finales y pulidas" },
+  { id:"j2",  blk:1, tag:"cv",    title:"Kit de Cover Letters", description:"Escribir 3 plantillas de carta de presentación: data analyst, marketing analytics y soporte/BI. Cada una con huecos para personalizar.", xp:150, verification:"3 plantillas de cover letter listas" },
+  { id:"j3",  blk:1, tag:"cv",    title:"Tracker Maestro", description:"Crear tu hoja de seguimiento: empresa, puesto, fecha, estado, salario, contacto, link, notas. Con filtros y métricas.", xp:120, verification:"Tracker con 50 filas listo para usar" },
+  { id:"j4",  blk:1, tag:"round", title:"Ronda 1: Envía 5 CVs", description:"Enviar 5 aplicaciones personalizadas (CV adaptado + cover letter) a ofertas reales de tu lista. Registrar cada una.", xp:90, verification:"5 aplicaciones enviadas y registradas" },
+  { id:"j5",  blk:1, tag:"round", title:"Ronda 2: +5 Aplicaciones", description:"Otras 5 aplicaciones personalizadas. Mejora algo del proceso en cada una (mensaje, portafolio, ajuste de CV).", xp:100, verification:"10 aplicaciones acumuladas" },
+  { id:"j6",  blk:1, tag:"round", title:"Ronda 3: +5 Aplicaciones", description:"5 aplicaciones más con foco en empresas donde ya hiciste networking.", xp:110, verification:"15 aplicaciones acumuladas" },
+  { id:"j7",  blk:1, tag:"round", title:"Ronda 4: +5 Aplicaciones", description:"5 aplicaciones más. Prueba 2 formatos distintos de cover letter y anota cuál responde mejor.", xp:120, verification:"20 aplicaciones acumuladas" },
+  { id:"j8",  blk:1, tag:"round", title:"Ronda 5: +5 Aplicaciones", description:"5 aplicaciones más incluyendo 2 puestos de marketing analytics (tu diferenciación).", xp:130, verification:"25 aplicaciones acumuladas" },
+  { id:"j9",  blk:1, tag:"round", title:"Ronda 6: +5 Aplicaciones", description:"5 aplicaciones más. Actualiza tu portafolio con los proyectos que mencionas en cada CV.", xp:140, verification:"30 aplicaciones acumuladas" },
+  { id:"j10", blk:1, tag:"round", title:"Ronda 7: +5 Aplicaciones", description:"5 aplicaciones más. Agenda seguimiento de las primeras 10 enviadas (mensaje a reclutador).", xp:150, verification:"35 aplicaciones acumuladas" },
+  { id:"j11", blk:1, tag:"round", title:"Ronda 8: +5 Aplicaciones", description:"5 aplicaciones más. Analiza tu tracker: qué canales responden mejor y ajusta tu estrategia.", xp:160, verification:"40 aplicaciones acumuladas" },
+  { id:"j12", blk:1, tag:"round", title:"Ronda 9: +5 Aplicaciones", description:"5 aplicaciones más a empresas de tu lista de 30 con mensajes personalizados por research.", xp:170, verification:"45 aplicaciones acumuladas" },
+  { id:"j13", blk:1, tag:"round", title:"Ronda 10: Asedio Final 50", description:"Últimas 5 aplicaciones para completar 50. Registra métricas finales: aplicaciones, respuestas, entrevistas por canal.", xp:220, verification:"50 aplicaciones totales registradas" },
+  /* --- BLOQUE 2: Estrategia y mercado --- */
+  { id:"j14", blk:2, tag:"str", title:"Lista de 30 Empresas Objetivo", description:"Construir tu lista de 30 empresas (CR + remoto) con fit real: sector, stack, cultura, por qué te interesa.", xp:140, verification:"30 empresas documentadas en tu tracker" },
+  { id:"j15", blk:2, tag:"str", title:"Research Profundo x10", description:"Investigar a fondo 10 empresas de la lista: misión, productos, vacantes actuales, empleados en data, tecnología.", xp:140, verification:"10 fichas de research completas" },
+  { id:"j16", blk:2, tag:"str", title:"Radar de Empleos Automático", description:"Configurar tus alertas diarias (jobbot LinkedIn + n8n APIs) y revisar ofertas nuevas cada mañana 15 minutos.", xp:100, verification:"Alertas activas y rutina diaria de revisión" },
+  { id:"j17", blk:2, tag:"str", title:"CV por Sector", description:"Tener 3 versiones de CV adaptadas: data analyst, marketing analytics y soporte/BI, con keywords distintas.", xp:150, verification:"3 CVs sectoriales listos" },
+  { id:"j18", blk:2, tag:"str", title:"Banco de Métricas Personales", description:"Listar 15 logros medibles tuyos (ANC, Dokka, proyectos) escritos en formato STAR listos para CV y entrevistas.", xp:120, verification:"15 métricas STAR documentadas" },
+  /* --- BLOQUE 3: Networking --- */
+  { id:"j19", blk:3, tag:"net", title:"+30 Conexiones Relevantes", description:"Conectar con 30 profesionales: reclutadores tech, analistas y managers de datos en CR y LATAM.", xp:120, verification:"30 conexiones nuevas relevantes" },
+  { id:"j20", blk:3, tag:"net", title:"10 Mensajes Personalizados", description:"Escribir y enviar 10 mensajes de contacto personalizados (no plantilla) a personas de tus empresas objetivo.", xp:130, verification:"10 conversaciones iniciadas" },
+  { id:"j21", blk:3, tag:"net", title:"Evento de Datos", description:"Asistir a un meetup, webinar o conferencia de datos (virtual o presencial) y participar activamente.", xp:120, verification:"Evento asistido con 3+ contactos nuevos" },
+  { id:"j22", blk:3, tag:"net", title:"Entrevista Informativa #1", description:"Conversar 15 minutos con un analista o manager de datos sobre su rol, equipo y cómo entró.", xp:140, verification:"Entrevista informativa realizada" },
+  { id:"j23", blk:3, tag:"net", title:"Entrevista Informativa #2", description:"Segunda entrevista informativa, esta vez en una empresa de tu lista top 10.", xp:140, verification:"2ª entrevista informativa realizada" },
+  { id:"j24", blk:3, tag:"net", title:"3 Referidos", description:"Pedir referidos o recomendaciones a 3 contactos (excompañeros, reclutadores, conocidos en empresas objetivo).", xp:130, verification:"3 referidos solicitados" },
+  /* --- BLOQUE 4: LinkedIn y marca --- */
+  { id:"j25", blk:4, tag:"li", title:"Perfil 10/10", description:"Optimizar LinkedIn: headline con keywords, banner, about con historia y métricas, featured con tus proyectos, skills.", xp:130, verification:"Perfil revisado con checklist completa" },
+  { id:"j26", blk:4, tag:"li", title:"Contenido Semana A", description:"Publicar 2 posts esta semana contando un aprendizaje o resultado de tus proyectos (datos + historia).", xp:120, verification:"2 posts publicados (semana A)" },
+  { id:"j27", blk:4, tag:"li", title:"Contenido Semana B", description:"Publicar 2 posts más: un mini caso práctico (SQL, Power BI, A/B test) y algo de tu proceso de aprendizaje.", xp:120, verification:"2 posts publicados (semana B)" },
+  { id:"j28", blk:4, tag:"li", title:"Contenido Semana C", description:"Publicar 2 posts más: muestra un dashboard o insight real tuyo. Incluye visual.", xp:120, verification:"2 posts publicados (semana C)" },
+  { id:"j29", blk:4, tag:"li", title:"Contenido Semana D", description:"Publicar 2 posts más: tu opinión del mercado data en CR o lección de tu búsqueda. Total 8+ posts.", xp:120, verification:"2 posts publicados (semana D)" },
+  { id:"j30", blk:4, tag:"li", title:"Video Caso de Éxito", description:"Publicar un video corto explicando tu proyecto insignia y el impacto que tuvo. Etiqueta a personas de tu red.", xp:150, verification:"Video publicado en LinkedIn" },
+  /* --- BLOQUE 5: Entrevistas --- */
+  { id:"j31", blk:5, tag:"int", title:"Banco de 50 Preguntas", description:"Repasar y responder 50 preguntas técnicas (SQL, Python, estadística, casos) y conductuales con tus métricas.", xp:150, verification:"50 respuestas preparadas por escrito" },
+  { id:"j32", blk:5, tag:"int", title:"Simulacro IA #1", description:"Entrevista técnica simulada con IA (SQL + Python + estadística). Graba o anota errores y corrige.", xp:140, verification:"Simulacro 1 completado con notas de mejora" },
+  { id:"j33", blk:5, tag:"int", title:"Simulacro IA #2", description:"Simulacro de caso de negocio/marketing analytics: métricas, A/B testing, interpretación de resultados.", xp:140, verification:"Simulacro 2 completado" },
+  { id:"j34", blk:5, tag:"int", title:"Simulacro IA #3", description:"Simulacro conductual/HR en inglés: STAR, motivación, salario. Practica tu inglés C1.", xp:140, verification:"Simulacro 3 completado en inglés" },
+  { id:"j35", blk:5, tag:"int", title:"15 Preguntas para Reclutador", description:"Preparar 15 preguntas inteligentes para hacer al reclutador o hiring manager (equipo, datos, expectativas).", xp:100, verification:"Lista de 15 preguntas lista" },
+  { id:"j36", blk:5, tag:"int", title:"Sistema Post-Entrevista", description:"Crear tu rutina: agradecimiento 24h, seguimiento a los 7 días, registro de feedback. Aplicarla a 2 entrevistas.", xp:100, verification:"2 agradecimientos enviados y seguimiento registrado" },
+  /* --- BLOQUE 6: Freelance y extra --- */
+  { id:"j37", blk:6, tag:"free", title:"Perfiles Freelance Pulidos", description:"Completar perfiles en Fiverr y Upwork: portafolio, servicios claros, keywords y video de presentación si aplica.", xp:130, verification:"2 perfiles freelance completos" },
+  { id:"j38", blk:6, tag:"free", title:"5 Propuestas Personalizadas", description:"Enviar 5 propuestas freelance bien escritas (nunca genéricas) a proyectos reales de limpieza/dashboards/reportes.", xp:140, verification:"5 propuestas enviadas" },
+  { id:"j39", blk:6, tag:"free", title:"Vitrina Pública de Empleo", description:"Actualizar tu portafolio web con sección de proyectos destacados, CV descargable y GitHub README de perfil impecable.", xp:130, verification:"Portafolio + GitHub listos para reclutadores" },
+  { id:"j40", blk:6, tag:"free", title:"Pitch de 60 Segundos", description:"Grabar tu elevator pitch (quién eres, qué haces, impacto) y una presentación de 1 página sobre ti.", xp:120, verification:"Pitch grabado y presentación lista" }
+];
+const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado", 3:"🤝 Networking", 4:"📣 LinkedIn y Marca", 5:"🎤 Entrevistas", 6:"🆓 Freelance y Extra" };
+const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance" };
 
 /* ==========================================================
    D) JS / ESTADO, FECHAS Y CÁLCULOS
@@ -943,13 +1019,16 @@ function firstPendingDay() {
   return Math.min(unlockedDay(), DAILY_TOTAL);
 }
 function dayDoneCount(day) { return missionsOfDay(day).filter(m => gameState.completedDaily.includes(m.id)).length; }
+function jobsDoneCount() { return gameState.completedJobs.length; }
+function roundsDone() { return employmentMissions.filter(m => m.tag === "round" && gameState.completedJobs.includes(m.id)).length; }
 
 /* Objeto global de estado */
 let gameState = {
   playerName: "Recluta",
   completedMissions: [],   // campaña: ids "m0_1"...
   completedDaily: [],      // días 1..42
-  completedWeekly: [],     // semanas 1..6
+  completedWeekly: [],     // semanas 1..8
+  completedJobs: [],       // empleo: ids j1..j40
   unlockedAch: [],         // ids de logros ganados
   startDate: null,         // YYYY-MM-DD del día 1
   lastDailyDate: null,     // última fecha con misión diaria completada
@@ -1005,6 +1084,7 @@ function loadGame() {
     gameState.completedDaily = (data.completedDaily || []).filter(id =>
       /^\d+[ABC]$/.test(String(id)) && parseInt(id, 10) >= 1 && parseInt(id, 10) <= DAILY_TOTAL);
     gameState.completedWeekly = (data.completedWeekly || []).filter(n => n >= 1 && n <= WEEKLY_TOTAL);
+    gameState.completedJobs = (data.completedJobs || []).filter(id => employmentMissions.some(m => m.id === id));
     gameState.unlockedAch = (data.unlockedAch || []).filter(id => achievements.some(a => a.id === id));
     gameState.startDate = data.startDate || null;
     gameState.lastDailyDate = data.lastDailyDate || null;
@@ -1015,7 +1095,7 @@ function loadGame() {
 function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
-    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [],
+    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0
   };
   selectedDay = 1;
@@ -1035,7 +1115,7 @@ function levelName(lvl) { return RANKS[Math.min(8, Math.floor((lvl - 1) / 5))]; 
 
 /* --- Totales de XP por categoría (todas las fuentes) --- */
 const XP_CAT_TOTAL = { analyst: 0, ai: 0, employability: 0 };
-campaignAll.concat(dailyMissions, weeklyMissions).forEach(m => { XP_CAT_TOTAL[m.category] += m.xp; });
+campaignAll.concat(dailyMissions, weeklyMissions, employmentMissions).forEach(m => { XP_CAT_TOTAL[m.category] += m.xp; });
 
 function achXPSum(ids) {
   return achievements.filter(a => ids.includes(a.id)).reduce((s, a) => s + a.xp, 0);
@@ -1049,10 +1129,13 @@ function dailyXPGain() {
 function weeklyXPGain() {
   return weeklyMissions.filter(m => gameState.completedWeekly.includes(m.week)).reduce((s, m) => s + m.xp, 0);
 }
+function jobsXPGain() {
+  return employmentMissions.filter(m => gameState.completedJobs.includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
 
 /* --- Recalcular todo el estado derivado --- */
 function recomputeState() {
-  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain();
+  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain() + jobsXPGain();
   gameState.totalXP = base + achXPSum(gameState.unlockedAch);
   gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
   const catGain = { analyst: 0, ai: 0, employability: 0 };
@@ -1061,6 +1144,7 @@ function recomputeState() {
       : (m.day !== undefined ? gameState.completedDaily.includes(m.id) : gameState.completedWeekly.includes(m.week));
     if (done) catGain[m.category] += m.xp;
   });
+  employmentMissions.forEach(m => { if (gameState.completedJobs.includes(m.id)) catGain[m.category] += m.xp; });
   gameState.stats = {
     analystLevel: Math.round((catGain.analyst / XP_CAT_TOTAL.analyst) * 100),
     aiLevel: Math.round((catGain.ai / XP_CAT_TOTAL.ai) * 100),
@@ -1090,7 +1174,7 @@ function achievementState() {
   const allDaily = dailyN >= DAILY_TOTAL;
   const allWeekly = weekN >= WEEKLY_TOTAL;
   const c = {
-    ach_first: () => doneSet.size + missN + weekN >= 1,
+    ach_first: () => doneSet.size + missN + weekN + jobsDoneCount() >= 1,
     ach_ten: () => dailyN >= 10,
     ach_d21: () => dailyN >= 21,
     ach_d42: () => dailyN >= 42,
@@ -1101,6 +1185,9 @@ function achievementState() {
     ach_st30: () => gameState.streak >= 30,
     ach_w3: () => weekN >= 3,
     ach_w6: () => allWeekly,
+    ach_j5: () => roundsDone() >= 1,
+    ach_j25: () => roundsDone() >= 5,
+    ach_j50: () => roundsDone() >= 10,
     ach_ch0: () => (donePer[0] || 0) >= perChapter[0],
     ach_ch1: () => (donePer[1] || 0) >= perChapter[1],
     ach_ch2: () => (donePer[2] || 0) >= perChapter[2],
@@ -1110,7 +1197,7 @@ function achievementState() {
     ach_ch6: () => (donePer[6] || 0) >= perChapter[6],
     ach_ch7: () => (donePer[7] || 0) >= perChapter[7],
     ach_ai: () => aiAll,
-    ach_legend: () => allCampaign && allDaily && allWeekly
+    ach_legend: () => allCampaign && allDaily && allWeekly && jobsDoneCount() >= employmentMissions.length
   };
   return achievements.filter(a => c[a.id] ? c[a.id]() : false);
 }
@@ -1353,6 +1440,59 @@ function syncMissionCards() {
   });
 }
 
+/* --- 💼 Vista EMPLEO --- */
+function renderJobs() {
+  const root = document.getElementById("jobs-root");
+  if (!root) return;
+  const doneSet = new Set(gameState.completedJobs);
+  let html = "";
+  [1, 2, 3, 4, 5, 6].forEach(blk => {
+    const list = employmentMissions.filter(m => m.blk === blk);
+    html += '<div class="week-block"><h4>' + (JOBS_BLOCKS[blk] || "Bloque " + blk) +
+      ' <span style="color:var(--tx2);font-weight:400">(' + list.filter(m => doneSet.has(m.id)).length + '/' + list.length + ')</span></h4>' +
+      list.map(m => {
+        const done = doneSet.has(m.id);
+        return '<div class="mission job' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+          '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div>' +
+          '<div class="m-body">' +
+            '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
+            '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+            '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+            '<div class="m-tags"><span class="tag time" style="color:#ffaa00;border-color:rgba(255,170,0,.4)">' + (JOBS_TAGS[m.tag] || m.tag) + '</span>' + xpTag(m.xp) + '</div>' +
+          '</div></div>';
+      }).join("") + '</div>';
+  });
+  root.innerHTML = html;
+}
+function toggleJob(id, el) {
+  const m = employmentMissions.find(x => x.id === id);
+  if (!m) return;
+  const oldLevel = gameState.level;
+  const wasDone = gameState.completedJobs.includes(id);
+  if (wasDone) {
+    gameState.completedJobs = gameState.completedJobs.filter(x => x !== id);
+  } else {
+    gameState.completedJobs.push(id);
+    if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, "#ffaa00", 26); }
+  }
+  recomputeState();
+  const ach = checkAchievements();
+  if (ach) recomputeState();
+  renderJobs();
+  updateUI();
+  saveGame();
+  if (wasDone) {
+    toast("↩️", "Misión de empleo desmarcada", "-" + m.xp + " XP · " + m.title);
+  } else {
+    const apps = roundsDone() * 5;
+    toast("💼", "¡Misión de empleo cumplida! +" + m.xp + " XP", m.title + (m.tag === "round" ? " · " + apps + "/50 aplicaciones" : ""));
+    if (m.tag === "round" && apps >= 50) {
+      setTimeout(() => toast("🏆", "¡50 APLICACIONES ENVIADAS!", "Logro Máquina de Aplicaciones desbloqueado", "levelup"), 1700);
+    }
+    cheerRandom();
+  }
+  celebrateIfLevelUp(oldLevel);
+}
 /* --- HUD / panel global --- */
 function updateUI() {
   const pct = Math.min(100, Math.round(((gameState.level - 1) / DAILY_TOTAL) * 100));
@@ -1374,6 +1514,10 @@ function updateUI() {
   document.getElementById("c-count").textContent = gameState.completedMissions.length + "/" + CAMP_TOTAL;
   document.getElementById("ach-count").textContent = gameState.unlockedAch.length;
   document.getElementById("ach-total").textContent = achievements.length;
+  const appsN = roundsDone() * 5;
+  document.getElementById("jb-apps").textContent = Math.min(appsN, 50) + "/50";
+  document.getElementById("jb-done").textContent = jobsDoneCount() + "/" + employmentMissions.length;
+  document.getElementById("jb-xp").textContent = jobsXPGain().toLocaleString("es-CR");
   let minT = 0, maxT = 0;
   campaignAll.forEach(m => { const t = parseHours(m.estimatedTime); minT += t.min * 60; maxT += t.max * 60; });
   dailyMissions.forEach(m => { minT += m.time; maxT += m.time; });
@@ -1669,9 +1813,12 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
-    document.getElementById("view-daily").classList.toggle("active", tab === "daily");
-    document.getElementById("view-campaign").classList.toggle("active", tab === "campaign");
+    ["daily", "campaign", "jobs"].forEach(t => {
+      const v = document.getElementById("view-" + t);
+      if (v) v.classList.toggle("active", tab === t);
+    });
     if (tab === "daily") renderDailyView();
+    if (tab === "jobs") renderJobs();
   });
 });
 
@@ -1694,6 +1841,10 @@ document.getElementById("roadmap").addEventListener("click", e => {
   selectedDay = day;
   renderHero();
   renderRoadmap();
+});
+document.getElementById("jobs-root").addEventListener("click", e => {
+  const check = e.target.closest(".m-check");
+  if (check) toggleJob(check.closest(".mission").dataset.id, check);
 });
 
 /* --- Vista campaña: acordeón + misiones --- */
