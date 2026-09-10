@@ -1515,6 +1515,35 @@ header{padding:10px 14px}
 .av2 .holo-gear.pos-hombro{left:76%;top:38px}
 .av2 .holo-gear.pos-base{top:auto;bottom:0}
 .av2 .holo-aura{width:104px;height:104px;margin:-52px 0 0 -52px}
+
+/* ==========================================================
+   ⚡ V6.2 — MAPA 2D definitivo + sidebar fluida
+   ========================================================== */
+#map-stage{perspective:none!important}
+.hub-wrap,.world-scroll{transform:none!important;transform-style:flat!important}
+.mworld,.mnode{transform:translate(-50%,-50%)!important;transform-style:flat!important}
+.mworld:hover{transform:translate(-50%,-50%) scale(1.06)!important}
+.mnode:hover{transform:translate(-50%,-50%) scale(1.07)!important}
+.mnode.current{transform:translate(-50%,calc(-50% - 4px))!important}
+.mnode.current .mn-ring,.mnode.current .mn-ico{transform:none!important}
+.mworld::after,.mnode::after{transform:translateX(-50%)!important;filter:none}
+.av2-aura{animation:auraFade 3.6s ease-in-out infinite}
+@keyframes auraFade{0%,100%{opacity:.5}50%{opacity:.92}}
+.av2-float{animation:none}
+.av2-base{animation:none}
+.holo-aura{animation:none}
+.app-side,.side-stats,.side-holo{contain:layout paint}
+/* Inventario: maniqui + slots */
+.inv-char{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;padding:12px;border-radius:14px;
+  background:radial-gradient(ellipse at 50% 30%,rgba(0,255,136,.07),transparent 70%);border:1px dashed rgba(160,160,192,.28);margin:8px 0 4px}
+.inv-char-fig .av2{transform:scale(.95)}
+.inv-slots{display:flex;flex-direction:column;gap:4px;min-width:170px}
+.inv-slot{display:flex;align-items:center;gap:8px;font-size:.66rem;color:var(--tx2);font-family:'Share Tech Mono',monospace;
+  border:1px solid rgba(160,160,192,.18);border-radius:8px;padding:4px 8px}
+.inv-slot .is-lbl{flex:0 0 52px;letter-spacing:1px}
+.inv-slot .is-ico{font-size:1rem;width:20px;text-align:center}
+.inv-slot.on{border-color:#ffd700;color:#ffd700;background:rgba(255,215,0,.07);box-shadow:0 0 10px rgba(255,215,0,.15)}
+.inv-char-note{width:100%;text-align:center;font-size:.68rem;color:var(--tx2);margin-top:6px}
 </style>
 </head>
 <body>
@@ -1740,6 +1769,7 @@ header{padding:10px 14px}
       <span class="bal-pill" id="rw-count">🏅 0/30 desbloqueados</span>
       <span class="bal-pill">🎒 <b id="rw-queue-n">0</b> en cofre</span>
     </div>
+    <div class="inv-char" id="inv-char"></div>
     <div id="rw-chest-wrap"></div>
     <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos. ¡Sigue jugando, recluta!</p></div>
   </div>
@@ -2574,7 +2604,7 @@ function levelName(lvl) { return RANKS[Math.min(8, Math.floor((lvl - 1) / 5))]; 
 
 /* --- Totales de XP por categoría (todas las fuentes) --- */
 const XP_CAT_TOTAL = { analyst: 0, ai: 0, employability: 0 };
-campaignAll.concat(dailyMissions, weeklyMissions, employmentMissions).forEach(m => { XP_CAT_TOTAL[m.category] += m.xp; });
+campaignAll.concat(dailyMissions, weeklyMissions, employmentMissions).forEach(m => { XP_CAT_TOTAL[m.category || "employability"] += m.xp; });
 
 function achXPSum(ids) {
   return achievements.filter(a => ids.includes(a.id)).reduce((s, a) => s + a.xp, 0);
@@ -2603,7 +2633,7 @@ function recomputeState() {
       : (m.day !== undefined ? gameState.completedDaily.includes(m.id) : gameState.completedWeekly.includes(m.week));
     if (done) catGain[m.category] += m.xp;
   });
-  employmentMissions.forEach(m => { if (gameState.completedJobs.includes(m.id)) catGain[m.category] += m.xp; });
+  employmentMissions.forEach(m => { if (gameState.completedJobs.includes(m.id)) catGain[m.category || "employability"] += m.xp; });
   gameState.stats = {
     analystLevel: Math.round((catGain.analyst / XP_CAT_TOTAL.analyst) * 100),
     aiLevel: Math.round((catGain.ai / XP_CAT_TOTAL.ai) * 100),
@@ -4217,6 +4247,9 @@ function rwEquip(id) {
   saveGame();
   rwGearRender();
   rwGridRender2();
+  holoRender();
+  sideHoloRender();
+  invCharRender();
 }
 function rwGearRender() {
   const st = rwState();
@@ -4255,6 +4288,7 @@ function rwModalRender() {
   if (qEl) qEl.textContent = st.queue.length;
   const cbox = document.getElementById("rw-chest-wrap");
   const gridBox = document.getElementById("rw-grid-wrap");
+  invCharRender();
   if (st.queue.length > 0) {
     cbox.style.display = "block";
     gridBox.style.display = "none";
@@ -5191,6 +5225,8 @@ function holoFigSVG(col, fillBody) {
     '<rect x="27" y="65" width="10" height="6" rx="2"/></svg>';
 }
 function holoRender() { avatarRender("holo-stage"); }
+const RW_TIER_NAMES = ["Común", "Raro", "Épico", "Legendario"];
+const RW_SEC_COLORS = { "🛡️ Campaña": "#00ccff", "🎖️ General": "#ffd700", "⚖️ Equilibrio": "#00ff88", "👶 Legado": "#2dd4bf", "💑 Alianza": "#ff00aa", "📈 Capital": "#7c6cff" };
 function rwTier(id) {
   if (["rw_d42", "rw_boss8", "rw_cap7", "rw_rang9"].indexOf(id) >= 0) return 3;
   if (["rw_d28", "rw_boss6", "rw_cap4", "rw_rang6", "rw_eq21", "rw_life"].indexOf(id) >= 0) return 2;
@@ -5480,6 +5516,42 @@ function avatarRender(hostId) {
     '<span class="av2-base"></span>' +
     '<div class="av2-float">' + avatarSVG2D(tier.col) + gearPos + "</div>" +
     "</div>";
+}
+
+
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) return;
+  const v = document.getElementById("view-map");
+  if (v && v.classList.contains("active")) renderMapStage();
+});
+window.addEventListener("load", function () {
+  const v = document.getElementById("view-map");
+  if (v && v.classList.contains("active")) renderMapStage();
+});
+
+
+/* ==========================================================
+   🎒 V6.2 — Avatar equipable en el inventario
+   ========================================================== */
+function invCharRender() {
+  const host = document.getElementById("inv-char");
+  if (!host) return;
+  const tier = HOLO_TIERS[holoTier()];
+  const eq = (gameState.rewards || {}).equipped || null;
+  const r = eq ? REWARDS.find(x => x.id === eq) : null;
+  const posDe = r ? (HOLO_POS[r.sec] || "pecho") : null;
+  const slots = [["casco", "CASCO"], ["hombro", "HOMBRO"], ["pecho", "PECHO"], ["aura", "AURA"], ["base", "BASE"]];
+  let html = '<div class="inv-char-fig"><div class="av2" style="--hc:' + tier.col + '">' +
+    '<span class="av2-aura"></span><span class="av2-base"></span>' +
+    '<div class="av2-float">' + avatarSVG2D(tier.col) + (r ? holoGearHTML() : "") + "</div></div></div>";
+  html += '<div class="inv-slots">';
+  slots.forEach(function (s) {
+    const on = r && posDe === s[0];
+    html += '<div class="inv-slot' + (on ? " on" : "") + '"><span class="is-lbl">' + s[1] + '</span>' +
+      '<span class="is-ico">' + (on ? r.ico : "·") + '</span><span class="is-name">' + (on ? r.n : "vacío") + "</span></div>";
+  });
+  html += '</div><p class="inv-char-note">Toca un accesorio desbloqueado abajo para equiparlo</p>';
+  host.innerHTML = html;
 }
 
 /* --- Init --- */
