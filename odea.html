@@ -1177,11 +1177,9 @@ header{padding:10px 14px}
 }
 
 
-/* Rendimiento movil: tilt reducido y ahorro de GPU */
 @media (max-width:999px){
-  .hub-wrap{--tilt:9deg}
-  .world-scroll{--tilt:10deg}
-  .world-scroll::before,.hub-wrap::before{opacity:.03}
+  .hub-wrap{--tilt:11deg}
+  .world-scroll{--tilt:12deg}
 }
 
 /* ==========================================================
@@ -1453,53 +1451,23 @@ header{padding:10px 14px}
   #modal-layer,.side-overlay,#rw-layer{backdrop-filter:none}
   #rw-layer{background:rgba(5,3,10,.95)}
   .nav-bottom{backdrop-filter:none;background:rgba(8,10,24,.99)}
-  .hub-wrap::after,.world-scroll::after{animation:none!important;opacity:.5}
-  .mnode::after,.mworld::after{filter:none}
-  .fog i{filter:blur(7px);opacity:.3}
-  .fog i:nth-child(3){display:none}
-  .mnode.current .mn-ico{animation-duration:3s}
 }
 
 /* ⚡ V5.16b — Campamento móvil en modo ligero (56 nodos) */
 @media (max-width:999px){
-  .mn-ring .rf{filter:none}
-  .world-scroll.t-camp{transform:none;transform-style:flat}
-  .world-scroll.t-camp .mnode{transform:translate(-50%,-50%)}
-  .world-scroll.t-camp .mnode:hover{transform:translate(-50%,-50%) scale(1.06)}
-  .world-scroll.t-camp .mnode::after{display:none}
-  .world-scroll.t-camp .mnode.current{transform:translate(-50%,calc(-50% - 4px))}
 }
 
 @media (max-width:999px){
-  .world-scroll.t-camp .fog i{filter:none;opacity:.22}
-  .world-scroll.t-camp .shoot.s2{display:none}
-  .world-scroll.t-camp .mnode{box-shadow:inset -4px -6px 10px rgba(0,0,0,.5),0 0 10px color-mix(in srgb,var(--mc) 22%,transparent)}
-}
+  }
 
 /* ⚡ V5.17 — fluidez real: cero animaciones que repintan */
 @media (max-width:999px){
-  #grid-layer::after{animation:none}
-  .hub-wrap{transform:none;transform-style:flat}
-  .mworld{transform:translate(-50%,-50%)}
-  .mworld:hover{transform:translate(-50%,-50%) scale(1.05)}
-  .hub-svg .orbit.o1,.hub-svg .orbit.o2{animation:none}
-  .fog i{filter:none;opacity:.25}
-  .rw-item.t3{animation:none}
   .side-stats .radar-wrap{contain:paint}
 }
 
 /* ==========================================================
    🧑‍🚀 V6.0 — TODO 2D: mapa plano, avatar 2D, stats alineados
    ========================================================== */
-/* 1) Sin 3D en el mapa */
-#map-stage{perspective:none!important}
-.hub-wrap,.world-scroll{transform:none!important;transform-style:flat!important}
-.mworld,.mnode{transform:translate(-50%,-50%)!important;transform-style:flat!important}
-.mworld:hover{transform:translate(-50%,-50%) scale(1.06)!important}
-.mnode:hover{transform:translate(-50%,-50%) scale(1.07)!important}
-.mnode.current{transform:translate(-50%,calc(-50% - 4px))!important}
-.mnode.current .mn-ring,.mnode.current .mn-ico{transform:none!important}
-.mworld::after,.mnode::after{transform:translateX(-50%)!important}
 /* 2) Avatar 2D */
 .av2{position:relative;width:74px;height:96px;display:flex;align-items:flex-end;justify-content:center}
 .av2 svg{width:64px;height:86px;display:block;position:relative;z-index:2}
@@ -1532,6 +1500,21 @@ header{padding:10px 14px}
 @media (prefers-reduced-motion: reduce){
   .av2-aura,.av2-float,.av2 .holo-aura{animation:none!important}
 }
+
+/* 🧑‍🚀 V6.1 — Avatar más grande y visible */
+.holo-stage{height:132px}
+.av2{width:92px;height:116px}
+.av2 svg{width:78px;height:104px}
+.side-holo .av2{transform:scale(.92)}
+.side-holo{height:100px}
+.av2-base{position:absolute;left:50%;bottom:2px;width:74px;height:15px;margin-left:-37px;border-radius:50%;
+  border:1.5px solid color-mix(in srgb,var(--hc) 60%,transparent);background:radial-gradient(ellipse at center,color-mix(in srgb,var(--hc) 22%,transparent),transparent 72%);
+  box-shadow:0 0 12px color-mix(in srgb,var(--hc) 40%,transparent)}
+.av2 .holo-gear.pos-pecho{top:48px}
+.av2 .holo-gear.pos-casco{top:10px}
+.av2 .holo-gear.pos-hombro{left:76%;top:38px}
+.av2 .holo-gear.pos-base{top:auto;bottom:0}
+.av2 .holo-aura{width:104px;height:104px;margin:-52px 0 0 -52px}
 </style>
 </head>
 <body>
@@ -5448,37 +5431,42 @@ function holoGearHTML() {
    Reemplaza el holograma 3D por un personaje plano bonito.
    ========================================================== */
 function avatarSVG2D(col) {
-  return '<svg viewBox="0 0 64 86" xmlns="http://www.w3.org/2000/svg">' +
-    /* piernas + botas */
-    '<rect x="23" y="58" width="8" height="16" rx="3.5" fill="#1a2238" stroke="#0b1020" stroke-width="1.4"/>' +
-    '<rect x="33" y="58" width="8" height="16" rx="3.5" fill="#1a2238" stroke="#0b1020" stroke-width="1.4"/>' +
-    '<rect x="20.5" y="71" width="12" height="7" rx="2.6" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
-    '<rect x="31.5" y="71" width="12" height="7" rx="2.6" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+  return '<svg viewBox="0 0 64 88" xmlns="http://www.w3.org/2000/svg">' +
+    /* sombra/base */
+    '<ellipse cx="32" cy="83" rx="17" ry="4" fill="rgba(0,0,0,.45)"/>' +
+    /* piernas */
+    '<rect x="23" y="59" width="8" height="16" rx="3.6" fill="#1b2440" stroke="#0a0f1e" stroke-width="1.5"/>' +
+    '<rect x="33" y="59" width="8" height="16" rx="3.6" fill="#1b2440" stroke="#0a0f1e" stroke-width="1.5"/>' +
+    '<rect x="20.5" y="72" width="12" height="7.5" rx="2.8" fill="#0e1526" stroke="#0a0f1e" stroke-width="1.3"/>' +
+    '<rect x="31.5" y="72" width="12" height="7.5" rx="2.8" fill="#0e1526" stroke="#0a0f1e" stroke-width="1.3"/>' +
     /* brazos */
-    '<rect x="13" y="33" width="7" height="21" rx="3.5" fill="#22304e" stroke="#0b1020" stroke-width="1.3"/>' +
-    '<rect x="44" y="33" width="7" height="21" rx="3.5" fill="#22304e" stroke="#0b1020" stroke-width="1.3"/>' +
-    '<circle cx="16.5" cy="55" r="4.2" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
-    '<circle cx="47.5" cy="55" r="4.2" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+    '<rect x="12.5" y="34" width="7.5" height="22" rx="3.7" fill="#28365a" stroke="#0a0f1e" stroke-width="1.4"/>' +
+    '<rect x="44" y="34" width="7.5" height="22" rx="3.7" fill="#28365a" stroke="#0a0f1e" stroke-width="1.4"/>' +
+    '<circle cx="16.2" cy="57" r="4.4" fill="#0e1526" stroke="#0a0f1e" stroke-width="1.3"/>' +
+    '<circle cx="47.8" cy="57" r="4.4" fill="#0e1526" stroke="#0a0f1e" stroke-width="1.3"/>' +
     /* torso */
-    '<rect x="19" y="30" width="26" height="30" rx="9" fill="' + col + '" stroke="#0b1020" stroke-width="1.5"/>' +
+    '<rect x="18.5" y="30" width="27" height="31" rx="9.5" fill="' + col + '" stroke="#0a0f1e" stroke-width="1.7"/>' +
+    '<path d="M23 32 q9 -4 18 0 l-2 12 q-7 3 -14 0 z" fill="rgba(255,255,255,.18)"/>' +
     /* hombreras */
-    '<rect x="13.5" y="29" width="9" height="7" rx="3.4" fill="' + col + '" stroke="#0b1020" stroke-width="1.3"/>' +
-    '<rect x="41.5" y="29" width="9" height="7" rx="3.4" fill="' + col + '" stroke="#0b1020" stroke-width="1.3"/>' +
-    /* placa de pecho + nucleo */
-    '<rect x="25" y="36" width="14" height="10" rx="3" fill="#0d1424" stroke="' + col + '" stroke-width="1.2"/>' +
-    '<circle cx="32" cy="41" r="2.6" fill="' + col + '"/>' +
+    '<rect x="12.6" y="28.6" width="10" height="7.6" rx="3.6" fill="' + col + '" stroke="#0a0f1e" stroke-width="1.4"/>' +
+    '<rect x="41.4" y="28.6" width="10" height="7.6" rx="3.6" fill="' + col + '" stroke="#0a0f1e" stroke-width="1.4"/>' +
+    /* placa de pecho con nucleo */
+    '<rect x="25" y="36.5" width="14" height="10.5" rx="3.2" fill="#0c1322" stroke="' + col + '" stroke-width="1.3"/>' +
+    '<circle cx="32" cy="41.7" r="3" fill="' + col + '"/>' +
+    '<circle cx="32" cy="41.7" r="1.2" fill="#eafff6"/>' +
     /* cinturon */
-    '<rect x="21" y="56" width="22" height="5" rx="2" fill="#0f1626" stroke="#0b1020" stroke-width="1.1"/>' +
-    '<rect x="30.5" y="56" width="3" height="5" rx="1" fill="' + col + '"/>' +
+    '<rect x="20.5" y="57" width="23" height="5.4" rx="2.2" fill="#0e1526" stroke="#0a0f1e" stroke-width="1.2"/>' +
+    '<rect x="30.4" y="57" width="3.2" height="5.4" rx="1" fill="' + col + '"/>' +
     /* cabeza + casco */
-    '<circle cx="32" cy="18" r="11" fill="' + col + '" stroke="#0b1020" stroke-width="1.6"/>' +
+    '<circle cx="32" cy="18" r="11.4" fill="' + col + '" stroke="#0a0f1e" stroke-width="1.8"/>' +
+    '<path d="M21.5 15 a11 11 0 0 1 21 0 z" fill="rgba(255,255,255,.22)"/>' +
     /* visor */
-    '<rect x="23.5" y="14" width="17" height="7" rx="3.2" fill="#0b1220" stroke="#0b1020" stroke-width="1.2"/>' +
-    '<circle cx="27.5" cy="17.5" r="1.7" fill="#8ff5ff"/>' +
-    '<rect x="31" y="16.4" width="6" height="2.2" rx="1.1" fill="#43e0ff" opacity=".75"/>' +
+    '<rect x="23" y="13.6" width="18" height="7.4" rx="3.4" fill="#0a1220" stroke="#0a0f1e" stroke-width="1.3"/>' +
+    '<circle cx="27.2" cy="17.3" r="1.9" fill="#9ff7ff"/>' +
+    '<rect x="30.6" y="16.2" width="6.6" height="2.3" rx="1.15" fill="#43e0ff" opacity=".8"/>' +
     /* antena */
-    '<rect x="31.2" y="4.4" width="1.6" height="4.4" rx="0.8" fill="#0b1020"/>' +
-    '<circle cx="32" cy="3.6" r="1.8" fill="#ff5a8a"/>' +
+    '<rect x="31.2" y="4" width="1.7" height="4.6" rx="0.85" fill="#0a0f1e"/>' +
+    '<circle cx="32" cy="3.2" r="2" fill="#ff5a8a"/>' +
     "</svg>";
 }
 function avatarRender(hostId) {
@@ -5489,7 +5477,7 @@ function avatarRender(hostId) {
   host.innerHTML =
     '<div class="av2" style="--hc:' + tier.col + '">' +
     '<span class="av2-aura"></span>' +
-    '<span class="av2-shadow"></span>' +
+    '<span class="av2-base"></span>' +
     '<div class="av2-float">' + avatarSVG2D(tier.col) + gearPos + "</div>" +
     "</div>";
 }
