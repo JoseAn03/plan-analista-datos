@@ -67,8 +67,6 @@ h1,h2,h3,.f-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:.5p
     linear-gradient(rgba(0,255,136,.045) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,255,136,.045) 1px,transparent 1px);
   background-size:42px 42px;
-  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
 }
 #grid-layer::after{content:'';position:absolute;inset:-42px;pointer-events:none;
   background-image:
@@ -1381,7 +1379,7 @@ header{padding:10px 14px}
   border:1.5px solid var(--gc,#0cf);box-shadow:0 0 16px var(--gc,#0cf),inset 0 0 12px var(--gc,#0cf);
   transform:translate(-50%,-50%) translateZ(4px);animation:auraPulse 2.8s ease-in-out infinite}
 @keyframes auraPulse{0%,100%{opacity:.35;transform:translate(-50%,-50%) translateZ(4px) scale(.94)}50%{opacity:.7;transform:translate(-50%,-50%) translateZ(4px) scale(1.06)}}
-.holo-stage, .side-holo{cursor:grab}
+.holo-stage, .side-holo{cursor:pointer}
 .holo-stage.grabbing, .side-holo.grabbing{cursor:grabbing}
 @media (prefers-reduced-motion: reduce){.holo-aura{animation:none}}
 
@@ -1488,6 +1486,51 @@ header{padding:10px 14px}
   .fog i{filter:none;opacity:.25}
   .rw-item.t3{animation:none}
   .side-stats .radar-wrap{contain:paint}
+}
+
+/* ==========================================================
+   🧑‍🚀 V6.0 — TODO 2D: mapa plano, avatar 2D, stats alineados
+   ========================================================== */
+/* 1) Sin 3D en el mapa */
+#map-stage{perspective:none!important}
+.hub-wrap,.world-scroll{transform:none!important;transform-style:flat!important}
+.mworld,.mnode{transform:translate(-50%,-50%)!important;transform-style:flat!important}
+.mworld:hover{transform:translate(-50%,-50%) scale(1.06)!important}
+.mnode:hover{transform:translate(-50%,-50%) scale(1.07)!important}
+.mnode.current{transform:translate(-50%,calc(-50% - 4px))!important}
+.mnode.current .mn-ring,.mnode.current .mn-ico{transform:none!important}
+.mworld::after,.mnode::after{transform:translateX(-50%)!important}
+/* 2) Avatar 2D */
+.av2{position:relative;width:74px;height:96px;display:flex;align-items:flex-end;justify-content:center}
+.av2 svg{width:64px;height:86px;display:block;position:relative;z-index:2}
+.av2-aura{position:absolute;left:50%;top:52%;width:92px;height:92px;margin-left:-46px;margin-top:-46px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, color-mix(in srgb,var(--hc) 34%,transparent), transparent 68%);animation:auraBreath 3.6s ease-in-out infinite}
+@keyframes auraBreath{0%,100%{opacity:.5;transform:scale(.93)}50%{opacity:.95;transform:scale(1.06)}}
+.av2-shadow{position:absolute;left:50%;bottom:-2px;width:54px;height:11px;margin-left:-27px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.55),transparent 72%)}
+.av2-float{position:relative;display:flex;align-items:flex-end;justify-content:center;width:100%;height:100%;animation:avFloat2 3.4s ease-in-out infinite}
+@keyframes avFloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.av2 .holo-gear{position:absolute;left:50%;transform:translateX(-50%);font-size:15px;line-height:1;z-index:3;
+  filter:drop-shadow(0 0 5px rgba(255,215,0,.9));pointer-events:none}
+.av2 .holo-gear.pos-pecho{top:40px}
+.av2 .holo-gear.pos-casco{top:8px;font-size:14px}
+.av2 .holo-gear.pos-hombro{left:74%;top:32px;font-size:14px}
+.av2 .holo-gear.pos-base{top:auto;bottom:-2px;font-size:17px}
+.av2 .holo-aura{position:absolute;left:50%;top:52%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;pointer-events:none;z-index:1;
+  border:1.5px solid var(--gc,#0cf);box-shadow:0 0 14px var(--gc,#0cf),inset 0 0 10px var(--gc,#0cf);opacity:.55;animation:auraBreath 2.8s ease-in-out infinite}
+.side-holo .av2{transform:scale(.82)}
+/* 3) Stats alineados */
+.side-stats .stat-block{padding:0 2px 10px;border-bottom:1px dashed rgba(160,160,192,.13);margin-bottom:12px}
+.side-stats .stat-block:last-of-type{border-bottom:none}
+.side-stats .stat-head{align-items:baseline;gap:8px}
+.side-stats .stat-head>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-stats .stat-head>span:last-child{flex:0 0 auto}
+.side-stats .radar-wrap{margin:6px auto 2px;width:100%}
+.side-stats .radar-wrap canvas{display:block;margin:0 auto}
+.side-stats .time-est{margin-top:12px}
+.side-stats .chip-grid{margin:12px 0}
+@media (prefers-reduced-motion: reduce){
+  .av2-aura,.av2-float,.av2 .holo-aura{animation:none!important}
 }
 </style>
 </head>
@@ -5164,37 +5207,7 @@ function holoFigSVG(col, fillBody) {
     '<rect x="19" y="65" width="10" height="6" rx="2"/>' +
     '<rect x="27" y="65" width="10" height="6" rx="2"/></svg>';
 }
-function holoRender() {
-  const stage = document.getElementById("holo-stage");
-  if (!stage) return;
-  const tier = HOLO_TIERS[holoTier()];
-  const zs = [-16, -8, 0, 10, 18, 24];
-  const fills = ["#0a1020", "rgba(255,255,255,.12)", tier.col, tier.col, "rgba(255,255,255,.25)", "#ffffff"];
-  const n = tier.n;
-  let fig = '<div class="holo-fig" style="--hc:' + tier.col + '">';
-  for (let i = 0; i < n; i++) {
-    const col = i === 0 ? tier.col : tier.col;
-    const z = zs[i] !== undefined ? zs[i] : (i * 6);
-    const op = i === 0 ? 1 : i === 2 ? 1 : 0.9;
-    const glow = i === n - 1 || i === 3 ? ' class="hf-glow"' : "";
-    fig += '<div class="hf-layer' + (glow ? "" : "") + '" style="transform:translateZ(' + z + 'px);opacity:' + op + '"' +
-      (glow ? '><div class="hf-glow">' : ">") +
-      holoFigSVG(col, i === 1 ? "rgba(255,255,255,.14)" : (i === 0 ? "#0b1120" : tier.col)) +
-      (glow ? "</div>" : "") + "</div>";
-  }
-  fig += holoExtras(holoTier());
-  fig += holoGearHTML();
-  fig += '<span class="holo-name">RECLUTA</span></div>';
-  stage.innerHTML = '<div class="holo-base"></div>' + fig;
-}
-
-/* ==========================================================
-   🎒 V5.6 — ARSENAL CYBERPUNK v2 (rareza, bahías, glitch)
-   Funciones NUEVAS (…2): presentación pura; REWARDS/rwEquip
-   intactos. El modal llama a estas versiones.
-   ========================================================== */
-const RW_TIER_NAMES = ["Común", "Raro", "Épico", "Legendario"];
-const RW_SEC_COLORS = { "🛡️ Campaña": "#00ccff", "🎖️ General": "#ffd700", "⚖️ Equilibrio": "#00ff88", "👶 Legado": "#2dd4bf", "💑 Alianza": "#ff00aa", "📈 Capital": "#7c6cff" };
+function holoRender() { avatarRender("holo-stage"); }
 function rwTier(id) {
   if (["rw_d42", "rw_boss8", "rw_cap7", "rw_rang9"].indexOf(id) >= 0) return 3;
   if (["rw_d28", "rw_boss6", "rw_cap4", "rw_rang6", "rw_eq21", "rw_life"].indexOf(id) >= 0) return 2;
@@ -5306,25 +5319,7 @@ function goTab(tab) {
 }
 function openSide() { document.getElementById("app-side").classList.add("open"); const o = document.getElementById("side-overlay"); if (o) o.classList.add("show"); }
 function closeSide() { document.getElementById("app-side").classList.remove("open"); const o = document.getElementById("side-overlay"); if (o) o.classList.remove("show"); }
-function sideHoloRender() {
-  const host = document.getElementById("side-holo");
-  if (!host) return;
-  const tier = HOLO_TIERS[holoTier()];
-  const zs = [-16, -8, 0, 10, 18, 24];
-  const n = tier.n;
-  let fig = '<div class="holo-fig" style="--hc:' + tier.col + '">';
-  for (let i = 0; i < n; i++) {
-    const z = zs[i] !== undefined ? zs[i] : (i * 6);
-    const glow = i === 3;
-    fig += '<div class="hf-layer" style="transform:translateZ(' + z + 'px)">' +
-      (glow ? '<div class="hf-glow">' : "") +
-      holoFigSVG(tier.col, i === 1 ? "rgba(255,255,255,.14)" : (i === 0 ? "#0b1120" : tier.col)) +
-      (glow ? "</div>" : "") + "</div>";
-  }
-  fig += holoExtras(holoTier());
-  fig += holoGearHTML();
-  host.innerHTML = fig + '<span class="side-hint">TU PERSONAJE · TOCA</span>';
-}
+function sideHoloRender() { avatarRender("side-holo"); }
 function sideSync() {
   const n = document.getElementById("side-name");
   if (n) n.textContent = gameState.playerName;
@@ -5447,6 +5442,57 @@ function holoGearHTML() {
     el.addEventListener("pointercancel", end);
   });
 })();
+
+/* ==========================================================
+   🧑‍🚀 V6.0 — AVATAR 2D (estilo limpio) + render en ambos hosts
+   Reemplaza el holograma 3D por un personaje plano bonito.
+   ========================================================== */
+function avatarSVG2D(col) {
+  return '<svg viewBox="0 0 64 86" xmlns="http://www.w3.org/2000/svg">' +
+    /* piernas + botas */
+    '<rect x="23" y="58" width="8" height="16" rx="3.5" fill="#1a2238" stroke="#0b1020" stroke-width="1.4"/>' +
+    '<rect x="33" y="58" width="8" height="16" rx="3.5" fill="#1a2238" stroke="#0b1020" stroke-width="1.4"/>' +
+    '<rect x="20.5" y="71" width="12" height="7" rx="2.6" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+    '<rect x="31.5" y="71" width="12" height="7" rx="2.6" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+    /* brazos */
+    '<rect x="13" y="33" width="7" height="21" rx="3.5" fill="#22304e" stroke="#0b1020" stroke-width="1.3"/>' +
+    '<rect x="44" y="33" width="7" height="21" rx="3.5" fill="#22304e" stroke="#0b1020" stroke-width="1.3"/>' +
+    '<circle cx="16.5" cy="55" r="4.2" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+    '<circle cx="47.5" cy="55" r="4.2" fill="#0f1626" stroke="#0b1020" stroke-width="1.2"/>' +
+    /* torso */
+    '<rect x="19" y="30" width="26" height="30" rx="9" fill="' + col + '" stroke="#0b1020" stroke-width="1.5"/>' +
+    /* hombreras */
+    '<rect x="13.5" y="29" width="9" height="7" rx="3.4" fill="' + col + '" stroke="#0b1020" stroke-width="1.3"/>' +
+    '<rect x="41.5" y="29" width="9" height="7" rx="3.4" fill="' + col + '" stroke="#0b1020" stroke-width="1.3"/>' +
+    /* placa de pecho + nucleo */
+    '<rect x="25" y="36" width="14" height="10" rx="3" fill="#0d1424" stroke="' + col + '" stroke-width="1.2"/>' +
+    '<circle cx="32" cy="41" r="2.6" fill="' + col + '"/>' +
+    /* cinturon */
+    '<rect x="21" y="56" width="22" height="5" rx="2" fill="#0f1626" stroke="#0b1020" stroke-width="1.1"/>' +
+    '<rect x="30.5" y="56" width="3" height="5" rx="1" fill="' + col + '"/>' +
+    /* cabeza + casco */
+    '<circle cx="32" cy="18" r="11" fill="' + col + '" stroke="#0b1020" stroke-width="1.6"/>' +
+    /* visor */
+    '<rect x="23.5" y="14" width="17" height="7" rx="3.2" fill="#0b1220" stroke="#0b1020" stroke-width="1.2"/>' +
+    '<circle cx="27.5" cy="17.5" r="1.7" fill="#8ff5ff"/>' +
+    '<rect x="31" y="16.4" width="6" height="2.2" rx="1.1" fill="#43e0ff" opacity=".75"/>' +
+    /* antena */
+    '<rect x="31.2" y="4.4" width="1.6" height="4.4" rx="0.8" fill="#0b1020"/>' +
+    '<circle cx="32" cy="3.6" r="1.8" fill="#ff5a8a"/>' +
+    "</svg>";
+}
+function avatarRender(hostId) {
+  const host = document.getElementById(hostId);
+  if (!host) return;
+  const tier = HOLO_TIERS[holoTier()];
+  const gearPos = holoGearHTML();
+  host.innerHTML =
+    '<div class="av2" style="--hc:' + tier.col + '">' +
+    '<span class="av2-aura"></span>' +
+    '<span class="av2-shadow"></span>' +
+    '<div class="av2-float">' + avatarSVG2D(tier.col) + gearPos + "</div>" +
+    "</div>";
+}
 
 /* --- Init --- */
 sizeCanvas();
