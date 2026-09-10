@@ -1544,6 +1544,39 @@ header{padding:10px 14px}
 .inv-slot .is-ico{font-size:1rem;width:20px;text-align:center}
 .inv-slot.on{border-color:#ffd700;color:#ffd700;background:rgba(255,215,0,.07);box-shadow:0 0 10px rgba(255,215,0,.15)}
 .inv-char-note{width:100%;text-align:center;font-size:.68rem;color:var(--tx2);margin-top:6px}
+
+/* ==========================================================
+   🎒 V6.4 — Inventario móvil: volver visible + sin cortes
+   ========================================================== */
+.rw-head{position:sticky;top:0;z-index:7;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:4px 2px 10px;margin:-8px 0 6px;background:linear-gradient(180deg,rgba(28,23,48,.99) 75%,rgba(28,23,48,0));
+  border-bottom:1px solid rgba(255,215,0,.2)}
+.rw-head h2{margin:0;text-align:left;font-size:1.15rem;letter-spacing:1.5px}
+.rw-head .close-x{position:static;flex:0 0 auto;width:38px;height:38px;font-size:1.05rem;border-radius:10px;
+  background:rgba(26,26,46,.9);border:1px solid rgba(160,160,192,.35);color:#fff;cursor:pointer}
+.rw-head .close-x:hover{border-color:var(--glow-cyan);color:var(--glow-cyan)}
+.rw-back{width:100%;margin:16px 0 6px!important}
+@media (max-width:640px){
+  .rw-modal{padding:14px 12px;max-height:90vh;border-radius:14px}
+  .rw-head h2{font-size:.98rem;letter-spacing:1px}
+  .rw-sub{font-size:.72rem;margin:2px 0 10px}
+  .rw-stats{gap:6px}
+  .rw-stats .bal-pill{font-size:.66rem;padding:3px 8px}
+  .inv-char{gap:10px;padding:10px 8px}
+  .inv-slots{min-width:0;flex:1 1 100%;max-width:100%}
+  .inv-slot{font-size:.6rem;padding:3px 6px}
+  .inv-slot .is-lbl{flex:0 0 46px}
+  .inv-slot .is-ico{width:18px;font-size:.95rem}
+  .inv-slot .is-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+  .inv-char-note{font-size:.62rem}
+  .rw-bay-head{font-size:.6rem;letter-spacing:.8px;flex-wrap:wrap;gap:4px}
+  .rw-bay-grid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+  .rw-item{padding:10px 4px 7px}
+  .rw-item .ri-name{font-size:.58rem}
+  .rw-item .ri-ico{font-size:1.7rem}
+  .rw-item .ri-tier{font-size:.5rem}
+  .rw-locked-note{font-size:.64rem}
+}
 </style>
 </head>
 <body>
@@ -1762,16 +1795,19 @@ header{padding:10px 14px}
 
 <div id="rw-layer">
   <div class="rw-modal">
-    <button class="close-x" id="rw-close">✕</button>
-    <h2>🎒 ARSENAL DEL HÉROE</h2>
-    <p class="rw-sub">Al lograr hitos desbloqueas accesorios únicos de cada sección. Ábrelos en el cofre y equípalos: lucen junto a tu nombre de recluta.</p>
+    <div class="rw-head">
+      <h2>🎒 INVENTARIO</h2>
+      <button class="close-x" id="rw-close">✕</button>
+    </div>
+    <p class="rw-sub">Tus recompensas. Toca una para equiparla: se verá sobre tu personaje.</p>
     <div class="rw-stats">
       <span class="bal-pill" id="rw-count">🏅 0/30 desbloqueados</span>
       <span class="bal-pill">🎒 <b id="rw-queue-n">0</b> en cofre</span>
     </div>
     <div class="inv-char" id="inv-char"></div>
     <div id="rw-chest-wrap"></div>
-    <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos. ¡Sigue jugando, recluta!</p></div>
+    <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos.</p></div>
+    <button class="btn-neon rw-back" id="rw-close2">◀ VOLVER AL MAPA</button>
   </div>
 </div>
 
@@ -4362,6 +4398,8 @@ function rwCloseArsenal() {
   if (fab) fab.addEventListener("click", rwOpenArsenal);
   const close = document.getElementById("rw-close");
   if (close) close.addEventListener("click", rwCloseArsenal);
+  const close2 = document.getElementById("rw-close2");
+  if (close2) close2.addEventListener("click", rwCloseArsenal);
   const layer = document.getElementById("rw-layer");
   if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) rwCloseArsenal(); });
   const snd = document.getElementById("snd-btn");
