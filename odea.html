@@ -67,11 +67,15 @@ h1,h2,h3,.f-display{font-family:'Orbitron',Verdana,sans-serif;letter-spacing:.5p
     linear-gradient(rgba(0,255,136,.045) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,255,136,.045) 1px,transparent 1px);
   background-size:42px 42px;
-  animation:gridPan 14s linear infinite;
   mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
   -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
 }
-@keyframes gridPan{from{background-position:0 0,0 0}to{background-position:42px 0,42px 0}}
+#grid-layer::after{content:'';position:absolute;inset:-42px;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,255,136,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,136,.045) 1px,transparent 1px);
+  background-size:42px 42px;animation:gridPanGpu 14s linear infinite;will-change:transform}
+@keyframes gridPanGpu{from{transform:translate3d(0,0,0)}to{transform:translate3d(42px,42px,0)}}
 #particles-canvas{position:fixed;inset:0;z-index:40;pointer-events:none}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:var(--bg)}
@@ -587,8 +591,10 @@ html{-webkit-text-size-adjust:100%}
 /* --- Reto del día --- */
 .reto-card{margin-top:14px;padding:14px 16px;border-radius:14px;position:relative;overflow:hidden;
   background:linear-gradient(135deg,rgba(255,170,0,.12),rgba(255,51,85,.08));
-  border:1px dashed rgba(255,170,0,.5);animation:retoPulse 2.6s ease-in-out infinite}
-@keyframes retoPulse{0%,100%{box-shadow:0 0 0 rgba(255,170,0,.0)}50%{box-shadow:0 0 22px rgba(255,170,0,.22)}}
+  border:1px dashed rgba(255,170,0,.5)}
+.reto-card::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  box-shadow:0 0 22px rgba(255,170,0,.5);opacity:0;animation:retoGlow 2.6s ease-in-out infinite}
+@keyframes retoGlow{0%,100%{opacity:0}50%{opacity:.85}}
 .reto-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .reto-dice{font-size:1.7rem;animation:diceSpin 3.4s ease-in-out infinite;display:inline-block}
 @keyframes diceSpin{0%,80%{transform:rotate(0)}86%{transform:rotate(18deg)}92%{transform:rotate(-14deg)}100%{transform:rotate(0)}}
@@ -776,8 +782,9 @@ html{-webkit-text-size-adjust:100%}
 .mnode.locked{opacity:.45;filter:saturate(.2) grayscale(.6);cursor:not-allowed}
 .mnode.locked .mn-name{color:#8a8aa8}
 .mnode.lock-boss{opacity:.8;filter:saturate(.35)}
-.mnode.current{animation:nodeGlow 1.9s ease-in-out infinite}
-@keyframes nodeGlow{0%,100%{box-shadow:0 0 8px color-mix(in srgb,var(--mc) 40%,transparent)}50%{box-shadow:0 0 26px color-mix(in srgb,var(--mc) 90%,transparent)}}
+.mnode.current{box-shadow:0 0 18px color-mix(in srgb,var(--mc) 55%,transparent)}
+.mnode.current .mn-ring{animation:ringBreathe 1.9s ease-in-out infinite}
+@keyframes ringBreathe{0%,100%{opacity:.7}50%{opacity:1}}
 .mnode.done{border-color:rgba(255,215,0,.7)}
 .mnode.done .mn-ico{filter:drop-shadow(0 0 10px #ffd700)}
 .mnode .mn-check{position:absolute;top:-8px;left:-8px;width:22px;height:22px;border-radius:50%;background:#ffd700;color:#1a1400;
@@ -1038,8 +1045,9 @@ html{-webkit-text-size-adjust:100%}
   filter:blur(1px)}
 .holo-stage::after{content:'';position:absolute;left:50%;bottom:10px;width:60px;height:86px;transform:translateX(-50%);
   background:linear-gradient(180deg,transparent,rgba(0,255,136,.10) 48%,rgba(0,255,136,.22) 50%,transparent 52%);
-  background-size:100% 14px;animation:holoScan 2.6s linear infinite;pointer-events:none;opacity:.7;mix-blend-mode:screen}
-@keyframes holoScan{0%{background-position:0 -86px}100%{background-position:0 86px}}
+  background:linear-gradient(90deg,transparent,rgba(0,255,136,.95),transparent);background-size:100% 3px;pointer-events:none;opacity:.8;mix-blend-mode:screen;
+  animation:holoScanY 2.6s linear infinite}
+@keyframes holoScanY{0%{transform:translateX(-50%) translateY(-78px);opacity:0}12%{opacity:.85}88%{opacity:.85}100%{transform:translateX(-50%) translateY(4px);opacity:0}}
 .holo-fig{position:relative;width:56px;height:80px;transform-style:preserve-3d;animation:holoSpin 14s linear infinite;pointer-events:none}
 @keyframes holoSpin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
 .holo-fig .hf-layer{position:absolute;left:0;top:0;width:56px;height:80px;transform-style:preserve-3d;backface-visibility:visible}
@@ -1468,6 +1476,18 @@ header{padding:10px 14px}
   .world-scroll.t-camp .fog i{filter:none;opacity:.22}
   .world-scroll.t-camp .shoot.s2{display:none}
   .world-scroll.t-camp .mnode{box-shadow:inset -4px -6px 10px rgba(0,0,0,.5),0 0 10px color-mix(in srgb,var(--mc) 22%,transparent)}
+}
+
+/* ⚡ V5.17 — fluidez real: cero animaciones que repintan */
+@media (max-width:999px){
+  #grid-layer::after{animation:none}
+  .hub-wrap{transform:none;transform-style:flat}
+  .mworld{transform:translate(-50%,-50%)}
+  .mworld:hover{transform:translate(-50%,-50%) scale(1.05)}
+  .hub-svg .orbit.o1,.hub-svg .orbit.o2{animation:none}
+  .fog i{filter:none;opacity:.25}
+  .rw-item.t3{animation:none}
+  .side-stats .radar-wrap{contain:paint}
 }
 </style>
 </head>
