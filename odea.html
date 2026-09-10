@@ -1030,6 +1030,33 @@ html{-webkit-text-size-adjust:100%}
 #map-stage{overflow-x:hidden}
 .hub-wrap{overflow-x:hidden}
 .world-scroll{overflow-x:hidden;overflow-y:auto}
+
+/* ==========================================================
+   🧑‍🚀 V5.5 — Holograma 3D del Recluta (perfil)
+   Capas SVG en eje Z + rotación Y. Solo transform/opacity.
+   ========================================================== */
+.holo-stage{height:104px;display:flex;align-items:flex-end;justify-content:center;position:relative;margin:2px 0 6px;user-select:none}
+.holo-base{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:74px;height:13px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,255,136,.35),rgba(0,255,136,.06) 62%,transparent 75%);
+  filter:blur(1px)}
+.holo-stage::after{content:'';position:absolute;left:50%;bottom:10px;width:60px;height:86px;transform:translateX(-50%);
+  background:linear-gradient(180deg,transparent,rgba(0,255,136,.10) 48%,rgba(0,255,136,.22) 50%,transparent 52%);
+  background-size:100% 14px;animation:holoScan 2.6s linear infinite;pointer-events:none;opacity:.7;mix-blend-mode:screen}
+@keyframes holoScan{0%{background-position:0 -86px}100%{background-position:0 86px}}
+.holo-fig{position:relative;width:56px;height:80px;transform-style:preserve-3d;animation:holoSpin 14s linear infinite;pointer-events:none}
+@keyframes holoSpin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+.holo-fig .hf-layer{position:absolute;left:0;top:0;width:56px;height:80px;transform-style:preserve-3d;backface-visibility:visible}
+.holo-fig .hf-layer svg{display:block;width:56px;height:80px;overflow:visible}
+.holo-fig .hf-glow{position:absolute;left:0;top:0;width:56px;height:80px;filter:blur(5px);opacity:.55}
+.holo-gear{position:absolute;left:50%;top:26px;transform:translateX(-50%) translateZ(26px);font-size:15px;line-height:1;
+  filter:drop-shadow(0 0 5px rgba(255,215,0,.95));pointer-events:none}
+.holo-name{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);font-family:'Share Tech Mono',monospace;
+  font-size:.6rem;color:var(--glow-cyan);letter-spacing:2px;white-space:nowrap;text-transform:uppercase;opacity:.9}
+@media (prefers-reduced-motion: reduce){
+  .holo-fig{animation:none;transform:rotateY(0)}
+  .holo-stage::after{animation:none}
+}
+
 </style>
 </head>
 <body>
@@ -1062,6 +1089,7 @@ html{-webkit-text-size-adjust:100%}
     <h3>⚡ Perfil del Recluta</h3>
     <div class="stat-block">
       <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
+      <div class="holo-stage" id="holo-stage"></div>
     </div>
     <div class="stat-block">
       <div class="stat-head"><span><span class="stat-ico">📊</span>Nivel Analista</span><span id="stat-analyst-txt">0%</span></div>
@@ -2500,6 +2528,7 @@ function updateUI() {
   evalRewards();
   rwGearRender();
   updateEmpRank();
+  holoRender();
 }
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
@@ -4664,6 +4693,58 @@ function campHTML() {
   svg += "</div>" +
     '<div class="maps-legend"><span class="lg-done">Completado</span><span class="lg-cur">Hoy / en curso</span><span class="lg-lock">Bloqueado</span></div></div>';
   return svg;
+}
+
+/* ==========================================================
+   🧑‍🚀 V5.5 — Holograma del Recluta: render por tier
+   ========================================================== */
+const HOLO_TIERS = [
+  { col: "#4dd0ff", aura: "rgba(77,208,255,.5)", n: 3 },   // niveles 1-2
+  { col: "#00ff88", aura: "rgba(0,255,136,.6)", n: 4 },    // 3-4
+  { col: "#ff00ff", aura: "rgba(255,0,255,.6)", n: 5 },    // 5-6
+  { col: "#ffd700", aura: "rgba(255,215,0,.75)", n: 6 }    // 7-9+
+];
+function holoTier() {
+  const lvl = gameState.level || 1;
+  if (lvl >= 7) return 3;
+  if (lvl >= 5) return 2;
+  if (lvl >= 3) return 1;
+  return 0;
+}
+function holoFigSVG(col, fillBody) {
+  return '<svg viewBox="0 0 56 80" xmlns="http://www.w3.org/2000/svg" fill="' + fillBody + '" stroke="' + col + '" stroke-width="1">' +
+    '<circle cx="28" cy="13" r="9.5"/>' +
+    '<rect x="18" y="22" width="20" height="26" rx="8"/>' +
+    '<rect x="11" y="26" width="6" height="17" rx="3"/>' +
+    '<rect x="39" y="26" width="6" height="17" rx="3"/>' +
+    '<rect x="20" y="48" width="7" height="15" rx="3"/>' +
+    '<rect x="29" y="48" width="7" height="15" rx="3"/>' +
+    '<circle cx="25" cy="12" r="2.4" fill="#0b1020" stroke="none"/>' +
+    '<path d="M23 26 L33 26 L31 20 L25 20 Z" opacity=".85"/></svg>';
+}
+function holoRender() {
+  const stage = document.getElementById("holo-stage");
+  if (!stage) return;
+  const tier = HOLO_TIERS[holoTier()];
+  const zs = [-16, -8, 0, 10, 18, 24];
+  const fills = ["#0a1020", "rgba(255,255,255,.12)", tier.col, tier.col, "rgba(255,255,255,.25)", "#ffffff"];
+  const n = tier.n;
+  let fig = '<div class="holo-fig">';
+  for (let i = 0; i < n; i++) {
+    const col = i === 0 ? tier.col : tier.col;
+    const z = zs[i] !== undefined ? zs[i] : (i * 6);
+    const op = i === 0 ? 1 : i === 2 ? 1 : 0.9;
+    const glow = i === n - 1 || i === 3 ? ' class="hf-glow"' : "";
+    fig += '<div class="hf-layer' + (glow ? "" : "") + '" style="transform:translateZ(' + z + 'px);opacity:' + op + '"' +
+      (glow ? '><div class="hf-glow">' : ">") +
+      holoFigSVG(col, i === 1 ? "rgba(255,255,255,.14)" : (i === 0 ? "#0b1120" : tier.col)) +
+      (glow ? "</div>" : "") + "</div>";
+  }
+  const gear = (gameState.rewards || {}).equipped || null;
+  const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
+  fig += '<span class="holo-gear">' + g + "</span>";
+  fig += '<span class="holo-name">RECLUTA</span></div>';
+  stage.innerHTML = '<div class="holo-base"></div>' + fig;
 }
 
 /* --- Init --- */
