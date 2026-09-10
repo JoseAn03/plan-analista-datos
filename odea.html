@@ -1180,6 +1180,31 @@ header{padding:10px 14px}
   .world-scroll{--tilt:7deg}
   .world-scroll::before,.hub-wrap::before{opacity:.03}
 }
+
+/* ==========================================================
+   🧭 V5.8 — TODO EN LA BARRA LATERAL (stats integrados)
+   ========================================================== */
+.layout{grid-template-columns:1fr!important}
+.app-side{width:258px}
+.side-sec{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:2.5px;color:var(--glow-cyan);text-transform:uppercase;
+  margin:14px 2px 8px;padding-bottom:6px;border-bottom:1px dashed rgba(160,160,192,.2)}
+.side-stats{display:flex;flex-direction:column;gap:4px}
+.side-stats h3{font-size:.72rem;color:var(--tx2);letter-spacing:2px;text-transform:uppercase;margin:10px 0 8px 4px}
+.side-stats .stat-block{margin-bottom:10px}
+.side-stats .radar-wrap{justify-content:center}
+.side-stats .time-est{font-size:.72rem}
+.side-stats .ach-mini{font-size:.76rem;margin-top:10px}
+.side-stats .btn-reset{margin-top:12px;font-size:.74rem;padding:8px}
+.side-stats .chip-grid{grid-template-columns:1fr 1fr 1fr;gap:6px;margin:12px 0 10px}
+.side-stats .mini-chip{padding:6px 2px}
+.perfil-block{display:none!important}
+.side-stats .vida-mini,.side-stats .vida-mini b{font-size:.68rem}
+@media (min-width:1000px){
+  .app-side{width:258px}
+  header,.layout,footer{margin-left:258px}
+}
+.app-side .radar-wrap{display:flex}
+.app-side .radar-wrap canvas{width:100%;max-width:210px;height:auto}
 </style>
 </head>
 <body>
@@ -1198,46 +1223,8 @@ header{padding:10px 14px}
     <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
     <button class="nav-item" data-tab="capital"><span class="ni-ico">📈</span> CAPITAL</button>
   </div>
-  <div class="side-foot">
-    <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.7</span>
-  </div>
-</div>
-<div class="side-overlay" id="side-overlay"></div>
-<nav class="nav-bottom" id="nav-bottom">
-  <button class="navb active" data-tab="map"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
-  <button class="navb" data-tab="daily"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
-  <button class="navb" data-tab="campaign"><span class="nb-ico">📜</span><span>Plan</span></button>
-  <button class="navb" data-tab="vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
-  <button class="navb" data-tab="capital"><span class="nb-ico">📈</span><span>Capital</span></button>
-  <button class="navb" id="bottom-inv"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
-</nav>
-
-
-<!-- ==========================================================
-     B) HTML / ESTRUCTURA
-     ========================================================== -->
-<header>
-  <button id="nav-burger" title="Menú">☰</button>
-  <div class="logo" id="logo" title="Ir al Mapa de Mundos">
-    ODEA<small>PLAN MAESTRO AVANZADO</small>
-  </div>
-  <div class="hud">
-    <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar">🔊</button>
-    <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
-      <span class="flame">🔥</span> <span id="streak-n">0</span>
-    </span>
-    <span class="level-badge" id="hud-level">NIVEL 1</span>
-    <span class="xp-txt" id="hud-xp">0 XP</span>
-    <div class="progress-wrap">
-      <div class="progress-top"><span id="hud-rank">Novato de Datos</span><span id="hud-pct">0%</span></div>
-      <div class="bar"><span id="hud-bar"></span></div>
-    </div>
-  </div>
-</header>
-
-<div class="layout">
-  <aside class="stats-panel">
+  <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
+  <div class="side-stats" id="side-stats">
     <h3>⚡ Perfil del Recluta</h3>
     <div class="stat-block perfil-block">
       <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
@@ -1282,7 +1269,47 @@ header{padding:10px 14px}
     <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
     <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">24</span> · Ver salón ▸</div>
     <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
-  </aside>
+  </div>
+  <div class="side-foot">
+    <span class="side-streak" id="side-streak">🔥 Racha 0</span>
+    <span class="ver">v5.7</span>
+  </div>
+</div>
+<div class="side-overlay" id="side-overlay"></div>
+<nav class="nav-bottom" id="nav-bottom">
+  <button class="navb active" data-tab="map"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
+  <button class="navb" data-tab="daily"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
+  <button class="navb" data-tab="campaign"><span class="nb-ico">📜</span><span>Plan</span></button>
+  <button class="navb" data-tab="vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
+  <button class="navb" data-tab="capital"><span class="nb-ico">📈</span><span>Capital</span></button>
+  <button class="navb" id="bottom-inv"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
+</nav>
+
+
+<!-- ==========================================================
+     B) HTML / ESTRUCTURA
+     ========================================================== -->
+<header>
+  <button id="nav-burger" title="Menú">☰</button>
+  <div class="logo" id="logo" title="Ir al Mapa de Mundos">
+    ODEA<small>PLAN MAESTRO AVANZADO</small>
+  </div>
+  <div class="hud">
+    <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar">🔊</button>
+    <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
+      <span class="flame">🔥</span> <span id="streak-n">0</span>
+    </span>
+    <span class="level-badge" id="hud-level">NIVEL 1</span>
+    <span class="xp-txt" id="hud-xp">0 XP</span>
+    <div class="progress-wrap">
+      <div class="progress-top"><span id="hud-rank">Novato de Datos</span><span id="hud-pct">0%</span></div>
+      <div class="bar"><span id="hud-bar"></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- stats integrados en la barra lateral (v5.8) -->
 
   <div class="main-col" style="min-width:0">
 
