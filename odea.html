@@ -2245,10 +2245,17 @@ const employmentMissions = [
   { id:"j37", blk:6, tag:"free", title:"Perfiles Freelance Pulidos", description:"Completar perfiles en Fiverr y Upwork: portafolio, servicios claros, keywords y video de presentación si aplica.", xp:130, verification:"2 perfiles freelance completos" },
   { id:"j38", blk:6, tag:"free", title:"5 Propuestas Personalizadas", description:"Enviar 5 propuestas freelance bien escritas (nunca genéricas) a proyectos reales de limpieza/dashboards/reportes.", xp:140, verification:"5 propuestas enviadas" },
   { id:"j39", blk:6, tag:"free", title:"Vitrina Pública de Empleo", description:"Actualizar tu portafolio web con sección de proyectos destacados, CV descargable y GitHub README de perfil impecable.", xp:130, verification:"Portafolio + GitHub listos para reclutadores" },
-  { id:"j40", blk:6, tag:"free", title:"Pitch de 60 Segundos", description:"Grabar tu elevator pitch (quién eres, qué haces, impacto) y una presentación de 1 página sobre ti.", xp:120, verification:"Pitch grabado y presentación lista" }
+  { id:"j40", blk:6, tag:"free", title:"Pitch de 60 Segundos", description:"Grabar tu elevator pitch (quién eres, qué haces, impacto) y una presentación de 1 página sobre ti.", xp:120, verification:"Pitch grabado y presentación lista" },
+  /* --- BLOQUE 7: ⚡ Operación Relámpago — Semana Final (9-14 sept) --- */
+  { id:"j41", blk:7, tag:"final", title:"⚡ Día 1 — Primer Impacto", description:"5 mensajes directos a reclutadores o analistas de datos que ya trabajan en tus empresas objetivo. Revisa que tu LinkedIn diga exactamente lo mismo que tu CV maestro.", xp:110, verification:"5 contactos directos enviados hoy + LinkedIn alineado con el CV" },
+  { id:"j42", blk:7, tag:"final", title:"⚡ Día 2 — Ola de Contacto", description:"5 mensajes directos más. Además, corre 1 simulacro de entrevista técnica (SQL o Power BI) y anota qué te falló.", xp:120, verification:"5 contactos nuevos + 1 simulacro técnico con notas" },
+  { id:"j43", blk:7, tag:"final", title:"⚡ Día 3 — Seguimiento Táctico", description:"5 mensajes directos más. Da seguimiento a TODAS las aplicaciones enviadas que no han tenido respuesta (mensaje corto, directo, sin sonar desesperado).", xp:130, verification:"5 contactos nuevos + seguimiento enviado a aplicaciones pendientes" },
+  { id:"j44", blk:7, tag:"final", title:"⚡ Día 4 — Preparación de Combate", description:"5 mensajes directos más. Repasa tus 3 respuestas STAR con métricas reales de ANC en voz alta, cronometradas a menos de 90 segundos cada una.", xp:140, verification:"5 contactos nuevos + 3 respuestas STAR practicadas en voz alta" },
+  { id:"j45", blk:7, tag:"final", title:"⚡ Día 5 — Última Ofensiva", description:"5 mensajes directos más (o los que falten para llegar a 25+ en la semana). Simulacro final completo: técnico + conductual, sin pausas, como si fuera real.", xp:150, verification:"Contactos de la semana cerrados + simulacro final completado" },
+  { id:"j46", blk:7, tag:"final", title:"👑 Jefe Final — Cierre de Operación Relámpago", description:"Cierra el sprint: cuenta cuántos contactos directos hiciste en la semana, cuántas respuestas obtuviste y cuántas entrevistas quedaron agendadas o en proceso. Documenta el resultado en tu tracker, sin importar el número — el dato es la victoria.", xp:300, verification:"Métricas finales de la Operación Relámpago registradas en el tracker" }
 ];
-const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado", 3:"🤝 Networking", 4:"📣 LinkedIn y Marca", 5:"🎤 Entrevistas", 6:"🆓 Freelance y Extra" };
-const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance" };
+const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado", 3:"🤝 Networking", 4:"📣 LinkedIn y Marca", 5:"🎤 Entrevistas", 6:"🆓 Freelance y Extra", 7:"⚡ Operación Relámpago" };
+const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance", final:"Semana Final" };
 
 /* ==========================================================
    📈 CAPITAL — DATOS: Operación Capital (IA + mercados +
@@ -4801,7 +4808,7 @@ function bovedaNodes() {
 }
 function fortalezaNodes() {
   const doneSet = new Set(gameState.completedJobs);
-  const blks = [1, 2, 3, 4, 5, 6];
+  const blks = [1, 2, 3, 4, 5, 6, 7];
   const lists = blks.map(blk => employmentMissions.filter(m => m.blk === blk));
   const firstPend = lists.findIndex(list => list.filter(m => doneSet.has(m.id)).length < list.length);
   const out = { nodes: [], points: [] };
@@ -5126,7 +5133,7 @@ const AZ_METAFORA = {
    🗺️ V5.3 — FIXES spec v2 (Fortaleza cur/colores, Aldea modal,
    Campamento submundo de 56 días)
    ========================================================== */
-const BLK_COLORS = { 1: "#ffaa00", 2: "#ff6600", 3: "#ffd700", 4: "#00ccff", 5: "#ff3355", 6: "#ff00ff" };
+const BLK_COLORS = { 1: "#ffaa00", 2: "#ff6600", 3: "#ffd700", 4: "#00ccff", 5: "#ff3355", 6: "#ff00ff", 7: "#39ff14" };
 const VIDA_ZONA_META = [
   { k: "eq", ico: "⚖️", n: "Equilibrio", c: "#00ff88", render: renderVidaEq },
   { k: "kid", ico: "👶", n: "Legado", c: "#2dd4bf", render: renderVidaKid },
