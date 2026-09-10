@@ -1205,6 +1205,55 @@ header{padding:10px 14px}
 }
 .app-side .radar-wrap{display:flex}
 .app-side .radar-wrap canvas{width:100%;max-width:210px;height:auto}
+
+/* ==========================================================
+   🎨 V5.9 — TEMÁTICA PRINCIPAL (mapa hero + sidebar premium)
+   ========================================================== */
+/* Hero del mapa: portada temática */
+.map-hero{position:relative;overflow:hidden;border-radius:18px;padding:16px 18px 14px;margin-bottom:14px;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(0,255,136,.12), transparent 45%),
+    radial-gradient(circle at 10% 100%, rgba(0,204,255,.10), transparent 45%),
+    linear-gradient(135deg,rgba(16,20,44,.92),rgba(10,13,30,.94));
+  border:1px solid rgba(0,255,136,.25);box-shadow:0 0 30px rgba(0,255,136,.08),inset 0 0 40px rgba(0,0,0,.35)}
+.map-hero::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,255,136,.025) 3px 4px)}
+.map-title{font-size:1.7rem;letter-spacing:3px;line-height:1.15;text-shadow:none;
+  background:linear-gradient(92deg,#eafff5,#00ff88 30%,#00ccff 70%,#b39dff);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(0,255,136,.35))}
+.map-sub{color:#aab6dd;font-size:.9rem}
+.map-sub b{color:#fff}
+.map-hud .mh-chip{border-radius:8px;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  background:rgba(12,16,34,.9);border:1px solid rgba(0,255,136,.22);letter-spacing:1.5px}
+.map-hud .mh-chip.gold{background:linear-gradient(120deg,rgba(255,170,0,.18),rgba(12,16,34,.9));border-color:rgba(255,170,0,.45);color:#ffd77a}
+.map-back{background:rgba(12,16,34,.85);border:1px solid rgba(0,204,255,.35);color:#8fe6ff}
+/* Sidebar premium */
+.app-side{background:
+  radial-gradient(circle at 30% -10%, rgba(0,255,136,.10), transparent 40%),
+  radial-gradient(circle at 110% 30%, rgba(0,204,255,.08), transparent 45%),
+  linear-gradient(180deg,#0a0e22,#0c1030 55%,#080b1c)}
+.side-logo{font-size:1.3rem;letter-spacing:3px;background:linear-gradient(92deg,#fff,#00ff88 55%,#00ccff);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 10px rgba(0,255,136,.4))}
+.side-logo small{-webkit-text-fill-color:#4f6;color:var(--glow-green)}
+.side-holo{border-color:rgba(0,255,136,.22);background:
+  radial-gradient(circle at 50% 30%, rgba(0,255,136,.12), transparent 65%),
+  linear-gradient(180deg,rgba(12,16,36,.6),rgba(8,11,24,.7))}
+.side-inv{font-size:.76rem;letter-spacing:2.5px;text-shadow:0 0 8px rgba(255,170,0,.35)}
+.side-sec{color:#7ce7ff;letter-spacing:3px}
+.side-sec::before{content:'▸ ';color:var(--glow-green)}
+.nav-item.active{background:linear-gradient(120deg,#00ff88,#00ccff);box-shadow:0 0 22px rgba(0,255,136,.35),inset 0 0 12px rgba(255,255,255,.15)}
+.side-stats h3{color:#7ce7ff;letter-spacing:3px}
+.side-stats .stat-head b{color:#dfe6ff}
+.side-stats .time-est{background:rgba(0,204,255,.06);border-color:rgba(0,204,255,.3)}
+.side-gear-name{display:block;text-align:center;font-family:'Share Tech Mono',monospace;font-size:.58rem;
+  color:var(--glow-amber);letter-spacing:1px;margin:-2px 0 6px;min-height:10px;text-transform:uppercase}
+.side-streak{font-size:.8rem;letter-spacing:1px}
+/* Fondo temático del area principal */
+.main-col{position:relative}
+#view-map::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.35;
+  background-image:linear-gradient(rgba(0,255,136,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.02) 1px,transparent 1px);
+  background-size:44px 44px}
 </style>
 </head>
 <body>
@@ -1213,6 +1262,7 @@ header{padding:10px 14px}
 <div class="app-side" id="app-side">
   <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.7</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
+  <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
   <button class="side-inv" id="side-inv" type="button">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <div class="side-nav">
@@ -1316,7 +1366,7 @@ header{padding:10px 14px}
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
     <!-- ============ VISTA 0: MAPA DE MUNDOS (hub + submundos) ============ -->
     <section class="view active" id="view-map">
-      <div class="map-head">
+      <div class="map-head map-hero">
         <button class="map-back hidden" id="map-back">◀ VOLVER AL MAPA</button>
         <div class="map-title" id="map-title">🗺️ MAPA DE MUNDOS</div>
         <div class="map-sub" id="map-sub">Tu aventura: toca un mundo para explorar su camino</div>
@@ -4474,7 +4524,9 @@ function renderMapStage() {
   };
   const h = H[mapSt.w] || H.null;
   title.textContent = h.t;
-  sub.textContent = h.s;
+  sub.innerHTML = (mapSt.w === null)
+    ? '<b>' + escapeHtml(gameState.playerName) + "</b> · Día " + unlockedDay() + " · NIVEL " + gameState.level + " — " + h.s
+    : escapeHtml(h.s);
   back.classList.toggle("hidden", mapSt.w === null);
   stage.innerHTML = mapSt.w === null ? mapHubHTML() : mapWorldHTML(mapSt.w);
   mapHudPaint();
@@ -5057,6 +5109,10 @@ function sideSync() {
   if (r) r.textContent = "NIVEL " + gameState.level + " · " + levelName(gameState.level);
   const s = document.getElementById("side-streak");
   if (s) s.textContent = "🔥 Racha " + (gameState.streak || 0);
+  const gn = document.getElementById("side-gear-name");
+  const gear2 = (gameState.rewards || {}).equipped || null;
+  const gearR2 = gear2 ? (REWARDS.find(r => r.id === gear2) || {}) : null;
+  if (gn) gn.textContent = gearR2 ? ("equipado: " + gearR2.n) : "";
   sideHoloRender();
 }
 function invBadgeSync() {
