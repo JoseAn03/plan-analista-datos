@@ -1352,6 +1352,20 @@ header{padding:10px 14px}
   #node-body .mission:nth-child(n+8){animation-delay:.28s}
 }
 
+
+/* ==========================================================
+   📱 V5.12 — MÓVIL: etiquetas limpias en los mapas (1 columna)
+   ========================================================== */
+@media (max-width:640px){
+  .mnode{width:72px;height:72px}
+  .mnode .mn-ico{font-size:1.65rem}
+  .mnode .mn-name{width:min(76vw,220px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.57rem;top:calc(100% + 5px)}
+  .mnode .mn-count{top:-8px;right:-8px;left:auto;bottom:auto;transform:none;font-size:.54rem;padding:1px 6px}
+  .mworld{width:102px;height:102px}
+  .mworld .mw-name{font-size:.56rem}
+  .mworld .mw-rank{font-size:.56rem}
+  .week-flag{font-size:.58rem;left:6%;right:6%}
+}
 </style>
 </head>
 <body>
@@ -3648,6 +3662,14 @@ function vidaToggle(ev) {
   const view = document.getElementById("view-vida");
   if (view) view.addEventListener("click", vidaToggle);
 })();
+let _rszT = null;
+window.addEventListener("resize", function () {
+  if (_rszT) clearTimeout(_rszT);
+  _rszT = setTimeout(function () {
+    const v = document.getElementById("view-map");
+    if (v && v.classList.contains("active")) renderMapStage();
+  }, 220);
+});
 
 /* ==========================================================
    📈 CAPITAL — MÓDULO: campaña IA + mercados + inversión
@@ -4443,12 +4465,13 @@ function mapWorldStats() {
 }
 function mapHubHTML() {
   const s = mapWorldStats();
+  const nar = mapNarrow();
   const W = [
-    { k: "camp", ico: "🏕️", n: "Campamento", x: 50, y: 13, c: "#00ff88", lit: true },
-    { k: "fortaleza", ico: "💼", n: "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
-    { k: "torre", ico: "📜", n: "Torre de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
-    { k: "aldea", ico: "🧬", n: "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
-    { k: "boveda", ico: "📈", n: "Bóveda del Capital", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 }
+    { k: "camp", ico: "🏕️", n: nar ? "Campamento" : "Campamento Base", x: 50, y: 13, c: "#00ff88", lit: true },
+    { k: "fortaleza", ico: "💼", n: nar ? "Fortaleza" : "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
+    { k: "torre", ico: "📜", n: nar ? "Torre" : "Torre de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
+    { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
+    { k: "boveda", ico: "📈", n: nar ? "Bóveda" : "Bóveda del Capital", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 }
   ];
   const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
@@ -4495,6 +4518,7 @@ function mapWorldTrack(points, roadCfg, extraDefs) {
     "</svg></div>";
 }
 /* --- Mundos: datos de nodos --- */
+function mapNarrow() { try { return window.matchMedia("(max-width:640px)").matches; } catch (e) { return false; } }
 function torreNodes() {
   const doneSet = new Set(gameState.completedMissions);
   const out = { nodes: [], points: [] };
@@ -4510,8 +4534,8 @@ function torreNodes() {
     const boss = bossMissions.find(b => b.chapter === ch.id);
     const total = list.length + (boss ? 1 : 0);
     const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
-    const x = i % 2 === 0 ? 50 : 30;
-    const y = 822 - i * 106;
+    const x = mapNarrow() ? 50 : (i % 2 === 0 ? 50 : 30);
+    const y = (mapNarrow() ? (60 + i * 112) : (822 - i * 106));
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "ch" + ch.id, act: "camp-ch", ico: ch.icon, color: ch.color,
@@ -4529,8 +4553,8 @@ function bovedaNodes() {
   const firstPend = CAP_CHAPTERS.findIndex(ch => { const p = vs.perCap.find(x => x.cap === ch.cap); return vs.unlockMap[ch.cap] && !p.complete; });
   CAP_CHAPTERS.forEach((ch, i) => {
     const p = vs.perCap.find(x => x.cap === ch.cap);
-    const x = i % 2 === 0 ? 50 : 70;
-    const y = 822 - i * 106;
+    const x = mapNarrow() ? 50 : (i % 2 === 0 ? 50 : 70);
+    const y = (mapNarrow() ? (60 + i * 112) : (822 - i * 106));
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "cap" + ch.cap, act: "cap-ch", ico: ch.ico, color: ch.color,
@@ -4549,8 +4573,8 @@ function fortalezaNodes() {
   blks.forEach((blk, i) => {
     const list = lists[i];
     const d = list.filter(m => doneSet.has(m.id)).length;
-    const x = i % 2 === 0 ? 42 : 60;
-    const y = 90 + i * 138;
+    const x = mapNarrow() ? 50 : (i % 2 === 0 ? 42 : 60);
+    const y = 90 + i * (mapNarrow() ? 116 : 138);
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "blk" + blk, act: "jobs-blk", ico: (JOBS_BLOCKS[blk] || "").slice(0, 2), color: BLK_COLORS[blk] || "#ffaa00",
@@ -4962,7 +4986,7 @@ function campHTML() {
   let y = 90, fila = 0;
   const totalDays = DAILY_TOTAL;
   const peakDay = Math.min(firstPendingDay(), totalDays);
-  const xcol = [22, 50, 78];
+  const xcol = mapNarrow() ? [50] : [22, 50, 78];
   let marcas = [];
   let idxPeak = -1;
   for (let d = 1; d <= totalDays; d++) {
@@ -4975,7 +4999,7 @@ function campHTML() {
     if (!list.length) continue;
     const doneN = dayDoneCount(d);
     const full = doneN === list.length;
-    const x = xcol[fila % 3];
+    const x = xcol[fila % xcol.length];
     out.points.push([x, y]);
     if (d === peakDay) idxPeak = out.points.length - 1;
     out.nodes.push(mnodeHTML(x, y, {
@@ -4984,7 +5008,7 @@ function campHTML() {
       pct: Math.round((doneN / list.length) * 100), done: full,
       cur: d === peakDay, locked: !isDayUnlocked(d)
     }));
-    y += 96;
+    y += mapNarrow() ? 106 : 96;
     fila++;
   }
   y += 40;
