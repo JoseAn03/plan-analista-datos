@@ -1103,17 +1103,116 @@ html{-webkit-text-size-adjust:100%}
 @keyframes glitchJit{0%{transform:translateX(0) skewX(0)}25%{transform:translateX(3px) skewX(-6deg)}50%{transform:translateX(-3px) skewX(4deg)}75%{transform:translateX(2px) skewX(-2deg)}100%{transform:translateX(0)}}
 .chest-box.opening .chest-ico{animation:chestOpen .8s cubic-bezier(.22,1,.36,1) forwards}
 
+
+/* ==========================================================
+   🧭 V5.7 — NAVEGACIÓN LATERAL + INVENTARIO
+   Sidebar desktop / drawer móvil + bottom nav. 
+   ========================================================== */
+#nav-burger{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:0 0 40px;cursor:pointer;
+  background:rgba(26,26,46,.8);border:1px solid rgba(160,160,192,.3);border-radius:10px;color:var(--tx);
+  font-size:1.15rem;transition:.2s}
+#nav-burger:hover{border-color:var(--glow-cyan);box-shadow:0 0 10px rgba(0,204,255,.25)}
+header{padding:10px 14px}
+/* --- Sidebar --- */
+.app-side{position:fixed;top:0;left:0;bottom:0;width:238px;z-index:100;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#0b0f22,#0d1028 60%,#090c1c);
+  border-right:1px solid rgba(140,150,220,.16);padding:14px 12px;gap:6px;overflow-y:auto;transition:transform .28s cubic-bezier(.165,.84,.44,1)}
+.side-logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.15rem;color:#fff;letter-spacing:2px;cursor:pointer;padding:6px 8px 10px;text-align:center}
+.side-logo small{display:block;font-family:'Share Tech Mono',monospace;font-size:.55rem;color:var(--glow-green);letter-spacing:3px;font-weight:400}
+.side-holo{height:86px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;
+  border:1px dashed rgba(160,160,192,.2);border-radius:14px;background:radial-gradient(circle at 50% 60%,rgba(0,255,136,.07),transparent 70%);transition:.2s}
+.side-holo:hover{border-color:rgba(255,215,0,.5);box-shadow:0 0 14px rgba(255,215,0,.15)}
+.side-holo .holo-fig{transform:scale(.68);transform-origin:center 90%}
+.side-holo .side-hint{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-size:.55rem;color:var(--tx2);font-family:'Share Tech Mono',monospace;letter-spacing:1px}
+.side-id{text-align:center;padding:2px 0 6px}
+.side-id b{font-family:'Orbitron',sans-serif;color:#fff;font-size:.86rem;display:block;letter-spacing:1px}
+.side-id span{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--glow-cyan);letter-spacing:1px}
+.side-inv{display:flex;align-items:center;gap:10px;width:100%;cursor:pointer;padding:11px 12px;border-radius:12px;
+  border:1px solid rgba(255,215,0,.4);background:linear-gradient(120deg,rgba(255,170,0,.14),rgba(26,26,46,.5));
+  color:#ffd700;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:2px;transition:.2s;position:relative;margin:4px 0 2px}
+.side-inv:hover{box-shadow:0 0 16px rgba(255,170,0,.3);transform:translateY(-1px)}
+.inv-badge{position:absolute;right:8px;top:50%;transform:translateY(-50%);min-width:20px;height:20px;border-radius:99px;padding:0 5px;
+  background:var(--danger);color:#fff;font-family:'Orbitron',sans-serif;font-size:.64rem;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(255,51,85,.6)}
+.navb .inv-badge{position:absolute;top:-3px;right:14px;min-width:16px;height:16px;font-size:.55rem}
+.side-nav{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:11px;width:100%;cursor:pointer;padding:11px 12px;border-radius:12px;
+  border:1px solid transparent;background:transparent;color:var(--tx2);font-family:'Orbitron',sans-serif;
+  font-size:.74rem;letter-spacing:1.5px;text-align:left;transition:.2s;user-select:none}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.04);border-color:rgba(160,160,192,.2)}
+.nav-item.active{color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;
+  box-shadow:0 0 18px rgba(0,255,136,.3);font-weight:700}
+.nav-item .ni-ico{font-size:1.05rem;width:22px;text-align:center;filter:drop-shadow(0 0 5px rgba(255,255,255,.15))}
+.side-foot{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;align-items:center;border-top:1px dashed rgba(160,160,192,.18)}
+.side-streak{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--glow-amber)}
+.side-foot .ver{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:#556}
+.side-overlay{position:fixed;inset:0;background:rgba(4,3,10,.6);backdrop-filter:blur(3px);z-index:95;opacity:0;pointer-events:none;transition:opacity .25s}
+.side-overlay.show{opacity:1;pointer-events:auto}
+/* --- Bottom nav móvil --- */
+.nav-bottom{position:fixed;left:0;right:0;bottom:0;z-index:85;display:flex;background:rgba(8,10,24,.97);
+  border-top:1px solid rgba(140,150,220,.18);backdrop-filter:blur(8px);padding:4px 2px calc(4px + env(safe-area-inset-bottom))}
+.navb{flex:1;cursor:pointer;background:transparent;border:none;color:var(--tx2);font-family:inherit;padding:5px 0 3px;border-radius:10px;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:1px;position:relative}
+.navb .nb-ico{font-size:1.25rem;line-height:1;filter:grayscale(.4);transition:.2s}
+.navb span{font-size:.52rem;font-family:'Share Tech Mono',monospace;letter-spacing:.5px;text-transform:uppercase}
+.navb.active{color:var(--glow-green)}
+.navb.active .nb-ico{filter:none;transform:translateY(-2px);text-shadow:0 0 12px rgba(0,255,136,.8)}
+/* Móvil: sidebar oculto como drawer */
+.app-side{transform:translateX(-105%)}
+.app-side.open{transform:none;box-shadow:0 0 60px rgba(0,0,0,.7)}
+/* Desktop */
+@media (min-width:1000px){
+  .app-side{transform:none}
+  .side-overlay{display:none!important}
+  #nav-burger{display:none}
+  .nav-bottom{display:none}
+  header,.layout,footer{margin-left:238px}
+  .perfil-block{display:none}
+  .layout{padding-bottom:18px}
+}
+@media (max-width:999px){
+  .layout{padding-bottom:84px}
+  footer{padding-bottom:72px}
+}
+
 </style>
 </head>
 <body>
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
+<div class="app-side" id="app-side">
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.7</small></div>
+  <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
+  <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
+  <button class="side-inv" id="side-inv" type="button">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
+  <div class="side-nav">
+    <button class="nav-item active" data-tab="map"><span class="ni-ico">🗺️</span> MAPA</button>
+    <button class="nav-item" data-tab="daily"><span class="ni-ico">🗓️</span> HOY</button>
+    <button class="nav-item" data-tab="campaign"><span class="ni-ico">📜</span> CAMPAÑA</button>
+    <button class="nav-item" data-tab="jobs"><span class="ni-ico">💼</span> EMPLEO</button>
+    <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
+    <button class="nav-item" data-tab="capital"><span class="ni-ico">📈</span> CAPITAL</button>
+  </div>
+  <div class="side-foot">
+    <span class="side-streak" id="side-streak">🔥 Racha 0</span>
+    <span class="ver">v5.7</span>
+  </div>
+</div>
+<div class="side-overlay" id="side-overlay"></div>
+<nav class="nav-bottom" id="nav-bottom">
+  <button class="navb active" data-tab="map"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
+  <button class="navb" data-tab="daily"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
+  <button class="navb" data-tab="campaign"><span class="nb-ico">📜</span><span>Plan</span></button>
+  <button class="navb" data-tab="vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
+  <button class="navb" data-tab="capital"><span class="nb-ico">📈</span><span>Capital</span></button>
+  <button class="navb" id="bottom-inv"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
+</nav>
+
 
 <!-- ==========================================================
      B) HTML / ESTRUCTURA
      ========================================================== -->
 <header>
-  <div class="logo" id="logo" title="Ver salón de logros">
+  <button id="nav-burger" title="Menú">☰</button>
+  <div class="logo" id="logo" title="Ir al Mapa de Mundos">
     ODEA<small>PLAN MAESTRO AVANZADO</small>
   </div>
   <div class="hud">
@@ -1133,7 +1232,7 @@ html{-webkit-text-size-adjust:100%}
 <div class="layout">
   <aside class="stats-panel">
     <h3>⚡ Perfil del Recluta</h3>
-    <div class="stat-block">
+    <div class="stat-block perfil-block">
       <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
       <div class="holo-stage" id="holo-stage"></div>
     </div>
@@ -1179,14 +1278,6 @@ html{-webkit-text-size-adjust:100%}
   </aside>
 
   <div class="main-col" style="min-width:0">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="map">🗺️ MAPA</button>
-      <button class="tab-btn" data-tab="daily">🗓️ DIARIO</button>
-      <button class="tab-btn" data-tab="campaign">📜 CAMPAÑA</button>
-      <button class="tab-btn" data-tab="jobs">💼 EMPLEO</button>
-      <button class="tab-btn" data-tab="vida">🧬 VIDA</button>
-      <button class="tab-btn" data-tab="capital">📈 CAPITAL</button>
-    </div>
 
     <!-- ============ VISTA 1: PLAN DIARIO ============ -->
     <!-- ============ VISTA 0: MAPA DE MUNDOS (hub + submundos) ============ -->
@@ -1287,8 +1378,6 @@ html{-webkit-text-size-adjust:100%}
 </div>
 
 <footer><b>ODEA</b> · Plan Maestro Avanzado · v4.2 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales + 40 💼 de empleo · Progreso guardado 🔒</footer>
-
-<button id="rw-fab" class="rw-fab" title="Arsenal del Héroe: cofres y accesorios">🎒<span id="rw-badge" class="rw-badge hidden">0</span></button>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2575,6 +2664,7 @@ function updateUI() {
   rwGearRender();
   updateEmpRank();
   holoRender();
+  sideSync();
 }
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
@@ -3734,14 +3824,9 @@ function rwState() {
   return gameState.rewards = gameState.rewards || { unlocked: [], queue: [], equipped: null };
 }
 function rwBadgeUpdate(bump) {
-  const st = rwState();
-  const badge = document.getElementById("rw-badge");
+  invBadgeSync();
   const fab = document.getElementById("rw-fab");
-  if (badge) {
-    badge.textContent = st.queue.length;
-    badge.classList.toggle("hidden", st.queue.length === 0);
-  }
-  if (fab && st.queue.length > 0 && bump) {
+  if (fab && rwState().queue.length > 0 && bump) {
     fab.classList.remove("bump"); void fab.offsetWidth; fab.classList.add("bump");
   }
 }
@@ -4890,6 +4975,87 @@ function rwOpenChest2() {
     });
   }, 1250);
 }
+
+/* ==========================================================
+   🧭 V5.7 — Navegación lateral + inventario (módulo)
+   ========================================================== */
+function goTab(tab) {
+  document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
+  document.querySelectorAll(".navb").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
+  ["map", "daily", "campaign", "jobs", "vida", "capital"].forEach(function (t) {
+    const v = document.getElementById("view-" + t);
+    if (v) v.classList.toggle("active", tab === t);
+  });
+  closeSide();
+  if (tab === "daily") renderDailyView();
+  if (tab === "jobs") { renderJobs(); updateEmpRank(); }
+  if (tab === "vida") renderVidaSubActiva();
+  if (tab === "capital") renderCapital();
+  if (tab === "map") renderMapStage();
+  window.scrollTo(0, 0);
+}
+function openSide() { document.getElementById("app-side").classList.add("open"); const o = document.getElementById("side-overlay"); if (o) o.classList.add("show"); }
+function closeSide() { document.getElementById("app-side").classList.remove("open"); const o = document.getElementById("side-overlay"); if (o) o.classList.remove("show"); }
+function sideHoloRender() {
+  const host = document.getElementById("side-holo");
+  if (!host) return;
+  const tier = HOLO_TIERS[holoTier()];
+  const zs = [-16, -8, 0, 10, 18, 24];
+  const n = tier.n;
+  let fig = '<div class="holo-fig">';
+  for (let i = 0; i < n; i++) {
+    const z = zs[i] !== undefined ? zs[i] : (i * 6);
+    const glow = i === 3;
+    fig += '<div class="hf-layer" style="transform:translateZ(' + z + 'px)">' +
+      (glow ? '<div class="hf-glow">' : "") +
+      holoFigSVG(tier.col, i === 1 ? "rgba(255,255,255,.14)" : (i === 0 ? "#0b1120" : tier.col)) +
+      (glow ? "</div>" : "") + "</div>";
+  }
+  const gear = (gameState.rewards || {}).equipped || null;
+  const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
+  fig += '<span class="holo-gear">' + g + "</span></div>";
+  host.innerHTML = fig + '<span class="side-hint">TU PERSONAJE · TOCA</span>';
+}
+function sideSync() {
+  const n = document.getElementById("side-name");
+  if (n) n.textContent = gameState.playerName;
+  const r = document.getElementById("side-rank");
+  if (r) r.textContent = "NIVEL " + gameState.level + " · " + levelName(gameState.level);
+  const s = document.getElementById("side-streak");
+  if (s) s.textContent = "🔥 Racha " + (gameState.streak || 0);
+  sideHoloRender();
+}
+function invBadgeSync() {
+  const st = rwState();
+  const q = st.queue.length;
+  document.querySelectorAll(".inv-badge, #rw-badge").forEach(function (b) {
+    b.textContent = q;
+    b.classList.toggle("hidden", q === 0);
+  });
+}
+function rwOpenArsenalFrom(ev) {
+  ev.stopPropagation();
+  closeSide();
+  rwOpenArsenal();
+}
+(function () {
+  const burger = document.getElementById("nav-burger");
+  if (burger) burger.addEventListener("click", openSide);
+  const overlay = document.getElementById("side-overlay");
+  if (overlay) overlay.addEventListener("click", closeSide);
+  const logo = document.getElementById("logo");
+  if (logo) logo.addEventListener("click", function () { goTab("map"); });
+  const sideLogo = document.getElementById("side-logo");
+  if (sideLogo) sideLogo.addEventListener("click", function () { goTab("map"); closeSide(); });
+  document.querySelectorAll(".nav-item, .navb[data-tab]").forEach(function (el) {
+    el.addEventListener("click", function () { goTab(el.dataset.tab); });
+  });
+  const openers = ["side-inv", "bottom-inv", "side-holo", "holo-stage"];
+  openers.forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("click", function (e) { if (id === "holo-stage" || id === "side-holo") { e.stopPropagation(); } rwOpenArsenalFrom(e); });
+  });
+})();
 
 /* --- Init --- */
 sizeCanvas();
