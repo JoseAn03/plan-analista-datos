@@ -889,6 +889,70 @@ html{-webkit-text-size-adjust:100%}
   color:var(--glow-amber);background:rgba(255,170,0,.06);border:1px dashed rgba(255,170,0,.4);border-radius:99px;padding:5px 10px;z-index:3;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .week-flag span{margin-right:4px}
 
+/* ==========================================================
+   🗺️ V5.4 — PSEUDO-3D (diorama): perspectiva + terreno
+   Solamente transform/filter/opacity (GPU). Sin librerías.
+   Variable --tilt controla la inclinación; bajo
+   prefers-reduced-motion se aplana (--tilt: 0).
+   ========================================================== */
+#map-stage{perspective:1200px}
+.hub-wrap,.world-scroll{transform:rotateX(var(--tilt, 10deg));transform-style:preserve-3d;transform-origin:50% 0}
+.hub-wrap{--tilt:10deg}
+.world-scroll{--tilt:12deg}
+/* Billboard: nodos contra-rotados para verse de frente */
+.mworld,.mnode{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1));transform-style:preserve-3d;will-change:transform}
+.mworld:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.07)}
+.mnode:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.08)}
+.mnode.current{transform:translate(-50%,calc(-50% - 5px)) rotateX(calc(var(--tilt, 10deg) * -1))}
+.mnode.current .mn-ring{transform:translateY(-5px)}
+.mnode.current .mn-ico{transform:translateY(-3px)}
+/* Sombras elípticas de nodos sobre el terreno */
+.mworld::after,.mnode::after{content:'';position:absolute;left:50%;top:calc(100% - 4px);width:66%;height:14px;transform:translateX(-50%) rotateX(calc(var(--tilt, 10deg) * -1));
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 68%);border-radius:50%;filter:blur(2px);pointer-events:none;z-index:-1}
+.mnode.current::after{width:78%;height:17px;background:radial-gradient(ellipse at center,rgba(255,215,0,.45),transparent 70%)}
+.mworld::after{top:calc(100% - 2px)}
+/* Caminos grabados en el terreno */
+.world-svg .w-road,.hub-svg .hub-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
+/* Textura de terreno por mundo (colinas radiantes + ruido sutil) */
+.hub-wrap,.world-scroll{background:
+  radial-gradient(ellipse 55% 42% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
+  radial-gradient(ellipse 38% 30% at 20% 45%, rgba(255,170,0,.07), transparent 70%),
+  radial-gradient(ellipse 38% 30% at 80% 45%, rgba(0,204,255,.08), transparent 70%),
+  radial-gradient(ellipse 45% 34% at 22% 80%, rgba(255,0,255,.06), transparent 70%),
+  radial-gradient(ellipse 45% 34% at 80% 80%, rgba(124,108,255,.08), transparent 70%),
+  linear-gradient(180deg,#0d1024,#11152f 40%,#0a0d1e)}
+.world-scroll.t-torre{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(0,204,255,.09), transparent 70%),
+  radial-gradient(ellipse 34% 28% at 30% 60%, rgba(0,255,136,.06), transparent 70%),
+  radial-gradient(ellipse 40% 32% at 68% 38%, rgba(0,229,255,.08), transparent 70%),
+  linear-gradient(180deg,#0a1428,#0d1a33 45%,#091022)}
+.world-scroll.t-boveda{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(124,108,255,.12), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 70% 55%, rgba(255,215,0,.07), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 30% 70%, rgba(124,108,255,.08), transparent 70%),
+  linear-gradient(180deg,#150f2b,#191238 45%,#100b22)}
+.world-scroll.t-fortaleza{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(255,170,0,.10), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 70% 50%, rgba(255,51,85,.07), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 25% 75%, rgba(255,170,0,.08), transparent 70%),
+  linear-gradient(180deg,#241407,#2b1706 45%,#1c0e04)}
+.world-scroll.t-camp{background:
+  radial-gradient(ellipse 55% 45% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
+  radial-gradient(ellipse 40% 34% at 22% 55%, rgba(0,204,255,.07), transparent 70%),
+  radial-gradient(ellipse 40% 34% at 78% 60%, rgba(0,255,136,.06), transparent 70%),
+  linear-gradient(180deg,#0a1a12,#0d2418 45%,#081710)}
+.world-scroll::before,.hub-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='1'/></svg>")}
+.hub-wrap::after,.world-scroll::after{z-index:1}
+/* Aplanar bajo reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  #map-stage{perspective:none}
+  .hub-wrap,.world-scroll{transform:none}
+  .mworld,.mnode,.mnode.current{transform:translate(-50%,-50%)}
+  .mworld:hover,.mnode:hover{transform:translate(-50%,-50%) scale(1.05)}
+}
+
+
 }
 
 
@@ -897,6 +961,75 @@ html{-webkit-text-size-adjust:100%}
 
 .chip-grid .mc-lab{font-size:.55rem}
 }
+
+/* ==========================================================
+   🗺️ V5.4 — PSEUDO-3D (diorama): perspectiva + terreno
+   Solamente transform/filter/opacity (GPU). Sin librerías.
+   Variable --tilt controla la inclinación; bajo
+   prefers-reduced-motion se aplana (--tilt: 0).
+   ========================================================== */
+#map-stage{perspective:1200px}
+.hub-wrap,.world-scroll{transform:rotateX(var(--tilt, 10deg));transform-style:preserve-3d;transform-origin:50% 0}
+.hub-wrap{--tilt:10deg}
+.world-scroll{--tilt:12deg}
+/* Billboard: nodos contra-rotados para verse de frente */
+.mworld,.mnode{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1));transform-style:preserve-3d;will-change:transform}
+.mworld:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.07)}
+.mnode:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.08)}
+.mnode.current{transform:translate(-50%,calc(-50% - 5px)) rotateX(calc(var(--tilt, 10deg) * -1))}
+.mnode.current .mn-ring{transform:translateY(-5px)}
+.mnode.current .mn-ico{transform:translateY(-3px)}
+/* Sombras elípticas de nodos sobre el terreno */
+.mworld::after,.mnode::after{content:'';position:absolute;left:50%;top:calc(100% - 4px);width:66%;height:14px;transform:translateX(-50%) rotateX(calc(var(--tilt, 10deg) * -1));
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 68%);border-radius:50%;filter:blur(2px);pointer-events:none;z-index:-1}
+.mnode.current::after{width:78%;height:17px;background:radial-gradient(ellipse at center,rgba(255,215,0,.45),transparent 70%)}
+.mworld::after{top:calc(100% - 2px)}
+/* Caminos grabados en el terreno */
+.world-svg .w-road,.hub-svg .hub-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
+/* Textura de terreno por mundo (colinas radiantes + ruido sutil) */
+.hub-wrap,.world-scroll{background:
+  radial-gradient(ellipse 55% 42% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
+  radial-gradient(ellipse 38% 30% at 20% 45%, rgba(255,170,0,.07), transparent 70%),
+  radial-gradient(ellipse 38% 30% at 80% 45%, rgba(0,204,255,.08), transparent 70%),
+  radial-gradient(ellipse 45% 34% at 22% 80%, rgba(255,0,255,.06), transparent 70%),
+  radial-gradient(ellipse 45% 34% at 80% 80%, rgba(124,108,255,.08), transparent 70%),
+  linear-gradient(180deg,#0d1024,#11152f 40%,#0a0d1e)}
+.world-scroll.t-torre{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(0,204,255,.09), transparent 70%),
+  radial-gradient(ellipse 34% 28% at 30% 60%, rgba(0,255,136,.06), transparent 70%),
+  radial-gradient(ellipse 40% 32% at 68% 38%, rgba(0,229,255,.08), transparent 70%),
+  linear-gradient(180deg,#0a1428,#0d1a33 45%,#091022)}
+.world-scroll.t-boveda{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(124,108,255,.12), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 70% 55%, rgba(255,215,0,.07), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 30% 70%, rgba(124,108,255,.08), transparent 70%),
+  linear-gradient(180deg,#150f2b,#191238 45%,#100b22)}
+.world-scroll.t-fortaleza{background:
+  radial-gradient(ellipse 50% 40% at 50% 12%, rgba(255,170,0,.10), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 70% 50%, rgba(255,51,85,.07), transparent 70%),
+  radial-gradient(ellipse 36% 30% at 25% 75%, rgba(255,170,0,.08), transparent 70%),
+  linear-gradient(180deg,#241407,#2b1706 45%,#1c0e04)}
+.world-scroll.t-camp{background:
+  radial-gradient(ellipse 55% 45% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
+  radial-gradient(ellipse 40% 34% at 22% 55%, rgba(0,204,255,.07), transparent 70%),
+  radial-gradient(ellipse 40% 34% at 78% 60%, rgba(0,255,136,.06), transparent 70%),
+  linear-gradient(180deg,#0a1a12,#0d2418 45%,#081710)}
+.world-scroll::before,.hub-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='1'/></svg>")}
+.hub-wrap::after,.world-scroll::after{z-index:1}
+/* Aplanar bajo reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  #map-stage{perspective:none}
+  .hub-wrap,.world-scroll{transform:none}
+  .mworld,.mnode,.mnode.current{transform:translate(-50%,-50%)}
+  .mworld:hover,.mnode:hover{transform:translate(-50%,-50%) scale(1.05)}
+}
+
+
+/* Contener overflow del tilt */
+#map-stage{overflow-x:hidden}
+.hub-wrap{overflow-x:hidden}
+.world-scroll{overflow-x:hidden;overflow-y:auto}
 </style>
 </head>
 <body>
@@ -4094,7 +4227,7 @@ function mapWorldHTML(w) {
   else { return campHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
-  let html = '<div class="world-scroll" id="world-scroll"><div class="world-track" style="position:relative;height:940px">' +
+  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><div class="world-track" style="position:relative;height:940px">' +
     '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   points.forEach((p, i) => {
@@ -4513,7 +4646,7 @@ function campHTML() {
   y += 40;
   const Ht = y + 60;
   const litToIdx = idxPeak >= 0 ? idxPeak : out.points.length - 1;
-  let svg = '<div class="world-scroll" id="world-scroll"><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
+  let svg = '<div class="world-scroll t-camp" id="world-scroll"><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
     '<svg class="world-svg" viewBox="0 0 100 ' + Ht + '" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   out.points.forEach((p, i) => {
