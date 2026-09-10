@@ -3437,6 +3437,7 @@ function toggleWeekly(week) {
 /* --- Pestañas --- */
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    stopArcade();
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
     ["map", "daily", "campaign", "jobs", "vida", "capital"].forEach(t => {
@@ -4923,12 +4924,14 @@ function renderMapStage() {
   if (cur && mapSt.w !== null) cur.scrollIntoView({ block: "center", behavior: "auto" });
 }
 function mapGoHome() {
+  stopArcade();
   playSfx("click");
   mapSt.w = null;
   mapModal = null;
   renderMapStage();
 }
 function mapEnter(w) {
+  stopArcade();
   playSfx("travel");
   if (w === "aldea") {
     mapSt.w = "aldea";
