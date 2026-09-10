@@ -1430,8 +1430,9 @@ header{padding:10px 14px}
    📱 V5.15 — QA final: cabecera móvil compacta + metadatos
    ========================================================== */
 @media (max-width:640px){
-  header{padding:7px 10px;gap:8px}
+  header{padding:7px 10px;gap:8px;flex-wrap:nowrap}
   header .logo{display:none}
+  .hud{flex-wrap:nowrap;min-width:0;overflow:hidden}
   .hud{gap:8px;font-size:.85rem}
   .progress-wrap{display:none}
   .xp-txt{display:none}
