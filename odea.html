@@ -29,7 +29,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODEA — Operación Dominio de Datos e IA</title>
+<title>ODEA — App de Vida: Datos, IA, Capital y Equilibrio</title>
 <meta name="theme-color" content="#05030a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1425,13 +1425,26 @@ header{padding:10px 14px}
   .hub-svg .orbit,.shoot{animation:none!important}
   .shoot{opacity:.25}
 }
+
+/* ==========================================================
+   📱 V5.15 — QA final: cabecera móvil compacta + metadatos
+   ========================================================== */
+@media (max-width:640px){
+  header{padding:7px 10px;gap:8px}
+  header .logo{display:none}
+  .hud{gap:8px;font-size:.85rem}
+  .progress-wrap{display:none}
+  .xp-txt{display:none}
+  .streak-chip{padding:4px 9px;font-size:.78rem}
+  .level-badge{padding:3px 9px;font-size:.82rem}
+}
 </style>
 </head>
 <body>
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.7</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.15</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1632,7 +1645,7 @@ header{padding:10px 14px}
   </div>
 </div>
 
-<footer><b>ODEA</b> · Plan Maestro Avanzado · v4.2 — 168 misiones diarias + 8 semanales + 8 👑 proyectos finales + 40 💼 de empleo · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.15 — 392 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
