@@ -1376,6 +1376,55 @@ header{padding:10px 14px}
 .holo-stage, .side-holo{cursor:grab}
 .holo-stage.grabbing, .side-holo.grabbing{cursor:grabbing}
 @media (prefers-reduced-motion: reduce){.holo-aura{animation:none}}
+
+/* ==========================================================
+   🌌 V5.14 — MODO GALAXIA (Super Mario Galaxy style)
+   ========================================================== */
+.hub-wrap{background:
+  radial-gradient(ellipse 62% 46% at 50% 6%, rgba(110,80,255,.18), transparent 72%),
+  radial-gradient(ellipse 46% 36% at 12% 38%, rgba(255,70,190,.13), transparent 72%),
+  radial-gradient(ellipse 46% 36% at 88% 40%, rgba(0,170,255,.15), transparent 72%),
+  radial-gradient(ellipse 52% 40% at 20% 84%, rgba(0,255,170,.11), transparent 72%),
+  radial-gradient(ellipse 52% 40% at 82% 86%, rgba(150,90,255,.13), transparent 72%),
+  radial-gradient(1.7px 1.7px at 12% 16%, rgba(255,255,255,.85), transparent 60%),
+  radial-gradient(1.2px 1.2px at 26% 8%, rgba(190,230,255,.7), transparent 60%),
+  radial-gradient(1.5px 1.5px at 42% 22%, rgba(255,255,255,.6), transparent 60%),
+  radial-gradient(1.2px 1.2px at 58% 10%, rgba(200,255,230,.7), transparent 60%),
+  radial-gradient(1.7px 1.7px at 72% 18%, rgba(255,255,255,.8), transparent 60%),
+  radial-gradient(1.2px 1.2px at 88% 8%, rgba(190,220,255,.65), transparent 60%),
+  radial-gradient(1.5px 1.5px at 8% 56%, rgba(255,255,255,.55), transparent 60%),
+  radial-gradient(1.2px 1.2px at 92% 62%, rgba(255,255,255,.5), transparent 60%),
+  radial-gradient(1.6px 1.6px at 34% 92%, rgba(200,230,255,.6), transparent 60%),
+  radial-gradient(1.2px 1.2px at 66% 96%, rgba(255,255,255,.5), transparent 60%),
+  radial-gradient(ellipse 92% 72% at 50% 50%, transparent 55%, rgba(0,0,0,.5) 100%),
+  linear-gradient(180deg,#070a1e,#0a0e28 46%,#040611)}
+/* Mundos como PLANETAS esféricos */
+.mworld{background:radial-gradient(circle at 33% 26%, color-mix(in srgb,var(--mc) 62%,#fff) 0%, color-mix(in srgb,var(--mc) 78%,#000) 42%, #05081a 78%);
+  border-color:color-mix(in srgb,var(--mc) 60%,transparent);
+  box-shadow:inset -10px -12px 26px rgba(0,0,0,.62),inset 7px 9px 20px rgba(255,255,255,.10),0 0 30px color-mix(in srgb,var(--mc) 38%,transparent)}
+.mnode{background:radial-gradient(circle at 33% 26%, color-mix(in srgb,var(--mc) 42%,#fff) 0%, color-mix(in srgb,var(--mc) 78%,#000) 48%, #070b1e 80%);
+  box-shadow:inset -6px -8px 16px rgba(0,0,0,.55),inset 4px 6px 12px rgba(255,255,255,.08),0 0 16px color-mix(in srgb,var(--mc) 28%,transparent)}
+/* Anillo planetario del Campamento (planeta base) */
+.mw-saturn{position:absolute;left:50%;top:52%;width:170%;height:48px;border-radius:50%;pointer-events:none;z-index:3;opacity:.5;
+  border:2px solid color-mix(in srgb,var(--mc) 60%,transparent);border-top-color:transparent;border-left-color:transparent;
+  transform:translate(-50%,-50%) rotate(-18deg) scaleY(.34);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--mc) 50%,transparent))}
+/* Órbitas galácticas girando */
+.hub-svg .orbit{fill:none;stroke:rgba(140,200,255,.20);stroke-width:.45;stroke-dasharray:1.6 3;transform-box:fill-box;transform-origin:center}
+.hub-svg .orbit.o1{animation:orbitSpin 46s linear infinite}
+.hub-svg .orbit.o2{animation:orbitSpin 33s linear infinite reverse}
+@keyframes orbitSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* Estrellas fugaces */
+.shoot{position:absolute;width:120px;height:2px;border-radius:2px;pointer-events:none;opacity:0;z-index:2;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(190,235,255,.95));filter:drop-shadow(0 0 6px rgba(150,220,255,.9));
+  animation:shootStar 9s linear infinite}
+.shoot.s1{top:6%;left:2%;animation-delay:1s}
+.shoot.s2{top:26%;left:44%;animation-delay:4.5s;animation-duration:11s}
+.shoot.s3{top:62%;left:6%;animation-delay:7s;animation-duration:13s}
+@keyframes shootStar{0%{opacity:0;transform:translate3d(0,0,0) rotate(24deg)}3%{opacity:.95}13%{opacity:0;transform:translate3d(300px,172px,0) rotate(24deg)}100%{opacity:0;transform:translate3d(300px,172px,0) rotate(24deg)}}
+@media (prefers-reduced-motion: reduce){
+  .hub-svg .orbit,.shoot{animation:none!important}
+  .shoot{opacity:.25}
+}
 </style>
 </head>
 <body>
@@ -4489,11 +4538,13 @@ function mapHubHTML() {
     const lit = ww.lit;
     svg += '<path class="hub-road' + (lit ? " lit" : "") + '" d="M50 20 Q ' + (ww.x > 50 ? 58 : 42) + " " + ((ww.y + 20) / 2) + " " + ww.x + " " + ww.y + '"/>';
   });
+  svg += '<ellipse class="orbit o1" cx="50" cy="46" rx="41" ry="26"/><ellipse class="orbit o2" cx="50" cy="46" rx="31" ry="18"/>';
   svg += "</svg>";
   let html = svg;
   W.forEach(ww => {
     const st = map[ww.k];
     html += '<button class="mworld" data-w="' + ww.k + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
+      (ww.k === "camp" ? '<span class="mw-saturn"></span>' : "") +
       '<span class="mw-pulse"></span><span class="mw-ring">' + ringSvg(st.pct) + "</span>" +
       (st.pct >= 100 ? '<span class="mw-check">✓</span>' : "") +
       '<span class="mw-ico">' + ww.ico + "</span>" +
@@ -4502,6 +4553,7 @@ function mapHubHTML() {
       (st.badge ? '<span class="mw-badges"><span class="mw-badge">' + st.badge + "</span></span>" : "") +
       "</button>";
   });
+  html += '<span class="shoot s1"></span><span class="shoot s2"></span><span class="shoot s3"></span>';
   return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div><div class="hub-note">🗺️ Cada mundo guarda un camino de misiones · toca uno para explorarlo</div>';
 }
 /* --- nodos genéricos --- */
@@ -4603,7 +4655,7 @@ function mapWorldHTML(w) {
   else { return campHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
-  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><div class="world-track" style="position:relative;height:940px">' +
+  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><span class="shoot s1"></span><span class="shoot s2"></span><div class="world-track" style="position:relative;height:940px">' +
     '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   points.forEach((p, i) => {
@@ -4664,7 +4716,6 @@ function renderMapStage() {
   mapHudPaint();
   mapPeakPaint();
   mapEndBadge();
-  mapPlaceAvatar();
   const cur = stage.querySelector(".mnode.current, .mworld");
   if (cur && mapSt.w !== null) cur.scrollIntoView({ block: "center", behavior: "auto" });
 }
@@ -4897,38 +4948,6 @@ const AZ_METAFORA = {
   eq: "campo de entrenamiento", kid: "hogar & jardín", cpl: "templo de la unión",
   pow: "arena del león", men: "biblioteca del saber"
 };
-function mapAvatarIco() {
-  const gear = (gameState.rewards || {}).equipped || null;
-  const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
-  return g ? '🧑‍🚀<span class="av-gear">' + g + "</span>" : "🧑‍🚀";
-}
-function mapPlaceAvatar() {
-  const st = document.getElementById("map-stage");
-  if (!st) return;
-  st.querySelectorAll(".m-avatar").forEach(function (e) { e.remove(); });
-  const mk = function (host, x, y) {
-    const av = document.createElement("div");
-    av.className = "m-avatar";
-    av.innerHTML = mapAvatarIco();
-    av.style.left = x;
-    av.style.top = y;
-    host.appendChild(av);
-  };
-  if (mapSt.w === null) {
-    const camp = st.querySelector('.mworld[data-w="camp"]');
-    if (camp) mk(camp.parentElement, camp.style.left, camp.style.top);
-    return;
-  }
-  if (mapSt.w === "aldea") return;
-  let t = st.querySelector(".mnode.current");
-  if (!t) {
-    const done = st.querySelectorAll(".mnode.done");
-    t = done.length ? done[done.length - 1] : st.querySelector(".mnode");
-  }
-  if (!t) return;
-  const host = t.closest(".world-track") || t.parentElement;
-  mk(host, t.style.left, t.style.top);
-}
 
 /* ==========================================================
    🗺️ V5.3 — FIXES spec v2 (Fortaleza cur/colores, Aldea modal,
@@ -5019,7 +5038,7 @@ function campHTML() {
   y += 40;
   const Ht = y + 60;
   const litToIdx = idxPeak >= 0 ? idxPeak : out.points.length - 1;
-  let svg = '<div class="world-scroll t-camp" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
+  let svg = '<div class="world-scroll t-camp" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><span class="shoot s1"></span><span class="shoot s2"></span><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
     '<svg class="world-svg" viewBox="0 0 100 ' + Ht + '" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   out.points.forEach((p, i) => {
