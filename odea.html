@@ -824,25 +824,6 @@ html{-webkit-text-size-adjust:100%}
 .maps-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 .maps-legend .lg-done::before{background:#ffd700}.maps-legend .lg-cur::before{background:var(--glow-green);box-shadow:0 0 6px var(--glow-green)}
 .maps-legend .lg-lock::before{background:#555}
-.arcade-btn{display:block;margin:10px auto 0;padding:9px 18px;background:rgba(57,255,20,.12);border:1px solid rgba(57,255,20,.5);color:#39ff14;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:1px;cursor:pointer;box-shadow:0 0 14px rgba(57,255,20,.25)}
-.arcade-btn:hover{box-shadow:0 0 22px rgba(57,255,20,.45)}
-.arcade-wrap{margin-top:10px}
-.arcade-hud{display:flex;justify-content:space-between;align-items:center;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:#fff;margin-bottom:8px;padding:0 4px}
-.arcade-field{position:relative;height:280px;border:1px solid rgba(57,255,20,.3);border-radius:12px;overflow:hidden;background:radial-gradient(circle at 50% 100%,rgba(57,255,20,.08),rgba(10,10,20,.4) 70%)}
-.arcade-ready{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--tx2);font-size:.8rem;text-align:center;padding:0 20px}
-.arcade-start{display:block;width:100%;margin-top:10px;padding:11px;background:linear-gradient(90deg,#39ff14,#00ccff);border:none;color:#0a0a14;font-family:'Orbitron',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:1px;border-radius:10px;cursor:pointer}
-.ac-item{position:absolute;top:-40px;font-size:1.7rem;cursor:pointer;animation:acFall linear forwards;user-select:none;filter:drop-shadow(0 0 6px rgba(0,0,0,.5))}
-.ac-item.good{filter:drop-shadow(0 0 8px rgba(57,255,20,.6))}
-.ac-item.bad{filter:drop-shadow(0 0 8px rgba(255,51,85,.6))}
-.ac-item.hitgood{animation:none!important;color:#39ff14;font-family:'Orbitron',sans-serif;font-size:1rem;transform:scale(1.3);opacity:0;transition:all .26s ease-out}
-.ac-item.hitbad{animation:none!important;transform:scale(.5) rotate(20deg);opacity:0;transition:all .26s ease-out}
-@keyframes acFall{from{transform:translateY(0)}to{transform:translateY(300px)}}
-.arcade-end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 16px}
-.ac-end-score{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#fff}
-.ac-end-best{color:#ffd700;font-size:.78rem;font-family:'Share Tech Mono',monospace}
-.ac-end-unlock{color:#39ff14;font-size:.78rem;font-family:'Share Tech Mono',monospace}
-.ac-end-hint{color:var(--tx2);font-size:.72rem;font-family:'Share Tech Mono',monospace}
-@media (prefers-reduced-motion: reduce){.ac-item{animation-duration:.01s!important}}
 @media (prefers-reduced-motion: reduce){
   .mworld,.mnode,.aldea-zone{animation:none!important}
   .mworld .mw-pulse,.mnode.current{animation:none!important}
@@ -2271,11 +2252,10 @@ const employmentMissions = [
   { id:"j43", blk:7, tag:"final", title:"⚡ Día 3 — Seguimiento Táctico", description:"5 mensajes directos más. Da seguimiento a TODAS las aplicaciones enviadas que no han tenido respuesta (mensaje corto, directo, sin sonar desesperado).", xp:130, verification:"5 contactos nuevos + seguimiento enviado a aplicaciones pendientes" },
   { id:"j44", blk:7, tag:"final", title:"⚡ Día 4 — Preparación de Combate", description:"5 mensajes directos más. Repasa tus 3 respuestas STAR con métricas reales de ANC en voz alta, cronometradas a menos de 90 segundos cada una.", xp:140, verification:"5 contactos nuevos + 3 respuestas STAR practicadas en voz alta" },
   { id:"j45", blk:7, tag:"final", title:"⚡ Día 5 — Última Ofensiva", description:"5 mensajes directos más (o los que falten para llegar a 25+ en la semana). Simulacro final completo: técnico + conductual, sin pausas, como si fuera real.", xp:150, verification:"Contactos de la semana cerrados + simulacro final completado" },
-  { id:"j46", blk:7, tag:"final", title:"👑 Jefe Final — Cierre de Operación Relámpago", description:"Cierra el sprint: cuenta cuántos contactos directos hiciste en la semana, cuántas respuestas obtuviste y cuántas entrevistas quedaron agendadas o en proceso. Documenta el resultado en tu tracker, sin importar el número — el dato es la victoria.", xp:300, verification:"Métricas finales de la Operación Relámpago registradas en el tracker" },
-  { id:"j47", blk:7, tag:"arcade", title:"🎮 Cacería de Ofertas — Racha de Cazador", description:"Jugá el minijuego de la Fortaleza (botón dentro del mundo Fortaleza del Empleo) y alcanzá 150 puntos en una sola partida cazando ofertas de empleo.", xp:150, verification:"150+ puntos alcanzados en una partida de Cacería de Ofertas" }
+  { id:"j46", blk:7, tag:"final", title:"👑 Jefe Final — Cierre de Operación Relámpago", description:"Cierra el sprint: cuenta cuántos contactos directos hiciste en la semana, cuántas respuestas obtuviste y cuántas entrevistas quedaron agendadas o en proceso. Documenta el resultado en tu tracker, sin importar el número — el dato es la victoria.", xp:300, verification:"Métricas finales de la Operación Relámpago registradas en el tracker" }
 ];
 const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado", 3:"🤝 Networking", 4:"📣 LinkedIn y Marca", 5:"🎤 Entrevistas", 6:"🆓 Freelance y Extra", 7:"⚡ Operación Relámpago" };
-const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance", final:"Semana Final", arcade:"Minijuego" };
+const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance", final:"Semana Final" };
 
 /* ==========================================================
    📈 CAPITAL — DATOS: Operación Capital (IA + mercados +
@@ -2558,7 +2538,6 @@ let gameState = {
   vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, // 🧬 side quests de vida
   capital: { done: [] },       // 📈 campaña capital (IA + mercados)
   sound: true,                  // 🔊 efectos de sonido
-  arcadeBest: 0,                // 🎮 mejor puntaje del minijuego Cacería de Ofertas
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
   rewards: { unlocked: [], queue: [], equipped: null } // 🎒 arsenal del héroe
 };
@@ -2632,7 +2611,6 @@ function loadGame() {
       done: Array.isArray(cp.done) ? cp.done.filter(id => CAP_OBJ[id]) : []
     };
     gameState.sound = data.sound !== false;
-    gameState.arcadeBest = Number(data.arcadeBest) || 0;
     const rt2 = data.reto || {};
     gameState.reto = { date: rt2.date || null, id: rt2.id || null, done: !!rt2.done };
     const rw2 = data.rewards || {};
@@ -2649,7 +2627,7 @@ function resetGame() {
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, capital: { done: [] },
-    sound: true, arcadeBest: 0, reto: { date: null, id: null, done: false },
+    sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: null }
   };
   selectedDay = 1;
@@ -4868,7 +4846,6 @@ function mapWorldHTML(w) {
     html += '<path class="w-road' + (lit ? " lit" : "") + '" d="' + path + '"/>';
   });
   html += "</svg>" + nodes.join("") + "</div>" +
-    (w === "fortaleza" ? '<button class="arcade-btn" id="arcade-launch">🎮 Minijuego: Cacería de Ofertas</button>' : "") +
     '<div class="maps-legend"><span class="lg-done">Completado</span><span class="lg-cur">En progreso</span><span class="lg-lock">Bloqueado</span></div></div>';
   return html;
 }
@@ -4905,7 +4882,7 @@ function renderMapStage() {
     null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
     camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
     torre: { t: "📜 TORRE DE DATOS", s: "8 capítulos para escalar de Novato a Analista Legendario" },
-    fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "7 bloques + Operación Relámpago (semana final) · 🎮 minijuego Cacería de Ofertas" },
+    fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "6 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas y freelance" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "5 zonas: equilíbrio, legado, alianza, poder y sabiduría" },
     boveda: { t: "📈 BÓVEDA DEL CAPITAL", s: "8 capítulos: mercados, IA, cartera y futuro — hasta NIVEL EXTREMO" }
   };
@@ -4997,16 +4974,12 @@ function mapOpenModal(kind, id) {
           "</div></div>";
       }).join("") + "</div>";
     body.innerHTML = html;
-  } else if (kind === "arcade") {
-    body.innerHTML = arcadeIntroHTML();
-    initArcadeUI();
   }
   playSfx("pop");
   layer.classList.add("show");
 }
 function mapCloseModal() {
   mapModal = null;
-  stopArcade();
   const layer = document.getElementById("node-layer");
   if (layer) layer.classList.remove("show");
 }
@@ -5016,110 +4989,6 @@ function mapRefresh() {
   renderMapStage();
   if (sc) { const sc2 = document.getElementById("world-scroll"); if (sc2) sc2.scrollTop = st; }
   if (mapModal) mapOpenModal(mapModal.kind, mapModal.id);
-}
-/* --- 🎮 Minijuego: Cacería de Ofertas (Fortaleza del Empleo) --- */
-let arcadeTimer = null, arcadeSpawn = null, acState = null;
-function arcadeIntroHTML() {
-  return '<div style="--mc:#39ff14"><div class="nm-head"><span class="nm-ico">🎮</span>' +
-    '<div><div class="nm-code">MINIJUEGO · FORTALEZA DEL EMPLEO</div>' +
-    '<div class="nm-title">Cacería de Ofertas</div>' +
-    '<div class="nm-sub">Mejor puntaje: ' + (gameState.arcadeBest || 0) + '</div></div></div>' +
-    '<p class="ch-narrative">Ofertas de empleo 💼 caen del cielo — tocalas antes de que se escapen. Evitá las distracciones 🚫📱 o perdés una vida. 30 segundos, sin pausas, como la última semana del sprint. Llegá a 150 puntos en una partida y desbloqueás una misión especial de +150 XP.</p>' +
-    '<div class="arcade-wrap"><div class="arcade-hud"><span id="ac-score">🏅 0</span><span id="ac-lives">❤️❤️❤️</span><span id="ac-timer">⏱ 30</span></div>' +
-    '<div class="arcade-field" id="ac-field"><div class="arcade-ready" id="ac-ready">Tocá <b>Iniciar</b> para empezar</div></div>' +
-    '<button class="arcade-start" id="ac-start">▶ INICIAR CACERÍA</button></div></div>';
-}
-function initArcadeUI() {
-  const btn = document.getElementById("ac-start");
-  if (btn) btn.addEventListener("click", startArcade);
-}
-function startArcade() {
-  stopArcade();
-  const field = document.getElementById("ac-field");
-  if (!field) return;
-  field.innerHTML = "";
-  acState = { score: 0, lives: 3, combo: 0, t: 30, running: true };
-  paintArcadeHUD();
-  const btn = document.getElementById("ac-start");
-  if (btn) btn.style.display = "none";
-  playSfx("travel");
-  arcadeTimer = setInterval(function () {
-    if (!acState) return;
-    acState.t--;
-    paintArcadeHUD();
-    if (acState.t <= 0 || acState.lives <= 0) endArcade();
-  }, 1000);
-  spawnLoop();
-}
-function spawnLoop() {
-  if (!acState || !acState.running) return;
-  spawnArcadeItem();
-  const delay = Math.max(420, 900 - acState.score * 3);
-  arcadeSpawn = setTimeout(spawnLoop, delay);
-}
-function spawnArcadeItem() {
-  const field = document.getElementById("ac-field");
-  if (!field || !acState || !acState.running) return;
-  const good = Math.random() < 0.72;
-  const el = document.createElement("div");
-  el.className = "ac-item" + (good ? " good" : " bad");
-  el.textContent = good ? "💼" : (Math.random() < 0.5 ? "🚫" : "📱");
-  const w = field.clientWidth || 300;
-  const x = 8 + Math.random() * Math.max(w - 40, 20);
-  el.style.left = x + "px";
-  const dur = 2.1 + Math.random() * 1.1;
-  el.style.animationDuration = dur + "s";
-  el.addEventListener("click", function () { arcadeHit(el, good); });
-  el.addEventListener("animationend", function () { if (el.parentNode) el.remove(); });
-  field.appendChild(el);
-}
-function arcadeHit(el, good) {
-  if (!acState || !acState.running || el.dataset.hit) return;
-  el.dataset.hit = "1";
-  if (good) {
-    acState.combo++;
-    const gain = 10 + Math.min(acState.combo, 10);
-    acState.score += gain;
-    el.textContent = "+" + gain;
-    el.classList.add("hitgood");
-    playSfx("pop");
-  } else {
-    acState.combo = 0;
-    acState.lives--;
-    el.classList.add("hitbad");
-    playSfx("error");
-  }
-  paintArcadeHUD();
-  setTimeout(function () { if (el.parentNode) el.remove(); }, 260);
-  if (acState.lives <= 0) endArcade();
-}
-function paintArcadeHUD() {
-  if (!acState) return;
-  const s = document.getElementById("ac-score"); if (s) s.textContent = "🏅 " + acState.score;
-  const l = document.getElementById("ac-lives");
-  if (l) l.textContent = "❤️".repeat(Math.max(acState.lives, 0)) + "🖤".repeat(Math.max(3 - Math.max(acState.lives, 0), 0));
-  const t = document.getElementById("ac-timer"); if (t) t.textContent = "⏱ " + Math.max(acState.t, 0);
-}
-function stopArcade() {
-  if (arcadeTimer) clearInterval(arcadeTimer);
-  if (arcadeSpawn) clearTimeout(arcadeSpawn);
-  arcadeTimer = null; arcadeSpawn = null;
-  if (acState) acState.running = false;
-}
-function endArcade() {
-  stopArcade();
-  const field = document.getElementById("ac-field");
-  const score = acState ? acState.score : 0;
-  const isBest = score > (gameState.arcadeBest || 0);
-  if (isBest) { gameState.arcadeBest = score; saveGame(); }
-  const unlocked = score >= 150 && !gameState.completedJobs.includes("j47");
-  if (field) field.innerHTML = '<div class="arcade-end"><div class="ac-end-score">🏅 ' + score + ' puntos</div>' +
-    (isBest ? '<div class="ac-end-best">¡Nuevo mejor puntaje!</div>' : '') +
-    (unlocked ? '<div class="ac-end-unlock">🏆 ¡Misión especial desbloqueada! +150 XP</div>' : '<div class="ac-end-hint">Llegá a 150 puntos para ganar la misión especial (+150 XP)</div>') +
-    '</div>';
-  const btn = document.getElementById("ac-start");
-  if (btn) { btn.style.display = ""; btn.textContent = "▶ JUGAR DE NUEVO"; }
-  if (unlocked) setTimeout(function () { toggleJob("j47"); confetti(window.innerWidth / 2, window.innerHeight / 2, 70); }, 400);
 }
 function mapTabToVida(sub) {
   playSfx("travel");
@@ -5136,8 +5005,6 @@ function renderMap() {
   const stage = document.getElementById("map-stage");
   if (stage) {
     stage.addEventListener("click", function (e) {
-      const arc = e.target.closest(".arcade-btn");
-      if (arc) { mapOpenModal("arcade", null); return; }
       const w = e.target.closest(".mworld");
       if (w) { mapEnter(w.dataset.w); return; }
       const zone = e.target.closest(".aldea-zone");
