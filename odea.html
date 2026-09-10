@@ -1057,6 +1057,52 @@ html{-webkit-text-size-adjust:100%}
   .holo-stage::after{animation:none}
 }
 
+
+/* ==========================================================
+   🎒 V5.6 — Arsenal cyberpunk (tarjetas, bahías, glitch)
+   ========================================================== */
+#rw-grid{display:block;max-height:380px;overflow-y:auto;padding:4px}
+.rw-bay{margin-bottom:14px}
+.rw-bay-head{display:flex;justify-content:space-between;align-items:center;font-family:'Orbitron',sans-serif;font-size:.68rem;
+  letter-spacing:2px;color:var(--bc,#00ccff);text-transform:uppercase;padding:6px 4px 6px 8px;border-left:3px solid var(--bc,#00ccff);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--bc,#00ccff) 12%,transparent),transparent)}
+.rw-bay-head small{font-family:'Share Tech Mono',monospace;color:var(--tx2);letter-spacing:1px}
+.rw-bay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:6px}
+/* Tarjeta ficha técnica: esquinas cortadas + terminal */
+.rw-item{clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0 calc(100% - 10px),0 10px);
+  background:linear-gradient(160deg,rgba(16,20,40,.95),rgba(10,13,28,.95));border:none;outline:1px solid rgba(160,160,192,.25);outline-offset:-1px}
+.rw-item .ri-ico{filter:drop-shadow(0 0 9px var(--sc,#00ccff))}
+.rw-item .ri-tier{display:block;font-size:.55rem;margin-top:4px;letter-spacing:1.5px;font-family:'Share Tech Mono',monospace}
+.rw-item::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:linear-gradient(180deg,transparent 0%,rgba(0,229,255,.10) 48%,rgba(0,229,255,.22) 50%,transparent 52%);background-size:100% 240%}
+.rw-item:hover::after,.rw-item:focus-visible::after{opacity:1;animation:rwScan .8s linear infinite}
+@keyframes rwScan{0%{background-position:0 0}100%{background-position:0 240%}}
+/* Rareza */
+.rw-item.t1{outline-color:rgba(0,204,255,.5)}
+.rw-item.t1 .ri-tier{color:#00ccff}
+.rw-item.t2{outline-color:rgba(179,110,255,.65);box-shadow:0 0 12px rgba(124,80,255,.18)}
+.rw-item.t2::before{content:'';position:absolute;inset:3px;clip-path:inherit;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(45deg,transparent 46%,rgba(255,0,255,.10) 47%,rgba(255,0,255,.10) 50%,transparent 51%)}
+.rw-item.t2 .ri-tier{color:#b36eff}
+.rw-item.t3{outline-color:#ffd700;box-shadow:0 0 16px rgba(255,215,0,.28);animation:legShine 2.8s ease-in-out infinite}
+@keyframes legShine{0%,100%{box-shadow:0 0 8px rgba(255,215,0,.18)}50%{box-shadow:0 0 22px rgba(255,215,0,.45)}}
+.rw-item.t3 .ri-tier{color:#ffd700;text-shadow:0 0 8px rgba(255,215,0,.6)}
+.rw-item.t3 .ri-ico{animation:itemPop 3s ease-in-out infinite}
+.rw-item.locked{outline-style:dashed;outline-color:rgba(160,160,192,.22)}
+.rw-item .ri-name{color:#cdd6f0}
+/* Reveal del cofre con glow del tier */
+.rw-reveal-item.t1 .rw-reveal-ico{filter:drop-shadow(0 0 14px #00ccff)}
+.rw-reveal-item.t2 .rw-reveal-ico{filter:drop-shadow(0 0 18px #b36eff)}
+.rw-reveal-item.t3 .rw-reveal-ico{filter:drop-shadow(0 0 22px #ffd700)}
+.rw-reveal-item.t3 .rw-reveal-name{color:#ffd700;text-shadow:0 0 12px rgba(255,215,0,.5)}
+.rw-reveal-item .rw-reveal-sec b{color:var(--glow-cyan)}
+/* Glitch de materialización del cofre */
+.glitch-fx{position:absolute;inset:-4px;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:repeating-linear-gradient(0deg,rgba(0,255,255,.5) 0 2px,transparent 2px 5px,rgba(255,0,255,.5) 5px 7px,transparent 7px 11px)}
+.chest-box.opening .glitch-fx{opacity:1;animation:glitchJit .55s steps(2) infinite}
+@keyframes glitchJit{0%{transform:translateX(0) skewX(0)}25%{transform:translateX(3px) skewX(-6deg)}50%{transform:translateX(-3px) skewX(4deg)}75%{transform:translateX(2px) skewX(-2deg)}100%{transform:translateX(0)}}
+.chest-box.opening .chest-ico{animation:chestOpen .8s cubic-bezier(.22,1,.36,1) forwards}
+
 </style>
 </head>
 <body>
@@ -3722,7 +3768,7 @@ function rwEquip(id) {
   playSfx("click");
   saveGame();
   rwGearRender();
-  rwGridRender();
+  rwGridRender2();
 }
 function rwGearRender() {
   const st = rwState();
@@ -3769,11 +3815,11 @@ function rwModalRender() {
       '<div class="chest-box" id="chest-box"><span class="chest-glow"></span><span class="chest-ico">🎁</span></div>' +
       '<p class="rw-locked-note" style="color:var(--glow-amber)">Tienes <b>' + st.queue.length + "</b> cofre" + (st.queue.length > 1 ? "s" : "") + " por abrir 🎉</p>" +
       '<button class="btn-cofre" id="rw-open">🎁 ABRIR COFRE</button></div>';
-    document.getElementById("rw-open").addEventListener("click", rwOpenChest);
+    document.getElementById("rw-open").addEventListener("click", rwOpenChest2);
   } else {
     cbox.style.display = "none";
     gridBox.style.display = "block";
-    rwGridRender();
+    rwGridRender2();
   }
 }
 function rwOpenChest() {
@@ -3812,10 +3858,10 @@ function rwOpenChest() {
       saveGame();
       rwGearRender();
       rwBadgeUpdate(false);
-      if (st.queue.length > 0) { rwModalRender(); rwGridRender(); }
+      if (st.queue.length > 0) { rwModalRender(); rwGridRender2(); }
       else {
         toast("🎒", "Arsenal actualizado", "Toca cualquier accesorio para equiparlo junto a tu nombre. ¡Luce tu progreso!");
-        rwModalRender(); rwGridRender();
+        rwModalRender(); rwGridRender2();
       }
     });
   }, 1250);
@@ -4745,6 +4791,104 @@ function holoRender() {
   fig += '<span class="holo-gear">' + g + "</span>";
   fig += '<span class="holo-name">RECLUTA</span></div>';
   stage.innerHTML = '<div class="holo-base"></div>' + fig;
+}
+
+/* ==========================================================
+   🎒 V5.6 — ARSENAL CYBERPUNK v2 (rareza, bahías, glitch)
+   Funciones NUEVAS (…2): presentación pura; REWARDS/rwEquip
+   intactos. El modal llama a estas versiones.
+   ========================================================== */
+const RW_TIER_NAMES = ["Común", "Raro", "Épico", "Legendario"];
+const RW_SEC_COLORS = { "🛡️ Campaña": "#00ccff", "🎖️ General": "#ffd700", "⚖️ Equilibrio": "#00ff88", "👶 Legado": "#2dd4bf", "💑 Alianza": "#ff00aa", "📈 Capital": "#7c6cff" };
+function rwTier(id) {
+  if (["rw_d42", "rw_boss8", "rw_cap7", "rw_rang9"].indexOf(id) >= 0) return 3;
+  if (["rw_d28", "rw_boss6", "rw_cap4", "rw_rang6", "rw_eq21", "rw_life"].indexOf(id) >= 0) return 2;
+  if (["rw_d21", "rw_d14", "rw_boss3", "rw_sem4", "rw_racha", "rw_eq7", "rw_read", "rw_ahorro", "rw_kw5", "rw_cw5", "rw_cg2", "rw_grw", "rw_rang3", "rw_kh3", "rw_jobs"].indexOf(id) >= 0) return 1;
+  return 0;
+}
+function rwSecColor(sec) { return RW_SEC_COLORS[sec] || "#00ccff"; }
+function rwItemHTML2(r, st) {
+  const un = st.unlocked.indexOf(r.id) >= 0;
+  const eq = st.equipped === r.id;
+  const inq = st.queue.indexOf(r.id) >= 0;
+  const tier = rwTier(r.id);
+  const sc = rwSecColor(r.sec);
+  if (un) {
+    return '<div class="rw-item t' + tier + (eq ? " equipped" : "") + '" data-rid="' + r.id + '" title="' + r.sec + " · " + RW_TIER_NAMES[tier] + '" style="--sc:' + sc + '">' +
+      (eq ? '<span class="eq-tag">EQUIPADO</span>' : "") +
+      '<span class="ri-ico">' + r.ico + "</span>" +
+      "<span class='ri-name'>" + r.n + "</span>" +
+      '<span class="ri-tier">' + RW_TIER_NAMES[tier] + "</span></div>";
+  }
+  return '<div class="rw-item locked t0" title="Aún bloqueado · ' + r.sec + '" style="--sc:' + sc + '">' +
+    (inq ? '<span class="new-tag">COFRE</span>' : "") +
+    '<span class="ri-ico">❓</span><span class="ri-name">???</span><span class="ri-hint">' + r.sec + "</span></div>";
+}
+function rwGridRender2() {
+  const st = rwState();
+  const grid = document.getElementById("rw-grid");
+  if (!grid) return;
+  const secs = [];
+  REWARDS.forEach(r => { if (secs.indexOf(r.sec) < 0) secs.push(r.sec); });
+  let html = "";
+  secs.forEach(sec => {
+    const list = REWARDS.filter(r => r.sec === sec);
+    const un = list.filter(r => st.unlocked.indexOf(r.id) >= 0).length;
+    html += '<div class="rw-bay" style="--bc:' + rwSecColor(sec) + '">' +
+      '<div class="rw-bay-head"><span>' + sec + "</span><small>" + un + "/" + list.length + "</small></div>" +
+      '<div class="rw-bay-grid">' + list.map(r => rwItemHTML2(r, st)).join("") + "</div></div>";
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll(".rw-item[data-rid]").forEach(el => {
+    el.addEventListener("click", function () { rwEquip(el.dataset.rid); });
+  });
+}
+function rwOpenChest2() {
+  const st = rwState();
+  if (st.queue.length === 0) return;
+  playSfx("chest");
+  const wrap = document.getElementById("rw-chest-wrap");
+  wrap.innerHTML =
+    '<div class="chest-stage"><div class="chest-box opening" id="chest-box">' +
+    '<span class="rays" id="chest-rays"></span><span class="chest-glow"></span>' +
+    '<span class="glitch-fx"></span><span class="chest-ico">🎁</span></div>' +
+    '<div id="rw-reveal-slot"></div></div>';
+  setTimeout(() => {
+    const rays = document.getElementById("chest-rays");
+    if (rays) rays.classList.add("on");
+  }, 300);
+  setTimeout(() => {
+    const id = st.queue.shift();
+    const r = REWARDS.find(x => x.id === id);
+    if (!r) return;
+    st.unlocked.push(id);
+    const tier = rwTier(id);
+    const sc = rwSecColor(r.sec);
+    playSfx("reveal");
+    burst(window.innerWidth / 2, 220, "#ffd700", 90);
+    confetti(window.innerWidth / 2, 220, 110);
+    burst(window.innerWidth / 2, 220, "#00ff88", 60);
+    const slot = document.getElementById("rw-reveal-slot");
+    if (slot) {
+      slot.innerHTML =
+        '<div class="rw-reveal-item t' + tier + '" style="--sc:' + sc + '"><span class="rw-reveal-ico">' + r.ico + "</span>" +
+        '<span class="rw-reveal-new">✦ ¡ACCESORIO CONSEGUIDO! ✦</span>' +
+        '<span class="rw-reveal-name">' + r.n + "</span>" +
+        '<span class="rw-reveal-sec">' + r.sec + " · <b>" + RW_TIER_NAMES[tier] + "</b></span>" +
+        '<button class="btn-cofre" id="rw-claim">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
+    }
+    document.getElementById("rw-claim").addEventListener("click", () => {
+      playSfx("coin");
+      saveGame();
+      rwGearRender();
+      rwBadgeUpdate(false);
+      if (st.queue.length > 0) { rwModalRender(); rwGridRender2(); }
+      else {
+        toast("🎒", "Arsenal actualizado", "Toca cualquier accesorio para equiparlo junto a tu nombre. ¡Luce tu progreso!");
+        rwModalRender(); rwGridRender2();
+      }
+    });
+  }, 1250);
 }
 
 /* --- Init --- */
