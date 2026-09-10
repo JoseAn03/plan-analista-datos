@@ -885,6 +885,10 @@ html{-webkit-text-size-adjust:100%}
 .aldea-zone .az-sub{display:block;font-size:.62rem;color:var(--tx2);font-family:'Share Tech Mono',monospace;margin-top:1px;opacity:.85}
 @media (prefers-reduced-motion: reduce){.m-avatar,.m-avatar .av-gear{animation:none!important}}
 
+.week-flag{position:absolute;left:5%;right:5%;text-align:center;font-family:'Share Tech Mono',monospace;font-size:.64rem;letter-spacing:1.5px;
+  color:var(--glow-amber);background:rgba(255,170,0,.06);border:1px dashed rgba(255,170,0,.4);border-radius:99px;padding:5px 10px;z-index:3;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.week-flag span{margin-right:4px}
+
 }
 
 
@@ -4063,17 +4067,20 @@ function bovedaNodes() {
 }
 function fortalezaNodes() {
   const doneSet = new Set(gameState.completedJobs);
+  const blks = [1, 2, 3, 4, 5, 6];
+  const lists = blks.map(blk => employmentMissions.filter(m => m.blk === blk));
+  const firstPend = lists.findIndex(list => list.filter(m => doneSet.has(m.id)).length < list.length);
   const out = { nodes: [], points: [] };
-  [1, 2, 3, 4, 5, 6].forEach((blk, i) => {
-    const list = employmentMissions.filter(m => m.blk === blk);
+  blks.forEach((blk, i) => {
+    const list = lists[i];
     const d = list.filter(m => doneSet.has(m.id)).length;
     const x = i % 2 === 0 ? 42 : 60;
     const y = 90 + i * 138;
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
-      id: "blk" + blk, act: "jobs-blk", ico: (JOBS_BLOCKS[blk] || "").slice(0, 2), color: "#ffaa00",
+      id: "blk" + blk, act: "jobs-blk", ico: (JOBS_BLOCKS[blk] || "").slice(0, 2), color: BLK_COLORS[blk] || "#ffaa00",
       t: (JOBS_BLOCKS[blk] || "Bloque " + blk).replace(/^.. /, ""), count: d + "/" + list.length,
-      pct: Math.round((d / list.length) * 100), done: d === list.length, cur: i === 0 && d === 0
+      pct: Math.round((d / list.length) * 100), done: d === list.length, cur: i === firstPend
     }));
   });
   return out;
@@ -4083,7 +4090,8 @@ function mapWorldHTML(w) {
   if (w === "torre") { const t = torreNodes(); nodes = t.nodes; points = t.points; }
   else if (w === "boveda") { const b = bovedaNodes(); nodes = b.nodes; points = b.points; }
   else if (w === "fortaleza") { const f = fortalezaNodes(); nodes = f.nodes; points = f.points; }
-  else { return aldeaHTML(); }
+  else if (w === "aldea") { return aldeaHTML(); }
+  else { return campHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
   let html = '<div class="world-scroll" id="world-scroll"><div class="world-track" style="position:relative;height:940px">' +
@@ -4131,6 +4139,7 @@ function renderMapStage() {
   const sub = document.getElementById("map-sub");
   const H = {
     null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
+    camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
     torre: { t: "📜 TORRE DE DATOS", s: "8 capítulos para escalar de Novato a Analista Legendario" },
     fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "6 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas y freelance" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "5 zonas: equilíbrio, legado, alianza, poder y sabiduría" },
@@ -4156,10 +4165,6 @@ function mapGoHome() {
 }
 function mapEnter(w) {
   playSfx("travel");
-  if (w === "camp") {
-    document.querySelector('.tab-btn[data-tab="daily"]').click();
-    return;
-  }
   if (w === "aldea") {
     mapSt.w = "aldea";
   } else {
@@ -4168,6 +4173,10 @@ function mapEnter(w) {
   renderMapStage();
 }
 function mapOpenModal(kind, id) {
+  if (kind === "vida-zona" || kind === "day-d") {
+    if (mapSpecialModal(kind, id)) mapModal = { kind: kind, id: id };
+    return;
+  }
   mapModal = { kind: kind, id: id };
   const layer = document.getElementById("node-layer");
   const body = document.getElementById("node-body");
@@ -4257,7 +4266,7 @@ function renderMap() {
       const w = e.target.closest(".mworld");
       if (w) { mapEnter(w.dataset.w); return; }
       const zone = e.target.closest(".aldea-zone");
-      if (zone) { mapTabToVida(zone.dataset.sub); return; }
+      if (zone) { mapOpenModal("vida-zona", zone.dataset.sub); return; }
       const node = e.target.closest(".mnode");
       if (node) {
         if (node.classList.contains("locked")) { playSfx("error"); toast("🔒", "Zona bloqueada", "Completa el capítulo anterior para desbloquearla."); return; }
@@ -4271,6 +4280,10 @@ function renderMap() {
   if (layer) {
     layer.addEventListener("click", function (e) {
       if (e.target === layer) { mapCloseModal(); return; }
+      const cardD = e.target.closest("[data-dmid]");
+      if (cardD && mapModal && mapModal.kind === "day-d") { toggleDailyMission(cardD.dataset.dmid, cardD); setTimeout(mapRefresh, 80); return; }
+      const cardV = e.target.closest(".mission[data-mid]");
+      if (cardV && mapModal && mapModal.kind === "vida-zona") { vidaToggle({ target: cardV }); setTimeout(mapRefresh, 90); return; }
       const card = e.target.closest(".mission[data-id]");
       if (card) {
         const modal = mapModal;
@@ -4300,7 +4313,11 @@ function mapHudPaint() {
   if (mapSt.w === null) { hud.style.display = "none"; hud.innerHTML = ""; return; }
   hud.style.display = "flex";
   let chips = [];
-  if (mapSt.w === "torre") {
+  if (mapSt.w === "camp") {
+    chips.push('<span class="mh-chip gold">⚡ NIVEL <b>' + gameState.level + "</b> · " + levelName(gameState.level) + "</span>");
+    chips.push('<span class="mh-chip green">📅 <b>' + fullDaysCount() + "/" + DAILY_TOTAL + "</b> días</span>");
+    chips.push('<span class="mh-chip">🔥 racha ' + (gameState.streak || 0) + "</span>");
+  } else if (mapSt.w === "torre") {
     chips.push('<span class="mh-chip gold">⚡ NIVEL <b>' + gameState.level + '</b> · ' + levelName(gameState.level) + "</span>");
     chips.push('<span class="mh-chip green">🗡 <b>' + gameState.completedMissions.length + "/" + CAMP_TOTAL + "</b> misiones</span>");
     chips.push('<span class="mh-chip">🗓 ' + fullDaysCount() + "/" + DAILY_TOTAL + " días</span>");
@@ -4399,6 +4416,121 @@ function mapPlaceAvatar() {
   if (!t) return;
   const host = t.closest(".world-track") || t.parentElement;
   mk(host, t.style.left, t.style.top);
+}
+
+/* ==========================================================
+   🗺️ V5.3 — FIXES spec v2 (Fortaleza cur/colores, Aldea modal,
+   Campamento submundo de 56 días)
+   ========================================================== */
+const BLK_COLORS = { 1: "#ffaa00", 2: "#ff6600", 3: "#ffd700", 4: "#00ccff", 5: "#ff3355", 6: "#ff00ff" };
+const VIDA_ZONA_META = [
+  { k: "eq", ico: "⚖️", n: "Equilibrio", c: "#00ff88", render: renderVidaEq },
+  { k: "kid", ico: "👶", n: "Legado", c: "#2dd4bf", render: renderVidaKid },
+  { k: "cpl", ico: "💑", n: "Alianza", c: "#ff00aa", render: renderVidaCpl },
+  { k: "pow", ico: "🦁", n: "Poder & Imagen", c: "#ffd700", render: renderVidaPow },
+  { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", render: renderVidaMen }
+];
+function mapSpecialModal(kind, id) {
+  const layer = document.getElementById("node-layer");
+  const body = document.getElementById("node-body");
+  if (!layer || !body) return;
+  if (kind === "vida-zona") {
+    const z = VIDA_ZONA_META.find(x => x.k === id);
+    if (!z) return;
+    const vs = vidaCompute();
+    z.render(vs);
+    const src = document.getElementById("vida-" + z.k);
+    const sub = vs.sub[z.k];
+    body.innerHTML =
+      '<div style="--mc:' + z.c + '"><div class="nm-head"><span class="nm-ico">' + z.ico + "</span>" +
+      '<div><div class="nm-code">ALDEA DE LA VIDA · ' + (AZ_METAFORA[z.k] || "") + "</div>" +
+      '<div class="nm-title">' + z.n + "</div>" +
+      '<div class="nm-sub">' + sub.name + " · Nv." + sub.lvl + " · " + vs.xp[z.k].toLocaleString("es-CR") + " XP</div></div></div>" +
+      (src ? src.innerHTML : "") + "</div>";
+  } else if (kind === "day-d") {
+    const d = Number(String(id).replace("d", ""));
+    const list = missionsOfDay(d);
+    if (!list.length) return;
+    const doneN = dayDoneCount(d);
+    const full = doneN === list.length;
+    const xpSum = list.reduce((s, m) => s + m.xp, 0);
+    let html = '<div style="--mc:#00ff88"><div class="nm-head"><span class="nm-ico">🗓️</span>' +
+      '<div><div class="nm-code">CAMPAMENTO BASE · ' + doneN + "/" + list.length + ' · Día ' + (isDayUnlocked(d) ? "" : "🔒 ") + '</div>' +
+      '<div class="nm-title">DÍA ' + d + (d === firstPendingDay() ? " · HOY" : "") + "</div>" +
+      '<div class="nm-sub">+' + xpSum + ' XP en total' + (full ? " · día completo ✓" : "") + "</div></div></div>";
+    html += '<p class="ch-narrative">' + (full ? "Día conquistado. El sendero se ilumina." : "Completa las 3 misiones del día para subir de nivel y encender el camino.") + "</p>";
+    list.forEach(m => {
+      const done = gameState.completedDaily.indexOf(m.id) >= 0;
+      html += '<div class="mission' + (done ? " done" : "") + '" data-dmid="' + m.id + '">' +
+        '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div><div class="m-body">' +
+        '<div class="m-title">' + escapeHtml(m.title) + "</div>" +
+        '<div class="m-desc">' + escapeHtml(m.description) + "</div>" +
+        '<div class="m-verif">' + escapeHtml(m.verification) + "</div>" +
+        '<div class="m-tags"><span class="tag xp">+' + m.xp + ' XP</span><span class="tag time">⏱ ' + m.time + ' min</span>' +
+        (done ? '<span class="tag ondone">✔ COMPLETADA</span>' : "") + "</div>" +
+        "</div></div>";
+    });
+    if (full) html += '<div class="nm-done">✓ DÍA ' + d + " COMPLETADO</div>";
+    body.innerHTML = html;
+  } else {
+    return false;
+  }
+  playSfx("pop");
+  layer.classList.add("show");
+  return true;
+}
+function dayCleanTitle(m) { return String(m.title).replace(/^[^ ]+ /, ""); }
+function campHTML() {
+  const out = { nodes: [], points: [] };
+  let y = 90, fila = 0;
+  const totalDays = DAILY_TOTAL;
+  const peakDay = Math.min(firstPendingDay(), totalDays);
+  const xcol = [22, 50, 78];
+  let marcas = [];
+  let idxPeak = -1;
+  for (let d = 1; d <= totalDays; d++) {
+    if (d % 7 === 1 && d > 1) {
+      const wk = Math.ceil(d / 7);
+      marcas.push({ y: y, wk: wk, title: (weeklyMissions[wk - 1] || {}).title || ("Semana " + wk) });
+      y += 52;
+    }
+    const list = missionsOfDay(d);
+    if (!list.length) continue;
+    const doneN = dayDoneCount(d);
+    const full = doneN === list.length;
+    const x = xcol[fila % 3];
+    out.points.push([x, y]);
+    if (d === peakDay) idxPeak = out.points.length - 1;
+    out.nodes.push(mnodeHTML(x, y, {
+      id: "d" + d, act: "day-d", ico: String(list[0].title).split(" ")[0] || "📋", color: "#00ff88",
+      t: "Día " + d + " — " + dayCleanTitle(list[0]).slice(0, 22), count: doneN + "/" + list.length,
+      pct: Math.round((doneN / list.length) * 100), done: full,
+      cur: d === peakDay, locked: !isDayUnlocked(d)
+    }));
+    y += 96;
+    fila++;
+  }
+  y += 40;
+  const Ht = y + 60;
+  const litToIdx = idxPeak >= 0 ? idxPeak : out.points.length - 1;
+  let svg = '<div class="world-scroll" id="world-scroll"><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
+    '<svg class="world-svg" viewBox="0 0 100 ' + Ht + '" preserveAspectRatio="none">' +
+    '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
+  out.points.forEach((p, i) => {
+    if (i === 0) return;
+    const prev = out.points[i - 1];
+    const isLit = i <= litToIdx + 1;
+    const path = "M" + prev[0] + " " + prev[1] + " Q" + ((prev[0] + p[0]) / 2 + 6) + " " + ((prev[1] + p[1]) / 2 - 4) + " " + p[0] + " " + p[1];
+    svg += '<path class="w-road' + (isLit ? " lit" : "") + '" d="' + path + '"/>';
+  });
+  svg += "</svg>";
+  marcas.forEach(mk => {
+    svg += '<div class="week-flag" style="top:' + mk.y + 'px"><span>🗓</span> SEMANA ' + mk.wk + " · " + escapeHtml(mk.title) + "</div>";
+  });
+  svg += out.nodes.join("");
+  svg += "</div>" +
+    '<div class="maps-legend"><span class="lg-done">Completado</span><span class="lg-cur">Hoy / en curso</span><span class="lg-lock">Bloqueado</span></div></div>';
+  return svg;
 }
 
 /* --- Init --- */
