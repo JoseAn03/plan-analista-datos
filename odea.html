@@ -897,8 +897,8 @@ html{-webkit-text-size-adjust:100%}
    ========================================================== */
 #map-stage{perspective:1200px}
 .hub-wrap,.world-scroll{transform:rotateX(var(--tilt, 10deg));transform-style:preserve-3d;transform-origin:50% 0}
-.hub-wrap{--tilt:10deg}
-.world-scroll{--tilt:12deg}
+.hub-wrap{--tilt:14deg}
+.world-scroll{--tilt:15deg}
 /* Billboard: nodos contra-rotados para verse de frente */
 .mworld,.mnode{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1));transform-style:preserve-3d;will-change:transform}
 .mworld:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.07)}
@@ -970,8 +970,8 @@ html{-webkit-text-size-adjust:100%}
    ========================================================== */
 #map-stage{perspective:1200px}
 .hub-wrap,.world-scroll{transform:rotateX(var(--tilt, 10deg));transform-style:preserve-3d;transform-origin:50% 0}
-.hub-wrap{--tilt:10deg}
-.world-scroll{--tilt:12deg}
+.hub-wrap{--tilt:14deg}
+.world-scroll{--tilt:15deg}
 /* Billboard: nodos contra-rotados para verse de frente */
 .mworld,.mnode{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1));transform-style:preserve-3d;will-change:transform}
 .mworld:hover{transform:translate(-50%,-50%) rotateX(calc(var(--tilt, 10deg) * -1)) scale(1.07)}
@@ -1176,8 +1176,8 @@ header{padding:10px 14px}
 
 /* Rendimiento movil: tilt reducido y ahorro de GPU */
 @media (max-width:999px){
-  .hub-wrap{--tilt:6deg}
-  .world-scroll{--tilt:7deg}
+  .hub-wrap{--tilt:9deg}
+  .world-scroll{--tilt:10deg}
   .world-scroll::before,.hub-wrap::before{opacity:.03}
 }
 
@@ -1298,6 +1298,58 @@ header{padding:10px 14px}
   background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(1px)}
 @media (prefers-reduced-motion: reduce){
   .holo-base,.holo-base::after,.mnode.current .mn-ico,.hub-wrap::after,.world-scroll::after{animation:none!important}
+}
+
+
+/* ==========================================================
+   🎬 V5.11 — CINEMÁTICO: profundidad, atmósfera, staging
+   El usuario autorizó peso: máxima calidad visual.
+   ========================================================== */
+/* Marco de visor (solo hub, sin scroll) */
+.frame-corners{position:absolute;inset:12px;z-index:4;pointer-events:none;opacity:.65;
+  background:
+    linear-gradient(var(--glow-green),var(--glow-green)) left top/26px 2px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) left top/2px 26px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) right top/26px 2px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) right top/2px 26px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) left bottom/26px 2px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) left bottom/2px 26px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) right bottom/26px 2px no-repeat,
+    linear-gradient(var(--glow-green),var(--glow-green)) right bottom/2px 26px no-repeat;
+  filter:drop-shadow(0 0 6px rgba(0,255,136,.8))}
+/* Niebla atmosférica en movimiento */
+.fog{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:inherit}
+.fog i{position:absolute;display:block;border-radius:50%;filter:blur(18px);opacity:.55}
+.fog i:nth-child(1){left:-14%;top:12%;width:72%;height:36%;
+  background:radial-gradient(ellipse,rgba(90,200,255,.20),transparent 70%);animation:fogA 26s ease-in-out infinite alternate}
+.fog i:nth-child(2){right:-16%;top:52%;width:84%;height:42%;
+  background:radial-gradient(ellipse,rgba(255,0,220,.13),transparent 70%);animation:fogB 33s ease-in-out infinite alternate}
+.fog i:nth-child(3){left:8%;bottom:-10%;width:66%;height:38%;
+  background:radial-gradient(ellipse,rgba(0,255,170,.12),transparent 70%);animation:fogC 38s ease-in-out infinite alternate}
+@keyframes fogA{from{transform:translateX(-3%)}to{transform:translateX(5%)}}
+@keyframes fogB{from{transform:translateX(4%)}to{transform:translateX(-5%)}}
+@keyframes fogC{from{transform:translateY(0) scale(1)}to{transform:translateY(-4%) scale(1.06)}}
+/* Entradas escalonadas en el modal de nodo */
+#node-body .mission{animation:miIn .35s cubic-bezier(.165,.84,.44,1) both}
+#node-body .mission:nth-child(3){animation-delay:.05s}
+#node-body .mission:nth-child(4){animation-delay:.1s}
+#node-body .mission:nth-child(5){animation-delay:.15s}
+#node-body .mission:nth-child(6){animation-delay:.2s}
+#node-body .mission:nth-child(7){animation-delay:.25s}
+#node-body .mission:nth-child(8){animation-delay:.3s}
+#node-body .mission:nth-child(9){animation-delay:.35s}
+#node-body .mission:nth-child(10){animation-delay:.4s}
+#node-body .mission:nth-child(n+11){animation-delay:.44s}
+@keyframes miIn{from{opacity:0;transform:translateY(9px) scale(.985)}to{opacity:1;transform:none}}
+/* Aura de profundidad bajo el tablero */
+.hub-wrap,.world-scroll{box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 40px rgba(0,255,136,.05),inset 0 0 60px rgba(0,0,0,.35)}
+/* Nodos: halo de color en el suelo */
+.mworld,.mnode{will-change:transform}
+.mnode.current{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--mc) 70%,transparent))}
+/* Estrellas del hub con brillo de capa (canvas-less) */
+@media (max-width:999px){
+  .fog i{filter:blur(8px);opacity:.4}
+  #node-body .mission:nth-child(n+8){animation-delay:.28s}
 }
 
 </style>
@@ -4417,7 +4469,7 @@ function mapHubHTML() {
       (st.badge ? '<span class="mw-badges"><span class="mw-badge">' + st.badge + "</span></span>" : "") +
       "</button>";
   });
-  return '<div class="hub-wrap">' + html + '</div><div class="hub-note">🗺️ Cada mundo guarda un camino de misiones · toca uno para explorarlo</div>';
+  return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div><div class="hub-note">🗺️ Cada mundo guarda un camino de misiones · toca uno para explorarlo</div>';
 }
 /* --- nodos genéricos --- */
 function mnodeHTML(x, y, cfg) {
@@ -4517,7 +4569,7 @@ function mapWorldHTML(w) {
   else { return campHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
-  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><div class="world-track" style="position:relative;height:940px">' +
+  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><div class="world-track" style="position:relative;height:940px">' +
     '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   points.forEach((p, i) => {
@@ -4938,7 +4990,7 @@ function campHTML() {
   y += 40;
   const Ht = y + 60;
   const litToIdx = idxPeak >= 0 ? idxPeak : out.points.length - 1;
-  let svg = '<div class="world-scroll t-camp" id="world-scroll"><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
+  let svg = '<div class="world-scroll t-camp" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><div class="world-track" style="position:relative;height:' + Ht + 'px">' +
     '<svg class="world-svg" viewBox="0 0 100 ' + Ht + '" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   out.points.forEach((p, i) => {
@@ -4976,14 +5028,21 @@ function holoTier() {
 }
 function holoFigSVG(col, fillBody) {
   return '<svg viewBox="0 0 56 80" xmlns="http://www.w3.org/2000/svg" fill="' + fillBody + '" stroke="' + col + '" stroke-width="1">' +
-    '<circle cx="28" cy="13" r="9.5"/>' +
-    '<rect x="18" y="22" width="20" height="26" rx="8"/>' +
-    '<rect x="11" y="26" width="6" height="17" rx="3"/>' +
-    '<rect x="39" y="26" width="6" height="17" rx="3"/>' +
-    '<rect x="20" y="48" width="7" height="15" rx="3"/>' +
-    '<rect x="29" y="48" width="7" height="15" rx="3"/>' +
-    '<circle cx="25" cy="12" r="2.4" fill="#0b1020" stroke="none"/>' +
-    '<path d="M23 26 L33 26 L31 20 L25 20 Z" opacity=".85"/></svg>';
+    '<circle cx="28" cy="14" r="10"/>' +
+    '<path d="M22 12 h12 v5 h-12 z" fill="#0a1020" stroke="none"/>' +
+    '<circle cx="33" cy="15" r="1.6" fill="' + col + '" stroke="none"/>' +
+    '<path d="M13 26 q-6 1 -4 7 l4 3 h6 z"/>' +
+    '<path d="M43 26 q6 1 4 7 l-4 3 h-6 z"/>' +
+    '<rect x="19" y="30" width="18" height="16" rx="5"/>' +
+    '<path d="M23 34 h10 v4 h-10 z" fill="#0a1020" stroke="none"/>' +
+    '<circle cx="36" cy="36" r="1.3" fill="' + col + '" stroke="none"/>' +
+    '<rect x="12" y="32" width="5" height="15" rx="2.5"/>' +
+    '<rect x="39" y="32" width="5" height="15" rx="2.5"/>' +
+    '<rect x="18" y="46" width="20" height="4" fill="#0a1020" stroke="' + col + '"/>' +
+    '<rect x="21" y="50" width="6" height="17" rx="3"/>' +
+    '<rect x="29" y="50" width="6" height="17" rx="3"/>' +
+    '<rect x="19" y="65" width="10" height="6" rx="2"/>' +
+    '<rect x="27" y="65" width="10" height="6" rx="2"/></svg>';
 }
 function holoRender() {
   const stage = document.getElementById("holo-stage");
