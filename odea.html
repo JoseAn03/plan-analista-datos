@@ -1173,6 +1173,13 @@ header{padding:10px 14px}
   footer{padding-bottom:72px}
 }
 
+
+/* Rendimiento movil: tilt reducido y ahorro de GPU */
+@media (max-width:999px){
+  .hub-wrap{--tilt:6deg}
+  .world-scroll{--tilt:7deg}
+  .world-scroll::before,.hub-wrap::before{opacity:.03}
+}
 </style>
 </head>
 <body>
