@@ -5528,6 +5528,14 @@ window.addEventListener("load", function () {
   const v = document.getElementById("view-map");
   if (v && v.classList.contains("active")) renderMapStage();
 });
+window.addEventListener("pageshow", function () {
+  const v = document.getElementById("view-map");
+  if (v && v.classList.contains("active")) renderMapStage();
+});
+setTimeout(function () {
+  const v = document.getElementById("view-map");
+  if (v && v.classList.contains("active") && !document.querySelector("#map-stage .mworld")) renderMapStage();
+}, 450);
 
 
 /* ==========================================================
@@ -5572,11 +5580,21 @@ if (!hadSave || !gameState.startDate || !gameState.playerName || gameState.playe
 
 </script>
 <script>
-/* --- PWA v4.3.1: registro del service worker (offline + instalable) --- */
+/* --- PWA v6.3: registro del SW con AUTO-ACTUALIZACION ---
+   Si hay version nueva, recarga la pagina sola UNA vez para que
+   siempre veas el mapa y lo ultimo publicado al entrar.        */
 (function () {
   if (!('serviceWorker' in navigator)) return;
+  var _reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (_reloading) return;
+    _reloading = true;
+    window.location.reload();
+  });
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('./sw.js').catch(function (err) {
+    navigator.serviceWorker.register('./sw.js').then(function (reg) {
+      try { reg.update(); } catch (e) {}
+    }).catch(function (err) {
       console.warn('SW no registrado:', err);
     });
   });
