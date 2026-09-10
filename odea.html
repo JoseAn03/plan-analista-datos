@@ -1254,6 +1254,52 @@ header{padding:10px 14px}
 #view-map::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.35;
   background-image:linear-gradient(rgba(0,255,136,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.02) 1px,transparent 1px);
   background-size:44px 44px}
+
+/* ==========================================================
+   💎 V5.10 — DETALLES 3D PREMIUM (holograma, nodos, atmósfera)
+   Todo GPU (transform/opacity). Muy contenido en mobile.
+   ========================================================== */
+/* --- Holograma: anillos orbitales + partículas + base viva --- */
+.holo-stage{height:118px}
+.holo-fig .holo-dots span{position:absolute;left:50%;top:44%;width:5px;height:5px;border-radius:50%;
+  background:var(--hc, #00ff88);box-shadow:0 0 8px var(--hc, #00ff88);transform-style:preserve-3d}
+.holo-fig .holo-ring{position:absolute;left:50%;top:44%;width:96px;height:26px;pointer-events:none;transform-style:preserve-3d;
+  border:1px solid color-mix(in srgb,var(--hc,#00ff88) 65%,transparent);border-radius:50%;
+  transform:translate(-50%,-50%) rotateX(74deg);opacity:.75}
+.holo-fig .holo-ring.r2{border-style:dashed;width:120px;height:34px;opacity:.4}
+.holo-base{width:96px;height:14px;background:
+  radial-gradient(ellipse at center,rgba(0,255,136,.5),rgba(0,255,136,.08) 62%,transparent 78%);
+  animation:basePulse 3.2s ease-in-out infinite}
+@keyframes basePulse{0%,100%{opacity:.8;transform:translateX(-50%) scaleX(1)}50%{opacity:1;transform:translateX(-50%) scaleX(1.12)}}
+.holo-base::after{content:'';position:absolute;left:50%;top:50%;width:130px;height:22px;transform:translate(-50%,-50%);
+  border:1px dashed rgba(0,255,136,.35);border-radius:50%;animation:ringSpin 9s linear infinite}
+@keyframes ringSpin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+/* --- Nodos: brillo especular + detalles de estado --- */
+.mnode::before,.mworld::before{content:'';position:absolute;inset:2px;border-radius:50%;pointer-events:none;z-index:1;
+  background:radial-gradient(circle at 50% 24%,rgba(255,255,255,.17),transparent 44%);opacity:.75}
+.mnode.current::before,.mworld:hover::before{background:radial-gradient(circle at 50% 24%,rgba(255,255,255,.32),transparent 46%)}
+.mnode .mn-ico,.mworld .mw-ico{position:relative;z-index:2}
+.mnode.done .mn-ring .rf{stroke:#ffd700;filter:drop-shadow(0 0 6px rgba(255,215,0,.9))}
+.mnode.done{border-color:rgba(255,215,0,.55)}
+.mnode.locked .mn-ico{filter:grayscale(1) opacity(.7)}
+.mnode.current .mn-ico{animation:icoBob 2.1s ease-in-out infinite}
+@keyframes icoBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.mnode.current .mn-name{color:#bfffe0}
+/* --- Atmósfera: estrellas parpadean + terreno vivo --- */
+.hub-wrap::after,.world-scroll::after{animation:twinkle 7s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.4}to{opacity:.75}}
+.world-scroll .world-track{background:
+  radial-gradient(ellipse 46% 34% at 50% 96%, color-mix(in srgb,var(--mc,#00ff88) 7%,transparent), transparent 70%)}
+/* marcas de semana del campamento con estilo banderín */
+.week-flag{background:linear-gradient(90deg,rgba(255,170,0,.14),rgba(255,170,0,.03));letter-spacing:2px}
+/* Avatar del recluta en mapa: más presencia */
+.m-avatar{font-size:2.15rem;filter:drop-shadow(0 0 12px rgba(255,215,0,.85)) drop-shadow(0 5px 8px rgba(0,0,0,.7))}
+.m-avatar::after{content:'';position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:30px;height:9px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(1px)}
+@media (prefers-reduced-motion: reduce){
+  .holo-base,.holo-base::after,.mnode.current .mn-ico,.hub-wrap::after,.world-scroll::after{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -4946,7 +4992,7 @@ function holoRender() {
   const zs = [-16, -8, 0, 10, 18, 24];
   const fills = ["#0a1020", "rgba(255,255,255,.12)", tier.col, tier.col, "rgba(255,255,255,.25)", "#ffffff"];
   const n = tier.n;
-  let fig = '<div class="holo-fig">';
+  let fig = '<div class="holo-fig" style="--hc:' + tier.col + '">';
   for (let i = 0; i < n; i++) {
     const col = i === 0 ? tier.col : tier.col;
     const z = zs[i] !== undefined ? zs[i] : (i * 6);
@@ -4959,6 +5005,7 @@ function holoRender() {
   }
   const gear = (gameState.rewards || {}).equipped || null;
   const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
+  fig += holoExtras(holoTier());
   fig += '<span class="holo-gear">' + g + "</span>";
   fig += '<span class="holo-name">RECLUTA</span></div>';
   stage.innerHTML = '<div class="holo-base"></div>' + fig;
@@ -5088,7 +5135,7 @@ function sideHoloRender() {
   const tier = HOLO_TIERS[holoTier()];
   const zs = [-16, -8, 0, 10, 18, 24];
   const n = tier.n;
-  let fig = '<div class="holo-fig">';
+  let fig = '<div class="holo-fig" style="--hc:' + tier.col + '">';
   for (let i = 0; i < n; i++) {
     const z = zs[i] !== undefined ? zs[i] : (i * 6);
     const glow = i === 3;
@@ -5099,6 +5146,7 @@ function sideHoloRender() {
   }
   const gear = (gameState.rewards || {}).equipped || null;
   const g = gear ? ((REWARDS.find(r => r.id === gear) || {}).ico || "") : "";
+  fig += holoExtras(holoTier());
   fig += '<span class="holo-gear">' + g + "</span></div>";
   host.innerHTML = fig + '<span class="side-hint">TU PERSONAJE · TOCA</span>';
 }
@@ -5146,6 +5194,27 @@ function rwOpenArsenalFrom(ev) {
     if (el) el.addEventListener("click", function (e) { if (id === "holo-stage" || id === "side-holo") { e.stopPropagation(); } rwOpenArsenalFrom(e); });
   });
 })();
+
+/* ==========================================================
+   💎 V5.10 — Extras del holograma según tier (órbitas)
+   ========================================================== */
+function holoExtras(tier) {
+  let h = "";
+  if (tier >= 1) {
+    const n = tier >= 3 ? 5 : tier === 2 ? 4 : 3;
+    for (let i = 0; i < n; i++) {
+      const ang = (360 / n) * i;
+      h += '<span class="holo-dot" style="position:absolute;left:50%;top:42%;width:' + (tier >= 3 ? 6 : 5) + 'px;height:' + (tier >= 3 ? 6 : 5) + 'px;border-radius:50%;background:var(--hc);box-shadow:0 0 9px var(--hc);transform:translate(-50%,-50%) rotateY(' + ang + 'deg) translateZ(34px)"></span>';
+    }
+  }
+  if (tier >= 2) {
+    h += '<span class="holo-ring"></span>';
+  }
+  if (tier >= 3) {
+    h += '<span class="holo-ring r2"></span>';
+  }
+  return h;
+}
 
 /* --- Init --- */
 sizeCanvas();
