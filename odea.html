@@ -826,7 +826,8 @@ html{-webkit-text-size-adjust:100%}
 .maps-legend .lg-lock::before{background:#555}
 @media (prefers-reduced-motion: reduce){
   .mworld,.mnode,.aldea-zone{animation:none!important}
-  .mworld .mw-pulse,.mnode.current{animation:none!important}
+  /* Las ondas de los planetas y la respiracion del nodo actual se MANTIENEN
+     (pedido explicito: deben verse siempre) */
 }
 @media (max-width:520px){
   .mworld{width:96px;height:96px}
@@ -1624,6 +1625,10 @@ body.perf-low .mworld,body.perf-low .mnode{box-shadow:none!important}
 body.perf-low .av2-aura{animation:none!important;opacity:.6}
 body.perf-low .app-side{backdrop-filter:none}
 body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
+
+/* 🌊 GARANTIA: las ondas de los planetas SIEMPRE se ven */
+.mworld .mw-pulse{animation:nodePulse 2s ease-out infinite!important}
+.mnode.current .mn-ring{animation:ringBreathe 1.9s ease-in-out infinite!important}
 </style>
 </head>
 <body>
