@@ -804,7 +804,7 @@ html{-webkit-text-size-adjust:100%}
 .aldea-zone .az-pct{position:absolute;top:8px;right:8px;font-family:'Orbitron',sans-serif;font-size:.62rem;color:var(--mc)}
 .aldea-zone.done{border-color:rgba(255,215,0,.55)}
 /* --- Modal de nodo (misiones del capitulo) --- */
-#node-layer{position:fixed;inset:0;z-index:125;display:none;align-items:center;justify-content:center;padding:14px;
+#node-layer{position:fixed;inset:0;z-index:125;display:none;align-items:center;justify-content:center;padding:14px;overflow-y:auto;
   background:rgba(5,3,10,.85);backdrop-filter:blur(5px)}
 #node-layer.show{display:flex}
 .node-modal{background:linear-gradient(165deg,#151129,#0e0c1e);border:1px solid rgba(140,150,220,.3);border-radius:18px;
@@ -1586,9 +1586,11 @@ header{padding:10px 14px}
 #rw-layer,#node-layer,#modal-layer,#ach-layer,#diag-layer{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 @media (max-width:760px){
   #rw-layer.show,#node-layer.show,#modal-layer.show,#ach-layer.show,#diag-layer.show{display:block!important;
+    overflow-y:auto!important;-webkit-overflow-scrolling:touch;
     padding:calc(8px + env(safe-area-inset-top)) 8px calc(16px + env(safe-area-inset-bottom))}
   .rw-modal,.node-modal,.modal,.ach-modal{margin:0 auto!important;width:100%!important;max-width:100%!important;
-    max-height:none!important;overflow:visible!important}
+    max-height:calc(100dvh - 32px)!important;overflow-y:auto!important;overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch}
   .rw-head{position:sticky;top:0;z-index:9;margin:calc(-14px - env(safe-area-inset-top)) -14px 10px;
     padding:calc(10px + env(safe-area-inset-top)) 14px 10px;border-radius:14px 14px 0 0;
     background:linear-gradient(180deg,#1c1730 88%,rgba(28,23,48,.95))}
@@ -3277,14 +3279,21 @@ function showWelcome() {
 function renderAll() {
   recomputeState();
   renderDailyView();
-  renderChapters();
   updateUI();
-  renderVida();
-  renderCapital();
   rwGearRender();
   evalRewards();
   renderReto();
   renderMap();
+  /* Las pantallas que NO estas viendo se pintan un instante despues:
+     asi el mapa aparece al instante al abrir la app. */
+  const _resto = function () {
+    renderChapters();
+    renderVida();
+    renderCapital();
+    updateEmpRank();
+  };
+  if (window.requestIdleCallback) requestIdleCallback(_resto, { timeout: 900 });
+  else setTimeout(_resto, 60);
 }
 
 /* ==========================================================
@@ -5426,6 +5435,7 @@ function goTab(tab) {
   if (tab === "vida") renderVidaSubActiva();
   if (tab === "capital") renderCapital();
   if (tab === "map") renderMapStage();
+  if (tab === "campaign") renderChapters();
   window.scrollTo(0, 0);
 }
 function openSide() { document.getElementById("app-side").classList.add("open"); const o = document.getElementById("side-overlay"); if (o) o.classList.add("show"); }
