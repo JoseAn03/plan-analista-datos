@@ -1605,12 +1605,15 @@ header{padding:10px 14px}
    ========================================================== */
 /* En móvil: fuera los efectos caros de pintado */
 @media (max-width:999px){
-  /* Solo se apaga lo realmente caro (desenfoques y sombras grandes).
-     Las ondas, orbitas y estrellas fugaces SE MANTIENEN (son livianas). */
-  .fog i{filter:none;opacity:.26}
+  /* Movil: se dejan SOLO las ondas (livianas) y se apaga el resto decorativo
+     para que el celular no se laguee. */
+  .fog i{filter:none;opacity:.24}
   .hub-wrap .frame-corners{filter:none}
-  .mworld{box-shadow:inset -6px -8px 16px rgba(0,0,0,.5),0 0 16px color-mix(in srgb,var(--mc) 30%,transparent)}
-  .mnode{box-shadow:inset -5px -6px 12px rgba(0,0,0,.5),0 0 12px color-mix(in srgb,var(--mc) 24%,transparent)}
+  .hub-svg .orbit.o1,.hub-svg .orbit.o2{animation:none}
+  .shoot{display:none}
+  .av2-aura,.av2-base,.holo-aura{animation:none}
+  .mworld{box-shadow:inset -6px -8px 16px rgba(0,0,0,.5),0 0 14px color-mix(in srgb,var(--mc) 26%,transparent)}
+  .mnode{box-shadow:inset -5px -6px 12px rgba(0,0,0,.5),0 0 10px color-mix(in srgb,var(--mc) 20%,transparent)}
   .mw-saturn{filter:none}
 }
 /* Modo rendimiento (auto): si el dispositivo va lento, se apaga lo decorativo */
