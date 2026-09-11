@@ -1607,7 +1607,8 @@ header{padding:10px 14px}
 @media (max-width:999px){
   /* Movil: se dejan SOLO las ondas (livianas) y se apaga el resto decorativo
      para que el celular no se laguee. */
-  .fog i{filter:none;opacity:.24}
+  #grid-layer::after{animation:none;will-change:auto}
+  .fog i,.fog i:nth-child(1),.fog i:nth-child(2),.fog i:nth-child(3){filter:none;opacity:.24;animation:none!important}
   .hub-wrap .frame-corners{filter:none}
   .hub-svg .orbit.o1,.hub-svg .orbit.o2{animation:none}
   .shoot{display:none}
@@ -3216,18 +3217,21 @@ function burst(x, y, color, n) {
     const v = 1.5 + Math.random() * 5;
     particles.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.2, life: 1, decay: .014 + Math.random() * .02, size: 1.5 + Math.random() * 2.6, color: color || "#00ff88" });
   }
+  if (!_pRunning) { _pRunning = true; requestAnimationFrame(loopParticles); }
 }
 let _pLast = 0, _pDirty = false;
+let _pRunning = false;
 function loopParticles(ts) {
-  requestAnimationFrame(loopParticles);
   const t = ts || 0;
+  if (particles.length === 0) {           /* sin particulas: limpiar y DORMIR (no gasta nada) */
+    if (_pDirty) { pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height); _pDirty = false; }
+    _pRunning = false;
+    return;
+  }
+  requestAnimationFrame(loopParticles);
   if (t - _pLast < 32) return;            /* ~30fps: suficiente para chispas */
   _pLast = t;
   if (document.hidden) return;            /* pausa en pestana oculta */
-  if (particles.length === 0) {           /* sin particulas: limpiar una vez y dormir */
-    if (_pDirty) { pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height); _pDirty = false; }
-    return;
-  }
   pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
   particles = particles.filter(p => p.life > 0);
   _pDirty = true;
