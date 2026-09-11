@@ -1604,13 +1604,12 @@ header{padding:10px 14px}
    ========================================================== */
 /* En móvil: fuera los efectos caros de pintado */
 @media (max-width:999px){
-  .fog i{filter:none;opacity:.22}
-  .hub-svg .orbit.o1,.hub-svg .orbit.o2{animation:none}
+  /* Solo se apaga lo realmente caro (desenfoques y sombras grandes).
+     Las ondas, orbitas y estrellas fugaces SE MANTIENEN (son livianas). */
+  .fog i{filter:none;opacity:.26}
   .hub-wrap .frame-corners{filter:none}
-  .shoot{display:none}
-  .mworld{box-shadow:inset -6px -8px 16px rgba(0,0,0,.5),0 0 14px color-mix(in srgb,var(--mc) 24%,transparent)}
-  .mnode{box-shadow:inset -5px -6px 12px rgba(0,0,0,.5),0 0 10px color-mix(in srgb,var(--mc) 20%,transparent)}
-  .av2-aura,.av2-base,.holo-aura{animation:none}
+  .mworld{box-shadow:inset -6px -8px 16px rgba(0,0,0,.5),0 0 16px color-mix(in srgb,var(--mc) 30%,transparent)}
+  .mnode{box-shadow:inset -5px -6px 12px rgba(0,0,0,.5),0 0 12px color-mix(in srgb,var(--mc) 24%,transparent)}
   .mw-saturn{filter:none}
 }
 /* Modo rendimiento (auto): si el dispositivo va lento, se apaga lo decorativo */
@@ -1624,7 +1623,6 @@ body.perf-low .hub-svg .orbit{animation:none!important}
 body.perf-low .mworld,body.perf-low .mnode{box-shadow:none!important}
 body.perf-low .av2-aura{animation:none!important;opacity:.6}
 body.perf-low .app-side{backdrop-filter:none}
-body.perf-low .m-avatar,body.perf-low .mw-pulse{animation:none!important}
 body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </style>
 </head>
@@ -5668,13 +5666,18 @@ function invCharRender() {
 /* 🚀 V6.6 — Detector de rendimiento: si el equipo va lento, modo ligero automatico */
 (function () {
   try { if (localStorage.getItem("odea-perf-low") === "1") document.body.classList.add("perf-low"); } catch (e) {}
-  var t0 = 0, frames = 0, done = false;
+  var t0 = 0, frames = 0, done = false, arrancado = false;
   function tick(t) {
     if (done) return;
+    if (!arrancado) { /* esperar a que la app termine de cargar */
+      arrancado = true;
+      setTimeout(function () { requestAnimationFrame(tick); }, 2600);
+      return;
+    }
     if (!t0) { t0 = t; requestAnimationFrame(tick); return; }
     frames++;
     var el = t - t0;
-    if (el < 2400) { requestAnimationFrame(tick); return; }
+    if (el < 2200) { requestAnimationFrame(tick); return; }
     done = true;
     var fps = frames / (el / 1000);
     try {
