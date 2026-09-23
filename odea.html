@@ -1639,7 +1639,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.15</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.16</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1651,6 +1651,8 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <button class="nav-item" data-tab="jobs"><span class="ni-ico">💼</span> EMPLEO</button>
     <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
     <button class="nav-item" data-tab="capital"><span class="ni-ico">📈</span> CAPITAL</button>
+    <button class="nav-item" data-tab="auto"><span class="ni-ico">🤖</span> AUTOMATION</button>
+    <button class="nav-item" data-tab="b2b"><span class="ni-ico">💸</span> B2B</button>
   </div>
   <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
   <div class="side-stats" id="side-stats">
@@ -1837,10 +1839,45 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="cap-allmsg"></div>
       <div id="capital-root"></div>
     </section>
+    <section class="view" id="view-auto">
+      <div class="lvl-card" style="--lc:#00e5a0">
+        <div class="lvl-ico">🤖</div>
+        <div class="lvl-info">
+          <div class="li-rank">MODO CAMPAÑA</div>
+          <div class="li-name">Automation 60 Días <small>· Data/Analytics + entrevistas</small></div>
+          <div class="kid-chips">
+            <span class="bal-pill">🎯 Misiones: 24</span>
+            <span class="bal-pill">🗺️ Etapas: 8</span>
+            <span class="bal-pill" style="opacity:.5">📚 Evidencia + conversaciones reales</span>
+          </div>
+        </div>
+      </div>
+      <div class="vh-mini-note">Plan de transición a Data/Analytics Automation: evidencia técnica, entrevistas reales y una decisión clara al Día 60.</div>
+      <div class="sect-title">🤖 Ruta de la Campaña <small>completa cada etapa para avanzar</small></div>
+      <div id="auto-root"></div>
+    </section>
+    <section class="view" id="view-b2b">
+      <div class="lvl-card" style="--lc:#ffaa00">
+        <div class="lvl-ico">💸</div>
+        <div class="lvl-info">
+          <div class="li-rank">MODO CAMPAÑA</div>
+          <div class="li-name">Ingreso Extra B2B <small>· Automatización de datos</small></div>
+          <div class="kid-chips">
+            <span class="bal-pill">🎯 Misiones: 18</span>
+            <span class="bal-pill">🗺️ Fases: 6</span>
+            <span class="bal-pill" style="opacity:.5">💰 $1.500–2.500/mes en 24 meses</span>
+          </div>
+        </div>
+      </div>
+      <div class="vh-mini-note">Ingreso extra estable en automatización de datos (nicho rent-a-car/turismo).</div>
+      <div class="sect-title">💸 Ruta de la Campaña <small>completa cada fase para avanzar</small></div>
+      <div id="b2b-root"></div>
+    </section>
+
   </div>
 </div>
 
-<footer><b>ODEA</b> · App de Vida · v5.15 — 392 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.16 — 434 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -1944,6 +1981,80 @@ const CAT = {
   employability:{label:"Empleabilidad",tag:"cat-employability"}
 };
 const CAT_COLORS = { analyst:"#00ff88", ai:"#ff00ff", employability:"#ffaa00" };
+
+/* ==========================================================
+   🚀 NUEVAS CAMPAÑAS (integradas)
+   🤖 AUTOMATION — Plan de transición Data/Analytics (60 días)
+   💸 B2B — Ingreso Extra Estable (automatización de datos)
+   ========================================================== */
+const AUTO_CHAPTERS = [
+  { id:0, code:"DÍA 0", title:"Preparación del Sistema", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de empezar el conteo de 60 días." },
+  { id:1, code:"DÍAS 1–5", title:"Posicionamiento y Base de Control", color:"#00ccff", icon:"🎯", narrative:"Evidencia, CV, LinkedIn, narrativa y contrato técnico: dejar de parecer un candidato genérico." },
+  { id:2, code:"DÍAS 6–12", title:"Datos, Ingesta y Raw", color:"#7c6cff", icon:"🗄️", narrative:"Dataset sintético, casos adversariales, validación de schema y carga raw reproducible." },
+  { id:3, code:"DÍAS 13–20", title:"dbt, Modelos y Calidad", color:"#ff00ff", icon:"🧱", narrative:"Modelos, fact table, grano y tests estructurales y de negocio." },
+  { id:4, code:"DÍAS 21–30", title:"CI, Freshness y Operación", color:"#ffaa00", icon:"🔄", narrative:"Pull request, CI, freshness, scheduling, alertas y demo técnica completa." },
+  { id:5, code:"DÍAS 31–35", title:"Dashboard y README", color:"#ff6600", icon:"📊", narrative:"Dashboard operativo sobre marts, validación de métricas y README ejecutivo." },
+  { id:6, code:"DÍAS 36–45", title:"Publicación, Vídeo y Conversión", color:"#f72585", icon:"📣", narrative:"Vídeo, portafolio, candidaturas, networking y mocks técnicos." },
+  { id:7, code:"DÍAS 46–60", title:"Cierre, Iteración y Decisión", color:"#ff3355", icon:"🏆", narrative:"Mocks intensivos, negociación, auditoría de embudo y decisión final al Día 60." }
+];
+
+const AUTO_MISSIONS = [
+  { id:"a0_1", chapter:0, title:"Entorno Técnico Listo", description:"Configurar Python, gcloud CLI, dbt y GitHub: entorno reproducible desde el Día 1.", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"dbt debug y gcloud auth list sin errores" },
+  { id:"a0_2", chapter:0, title:"Checklist Legal y Financiero CR", description:"Cédula, cuenta en USD, facturación (persona física/sociedad/EOR) e IVA documentados.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"system_setup.md con checklist completo" },
+  { id:"a0_3", chapter:0, title:"Calendario y Comunidades", description:"Bloquear 12–15 h semanales y unirse a 2–3 comunidades (Data CR/LATAM, dbt Slack).", xp:100, category:"employability", estimatedTime:"1-2 horas", verification:"Calendario bloqueado + 3 comunidades" },
+  { id:"a1_1", chapter:1, title:"Inventario de Evidencia", description:"Listar sistemas construidos, separar evidencia pública/confidencial y elegir 3 logros para el CV.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"evidence_inventory.md con 6+ historias" },
+  { id:"a1_2", chapter:1, title:"CV y LinkedIn Optimizados", description:"Título Data/BI/Operations Analyst, resumen en inglés y responsabilidades convertidas en resultados.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"CV de 1 página + LinkedIn actualizado" },
+  { id:"a1_3", chapter:1, title:"Contrato Técnico y Repo", description:"Definir grano de fact_reservations, crear repo con README y enviar el primer mensaje cálido.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Repo + contract.yml + primer mensaje" },
+  { id:"a2_1", chapter:2, title:"Dataset Sintético y Esquema", description:"Definir columnas y dominios, crear datos de reservas/flota y documentar qué es simulación.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Dataset happy path + esquema documentado" },
+  { id:"a2_2", chapter:2, title:"Casos Adversariales", description:"Duplicados, nulos críticos, cancelación tardía, registro tardío, revenue fuera de rango.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Carpeta adversarial_cases + tabla de comportamiento" },
+  { id:"a2_3", chapter:2, title:"Validación de Schema + Carga Raw", description:"Validación de columnas/tipos, cuarentena de filas y carga append-only con batch_id y timestamp.", xp:250, category:"analyst", estimatedTime:"5-6 horas", verification:"Validación + carga raw reproducible" },
+  { id:"a3_1", chapter:3, title:"Configuración dbt y Staging", description:"Proyecto dbt, sources declarados y staging inicial usando ref().", xp:250, category:"analyst", estimatedTime:"4-5 horas", verification:"Primer modelo staging compilando" },
+  { id:"a3_2", chapter:3, title:"Fact Table y Grano", description:"Implementar fact_reservations, confirmar el grano y añadir claves y campos derivados.", xp:250, category:"analyst", estimatedTime:"5-6 horas", verification:"Primer mart consultable" },
+  { id:"a3_3", chapter:3, title:"Tests Estructurales y de Negocio", description:"not_null, unique, relaciones, valores aceptados y reconciliación de revenue.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"dbt test + 2 singular tests de negocio" },
+  { id:"a4_1", chapter:4, title:"Pull Request y CI Temporal", description:"Rama de feature, PR con checks y ejecución en dataset temporal.", xp:250, category:"analyst", estimatedTime:"4-5 horas", verification:"Primer PR visible + Action" },
+  { id:"a4_2", chapter:4, title:"Freshness, Scheduling y Alertas", description:"Definir SLA, source freshness, batch programado con timeout/retries y alerta mínima.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Scheduling + alertas funcionando" },
+  { id:"a4_3", chapter:4, title:"Auditoría y Demo Técnica", description:"Registrar audit_runs y grabar el flujo completo: PR → CI → test → merge → batch → mart.", xp:300, category:"analyst", estimatedTime:"5-6 horas", verification:"Auditoría + demo grabada" },
+  { id:"a5_1", chapter:5, title:"Dashboard Operativo", description:"Definir usuario, 3 preguntas y 3 métricas; construir dashboard sobre marts (no raw).", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Dashboard publicado" },
+  { id:"a5_2", chapter:5, title:"Validación de Métricas", description:"Comparar tarjetas con SQL de referencia, revisar zona horaria, filtros y duplicados.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Métricas validadas y documentadas" },
+  { id:"a5_3", chapter:5, title:"README Ejecutivo + Revisión Externa", description:"README de 5 min (13 secciones) y enviarlo a 2 personas (técnica y de negocio).", xp:200, category:"employability", estimatedTime:"4-5 horas", verification:"README + feedback externo" },
+  { id:"a6_1", chapter:6, title:"Vídeo y Portafolio", description:"Guion de 220–250 palabras, grabar, subtitular y activar landing page con repo y CV.", xp:250, category:"employability", estimatedTime:"5-6 horas", verification:"Vídeo + landing page activa" },
+  { id:"a6_2", chapter:6, title:"Lote de Candidaturas + Networking", description:"Enviar 2–3 apps compatibles y contactar 5 personas cálidas del sprint.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Apps + networking registrados" },
+  { id:"a6_3", chapter:6, title:"Mock Técnico + Auditoría Intermedia", description:"Simular SQL en vivo, modelado, fallo de datos, inglés y pregunta salarial.", xp:300, category:"employability", estimatedTime:"3-4 horas", verification:"Mock + auditoría del Día 45" },
+  { id:"a7_1", chapter:7, title:"Mocks Intensivos + Negociación", description:"3 mocks técnicos, 2 de negocio, 1 de inglés y negotiation playbook simulado.", xp:300, category:"employability", estimatedTime:"6-8 horas", verification:"mocks_round2 + negotiation_playbook" },
+  { id:"a7_2", chapter:7, title:"Segundo Lote + Auditoría de Embudo", description:"4–6 apps compatibles y calcular la mayor fuga del embudo.", xp:250, category:"employability", estimatedTime:"4-5 horas", verification:"Lote 2 + funnel_audit_day55" },
+  { id:"a7_3", chapter:7, title:"Decisión Final (Día 60)", description:"Revisar criterios de terminado y decidir: aceptar, extender o pivotar.", xp:350, category:"employability", estimatedTime:"2-3 horas", verification:"day60_decision.md" }
+];
+
+const B2B_CHAPTERS = [
+  { id:0, code:"FASE 0", title:"Fundamentos", color:"#00ff88", icon:"🏗️", narrative:"Semanas 1–6: base fiscal, protección familiar y colchón financiero antes de facturar." },
+  { id:1, code:"FASE 1", title:"Portafolio y Marca", color:"#00ccff", icon:"🎨", narrative:"Mes 1–3: dos casos publicados y marca activa en el nicho rent-a-car/turismo." },
+  { id:2, code:"FASE 2", title:"Primeros Ingresos", color:"#7c6cff", icon:"💰", narrative:"Mes 3–8: primer cliente facturado correctamente y $300/mes al mes 6." },
+  { id:3, code:"FASE 3", title:"Inversión", color:"#ffaa00", icon:"📈", narrative:"Mes 6–12+: solo tras el fondo de emergencia completo, compras trimestrales VOO/CSPX." },
+  { id:4, code:"FASE 4", title:"Marca Transversal", color:"#ff6600", icon:"📣", narrative:"Mes 1–24: contenido constante, casos reales y 1 lead calificado al mes." },
+  { id:5, code:"FASE 5", title:"Escalado", color:"#ff3355", icon:"🚀", narrative:"Mes 12–30: retainers, 3 clientes recurrentes y salida de ANC al 150%." }
+];
+
+const B2B_MISSIONS = [
+  { id:"b0_1", chapter:0, title:"Inscripción TRIBU-CR", description:"Régimen Tradicional (Servicios Profesionales) y confirmar el código CAECR exacto.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"TRIBU-CR activo + CAECR confirmado" },
+  { id:"b0_2", chapter:0, title:"Contador + 3 Preguntas de IVA", description:"Contratar contador/gestoría y obtener por escrito las 3 respuestas de IVA.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Contador + respuestas IVA escritas" },
+  { id:"b0_3", chapter:0, title:"Seguro de Vida + Fondo de Emergencia", description:"Seguro temporal básico y canalizar TODO el ahorro al fondo (3 meses de gasto).", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Seguro vigente + primer aporte al fondo" },
+  { id:"b1_1", chapter:1, title:"Caso 1: Pipeline de Reservas", description:"Pipeline de reservas y analítica de flota para rent-a-car (GitHub + demo en video).", xp:300, category:"analyst", estimatedTime:"10-12 horas", verification:"Caso 1 publicado en GitHub" },
+  { id:"b1_2", chapter:1, title:"Caso 2: Dashboard o Agente IA", description:"Dashboard financiero Power BI + Python, o agente de IA para soporte/leads vía n8n.", xp:300, category:"analyst", estimatedTime:"10-12 horas", verification:"Caso 2 publicado" },
+  { id:"b1_3", chapter:1, title:"Marca y Nicho rent-a-car", description:"LinkedIn 2 contenidos/semana, nicho 'automatización de datos para rent-a-car y turismo'.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"8–10 publicaciones + nicho definido" },
+  { id:"b2_1", chapter:2, title:"Perfil Upwork y Tarifa", description:"Crear perfil con tarifa inicial $20–25/h (subir $5 por cada 3 reviews).", xp:100, category:"employability", estimatedTime:"1-2 horas", verification:"Upwork listo" },
+  { id:"b2_2", chapter:2, title:"Primera Factura Correcta", description:"Facturar al extranjero con IVA resuelto y declarar en colones al tipo de cambio BCCR.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"Primera factura emitida" },
+  { id:"b2_3", chapter:2, title:"Meta $300/mes", description:"Primer ingreso sostenido al mes 6 (la prospección real es LinkedIn directo).", xp:300, category:"employability", estimatedTime:"20-30 horas", verification:"$300/mes al mes 6" },
+  { id:"b3_1", chapter:3, title:"Fondo Completo + IBKR", description:"Completar el fondo de emergencia y abrir Interactive Brokers.", xp:250, category:"employability", estimatedTime:"2-3 horas", verification:"Fondo completo + cuenta IBKR" },
+  { id:"b3_2", chapter:3, title:"Compras Trimestrales VOO/CSPX", description:"Primera compra trimestral de $200–300 en lugar de aportes pequeños mensuales.", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"Primera compra realizada" },
+  { id:"b3_3", chapter:3, title:"Reinvertir en Herramientas", description:"Reinvertir en n8n/APIs de LLM solo si ya pagan por sí mismas.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"Herramienta rentable en producción" },
+  { id:"b4_1", chapter:4, title:"Contenido Constante", description:"Mantener 2 contenidos/semana en LinkedIn durante todo el plan.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Racha de contenido sostenida" },
+  { id:"b4_2", chapter:4, title:"Documentar Casos Reales", description:"Documentar casos de clientes (con permiso) como prueba social.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Caso real documentado" },
+  { id:"b4_3", chapter:4, title:"1 Lead Calificado/mes", description:"A partir del mes 4, conseguir al menos un lead calificado al mes.", xp:200, category:"employability", estimatedTime:"5-6 horas", verification:"Lead calificado registrado" },
+  { id:"b5_1", chapter:5, title:"Transición a Retainers", description:"Pasar de horas sueltas a retainers de $500–1.000/mes por cliente.", xp:300, category:"employability", estimatedTime:"10-12 horas", verification:"Primer retainer firmado" },
+  { id:"b5_2", chapter:5, title:"3 Clientes Recurrentes", description:"Meta de $1.500–2.500/mes extra con 3 clientes recurrentes.", xp:350, category:"employability", estimatedTime:"20-30 horas", verification:"3 retainers activos" },
+  { id:"b5_3", chapter:5, title:"Salida de ANC al 150%", description:"Ingreso de consultoría > 150% del salario durante 6 meses consecutivos.", xp:400, category:"employability", estimatedTime:"6 meses", verification:"Independencia financiera alcanzada" }
+];
+
 
 /* --- Campaña: 24 misiones alineadas a las 8 etapas + tu perfil --- */
 const campaignMissions = [
@@ -2586,6 +2697,8 @@ let gameState = {
   completedDaily: [],      // días 1..42
   completedWeekly: [],     // semanas 1..8
   completedJobs: [],       // empleo: ids j1..j40
+  completedAuto: [],       // 🤖 automation: ids a0_1..
+  completedB2b: [],        // 💸 b2b: ids b0_1..
   unlockedAch: [],         // ids de logros ganados
   startDate: null,         // YYYY-MM-DD del día 1
   lastDailyDate: null,     // última fecha con misión diaria completada
@@ -2648,6 +2761,8 @@ function loadGame() {
       /^\d+[ABC]$/.test(String(id)) && parseInt(id, 10) >= 1 && parseInt(id, 10) <= DAILY_TOTAL);
     gameState.completedWeekly = (data.completedWeekly || []).filter(n => n >= 1 && n <= WEEKLY_TOTAL);
     gameState.completedJobs = (data.completedJobs || []).filter(id => employmentMissions.some(m => m.id === id));
+    gameState.completedAuto = (data.completedAuto || []).filter(id => AUTO_MISSIONS.some(m => m.id === id));
+    gameState.completedB2b = (data.completedB2b || []).filter(id => B2B_MISSIONS.some(m => m.id === id));
     gameState.unlockedAch = (data.unlockedAch || []).filter(id => achievements.some(a => a.id === id));
     gameState.startDate = data.startDate || null;
     gameState.lastDailyDate = data.lastDailyDate || null;
@@ -2681,7 +2796,7 @@ function loadGame() {
 function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
-    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [],
+    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedAuto: [], completedB2b: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, capital: { done: [] },
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: null }
@@ -2720,10 +2835,16 @@ function weeklyXPGain() {
 function jobsXPGain() {
   return employmentMissions.filter(m => gameState.completedJobs.includes(m.id)).reduce((s, m) => s + m.xp, 0);
 }
+function autoXPGain() {
+  return AUTO_MISSIONS.filter(m => (gameState.completedAuto || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
+function b2bXPGain() {
+  return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
 
 /* --- Recalcular todo el estado derivado --- */
 function recomputeState() {
-  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain() + jobsXPGain();
+  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain() + jobsXPGain() + autoXPGain() + b2bXPGain();
   gameState.totalXP = base + achXPSum(gameState.unlockedAch);
   gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
   const catGain = { analyst: 0, ai: 0, employability: 0 };
@@ -2733,6 +2854,8 @@ function recomputeState() {
     if (done) catGain[m.category] += m.xp;
   });
   employmentMissions.forEach(m => { if (gameState.completedJobs.includes(m.id)) catGain[m.category || "employability"] += m.xp; });
+  AUTO_MISSIONS.forEach(m => { if ((gameState.completedAuto || []).includes(m.id)) catGain[m.category] += m.xp; });
+  B2B_MISSIONS.forEach(m => { if ((gameState.completedB2b || []).includes(m.id)) catGain[m.category] += m.xp; });
   gameState.stats = {
     analystLevel: Math.round((catGain.analyst / XP_CAT_TOTAL.analyst) * 100),
     aiLevel: Math.round((catGain.ai / XP_CAT_TOTAL.ai) * 100),
@@ -3300,6 +3423,8 @@ function renderAll() {
     renderChapters();
     renderVida();
     renderCapital();
+    renderAuto();
+    renderB2B();
     updateEmpRank();
   };
   if (window.requestIdleCallback) requestIdleCallback(_resto, { timeout: 900 });
@@ -3369,6 +3494,118 @@ function toggleCampaign(id, el) {
 }
 
 /* --- Racha: al completar una misión diaria hoy --- */
+/* ==========================================================
+   🤖💸 NUEVAS CAMPAÑAS — render + toggle + eventos
+   ========================================================== */
+function renderAuto() {
+  const root = document.getElementById("auto-root");
+  if (!root) return;
+  const doneSet = new Set(gameState.completedAuto || []);
+  let html = "";
+  AUTO_CHAPTERS.forEach(ch => {
+    const list = AUTO_MISSIONS.filter(m => m.chapter === ch.id);
+    const dn = list.filter(m => doneSet.has(m.id)).length;
+    html += '<div class="week-block"><h4>' + ch.icon + ' ' + escapeHtml(ch.code) + ' — ' + escapeHtml(ch.title) +
+      ' <span style="color:var(--tx2);font-weight:400">(' + dn + '/' + list.length + ')</span></h4>' +
+      list.map(m => {
+        const done = doneSet.has(m.id);
+        return '<div class="mission' + (done ? ' done' : '') + '" data-id="' + m.id + '">' +
+          '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div>' +
+          '<div class="m-body">' +
+            '<div class="m-title">' + (done ? '✓ ' : '') + escapeHtml(m.title) + '</div>' +
+            '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+            '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+            '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + '</div>' +
+          '</div></div>';
+      }).join('') + '</div>';
+  });
+  root.innerHTML = html;
+}
+function renderB2B() {
+  const root = document.getElementById("b2b-root");
+  if (!root) return;
+  const doneSet = new Set(gameState.completedB2b || []);
+  let html = "";
+  B2B_CHAPTERS.forEach(ch => {
+    const list = B2B_MISSIONS.filter(m => m.chapter === ch.id);
+    const dn = list.filter(m => doneSet.has(m.id)).length;
+    html += '<div class="week-block"><h4>' + ch.icon + ' ' + escapeHtml(ch.code) + ' — ' + escapeHtml(ch.title) +
+      ' <span style="color:var(--tx2);font-weight:400">(' + dn + '/' + list.length + ')</span></h4>' +
+      list.map(m => {
+        const done = doneSet.has(m.id);
+        return '<div class="mission' + (done ? ' done' : '') + '" data-id="' + m.id + '">' +
+          '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div>' +
+          '<div class="m-body">' +
+            '<div class="m-title">' + (done ? '✓ ' : '') + escapeHtml(m.title) + '</div>' +
+            '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
+            '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
+            '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + '</div>' +
+          '</div></div>';
+      }).join('') + '</div>';
+  });
+  root.innerHTML = html;
+}
+function toggleAuto(id, el) {
+  const m = AUTO_MISSIONS.find(x => x.id === id);
+  if (!m) return;
+  const oldLevel = gameState.level;
+  const wasDone = (gameState.completedAuto || []).includes(id);
+  if (wasDone) {
+    gameState.completedAuto = gameState.completedAuto.filter(x => x !== id);
+  } else {
+    gameState.completedAuto.push(id);
+    if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); }
+  }
+  recomputeState();
+  const ach = checkAchievements();
+  if (ach) recomputeState();
+  renderAuto();
+  updateUI();
+  saveGame();
+  if (wasDone) {
+    toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
+  } else {
+    toast("🤖", "¡Misión Automation cumplida! +" + m.xp + " XP", m.title);
+    playSfx("coin");
+    cheerRandom();
+  }
+  celebrateIfLevelUp(oldLevel);
+}
+function toggleB2B(id, el) {
+  const m = B2B_MISSIONS.find(x => x.id === id);
+  if (!m) return;
+  const oldLevel = gameState.level;
+  const wasDone = (gameState.completedB2b || []).includes(id);
+  if (wasDone) {
+    gameState.completedB2b = gameState.completedB2b.filter(x => x !== id);
+  } else {
+    gameState.completedB2b.push(id);
+    if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); }
+  }
+  recomputeState();
+  const ach = checkAchievements();
+  if (ach) recomputeState();
+  renderB2B();
+  updateUI();
+  saveGame();
+  if (wasDone) {
+    toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
+  } else {
+    toast("💸", "¡Misión B2B cumplida! +" + m.xp + " XP", m.title);
+    playSfx("coin");
+    cheerRandom();
+  }
+  celebrateIfLevelUp(oldLevel);
+}
+document.getElementById("auto-root").addEventListener("click", e => {
+  const check = e.target.closest(".m-check");
+  if (check) toggleAuto(check.closest(".mission").dataset.id, check);
+});
+document.getElementById("b2b-root").addEventListener("click", e => {
+  const check = e.target.closest(".m-check");
+  if (check) toggleB2B(check.closest(".mission").dataset.id, check);
+});
+
 function isoWeekKey(dateStr) {
   const d = new Date(dateStr + "T00:00:00");
   const t = new Date(d.getTime());
@@ -3493,6 +3730,8 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     if (tab === "jobs") updateEmpRank();
     if (tab === "vida") renderVidaSubActiva();
     if (tab === "capital") renderCapital();
+  if (tab === "auto") renderAuto();
+  if (tab === "b2b") renderB2B();
   });
 });
 
@@ -4305,7 +4544,15 @@ const REWARDS = [
   { id: "rw_rang3", ico: "🥉", sec: "📈 Capital", n: "Insignia de Bronce del Capital", cond: () => capCompute().ladder.lvl >= 3 },
   { id: "rw_rang6", ico: "🥈", sec: "📈 Capital", n: "Insignia de Plata del Capital", cond: () => capCompute().ladder.lvl >= 6 },
   { id: "rw_rang9", ico: "🥇", sec: "📈 Capital", n: "Insignia de Oro del Capital", cond: () => capCompute().ladder.lvl >= 9 },
-  { id: "rw_life",  ico: "🌟", sec: "🎖️ General", n: "Estrella del Héroe Integral", cond: () => vidaCompute().hero.lvl >= 3 }
+  { id: "rw_life",  ico: "🌟", sec: "🎖️ General", n: "Estrella del Héroe Integral", cond: () => vidaCompute().hero.lvl >= 3 },
+  /* 🤖 Automation */
+  { id: "rw_auto1", ico: "🤖", sec: "🤖 Automation", n: "Visor del Automatizador", cond: () => (gameState.completedAuto || []).length >= 4 },
+  { id: "rw_auto2", ico: "🛰️", sec: "🤖 Automation", n: "Núcleo de la Transición", cond: () => (gameState.completedAuto || []).length >= 12 },
+  { id: "rw_auto3", ico: "🏆", sec: "🤖 Automation", n: "Corona del Día 60", cond: () => (gameState.completedAuto || []).length >= AUTO_MISSIONS.length },
+  /* 💸 B2B */
+  { id: "rw_b2b1", ico: "💸", sec: "💸 B2B", n: "Moneda del Fundador", cond: () => (gameState.completedB2b || []).length >= 3 },
+  { id: "rw_b2b2", ico: "🏦", sec: "💸 B2B", n: "Cofre del Ingreso Extra", cond: () => (gameState.completedB2b || []).length >= 9 },
+  { id: "rw_b2b3", ico: "👑", sec: "💸 B2B", n: "Trono del Ingreso Estable", cond: () => (gameState.completedB2b || []).length >= B2B_MISSIONS.length }
 ];
 function bossDoneCount() {
   const done = gameState.completedMissions || [];
@@ -5435,7 +5682,7 @@ function rwOpenChest2() {
 function goTab(tab) {
   document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
   document.querySelectorAll(".navb").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
-  ["map", "daily", "campaign", "jobs", "vida", "capital"].forEach(function (t) {
+  ["map", "daily", "campaign", "jobs", "vida", "capital", "auto", "b2b"].forEach(function (t) {
     const v = document.getElementById("view-" + t);
     if (v) v.classList.toggle("active", tab === t);
   });
