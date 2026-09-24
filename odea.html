@@ -1182,6 +1182,14 @@ header{padding:10px 14px}
   .hub-wrap{--tilt:11deg}
   .world-scroll{--tilt:12deg}
 }
+/* 📱 Móvil: tilt 3D desactivado (se ve mal + ahorra GPU) */
+@media (max-width:860px){
+  #map-stage{perspective:none}
+  .hub-wrap,.world-scroll{--tilt:0deg;transform:none;transform-style:flat}
+  .mworld,.mnode,.mnode.current{transform:translate(-50%,-50%);transform-style:flat;will-change:auto}
+  .mworld:hover,.mnode:hover{transform:translate(-50%,-50%) scale(1.06)}
+  .mworld::after,.mnode::after{transform:translateX(-50%)}
+}
 
 /* ==========================================================
    🧭 V5.8 — TODO EN LA BARRA LATERAL (stats integrados)
@@ -1645,13 +1653,98 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 .bar.mini{height:6px;border-radius:6px;background:rgba(160,160,192,.15)}
 .bar.mini span{background:var(--c,var(--glow-cyan))}
 .ps-pct{display:block;font-size:.6rem;color:var(--tx2);margin-top:3px;text-align:right}
+
+/* ==========================================================
+   🚀 V5.20 — OPTIMIZACIÓN MÓVIL + UX PROFUNDA
+   ========================================================== */
+
+/* 🎯 FAB "CONTINUAR HOY" */
+.fab-continue{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:88;
+  min-height:46px;padding:12px 20px;border-radius:99px;border:1px solid rgba(0,255,136,.55);cursor:pointer;
+  background:linear-gradient(120deg,#00ff88,#00ccff);color:#04120b;font-family:'Orbitron',sans-serif;
+  font-size:.8rem;font-weight:900;letter-spacing:1.5px;box-shadow:0 6px 26px rgba(0,255,136,.45);
+  transition:transform .18s,box-shadow .18s;white-space:nowrap}
+.fab-continue:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,255,136,.6)}
+.fab-continue.hidden{display:none}
+@media (min-width:1000px){.fab-continue{bottom:24px;right:24px}}
+@media (max-width:640px){.fab-continue{bottom:calc(88px + env(safe-area-inset-bottom));right:12px;font-size:.7rem;padding:12px 16px}}
+
+/* 🗺️ Mundos más grandes y con mejor brillo */
+.mworld{width:122px;height:122px}
+.mworld .mw-ico{font-size:2.35rem}
+.mworld .mw-name{font-size:.66rem;letter-spacing:1.2px;text-shadow:0 1px 5px rgba(0,0,0,.9)}
+.mworld .mw-rank{font-size:.62rem;color:#b9c2e8}
+.mworld .mw-ring .rb{stroke:rgba(160,160,192,.3)}
+/* Campamento Base destacado */
+.mworld.camp{border-color:rgba(0,255,136,.8);box-shadow:0 0 28px rgba(0,255,136,.5),inset 0 0 22px rgba(0,255,136,.18)}
+.mworld.camp .mw-name{color:#c8ffd9}
+.mworld.camp .mw-pulse{border-width:3px}
+@media (max-width:520px){.mworld{width:106px;height:106px}.mworld .mw-ico{font-size:1.95rem}}
+
+/* ▶ Próximo paso */
+.next-step{margin:12px 0 2px;padding:11px 15px;border-radius:12px;font-family:'Orbitron',sans-serif;
+  font-size:.8rem;letter-spacing:.5px;color:#051a10;background:linear-gradient(120deg,#00ff88,#7ce7ff);
+  box-shadow:0 0 20px rgba(0,255,136,.35);line-height:1.45}
+.next-step.done{color:var(--glow-green);background:linear-gradient(120deg,rgba(0,255,136,.16),rgba(0,255,136,.06));
+  border:1px solid rgba(0,255,136,.4);box-shadow:none}
+
+/* 🔥 Racha en juego */
+.streak-warn{margin:8px 0 2px;padding:10px 14px;border-radius:12px;font-size:.8rem;color:#ffd77a;
+  background:rgba(255,170,0,.08);border:1px solid rgba(255,170,0,.35);line-height:1.5}
+.streak-chip .flame{display:inline-block;animation:flameFlicker 1.1s ease-in-out infinite}
+@keyframes flameFlicker{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.25) rotate(3deg)}}
+.streak-chip.risk{box-shadow:0 0 16px rgba(255,170,0,.5);animation:riskPulse 1.7s ease-in-out infinite}
+@keyframes riskPulse{0%,100%{box-shadow:0 0 10px rgba(255,170,0,.28)}50%{box-shadow:0 0 24px rgba(255,170,0,.7)}}
+
+/* ✨ XP flotante */
+.xp-float{position:fixed;z-index:230;pointer-events:none;font-family:'Orbitron',sans-serif;font-weight:900;
+  color:var(--glow-green);text-shadow:0 0 12px rgba(0,255,136,.8);font-size:1.1rem;
+  animation:xpFloat 1.45s ease-out forwards;transform:translate(-50%,-50%)}
+@keyframes xpFloat{0%{opacity:0;transform:translate(-50%,-50%) translateY(0) scale(.6)}
+  12%{opacity:1;transform:translate(-50%,-50%) translateY(-6px) scale(1.05)}
+  100%{opacity:0;transform:translate(-50%,-50%) translateY(-48px) scale(1)}}
+
+/* 🏆 Logros más llamativos */
+.toast.ach{font-size:1rem;padding:15px 18px;border-width:2px;box-shadow:0 0 30px rgba(255,170,0,.4),0 10px 26px rgba(0,0,0,.55)}
+.toast.ach .t-ico{font-size:2.1rem}
+.ach-item.unlocked{background:linear-gradient(135deg,rgba(255,215,0,.10),rgba(0,255,136,.06));border-color:rgba(255,215,0,.5);box-shadow:0 0 18px rgba(255,170,0,.16)}
+.ach-item.unlocked .a-ico{filter:drop-shadow(0 0 8px rgba(255,215,0,.85))}
+.ach-item.locked{opacity:.5}
+
+/* ⚠️ Modal de confirmación de reinicio */
+#confirm-layer{position:fixed;inset:0;z-index:240;display:none;align-items:center;justify-content:center;padding:16px;
+  background:rgba(5,3,10,.85);backdrop-filter:blur(5px)}
+#confirm-layer.show{display:flex}
+.confirm-modal{max-width:440px;width:100%;text-align:center;animation:fadeSlide .28s cubic-bezier(.165,.84,.44,1)}
+.confirm-modal p{color:var(--tx2);font-size:.92rem;line-height:1.6;margin:10px 0 16px}
+.confirm-modal p b{color:#ffd77a}
+.confirm-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.confirm-actions .btn-neon{flex:1;min-width:120px;min-height:46px}
+.btn-neon.danger{background:linear-gradient(120deg,#ff3355,#c4003a);color:#fff;box-shadow:0 0 20px rgba(255,51,85,.45)}
+.btn-neon.danger:hover{box-shadow:0 0 30px rgba(255,51,85,.7)}
+
+/* 📱 Táctil cómodo */
+.nav-item,.side-inv{min-height:46px}
+#nav-burger{width:44px;height:44px;flex:0 0 44px;font-size:1.2rem}
+@media (max-width:860px){
+  .dm-btn{min-height:46px}
+  .btn-complete{min-height:48px}
+  .navb{min-height:52px}
+}
+
+/* ♿ Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .xp-float,.streak-chip .flame,.streak-chip.risk,.fab-continue{animation:none!important;transition:none!important}
+  .toast.ach{animation:none!important}
+}
+
 </style>
 </head>
 <body>
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.18</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.20</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1713,7 +1806,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.7</span>
+    <span class="ver">v5.20</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1854,7 +1947,8 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
 </div>
 
-<footer><b>ODEA</b> · App de Vida · v5.18 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
+<footer><b>ODEA</b> · App de Vida · v5.20 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -1903,6 +1997,18 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <p id="modal-text"></p>
     <input id="modal-input" placeholder="Tu nombre de recluta..." maxlength="24" autocomplete="off">
     <div><button class="btn-neon" id="modal-btn">COMENZAR MISIÓN</button></div>
+  </div>
+</div>
+
+<div id="confirm-layer">
+  <div class="modal confirm-modal">
+    <div class="big-ico">⚠️</div>
+    <h2>¿REINICIAR TODO?</h2>
+    <p>Se borrará <b>todo</b> tu progreso: campaña, días, semanas, logros, rachas y recompensas. <b>No hay vuelta atrás.</b></p>
+    <div class="confirm-actions">
+      <button class="btn-neon ghost" id="confirm-cancel" type="button">CANCELAR</button>
+      <button class="btn-neon danger" id="confirm-yes" type="button">SÍ, BORRAR TODO</button>
+    </div>
   </div>
 </div>
 
@@ -2878,9 +2984,14 @@ function achievementState() {
 
 function checkAchievements() {
   const fresh = achievementState().filter(a => !gameState.unlockedAch.includes(a.id));
-  fresh.forEach(a => {
+  fresh.forEach((a, i) => {
     gameState.unlockedAch.push(a.id);
-    toast(a.ico, "¡LOGRO DESBLOQUEADO! +" + a.xp + " XP", a.name + " — " + a.desc, "ach");
+    setTimeout(() => {
+      toast(a.ico, "¡LOGRO DESBLOQUEADO! +" + a.xp + " XP", a.name + " — " + a.desc, "ach");
+      playSfx("fanfare");
+      confetti(window.innerWidth / 2, window.innerHeight * 0.3, 90);
+      flashFx();
+    }, i * 900);
   });
   return fresh.length;
 }
@@ -2982,6 +3093,12 @@ function renderHero() {
         '<span class="day-progress' + (full ? " full" : "") + '">' + (full ? "✅ DÍA COMPLETO" : "Progreso del día: <b>" + doneN + "/" + list.length + "</b> misiones") + '</span>' +
         '<span class="dh-status">' + statusLine(day) + '</span>' +
       '</div>' +
+      (full
+        ? '<div class="next-step done">✅ Día completado. ¡Buen trabajo, recluta!</div>'
+        : '<div class="next-step">▶ Siguiente: ' + escapeHtml((list.filter(m => !gameState.completedDaily.includes(m.id))[0] || list[0]).title) + '</div>') +
+      ((!full && gameState.streak > 0 && day === firstPendingDay() && isDayUnlocked(day))
+        ? '<div class="streak-warn">🔥 Tu racha de ' + gameState.streak + (gameState.streak === 1 ? " día" : " días") + ' está en juego: completa las 3 misiones de hoy para mantenerla.</div>'
+        : "") +
       '<div class="dm-list">' + rows + '</div>' +
     '</div>';
 }
@@ -3217,8 +3334,10 @@ function updateUI() {
   if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === (gameState.rewards || {}).equipped) || {}).ico || "";
   document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
   document.getElementById("streak-n").textContent = gameState.streak;
-  document.getElementById("streak-chip").style.boxShadow =
-    gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
+  const streakChip = document.getElementById("streak-chip");
+  streakChip.style.boxShadow = gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
+  const fpd = firstPendingDay();
+  streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd));
   setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
   setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
   setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
@@ -3449,6 +3568,7 @@ function toggleCampaign(id, el) {
   } else {
     gameState.completedMissions.push(id);
     burst(rect.left + rect.width / 2, rect.top + rect.height / 2, m.boss ? "#ffd700" : CAT_COLORS[m.category], m.boss ? 60 : 30);
+    xpFloat(rect.left + rect.width / 2, rect.top, m.xp);
   }
   recomputeState();
   const achFresh = checkAchievements();
@@ -3507,7 +3627,7 @@ function toggleB2B(id, el) {
     gameState.completedB2b = gameState.completedB2b.filter(x => x !== id);
   } else {
     gameState.completedB2b.push(id);
-    if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); }
+    if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); xpFloat(r.left + r.width / 2, r.top, m.xp); }
   }
   recomputeState();
   const ach = checkAchievements();
@@ -3576,6 +3696,7 @@ function toggleDailyMission(id, btnEl) {
   } else {
     gameState.completedDaily.push(id);
     burst(rect.left + 30, rect.top, SLOT_META[m.slot] ? SLOT_META[m.slot].col : "#00ff88", 26);
+    xpFloat(rect.left + 30, rect.top - 8, m.xp);
   }
   recomputeState();
   const achFresh = checkAchievements();
@@ -3591,9 +3712,11 @@ function toggleDailyMission(id, btnEl) {
     playSfx("coin");
     if (fullNow && !wasFullBefore) {
       setTimeout(() => toast("🎉", "¡DÍA " + day + " COMPLETO!", "3/3 misiones. " + xpDayOf(day) + " XP en total" + (gameState.streak > 1 ? " · Racha 🔥" + gameState.streak : ""), "levelup"), 1300);
-      playSfx("chime");
-      burst(rect.left + 30, rect.top, "#ffaa00", 40);
-      confetti(rect.left + 30, rect.top, 70);
+      playSfx("fanfare");
+      flashFx();
+      burst(rect.left + 30, rect.top, "#ffaa00", 60);
+      confetti(rect.left + 30, rect.top, 110);
+      confetti(window.innerWidth / 2, window.innerHeight * 0.24, 90);
     }
     cheerRandom();
   }
@@ -3619,6 +3742,7 @@ function toggleWeekly(week) {
     gameState.completedWeekly.push(week);
     burst(window.innerWidth / 2, 220, "#ff00ff", 60);
     burst(window.innerWidth / 2, 220, "#ffaa00", 60);
+    xpFloat(window.innerWidth / 2, 200, m.xp);
   }
   recomputeState();
   const achFresh = checkAchievements();
@@ -3737,9 +3861,20 @@ achLayer.addEventListener("click", e => { if (e.target === achLayer) achLayer.cl
 
 /* --- Reset --- */
 document.getElementById("btn-reset").addEventListener("click", () => {
-  if (confirm("⚠️ ¿Seguro que deseas reiniciar TODO tu progreso (campaña, días, semanas y logros)? No hay vuelta atrás.")) {
-    resetGame();
-  }
+  const cl = document.getElementById("confirm-layer");
+  if (cl) cl.classList.add("show");
+});
+document.getElementById("confirm-cancel").addEventListener("click", () => {
+  const cl = document.getElementById("confirm-layer");
+  if (cl) cl.classList.remove("show");
+});
+document.getElementById("confirm-yes").addEventListener("click", () => {
+  const cl = document.getElementById("confirm-layer");
+  if (cl) cl.classList.remove("show");
+  resetGame();
+});
+document.getElementById("confirm-layer").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove("show");
 });
 
 /* --- ⚡ Diagnóstico de arranque: saltar lo que ya dominas --- */
@@ -4075,6 +4210,7 @@ function vidaToggle(ev) {
   const rect = card.getBoundingClientRect();
   const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa", pow: "#ffd700", men: "#4dd0ff" };
   if (done) burst(rect.left + rect.width / 2, rect.top + 20, colors[cat], 26);
+  if (done) xpFloat(rect.left + rect.width / 2, rect.top, o.xp);
   const vs = vidaCompute();
   if (done) {
     const balNow = vs.todayBalanced;
@@ -4416,6 +4552,7 @@ function completarReto() {
   playSfx("coin");
   const rect = document.getElementById("reto-go") ? document.getElementById("reto-go").getBoundingClientRect() : null;
   if (rect) burst(rect.left + rect.width / 2, rect.top + 10, "#ffaa00", 30);
+  if (rect) xpFloat(rect.left + rect.width / 2, rect.top, reto.xp);
   toast("🎲", "¡RETO COMPLETADO! +" + reto.xp + " XP", reto.t);
   saveGame();
   renderReto();
@@ -4698,6 +4835,15 @@ function confetti(x, y, n) {
   }, 3400);
 }
 let _flashTimer = null;
+function xpFloat(x, y, amount) {
+  const el = document.createElement("div");
+  el.className = "xp-float";
+  el.textContent = "+" + amount + " XP";
+  el.style.left = (x || window.innerWidth / 2) + "px";
+  el.style.top = (y || 160) + "px";
+  document.body.appendChild(el);
+  setTimeout(function () { el.remove(); }, 1500);
+}
 function flashFx() {
   let f = document.getElementById("flash-fx");
   if (!f) {
@@ -4971,7 +5117,7 @@ function mapHubHTML() {
   let html = svg;
   W.forEach(ww => {
     const st = map[ww.k];
-    html += '<button class="mworld" data-w="' + ww.k + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
+    html += '<button class="mworld' + (ww.k === "camp" ? " camp" : "") + '" data-w="' + ww.k + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
       (ww.k === "camp" ? '<span class="mw-saturn"></span>' : "") +
       '<span class="mw-pulse"></span><span class="mw-ring">' + ringSvg(st.pct) + "</span>" +
       (st.pct >= 100 ? '<span class="mw-check">✓</span>' : "") +
@@ -4982,7 +5128,11 @@ function mapHubHTML() {
       "</button>";
   });
   html += '<span class="shoot s1"></span><span class="shoot s2"></span><span class="shoot s3"></span>';
-  return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div><div class="hub-note">🗺️ Cada mundo guarda un camino de misiones · toca uno para explorarlo</div>';
+  const totalDone = gameState.completedMissions.length + gameState.completedDaily.length + gameState.completedJobs.length + gameState.completedWeekly.length + (gameState.completedB2b || []).length + gameState.unlockedAch.length;
+  const hubNote = totalDone === 0
+    ? '✨ Tu aventura empieza hoy · <b>Toca un círculo (mundo) para entrar</b>'
+    : '🗺️ Cada mundo guarda un camino de misiones · <b>Toca un círculo (mundo) para entrar</b>';
+  return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div><div class="hub-note">' + hubNote + '</div>';
 }
 /* --- nodos genéricos --- */
 function mnodeHTML(x, y, cfg) {
@@ -5647,6 +5797,8 @@ function goTab(tab) {
     if (v) v.classList.toggle("active", tab === t);
   });
   closeSide();
+  const fab = document.getElementById("fab-continue");
+  if (fab) fab.classList.toggle("hidden", tab === "daily");
   if (tab === "daily") renderDailyView();
   if (tab === "jobs") { renderJobs(); updateEmpRank(); }
   if (tab === "vida") renderVidaSubActiva();
@@ -5664,7 +5816,7 @@ function sideSync() {
   const r = document.getElementById("side-rank");
   if (r) r.textContent = "NIVEL " + gameState.level + " · " + levelName(gameState.level);
   const s = document.getElementById("side-streak");
-  if (s) s.textContent = "🔥 Racha " + (gameState.streak || 0);
+  if (s) s.textContent = "🔥 Racha de " + (gameState.streak || 0) + (gameState.streak === 1 ? " día" : " días");
   const gn = document.getElementById("side-gear-name");
   const gear2 = (gameState.rewards || {}).equipped || null;
   const gearR2 = gear2 ? (REWARDS.find(r => r.id === gear2) || {}) : null;
@@ -5691,6 +5843,8 @@ function rwOpenArsenalFrom(ev) {
   if (overlay) overlay.addEventListener("click", closeSide);
   const logo = document.getElementById("logo");
   if (logo) logo.addEventListener("click", function () { goTab("map"); });
+  const fab = document.getElementById("fab-continue");
+  if (fab) fab.addEventListener("click", function () { goTab("daily"); });
   const sideLogo = document.getElementById("side-logo");
   if (sideLogo) sideLogo.addEventListener("click", function () { goTab("map"); closeSide(); });
   document.querySelectorAll(".nav-item, .navb[data-tab]").forEach(function (el) {
