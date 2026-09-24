@@ -1647,7 +1647,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <div class="side-nav">
     <button class="nav-item active" data-tab="map"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily"><span class="ni-ico">🗓️</span> HOY</button>
-    <button class="nav-item" data-tab="campaign"><span class="ni-ico">📜</span> CAMPAÑA</button>
+    <button class="nav-item" data-tab="campaign"><span class="ni-ico">📜</span> DATOS</button>
     <button class="nav-item" data-tab="jobs"><span class="ni-ico">💼</span> EMPLEO</button>
     <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
     <button class="nav-item" data-tab="capital"><span class="ni-ico">📈</span> CAPITAL</button>
@@ -4893,10 +4893,10 @@ function mapHubHTML() {
   const W = [
     { k: "camp", ico: "🏕️", n: nar ? "Campamento" : "Campamento Base", x: 50, y: 13, c: "#00ff88", lit: true },
     { k: "fortaleza", ico: "💼", n: nar ? "Fortaleza" : "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
-    { k: "torre", ico: "📜", n: nar ? "Torre" : "Torre de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
+    { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
     { k: "boveda", ico: "📈", n: nar ? "Bóveda" : "Bóveda del Capital", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
-    { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 90, c: "#ffaa00", lit: s.b2b.pct > 0 }
+    { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 79, c: "#ffaa00", lit: s.b2b.pct > 0 }
   ];
   const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
@@ -5068,7 +5068,7 @@ function renderMapStage() {
   const H = {
     null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
     camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
-    torre: { t: "📜 TORRE DE DATOS", s: "8 capítulos para escalar de Novato a Analista Legendario" },
+    torre: { t: "📜 CAMPAÑA DE DATOS", s: "8 etapas · 54 misiones para conseguir tu rol de datos" },
     fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "7 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas, freelance y la Operación Relámpago" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "5 zonas: equilíbrio, legado, alianza, poder y sabiduría" },
     boveda: { t: "📈 BÓVEDA DEL CAPITAL", s: "8 capítulos: mercados, IA, cartera y futuro — hasta NIVEL EXTREMO" },
@@ -5313,7 +5313,7 @@ function mapEndBadge() {
   if (!st) return;
   let html = "";
   if (mapSt.w === "torre" && gameState.completedMissions.length >= CAMP_TOTAL) {
-    html = '🏆 ¡TORRE DE DATOS CONQUISTADA!<small>Eres Analista Legendario · sigue con el resto de mundos</small>';
+    html = '🏆 ¡CAMPAÑA DE DATOS CONQUISTADA!<small>Eres Analista Legendario · sigue con el resto de mundos</small>';
   } else if (mapSt.w === "boveda" && capCompute().capsDone >= CAP_CHAP_TOTAL) {
     html = '🏆 ¡BÓVEDA SELLADA!<small>Has dominado la campaña del Capital</small>';
   } else if (mapSt.w === "fortaleza" && jobsDoneCount() >= employmentMissions.length) {
