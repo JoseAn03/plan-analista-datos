@@ -1633,13 +1633,25 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 /* 🌊 GARANTIA: las ondas de los planetas SIEMPRE se ven */
 .mworld .mw-pulse{animation:nodePulse 2s ease-out infinite!important}
 .mnode.current .mn-ring{animation:ringBreathe 1.9s ease-in-out infinite!important}
+
+.tag-link{color:#00ccff;border-color:rgba(0,204,255,.45);text-decoration:none}
+.tag-link:hover{border-color:var(--glow-cyan);box-shadow:0 0 8px rgba(0,204,255,.35)}
+.prog-summary{margin-bottom:16px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(0,255,136,.08),rgba(0,204,255,.06));border:1px solid rgba(0,255,136,.22)}
+.ps-head{display:flex;justify-content:space-between;align-items:center;font-family:'Orbitron',sans-serif;font-size:.74rem;letter-spacing:1.5px;color:var(--glow-cyan);margin-bottom:8px}
+.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px;margin-top:12px}
+.ps-cell{padding:8px 10px;border-radius:10px;background:rgba(26,26,46,.5);border:1px solid rgba(160,160,192,.15)}
+.ps-ico{font-size:1.05rem}
+.ps-name{display:block;font-size:.6rem;color:var(--tx2);margin:3px 0 5px;letter-spacing:1px;text-transform:uppercase}
+.bar.mini{height:6px;border-radius:6px;background:rgba(160,160,192,.15)}
+.bar.mini span{background:var(--c,var(--glow-cyan))}
+.ps-pct{display:block;font-size:.6rem;color:var(--tx2);margin-top:3px;text-align:right}
 </style>
 </head>
 <body>
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.17</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.18</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1842,7 +1854,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
 </div>
 
-<footer><b>ODEA</b> · App de Vida · v5.17 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.18 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2047,6 +2059,27 @@ const bossMissions = [
   { id:"b7", chapter:7, boss:true, title:"Decisión Final del Día 60", description:"Revisar todos los criterios de terminado y decidir: aceptar oferta, extender 15 días o pivotar con evidencia.", xp:600, category:"employability", estimatedTime:"6-8 horas", verification:"day60_decision.md con decisión" }
 ];
 const campaignAll = campaignMissions.concat(bossMissions);
+/* 🔗 Enlaces de recursos por misión */
+const MISSION_LINKS = {
+  "d0_1": "https://docs.python.org/3/",
+  "d1_2": "https://www.linkedin.com/",
+  "d1_3": "https://www.ielts.org/",
+  "d2_6": "https://cloud.google.com/bigquery/pricing",
+  "d3_1": "https://docs.getdbt.com/docs/get-started/getting-started/set-up-dbt",
+  "d3_4": "https://docs.getdbt.com/docs/build/tests",
+  "d4_1": "https://docs.github.com/en/pull-requests",
+  "d4_4": "https://docs.getdbt.com/docs/build/sources",
+  "d5_2": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
+  "d6_8": "https://www.interviewquery.com/",
+  "d7_8": "https://www.linkedin.com/jobs/",
+  "b1_1": "https://n8n.io/",
+  "b2_1": "https://www.upwork.com/"
+};
+function linkTag(id) {
+  const link = MISSION_LINKS[id];
+  return link ? '<a class="tag tag-link" href="' + link + '" target="_blank" rel="noopener">🔗 Recurso</a>' : "";
+}
+
 
 /* --- Utilidades de horas --- */
 function parseHours(str) {
@@ -3032,10 +3065,28 @@ function renderDailyView() {
 
 /* --- Campaña: capítulos, misiones y 👑 PROYECTO FINAL (jefe) --- */
 function bossMinLevel(chapter) { return Math.min(7 * chapter + 1, DAILY_TOTAL + 1); }
+function progressSummaryHTML(doneSet) {
+  const totalDone = gameState.completedMissions.length;
+  const overall = Math.round((totalDone / CAMP_TOTAL) * 100);
+  let h = '<div class="prog-summary">' +
+    '<div class="ps-head"><span>🗺️ PROGRESO DE LA CAMPAÑA</span><span>' + totalDone + '/' + CAMP_TOTAL + ' · ' + overall + '%</span></div>' +
+    '<div class="bar"><span style="width:' + overall + '%"></span></div>' +
+    '<div class="ps-grid">';
+  CHAPTERS.forEach(ch => {
+    const chM = campaignMissions.filter(m => m.chapter === ch.id);
+    const boss = bossMissions.find(m => m.chapter === ch.id);
+    const tot = chM.length + (boss ? 1 : 0);
+    const dn = chM.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
+    const p = Math.round((dn / tot) * 100);
+    h += '<div class="ps-cell" style="--c:' + ch.color + '"><span class="ps-ico">' + ch.icon + '</span><span class="ps-name">' + escapeHtml(ch.code) + '</span><div class="bar mini"><span style="width:' + p + '%"></span></div><span class="ps-pct">' + p + '%</span></div>';
+  });
+  h += '</div></div>';
+  return h;
+}
 function renderChapters() {
   const root = document.getElementById("chapters-root");
   const doneSet = new Set(gameState.completedMissions);
-  root.innerHTML = "";
+  root.innerHTML = progressSummaryHTML(doneSet);
   CHAPTERS.forEach(ch => {
     const chM = campaignMissions.filter(m => m.chapter === ch.id);
     const boss = bossMissions.find(m => m.chapter === ch.id);
@@ -3069,7 +3120,7 @@ function campaignCard(m, isDone) {
       '<div class="m-title">' + escapeHtml(m.title) + '</div>' +
       '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
       '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
-      '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + '</div>' +
+      '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + linkTag(m.id) + '</div>' +
     '</div></div>';
 }
 function bossCard(b, isDone) {
@@ -4384,8 +4435,7 @@ const REWARDS = [
   { id: "rw_d28",   ico: "⚔️", sec: "🛡️ Campaña",  n: "Espada de los 28 Días", cond: () => fullDaysCount() >= 28 },
   { id: "rw_d42",   ico: "🏆", sec: "🛡️ Campaña",  n: "Corona del Plan Maestro", cond: () => fullDaysCount() >= 42 },
   { id: "rw_boss3", ico: "🏹", sec: "🛡️ Campaña",  n: "Ballesta de los Capítulos", cond: () => bossDoneCount() >= 3 },
-  { id: "rw_boss6", ico: "🗡️", sec: "🛡️ Campaña",  n: "Espada Legendaria de Datos", cond: () => bossDoneCount() >= 6 },
-  { id: "rw_boss8", ico: "👑", sec: "🛡️ Campaña",  n: "Corona del Analista Legendario", cond: () => bossDoneCount() >= 8 },
+  { id: "rw_boss6", ico: "🗡️", sec: "🛡️ Campaña",  n: "Espada Legendaria de Datos", cond: () => bossDoneCount() >= 4 },
   { id: "rw_sem4",  ico: "🎖️", sec: "🎖️ General", n: "Medalla de la Constancia Semanal", cond: () => gameState.completedWeekly.length >= 4 },
   { id: "rw_racha", ico: "🔥", sec: "🎖️ General",  n: "Brazalete de Fuego", cond: () => (gameState.streak || 0) >= 7 },
   { id: "rw_jobs",  ico: "💼", sec: "🎖️ General",  n: "Maletín del Cazador", cond: () => jobsDoneCount() >= 10 },
@@ -4419,7 +4469,19 @@ const REWARDS = [
   /* 💸 B2B */
   { id: "rw_b2b1", ico: "💸", sec: "💸 B2B", n: "Moneda del Fundador", cond: () => (gameState.completedB2b || []).length >= 3 },
   { id: "rw_b2b2", ico: "🏦", sec: "💸 B2B", n: "Cofre del Ingreso Extra", cond: () => (gameState.completedB2b || []).length >= 9 },
-  { id: "rw_b2b3", ico: "👑", sec: "💸 B2B", n: "Trono del Ingreso Estable", cond: () => (gameState.completedB2b || []).length >= B2B_MISSIONS.length }
+  { id: "rw_b2b3", ico: "👑", sec: "💸 B2B", n: "Trono del Ingreso Estable", cond: () => (gameState.completedB2b || []).length >= B2B_MISSIONS.length },
+  /* ✨ Accesorios extra — Campaña de Datos */
+  { id: "rw_cat_an", ico: "🔬", sec: "🛡️ Campaña", n: "Lupa del Analista", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "analyst").length >= 15 },
+  { id: "rw_cat_emp", ico: "🎯", sec: "🛡️ Campaña", n: "Brújula del Cazatalentos", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "employability").length >= 15 },
+  { id: "rw_ch2", ico: "🗄️", sec: "🛡️ Campaña", n: "Llave del Almacén de Datos", cond: () => campaignMissions.filter(m => m.chapter === 2).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch3", ico: "🧱", sec: "🛡️ Campaña", n: "Pico del Constructor", cond: () => campaignMissions.filter(m => m.chapter === 3).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch4", ico: "🚦", sec: "🛡️ Campaña", n: "Semáforo del Pipeline", cond: () => campaignMissions.filter(m => m.chapter === 4).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch5", ico: "📊", sec: "🛡️ Campaña", n: "Gráfico de Poder", cond: () => campaignMissions.filter(m => m.chapter === 5).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch7", ico: "🏆", sec: "🛡️ Campaña", n: "Llave de la Decisión", cond: () => campaignMissions.filter(m => m.chapter === 7).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_first", ico: "🌱", sec: "🎖️ General", n: "Semilla del Primer Paso", cond: () => (gameState.completedMissions || []).length >= 1 },
+  { id: "rw_st14", ico: "⚡", sec: "🎖️ General", n: "Rayo de la Constancia", cond: () => (gameState.streak || 0) >= 14 },
+  { id: "rw_b2b5", ico: "🚀", sec: "💸 B2B", n: "Cohete del Escalado", cond: () => B2B_MISSIONS.filter(m => m.chapter === 5).every(m => (gameState.completedB2b || []).includes(m.id)) }
+
 ];
 function bossDoneCount() {
   const done = gameState.completedMissions || [];
@@ -5180,7 +5242,7 @@ function mapOpenModal(kind, id) {
           '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
           '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
           '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
-          '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + '</div>' +
+          '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + linkTag(m.id) + '</div>' +
           "</div></div>";
       }).join("") + (d === list.length ? '<div class="nm-done">✓ FASE COMPLETADA</div>' : "") + "</div>";
     body.innerHTML = html;
