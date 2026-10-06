@@ -1761,7 +1761,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.25</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.26</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1827,7 +1827,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.25</span>
+    <span class="ver">v5.26</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1969,7 +1969,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.25 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.26 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -4029,7 +4029,7 @@ document.getElementById("diag-skip").addEventListener("click", () => {
 /* ==========================================================
    🧬 VIDA — MÓDULO: estado derivado, renders y acciones
    ========================================================== */
-function vidaDefault() { return { log: [], growth: [], kid: [], couple: [] }; }
+function vidaDefault() { return { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }; }
 
 function vidaCompute() {
   const gv = gameState.vida || vidaDefault();
@@ -4094,7 +4094,7 @@ function vidaIsDone(vs, o) {
   const meta = VIDA_OBJ[o.id];
   if (meta.kind === "daily") return vs.log.indexOf(o.id + "|" + vs.today) >= 0;
   if (meta.kind === "weekly") return vs.log.indexOf(o.id + "|" + vs.week) >= 0;
-  const list = meta.cat === "eq" ? vs.gv.growth : meta.cat === "kid" ? vs.gv.kid : vs.gv.couple;
+  const list = meta.cat === "eq" ? vs.gv.growth : meta.cat === "kid" ? vs.gv.kid : meta.cat === "pow" ? vs.gv.pow : meta.cat === "men" ? vs.gv.men : vs.gv.couple;
   return (Array.isArray(list) ? list : []).indexOf(o.id) >= 0;
 }
 function vidaTagsHTML(o, vs, extra) {
