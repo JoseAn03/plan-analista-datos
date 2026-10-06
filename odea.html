@@ -2043,7 +2043,6 @@ const LEVELS = [
   { xp: 15000, name: "Analista Legendario" },
   { xp: 20000, name: "Dios de los Datos" }
 ];
-const MAX_XP_LEVEL = 20000;
 
 const CHAPTERS = [
   { id:0, code:"DÍA 0", title:"⚙️ Preparación del Sistema", subtitle:"Arranque limpio y medible", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de que arranque el conteo de 60 días." },
@@ -2902,13 +2901,8 @@ function resetGame() {
 }
 
 /* --- Cálculo de nivel (spec) --- */
-function calculateLevel(xp) {
-  let lvl = 1;
-  for (let i = 0; i < LEVELS.length; i++) if (xp >= LEVELS[i].xp) lvl = i + 1;
-  return lvl;
-}
 const RANKS = LEVELS.map(l => l.name);
-function levelName(lvl) { return RANKS[Math.min(8, Math.floor((lvl - 1) / 5))]; }
+function levelName(lvl) { return RANKS[Math.min(8, Math.floor((lvl - 1) / 7))]; }
 
 /* --- Totales de XP por categoría (todas las fuentes) --- */
 const XP_CAT_TOTAL = { analyst: 0, ai: 0, employability: 0 };
