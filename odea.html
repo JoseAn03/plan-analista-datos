@@ -1761,7 +1761,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.27</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.28</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1830,7 +1830,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.27</span>
+    <span class="ver">v5.28</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1976,7 +1976,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.27 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.28 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -5570,7 +5570,9 @@ function aldeaHTML() {
     { k: "kid", ico: "👶", n: "Legado", c: "#00ff88", s: vs.sub.kid, pct: vs.sub.kid.pct, done: false },
     { k: "cpl", ico: "💑", n: "Alianza", c: "#ff00aa", s: vs.sub.cpl, pct: vs.sub.cpl.pct, done: false },
     { k: "pow", ico: "🦁", n: "Poder & Imagen", c: "#ffd700", s: vs.sub.pow, pct: vs.sub.pow.pct, done: false },
-    { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", s: vs.sub.men, pct: vs.sub.men.pct, done: false }
+    { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", s: vs.sub.men, pct: vs.sub.men.pct, done: false },
+    { k: "plan", ico: "🎢", n: "Planes & Aventuras", c: "#00e5ff", s: vs.sub.plan, pct: vs.sub.plan.pct, done: false },
+    { k: "orden", ico: "🧹", n: "Orden & Hogar", c: "#ff8a3d", s: vs.sub.orden, pct: vs.sub.orden.pct, done: false }
   ];
   let html = '<div class="aldea-grid">';
   zonas.forEach(z => {
@@ -5597,7 +5599,7 @@ function renderMapStage() {
     camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
     torre: { t: "📜 CAMPAÑA DE DATOS", s: "8 etapas · 54 misiones para conseguir tu rol de datos" },
     fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "7 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas, freelance y la Operación Relámpago" },
-    aldea: { t: "🧬 ALDEA DE LA VIDA", s: "5 zonas: equilíbrio, legado, alianza, poder y sabiduría" },
+    aldea: { t: "🧬 ALDEA DE LA VIDA", s: "7 zonas: equilibrio, legado, alianza, poder, sabiduría, planes y orden" },
     boveda: { t: "📈 BÓVEDA DEL CAPITAL", s: "8 capítulos: mercados, IA, cartera y futuro — hasta NIVEL EXTREMO" },
     b2b: { t: "💸 B2B — INGRESO EXTRA", s: "6 fases: fundamentos, portafolio, ingresos, inversión, marca y escalado" }
   };
@@ -5864,7 +5866,8 @@ function mapEndBadge() {
    ========================================================== */
 const AZ_METAFORA = {
   eq: "campo de entrenamiento", kid: "hogar & jardín", cpl: "templo de la unión",
-  pow: "arena del león", men: "biblioteca del saber"
+  pow: "arena del león", men: "biblioteca del saber",
+  plan: "plaza de las aventuras", orden: "templo del orden"
 };
 
 /* ==========================================================
@@ -5877,7 +5880,9 @@ const VIDA_ZONA_META = [
   { k: "kid", ico: "👶", n: "Legado", c: "#2dd4bf", render: renderVidaKid },
   { k: "cpl", ico: "💑", n: "Alianza", c: "#ff00aa", render: renderVidaCpl },
   { k: "pow", ico: "🦁", n: "Poder & Imagen", c: "#ffd700", render: renderVidaPow },
-  { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", render: renderVidaMen }
+  { k: "men", ico: "🏛️", n: "Sabios & Mentores", c: "#4dd0ff", render: renderVidaMen },
+  { k: "plan", ico: "🎢", n: "Planes & Aventuras", c: "#00e5ff", render: renderVidaPlan },
+  { k: "orden", ico: "🧹", n: "Orden & Hogar", c: "#ff8a3d", render: renderVidaOrden }
 ];
 function mapSpecialModal(kind, id) {
   const layer = document.getElementById("node-layer");
