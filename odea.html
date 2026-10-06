@@ -1524,6 +1524,11 @@ header{padding:10px 14px}
 .av2 .holo-gear.pos-casco{top:10px}
 .av2 .holo-gear.pos-hombro{left:76%;top:38px}
 .av2 .holo-gear.pos-base{top:auto;bottom:0}
+.av2 .holo-gear.pos-cabeza{top:8px}
+.av2 .holo-gear.pos-hombros{left:76%;top:36px;font-size:13px}
+.av2 .holo-gear.pos-torso{top:48px}
+.av2 .holo-gear.pos-pies{bottom:0;top:auto}
+.av2 .holo-gear.pos-medallas{left:24%;top:46px;font-size:12px}
 .av2 .holo-aura{width:104px;height:104px;margin:-52px 0 0 -52px}
 
 /* ==========================================================
@@ -1745,7 +1750,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.22</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.23</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1807,7 +1812,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.22</span>
+    <span class="ver">v5.23</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1949,7 +1954,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.22 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.23 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2798,7 +2803,7 @@ let gameState = {
   capital: { done: [] },       // 📈 campaña capital (IA + mercados)
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
-  rewards: { unlocked: [], queue: [], equipped: null } // 🎒 arsenal del héroe
+  rewards: { unlocked: [], queue: [], equipped: {} } // 🎒 arsenal del héroe
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -2877,7 +2882,7 @@ function loadGame() {
     gameState.rewards = {
       unlocked: Array.isArray(rw2.unlocked) ? rw2.unlocked.filter(id => REWARDS.some(r => r.id === id)) : [],
       queue: Array.isArray(rw2.queue) ? rw2.queue.filter(id => REWARDS.some(r => r.id === id)) : [],
-      equipped: rw2.equipped || null
+      equipped: migrateEquipped(rw2.equipped)
     };
     return true;
   } catch (e) { return false; }
@@ -2888,7 +2893,7 @@ function resetGame() {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, capital: { done: [] },
     sound: true, reto: { date: null, id: null, done: false },
-    rewards: { unlocked: [], queue: [], equipped: null }
+    rewards: { unlocked: [], queue: [], equipped: {} }
   };
   selectedDay = 1;
   renderAll();
@@ -3347,7 +3352,7 @@ function updateUI() {
   document.getElementById("hud-bar").style.width = pct + "%";
   document.getElementById("s-name").textContent = gameState.playerName;
   const gearEl = document.getElementById("s-gear");
-  if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === (gameState.rewards || {}).equipped) || {}).ico || "";
+  if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === ((gameState.rewards || {}).equipped || {}).medallas) || {}).ico || "";
   document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
   document.getElementById("streak-n").textContent = gameState.streak;
   const streakChip = document.getElementById("streak-chip");
@@ -4633,9 +4638,36 @@ const REWARDS = [
   { id: "rw_ch7", ico: "🏆", sec: "🛡️ Campaña", n: "Llave de la Decisión", cond: () => campaignMissions.filter(m => m.chapter === 7).every(m => gameState.completedMissions.includes(m.id)) },
   { id: "rw_first", ico: "🌱", sec: "🎖️ General", n: "Semilla del Primer Paso", cond: () => (gameState.completedMissions || []).length >= 1 },
   { id: "rw_st14", ico: "⚡", sec: "🎖️ General", n: "Rayo de la Constancia", cond: () => (gameState.streak || 0) >= 14 },
-  { id: "rw_b2b5", ico: "🚀", sec: "💸 B2B", n: "Cohete del Escalado", cond: () => B2B_MISSIONS.filter(m => m.chapter === 5).every(m => (gameState.completedB2b || []).includes(m.id)) }
+  { id: "rw_b2b5", ico: "🚀", sec: "💸 B2B", n: "Cohete del Escalado", cond: () => B2B_MISSIONS.filter(m => m.chapter === 5).every(m => (gameState.completedB2b || []).includes(m.id)) },
+
+  /* 👟 Pies */
+  { id: "rw_boot1", ico: "👟", sec: "🛡️ Campaña", n: "Botas del Recluta", cond: () => fullDaysCount() >= 3 },
+  { id: "rw_boot2", ico: "🥾", sec: "🛡️ Campaña", n: "Botas del Explorador", cond: () => fullDaysCount() >= 15 },
+  { id: "rw_boot3", ico: "👢", sec: "🎖️ General", n: "Botas del Caminante", cond: () => jobsDoneCount() >= 5 }
 
 ];
+
+const RW_SLOT_ORDER = ["cabeza", "hombros", "torso", "pies", "medallas"];
+const RW_SLOT_LABEL = { cabeza: "CABEZA", hombros: "HOMBROS", torso: "TORSO", pies: "PIES", medallas: "MEDALLAS" };
+const RW_SLOT = {
+  "rw_d7": "cabeza", "rw_d42": "cabeza", "rw_auto1": "cabeza", "rw_auto3": "cabeza",
+  "rw_sem4": "medallas", "rw_kd10": "medallas", "rw_kh3": "medallas", "rw_cw5": "medallas",
+  "rw_rang3": "medallas", "rw_rang6": "medallas", "rw_rang9": "medallas", "rw_life": "medallas",
+  "rw_eq1": "torso", "rw_eq7": "torso", "rw_eq21": "torso", "rw_gym": "torso",
+  "rw_cap7": "torso", "rw_auto2": "torso", "rw_b2b1": "torso", "rw_b2b2": "torso",
+  "rw_b2b3": "torso", "rw_ch2": "torso", "rw_ch4": "torso", "rw_ch5": "torso",
+  "rw_ch7": "torso", "rw_first": "torso",
+  "rw_boot1": "pies", "rw_boot2": "pies", "rw_boot3": "pies"
+};
+function rwSlot(id) { return RW_SLOT[id] || "hombros"; }
+function migrateEquipped(old) {
+  const out = {};
+  if (!old) return out;
+  if (typeof old === "string") { out[rwSlot(old)] = old; return out; }
+  RW_SLOT_ORDER.forEach(function (s) { if (old[s]) out[s] = old[s]; });
+  return out;
+}
+
 function bossDoneCount() {
   const done = gameState.completedMissions || [];
   return bossMissions.filter(b => done.indexOf(b.id) >= 0).length;
@@ -4652,7 +4684,7 @@ function capCapsDone() {
   return capCompute().perCap.filter(p => p.complete).length;
 }
 function rwState() {
-  return gameState.rewards = gameState.rewards || { unlocked: [], queue: [], equipped: null };
+  return gameState.rewards = gameState.rewards || { unlocked: [], queue: [], equipped: {} };
 }
 function rwBadgeUpdate(bump) {
   invBadgeSync();
@@ -4680,7 +4712,8 @@ function evalRewards() {
 }
 function rwEquip(id) {
   const st = rwState();
-  st.equipped = st.equipped === id ? null : id;
+  const slot = rwSlot(id);
+  st.equipped[slot] = (st.equipped[slot] === id) ? null : id;
   playSfx("click");
   saveGame();
   rwGearRender();
@@ -4691,9 +4724,9 @@ function rwEquip(id) {
 }
 function rwGearRender() {
   const st = rwState();
-  const r = REWARDS.find(x => x.id === st.equipped) || null;
+  const med = REWARDS.find(x => x.id === (st.equipped && st.equipped.medallas)) || null;
   const g = document.getElementById("s-gear");
-  if (g) g.textContent = r ? r.ico : "";
+  if (g) g.textContent = med ? med.ico : "";
   const snd = document.getElementById("snd-btn");
   if (snd) snd.textContent = gameState.sound === false ? "🔇" : "🔊";
 }
@@ -4703,7 +4736,7 @@ function rwGridRender() {
   if (!grid) return;
   grid.innerHTML = REWARDS.map(r => {
     const un = st.unlocked.indexOf(r.id) >= 0;
-    const eq = st.equipped === r.id;
+    const eq = Object.keys(st.equipped || {}).some(function (k) { return st.equipped[k] === r.id; });
     const inq = st.queue.indexOf(r.id) >= 0;
     if (un) {
       return '<div class="rw-item' + (eq ? " equipped" : "") + '" data-rid="' + r.id + '" title="' + r.sec + '">' +
@@ -5720,7 +5753,7 @@ function rwTier(id) {
 function rwSecColor(sec) { return RW_SEC_COLORS[sec] || "#00ccff"; }
 function rwItemHTML2(r, st) {
   const un = st.unlocked.indexOf(r.id) >= 0;
-  const eq = st.equipped === r.id;
+  const eq = Object.keys(st.equipped || {}).some(function (k) { return st.equipped[k] === r.id; });
   const inq = st.queue.indexOf(r.id) >= 0;
   const tier = rwTier(r.id);
   const sc = rwSecColor(r.sec);
@@ -5834,9 +5867,9 @@ function sideSync() {
   const s = document.getElementById("side-streak");
   if (s) s.textContent = "🔥 Racha de " + (gameState.streak || 0) + (gameState.streak === 1 ? " día" : " días");
   const gn = document.getElementById("side-gear-name");
-  const gear2 = (gameState.rewards || {}).equipped || null;
-  const gearR2 = gear2 ? (REWARDS.find(r => r.id === gear2) || {}) : null;
-  if (gn) gn.textContent = gearR2 ? ("equipado: " + gearR2.n) : "";
+  const eqObj = (gameState.rewards || {}).equipped || {};
+  const eqCount = RW_SLOT_ORDER.filter(function (k) { return eqObj[k]; }).length;
+  if (gn) gn.textContent = eqCount > 0 ? ("equipado: " + eqCount + " accesorio" + (eqCount > 1 ? "s" : "")) : "";
   sideHoloRender();
 }
 function invBadgeSync() {
@@ -5904,16 +5937,17 @@ function holoExtras(tier) {
    ========================================================== */
 const HOLO_POS = { "🛡️ Campaña": "hombro", "🎖️ General": "pecho", "⚖️ Equilibrio": "aura", "👶 Legado": "base", "💑 Alianza": "pecho", "📈 Capital": "casco" };
 function holoGearHTML() {
-  const gear = (gameState.rewards || {}).equipped || null;
-  if (!gear) return "";
-  const r = REWARDS.find(x => x.id === gear);
-  if (!r) return "";
-  const pos = HOLO_POS[r.sec] || "pecho";
-  const col = rwSecColor(r.sec);
-  if (pos === "aura") {
-    return '<span class="holo-aura" style="--gc:' + col + '"></span><span class="holo-gear pos-pecho" style="--gc:' + col + '">' + r.ico + "</span>";
-  }
-  return '<span class="holo-gear pos-' + pos + '" style="--gc:' + col + '">' + r.ico + "</span>";
+  const eq = (gameState.rewards || {}).equipped || {};
+  let html = "";
+  RW_SLOT_ORDER.forEach(function (slot) {
+    const id = eq[slot];
+    if (!id) return;
+    const r = REWARDS.find(x => x.id === id);
+    if (!r) return;
+    const col = rwSecColor(r.sec);
+    html += '<span class="holo-gear pos-' + slot + '" style="--gc:' + col + '">' + r.ico + "</span>";
+  });
+  return html;
 }
 (function () {
   ["holo-stage", "side-holo"].forEach(function (id) {
@@ -6001,20 +6035,18 @@ function invCharRender() {
   const host = document.getElementById("inv-char");
   if (!host) return;
   const tier = HOLO_TIERS[holoTier()];
-  const eq = (gameState.rewards || {}).equipped || null;
-  const r = eq ? REWARDS.find(x => x.id === eq) : null;
-  const posDe = r ? (HOLO_POS[r.sec] || "pecho") : null;
-  const slots = [["casco", "CASCO"], ["hombro", "HOMBRO"], ["pecho", "PECHO"], ["aura", "AURA"], ["base", "BASE"]];
+  const eq = (gameState.rewards || {}).equipped || {};
   let html = '<div class="inv-char-fig"><div class="av2" style="--hc:' + tier.col + '">' +
     '<span class="av2-aura"></span><span class="av2-base"></span>' +
-    '<div class="av2-float">' + avatarSVG2D(tier.col) + (r ? holoGearHTML() : "") + "</div></div></div>";
+    '<div class="av2-float">' + avatarSVG2D(tier.col) + holoGearHTML() + "</div></div></div>";
   html += '<div class="inv-slots">';
-  slots.forEach(function (s) {
-    const on = r && posDe === s[0];
-    html += '<div class="inv-slot' + (on ? " on" : "") + '"><span class="is-lbl">' + s[1] + '</span>' +
-      '<span class="is-ico">' + (on ? r.ico : "·") + '</span><span class="is-name">' + (on ? r.n : "vacío") + "</span></div>";
+  RW_SLOT_ORDER.forEach(function (slot) {
+    const id = eq[slot] || null;
+    const r = id ? REWARDS.find(x => x.id === id) : null;
+    html += '<div class="inv-slot' + (r ? " on" : "") + '"><span class="is-lbl">' + RW_SLOT_LABEL[slot] + '</span>' +
+      '<span class="is-ico">' + (r ? r.ico : "·") + '</span><span class="is-name">' + (r ? r.n : "vacío") + "</span></div>";
   });
-  html += '</div><p class="inv-char-note">Toca un accesorio desbloqueado abajo para equiparlo</p>';
+  html += '</div><p class="inv-char-note">Toca un accesorio desbloqueado abajo para equiparlo · puedes llevar uno por slot</p>';
   host.innerHTML = html;
 }
 
