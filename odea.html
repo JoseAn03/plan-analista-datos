@@ -556,7 +556,7 @@ html{-webkit-text-size-adjust:100%}
 .tag.streak{color:#ffaa00;border-color:rgba(255,170,0,.5);font-family:'Orbitron',sans-serif}
 .tag.ondone{color:#00ff88;border-color:rgba(0,255,136,.5);background:rgba(0,255,136,.07)}
 .bar.stat.violet>span{background:linear-gradient(90deg,#7c6cff,#ff00ff);box-shadow:0 0 10px rgba(124,108,255,.5)}
-.vida-mini{display:flex;justify-content:space-between;gap:6px;margin-top:8px;font-size:.75rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
+.vida-mini{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;margin-top:8px;font-size:.75rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
 .vida-mini b{font-family:'Orbitron',sans-serif;font-size:.78rem;color:#fff}
 .eco-xp{display:flex;flex-direction:column;gap:5px;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--tx2)}
 .eco-row{display:flex;align-items:center;gap:8px}
@@ -1761,7 +1761,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.26</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.27</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1801,6 +1801,9 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         <span title="Frente Legado (tu hijo)">👶 <b id="vm-kid">Nv.1</b></span>
         <span title="Frente Alianza (tu pareja)">💑 <b id="vm-cpl">Nv.1</b></span>
         <span title="Frente Poder e Imagen (mentalidad, presencia, marca)">🦁 <b id="vm-pow">Nv.1</b></span>
+        <span title="Frente Sabios & Mentores (grandes figuras)">🏛️ <b id="vm-men">Nv.1</b></span>
+        <span title="Frente Planes & Aventuras (salidas y tiempo de calidad)">🎢 <b id="vm-plan">Nv.1</b></span>
+        <span title="Frente Orden & Hogar (orden presente y limpieza)">🧹 <b id="vm-orden">Nv.1</b></span>
       </div>
     </div>
     <div class="stat-block">
@@ -1827,7 +1830,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.26</span>
+    <span class="ver">v5.27</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1932,12 +1935,16 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         <button class="sub-tab" data-sub="cpl">💑 ALIANZA</button>
         <button class="sub-tab" data-sub="pow">🦁 PODER & IMAGEN</button>
         <button class="sub-tab" data-sub="men">🏛️ SABIOS & MENTORES</button>
+        <button class="sub-tab" data-sub="plan">🎢 PLANES & AVENTURAS</button>
+        <button class="sub-tab" data-sub="orden">🧹 ORDEN & HOGAR</button>
       </div>
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
       <div id="vida-cpl" class="vida-sub"></div>
       <div id="vida-pow" class="vida-sub"></div>
       <div id="vida-men" class="vida-sub"></div>
+      <div id="vida-plan" class="vida-sub"></div>
+      <div id="vida-orden" class="vida-sub"></div>
     </section>
 
     <!-- ============ VISTA 5: CAPITAL (campaña IA + mercados + inversión) ============ -->
@@ -1969,7 +1976,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.26 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.27 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2736,7 +2743,37 @@ const KID_HITS = [ /* hitos de desarrollo (one-shot) */
   { id: "kht-bloques",   t: "🧱 Arquitecto en Miniatura", d: "Construir algo complejo: LEGO de 100+ piezas o rompecabezas de 100+ piezas.", xp: 100 },
   { id: "kht-cocina",    t: "🥞 Pequeño Chef",        d: "Preparar su primer desayuno simple casi solo (cereal, sándwich o fruta).", xp: 120 },
   { id: "kht-amable",    t: "🤝 Caballero de la Amabilidad", d: "Hábito instalado: por favor, gracias, compartir y esperar turnos.", xp: 100 },
-  { id: "kht-pregunton", t: "❓ Explorador Curioso",   d: "Te hace 10 preguntas que te hacen pensar (anótalas, valen oro).", xp: 100 }
+  { id: "kht-pregunton", t: "❓ Explorador Curioso",   d: "Te hace 10 preguntas que te hacen pensar (anótalas, valen oro).", xp:100 },
+  { id: "kht-escribir", t: "✍️ Escritor de su Nombre", d: "Escribir su nombre completo solito, sin ayuda.", xp:120 },
+  { id: "kht-sumas",    t: "➕ Matemático Básico", d: "Sumar y restar con confianza del 1 al 10.", xp:120 },
+  { id: "kht-ingles20", t: "🌎 20 Palabras en Inglés", d: "Aprender y usar 20 palabras en inglés (colores, números, animales, saludos).", xp:150 },
+  { id: "kht-lee-solo", t: "📖 Lee un Cuento Solo", d: "Leer un cuento corto completo sin ayuda de principio a fin.", xp:150 }
+];
+
+const KID_LEARN = [ /* 🎓 Academia del Mini-Genio: aprendizaje semanal */
+  { id: "kln-lectura",  t: "📚 Lectura por Capítulos", d: "Leer juntos 2-3 capítulos de un libro infantil (él escucha, tú narras con voces).", xp: 40 },
+  { id: "kln-numeros",  t: "🔢 Matemáticas Divertidas", d: "20 min de números jugando: contar objetos, sumas simples, formas o medir con la mano.", xp: 40 },
+  { id: "kln-ciencia",  t: "🔬 Mini Científico", d: "Un experimento casero seguro (volcán de bicarbonato, imanes, sembrar una semilla) y explicarle el porqué.", xp: 40 },
+  { id: "kln-ingles",   t: "🌎 Palabras del Mundo", d: "10 palabras nuevas en inglés (colores, animales, números) con canciones o tarjetas.", xp: 40 },
+  { id: "kln-valores",  t: "💛 Cuento con Valores", d: "Leer o contar un cuento sobre un valor (honestidad, compartir, respeto) y conversarlo.", xp: 35 },
+  { id: "kln-musica",   t: "🎵 Ritmo y Melodía", d: "Aprender una canción nueva, tocar instrumentos simples o bailar siguiendo el ritmo.", xp: 35 },
+  { id: "kln-preguntas",t: "❓ Hora de los Porqués", d: "Responder con paciencia sus 'porqués' e investigar juntos una respuesta en un libro o video.", xp: 35 },
+  { id: "kln-geo",      t: "🗺️ Explorador del Planeta", d: "Aprender un país o lugar nuevo: bandera, animal típico y una curiosidad.", xp: 35 },
+  { id: "kln-natura",   t: "🍃 Científico de la Naturaleza", d: "Observar plantas, bichos o el cielo juntos y aprender 3 datos nuevos.", xp: 35 },
+  { id: "kln-arte",     t: "🎨 Pequeño Artista Guiado", d: "Un proyecto de arte con propósito: mezclar colores, recortar, modelar o dibujar una idea.", xp: 35 }
+];
+
+const KID_FUN = [ /* 🎈 Diversión & Juegos: actividades para reír y crear recuerdos */
+  { id: "kfn-parque",   t: "🌳 Día de Parque", d: "Ir al parque: columpios, resbaladero y correr sin prisa.", xp: 40 },
+  { id: "kfn-bici",     t: "🚲 Aventura en Bici", d: "Paseo en bicicleta o patineta juntos por un lugar seguro.", xp: 40 },
+  { id: "kfn-mesa",     t: "🎲 Juego de Mesa", d: "Jugar un juego de mesa en familia (memoria, dominó, UNO, lotería).", xp: 35 },
+  { id: "kfn-pelota",   t: "⚽ Tarde de Pelota", d: "Jugar pelota juntos: patear, lanzar, atrapar o encestar.", xp: 35 },
+  { id: "kfn-nadar",    t: "🏊 Día de Piscina", d: "Ir a la piscina o jugar con agua: flotar, chapotear y reír.", xp: 40 },
+  { id: "kfn-manualidad",t: "✂️ Manualidad Libre", d: "Plastilina, recortes, pintura o pega: crear lo que imagine sin reglas.", xp: 35 },
+  { id: "kfn-cocina",   t: "🍪 Cocina Divertida", d: "Cocinar algo rico juntos (galletas, pizza, brochetas de fruta).", xp: 40 },
+  { id: "kfn-carrera",  t: "🏃 Carreras y Risas", d: "Carreras, escondite o persecución: juego activo que los haga sudar y reír.", xp: 35 },
+  { id: "kfn-baile",    t: "💃 Fiesta de Baile", d: "Poner música y bailar juntos sin vergüenza (coreografías inventadas bienvenidas).", xp: 30 },
+  { id: "kfn-escena",   t: "🎭 Actores por un Día", d: "Actuar una escena de su cuento o película favorita, con disfraces improvisados.", xp: 35 }
 ];
 
 const CPL_WEEK = [ /* misiones semanales de pareja */
@@ -2764,6 +2801,8 @@ VIDA_GROWTH.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "eq", kind: "one" }
 KID_DAILY.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "daily" }; });
 KID_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "weekly" }; });
 KID_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "one" }; });
+KID_LEARN.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "weekly" }; });
+KID_FUN.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "kid", kind: "weekly" }; });
 CPL_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "cpl", kind: "weekly" }; });
 CPL_GOALS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "cpl", kind: "one" }; });
 const VIDA_GROWTH_TOTAL = VIDA_GROWTH.reduce((s, o) => s + o.xp, 0);
@@ -2819,7 +2858,7 @@ let gameState = {
   lastDailyDate: null,     // última fecha con misión diaria completada
   streak: 0,               // racha de días seguidos
   shieldWeek: null,        // semana (ISO) en que se usó el escudo 🛡️
-  vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, // 🧬 side quests de vida
+  vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }, // 🧬 side quests de vida
   capital: { done: [] },       // 📈 campaña capital (IA + mercados)
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
@@ -2889,7 +2928,9 @@ function loadGame() {
       kid: Array.isArray(vd.kid) ? vd.kid : [],
       couple: Array.isArray(vd.couple) ? vd.couple : [],
       pow: Array.isArray(vd.pow) ? vd.pow : [],
-      men: Array.isArray(vd.men) ? vd.men : []
+      men: Array.isArray(vd.men) ? vd.men : [],
+      plan: Array.isArray(vd.plan) ? vd.plan : [],
+      orden: Array.isArray(vd.orden) ? vd.orden : []
     };
     const cp = data.capital || {};
     gameState.capital = {
@@ -2911,7 +2952,7 @@ function resetGame() {
   localStorage.removeItem(SAVE_KEY);
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [],
-    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }, capital: { done: [] },
+    unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }, capital: { done: [] },
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: {} }
   };
@@ -4029,13 +4070,13 @@ document.getElementById("diag-skip").addEventListener("click", () => {
 /* ==========================================================
    🧬 VIDA — MÓDULO: estado derivado, renders y acciones
    ========================================================== */
-function vidaDefault() { return { log: [], growth: [], kid: [], couple: [], pow: [], men: [] }; }
+function vidaDefault() { return { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }; }
 
 function vidaCompute() {
   const gv = gameState.vida || vidaDefault();
   const log = Array.isArray(gv.log) ? gv.log : [];
   const habitDates = {}, dayPilars = {}, balanceDates = new Set();
-  const xp = { eq: 0, kid: 0, cpl: 0, pow: 0, men: 0 };
+  const xp = { eq: 0, kid: 0, cpl: 0, pow: 0, men: 0, plan: 0, orden: 0 };
   log.forEach(entry => {
     const i = entry.indexOf("|");
     if (i <= 0) return;
@@ -4051,13 +4092,13 @@ function vidaCompute() {
   Object.keys(dayPilars).forEach(k => { if (dayPilars[k].size === 3) balanceDates.add(k); });
   const bonus = balanceDates.size * BALANCE_BONUS;
   xp.eq += bonus;
-  ["growth", "kid", "couple", "pow", "men"].forEach(list => {
+  ["growth", "kid", "couple", "pow", "men", "plan", "orden"].forEach(list => {
     (Array.isArray(gv[list]) ? gv[list] : []).forEach(id => {
       const o = VIDA_OBJ[id];
       if (o) xp[o.cat] += o.xp;
     });
   });
-  const total = xp.eq + xp.kid + xp.cpl + xp.pow + xp.men;
+  const total = xp.eq + xp.kid + xp.cpl + xp.pow + xp.men + xp.plan + xp.orden;
   const today = todayStr(), week = isoWeekKey(todayStr());
   const dayP = dayPilars[today] || new Set();
   const kidToday = KID_DAILY.filter(m => log.indexOf(m.id + "|" + today) >= 0).length;
@@ -4079,7 +4120,9 @@ function vidaCompute() {
       kid: ladderInfo(KID_LADDER, xp.kid),
       cpl: ladderInfo(ALY_LADDER, xp.cpl),
       pow: ladderInfo(POW_LADDER, xp.pow),
-      men: ladderInfo(MEN_LADDER, xp.men)
+      men: ladderInfo(MEN_LADDER, xp.men),
+      plan: ladderInfo(PLAN_LADDER, xp.plan),
+      orden: ladderInfo(ORDEN_LADDER, xp.orden)
     }
   };
 }
@@ -4094,7 +4137,7 @@ function vidaIsDone(vs, o) {
   const meta = VIDA_OBJ[o.id];
   if (meta.kind === "daily") return vs.log.indexOf(o.id + "|" + vs.today) >= 0;
   if (meta.kind === "weekly") return vs.log.indexOf(o.id + "|" + vs.week) >= 0;
-  const list = meta.cat === "eq" ? vs.gv.growth : meta.cat === "kid" ? vs.gv.kid : meta.cat === "pow" ? vs.gv.pow : meta.cat === "men" ? vs.gv.men : vs.gv.couple;
+  const list = meta.cat === "eq" ? vs.gv.growth : meta.cat === "kid" ? vs.gv.kid : meta.cat === "pow" ? vs.gv.pow : meta.cat === "men" ? vs.gv.men : meta.cat === "plan" ? vs.gv.plan : meta.cat === "orden" ? vs.gv.orden : vs.gv.couple;
   return (Array.isArray(list) ? list : []).indexOf(o.id) >= 0;
 }
 function vidaTagsHTML(o, vs, extra) {
@@ -4191,6 +4234,12 @@ function renderVidaKid(vs) {
   h += '<div class="sect-title">🌍 Expediciones de la Semana <small>aventuras especiales · 1 vez por semana</small>' +
     '<span class="count-pill">SEMANA ' + vs.kidWeek + "/" + KID_WEEK.length + "</span></div>";
   KID_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🎓 Academia del Mini-Genio <small>aprendizaje semanal: lecturas, números, ciencia e idiomas</small>' +
+    '<span class="count-pill">SEMANA ' + KID_LEARN.filter(m => vs.log.indexOf(m.id + "|" + vs.week) >= 0).length + "/" + KID_LEARN.length + "</span></div>";
+  KID_LEARN.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🎈 Diversión & Juegos <small>actividades para reír, sudar y crear recuerdos</small>' +
+    '<span class="count-pill">SEMANA ' + KID_FUN.filter(m => vs.log.indexOf(m.id + "|" + vs.week) >= 0).length + "/" + KID_FUN.length + "</span></div>";
+  KID_FUN.forEach(m => { h += vidaCardHTML(m, vs); });
   h += '<div class="sect-title">🏆 Hitos del Mini-Recluta <small>logros de desarrollo: se marcan cuando los conquiste</small>' +
     '<span class="count-pill">' + hitsN + "/" + KID_HITS.length + "</span></div>";
   KID_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
@@ -4226,6 +4275,9 @@ function renderVidaSide(vs) {
   setTxt("vm-kid", "Nv." + vs.sub.kid.lvl);
   setTxt("vm-cpl", "Nv." + vs.sub.cpl.lvl);
   setTxt("vm-pow", "Nv." + vs.sub.pow.lvl);
+  setTxt("vm-men", "Nv." + vs.sub.men.lvl);
+  setTxt("vm-plan", "Nv." + vs.sub.plan.lvl);
+  setTxt("vm-orden", "Nv." + vs.sub.orden.lvl);
   setTxt("vh-lvl", "Nv." + vs.hero.lvl);
   const vhL = document.getElementById("vh-lvl");
   if (vhL) vhL.title = vs.hero.name;
@@ -4242,6 +4294,8 @@ function renderVidaSubActiva() {
   else if (st.dataset.sub === "kid") renderVidaKid(vs);
   else if (st.dataset.sub === "pow") renderVidaPow(vs);
   else if (st.dataset.sub === "men") renderVidaMen(vs);
+  else if (st.dataset.sub === "plan") renderVidaPlan(vs);
+  else if (st.dataset.sub === "orden") renderVidaOrden(vs);
   else renderVidaCpl(vs);
 }
 function renderVida() {
@@ -4255,6 +4309,8 @@ function renderVida() {
     else if (name === "kid") renderVidaKid(vs);
     else if (name === "pow") renderVidaPow(vs);
     else if (name === "men") renderVidaMen(vs);
+    else if (name === "plan") renderVidaPlan(vs);
+    else if (name === "orden") renderVidaOrden(vs);
     else renderVidaCpl(vs);
   }
 }
@@ -4276,7 +4332,7 @@ function vidaToggle(ev) {
     const i = log.indexOf(en);
     if (i >= 0) { log.splice(i, 1); done = false; } else { log.push(en); done = true; }
   } else {
-    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : cat === "pow" ? "pow" : cat === "men" ? "men" : "couple";
+    const listName = cat === "eq" ? "growth" : cat === "kid" ? "kid" : cat === "pow" ? "pow" : cat === "men" ? "men" : cat === "plan" ? "plan" : cat === "orden" ? "orden" : "couple";
     const list = gv[listName] = Array.isArray(gv[listName]) ? gv[listName] : [];
     const i = list.indexOf(id);
     if (i >= 0) { list.splice(i, 1); done = false; } else { list.push(id); done = true; }
@@ -4318,7 +4374,7 @@ function vidaToggle(ev) {
       const b = e.target.closest(".sub-tab");
       if (!b) return;
       document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
-      ["eq", "kid", "cpl", "pow", "men"].forEach(n => {
+      ["eq", "kid", "cpl", "pow", "men", "plan", "orden"].forEach(n => {
         const v = document.getElementById("vida-" + n);
         if (v) v.classList.toggle("active", b.dataset.sub === n);
       });
@@ -5132,6 +5188,154 @@ function renderVidaMen(vs) {
   h += '<div class="sect-title">🏛️ Estudio de los Grandes <small>22 misiones: figuras de datos, marketing, dinero y sabiduría humana</small>' +
     '<span class="count-pill">' + c.hits + "/" + MEN_HITS.length + "</span></div>";
   MEN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
+}
+
+/* ==========================================================
+   🎢 PLANES & AVENTURAS — frente de VIDA (cat "plan")
+   Tiempo de calidad con tu pareja y/o tu hijo: salidas,
+   planes y momentos que construyen recuerdos.
+   ========================================================== */
+const PLAN_LADDER = [
+  { xp: 0, n: "Soñador de Planes" },
+  { xp: 300, n: "Explorador de Fines de Semana" },
+  { xp: 700, n: "Creador de Momentos" },
+  { xp: 1200, n: "Aventurero en Familia" },
+  { xp: 2000, n: "Maestro de los Recuerdos" },
+  { xp: 3200, n: "🎢 Leyenda de las Aventuras" }
+];
+const PLAN_WEEK = [
+  { id: "pln-piscina", t: "🏊 Día de Piscina", d: "Ir a la piscina con tu pareja o tu hijo: nadar, jugar y relajarse.", xp: 45 },
+  { id: "pln-playa",   t: "🌊 Escapada a la Playa", d: "Día de playa: arena, mar, atardecer y desconexión total.", xp: 50 },
+  { id: "pln-parque",  t: "🌳 Picnic en el Parque", d: "Armar un picnic o merienda al aire libre y disfrutar en el parque.", xp: 40 },
+  { id: "pln-cafe",    t: "☕ Salida a Conversar", d: "Ir a un café, heladería o lugar tranquilo solo a hablar un rato, sin pantallas.", xp: 40 },
+  { id: "pln-comer",   t: "🍽️ Salir a Comer", d: "Ir a comer algo rico fuera de casa: probar un lugar nuevo o el favorito.", xp: 40 },
+  { id: "pln-cocinar", t: "👨‍🍳 Cocinar un Platillo", d: "Preparar juntos una receta especial (una nueva o la favorita) y disfrutarla.", xp: 45 },
+  { id: "pln-cine",    t: "🎬 Noche de Película", d: "Noche de cine en casa: palomitas, mantas y una peli elegida entre todos.", xp: 35 },
+  { id: "pln-caminar", t: "🚶 Caminata Sin Pantallas", d: "Caminar juntos 30+ min conversando, sin teléfonos ni distracciones.", xp: 35 },
+  { id: "pln-juegos",  t: "🎲 Noche de Juegos", d: "Juegos de mesa, cartas o videojuego cooperativo en pareja o familia.", xp: 35 },
+  { id: "pln-helado",  t: "🍦 Ruta del Helado", d: "Salir a tomar un helado o antojo y caminar mientras lo disfrutan.", xp: 30 }
+];
+const PLAN_HITS = [
+  { id: "phit-viaje",     t: "✈️ Primer Viaje Corto", d: "Hacer una escapada corta juntos (playa, montaña o pueblo cercano).", xp: 300, v: "Viaje realizado con fotos" },
+  { id: "phit-celebrar",  t: "🎉 Celebración Especial", d: "Celebrar un logro (tuyo, de tu pareja o de tu hijo) con un plan pensado a su gusto.", xp: 150, v: "Celebración realizada" },
+  { id: "phit-tradicion", t: "🌟 Tradición Familiar", d: "Crear una tradición que se repita (noche de juegos, desayuno dominical, paseo mensual).", xp: 250, v: "Tradición instalada y repetida 3+ veces" },
+  { id: "phit-dia",       t: "🗓️ Día Completo Juntos", d: "Un día entero dedicado a estar juntos: plan mañana, tarde y noche, sin obligaciones.", xp: 300, v: "Día completo vivido" },
+  { id: "phit-foto",      t: "📸 Sesión de Recuerdos", d: "Sesión de fotos (profesional o con celular) para guardar el momento.", xp: 150, v: "Fotos tomadas y guardadas" },
+  { id: "phit-anfitrion", t: "🏡 Anfitrión de Honor", d: "Recibir invitados en casa y prepararles una comida o cena memorable.", xp: 200, v: "Reunión realizada" },
+  { id: "phit-aventura",  t: "🎡 Aventura Nueva", d: "Probar una actividad nueva juntos: zoológico, parque de diversiones, canopy, karting.", xp: 250, v: "Aventura nueva vivida" },
+  { id: "phit-ritual",    t: "🗓️ Ritual de Planes", d: "Instalar el hábito: 1 plan especial por semana, 8 semanas seguidas.", xp: 300, v: "8 semanas de planes cumplidas" }
+];
+PLAN_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "plan", kind: "weekly" }; });
+PLAN_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "plan", kind: "one" }; });
+
+function vidaPlanCounts(vs) {
+  const week = vs.week, log = vs.log;
+  return {
+    week: PLAN_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length,
+    hits: (vs.gv.plan || []).length
+  };
+}
+function renderVidaPlan(vs) {
+  const el = document.getElementById("vida-plan");
+  if (!el) return;
+  const li = vs.sub.plan;
+  const c = vidaPlanCounts(vs);
+  let h = '<div class="lvl-card" style="--lc:#00e5ff"><div class="lvl-ico">🎢</div><div class="lvl-info">' +
+    '<div class="li-rank">Planes & Aventuras · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· tiempo de calidad con tu pareja y tu hijo</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (c.week > 0 ? "on" : "off") + '">🗓️ Semana: ' + c.week + "/" + PLAN_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (c.hits > 0 ? "on" : "off") + '">🏆 Aventuras: ' + c.hits + "/" + PLAN_HITS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP de Aventuras</span><span class="lm-xp">' +
+    vs.xp.plan.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (PLAN_LADDER[li.lvl] ? PLAN_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">🎢 Planes de la Semana <small>salidas y momentos de calidad · 1 vez por semana</small>' +
+    '<span class="count-pill">SEMANA ' + c.week + "/" + PLAN_WEEK.length + "</span></div>";
+  PLAN_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🏆 Grandes Aventuras <small>planes especiales que se marcan cuando se viven</small>' +
+    '<span class="count-pill">' + c.hits + "/" + PLAN_HITS.length + "</span></div>";
+  PLAN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
+  el.innerHTML = h;
+}
+
+/* ==========================================================
+   🧹 ORDEN & HOGAR — frente de VIDA (cat "orden")
+   Orden presente del día a día: cuarto, zapatos, ropa,
+   limpieza y mantenimiento del hogar.
+   ========================================================== */
+const ORDEN_LADDER = [
+  { xp: 0, n: "Recolector del Caos" },
+  { xp: 300, n: "Ordenador Novato" },
+  { xp: 700, n: "Guardián del Orden" },
+  { xp: 1200, n: "Arquitecto del Hogar" },
+  { xp: 2000, n: "Maestro del Orden" },
+  { xp: 3200, n: "🧹 Emperador del Orden" }
+];
+const ORDEN_DAILY = [
+  { id: "ord-cama",      t: "🛏️ Cama al Vuelo", d: "Tender la cama al levantarte. El primer orden del día ordena la mente.", xp: 15 },
+  { id: "ord-cuarto",    t: "📦 Cuarto en 10", d: "10 minutos acomodando el cuarto: ropa a su lugar, superficies despejadas.", xp: 15 },
+  { id: "ord-zapatos",   t: "👟 Zapatos Listos", d: "Limpiar o acomodar los zapatos del día (y dejar listos los de mañana).", xp: 10 },
+  { id: "ord-ropa",      t: "👕 Lavandería al Día", d: "Verificar que la ropa esté lavada, seca y doblada. Nada acumulado.", xp: 15 },
+  { id: "ord-platos",    t: "🍽️ Cocina en Cero", d: "Lavar y guardar los platos, dejar el fregadero limpio antes de dormir.", xp: 15 },
+  { id: "ord-escritorio",t: "🖥️ Mesa de Mando", d: "Ordenar tu escritorio o espacio de trabajo: papeles al día, cables recogidos.", xp: 15 },
+  { id: "ord-basura",    t: "🗑️ Ronda de Basura", d: "Sacar la basura y revisar que nada se esté acumulando.", xp: 10 },
+  { id: "ord-planear",   t: "📝 Plan del Mañana", d: "5 minutos planificando el día siguiente: qué harás, qué necesitas, qué ordenas.", xp: 10 }
+];
+const ORDEN_WEEK = [
+  { id: "orw-limpieza", t: "🧽 Limpieza de Zona", d: "Limpieza profunda de una zona de la casa (baño, cocina, sala o cuarto).", xp: 50 },
+  { id: "orw-closet",   t: "👗 Clóset en Forma", d: "Ordenar el clóset: doblar, descartar lo que no usas y reorganizar.", xp: 40 },
+  { id: "orw-declutter",t: "🧺 Despeja una Superficie", d: "Elegir una superficie (mesa, mesita, encimera) y dejarla completamente despejada.", xp: 30 },
+  { id: "orw-compras",  t: "🛒 Despensa y Compras", d: "Revisar la despensa, hacer la lista de compras y organizar lo que llegue.", xp: 35 },
+  { id: "orw-papeles",  t: "🗂️ Papeles al Día", d: "Ordenar facturas, recibos y documentos: archivar lo importante, botar lo demás.", xp: 35 },
+  { id: "orw-digital",  t: "📱 Orden Digital", d: "Limpiar el teléfono o la PC: fotos, correos, apps y archivos al día.", xp: 35 },
+  { id: "orw-ropa-sem", t: "👔 Ropa de la Semana", d: "Lavar, secar y doblar toda la ropa de la semana de una vez.", xp: 40 },
+  { id: "orw-mant",     t: "🔧 Mantenimiento", d: "Revisar algo que necesite arreglo en casa y resolverlo (foco, grifo, mueble).", xp: 35 }
+];
+const ORDEN_HITS = [
+  { id: "ohit-declutter", t: "🏠 Declutter Completo", d: "Depurar a fondo una habitación: donar o botar lo que ya no suma.", xp: 250, v: "Habitación depurada" },
+  { id: "ohit-donar",     t: "🎁 Donación Generosa", d: "Armar una caja de ropa u objetos en buen estado y donarlos.", xp: 150, v: "Donación entregada" },
+  { id: "ohit-oficina",   t: "🗄️ Espacio de Trabajo Ideal", d: "Montar tu espacio de trabajo definitivo: ordenado, cómodo y sin distracciones.", xp: 250, v: "Espacio armado y funcional" },
+  { id: "ohit-rutina",    t: "🌅 Rutina de Orden 30 Días", d: "Mantener el orden diario (cama + cuarto + cocina) 30 días seguidos.", xp: 400, v: "30 días de orden mantenidos" },
+  { id: "ohit-cocina",    t: "✨ Cocina Impecable", d: "Dejar la cocina impecable y mantenerla así una semana completa.", xp: 200, v: "1 semana de cocina impecable" },
+  { id: "ohit-organizar", t: "🗃️ Organizadores en Acción", d: "Instalar organizadores (cajas, ganchos, separadores) en un espacio que lo necesite.", xp: 200, v: "Espacio organizado con sistema" },
+  { id: "ohit-hogar",     t: "🔨 Mantenimiento del Hogar", d: "Completar ese mantenimiento grande pendiente (pintura, mueble, electrodoméstico).", xp: 250, v: "Mantenimiento completado" },
+  { id: "ohit-minimal",   t: "🌿 Minimalismo Práctico", d: "Reducir tus pertenencias: quedarte solo con lo que usas o amas.", xp: 300, v: "Desapego realizado con donación/venta" }
+];
+ORDEN_DAILY.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "orden", kind: "daily" }; });
+ORDEN_WEEK.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "orden", kind: "weekly" }; });
+ORDEN_HITS.forEach(o => { VIDA_OBJ[o.id] = { xp: o.xp, cat: "orden", kind: "one" }; });
+
+function vidaOrdenCounts(vs) {
+  const today = vs.today, week = vs.week, log = vs.log;
+  return {
+    today: ORDEN_DAILY.filter(m => log.indexOf(m.id + "|" + today) >= 0).length,
+    week: ORDEN_WEEK.filter(m => log.indexOf(m.id + "|" + week) >= 0).length,
+    hits: (vs.gv.orden || []).length
+  };
+}
+function renderVidaOrden(vs) {
+  const el = document.getElementById("vida-orden");
+  if (!el) return;
+  const li = vs.sub.orden;
+  const c = vidaOrdenCounts(vs);
+  let h = '<div class="lvl-card" style="--lc:#ff8a3d"><div class="lvl-ico">🧹</div><div class="lvl-info">' +
+    '<div class="li-rank">Orden & Hogar · Nivel ' + li.lvl + "</div>" +
+    '<div class="li-name">' + li.name + " <small>· orden presente: tu espacio, tu calma, tu poder</small></div>" +
+    '<div class="kid-chips"><span class="bal-pill ' + (c.today > 0 ? "on" : "off") + '">🎯 Hoy: ' + c.today + "/" + ORDEN_DAILY.length + "</span>" +
+    '<span class="bal-pill ' + (c.week > 0 ? "on" : "off") + '">🗓️ Semana: ' + c.week + "/" + ORDEN_WEEK.length + "</span>" +
+    '<span class="bal-pill ' + (c.hits > 0 ? "on" : "off") + '">🏆 Misiones: ' + c.hits + "/" + ORDEN_HITS.length + "</span></div></div>" +
+    '<div class="lvl-xpbar"><div class="progress-top"><span>XP de Orden</span><span class="lm-xp">' +
+    vs.xp.orden.toLocaleString("es-CR") + " XP · " + (li.need > 0 ? li.need + " para " + (ORDEN_LADDER[li.lvl] ? ORDEN_LADDER[li.lvl].n : "siguiente") : "¡Nivel máximo!") +
+    '</span></div><div class="bar"><span style="width:' + li.pct + '%"></span></div></div></div>';
+  h += '<div class="sect-title">🎯 Orden Diario <small>hábitos de orden presente · marca los que cumplas hoy</small>' +
+    '<span class="count-pill">HOY ' + c.today + "/" + ORDEN_DAILY.length + "</span></div>";
+  ORDEN_DAILY.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🧽 Orden de la Semana <small>limpieza y mantenimiento · 1 vez por semana</small>' +
+    '<span class="count-pill">SEMANA ' + c.week + "/" + ORDEN_WEEK.length + "</span></div>";
+  ORDEN_WEEK.forEach(m => { h += vidaCardHTML(m, vs); });
+  h += '<div class="sect-title">🏆 Misiones de Orden <small>depuraciones grandes y rutinas que transforman tu hogar</small>' +
+    '<span class="count-pill">' + c.hits + "/" + ORDEN_HITS.length + "</span></div>";
+  ORDEN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
   el.innerHTML = h;
 }
 
