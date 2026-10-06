@@ -558,6 +558,12 @@ html{-webkit-text-size-adjust:100%}
 .bar.stat.violet>span{background:linear-gradient(90deg,#7c6cff,#ff00ff);box-shadow:0 0 10px rgba(124,108,255,.5)}
 .vida-mini{display:flex;justify-content:space-between;gap:6px;margin-top:8px;font-size:.75rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
 .vida-mini b{font-family:'Orbitron',sans-serif;font-size:.78rem;color:#fff}
+.eco-xp{display:flex;flex-direction:column;gap:5px;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--tx2)}
+.eco-row{display:flex;align-items:center;gap:8px}
+.eco-row .eco-lab{flex:0 0 62px;color:var(--tx);white-space:nowrap}
+.eco-row .eco-bar{flex:1;height:6px;background:rgba(160,160,192,.14);border-radius:99px;overflow:hidden}
+.eco-row .eco-bar span{display:block;height:100%;border-radius:99px}
+.eco-row .eco-val{flex:0 0 54px;text-align:right;color:var(--glow-cyan)}
 /* --- tarjetas de nivel (legado/alianza) --- */
 .lvl-card{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(26,26,46,.8),rgba(20,20,40,.6));
   border:1px solid var(--lc, rgba(124,108,255,.4));border-radius:16px;padding:16px 18px;margin-bottom:8px;box-shadow:0 0 24px rgba(0,0,0,.3)}
@@ -1755,7 +1761,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.24</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.25</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1805,6 +1811,10 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         <span>⚔️ <b id="s-cdone">0/33</b></span>
       </div>
     </div>
+    <div class="stat-block">
+      <div class="stat-head" title="XP unificado de todas las áreas: carrera, logros, vida y capital"><span><span class="stat-ico">⚡</span>XP del Ecosistema</span><span id="eco-xp-total">0</span></div>
+      <div class="eco-xp" id="eco-xp"></div>
+    </div>
     <div class="chip-grid">
       <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
       <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
@@ -1817,7 +1827,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.24</span>
+    <span class="ver">v5.25</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1959,7 +1969,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.24 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.25 — 496 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2443,7 +2453,13 @@ const achievements = [
   { id:"ach_ch6",    ico:"👾", name:"Constructor de IA", desc:"Completar el Capítulo 6: IA Productiva", xp:150 },
   { id:"ach_ch7",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar el Capítulo 7: Empleo", xp:150 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
-  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 40 misiones de empleo", xp:700 }
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 40 misiones de empleo", xp:700 },
+  { id:"ach_xp1k",  ico:"⚡", name:"Primeros Mil", desc:"Acumular 1.000 XP totales en tu ecosistema", xp:100 },
+  { id:"ach_xp5k",  ico:"🔥", name:"Motor de XP", desc:"Acumular 5.000 XP totales", xp:200 },
+  { id:"ach_xp10k", ico:"🚀", name:"Órbita del Analista", desc:"Acumular 10.000 XP totales", xp:300 },
+  { id:"ach_xp25k", ico:"🌌", name:"Leyenda en Formación", desc:"Acumular 25.000 XP totales", xp:500 },
+  { id:"ach_xp50k", ico:"💎", name:"Ecosistema Completo", desc:"Acumular 50.000 XP totales", xp:800 },
+  { id:"ach_xp75k", ico:"👑", name:"Dios del Ecosistema", desc:"Acumular 75.000 XP totales", xp:1000 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -2934,8 +2950,12 @@ function b2bXPGain() {
 
 /* --- Recalcular todo el estado derivado --- */
 function recomputeState() {
-  const base = campaignXPGain() + dailyXPGain() + weeklyXPGain() + jobsXPGain() + b2bXPGain();
-  gameState.totalXP = base + achXPSum(gameState.unlockedAch);
+  const career = campaignXPGain() + dailyXPGain() + weeklyXPGain() + jobsXPGain() + b2bXPGain();
+  const ach = achXPSum(gameState.unlockedAch);
+  const vida = vidaCompute().total;
+  const capital = capCompute().xp;
+  gameState.xpBreakdown = { career, ach, vida, capital };
+  gameState.totalXP = career + ach + vida + capital;
   gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
   const catGain = { analyst: 0, ai: 0, employability: 0 };
   campaignAll.concat(dailyMissions, weeklyMissions).forEach(m => {
@@ -2997,7 +3017,13 @@ function achievementState() {
     ach_ch6: () => (donePer[6] || 0) >= perChapter[6],
     ach_ch7: () => (donePer[7] || 0) >= perChapter[7],
     ach_ai: () => aiAll,
-    ach_legend: () => allCampaign && allDaily && allWeekly && jobsDoneCount() >= employmentMissions.length
+    ach_legend: () => allCampaign && allDaily && allWeekly && jobsDoneCount() >= employmentMissions.length,
+    ach_xp1k:  () => gameState.totalXP >= 1000,
+    ach_xp5k:  () => gameState.totalXP >= 5000,
+    ach_xp10k: () => gameState.totalXP >= 10000,
+    ach_xp25k: () => gameState.totalXP >= 25000,
+    ach_xp50k: () => gameState.totalXP >= 50000,
+    ach_xp75k: () => gameState.totalXP >= 75000
   };
   return achievements.filter(a => c[a.id] ? c[a.id]() : false);
 }
@@ -3379,6 +3405,7 @@ function updateUI() {
   document.getElementById("time-total").textContent =
     minT === maxT ? fmtHours(minT) : fmtHours(minT) + " – " + fmtHours(maxT);
   drawRadar();
+  renderEcoXP();
   evalRewards();
   rwGearRender();
   updateEmpRank();
@@ -3388,6 +3415,28 @@ function updateUI() {
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
   document.getElementById(txtId).textContent = value + "%";
+}
+
+/* --- XP del Ecosistema: desglose unificado (carrera · logros · vida · capital) --- */
+function renderEcoXP() {
+  const b = gameState.xpBreakdown || { career: 0, ach: 0, vida: 0, capital: 0 };
+  const total = gameState.totalXP || 0;
+  const elT = document.getElementById("eco-xp-total");
+  if (elT) elT.textContent = total.toLocaleString("es-CR") + " XP";
+  const box = document.getElementById("eco-xp");
+  if (!box) return;
+  const rows = [
+    ["📜 Carrera", b.career, "#00ff88"],
+    ["🏅 Logros", b.ach, "#ffd700"],
+    ["🧬 Vida", b.vida, "#ff00ff"],
+    ["📈 Capital", b.capital, "#7c6cff"]
+  ];
+  const max = Math.max(1, ...rows.map(r => r[1]));
+  box.innerHTML = rows.map(r =>
+    '<div class="eco-row"><span class="eco-lab">' + r[0] + '</span>' +
+    '<div class="eco-bar"><span style="width:' + Math.round((r[1] / max) * 100) + '%;background:' + r[2] + '"></span></div>' +
+    '<span class="eco-val">' + r[1].toLocaleString("es-CR") + '</span></div>'
+  ).join("");
 }
 
 /* --- Radar --- */
