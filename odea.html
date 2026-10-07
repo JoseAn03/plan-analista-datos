@@ -1766,7 +1766,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.30</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.31</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1835,7 +1835,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.30</span>
+    <span class="ver">v5.31</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1989,7 +1989,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.30 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.31 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -5689,11 +5689,7 @@ function mapHubHTML() {
       "</button>";
   });
   html += '<span class="shoot s1"></span><span class="shoot s2"></span><span class="shoot s3"></span>';
-  const totalDone = gameState.completedMissions.length + gameState.completedDaily.length + gameState.completedJobs.length + gameState.completedWeekly.length + (gameState.completedB2b || []).length + gameState.unlockedAch.length;
-  const hubNote = totalDone === 0
-    ? '✨ Tu aventura empieza hoy · <b>Toca un círculo (mundo) para entrar</b>'
-    : '🗺️ Cada mundo guarda un camino de misiones · <b>Toca un círculo (mundo) para entrar</b>';
-  return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div><div class="hub-note">' + hubNote + '</div>';
+  return '<div class="hub-wrap">' + html + '<span class="frame-corners"></span><span class="fog"><i></i><i></i><i></i></span></div>';
 }
 /* --- nodos genéricos --- */
 function mnodeHTML(x, y, cfg) {
