@@ -1766,7 +1766,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.29</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.30</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1777,7 +1777,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <button class="nav-item" data-tab="campaign"><span class="ni-ico">📜</span> DATOS</button>
     <button class="nav-item" data-tab="jobs"><span class="ni-ico">💼</span> EMPLEO</button>
     <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
-    <button class="nav-item" data-tab="capital"><span class="ni-ico">📈</span> CAPITAL</button>
+    <button class="nav-item" data-tab="capital"><span class="ni-ico">👑</span> IMPERIO</button>
   </div>
   <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
   <div class="side-stats" id="side-stats">
@@ -1812,10 +1812,10 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       </div>
     </div>
     <div class="stat-block">
-      <div class="stat-head" title="Campaña IA + mercados + inversión: sube de Novato a NIVEL EXTREMO"><span><span class="stat-ico">📈</span>Capital (IA · Mercados)</span><span id="s-clvl">Nv.1</span></div>
+      <div class="stat-head" title="Tres frentes del imperio: capital, inglés e IA"><span><span class="stat-ico">👑</span>El Imperio (💰·🌎·🤖)</span><span id="s-clvl">Nv.1</span></div>
       <div class="bar stat cap"><span id="s-cbar"></span></div>
       <div class="vida-mini">
-        <span>Rango: <b id="s-crank">Novato del Capital</b></span>
+        <span>Rango: <b id="s-crank">Novato del Imperio</b></span>
         <span>⚔️ <b id="s-cdone">0/33</b></span>
       </div>
     </div>
@@ -1835,7 +1835,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.29</span>
+    <span class="ver">v5.30</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1844,7 +1844,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <button class="navb" data-tab="daily"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
   <button class="navb" data-tab="campaign"><span class="nb-ico">📜</span><span>Plan</span></button>
   <button class="navb" data-tab="vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
-  <button class="navb" data-tab="capital"><span class="nb-ico">📈</span><span>Capital</span></button>
+  <button class="navb" data-tab="capital"><span class="nb-ico">👑</span><span>Imperio</span></button>
   <button class="navb" id="bottom-inv"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
 </nav>
 
@@ -1958,7 +1958,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         <div class="lvl-ico">👑</div>
         <div class="lvl-info">
           <div class="li-rank" id="cap-rank">Nivel 1 · Tres Frentes</div>
-          <div class="li-name" id="cap-rangoname">Novato del Capital <small>· capital · inglés · IA</small></div>
+          <div class="li-name" id="cap-rangoname">Novato del Imperio <small>· capital · inglés · IA</small></div>
           <div class="kid-chips">
             <span class="bal-pill" id="cap-miss">🎯 Misiones: 0/0</span>
             <span class="bal-pill" id="cap-chap">🗺️ Mundos: 0/0</span>
@@ -1989,7 +1989,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.29 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.30 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2574,18 +2574,18 @@ const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networ
    educativo, no es consejo de inversión.
    ========================================================== */
 const CAP_LADDER = [
-  { xp: 0,     n: "Novato del Capital" },
-  { xp: 400,   n: "Aprendiz de Mercados" },
-  { xp: 1000,  n: "Principiante Informado" },
-  { xp: 2000,  n: "Explorador de Tendencias" },
-  { xp: 3200,  n: "Inversor en Formación" },
-  { xp: 4800,  n: "Analista de Capital" },
-  { xp: 7000,  n: "Inversor Consistente" },
-  { xp: 10000, n: "Estratega de Cartera" },
-  { xp: 14000, n: "Experto IA & Mercados" },
-  { xp: 20000, n: "Súper Experto" },
-  { xp: 30000, n: "Maestro del Capital" },
-  { xp: 50000, n: "🔥 NIVEL EXTREMO" }
+  { xp: 0,     n: "Novato del Imperio" },
+  { xp: 400,   n: "Aprendiz del Imperio" },
+  { xp: 1000,  n: "Ciudadano del Imperio" },
+  { xp: 2000,  n: "Explorador del Imperio" },
+  { xp: 3200,  n: "Constructor del Imperio" },
+  { xp: 4800,  n: "Estratega del Imperio" },
+  { xp: 7000,  n: "General del Imperio" },
+  { xp: 10000, n: "Señor del Imperio" },
+  { xp: 14000, n: "Maestro del Imperio" },
+  { xp: 20000, n: "Archiduque del Imperio" },
+  { xp: 30000, n: "Emperador" },
+  { xp: 50000, n: "👑 LEYENDA DEL IMPERIO" }
 ];
 
 /* 💰 Frente 1 — Bóveda del Capital (inversión) */
@@ -5664,7 +5664,7 @@ function mapHubHTML() {
     { k: "fortaleza", ico: "💼", n: nar ? "Fortaleza" : "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
     { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
-    { k: "boveda", ico: "📈", n: nar ? "Bóveda" : "Bóveda del Capital", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
+    { k: "boveda", ico: "👑", n: nar ? "Imperio" : "El Imperio", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
     { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 79, c: "#ffaa00", lit: s.b2b.pct > 0 }
   ];
   const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b };
@@ -5845,7 +5845,7 @@ function renderMapStage() {
     torre: { t: "📜 CAMPAÑA DE DATOS", s: "8 etapas · 54 misiones para conseguir tu rol de datos" },
     fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "7 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas, freelance y la Operación Relámpago" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "7 zonas: equilibrio, legado, alianza, poder, sabiduría, planes y orden" },
-    boveda: { t: "📈 BÓVEDA DEL CAPITAL", s: "3 frentes: 💰 capital · 🌎 inglés · 🤖 IA — hasta dominar tu imperio" },
+    boveda: { t: "👑 EL IMPERIO", s: "3 frentes: 💰 capital · 🌎 inglés · 🤖 IA — domina tu imperio" },
     b2b: { t: "💸 B2B — INGRESO EXTRA", s: "6 fases: fundamentos, portafolio, ingresos, inversión, marca y escalado" }
   };
   const h = H[mapSt.w] || H.null;
@@ -6167,7 +6167,7 @@ function mapSpecialModal(kind, id) {
     const vs = capFrontCompute(f);
     const img = CAP_FRONT_IMG[f.k] ? '<img src="' + CAP_FRONT_IMG[f.k] + '" alt="' + f.n + '" style="width:46px;height:46px;border-radius:50%;object-fit:contain;box-shadow:0 0 12px ' + f.c + '">' : f.ico;
     let h = '<div style="--mc:' + f.c + '"><div class="nm-head"><span class="nm-ico">' + img + '</span>' +
-      '<div><div class="nm-code">BÓVEDA DEL CAPITAL · ' + (CAP_METAFORA[f.k] || '') + '</div>' +
+      '<div><div class="nm-code">EL IMPERIO · ' + (CAP_METAFORA[f.k] || '') + '</div>' +
       '<div class="nm-title">' + f.n + '</div>' +
       '<div class="nm-sub">' + vs.ladder.name + ' · Nv.' + vs.ladder.lvl + ' · ' + vs.xp.toLocaleString('es-CR') + ' XP</div></div></div>';
     f.chapters.forEach(ch => {
