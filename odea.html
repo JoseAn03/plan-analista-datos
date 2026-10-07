@@ -29,7 +29,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODEA — App de Vida: Datos, IA, Capital y Equilibrio</title>
+<title>ODEA — App de Vida: Datos, IA, Imperio y Equilibrio</title>
 <meta name="theme-color" content="#05030a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1221,6 +1221,9 @@ header{padding:10px 14px}
 .side-stats .time-est{font-size:.72rem}
 .side-stats .ach-mini{font-size:.76rem;margin-top:10px}
 .side-stats .btn-reset{margin-top:12px;font-size:.74rem;padding:8px}
+.backup-row{display:flex;gap:8px;margin-top:10px}
+.backup-row .btn-backup{flex:1;padding:8px 6px;cursor:pointer;background:rgba(0,229,160,.08);color:#00e5a0;border:1px solid rgba(0,229,160,.35);border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:1px;transition:.2s}
+.backup-row .btn-backup:hover{background:rgba(0,229,160,.16);box-shadow:0 0 12px rgba(0,229,160,.25)}
 .side-stats .chip-grid{grid-template-columns:1fr 1fr 1fr;gap:6px;margin:12px 0 10px}
 .side-stats .mini-chip{padding:6px 2px}
 .perfil-block{display:none!important}
@@ -1766,7 +1769,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.31</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.32</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1831,11 +1834,16 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
     <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
     <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">24</span> · Ver salón ▸</div>
+    <div class="backup-row">
+      <button class="btn-backup" id="btn-export" type="button" title="Descarga tu progreso como archivo de respaldo">⬇️ RESPALDAR</button>
+      <button class="btn-backup" id="btn-import" type="button" title="Restaura tu progreso desde un respaldo">⬆️ RESTAURAR</button>
+      <input type="file" id="import-file" accept=".json,application/json" hidden>
+    </div>
     <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.31</span>
+    <span class="ver">v5.32</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1989,7 +1997,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.31 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.32 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -3674,7 +3682,7 @@ function renderEcoXP() {
     ["📜 Carrera", b.career, "#00ff88"],
     ["🏅 Logros", b.ach, "#ffd700"],
     ["🧬 Vida", b.vida, "#ff00ff"],
-    ["📈 Capital", b.capital, "#7c6cff"]
+    ["👑 Imperio", b.capital, "#7c6cff"]
   ];
   const max = Math.max(1, ...rows.map(r => r[1]));
   box.innerHTML = rows.map(r =>
@@ -4196,6 +4204,56 @@ document.getElementById("confirm-yes").addEventListener("click", () => {
 document.getElementById("confirm-layer").addEventListener("click", (e) => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove("show");
 });
+
+/* --- 💾 Respaldo: exportar/importar progreso (guardado local) --- */
+function exportSave() {
+  try {
+    const blob = new Blob([JSON.stringify(gameState, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "odea-progreso-" + todayStr() + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast("⬇️", "Respaldo descargado", "Guarda ese archivo en un lugar seguro. Para restaurarlo usa 'Restaurar'.");
+  } catch (e) {
+    toast("⚠️", "No se pudo exportar", "Inténtalo de nuevo.");
+  }
+}
+function importSave(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || typeof data !== "object" || !Array.isArray(data.completedMissions)) {
+        toast("⚠️", "Archivo no válido", "Ese archivo no parece un respaldo de ODEA.");
+        return;
+      }
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      toast("✅", "Progreso restaurado", "Recargando…");
+      setTimeout(() => location.reload(), 900);
+    } catch (e) {
+      toast("⚠️", "Archivo no válido", "No se pudo leer el respaldo.");
+    }
+  };
+  reader.readAsText(file);
+}
+(function () {
+  const bxp = document.getElementById("btn-export");
+  if (bxp) bxp.addEventListener("click", exportSave);
+  const bim = document.getElementById("btn-import");
+  const bif = document.getElementById("import-file");
+  if (bim && bif) {
+    bim.addEventListener("click", () => bif.click());
+    bif.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) importSave(e.target.files[0]);
+      e.target.value = "";
+    });
+  }
+})();
 
 /* --- ⚡ Diagnóstico de arranque: saltar lo que ya dominas --- */
 const SKILL_DIAG = [
@@ -4968,13 +5026,13 @@ const REWARDS = [
   /* 💑 Alianza */
   { id: "rw_cw5",   ico: "💞", sec: "💑 Alianza", n: "Anillo de la Alianza", cond: () => vidaPrefixCount("cpw-") >= 5 },
   { id: "rw_cg2",   ico: "🏺", sec: "💑 Alianza", n: "Copa de los Sueños", cond: () => (gameState.vida.couple || []).length >= 2 },
-  /* 📈 Capital */
-  { id: "rw_cap1",  ico: "🧭", sec: "📈 Capital", n: "Catalejo de Bronce", cond: () => capCapsDone() >= 1 },
-  { id: "rw_cap4",  ico: "🔭", sec: "📈 Capital", n: "Catalejo de Plata", cond: () => capCapsDone() >= 4 },
-  { id: "rw_cap7",  ico: "🔮", sec: "📈 Capital", n: "Orbe del Oráculo", cond: () => capCapsDone() >= 7 },
-  { id: "rw_rang3", ico: "🥉", sec: "📈 Capital", n: "Insignia de Bronce del Capital", cond: () => capCompute().ladder.lvl >= 3 },
-  { id: "rw_rang6", ico: "🥈", sec: "📈 Capital", n: "Insignia de Plata del Capital", cond: () => capCompute().ladder.lvl >= 6 },
-  { id: "rw_rang9", ico: "🥇", sec: "📈 Capital", n: "Insignia de Oro del Capital", cond: () => capCompute().ladder.lvl >= 9 },
+  /* 👑 Imperio */
+  { id: "rw_cap1",  ico: "🧭", sec: "👑 Imperio", n: "Catalejo de Bronce", cond: () => capCapsDone() >= 1 },
+  { id: "rw_cap4",  ico: "🔭", sec: "👑 Imperio", n: "Catalejo de Plata", cond: () => capCapsDone() >= 4 },
+  { id: "rw_cap7",  ico: "🔮", sec: "👑 Imperio", n: "Orbe del Oráculo", cond: () => capCapsDone() >= 7 },
+  { id: "rw_rang3", ico: "🥉", sec: "👑 Imperio", n: "Insignia de Bronce del Imperio", cond: () => capCompute().ladder.lvl >= 3 },
+  { id: "rw_rang6", ico: "🥈", sec: "👑 Imperio", n: "Insignia de Plata del Imperio", cond: () => capCompute().ladder.lvl >= 6 },
+  { id: "rw_rang9", ico: "🥇", sec: "👑 Imperio", n: "Insignia de Oro del Imperio", cond: () => capCompute().ladder.lvl >= 9 },
   { id: "rw_life",  ico: "🌟", sec: "🎖️ General", n: "Estrella del Héroe Integral", cond: () => vidaCompute().hero.lvl >= 3 },
   /* 🤖 Automation */
   { id: "rw_auto1", ico: "🤖", sec: "🛡️ Campaña", n: "Visor del Automatizador", cond: () => (gameState.completedMissions || []).length >= 8 },
@@ -6267,7 +6325,7 @@ function holoFigSVG(col, fillBody) {
 }
 function holoRender() { avatarRender("holo-stage"); }
 const RW_TIER_NAMES = ["Común", "Raro", "Épico", "Legendario"];
-const RW_SEC_COLORS = { "🛡️ Campaña": "#00ccff", "🎖️ General": "#ffd700", "⚖️ Equilibrio": "#00ff88", "👶 Legado": "#2dd4bf", "💑 Alianza": "#ff00aa", "📈 Capital": "#7c6cff" };
+const RW_SEC_COLORS = { "🛡️ Campaña": "#00ccff", "🎖️ General": "#ffd700", "⚖️ Equilibrio": "#00ff88", "👶 Legado": "#2dd4bf", "💑 Alianza": "#ff00aa", "👑 Imperio": "#7c6cff" };
 function rwTier(id) {
   if (["rw_d42", "rw_boss8", "rw_cap7", "rw_rang9"].indexOf(id) >= 0) return 3;
   if (["rw_d28", "rw_boss6", "rw_cap4", "rw_rang6", "rw_eq21", "rw_life"].indexOf(id) >= 0) return 2;
@@ -6459,7 +6517,7 @@ function holoExtras(tier) {
 /* ==========================================================
    🧑‍🚀 V5.13 — Accesorio posicionado por sección + giro manual
    ========================================================== */
-const HOLO_POS = { "🛡️ Campaña": "hombro", "🎖️ General": "pecho", "⚖️ Equilibrio": "aura", "👶 Legado": "base", "💑 Alianza": "pecho", "📈 Capital": "casco" };
+const HOLO_POS = { "🛡️ Campaña": "hombro", "🎖️ General": "pecho", "⚖️ Equilibrio": "aura", "👶 Legado": "base", "💑 Alianza": "pecho", "👑 Imperio": "casco" };
 function holoGearHTML() {
   const eq = (gameState.rewards || {}).equipped || {};
   let html = "";

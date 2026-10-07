@@ -1,0 +1,10 @@
+# backups y temporales
+*.bak
+*.tmp
+*~
+new_daily_missions.js
+
+# dependencias / entorno
+node_modules/
+.env
+.venv/
