@@ -792,8 +792,18 @@ html{-webkit-text-size-adjust:100%}
     linear-gradient(165deg,#0c0f22,#10142b 60%,#0a0c1c);
   border:1px solid rgba(140,150,220,.18);box-shadow:inset 0 0 60px rgba(0,0,0,.45)}
 .hub-wrap svg.hub-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.hub-wrap .hub-road{fill:none;stroke:#3a4470;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:7 9;opacity:.85}
-.hub-wrap .hub-road.lit{stroke:#00ff88;stroke-dasharray:none;opacity:.9;filter:drop-shadow(0 0 6px rgba(0,255,136,.8))}
+/* 🚀 Puente espacial: halcón de energía entre mundos (capas) */
+.hub-bridge path{fill:none;stroke-linecap:round}
+.hub-bridge .hb-glow{stroke:#4a5480;stroke-width:9;opacity:.16;filter:blur(4px)}
+.hub-bridge .hb-rail{stroke:#3a4470;stroke-width:5;opacity:.45}
+.hub-bridge .hb-beam{stroke:#6a7cc0;stroke-width:1.8;opacity:.6}
+.hub-bridge .hb-deck{stroke:#8896c8;stroke-width:.9;stroke-dasharray:2.5 5;opacity:.38}
+.hub-bridge .hb-flow{stroke:#cfe8ff;stroke-width:2;stroke-dasharray:3 34;opacity:0}
+.hub-bridge.lit .hb-glow{stroke:#00ff88;opacity:.5;filter:blur(6px) drop-shadow(0 0 12px rgba(0,255,136,.6))}
+.hub-bridge.lit .hb-rail{stroke:#00ff88;stroke-width:5;opacity:.9;filter:drop-shadow(0 0 5px rgba(0,255,136,.55))}
+.hub-bridge.lit .hb-beam{stroke:#eafff3;stroke-width:1.3;opacity:1;filter:drop-shadow(0 0 4px #fff)}
+.hub-bridge.lit .hb-deck{stroke:#7dffc0;stroke-dasharray:3.5 5.5;opacity:.8}
+.hub-bridge.lit .hb-flow{stroke:#fff;stroke-width:2.6;opacity:.95;filter:drop-shadow(0 0 7px #fff);animation:bridgeFlow 1.5s linear infinite}
 .mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
   background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
   border:2px solid rgba(160,160,192,.25);transition:.25s;padding:0;font-family:inherit;color:#fff}
@@ -942,7 +952,7 @@ html{-webkit-text-size-adjust:100%}
 .gd-actions .btn-neon{flex:1}
 /* Energia fluyendo por caminos iluminados (marcha de particulas) */
 @keyframes roadFlow{to{stroke-dashoffset:-42}}
-.hub-wrap .hub-road.lit{stroke-dasharray:15 7;animation:roadFlow 1.5s linear infinite}
+@keyframes bridgeFlow{to{stroke-dashoffset:-37}}
 .world-scroll .w-road.lit{stroke-dasharray:26 9;animation:roadFlow 1.3s linear infinite}
 .world-scroll .w-road.glit{stroke-dasharray:20 8;animation:roadFlow 1s linear infinite}
 /* Ambiente: estrellas y nebulosa sutil */
@@ -974,7 +984,7 @@ html{-webkit-text-size-adjust:100%}
 .world-peak .wp-ico{font-size:1.9rem;display:block;filter:drop-shadow(0 0 10px #ffd700)}
 .world-peak .wp-txt{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--tx2);letter-spacing:2px}
 @media (prefers-reduced-motion: reduce){
-  .hub-wrap .hub-road.lit,.world-scroll .w-road.lit,.world-scroll .w-road.glit{animation:none!important}
+  .hub-bridge .hb-flow,.world-scroll .w-road.lit,.world-scroll .w-road.glit{animation:none!important}
 /* ==========================================================
    🗺️ V5.2 — Personaje (avatar del recluta) + metáforas Aldea
    ========================================================== */
@@ -1011,7 +1021,7 @@ html{-webkit-text-size-adjust:100%}
 .mnode.current::after{width:78%;height:17px;background:radial-gradient(ellipse at center,rgba(255,215,0,.45),transparent 70%)}
 .mworld::after{top:calc(100% - 2px)}
 /* Caminos grabados en el terreno */
-.world-svg .w-road,.hub-svg .hub-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
+.world-svg .w-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
 /* Textura de terreno por mundo (colinas radiantes + ruido sutil) */
 .hub-wrap,.world-scroll{background:
   radial-gradient(ellipse 55% 42% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
@@ -1084,7 +1094,7 @@ html{-webkit-text-size-adjust:100%}
 .mnode.current::after{width:78%;height:17px;background:radial-gradient(ellipse at center,rgba(255,215,0,.45),transparent 70%)}
 .mworld::after{top:calc(100% - 2px)}
 /* Caminos grabados en el terreno */
-.world-svg .w-road,.hub-svg .hub-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
+.world-svg .w-road{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
 /* Textura de terreno por mundo (colinas radiantes + ruido sutil) */
 .hub-wrap,.world-scroll{background:
   radial-gradient(ellipse 55% 42% at 50% 14%, rgba(0,255,136,.10), transparent 70%),
@@ -1738,6 +1748,7 @@ body.perf-low .world-scroll::after,
 body.perf-low .hub-wrap::before,
 body.perf-low .world-scroll::before{display:none!important}
 body.perf-low .hub-svg .orbit{animation:none!important}
+body.perf-low .hub-bridge .hb-flow{animation:none!important}
 body.perf-low .mworld,body.perf-low .mnode{box-shadow:none!important}
 body.perf-low .av2-aura{animation:none!important;opacity:.6}
 body.perf-low .app-side{backdrop-filter:none}
@@ -1849,7 +1860,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.37</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.38</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1924,7 +1935,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.37</span>
+    <span class="ver">v5.38</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2079,7 +2090,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.37 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.38 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -6085,7 +6096,14 @@ function mapHubHTML() {
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
   W.slice(1).forEach(ww => {
     const lit = ww.lit;
-    svg += '<path class="hub-road' + (lit ? " lit" : "") + '" d="M50 20 Q ' + (ww.x > 50 ? 58 : 42) + " " + ((ww.y + 20) / 2) + " " + ww.x + " " + ww.y + '"/>';
+    const d = "M50 20 Q " + (ww.x > 50 ? 58 : 42) + " " + ((ww.y + 20) / 2) + " " + ww.x + " " + ww.y;
+    svg += '<g class="hub-bridge' + (lit ? " lit" : "") + '">'
+      + '<path class="hb-glow" d="' + d + '"/>'
+      + '<path class="hb-rail" d="' + d + '"/>'
+      + '<path class="hb-beam" d="' + d + '"/>'
+      + '<path class="hb-deck" d="' + d + '"/>'
+      + '<path class="hb-flow" d="' + d + '"/>'
+      + '</g>';
   });
   svg += '<ellipse class="orbit o1" cx="50" cy="46" rx="41" ry="26"/><ellipse class="orbit o2" cx="50" cy="46" rx="31" ry="18"/>';
   svg += "</svg>";
