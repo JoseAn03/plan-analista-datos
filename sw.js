@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.38-20261006';
+const CACHE_VERSION = 'odea-v5.39-20261006';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -36,7 +36,8 @@ const SHELL = [
   './assets/worlds/torre.png',
   './assets/worlds/aldea.png',
   './assets/worlds/boveda.png',
-  './assets/worlds/b2b.png'
+  './assets/worlds/b2b.png',
+  './assets/bg/cyber-city.png'
 ];
 
 self.addEventListener('install', (e) => {

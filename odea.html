@@ -792,18 +792,18 @@ html{-webkit-text-size-adjust:100%}
     linear-gradient(165deg,#0c0f22,#10142b 60%,#0a0c1c);
   border:1px solid rgba(140,150,220,.18);box-shadow:inset 0 0 60px rgba(0,0,0,.45)}
 .hub-wrap svg.hub-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-/* 🚀 Puente espacial: halcón de energía entre mundos (capas) */
+/* 🚀 Puente espacial: haz de energía cyberpunk entre mundos (capas) */
 .hub-bridge path{fill:none;stroke-linecap:round}
-.hub-bridge .hb-glow{stroke:#4a5480;stroke-width:9;opacity:.16;filter:blur(4px)}
-.hub-bridge .hb-rail{stroke:#3a4470;stroke-width:5;opacity:.45}
-.hub-bridge .hb-beam{stroke:#6a7cc0;stroke-width:1.8;opacity:.6}
-.hub-bridge .hb-deck{stroke:#8896c8;stroke-width:.9;stroke-dasharray:2.5 5;opacity:.38}
-.hub-bridge .hb-flow{stroke:#cfe8ff;stroke-width:2;stroke-dasharray:3 34;opacity:0}
-.hub-bridge.lit .hb-glow{stroke:#00ff88;opacity:.5;filter:blur(6px) drop-shadow(0 0 12px rgba(0,255,136,.6))}
-.hub-bridge.lit .hb-rail{stroke:#00ff88;stroke-width:5;opacity:.9;filter:drop-shadow(0 0 5px rgba(0,255,136,.55))}
-.hub-bridge.lit .hb-beam{stroke:#eafff3;stroke-width:1.3;opacity:1;filter:drop-shadow(0 0 4px #fff)}
-.hub-bridge.lit .hb-deck{stroke:#7dffc0;stroke-dasharray:3.5 5.5;opacity:.8}
-.hub-bridge.lit .hb-flow{stroke:#fff;stroke-width:2.6;opacity:.95;filter:drop-shadow(0 0 7px #fff);animation:bridgeFlow 1.5s linear infinite}
+.hub-bridge .hb-glow{stroke:#3a2a5e;stroke-width:9;opacity:.16;filter:blur(4px)}
+.hub-bridge .hb-rail{stroke:#2a1f4d;stroke-width:5;opacity:.45}
+.hub-bridge .hb-beam{stroke:#5a4a9e;stroke-width:1.8;opacity:.6}
+.hub-bridge .hb-deck{stroke:#6a5ac0;stroke-width:.9;stroke-dasharray:2.5 5;opacity:.38}
+.hub-bridge .hb-flow{stroke:#b79aff;stroke-width:2;stroke-dasharray:3 34;opacity:0}
+.hub-bridge.lit .hb-glow{stroke:#ff2bd6;opacity:.55;filter:blur(6px) drop-shadow(0 0 14px rgba(255,43,214,.75))}
+.hub-bridge.lit .hb-rail{stroke:#00e5ff;stroke-width:5;opacity:.95;filter:drop-shadow(0 0 6px rgba(0,229,255,.6))}
+.hub-bridge.lit .hb-beam{stroke:#ffffff;stroke-width:1.3;opacity:1;filter:drop-shadow(0 0 5px #fff)}
+.hub-bridge.lit .hb-deck{stroke:#ff2bd6;stroke-dasharray:3.5 5.5;opacity:.9}
+.hub-bridge.lit .hb-flow{stroke:#fff;stroke-width:2.6;opacity:.95;filter:drop-shadow(0 0 8px #00e5ff);animation:bridgeFlow 1.2s linear infinite}
 .mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
   background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
   border:2px solid rgba(160,160,192,.25);transition:.25s;padding:0;font-family:inherit;color:#fff}
@@ -1519,7 +1519,8 @@ header{padding:10px 14px}
   radial-gradient(1.6px 1.6px at 34% 92%, rgba(200,230,255,.6), transparent 60%),
   radial-gradient(1.2px 1.2px at 66% 96%, rgba(255,255,255,.5), transparent 60%),
   radial-gradient(ellipse 92% 72% at 50% 50%, transparent 55%, rgba(0,0,0,.5) 100%),
-  linear-gradient(180deg,#070a1e,#0a0e28 46%,#040611)}
+  linear-gradient(180deg, rgba(7,10,30,.5), rgba(10,14,40,.42) 46%, rgba(4,6,17,.3)),
+  url('assets/bg/cyber-city.png') center bottom/cover no-repeat}
 /* Mundos como PLANETAS esféricos */
 .mworld{background:radial-gradient(circle at 33% 26%, color-mix(in srgb,var(--mc) 62%,#fff) 0%, color-mix(in srgb,var(--mc) 78%,#000) 42%, #05081a 78%);
   border-color:color-mix(in srgb,var(--mc) 60%,transparent);
@@ -1860,7 +1861,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.38</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.39</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1935,7 +1936,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.38</span>
+    <span class="ver">v5.39</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2090,7 +2091,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.38 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.39 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
