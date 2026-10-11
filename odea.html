@@ -794,16 +794,16 @@ html{-webkit-text-size-adjust:100%}
 .hub-wrap svg.hub-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 /* 🚀 Puente espacial: haz de energía cyberpunk entre mundos (capas) */
 .hub-bridge path{fill:none;stroke-linecap:round}
-.hub-bridge .hb-glow{stroke:#3a2a5e;stroke-width:9;opacity:.16;filter:blur(4px)}
+.hub-bridge .hb-glow{stroke:#3a2a5e;stroke-width:9;opacity:.14;filter:blur(2px)}
 .hub-bridge .hb-rail{stroke:#2a1f4d;stroke-width:5;opacity:.45}
 .hub-bridge .hb-beam{stroke:#5a4a9e;stroke-width:1.8;opacity:.6}
 .hub-bridge .hb-deck{stroke:#6a5ac0;stroke-width:.9;stroke-dasharray:2.5 5;opacity:.38}
 .hub-bridge .hb-flow{stroke:#b79aff;stroke-width:2;stroke-dasharray:3 34;opacity:0}
-.hub-bridge.lit .hb-glow{stroke:#ff2bd6;opacity:.55;filter:blur(6px) drop-shadow(0 0 14px rgba(255,43,214,.75))}
+.hub-bridge.lit .hb-glow{stroke:#ff2bd6;opacity:.5;filter:blur(3px) drop-shadow(0 0 10px rgba(255,43,214,.6))}
 .hub-bridge.lit .hb-rail{stroke:#00e5ff;stroke-width:5;opacity:.95;filter:drop-shadow(0 0 6px rgba(0,229,255,.6))}
 .hub-bridge.lit .hb-beam{stroke:#ffffff;stroke-width:1.3;opacity:1;filter:drop-shadow(0 0 5px #fff)}
 .hub-bridge.lit .hb-deck{stroke:#ff2bd6;stroke-dasharray:3.5 5.5;opacity:.9}
-.hub-bridge.lit .hb-flow{stroke:#fff;stroke-width:2.6;opacity:.95;filter:drop-shadow(0 0 8px #00e5ff);animation:bridgeFlow 1.2s linear infinite}
+.hub-bridge.lit .hb-flow{stroke:#fff;stroke-width:2.4;opacity:.55;stroke-dasharray:none;filter:drop-shadow(0 0 6px #00e5ff)}
 .mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
   background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
   border:2px solid rgba(160,160,192,.25);transition:.25s;padding:0;font-family:inherit;color:#fff}
@@ -1051,7 +1051,7 @@ html{-webkit-text-size-adjust:100%}
   radial-gradient(ellipse 40% 34% at 78% 60%, rgba(0,255,136,.06), transparent 70%),
   linear-gradient(180deg,#0a1a12,#0d2418 45%,#081710)}
 .world-scroll::before,.hub-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='1'/></svg>")}
+  background-image:none}
 .hub-wrap::after,.world-scroll::after{z-index:1}
 /* Aplanar bajo reduced-motion */
 @media (prefers-reduced-motion: reduce){
@@ -1124,7 +1124,7 @@ html{-webkit-text-size-adjust:100%}
   radial-gradient(ellipse 40% 34% at 78% 60%, rgba(0,255,136,.06), transparent 70%),
   linear-gradient(180deg,#0a1a12,#0d2418 45%,#081710)}
 .world-scroll::before,.hub-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='1'/></svg>")}
+  background-image:none}
 .hub-wrap::after,.world-scroll::after{z-index:1}
 /* Aplanar bajo reduced-motion */
 @media (prefers-reduced-motion: reduce){
@@ -1437,7 +1437,7 @@ header{padding:10px 14px}
   filter:drop-shadow(0 0 6px rgba(0,255,136,.8))}
 /* Niebla atmosférica en movimiento */
 .fog{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:inherit}
-.fog i{position:absolute;display:block;border-radius:50%;filter:blur(18px);opacity:.55}
+.fog i{position:absolute;display:block;border-radius:50%;filter:blur(10px);opacity:.5}
 .fog i:nth-child(1){left:-14%;top:12%;width:72%;height:36%;
   background:radial-gradient(ellipse,rgba(90,200,255,.20),transparent 70%);animation:fogA 26s ease-in-out infinite alternate}
 .fog i:nth-child(2){right:-16%;top:52%;width:84%;height:42%;
@@ -1466,7 +1466,7 @@ header{padding:10px 14px}
 .mnode.current{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--mc) 70%,transparent))}
 /* Estrellas del hub con brillo de capa (canvas-less) */
 @media (max-width:999px){
-  .fog i{filter:blur(8px);opacity:.4}
+  .fog i{filter:blur(5px);opacity:.35}
   #node-body .mission:nth-child(n+8){animation-delay:.28s}
 }
 
@@ -1861,7 +1861,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.39</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.40</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1936,7 +1936,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.39</span>
+    <span class="ver">v5.40</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2091,7 +2091,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.39 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.40 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
