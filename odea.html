@@ -670,6 +670,65 @@ html{-webkit-text-size-adjust:100%}
 .pk-btn.in{background:var(--glow-green);color:#04120b;border-color:var(--glow-green)}
 .planner-back{display:block;margin:14px auto 0}
 #planner-close{position:absolute;top:12px;right:12px}
+/* 🍅📓💼🧊📊 Fase 4 — ciclo de funciones nuevas */
+.diary-card-inner{margin-bottom:14px;padding:14px 16px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(124,108,255,.08),rgba(0,204,255,.05));border:1px solid rgba(124,108,255,.3)}
+.diary-head{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:1px;color:#fff;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.diary-state{font-size:.66rem;color:var(--glow-green)}
+.diary-text{font-size:.86rem;color:#fff;line-height:1.5;margin:0 0 10px;white-space:pre-wrap}
+#diary-card textarea{width:100%;min-height:64px;background:rgba(10,10,26,.7);border:1px solid rgba(140,150,220,.3);
+  border-radius:10px;color:#fff;padding:10px;font-family:inherit;font-size:.84rem;resize:vertical}
+#diary-card textarea:focus{outline:2px solid var(--glow-cyan);outline-offset:2px}
+#diary-card .btn-neon{margin-top:8px}
+/* Tracker de postulaciones */
+.apps-wrap{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(255,170,0,.05);border:1px solid rgba(255,170,0,.3)}
+.apps-head{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:1px;color:#fff;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.apps-head span{color:var(--tx2);font-size:.68rem;font-weight:400}
+.apps-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.apps-form input,.apps-form select{flex:1;min-width:110px;background:rgba(10,10,26,.7);border:1px solid rgba(140,150,220,.3);
+  border-radius:8px;color:#fff;padding:8px 10px;font-family:inherit;font-size:.8rem}
+.apps-form input:focus,.apps-form select:focus{outline:2px solid var(--glow-amber);outline-offset:2px}
+.app-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:rgba(10,10,26,.5);border:1px solid rgba(140,150,220,.14);margin-bottom:6px}
+.app-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.app-body b{font-size:.82rem;color:#fff}
+.app-body small{font-size:.66rem;color:var(--tx2)}
+.app-status{font-size:.66rem;padding:2px 8px;border-radius:99px;border:1px solid var(--sc,#aaa);color:var(--sc,#aaa)}
+.app-del{cursor:pointer;background:transparent;border:none;color:var(--glow-red);font-size:.9rem}
+/* Congelador en tienda */
+.freeze-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;
+  border-radius:12px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.3)}
+.freeze-info{font-size:.78rem;color:#fff;line-height:1.4}
+.freeze-info small{display:block;color:var(--tx2);font-size:.66rem}
+/* Pomodoro */
+#focus-layer{position:fixed;inset:0;z-index:128;display:none;align-items:center;justify-content:center;
+  padding:16px;background:rgba(5,3,10,.92);backdrop-filter:blur(6px);overflow-y:auto}
+#focus-layer.show{display:flex}
+.focus-modal{max-width:440px;width:100%;background:linear-gradient(165deg,#1a1428,#100e1c);border:1px solid rgba(255,170,0,.4);
+  border-radius:20px;padding:20px;position:relative;box-shadow:0 0 60px rgba(255,170,0,.15);text-align:center;animation:fadeSlide .3s ease}
+.focus-head h2{font-family:'Orbitron',sans-serif;color:var(--glow-amber);letter-spacing:1.5px;font-size:1.1rem;text-shadow:0 0 16px rgba(255,170,0,.4)}
+.focus-sub{font-size:.78rem;color:var(--tx2);margin:4px 0 12px}
+.focus-domains{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.focus-dom{cursor:pointer;padding:6px 10px;border-radius:8px;border:1px solid rgba(140,150,220,.25);
+  background:rgba(10,10,26,.5);color:var(--tx2);font-size:.7rem;font-family:'Orbitron',sans-serif;letter-spacing:.5px}
+.focus-dom.active{color:#04120b;background:var(--fc,#ffaa00);border-color:var(--fc,#ffaa00)}
+.focus-timer{font-family:'Orbitron',sans-serif;font-size:3rem;font-weight:700;color:#fff;text-shadow:0 0 20px rgba(255,170,0,.5);margin:6px 0}
+.focus-mode{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--glow-amber);margin-bottom:14px}
+.focus-actions{display:flex;gap:10px;justify-content:center}
+.focus-actions .btn-neon{flex:1;max-width:160px}
+.focus-sessions{font-size:.68rem;color:var(--tx2);margin-top:12px}
+#focus-close{position:absolute;top:12px;right:12px}
+/* Mapa de calor */
+.heatmap-card{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.25)}
+.heatmap-head{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:1px;color:#fff;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.heatmap-head span{color:var(--tx2);font-size:.66rem;font-weight:400}
+.heatmap-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.hm-cell{aspect-ratio:1;border-radius:3px;background:rgba(140,150,220,.12);min-height:10px}
+.hm-cell.l1{background:rgba(0,255,136,.25)}
+.hm-cell.l2{background:rgba(0,255,136,.5)}
+.hm-cell.l3{background:rgba(0,255,136,.75)}
+.hm-cell.l4{background:#00ff88}
+.heatmap-foot{font-size:.62rem;color:var(--tx2);margin-top:8px;display:flex;align-items:center;gap:4px}
+.heatmap-foot .hm-cell{width:10px;height:10px;min-height:0;aspect-ratio:auto}
 .reto-card{margin-top:14px;padding:14px 16px;border-radius:14px;position:relative;overflow:hidden;
   background:linear-gradient(135deg,rgba(255,170,0,.12),rgba(255,51,85,.08));
   border:1px dashed rgba(255,170,0,.5)}
@@ -1927,7 +1986,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.47</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.48</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1992,7 +2051,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.47</span>
+    <span class="ver" id="ver-badge">v5.48</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2017,6 +2076,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="hud">
     <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar" aria-label="Sonido: activar o silenciar">🔊</button>
+    <button class="snd-btn" id="focus-btn" title="Modo enfoque (Pomodoro 25/5)" aria-label="Modo enfoque Pomodoro">🍅</button>
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
       <span class="flame">🔥</span> <span id="streak-n">0</span><span id="streak-mult"></span><span id="streak-shield"></span>
     <span class="coin-chip" title="Monedas: completá misiones para ganarlas y gastalas en la tienda">🪙 <span class="coin-num" id="coin-head">0</span></span>
@@ -2048,6 +2108,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     </section>
     <section class="view" id="view-daily">
       <div id="agenda-hoy"></div>
+      <div id="diary-card"></div>
       <div id="daily-hero"></div>
       <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
@@ -2063,6 +2124,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <!-- ============ VISTA 1.5: MI PLAN (planner personal) ============ -->
     <section class="view" id="view-planner">
       <div id="planner-wrap"></div>
+      <div id="heatmap-wrap"></div>
     </section>
 
     <!-- ============ VISTA 2: CAMPAÑA ============ -->
@@ -2084,6 +2146,21 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         </div>
       </div>
       <div id="jobs-root"></div>
+      <div class="apps-wrap">
+        <div class="apps-head">📋 Tracker de postulaciones <span id="apps-meta">0/5 esta semana</span></div>
+        <div class="apps-form">
+          <input id="app-empresa" placeholder="Empresa" maxlength="40" aria-label="Empresa">
+          <input id="app-fecha" type="date" aria-label="Fecha">
+          <select id="app-estado" aria-label="Estado">
+            <option value="enviada">📤 Enviada</option>
+            <option value="entrevista">🤝 Entrevista</option>
+            <option value="oferta">🎉 Oferta</option>
+            <option value="cerrada">🚫 Cerrada</option>
+          </select>
+          <button class="btn-neon" id="app-add" aria-label="Agregar postulación">➕</button>
+        </div>
+        <div id="apps-list"></div>
+      </div>
     </section>
 
     <!-- ============ VISTA 4: VIDA (side quests del Héroe Integral) ============ -->
@@ -2154,7 +2231,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.47</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.48</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2211,7 +2288,27 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <span class="bal-pill">⚔️ Poder de equipo: <b id="shop-power">0</b></span>
     </div>
     <div class="shop-grid" id="shop-grid"></div>
+    <div class="freeze-row">
+      <div class="freeze-info">🧊 Congelador de racha<small>Protege un día perdido sin romper tu racha. Máx 2.</small></div>
+      <button class="shop-btn" id="shop-freeze" aria-label="Comprar congelador de racha">🪙 150 · <span id="freeze-count">0</span>/2</button>
+    </div>
     <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
+  </div>
+</div>
+
+<div id="focus-layer">
+  <div class="focus-modal">
+    <button class="close-x" id="focus-close" aria-label="Cerrar">✕</button>
+    <div class="focus-head"><h2>🍅 MODO ENFOQUE</h2></div>
+    <p class="focus-sub">Elegí un dominio, enfocate 25 minutos y ganá XP.</p>
+    <div class="focus-domains" id="focus-domains"></div>
+    <div class="focus-timer" id="focus-mmss">25:00</div>
+    <div class="focus-mode" id="focus-mode">🍅 ENFOQUE 25:00</div>
+    <div class="focus-actions">
+      <button class="btn-neon" id="focus-toggle">▶ INICIAR</button>
+      <button class="btn-neon ghost" id="focus-reset">↺ REINICIAR</button>
+    </div>
+    <div class="focus-sessions">Sesiones de hoy: <span id="focus-sessions">0</span></div>
   </div>
 </div>
 
@@ -3236,7 +3333,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.47"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.48"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3313,7 +3410,11 @@ let gameState = {
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
   rewards: { unlocked: [], queue: [], equipped: {} }, // 🎒 arsenal del héroe
-  planner: { items: [] } // 🗓️ plan personal (refs {f, id} ordenadas)
+  planner: { items: [] }, // 🗓️ plan personal (refs {f, id} ordenadas)
+  diary: { date: null, text: "" }, // 📓 diario de una línea (1/día)
+  freezers: 0,                     // 🧊 congeladores de racha (máx 2)
+  applications: [],                // 💼 tracker de postulaciones
+  focus: { log: [], date: null }   // 🍅 sesiones de enfoque (pomodoro)
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -3413,6 +3514,12 @@ function loadGame() {
           plannerCatalog().some(function (c) { return c.f === it.f && c.id === it.id; });
       }) : []
     };
+    const di2 = data.diary || {};
+    gameState.diary = { date: (typeof di2.date === "string") ? di2.date : null, text: (typeof di2.text === "string") ? di2.text : "" };
+    gameState.freezers = (typeof data.freezers === "number" && data.freezers >= 0) ? Math.min(2, data.freezers) : 0;
+    gameState.applications = Array.isArray(data.applications) ? data.applications : [];
+    const fc2 = data.focus || {};
+    gameState.focus = { log: Array.isArray(fc2.log) ? fc2.log : [], date: (typeof fc2.date === "string") ? fc2.date : null };
     return true;
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
@@ -3424,7 +3531,8 @@ function resetGame() {
     gods: {}, shop: { spent: 0, owned: [], equipped: {} },
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: {} },
-    planner: { items: [] }
+    planner: { items: [] },
+    diary: { date: null, text: "" }, freezers: 0, applications: [], focus: { log: [], date: null }
   };
   selectedDay = 1;
   renderAll();
@@ -3455,6 +3563,35 @@ function jobsXPGain() {
 function b2bXPGain() {
   return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
 }
+/* --- 🍅 Enfoque (pomodoro) --- */
+function focusXPGain(id) {
+  const f = gameState.focus || {};
+  return (f.log || []).filter(function (s) { return s.d === id; }).reduce(function (s, x) { return s + x.xp; }, 0);
+}
+function focusTotalXP() {
+  const f = gameState.focus || {};
+  return (f.log || []).reduce(function (s, x) { return s + x.xp; }, 0);
+}
+/* --- 📓 Diario de una línea --- */
+function diaryXPGain() {
+  const d = gameState.diary || {};
+  return (d.date === todayStr() && d.text && String(d.text).trim()) ? 15 : 0;
+}
+/* --- 🧊 Congelador de racha --- */
+function shopBuyFreezer() {
+  if ((gameState.freezers || 0) >= 2) { toast("🧊", "Máximo alcanzado", "Ya tienes 2 congeladores en inventario."); return; }
+  const price = 150;
+  const bal = coinsBalance();
+  if (bal < price) { playSfx("error"); toast("🪙", "No te alcanza", "Te faltan " + (price - bal).toLocaleString("es-CR") + " monedas."); return; }
+  shopState().spent = (shopState().spent || 0) + price;
+  gameState.freezers = (gameState.freezers || 0) + 1;
+  ODEA.bus.emit("coins.spent", { id: "freezer", price: price });
+  playSfx("coin");
+  toast("🧊", "¡Congelador comprado!", "Tienes " + gameState.freezers + "/2. Protege un día perdido de racha.");
+  saveGame();
+  shopRender();
+  shopCoinSync();
+}
 /* ==========================================================
    🧩 FASE 3 — Dominios como configuración
    Cada dominio es un objeto: id, n (nombre), s (abrev. radar),
@@ -3462,12 +3599,12 @@ function b2bXPGain() {
    Añadir/editar un dominio = añadir/editar un objeto aquí.
    ========================================================== */
 const DOMAINS = [
-  { id:"carrera",   n:"Carrera",   s:"Carrera",   ico:"💼", c:"#ffaa00", xp: function(){ return jobsXPGain(); },                     max: function(){ return sumXP(employmentMissions); } },
-  { id:"estudio",   n:"Estudio",   s:"Estudio",   ico:"📚", c:"#00ff88", xp: function(){ return dailyXPGain() + weeklyXPGain(); },   max: function(){ return sumXP(dailyMissions) + sumXP(weeklyMissions); } },
-  { id:"proyectos", n:"Proyectos", s:"Proyectos", ico:"🛠️", c:"#00ccff", xp: function(){ return campaignXPGain(); },                  max: function(){ return sumXP(campaignAll); } },
-  { id:"negocio",   n:"Negocio",   s:"Negocio",   ico:"💸", c:"#7c6cff", xp: function(){ return b2bXPGain(); },                       max: function(){ return sumXP(B2B_MISSIONS); } },
-  { id:"cuerpo",    n:"Cuerpo",    s:"Cuerpo",    ico:"🧬", c:"#ff00ff", xp: function(){ return vidaCompute().total; },               max: function(){ return LIFE_LADDER[LIFE_LADDER.length-1].xp; } },
-  { id:"capital",   n:"Capital",   s:"Capital",   ico:"💰", c:"#ffd700", xp: function(){ return capCompute().xp; },                   max: function(){ return CAP_LADDER[CAP_LADDER.length-1].xp; } }
+  { id:"carrera",   n:"Carrera",   s:"Carrera",   ico:"💼", c:"#ffaa00", xp: function(){ return jobsXPGain() + focusXPGain("carrera"); },                                  max: function(){ return sumXP(employmentMissions); } },
+  { id:"estudio",   n:"Estudio",   s:"Estudio",   ico:"📚", c:"#00ff88", xp: function(){ return dailyXPGain() + weeklyXPGain() + focusXPGain("estudio"); },                max: function(){ return sumXP(dailyMissions) + sumXP(weeklyMissions); } },
+  { id:"proyectos", n:"Proyectos", s:"Proyectos", ico:"🛠️", c:"#00ccff", xp: function(){ return campaignXPGain() + focusXPGain("proyectos"); },                              max: function(){ return sumXP(campaignAll); } },
+  { id:"negocio",   n:"Negocio",   s:"Negocio",   ico:"💸", c:"#7c6cff", xp: function(){ return b2bXPGain() + focusXPGain("negocio"); },                                   max: function(){ return sumXP(B2B_MISSIONS); } },
+  { id:"cuerpo",    n:"Cuerpo",    s:"Cuerpo",    ico:"🧬", c:"#ff00ff", xp: function(){ return vidaCompute().total + focusXPGain("cuerpo") + diaryXPGain(); },            max: function(){ return LIFE_LADDER[LIFE_LADDER.length-1].xp; } },
+  { id:"capital",   n:"Capital",   s:"Capital",   ico:"💰", c:"#ffd700", xp: function(){ return capCompute().xp + focusXPGain("capital"); },                                max: function(){ return CAP_LADDER[CAP_LADDER.length-1].xp; } }
 ];
 function sumXP(list) { return (list || []).reduce(function (s, m) { return s + (m.xp || 0); }, 0); }
 function domainLevels() {
@@ -3496,8 +3633,10 @@ function recomputeState() {
   const ach = achXPSum(gameState.unlockedAch);
   const vida = vidaCompute().total;
   const capital = capCompute().xp;
-  gameState.xpBreakdown = { career, ach, vida, capital };
-  gameState.totalXP = career + ach + vida + capital;
+  const focus = focusTotalXP();
+  const diary = diaryXPGain();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary };
+  gameState.totalXP = career + ach + vida + capital + focus + diary;
   gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
   gameState.stats = { domains: domainLevels() };
 }
@@ -4048,8 +4187,195 @@ function plannerExportIcs() {
     if (b) plannerAdd(b.dataset.pkAdd, b.dataset.pkId);
   });
 })();
+const APP_STATUSES = {
+  enviada: { n: "📤 Enviada", c: "#00ccff" },
+  entrevista: { n: "🤝 Entrevista", c: "#ffaa00" },
+  oferta: { n: "🎉 Oferta", c: "#00ff88" },
+  cerrada: { n: "🚫 Cerrada", c: "#ff3355" }
+};
+/* --- 📓 Diario de una línea --- */
+function renderDiary() {
+  const el = document.getElementById("diary-card");
+  if (!el) return;
+  const d = gameState.diary || (gameState.diary = { date: null, text: "" });
+  const done = d.date === todayStr() && d.text && String(d.text).trim();
+  el.innerHTML =
+    '<div class="diary-card-inner">' +
+      '<div class="diary-head">📓 Diario de una línea<span class="diary-state">' + (done ? "✓ guardado hoy" : "+15 XP hoy") + '</span></div>' +
+      (done
+        ? '<p class="diary-text">' + escapeHtml(d.text) + '</p>' +
+          '<button class="btn-neon ghost" id="diary-edit">✏️ Editar</button>'
+        : '<textarea id="diary-input" maxlength="220" placeholder="Una línea sobre tu día: qué lograste, qué aprendiste, por qué estás agradecido…"></textarea>' +
+          '<button class="btn-neon" id="diary-save">💾 Guardar (+15 XP)</button>') +
+    '</div>';
+  const sv = document.getElementById("diary-save");
+  if (sv) sv.addEventListener("click", function () {
+    const t = document.getElementById("diary-input").value.trim();
+    if (!t) { toast("✍️", "Escribe algo", "Aunque sea una línea."); return; }
+    gameState.diary = { date: todayStr(), text: t };
+    ODEA.bus.emit("diary.written", { xp: 15 });
+    saveGame(); recomputeState(); updateUI(); renderDiary();
+    toast("📓", "Diario guardado", "+15 XP para tu dominio Cuerpo.");
+  });
+  const ed = document.getElementById("diary-edit");
+  if (ed) ed.addEventListener("click", function () { gameState.diary.text = ""; renderDiary(); });
+}
+/* --- 🍅 Pomodoro --- */
+let focusRunning = false, focusDomain = "estudio", focusMode = "focus", focusEnd = 0, focusTick = null, focusRemaining = 25 * 60;
+function focusOpen() { document.getElementById("focus-layer").classList.add("show"); renderFocus(); }
+function focusClose() { document.getElementById("focus-layer").classList.remove("show"); if (focusTick) { clearInterval(focusTick); focusTick = null; } focusRunning = false; }
+function fmtFocus(s) { const m = Math.floor(s / 60), ss = s % 60; return String(m).padStart(2, "0") + ":" + String(ss).padStart(2, "0"); }
+function focusSessionsToday() {
+  const f = gameState.focus || {};
+  const t = todayStr();
+  return (f.log || []).filter(function (x) { return x.date === t; }).length;
+}
+function renderFocus() {
+  const sel = document.getElementById("focus-domains");
+  if (sel) sel.innerHTML = DOMAINS.map(function (d) {
+    return '<button class="focus-dom' + (d.id === focusDomain ? " active" : "") + '" data-fd="' + d.id + '" style="--fc:' + d.c + '">' + d.ico + " " + d.s + '</button>';
+  }).join("");
+  const mm = document.getElementById("focus-mmss");
+  if (mm) mm.textContent = fmtFocus(focusRemaining);
+  const mode = document.getElementById("focus-mode");
+  if (mode) mode.textContent = focusMode === "focus" ? "🍅 ENFOQUE 25:00" : "☕ DESCANSO 5:00";
+  const btn = document.getElementById("focus-toggle");
+  if (btn) btn.textContent = focusRunning ? "⏸ PAUSA" : "▶ INICIAR";
+  const ss = document.getElementById("focus-sessions");
+  if (ss) ss.textContent = focusSessionsToday();
+}
+function focusToggle() {
+  if (focusRunning) { clearInterval(focusTick); focusTick = null; focusRunning = false; renderFocus(); return; }
+  focusRunning = true;
+  focusEnd = Date.now() + focusRemaining * 1000;
+  focusTick = setInterval(function () {
+    focusRemaining = Math.max(0, Math.round((focusEnd - Date.now()) / 1000));
+    if (focusRemaining <= 0) focusComplete();
+    renderFocus();
+  }, 500);
+  renderFocus();
+}
+function focusComplete() {
+  clearInterval(focusTick); focusTick = null; focusRunning = false;
+  if (focusMode === "focus") {
+    const cap = 6;
+    if (focusSessionsToday() >= cap) {
+      toast("🍅", "Tope diario", "Ya hiciste " + cap + " sesiones de enfoque hoy.");
+      focusRemaining = 25 * 60; renderFocus(); return;
+    }
+    const xp = 25;
+    const f = gameState.focus = gameState.focus || { log: [], date: null };
+    f.log = Array.isArray(f.log) ? f.log : [];
+    f.log.push({ d: focusDomain, xp: xp, date: todayStr(), t: Date.now() });
+    ODEA.bus.emit("focus.completed", { domain: focusDomain, xp: xp });
+    playSfx("fanfare");
+    confetti(window.innerWidth / 2, window.innerHeight * 0.3, 60);
+    toast("🍅", "¡Sesión de enfoque completada!", "+" + xp + " XP para tu dominio " + focusDomain + ".");
+    saveGame(); recomputeState(); updateUI();
+    focusMode = "break"; focusRemaining = 5 * 60;
+  } else {
+    focusMode = "focus"; focusRemaining = 25 * 60;
+    toast("☕", "Descanso terminado", "De vuelta al enfoque. ¡Vamos!");
+  }
+  renderFocus();
+}
+function focusReset() {
+  focusRunning = false; if (focusTick) { clearInterval(focusTick); focusTick = null; }
+  focusRemaining = focusMode === "focus" ? 25 * 60 : 5 * 60; renderFocus();
+}
+/* --- 💼 Tracker de postulaciones --- */
+function appRender() {
+  const el = document.getElementById("apps-list");
+  if (!el) return;
+  const apps = gameState.applications || [];
+  const wk = isoWeekKey(todayStr());
+  const weekly = apps.filter(function (a) { return a.week === wk && a.status !== "cerrada"; }).length;
+  const metaEl = document.getElementById("apps-meta");
+  if (metaEl) metaEl.textContent = weekly + "/5 esta semana";
+  el.innerHTML = apps.length ? apps.map(function (a, i) {
+    const st = APP_STATUSES[a.status] || { n: a.status, c: "#aaa" };
+    return '<div class="app-row">' +
+      '<div class="app-body"><b>' + escapeHtml(a.empresa) + '</b><small>' + escapeHtml(a.fecha) + '</small></div>' +
+      '<span class="app-status" style="--sc:' + st.c + '">' + st.n + '</span>' +
+      '<button class="app-del" data-ai="' + i + '" aria-label="Eliminar postulación">✕</button>' +
+    '</div>';
+  }).join("") : '<p class="pl-empty">Aún no registrás postulaciones. Agregá tu primera.</p>';
+  el.querySelectorAll(".app-del").forEach(function (b) {
+    b.addEventListener("click", function () {
+      gameState.applications = gameState.applications || [];
+      gameState.applications.splice(Number(b.dataset.ai), 1);
+      saveGame(); appRender();
+    });
+  });
+}
+function appAdd() {
+  const emp = document.getElementById("app-empresa").value.trim();
+  if (!emp) { toast("💼", "Falta empresa", "Escribe el nombre de la empresa."); return; }
+  const fecha = document.getElementById("app-fecha").value || todayStr();
+  const estado = document.getElementById("app-estado").value;
+  gameState.applications = gameState.applications || [];
+  gameState.applications.push({ empresa: emp, fecha: fecha, estado: estado, week: isoWeekKey(todayStr()), t: Date.now() });
+  ODEA.bus.emit("application.added", { empresa: emp, estado: estado });
+  saveGame(); appRender();
+  document.getElementById("app-empresa").value = "";
+  toast("💼", "Postulación registrada", emp + " · " + estado);
+}
+/* --- 📊 Mapa de calor --- */
+function renderHeatmap() {
+  const el = document.getElementById("heatmap-wrap");
+  if (!el) return;
+  let evts = [];
+  try { evts = JSON.parse(localStorage.getItem(EVENTS_KEY)) || []; } catch (e) { evts = []; }
+  const days = 84;
+  const counts = {};
+  const today = new Date();
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    counts[fmtDate(d)] = 0;
+  }
+  evts.forEach(function (e) { const k = fmtDate(new Date(e.t)); if (k in counts) counts[k]++; });
+  const ordered = Object.keys(counts).sort();
+  const max = Math.max(1, ...Object.keys(counts).map(function (k) { return counts[k]; }));
+  let cells = "";
+  for (let w = 0; w < 12; w++) for (let r = 0; r < 7; r++) {
+    const date = ordered[w * 7 + r];
+    const c = date ? (counts[date] || 0) : 0;
+    const lvl = c === 0 ? 0 : Math.min(4, Math.ceil((c / max) * 4));
+    cells += '<span class="hm-cell l' + lvl + '" title="' + (date || "") + ' · ' + c + ' eventos"></span>';
+  }
+  const wk = isoWeekKey(todayStr());
+  const weekCount = evts.filter(function (e) { return isoWeekKey(fmtDate(new Date(e.t))) === wk; }).length;
+  el.innerHTML =
+    '<div class="heatmap-card">' +
+      '<div class="heatmap-head">📊 Actividad reciente<span>' + weekCount + ' eventos esta semana</span></div>' +
+      '<div class="heatmap-grid">' + cells + '</div>' +
+      '<div class="heatmap-foot">menos <span class="hm-cell l0"></span><span class="hm-cell l1"></span><span class="hm-cell l2"></span><span class="hm-cell l3"></span><span class="hm-cell l4"></span> más</div>' +
+    '</div>';
+}
+(function () {
+  const fb = document.getElementById("focus-btn");
+  if (fb) fb.addEventListener("click", focusOpen);
+  const fc = document.getElementById("focus-close");
+  if (fc) fc.addEventListener("click", focusClose);
+  const fl = document.getElementById("focus-layer");
+  if (fl) fl.addEventListener("click", function (e) { if (e.target === fl) focusClose(); });
+  const ft = document.getElementById("focus-toggle");
+  if (ft) ft.addEventListener("click", focusToggle);
+  const fr = document.getElementById("focus-reset");
+  if (fr) fr.addEventListener("click", focusReset);
+  const fd = document.getElementById("focus-domains");
+  if (fd) fd.addEventListener("click", function (e) {
+    const b = e.target.closest(".focus-dom");
+    if (b) { focusDomain = b.dataset.fd; renderFocus(); }
+  });
+  const sf = document.getElementById("shop-freeze");
+  if (sf) sf.addEventListener("click", shopBuyFreezer);
+  const aa = document.getElementById("app-add");
+  if (aa) aa.addEventListener("click", appAdd);
+})();
 function renderDailyView() {
   renderAgendaHoy();
+  renderDiary();
   renderHero();
   renderWeekly();
   renderRoadmap();
@@ -4596,6 +4922,15 @@ function updateStreak() {
       toast("🛡️", "¡Escudo de racha activado!", "Un día perdido no rompe tu racha esta semana. Se acabó tu escudo semanal.");
       return;
     }
+    if ((gameState.freezers || 0) > 0) {
+      gameState.freezers -= 1;
+      gameState.lastDailyDate = td;
+      ODEA.bus.emit("streak.changed", { streak: gameState.streak, freezer: true });
+      toast("🧊", "¡Congelador de racha usado!", "Protegiste tu racha de " + gameState.streak + " días. Te quedan " + gameState.freezers + ".");
+      playSfx("chime");
+      saveGame();
+      return;
+    }
     const lost = gameState.streak;
     gameState.streak = 1;   // sin escudo: la racha se reinicia
     if (lost > 1) {
@@ -4713,7 +5048,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
       if (v) v.classList.toggle("active", tab === t);
     });
     if (tab === "daily") renderDailyView();
-    if (tab === "planner") renderPlanner();
+    if (tab === "planner") { renderPlanner(); renderHeatmap(); }
     if (tab === "map") renderMapStage();
     if (tab === "jobs") renderJobs();
     if (tab === "jobs") updateEmpRank();
@@ -7264,8 +7599,8 @@ function goTab(tab) {
   const fab = document.getElementById("fab-continue");
   if (fab) fab.classList.toggle("hidden", tab === "daily");
   if (tab === "daily") renderDailyView();
-  if (tab === "planner") renderPlanner();
-  if (tab === "jobs") { renderJobs(); updateEmpRank(); }
+  if (tab === "planner") { renderPlanner(); renderHeatmap(); }
+  if (tab === "jobs") { renderJobs(); appRender(); updateEmpRank(); }
   if (tab === "vida") renderVidaSubActiva();
   if (tab === "capital") renderCapital();
   if (tab === "map") renderMapStage();
@@ -7421,6 +7756,8 @@ function shopRender() {
   if (balEl) balEl.textContent = bal.toLocaleString("es-CR");
   const powEl = document.getElementById("shop-power");
   if (powEl) powEl.textContent = pow.toLocaleString("es-CR");
+  const fzEl = document.getElementById("freeze-count");
+  if (fzEl) fzEl.textContent = gameState.freezers || 0;
   const grid = document.getElementById("shop-grid");
   if (!grid) return;
   grid.innerHTML = SHOP_ITEMS.map(function (it) {
