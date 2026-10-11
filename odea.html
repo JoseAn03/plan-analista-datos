@@ -1927,7 +1927,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.46</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.47</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1949,18 +1949,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
       <div class="holo-stage" id="holo-stage"></div>
     </div>
-    <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">📊</span>Nivel Analista</span><span id="stat-analyst-txt">0%</span></div>
-      <div class="bar stat green"><span id="stat-analyst"></span></div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">🤖</span>Nivel de IA</span><span id="stat-ai-txt">0%</span></div>
-      <div class="bar stat magenta"><span id="stat-ai"></span></div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">💼</span>Poder de Empleabilidad</span><span id="stat-emp-txt">0%</span></div>
-      <div class="bar stat amber"><span id="stat-emp"></span></div>
-    </div>
+    <div id="domains-stats"></div>
     <div class="stat-block">
       <div class="stat-head"><span><span class="stat-ico">🧬</span>Héroe Integral (Vida)</span><span id="s-vlvl">Nv.1</span></div>
       <div class="bar stat violet"><span id="s-vbar"></span></div>
@@ -2003,7 +1992,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.46</span>
+    <span class="ver" id="ver-badge">v5.47</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2165,7 +2154,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.46</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.47</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -3247,7 +3236,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.46"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.47"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3448,9 +3437,6 @@ const RANKS = LEVELS.map(l => l.name);
 function levelName(lvl) { return RANKS[Math.min(8, Math.floor((lvl - 1) / 7))]; }
 
 /* --- Totales de XP por categoría (todas las fuentes) --- */
-const XP_CAT_TOTAL = { analyst: 0, ai: 0, employability: 0 };
-campaignAll.concat(dailyMissions, weeklyMissions, employmentMissions).forEach(m => { XP_CAT_TOTAL[m.category || "employability"] += m.xp; });
-
 function achXPSum(ids) {
   return achievements.filter(a => ids.includes(a.id)).reduce((s, a) => s + a.xp, 0);
 }
@@ -3468,6 +3454,29 @@ function jobsXPGain() {
 }
 function b2bXPGain() {
   return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
+/* ==========================================================
+   🧩 FASE 3 — Dominios como configuración
+   Cada dominio es un objeto: id, n (nombre), s (abrev. radar),
+   ico, c (color), xp() (XP actual) y max() (meta para 100%).
+   Añadir/editar un dominio = añadir/editar un objeto aquí.
+   ========================================================== */
+const DOMAINS = [
+  { id:"carrera",   n:"Carrera",   s:"Carrera",   ico:"💼", c:"#ffaa00", xp: function(){ return jobsXPGain(); },                     max: function(){ return sumXP(employmentMissions); } },
+  { id:"estudio",   n:"Estudio",   s:"Estudio",   ico:"📚", c:"#00ff88", xp: function(){ return dailyXPGain() + weeklyXPGain(); },   max: function(){ return sumXP(dailyMissions) + sumXP(weeklyMissions); } },
+  { id:"proyectos", n:"Proyectos", s:"Proyectos", ico:"🛠️", c:"#00ccff", xp: function(){ return campaignXPGain(); },                  max: function(){ return sumXP(campaignAll); } },
+  { id:"negocio",   n:"Negocio",   s:"Negocio",   ico:"💸", c:"#7c6cff", xp: function(){ return b2bXPGain(); },                       max: function(){ return sumXP(B2B_MISSIONS); } },
+  { id:"cuerpo",    n:"Cuerpo",    s:"Cuerpo",    ico:"🧬", c:"#ff00ff", xp: function(){ return vidaCompute().total; },               max: function(){ return LIFE_LADDER[LIFE_LADDER.length-1].xp; } },
+  { id:"capital",   n:"Capital",   s:"Capital",   ico:"💰", c:"#ffd700", xp: function(){ return capCompute().xp; },                   max: function(){ return CAP_LADDER[CAP_LADDER.length-1].xp; } }
+];
+function sumXP(list) { return (list || []).reduce(function (s, m) { return s + (m.xp || 0); }, 0); }
+function domainLevels() {
+  return DOMAINS.map(function (d) {
+    const xp = d.xp(), max = d.max();
+    const pct = max > 0 ? Math.min(100, Math.round((xp / max) * 100)) : 0;
+    const lvl = Math.min(9, 1 + Math.floor(pct / 12.5));
+    return { id: d.id, n: d.n, s: d.s, ico: d.ico, c: d.c, xp: xp, pct: pct, lvl: lvl };
+  });
 }
 function streakMult() {
   const s = gameState.streak || 0;
@@ -3490,19 +3499,7 @@ function recomputeState() {
   gameState.xpBreakdown = { career, ach, vida, capital };
   gameState.totalXP = career + ach + vida + capital;
   gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
-  const catGain = { analyst: 0, ai: 0, employability: 0 };
-  campaignAll.concat(dailyMissions, weeklyMissions).forEach(m => {
-    const done = campaignAll.includes(m) ? gameState.completedMissions.includes(m.id)
-      : (m.day !== undefined ? gameState.completedDaily.includes(m.id) : gameState.completedWeekly.includes(m.week));
-    if (done) catGain[m.category] += m.xp;
-  });
-  employmentMissions.forEach(m => { if (gameState.completedJobs.includes(m.id)) catGain[m.category || "employability"] += m.xp; });
-  B2B_MISSIONS.forEach(m => { if ((gameState.completedB2b || []).includes(m.id)) catGain[m.category] += m.xp; });
-  gameState.stats = {
-    analystLevel: Math.round((catGain.analyst / XP_CAT_TOTAL.analyst) * 100),
-    aiLevel: Math.round((catGain.ai / XP_CAT_TOTAL.ai) * 100),
-    employabilityLevel: Math.round((catGain.employability / XP_CAT_TOTAL.employability) * 100)
-  };
+  gameState.stats = { domains: domainLevels() };
 }
 
 /* ==========================================================
@@ -4231,9 +4228,7 @@ function updateUI() {
   if (_cbEl) _cbEl.textContent = _cb.toLocaleString("es-CR");
   const _chEl = document.getElementById("coin-head");
   if (_chEl) _chEl.textContent = _cb.toLocaleString("es-CR");
-  setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
-  setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
-  setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
+  renderDomains();
   document.getElementById("d-count").textContent = fullDaysCount() + "/" + DAILY_TOTAL;
   document.getElementById("w-count").textContent = gameState.completedWeekly.length + "/" + WEEKLY_TOTAL;
   document.getElementById("c-count").textContent = gameState.completedMissions.length + "/" + CAMP_TOTAL;
@@ -4260,6 +4255,16 @@ function updateUI() {
 function setBar(barId, txtId, value) {
   document.getElementById(barId).style.width = value + "%";
   document.getElementById(txtId).textContent = value + "%";
+}
+function renderDomains() {
+  const host = document.getElementById("domains-stats");
+  if (!host) return;
+  host.innerHTML = domainLevels().map(function (d) {
+    return '<div class="stat-block">' +
+      '<div class="stat-head"><span><span class="stat-ico">' + d.ico + '</span>' + d.n + '</span><span>Nv.' + d.lvl + ' · ' + d.pct + '%</span></div>' +
+      '<div class="bar stat"><span style="width:' + d.pct + '%;background:linear-gradient(90deg,' + d.c + ',' + d.c + '88)"></span></div>' +
+    '</div>';
+  }).join("");
 }
 
 /* --- XP del Ecosistema: desglose unificado (carrera · logros · vida · capital) --- */
@@ -4288,16 +4293,15 @@ function renderEcoXP() {
 const radar = document.getElementById("radar-chart");
 const radarCtx = radar.getContext("2d");
 function drawRadar() {
-  const W = radar.width, H = radar.height, cx = W / 2, cy = H / 2 + 6, R = 74;
-  const vals = [gameState.stats.analystLevel / 100, gameState.stats.aiLevel / 100, gameState.stats.employabilityLevel / 100];
-  const colors = ["#00ff88", "#ff00ff", "#ffaa00"];
-  const labels = ["Analista", "IA", "Empleab."];
-  const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6];
+  const ds = domainLevels();
+  const n = ds.length;
+  const W = radar.width, H = radar.height, cx = W / 2, cy = H / 2 + 6, R = 68;
+  const angles = ds.map(function (_, i) { return -Math.PI / 2 + i * (2 * Math.PI / n); });
   radarCtx.clearRect(0, 0, W, H);
   for (let ring = 1; ring <= 4; ring++) {
     const rr = (R * ring) / 4;
     radarCtx.beginPath();
-    angles.forEach((a, i) => {
+    angles.forEach(function (a, i) {
       const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
       i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
     });
@@ -4306,20 +4310,20 @@ function drawRadar() {
     radarCtx.lineWidth = 1;
     radarCtx.stroke();
   }
-  angles.forEach((a, i) => {
+  angles.forEach(function (a, i) {
     radarCtx.beginPath();
     radarCtx.moveTo(cx, cy);
     radarCtx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
     radarCtx.strokeStyle = "rgba(160,160,192,.25)";
     radarCtx.stroke();
-    radarCtx.fillStyle = colors[i];
-    radarCtx.font = "11px 'Share Tech Mono', monospace";
+    radarCtx.fillStyle = ds[i].c;
+    radarCtx.font = "10px 'Share Tech Mono', monospace";
     radarCtx.textAlign = "center";
-    radarCtx.fillText(labels[i], cx + (R + 24) * Math.cos(a), cy + (R + 24) * Math.sin(a) + 4);
+    radarCtx.fillText(ds[i].s, cx + (R + 20) * Math.cos(a), cy + (R + 20) * Math.sin(a) + 3);
   });
   radarCtx.beginPath();
-  angles.forEach((a, i) => {
-    const rr = Math.max(4, R * vals[i]);
+  angles.forEach(function (a, i) {
+    const rr = Math.max(4, R * Math.min(1, ds[i].pct / 100));
     const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
     i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
   });
@@ -4332,12 +4336,12 @@ function drawRadar() {
   radarCtx.shadowBlur = 10;
   radarCtx.stroke();
   radarCtx.shadowBlur = 0;
-  angles.forEach((a, i) => {
-    const rr = Math.max(4, R * vals[i]);
+  angles.forEach(function (a, i) {
+    const rr = Math.max(4, R * Math.min(1, ds[i].pct / 100));
     radarCtx.beginPath();
     radarCtx.arc(cx + rr * Math.cos(a), cy + rr * Math.sin(a), 3.5, 0, Math.PI * 2);
-    radarCtx.fillStyle = colors[i];
-    radarCtx.shadowColor = colors[i];
+    radarCtx.fillStyle = ds[i].c;
+    radarCtx.shadowColor = ds[i].c;
     radarCtx.shadowBlur = 8;
     radarCtx.fill();
     radarCtx.shadowBlur = 0;
