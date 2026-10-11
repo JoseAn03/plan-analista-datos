@@ -604,6 +604,23 @@ html{-webkit-text-size-adjust:100%}
 .snd-btn:hover{border-color:var(--glow-cyan);box-shadow:0 0 12px rgba(0,204,255,.3)}
 .gear-slot{display:inline-block;margin-left:4px;font-size:1.05rem;filter:drop-shadow(0 0 6px rgba(255,215,0,.6))}
 /* --- Reto del día --- */
+/* 📅 Agenda de hoy (Fase 2) */
+.agenda-card{margin-bottom:14px;padding:14px 16px;border-radius:16px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,204,255,.10),rgba(0,255,136,.06) 60%,rgba(255,0,255,.06));
+  border:1px solid rgba(0,204,255,.30)}
+.agenda-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.agenda-date{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:1px;color:#fff;text-transform:capitalize}
+.agenda-streak{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--glow-amber)}
+.agenda-coins{margin-left:auto;font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--glow-green)}
+.agenda-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.agenda-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;border-radius:12px;
+  background:rgba(10,10,26,.55);border:1px solid rgba(140,150,220,.18);cursor:pointer;transition:.2s;font-family:inherit;color:#fff}
+.agenda-item:hover{transform:translateY(-2px);border-color:rgba(0,204,255,.5)}
+.agenda-item:focus-visible{outline:2px solid var(--glow-cyan);outline-offset:2px}
+.agenda-item .ai-ico{font-size:1.4rem}
+.agenda-item .ai-num{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--glow-cyan)}
+.agenda-item .ai-lab{font-size:.62rem;color:var(--tx2);letter-spacing:.5px;text-transform:uppercase}
+.agenda-item .ai-note{font-size:.6rem;color:var(--glow-green)}
 .reto-card{margin-top:14px;padding:14px 16px;border-radius:14px;position:relative;overflow:hidden;
   background:linear-gradient(135deg,rgba(255,170,0,.12),rgba(255,51,85,.08));
   border:1px dashed rgba(255,170,0,.5)}
@@ -1861,7 +1878,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.43</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.44</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1936,7 +1953,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.43</span>
+    <span class="ver" id="ver-badge">v5.44</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1990,6 +2007,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="map-stage"></div>
     </section>
     <section class="view" id="view-daily">
+      <div id="agenda-hoy"></div>
       <div id="daily-hero"></div>
       <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
@@ -2091,7 +2109,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.43</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.44</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -3161,7 +3179,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.43"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.44"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3691,7 +3709,57 @@ function dayCard(day) {
 }
 
 /* --- Render completo de la vista diaria --- */
+function renderAgendaHoy() {
+  const root = document.getElementById("agenda-hoy");
+  if (!root) return;
+  const day = firstPendingDay();
+  const list = missionsOfDay(day);
+  const mDone = dayDoneCount(day);
+  const vs = vidaCompute();
+  const today = todayStr();
+  const habDone = HABITOS.filter(function (h) { return vs.log.indexOf(h.id + "|" + today) >= 0; }).length;
+  const rounds = roundsDone();
+  let engLvl = 1;
+  try { engLvl = capCompute().fronts.eng.ladder.lvl; } catch (e) {}
+  const streak = gameState.streak || 0;
+  const coins = coinsBalance();
+  const d = new Date();
+  let dateLabel;
+  try { dateLabel = d.toLocaleDateString("es-CR", { weekday: "long", day: "numeric", month: "long" }); }
+  catch (e) { dateLabel = d.toLocaleDateString(); }
+  const balanced = vs.todayBalanced;
+  root.innerHTML =
+    '<div class="agenda-card">' +
+      '<div class="agenda-head">' +
+        '<span class="agenda-date">📅 ' + dateLabel + '</span>' +
+        '<span class="agenda-streak">🔥 Racha ' + streak + (streak === 1 ? " día" : " días") + '</span>' +
+        '<span class="agenda-coins">🪙 ' + coins.toLocaleString("es-CR") + '</span>' +
+      '</div>' +
+      '<div class="agenda-grid">' +
+        '<button class="agenda-item" data-jump="daily" aria-label="Ver misiones de hoy">' +
+          '<span class="ai-ico">📋</span><span class="ai-num">' + mDone + "/" + list.length + '</span>' +
+          '<span class="ai-lab">Misiones</span></button>' +
+        '<button class="agenda-item" data-jump="vida" aria-label="Ver hábitos de hoy">' +
+          '<span class="ai-ico">🧬</span><span class="ai-num">' + habDone + "/" + HABITOS.length + '</span>' +
+          '<span class="ai-lab">Hábitos</span>' + (balanced ? '<span class="ai-note">⚖️ Equilibrado</span>' : "") + '</button>' +
+        '<button class="agenda-item" data-jump="capital" aria-label="Ver tu inglés">' +
+          '<span class="ai-ico">🌎</span><span class="ai-num">Nv.' + engLvl + '</span>' +
+          '<span class="ai-lab">Inglés</span></button>' +
+        '<button class="agenda-item" data-jump="jobs" aria-label="Ver tus postulaciones">' +
+          '<span class="ai-ico">💼</span><span class="ai-num">' + rounds + "/10" + '</span>' +
+          '<span class="ai-lab">Postulaciones</span></button>' +
+      '</div>' +
+    '</div>';
+}
+(function () {
+  const root = document.getElementById("agenda-hoy");
+  if (root) root.addEventListener("click", function (e) {
+    const b = e.target.closest(".agenda-item[data-jump]");
+    if (b) goTab(b.dataset.jump);
+  });
+})();
 function renderDailyView() {
+  renderAgendaHoy();
   renderHero();
   renderWeekly();
   renderRoadmap();
