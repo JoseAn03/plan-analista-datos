@@ -621,6 +621,55 @@ html{-webkit-text-size-adjust:100%}
 .agenda-item .ai-num{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--glow-cyan)}
 .agenda-item .ai-lab{font-size:.62rem;color:var(--tx2);letter-spacing:.5px;text-transform:uppercase}
 .agenda-item .ai-note{font-size:.6rem;color:var(--glow-green)}
+/* 🗓️ Planner personal (Fase 2.5) */
+.planner-card{margin-bottom:14px;padding:14px 16px;border-radius:16px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,255,136,.07),rgba(0,204,255,.05) 60%,rgba(255,0,255,.05));
+  border:1px solid rgba(0,255,136,.28)}
+.pl-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.pl-title-h{font-family:'Orbitron',sans-serif;font-size:.82rem;letter-spacing:1.5px;color:#fff}
+.pl-count{font-size:.68rem;color:var(--tx2)}
+.pl-ics{margin-left:auto;cursor:pointer;padding:6px 12px;border:1px solid rgba(0,204,255,.4);border-radius:8px;
+  background:rgba(0,204,255,.08);color:var(--glow-cyan);font-family:'Orbitron',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px}
+.pl-ics:hover{background:rgba(0,204,255,.18)}
+.pl-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.pl-empty{font-size:.8rem;color:var(--tx2);padding:12px;border:1px dashed rgba(140,150,220,.3);border-radius:12px;text-align:center}
+.pl-empty b{color:#fff}
+.pl-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;
+  background:rgba(10,10,26,.55);border:1px solid rgba(140,150,220,.18)}
+.pl-item.done{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.06)}
+.pl-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pl-front{font-size:.62rem;color:var(--glow-cyan);letter-spacing:.5px;text-transform:uppercase}
+.pl-title{font-size:.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-item.done .pl-title{color:var(--glow-green);text-decoration:line-through}
+.pl-xp{font-size:.66rem;color:var(--tx2)}
+.pl-actions{display:flex;gap:5px;flex-shrink:0}
+.pl-btn{cursor:pointer;width:30px;height:30px;border-radius:8px;border:1px solid rgba(140,150,220,.25);
+  background:rgba(10,10,26,.6);color:var(--tx2);font-size:.8rem;transition:.15s}
+.pl-btn:hover{border-color:rgba(0,204,255,.5);color:#fff}
+.pl-btn.do{color:var(--glow-green)}
+.pl-btn.rm{color:var(--glow-red)}
+#planner-layer{position:fixed;inset:0;z-index:127;display:none;align-items:center;justify-content:center;
+  padding:16px;background:rgba(5,3,10,.9);backdrop-filter:blur(6px);overflow-y:auto}
+#planner-layer.show{display:flex}
+.planner-modal{max-width:640px;width:100%;background:linear-gradient(165deg,#1a1428,#100e1c);border:1px solid rgba(0,255,136,.35);
+  border-radius:20px;padding:20px;position:relative;box-shadow:0 0 60px rgba(0,255,136,.15);animation:fadeSlide .3s ease}
+.planner-head h2{font-family:'Orbitron',sans-serif;color:var(--glow-green);text-align:center;letter-spacing:1.5px;font-size:1.1rem;text-shadow:0 0 16px rgba(0,255,136,.4)}
+.planner-filter{display:flex;align-items:center;gap:8px;justify-content:center;margin:10px 0;font-size:.78rem;color:var(--tx2);cursor:pointer}
+.planner-picker{max-height:52vh;overflow-y:auto;padding:4px;display:flex;flex-direction:column;gap:12px}
+.pk-group{display:flex;flex-direction:column;gap:6px}
+.pk-ghead{font-family:'Orbitron',sans-serif;font-size:.66rem;letter-spacing:1px;color:var(--glow-amber);text-transform:uppercase;
+  padding:4px 2px;border-bottom:1px solid rgba(140,150,220,.15)}
+.pk-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:10px;
+  background:rgba(10,10,26,.5);border:1px solid rgba(140,150,220,.14)}
+.pk-item.done{opacity:.55}
+.pk-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.pk-title{font-size:.76rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk-xp{font-size:.62rem;color:var(--tx2)}
+.pk-btn{cursor:pointer;width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,255,136,.35);
+  background:rgba(0,255,136,.07);color:var(--glow-green);font-size:1rem;font-weight:700;flex-shrink:0}
+.pk-btn.in{background:var(--glow-green);color:#04120b;border-color:var(--glow-green)}
+.planner-back{display:block;margin:14px auto 0}
+#planner-close{position:absolute;top:12px;right:12px}
 .reto-card{margin-top:14px;padding:14px 16px;border-radius:14px;position:relative;overflow:hidden;
   background:linear-gradient(135deg,rgba(255,170,0,.12),rgba(255,51,85,.08));
   border:1px dashed rgba(255,170,0,.5)}
@@ -1878,7 +1927,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.44</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.45</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1953,7 +2002,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.44</span>
+    <span class="ver" id="ver-badge">v5.45</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2008,6 +2057,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     </section>
     <section class="view" id="view-daily">
       <div id="agenda-hoy"></div>
+      <div id="planner-wrap"></div>
       <div id="daily-hero"></div>
       <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
@@ -2109,7 +2159,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.44</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.45</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2139,6 +2189,18 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <div id="rw-chest-wrap"></div>
     <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos.</p></div>
     <button class="btn-neon rw-back" id="rw-close2" aria-label="Volver al mapa">◀ VOLVER AL MAPA</button>
+  </div>
+</div>
+
+<div id="planner-layer">
+  <div class="planner-modal">
+    <div class="planner-head">
+      <h2>➕ Agregar misiones a tu plan</h2>
+      <button class="close-x" id="planner-close" aria-label="Cerrar">✕</button>
+    </div>
+    <label class="planner-filter"><input type="checkbox" id="planner-pending" checked> Solo pendientes</label>
+    <div class="planner-picker" id="planner-picker"></div>
+    <button class="btn-neon planner-back" id="planner-close2" aria-label="Listo">◀ LISTO</button>
   </div>
 </div>
 
@@ -3179,7 +3241,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.44"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.45"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3255,7 +3317,8 @@ let gameState = {
   shop: { spent: 0, owned: [], equipped: {} }, // 🪙 tienda del héroe
   sound: true,                  // 🔊 efectos de sonido
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
-  rewards: { unlocked: [], queue: [], equipped: {} } // 🎒 arsenal del héroe
+  rewards: { unlocked: [], queue: [], equipped: {} }, // 🎒 arsenal del héroe
+  planner: { items: [] } // 🗓️ plan personal (refs {f, id} ordenadas)
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -3348,6 +3411,13 @@ function loadGame() {
       queue: Array.isArray(rw2.queue) ? rw2.queue.filter(id => REWARDS.some(r => r.id === id)) : [],
       equipped: migrateEquipped(rw2.equipped)
     };
+    const pl2 = data.planner || {};
+    gameState.planner = {
+      items: Array.isArray(pl2.items) ? pl2.items.filter(function (it) {
+        return it && typeof it.f === "string" && typeof it.id === "string" &&
+          plannerCatalog().some(function (c) { return c.f === it.f && c.id === it.id; });
+      }) : []
+    };
     return true;
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
@@ -3358,7 +3428,8 @@ function resetGame() {
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }, capital: { done: [], eng: [], ai: [] },
     gods: {}, shop: { spent: 0, owned: [], equipped: {} },
     sound: true, reto: { date: null, id: null, done: false },
-    rewards: { unlocked: [], queue: [], equipped: {} }
+    rewards: { unlocked: [], queue: [], equipped: {} },
+    planner: { items: [] }
   };
   selectedDay = 1;
   renderAll();
@@ -3758,8 +3829,225 @@ function renderAgendaHoy() {
     if (b) goTab(b.dataset.jump);
   });
 })();
+const PLANNER_FRONTS = [
+  { f: "daily", ico: "🗓️", n: "Plan diario" },
+  { f: "campaign", ico: "📜", n: "Campaña" },
+  { f: "weekly", ico: "📯", n: "Semanal" },
+  { f: "jobs", ico: "💼", n: "Empleo" },
+  { f: "b2b", ico: "💸", n: "B2B" },
+  { f: "cap", ico: "💰", n: "Capital" },
+  { f: "eng", ico: "🌎", n: "Inglés" },
+  { f: "ai", ico: "🤖", n: "IA" },
+  { f: "vida", ico: "🧬", n: "Vida" }
+];
+function plannerCatalog() {
+  const out = [];
+  dailyMissions.forEach(function (m) { out.push({ f: "daily", id: m.id }); });
+  campaignAll.forEach(function (m) { out.push({ f: "campaign", id: m.id }); });
+  weeklyMissions.forEach(function (m) { out.push({ f: "weekly", id: String(m.week) }); });
+  employmentMissions.forEach(function (m) { out.push({ f: "jobs", id: m.id }); });
+  B2B_MISSIONS.forEach(function (m) { out.push({ f: "b2b", id: m.id }); });
+  CAP_FRONTS.forEach(function (fr) { fr.missions.forEach(function (m) { out.push({ f: fr.k, id: m.id }); }); });
+  HABITOS.forEach(function (h) { out.push({ f: "vida", id: h.id }); });
+  VIDA_GROWTH.forEach(function (g) { out.push({ f: "vida", id: g.id }); });
+  return out;
+}
+function plannerInfo(f, id) {
+  let m;
+  if (f === "daily") { m = dailyMissions.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedDaily.includes(id) } : null; }
+  if (f === "campaign") { m = campaignAll.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedMissions.includes(id) } : null; }
+  if (f === "weekly") { m = weeklyMissions.find(function (x) { return x.week === Number(id); }); return m ? { title: m.title, xp: m.xp, done: gameState.completedWeekly.includes(Number(id)) } : null; }
+  if (f === "jobs") { m = employmentMissions.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedJobs.includes(id) } : null; }
+  if (f === "b2b") { m = B2B_MISSIONS.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: (gameState.completedB2b || []).includes(id) } : null; }
+  if (f === "cap" || f === "eng" || f === "ai") {
+    const fr = CAP_FRONTS.find(function (x) { return x.k === f; });
+    if (!fr) return null;
+    m = fr.missions.find(function (x) { return x.id === id; });
+    if (!m) return null;
+    const done = (gameState.capital[fr.store] || []).includes(id);
+    return { title: m.t, xp: m.xp, done: done };
+  }
+  if (f === "vida") {
+    const o = VIDA_OBJ[id];
+    if (!o) return null;
+    const src = HABITOS.find(function (x) { return x.id === id; }) || VIDA_GROWTH.find(function (x) { return x.id === id; });
+    if (!src) return null;
+    return { title: src.t, xp: o.xp, done: vidaIsDone(vidaCompute(), { id: id }) };
+  }
+  return null;
+}
+function plannerRefKey(it) { return it.f + ":" + it.id; }
+function plannerFakeEl() {
+  const r = { left: window.innerWidth / 2 - 60, top: 220, width: 120, height: 40, right: window.innerWidth / 2 + 60, bottom: 260 };
+  return { getBoundingClientRect: function () { return r; } };
+}
+function plannerToggle(it) {
+  const f = it.f, id = it.id;
+  if (f === "daily") toggleDailyMission(id, null);
+  else if (f === "campaign") toggleCampaign(id, plannerFakeEl());
+  else if (f === "weekly") toggleWeekly(Number(id));
+  else if (f === "jobs") toggleJob(id, null);
+  else if (f === "b2b") toggleB2B(id, null);
+  else if (f === "cap" || f === "eng" || f === "ai") {
+    const card = plannerFakeEl(); card.dataset = { cid: id, front: f };
+    capToggleMission(card);
+  } else if (f === "vida") {
+    const card = plannerFakeEl(); card.dataset = { mid: id }; card.closest = function () { return card; };
+    vidaToggle({ target: card });
+  }
+}
+function renderPlanner() {
+  const root = document.getElementById("planner-wrap");
+  if (!root) return;
+  const pl = gameState.planner = gameState.planner || { items: [] };
+  if (!Array.isArray(pl.items)) pl.items = [];
+  const items = pl.items;
+  let listHTML = "";
+  if (!items.length) {
+    listHTML = '<div class="pl-empty">Aún no tenés misiones en tu plan. Tocá <b>Agregar misiones</b> y elegí de cualquier frente.</div>';
+  } else {
+    items.forEach(function (it, i) {
+      const info = plannerInfo(it.f, it.id);
+      if (!info) return;
+      const fr = PLANNER_FRONTS.find(function (x) { return x.f === it.f; });
+      listHTML += '<div class="pl-item' + (info.done ? " done" : "") + '">' +
+        '<div class="pl-body">' +
+          '<span class="pl-front">' + (fr ? fr.ico + " " + fr.n : it.f) + '</span>' +
+          '<span class="pl-title">' + (info.done ? "✓ " : "") + escapeHtml(info.title) + '</span>' +
+          '<span class="pl-xp">+' + info.xp + ' XP</span>' +
+        '</div>' +
+        '<div class="pl-actions">' +
+          '<button class="pl-btn" data-pl-up="' + i + '" aria-label="Subir misión">▲</button>' +
+          '<button class="pl-btn" data-pl-down="' + i + '" aria-label="Bajar misión">▼</button>' +
+          '<button class="pl-btn do" data-pl-toggle="' + i + '" aria-label="' + (info.done ? "Deshacer misión" : "Completar misión") + '">' + (info.done ? "↩" : "✓") + '</button>' +
+          '<button class="pl-btn rm" data-pl-rm="' + i + '" aria-label="Quitar misión del plan">✕</button>' +
+        '</div>' +
+      '</div>';
+    });
+  }
+  root.innerHTML =
+    '<div class="planner-card">' +
+      '<div class="pl-head">' +
+        '<span class="pl-title-h">🗓️ Mi Plan</span>' +
+        '<span class="pl-count">' + items.length + ' misión' + (items.length === 1 ? "" : "es") + '</span>' +
+        '<button class="pl-ics" id="planner-ics" aria-label="Exportar plan a calendario">📅 .ics</button>' +
+      '</div>' +
+      '<div class="pl-list">' + listHTML + '</div>' +
+      '<button class="btn-neon" id="planner-add" aria-label="Agregar misiones al plan">➕ Agregar misiones</button>' +
+    '</div>';
+}
+function plannerAdd(f, id) {
+  const pl = gameState.planner = gameState.planner || { items: [] };
+  if (!Array.isArray(pl.items)) pl.items = [];
+  const key = f + ":" + id;
+  const idx = pl.items.findIndex(function (it) { return plannerRefKey(it) === key; });
+  if (idx >= 0) pl.items.splice(idx, 1);
+  else pl.items.push({ f: f, id: id });
+  saveGame();
+  renderPlanner();
+  renderPlannerPicker();
+}
+function plannerMove(i, dir) {
+  const items = gameState.planner.items;
+  const j = i + dir;
+  if (j < 0 || j >= items.length) return;
+  const tmp = items[i]; items[i] = items[j]; items[j] = tmp;
+  saveGame(); renderPlanner();
+}
+function plannerRemove(i) {
+  gameState.planner.items.splice(i, 1);
+  saveGame(); renderPlanner();
+}
+function plannerOpenPicker() { renderPlannerPicker(); document.getElementById("planner-layer").classList.add("show"); }
+function plannerClosePicker() { document.getElementById("planner-layer").classList.remove("show"); }
+function renderPlannerPicker() {
+  const root = document.getElementById("planner-picker");
+  if (!root) return;
+  const onlyPending = document.getElementById("planner-pending") ? document.getElementById("planner-pending").checked : true;
+  const pl = gameState.planner = gameState.planner || { items: [] };
+  if (!Array.isArray(pl.items)) pl.items = [];
+  const inPlan = {};
+  pl.items.forEach(function (it) { inPlan[plannerRefKey(it)] = true; });
+  const cat = plannerCatalog();
+  let html = "";
+  PLANNER_FRONTS.forEach(function (fr) {
+    const list = cat.filter(function (c) { return c.f === fr.f; });
+    if (!list.length) return;
+    let rows = "";
+    list.forEach(function (c) {
+      const info = plannerInfo(c.f, c.id);
+      if (!info) return;
+      if (onlyPending && info.done) return;
+      const key = plannerRefKey(c);
+      const added = !!inPlan[key];
+      rows += '<div class="pk-item' + (info.done ? " done" : "") + '">' +
+        '<div class="pk-body">' +
+          '<span class="pk-title">' + escapeHtml(info.title) + '</span>' +
+          '<span class="pk-xp">+' + info.xp + ' XP' + (info.done ? " · ✓" : "") + '</span>' +
+        '</div>' +
+        '<button class="pk-btn' + (added ? " in" : "") + '" data-pk-add="' + c.f + '" data-pk-id="' + c.id + '" aria-label="' + (added ? "Quitar del plan" : "Agregar al plan") + '">' + (added ? "✓" : "+") + '</button>' +
+      '</div>';
+    });
+    if (!rows) return;
+    html += '<div class="pk-group"><div class="pk-ghead">' + fr.ico + " " + fr.n + '</div>' + rows + '</div>';
+  });
+  root.innerHTML = html || '<div class="pl-empty">No hay misiones que coincidan con el filtro.</div>';
+}
+function plannerExportIcs() {
+  const items = gameState.planner.items || [];
+  if (!items.length) { toast("📅", "Plan vacío", "Agrega misiones a tu plan primero."); return; }
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//ODEA//Planner//ES"];
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  items.forEach(function (it, i) {
+    const info = plannerInfo(it.f, it.id);
+    if (!info) return;
+    lines.push("BEGIN:VEVENT");
+    lines.push("UID:odea-plan-" + i + "@odea");
+    lines.push("DTSTAMP:" + stamp);
+    lines.push("DTSTART;VALUE=DATE:" + todayStr().replace(/-/g, ""));
+    lines.push("SUMMARY:" + info.title.replace(/[,\r\n]/g, " "));
+    lines.push("END:VEVENT");
+  });
+  lines.push("END:VCALENDAR");
+  const blob = new Blob([lines.join("\r\n")], { type: "text/calendar" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "odea-plan.ics";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  toast("📅", "Plan exportado", "Archivo .ics descargado para tu calendario.");
+}
+(function () {
+  const wrap = document.getElementById("planner-wrap");
+  if (wrap) wrap.addEventListener("click", function (e) {
+    let b = e.target.closest("[data-pl-up]");
+    if (b) { plannerMove(Number(b.dataset.plUp), -1); return; }
+    b = e.target.closest("[data-pl-down]");
+    if (b) { plannerMove(Number(b.dataset.plDown), 1); return; }
+    b = e.target.closest("[data-pl-toggle]");
+    if (b) { plannerToggle(gameState.planner.items[Number(b.dataset.plToggle)]); renderPlanner(); return; }
+    b = e.target.closest("[data-pl-rm]");
+    if (b) { plannerRemove(Number(b.dataset.plRm)); return; }
+    if (e.target.closest("#planner-add")) { plannerOpenPicker(); return; }
+    if (e.target.closest("#planner-ics")) { plannerExportIcs(); return; }
+  });
+  const pc = document.getElementById("planner-close");
+  if (pc) pc.addEventListener("click", plannerClosePicker);
+  const pc2 = document.getElementById("planner-close2");
+  if (pc2) pc2.addEventListener("click", plannerClosePicker);
+  const pLayer = document.getElementById("planner-layer");
+  if (pLayer) pLayer.addEventListener("click", function (e) { if (e.target === pLayer) plannerClosePicker(); });
+  const pPend = document.getElementById("planner-pending");
+  if (pPend) pPend.addEventListener("change", renderPlannerPicker);
+  const pPick = document.getElementById("planner-picker");
+  if (pPick) pPick.addEventListener("click", function (e) {
+    const b = e.target.closest("[data-pk-add]");
+    if (b) plannerAdd(b.dataset.pkAdd, b.dataset.pkId);
+  });
+})();
 function renderDailyView() {
   renderAgendaHoy();
+  renderPlanner();
   renderHero();
   renderWeekly();
   renderRoadmap();
