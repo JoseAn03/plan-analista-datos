@@ -97,6 +97,8 @@ header{
   box-shadow:0 0 14px rgba(255,170,0,.25);white-space:nowrap;cursor:default;
 }
 .streak-chip .flame{display:inline-block;animation:flameWiggle 1.2s ease-in-out infinite}
+#streak-mult{font-size:.7rem;color:var(--glow-green);font-weight:700;margin-left:2px}
+#streak-shield{margin-left:2px;font-size:.8rem}
 @keyframes flameWiggle{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(10deg) scale(1.15)}}
 .level-badge{font-family:'Orbitron',sans-serif;font-weight:700;color:var(--glow-green);
   border:1px solid rgba(0,255,136,.5);border-radius:10px;padding:4px 12px;
@@ -1813,7 +1815,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.34</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small>APP DE VIDA · v5.35</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -1887,7 +1889,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver">v5.34</span>
+    <span class="ver">v5.35</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -1912,7 +1914,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <div class="hud">
     <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar">🔊</button>
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
-      <span class="flame">🔥</span> <span id="streak-n">0</span>
+      <span class="flame">🔥</span> <span id="streak-n">0</span><span id="streak-mult"></span><span id="streak-shield"></span>
     </span>
     <span class="level-badge" id="hud-level">NIVEL 1</span>
     <span class="xp-txt" id="hud-xp">0 XP</span>
@@ -2041,7 +2043,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · v5.34 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · v5.35 — 557 misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -3253,7 +3255,7 @@ function campaignXPGain() {
   return campaignAll.filter(m => gameState.completedMissions.includes(m.id)).reduce((s, m) => s + m.xp, 0);
 }
 function dailyXPGain() {
-  return dailyMissions.filter(m => gameState.completedDaily.includes(m.id)).reduce((s, m) => s + m.xp, 0);
+  return Math.round(dailyMissions.filter(m => gameState.completedDaily.includes(m.id)).reduce((s, m) => s + m.xp, 0) * streakMult());
 }
 function weeklyXPGain() {
   return weeklyMissions.filter(m => gameState.completedWeekly.includes(m.week)).reduce((s, m) => s + m.xp, 0);
@@ -3263,6 +3265,17 @@ function jobsXPGain() {
 }
 function b2bXPGain() {
   return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
+function streakMult() {
+  const s = gameState.streak || 0;
+  if (s >= 30) return 2;
+  if (s >= 14) return 1.5;
+  if (s >= 7) return 1.25;
+  if (s >= 3) return 1.1;
+  return 1;
+}
+function streakShieldReady() {
+  return gameState.shieldWeek !== isoWeekKey(todayStr());
 }
 
 /* --- Recalcular todo el estado derivado --- */
@@ -3479,7 +3492,8 @@ function renderHero() {
 function statusLine(day) {
   const done = fullDaysCount();
   const total = Math.min(day, unlockedDay());
-  return "Días completos: <b>" + done + "/" + total + "</b> 🔥" + gameState.streak;
+  const sm = streakMult();
+  return "Días completos: <b>" + done + "/" + total + "</b> 🔥" + gameState.streak + (sm > 1 ? " · ⚡×" + sm + " XP" : "");
 }
 
 /* --- Tarjeta de misión semanal --- */
@@ -3714,6 +3728,13 @@ function updateUI() {
   streakChip.style.boxShadow = gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
   const fpd = firstPendingDay();
   streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd));
+  const _sm = streakMult();
+  const _smEl = document.getElementById("streak-mult");
+  if (_smEl) _smEl.textContent = _sm > 1 ? " ×" + _sm : "";
+  const _shEl = document.getElementById("streak-shield");
+  if (_shEl) _shEl.textContent = streakShieldReady() ? " 🛡️" : "";
+  streakChip.title = "Racha de " + gameState.streak + (gameState.streak === 1 ? " día" : " días") +
+    (_sm > 1 ? " · boost ×" + _sm + " XP" : "") + (streakShieldReady() ? " · escudo 🛡️ listo" : "");
   setBar("stat-analyst", "stat-analyst-txt", gameState.stats.analystLevel);
   setBar("stat-ai", "stat-ai-txt", gameState.stats.aiLevel);
   setBar("stat-emp", "stat-emp-txt", gameState.stats.employabilityLevel);
@@ -4072,10 +4093,24 @@ function updateStreak() {
       toast("🛡️", "¡Escudo de racha activado!", "Un día perdido no rompe tu racha esta semana. Se acabó tu escudo semanal.");
       return;
     }
+    const lost = gameState.streak;
     gameState.streak = 1;   // sin escudo: la racha se reinicia
+    if (lost > 1) {
+      playSfx("error");
+      flashFx();
+      toast("💔", "RACHA ROTA", "Perdiste " + lost + " días seguidos y tu boost de XP se apagó. A volver a encenderla.");
+    }
   }
   gameState.lastDailyDate = td;
-  if (gameState.streak === 7) toast("🔥", "¡7 días seguidos!", "Racha en llamas. El logro Semana Imparable (+100 XP) es tuyo.", "ach");
+  recomputeState();
+  streakBoostToast();
+}
+function streakBoostToast() {
+  const s = gameState.streak || 0;
+  if (s === 3) toast("⚡", "Boost de racha ×1.1", "+10% de XP en tus misiones diarias.", "ach");
+  else if (s === 7) toast("🔥", "¡7 días seguidos!", "Boost ×1.25 (+25% XP). El logro Semana Imparable (+100 XP) es tuyo.", "ach");
+  else if (s === 14) toast("🌋", "¡14 días seguidos!", "Boost ×1.5 (+50% XP). El logro Quince Días de Fuego es tuyo.", "ach");
+  else if (s === 30) toast("☄️", "¡30 días seguidos!", "¡DOBLE XP activado (×2)! El logro Mes de Datos es tuyo.", "ach");
 }
 
 /* --- Misión diaria --- */
@@ -6704,7 +6739,10 @@ function sideSync() {
   const r = document.getElementById("side-rank");
   if (r) r.textContent = "NIVEL " + gameState.level + " · " + levelName(gameState.level);
   const s = document.getElementById("side-streak");
-  if (s) s.textContent = "🔥 Racha de " + (gameState.streak || 0) + (gameState.streak === 1 ? " día" : " días");
+  if (s) {
+    const sm = streakMult();
+    s.textContent = "🔥 Racha de " + (gameState.streak || 0) + (gameState.streak === 1 ? " día" : " días") + (sm > 1 ? " · ⚡×" + sm : "");
+  }
   const gn = document.getElementById("side-gear-name");
   const eqObj = (gameState.rewards || {}).equipped || {};
   const eqCount = RW_SLOT_ORDER.filter(function (k) { return eqObj[k]; }).length;
