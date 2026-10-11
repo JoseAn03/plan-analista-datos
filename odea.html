@@ -1861,19 +1861,19 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.41</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.42</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
-  <button class="side-inv" id="side-inv" type="button">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
-  <button class="side-inv shop" id="side-shop" type="button">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
+  <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
+  <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
   <div class="side-nav">
-    <button class="nav-item active" data-tab="map"><span class="ni-ico">🗺️</span> MAPA</button>
-    <button class="nav-item" data-tab="daily"><span class="ni-ico">🗓️</span> HOY</button>
-    <button class="nav-item" data-tab="campaign"><span class="ni-ico">📜</span> DATOS</button>
-    <button class="nav-item" data-tab="jobs"><span class="ni-ico">💼</span> EMPLEO</button>
-    <button class="nav-item" data-tab="vida"><span class="ni-ico">🧬</span> VIDA</button>
-    <button class="nav-item" data-tab="capital"><span class="ni-ico">👑</span> IMPERIO</button>
+    <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
+    <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
+    <button class="nav-item" data-tab="campaign" aria-label="Campaña de datos"><span class="ni-ico">📜</span> DATOS</button>
+    <button class="nav-item" data-tab="jobs" aria-label="Empleo"><span class="ni-ico">💼</span> EMPLEO</button>
+    <button class="nav-item" data-tab="vida" aria-label="Vida"><span class="ni-ico">🧬</span> VIDA</button>
+    <button class="nav-item" data-tab="capital" aria-label="El Imperio"><span class="ni-ico">👑</span> IMPERIO</button>
   </div>
   <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
   <div class="side-stats" id="side-stats">
@@ -1928,25 +1928,25 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
     <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">24</span> · Ver salón ▸</div>
     <div class="backup-row">
-      <button class="btn-backup" id="btn-export" type="button" title="Descarga tu progreso como archivo de respaldo">⬇️ RESPALDAR</button>
-      <button class="btn-backup" id="btn-import" type="button" title="Restaura tu progreso desde un respaldo">⬆️ RESTAURAR</button>
+      <button class="btn-backup" id="btn-export" type="button" title="Descarga tu progreso como archivo de respaldo" aria-label="Respaldar progreso">⬇️ RESPALDAR</button>
+      <button class="btn-backup" id="btn-import" type="button" title="Restaura tu progreso desde un respaldo" aria-label="Restaurar progreso desde respaldo">⬆️ RESTAURAR</button>
       <input type="file" id="import-file" accept=".json,application/json" hidden>
     </div>
-    <button class="btn-reset" id="btn-reset">⟲ REINICIAR TODO EL PROGRESO</button>
+    <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.41</span>
+    <span class="ver" id="ver-badge">v5.42</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
 <nav class="nav-bottom" id="nav-bottom">
-  <button class="navb active" data-tab="map"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
-  <button class="navb" data-tab="daily"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
-  <button class="navb" data-tab="campaign"><span class="nb-ico">📜</span><span>Plan</span></button>
-  <button class="navb" data-tab="vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
-  <button class="navb" data-tab="capital"><span class="nb-ico">👑</span><span>Imperio</span></button>
-  <button class="navb" id="bottom-inv"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
+  <button class="navb active" data-tab="map" aria-label="Mapa"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
+  <button class="navb" data-tab="daily" aria-label="Hoy"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
+  <button class="navb" data-tab="campaign" aria-label="Plan"><span class="nb-ico">📜</span><span>Plan</span></button>
+  <button class="navb" data-tab="vida" aria-label="Vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
+  <button class="navb" data-tab="capital" aria-label="Imperio"><span class="nb-ico">👑</span><span>Imperio</span></button>
+  <button class="navb" id="bottom-inv" aria-label="Inventario"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
 </nav>
 
 
@@ -1954,12 +1954,12 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
      B) HTML / ESTRUCTURA
      ========================================================== -->
 <header>
-  <button id="nav-burger" title="Menú">☰</button>
+  <button id="nav-burger" title="Menú" aria-label="Abrir menú">☰</button>
   <div class="logo" id="logo" title="Ir al Mapa de Mundos">
     ODEA<small>PLAN MAESTRO AVANZADO</small>
   </div>
   <div class="hud">
-    <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar">🔊</button>
+    <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar" aria-label="Sonido: activar o silenciar">🔊</button>
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
       <span class="flame">🔥</span> <span id="streak-n">0</span><span id="streak-mult"></span><span id="streak-shield"></span>
     <span class="coin-chip" title="Monedas: completá misiones para ganarlas y gastalas en la tienda">🪙 <span class="coin-num" id="coin-head">0</span></span>
@@ -1982,7 +1982,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <!-- ============ VISTA 0: MAPA DE MUNDOS (hub + submundos) ============ -->
     <section class="view active" id="view-map">
       <div class="map-head map-hero">
-        <button class="map-back hidden" id="map-back">◀ VOLVER AL MAPA</button>
+        <button class="map-back hidden" id="map-back" aria-label="Volver al mapa">◀ VOLVER AL MAPA</button>
         <div class="map-title" id="map-title">🗺️ MAPA DE MUNDOS</div>
         <div class="map-sub" id="map-sub">Tu aventura: toca un mundo para explorar su camino</div>
       <div class="map-hud" id="map-hud" style="display:none"></div>
@@ -1993,7 +1993,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="daily-hero"></div>
       <div id="reto-card" class="reto-card hidden"></div>
       <div id="daily-extras">
-        <button class="btn-extra" id="btn-extra">📯 Ver reto semanal y ruta completa ▾</button>
+        <button class="btn-extra" id="btn-extra" aria-label="Ver reto semanal y ruta completa">📯 Ver reto semanal y ruta completa ▾</button>
         <div id="plan-extra" class="hidden">
           <div id="weekly-card"></div>
           <div class="roadmap-title">🗺️ Ruta de los 56 días</div>
@@ -2037,13 +2037,13 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         </div>
       </div>
       <div class="sub-tabs">
-        <button class="sub-tab active" data-sub="eq">⚖️ EQUILIBRIO 8-8-8</button>
-        <button class="sub-tab" data-sub="kid">👶 LEGADO</button>
-        <button class="sub-tab" data-sub="cpl">💑 ALIANZA</button>
-        <button class="sub-tab" data-sub="pow">🦁 PODER & IMAGEN</button>
-        <button class="sub-tab" data-sub="men">🏛️ SABIOS & MENTORES</button>
-        <button class="sub-tab" data-sub="plan">🎢 PLANES & AVENTURAS</button>
-        <button class="sub-tab" data-sub="orden">🧹 ORDEN & HOGAR</button>
+        <button class="sub-tab active" data-sub="eq" aria-label="Equilibrio 8-8-8">⚖️ EQUILIBRIO 8-8-8</button>
+        <button class="sub-tab" data-sub="kid" aria-label="Legado">👶 LEGADO</button>
+        <button class="sub-tab" data-sub="cpl" aria-label="Alianza">💑 ALIANZA</button>
+        <button class="sub-tab" data-sub="pow" aria-label="Poder e imagen">🦁 PODER & IMAGEN</button>
+        <button class="sub-tab" data-sub="men" aria-label="Sabios y mentores">🏛️ SABIOS & MENTORES</button>
+        <button class="sub-tab" data-sub="plan" aria-label="Planes y aventuras">🎢 PLANES & AVENTURAS</button>
+        <button class="sub-tab" data-sub="orden" aria-label="Orden y hogar">🧹 ORDEN & HOGAR</button>
       </div>
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
@@ -2076,9 +2076,9 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       </div>
       <div class="vh-mini-note">Tres frentes para dominar tu imperio: 💰 <b>capital</b> (invertir y multiplicar), 🌎 <b>inglés</b> (hablar fluido) e 🤖 <b>IA</b> (volverte experto). Cada mundo se desbloquea al completar el anterior. 📚 Educativo · no es consejo de inversión.</div>
       <div class="sub-tabs">
-        <button class="sub-tab active" data-csub="cap">💰 BÓVEDA DEL CAPITAL</button>
-        <button class="sub-tab" data-csub="eng">🌎 LENGUA DEL IMPERIO</button>
-        <button class="sub-tab" data-csub="ai">🤖 FORJA DE MENTES</button>
+        <button class="sub-tab active" data-csub="cap" aria-label="Bóveda del capital">💰 BÓVEDA DEL CAPITAL</button>
+        <button class="sub-tab" data-csub="eng" aria-label="Lengua del imperio">🌎 LENGUA DEL IMPERIO</button>
+        <button class="sub-tab" data-csub="ai" aria-label="Forja de mentes">🤖 FORJA DE MENTES</button>
       </div>
       <div id="cap-cap" class="vida-sub active"></div>
       <div id="cap-eng" class="vida-sub"></div>
@@ -2090,12 +2090,12 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
 </div>
 
-<button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.41</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.42</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
-    <button class="close-x" id="node-close">✕</button>
+    <button class="close-x" id="node-close" aria-label="Cerrar">✕</button>
     <div id="node-body"></div>
   </div>
 </div>
@@ -2110,7 +2110,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <div class="rw-modal">
     <div class="rw-head">
       <h2>🎒 INVENTARIO</h2>
-      <button class="close-x" id="rw-close">✕</button>
+      <button class="close-x" id="rw-close" aria-label="Cerrar inventario">✕</button>
     </div>
     <p class="rw-sub">Tus recompensas. Toca una para equiparla: se verá sobre tu personaje.</p>
     <div class="rw-stats">
@@ -2120,7 +2120,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <div class="inv-char" id="inv-char"></div>
     <div id="rw-chest-wrap"></div>
     <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos.</p></div>
-    <button class="btn-neon rw-back" id="rw-close2">◀ VOLVER AL MAPA</button>
+    <button class="btn-neon rw-back" id="rw-close2" aria-label="Volver al mapa">◀ VOLVER AL MAPA</button>
   </div>
 </div>
 
@@ -2128,7 +2128,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <div class="shop-modal">
     <div class="shop-head">
       <h2>🪙 TIENDA DEL HÉROE</h2>
-      <button class="close-x" id="shop-close">✕</button>
+      <button class="close-x" id="shop-close" aria-label="Cerrar tienda">✕</button>
     </div>
     <p class="shop-sub">Completá misiones para ganar <b>monedas</b> y comprá tu equipo. Lo que equipes se ve sobre tu personaje y <b>suma poder</b> contra los dioses.</p>
     <div class="shop-stats">
@@ -2136,7 +2136,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <span class="bal-pill">⚔️ Poder de equipo: <b id="shop-power">0</b></span>
     </div>
     <div class="shop-grid" id="shop-grid"></div>
-    <button class="btn-neon shop-back" id="shop-close2">◀ VOLVER</button>
+    <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
 </div>
 
@@ -2149,8 +2149,8 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <p style="text-align:left">Marca lo que <b>ya dominas</b> para saltarte esas misiones y empezar en tu nivel real (no repetirás lo que ya sabes). Puedes marcar varios.</p>
     <div id="diag-list"></div>
     <div class="diag-actions">
-      <button class="btn-neon" id="diag-apply" style="flex:1">✓ APLICAR Y EMPEZAR</button>
-      <button class="btn-neon ghost" id="diag-skip" style="flex:1;margin-left:0">EMPEZAR DESDE EL DÍA 1</button>
+      <button class="btn-neon" id="diag-apply" style="flex:1" aria-label="Aplicar y empezar">✓ APLICAR Y EMPEZAR</button>
+      <button class="btn-neon ghost" id="diag-skip" style="flex:1;margin-left:0" aria-label="Empezar desde el día 1">EMPEZAR DESDE EL DÍA 1</button>
     </div>
   </div>
 </div>
@@ -2161,7 +2161,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <h2 id="modal-title">BIENVENIDO, RECLUTA</h2>
     <p id="modal-text"></p>
     <input id="modal-input" placeholder="Tu nombre de recluta..." maxlength="24" autocomplete="off">
-    <div><button class="btn-neon" id="modal-btn">COMENZAR MISIÓN</button></div>
+    <div><button class="btn-neon" id="modal-btn" aria-label="Comenzar misión">COMENZAR MISIÓN</button></div>
   </div>
 </div>
 
@@ -2171,15 +2171,15 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <h2>¿REINICIAR TODO?</h2>
     <p>Se borrará <b>todo</b> tu progreso: campaña, días, semanas, logros, rachas y recompensas. <b>No hay vuelta atrás.</b></p>
     <div class="confirm-actions">
-      <button class="btn-neon ghost" id="confirm-cancel" type="button">CANCELAR</button>
-      <button class="btn-neon danger" id="confirm-yes" type="button">SÍ, BORRAR TODO</button>
+      <button class="btn-neon ghost" id="confirm-cancel" type="button" aria-label="Cancelar">CANCELAR</button>
+      <button class="btn-neon danger" id="confirm-yes" type="button" aria-label="Sí, borrar todo">SÍ, BORRAR TODO</button>
     </div>
   </div>
 </div>
 
 <div id="ach-layer">
   <div class="ach-modal">
-    <button class="close-x" id="ach-close">✕</button>
+    <button class="close-x" id="ach-close" aria-label="Cerrar salón de logros">✕</button>
     <h2>🏆 SALÓN DE LOGROS</h2>
     <p class="ach-sub">Cada logro otorga XP de bonificación. ¡Desbloquéalos todos!</p>
     <div class="ach-grid" id="ach-grid"></div>
@@ -3161,7 +3161,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.41"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.42"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 const DAILY_TOTAL = new Set(dailyMissions.map(m => m.day)).size; // 56 días
 const DAY_SLOTS = 3;                                             // 3 misiones/día (A,B,C)
 const WEEKLY_TOTAL = weeklyMissions.length;
@@ -3553,10 +3553,10 @@ function renderHero() {
       '</div>' +
       '<div class="dm-side"><span class="dm-xp">+' + m.xp + ' XP</span>' +
         (done
-          ? '<button class="dm-btn done-btn" data-mid="' + m.id + '">↩ DESHACER</button>'
+          ? '<button class="dm-btn done-btn" data-mid="' + m.id + '" aria-label="Deshacer misión">↩ DESHACER</button>'
           : (unlocked
-              ? '<button class="dm-btn" data-mid="' + m.id + '">✓ COMPLETAR</button>'
-              : '<button class="dm-btn done-btn" disabled style="cursor:not-allowed;opacity:.5">🔒</button>')) +
+              ? '<button class="dm-btn" data-mid="' + m.id + '" aria-label="Completar misión">✓ COMPLETAR</button>'
+              : '<button class="dm-btn done-btn" disabled style="cursor:not-allowed;opacity:.5" aria-label="Misión bloqueada">🔒</button>')) +
       '</div>' +
     '</div>';
   }).join("");
@@ -3607,8 +3607,8 @@ function renderWeekly() {
       '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
       '<div class="dh-actions">' +
         (done
-          ? '<button class="btn-complete done-btn" id="weekly-toggle">↩️ DESHACER SEMANA</button>'
-          : '<button class="btn-complete" id="weekly-toggle" style="--hero-color:' + col + ';--hero-color2:#ff00ff;--hero-glow:' + col + '55">✓ COMPLETAR MISIÓN SEMANAL</button>') +
+          ? '<button class="btn-complete done-btn" id="weekly-toggle" aria-label="Deshacer semana">↩️ DESHACER SEMANA</button>'
+          : '<button class="btn-complete" id="weekly-toggle" style="--hero-color:' + col + ';--hero-color2:#ff00ff;--hero-glow:' + col + '55" aria-label="Completar misión semanal">✓ COMPLETAR MISIÓN SEMANAL</button>') +
       '</div>' +
     '</div>';
 }
@@ -5201,8 +5201,8 @@ function renderReto() {
     '<div class="reto-task">' + reto.t + "</div>" +
     '<div class="reto-foot"><span class="reto-xp">⚡ +' + reto.xp + " XP para tu Héroe Integral</span>" +
     (done
-      ? '<button class="btn-reto" disabled>✔ RETO COMPLETADO HOY</button>'
-      : '<button class="btn-reto" id="reto-go">COMPLETAR RETO ✓</button>') +
+      ? '<button class="btn-reto" disabled aria-label="Reto completado hoy">✔ RETO COMPLETADO HOY</button>'
+      : '<button class="btn-reto" id="reto-go" aria-label="Completar reto">COMPLETAR RETO ✓</button>') +
     "</div>";
   const btn = document.getElementById("reto-go");
   if (btn) btn.onclick = completarReto;
@@ -5413,7 +5413,7 @@ function rwModalRender() {
       '<div class="chest-stage">' +
       '<div class="chest-box" id="chest-box"><span class="chest-glow"></span><span class="chest-ico">🎁</span></div>' +
       '<p class="rw-locked-note" style="color:var(--glow-amber)">Tienes <b>' + st.queue.length + "</b> cofre" + (st.queue.length > 1 ? "s" : "") + " por abrir 🎉</p>" +
-      '<button class="btn-cofre" id="rw-open">🎁 ABRIR COFRE</button></div>';
+      '<button class="btn-cofre" id="rw-open" aria-label="Abrir cofre">🎁 ABRIR COFRE</button></div>';
     document.getElementById("rw-open").addEventListener("click", rwOpenChest2);
   } else {
     cbox.style.display = "none";
@@ -5450,7 +5450,7 @@ function rwOpenChest() {
         '<span class="rw-reveal-new">✦ ¡ACCESORIO CONSEGUIDO! ✦</span>' +
         '<span class="rw-reveal-name">' + r.n + "</span>" +
         '<span class="rw-reveal-sec">' + r.sec + "</span>" +
-        '<button class="btn-cofre" id="rw-claim">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
+        '<button class="btn-cofre" id="rw-claim" aria-label="Recoger recompensa">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
     }
     document.getElementById("rw-claim").addEventListener("click", () => {
       playSfx("coin");
@@ -5987,7 +5987,7 @@ function godBossHTML(boss) {
     '<div class="gb-meta"><span>🛡️ HP ' + boss.hp.toLocaleString("es-CR") + '</span>' +
     '<span>⚔️ Tu poder ' + power.toLocaleString("es-CR") + '</span></div>' +
     '<div class="bar"><span style="width:' + pct + '%"></span></div></div>' +
-    '<button class="gb-btn' + (defeated ? " done" : "") + '" data-god="' + boss.id + '">' + (defeated ? "✓ VENCIDO" : "⚔️ RETAR") + '</button>' +
+    '<button class="gb-btn' + (defeated ? " done" : "") + '" data-god="' + boss.id + '" aria-label="' + (defeated ? "Jefe vencido" : "Retar a " + boss.n) + '">' + (defeated ? "✓ VENCIDO" : "⚔️ RETAR") + '</button>' +
     '</div>';
 }
 function mapGodPaint() {
@@ -6019,14 +6019,14 @@ function renderGodCombat() {
   let mid;
   if (defeated) {
     mid = '<div class="gd-msg win">✓ DERROTADO · has conquistado este ' + (isTitan ? "frente" : "mundo") + '</div>' +
-      '<div class="gd-actions"><button class="btn-neon" id="god-close">CERRAR</button></div>';
+      '<div class="gd-actions"><button class="btn-neon" id="god-close" aria-label="Cerrar">CERRAR</button></div>';
   } else if (power >= boss.hp) {
     mid = '<div class="gd-msg win">💥 ¡Golpe decisivo! Has vencido.</div>' +
-      '<div class="gd-actions"><button class="btn-neon" id="god-attack">⚔️ ATACAR</button></div>';
+      '<div class="gd-actions"><button class="btn-neon" id="god-attack" aria-label="Atacar">⚔️ ATACAR</button></div>';
   } else {
     mid = '<div class="gd-msg">Te faltan <b>' + remaining.toLocaleString("es-CR") + ' de poder</b> en ' + bossLabel(boss) + ' para vencer a ' + boss.n + '.</div>' +
-      '<div class="gd-actions"><button class="btn-neon" id="god-attack">⚔️ ATACAR</button>' +
-      '<button class="btn-neon ghost" id="god-close">✕</button></div>';
+      '<div class="gd-actions"><button class="btn-neon" id="god-attack" aria-label="Atacar">⚔️ ATACAR</button>' +
+      '<button class="btn-neon ghost" id="god-close" aria-label="Cerrar">✕</button></div>';
   }
   body.innerHTML = '<div class="god-duel" style="--mc:' + boss.c + '">' +
     '<div class="gd-head">' + (img ? '<img class="gd-img" src="' + img + '" alt="' + boss.n + '">' : '<span class="gd-ico">' + boss.ico + '</span>') +
@@ -6157,7 +6157,7 @@ function mapHubHTML() {
   let html = svg;
   W.forEach(ww => {
     const st = map[ww.k];
-    html += '<button class="mworld' + (ww.k === "camp" ? " camp" : "") + '" data-w="' + ww.k + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
+    html += '<button class="mworld' + (ww.k === "camp" ? " camp" : "") + '" data-w="' + ww.k + '" aria-label="' + ww.n + '" style="--mc:' + ww.c + ";left:" + ww.x + "%;top:" + ww.y + '%">' +
       (ww.k === "camp" ? '<span class="mw-saturn"></span>' : "") +
       '<span class="mw-pulse"></span><span class="mw-ring">' + ringSvg(st.pct) + "</span>" +
       (st.pct >= 100 ? '<span class="mw-check">✓</span>' : "") +
@@ -6173,7 +6173,7 @@ function mapHubHTML() {
 /* --- nodos genéricos --- */
 function mnodeHTML(x, y, cfg) {
   let cls = "mnode" + (cfg.done ? " done" : "") + (cfg.locked ? " locked" : "") + (cfg.cur ? " current" : "") + (cfg.bossLock ? " lock-boss" : "");
-  return '<button class="' + cls + '" style="--mc:' + cfg.color + ";left:" + x + "%;top:" + y + 'px" data-act="' + cfg.act + '" data-id="' + cfg.id + '">' +
+  return '<button class="' + cls + '" style="--mc:' + cfg.color + ";left:" + x + "%;top:" + y + 'px" data-act="' + cfg.act + '" data-id="' + cfg.id + '" aria-label="' + (cfg.t || cfg.ico || "") + '">' +
     (cfg.done ? '<span class="mn-check">✓</span>' : "") +
     (cfg.locked ? '<span class="mn-lock">🔒</span>' : (cfg.bossLock ? '<span class="mn-lock">🔒</span>' : "")) +
     (cfg.boss && !cfg.done ? '<span class="mn-boss">👑</span>' : "") +
@@ -6823,7 +6823,7 @@ function rwOpenChest2() {
         '<span class="rw-reveal-new">✦ ¡ACCESORIO CONSEGUIDO! ✦</span>' +
         '<span class="rw-reveal-name">' + r.n + "</span>" +
         '<span class="rw-reveal-sec">' + r.sec + " · <b>" + RW_TIER_NAMES[tier] + "</b></span>" +
-        '<button class="btn-cofre" id="rw-claim">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
+        '<button class="btn-cofre" id="rw-claim" aria-label="Recoger recompensa">RECOGER' + (st.queue.length > 0 ? " · quedan " + st.queue.length : "") + "</button></div>";
     }
     document.getElementById("rw-claim").addEventListener("click", () => {
       playSfx("coin");
@@ -7017,9 +7017,9 @@ function shopRender() {
     const affordable = bal >= it.price;
     let btn;
     if (owned) {
-      btn = '<button class="shop-btn' + (eqHere ? " eq" : "") + '" data-shop-eq="' + it.id + '">' + (eqHere ? "EQUIPADO ✓" : "EQUIPAR") + '</button>';
+      btn = '<button class="shop-btn' + (eqHere ? " eq" : "") + '" data-shop-eq="' + it.id + '" aria-label="Equipar ' + it.n + '">' + (eqHere ? "EQUIPADO ✓" : "EQUIPAR") + '</button>';
     } else {
-      btn = '<button class="shop-btn' + (affordable ? "" : " no") + '" data-shop-buy="' + it.id + '">🪙 ' + it.price.toLocaleString("es-CR") + '</button>';
+      btn = '<button class="shop-btn' + (affordable ? "" : " no") + '" data-shop-buy="' + it.id + '" aria-label="Comprar ' + it.n + '">🪙 ' + it.price.toLocaleString("es-CR") + '</button>';
     }
     return '<div class="shop-item tier-' + it.tier + (eqHere ? " eq" : "") + '" style="--tc:' + (SHOP_TIERS[it.tier] || "#ffd700") + '">' +
       '<span class="si-ico">' + it.ico + '</span>' +
