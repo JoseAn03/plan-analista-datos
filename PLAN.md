@@ -92,6 +92,20 @@ Verificación del estado real del código contra los documentos. **Resultado:** 
 
 ---
 
+### FASE 2.5 — Planner personal (organizador de misiones) 🗓️
+*Objetivo: que el usuario arme su propio plan eligiendo y ordenando varias misiones de cualquier frente.*
+
+- **Selección libre:** el usuario elige misiones de cualquier frente (estudio, capital, empleo, vida, campaña) y las agrega a su plan del día/semana.
+- **Orden a gusto:** puede reordenarlas (mover arriba/abajo, quitar) para armar una secuencia de trabajo.
+- **Integración total al ecosistema:** al completar una misión del plan, suma **XP/monedas/racha igual que cualquier otra** — el progreso fluye por el bus de eventos (Fase 1), no hay contabilidad aparte.
+- **Datos:** lista de misiones seleccionadas + orden, guardada en clave propia `odea_planner` (cubierta por el respaldo extendido de la Fase 0.5). Referencia por `id` de misión, sin duplicar contenido.
+- **Conexión con calendario:** botón para exportar el plan del día a `.ics` (se engancha a la Fase 6).
+- **Carga al instante:** reusa el render diferido existente.
+
+*Criterio de salida:* elegir 3-4 misiones de frentes distintos → reordenar → completar una → el XP/monedas/racha se actualizan igual que en el flujo normal; exportar/importar conserva el plan.
+
+---
+
 ### FASE 3 — Dominios como configuración
 - Dominios (Carrera, Estudio, Proyectos, Negocio, Cuerpo, Capital) como datos de config editables: `id`, nombre, icono, color, XP, nivel.
 - Agregar dominio = agregar un objeto de config, no lógica nueva.
@@ -151,4 +165,6 @@ Verificación del estado real del código contra los documentos. **Resultado:** 
 1. **Fase 0.5 (P0)** — deuda crítica, base limpia.
 2. **Accesibilidad (62 botones)** — paralela o inmediatamente después.
 3. **Fase 1 (bus de eventos)** — sobre hormigón, no arena.
-4. Fases 2 → 7 en orden, con OK entre cada una.
+4. **Fase 2 (Agenda de hoy)** — pantalla automática del día.
+5. **Fase 2.5 (Planner personal)** — organizar varias misiones a tu gusto, integrado al ecosistema.
+6. Fases 3 → 7 en orden, con OK entre cada una.
