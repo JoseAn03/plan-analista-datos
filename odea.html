@@ -560,6 +560,22 @@ html{-webkit-text-size-adjust:100%}
 .bar.stat.violet>span{background:linear-gradient(90deg,#7c6cff,#ff00ff);box-shadow:0 0 10px rgba(124,108,255,.5)}
 .vida-mini{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;margin-top:8px;font-size:.75rem;color:var(--tx2);font-family:'Share Tech Mono',monospace}
 .vida-mini b{font-family:'Orbitron',sans-serif;font-size:.78rem;color:#fff}
+/* --- Historial de Vida --- */
+.hist-hero{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.hist-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(26,26,46,.5);border:1px solid rgba(160,160,192,.15);margin-bottom:6px;transition:.2s}
+.hist-row:hover{border-color:rgba(0,204,255,.4);transform:translateX(3px)}
+.hist-rank{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--glow-cyan);min-width:26px;text-align:center}
+.hist-tt{flex:1;font-size:.84rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist-tt small{display:block;font-size:.66rem;color:var(--tx2);font-family:'Share Tech Mono',monospace;letter-spacing:.5px}
+.hist-bar{width:110px;height:7px;border-radius:99px;background:#12122a;border:1px solid rgba(160,160,192,.18);overflow:hidden;flex-shrink:0}
+.hist-bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan));border-radius:99px}
+.hist-count{font-family:'Orbitron',sans-serif;font-size:.88rem;color:var(--glow-green);min-width:44px;text-align:right}
+.hist-empty{text-align:center;padding:34px 12px;color:var(--tx2);font-size:.9rem}
+.hist-rec{display:flex;flex-direction:column;gap:5px}
+.hist-rec-item{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--tx2);padding:6px 10px;border-radius:9px;background:rgba(26,26,46,.4)}
+.hist-rec-item .hr-date{font-family:'Share Tech Mono',monospace;color:var(--glow-cyan);font-size:.68rem;min-width:70px}
+.hist-rec-item .hr-txt{color:#fff}
+@media (max-width:760px){.hist-bar{width:60px}}
 .eco-xp{display:flex;flex-direction:column;gap:5px;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--tx2)}
 .eco-row{display:flex;align-items:center;gap:8px}
 .eco-row .eco-lab{flex:0 0 62px;color:var(--tx);white-space:nowrap}
@@ -1987,7 +2003,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.49</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.50</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2052,7 +2068,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.49</span>
+    <span class="ver" id="ver-badge">v5.50</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2185,6 +2201,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
         <button class="sub-tab" data-sub="men" aria-label="Sabios y mentores">🏛️ SABIOS & MENTORES</button>
         <button class="sub-tab" data-sub="plan" aria-label="Planes y aventuras">🎢 PLANES & AVENTURAS</button>
         <button class="sub-tab" data-sub="orden" aria-label="Orden y hogar">🧹 ORDEN & HOGAR</button>
+        <button class="sub-tab" data-sub="hist" aria-label="Historial de vida">📜 HISTORIAL</button>
       </div>
       <div id="vida-eq" class="vida-sub active"></div>
       <div id="vida-kid" class="vida-sub"></div>
@@ -2193,6 +2210,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="vida-men" class="vida-sub"></div>
       <div id="vida-plan" class="vida-sub"></div>
       <div id="vida-orden" class="vida-sub"></div>
+      <div id="vida-hist" class="vida-sub"></div>
     </section>
 
     <!-- ============ VISTA 5: CAPITAL (tres frentes: capital · inglés · IA) ============ -->
@@ -2232,7 +2250,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.49</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.50</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -3334,7 +3352,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.49"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.50"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -5505,6 +5523,67 @@ function renderVidaCpl(vs) {
   CPL_GOALS.forEach(m => { h += vidaCardHTML(m, vs); });
   el.innerHTML = h;
 }
+function renderVidaHist(vs) {
+  const el = document.getElementById("vida-hist");
+  if (!el) return;
+  const titleOf = {};
+  [HABITOS, VIDA_GROWTH, KID_DAILY, KID_WEEK, KID_HITS, KID_LEARN, KID_FUN,
+   CPL_WEEK, CPL_GOALS, POW_WEEK, POW_HITS, MEN_WEEK, MEN_HITS,
+   PLAN_WEEK, PLAN_HITS, ORDEN_DAILY, ORDEN_WEEK, ORDEN_HITS].forEach(function (arr) {
+    arr.forEach(function (o) {
+      const meta = VIDA_OBJ[o.id];
+      titleOf[o.id] = { t: o.t, cat: meta ? meta.cat : "eq", kind: meta ? meta.kind : "one" };
+    });
+  });
+  const counts = {};
+  vs.log.forEach(function (entry) {
+    const i = entry.indexOf("|");
+    if (i <= 0) return;
+    const id = entry.slice(0, i);
+    counts[id] = (counts[id] || 0) + 1;
+  });
+  ["growth", "kid", "couple", "pow", "men", "plan", "orden"].forEach(function (list) {
+    (vs.gv[list] || []).forEach(function (id) { counts[id] = (counts[id] || 0) + 1; });
+  });
+  const rows = Object.keys(counts).map(function (id) {
+    const meta = titleOf[id] || { t: id, cat: "eq", kind: "one" };
+    return { id: id, n: counts[id], t: meta.t, cat: meta.cat, kind: meta.kind };
+  }).sort(function (a, b) { return b.n - a.n; });
+  const total = rows.reduce(function (s, r) { return s + r.n; }, 0);
+  const max = rows.length ? rows[0].n : 1;
+  let h = '<div class="hist-hero">' +
+    '<div class="mini-chip camp"><span class="mc-num">' + rows.length + '</span><span class="mc-lab">Hábitos tocados</span></div>' +
+    '<div class="mini-chip daily"><span class="mc-num">' + total + '</span><span class="mc-lab">Cumplidos totales</span></div>' +
+    '<div class="mini-chip weekly"><span class="mc-num">' + (vs.balanceStreak > 0 ? "🔥 " + vs.balanceStreak : "0") + '</span><span class="mc-lab">Racha ⚖️</span></div>' +
+    '</div>';
+  if (!rows.length) {
+    h += '<div class="hist-empty">🧬 Aún no has marcado hábitos. ¡Empieza hoy y aquí verás tu historial de guerrero!</div>';
+  } else {
+    h += '<div class="sect-title">🏆 Tu ranking de hábitos <small>lo que más has repetido</small></div>';
+    rows.forEach(function (r, idx) {
+      const pct = Math.max(4, Math.round((r.n / max) * 100));
+      const kindLab = r.kind === "daily" ? "hábito diario" : r.kind === "weekly" ? "semanal" : "logro único";
+      h += '<div class="hist-row"><span class="hist-rank">#' + (idx + 1) + '</span>' +
+        '<span class="hist-tt">' + r.t + '<small>' + kindLab + '</small></span>' +
+        '<span class="hist-bar"><span style="width:' + pct + '%"></span></span>' +
+        '<span class="hist-count">' + r.n + '×</span></div>';
+    });
+  }
+  const recent = vs.log.slice(-10).reverse();
+  let rh = "";
+  recent.forEach(function (entry) {
+    const i = entry.indexOf("|");
+    if (i <= 0) return;
+    const id = entry.slice(0, i), key = entry.slice(i + 1);
+    const meta = titleOf[id];
+    let d = key;
+    if (key.indexOf("-W") >= 0) d = "Semana " + key.slice(key.indexOf("-W") + 2);
+    else d = key.slice(5).replace("-", "/");
+    rh += '<div class="hist-rec-item"><span class="hr-date">' + d + '</span><span class="hr-txt">' + (meta ? meta.t : id) + '</span></div>';
+  });
+  if (rh) h += '<div class="sect-title">🕘 Actividad reciente <small>tus últimos cumplidos</small></div><div class="hist-rec">' + rh + '</div>';
+  el.innerHTML = h;
+}
 function renderVidaSide(vs) {
   const setTxt = function (id, txt) { const e = document.getElementById(id); if (e) e.textContent = txt; };
   setTxt("s-vlvl", "Nv." + vs.hero.lvl);
@@ -5535,6 +5614,7 @@ function renderVidaSubActiva() {
   else if (st.dataset.sub === "men") renderVidaMen(vs);
   else if (st.dataset.sub === "plan") renderVidaPlan(vs);
   else if (st.dataset.sub === "orden") renderVidaOrden(vs);
+  else if (st.dataset.sub === "hist") renderVidaHist(vs);
   else renderVidaCpl(vs);
 }
 function renderVida() {
@@ -5550,6 +5630,7 @@ function renderVida() {
     else if (name === "men") renderVidaMen(vs);
     else if (name === "plan") renderVidaPlan(vs);
     else if (name === "orden") renderVidaOrden(vs);
+    else if (name === "hist") renderVidaHist(vs);
     else renderVidaCpl(vs);
   }
 }
@@ -5613,7 +5694,7 @@ function vidaToggle(ev) {
       const b = e.target.closest(".sub-tab");
       if (!b) return;
       document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
-      ["eq", "kid", "cpl", "pow", "men", "plan", "orden"].forEach(n => {
+      ["eq", "kid", "cpl", "pow", "men", "plan", "orden", "hist"].forEach(n => {
         const v = document.getElementById("vida-" + n);
         if (v) v.classList.toggle("active", b.dataset.sub === n);
       });
