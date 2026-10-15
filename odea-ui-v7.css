@@ -798,7 +798,7 @@ body.odea-ui-v7 #view-map::before {
   content: "";
   position: absolute;
   inset: -8px 0 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   opacity: .72;
   background:
@@ -811,7 +811,7 @@ body.odea-ui-v7 #view-map::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background:
     linear-gradient(90deg, rgba(4, 7, 22, .46), transparent 30%, transparent 72%, rgba(4, 7, 22, .34)),
