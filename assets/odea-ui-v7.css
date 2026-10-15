@@ -786,3 +786,55 @@ body.odea-ui-v7 .tag {
     font-size: .66rem;
   }
 }
+
+/* Fondo principal ODEA: mundo sci-fi original, optimizado para legibilidad móvil. */
+body.odea-ui-v7 #view-map {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+body.odea-ui-v7 #view-map::before {
+  content: "";
+  position: absolute;
+  inset: -8px 0 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    linear-gradient(180deg, rgba(4, 7, 22, .2) 0%, rgba(4, 7, 22, .34) 34%, rgba(4, 7, 22, .9) 94%),
+    url("./bg/odea-homeworld.webp") center top / cover no-repeat;
+  filter: saturate(.94) contrast(1.04);
+}
+
+body.odea-ui-v7 #view-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 7, 22, .46), transparent 30%, transparent 72%, rgba(4, 7, 22, .34)),
+    radial-gradient(ellipse at 50% 18%, transparent 0%, rgba(4, 7, 22, .18) 62%, rgba(4, 7, 22, .58) 100%);
+}
+
+body.odea-ui-v7 #view-map > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  body.odea-ui-v7 #view-map::before {
+    inset: -4px 0 0;
+    opacity: .64;
+    background:
+      linear-gradient(180deg, rgba(4, 7, 22, .28) 0%, rgba(4, 7, 22, .4) 38%, rgba(4, 7, 22, .95) 92%),
+      url("./bg/odea-homeworld.webp") 64% top / auto 100% no-repeat;
+  }
+
+  body.odea-ui-v7 #view-map::after {
+    background:
+      linear-gradient(90deg, rgba(4, 7, 22, .58), transparent 48%, rgba(4, 7, 22, .4)),
+      linear-gradient(180deg, transparent 0%, rgba(4, 7, 22, .28) 50%, rgba(4, 7, 22, .68) 100%);
+  }
+}
