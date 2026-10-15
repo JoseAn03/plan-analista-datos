@@ -84,8 +84,9 @@ body.odea-ui-v7 .daily-hero {
 body.odea-ui-v7 .app-side {
   width: 260px;
   background:
-    linear-gradient(180deg, rgba(12, 20, 54, 0.97), rgba(8, 12, 34, 0.98)),
-    radial-gradient(circle at 50% 0%, rgba(124, 92, 255, 0.16), transparent 55%);
+    linear-gradient(180deg, rgba(9, 15, 38, 0.82), rgba(6, 10, 28, 0.88)),
+    radial-gradient(circle at 50% 0%, rgba(124, 92, 255, 0.14), transparent 55%),
+    url("./bg/odea-homeworld.webp") center / cover no-repeat;
   border-right: 1px solid rgba(124, 92, 255, 0.35);
   box-shadow: 16px 0 44px rgba(0, 0, 0, 0.28);
 }
