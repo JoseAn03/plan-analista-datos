@@ -767,3 +767,22 @@ body.odea-ui-v7 .tag {
     font-size: .54rem;
   }
 }
+
+@media (max-width: 640px) {
+  body.odea-ui-v7 #map-stage .hub-wrap {
+    height: clamp(560px, calc(100dvh - 160px), 700px) !important;
+    min-height: 560px !important;
+  }
+
+  body.odea-ui-v7 #map-stage .hub-wrap .hub-svg {
+    opacity: .38;
+  }
+
+  body.odea-ui-v7 .fab-continue {
+    right: 10px;
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    padding-inline: 13px;
+    min-height: 44px;
+    font-size: .66rem;
+  }
+}
