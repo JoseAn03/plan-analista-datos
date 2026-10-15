@@ -32,6 +32,10 @@
   function prependButtonIcon(selector, name) {
     document.querySelectorAll(selector).forEach(function (el) {
       if (el.querySelector(":scope > .odea-icon")) return;
+      Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+        if (node.nodeType !== 3) return;
+        node.nodeValue = node.nodeValue.replace(/^\s*(🎒|🪙)\s*/, "");
+      });
       var span = document.createElement("span");
       span.className = "odea-icon";
       span.setAttribute("aria-hidden", "true");

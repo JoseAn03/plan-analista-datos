@@ -171,7 +171,7 @@ body.odea-ui-v7 .map-sub {
   color: #b7c3e8;
 }
 
-body.odea-ui-v7 #modal-layer.show ~ #fab-continue {
+body.odea-ui-v7:has(#modal-layer.show) #fab-continue {
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
