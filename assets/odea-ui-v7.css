@@ -336,7 +336,10 @@ body.odea-ui-v7 .nb-ico .odea-icon {
 
 body.odea-ui-v7:has(#modal-layer.show) header,
 body.odea-ui-v7:has(#modal-layer.show) .app-side,
-body.odea-ui-v7:has(#modal-layer.show) .nav-bottom {
+body.odea-ui-v7:has(#modal-layer.show) .nav-bottom,
+body.odea-ui-v7:has(#diag-layer.show) header,
+body.odea-ui-v7:has(#diag-layer.show) .app-side,
+body.odea-ui-v7:has(#diag-layer.show) .nav-bottom {
   filter: blur(7px) saturate(.7);
   opacity: .28;
   pointer-events: none;
@@ -349,6 +352,13 @@ body.odea-ui-v7:has(#diag-layer.show) #diag-layer {
     radial-gradient(circle at 50% 18%, rgba(25, 217, 255, .12), transparent 34%),
     radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .15), transparent 48%),
     rgba(2, 5, 18, .88);
+}
+
+body.odea-ui-v7:has(#modal-layer.show) #fab-continue,
+body.odea-ui-v7:has(#diag-layer.show) #fab-continue {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
 }
 
 body.odea-ui-v7 #modal-layer .modal {
