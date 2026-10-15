@@ -158,7 +158,7 @@ body.odea-ui-v7 .map-hero {
   background:
     radial-gradient(circle at 84% 12%, rgba(25, 217, 255, 0.16), transparent 42%),
     radial-gradient(circle at 12% 92%, rgba(255, 86, 216, 0.12), transparent 44%),
-    linear-gradient(135deg, rgba(17, 25, 54, 0.6), rgba(8, 13, 34, 0.55));
+    linear-gradient(135deg, rgba(17, 25, 54, 0.42), rgba(8, 13, 34, 0.36));
   box-shadow: 0 18px 40px rgba(1, 4, 18, 0.22);
 }
 
@@ -559,8 +559,8 @@ body.odea-ui-v7 #map-stage .world-scroll {
   isolation: isolate;
   background:
     radial-gradient(circle at 50% 42%, rgba(25, 217, 255, .08), transparent 20%),
-    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .12), transparent 54%),
-    linear-gradient(135deg, rgba(5, 11, 33, .45), rgba(7, 9, 28, .4));
+    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .1), transparent 54%),
+    linear-gradient(135deg, rgba(5, 11, 33, .28), rgba(7, 9, 28, .24));
   border: 1px solid rgba(124, 92, 255, .38);
 }
 
@@ -800,11 +800,11 @@ body.odea-ui-v7 #view-map::before {
   inset: -8px 0 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .95;
+  opacity: 1;
   background:
-    linear-gradient(180deg, rgba(4, 7, 22, .08) 0%, rgba(4, 7, 22, .14) 60%, rgba(4, 7, 22, .4) 100%),
+    linear-gradient(180deg, rgba(4, 7, 22, .02) 0%, rgba(4, 7, 22, .05) 60%, rgba(4, 7, 22, .22) 100%),
     url("./bg/odea-homeworld.webp") center top / cover no-repeat;
-  filter: saturate(1) contrast(1.05);
+  filter: saturate(1.05) contrast(1.08) brightness(1.05);
 }
 
 body.odea-ui-v7 #view-map::after {
@@ -814,8 +814,8 @@ body.odea-ui-v7 #view-map::after {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(4, 7, 22, .22), transparent 30%, transparent 72%, rgba(4, 7, 22, .16)),
-    radial-gradient(ellipse at 50% 18%, transparent 0%, rgba(4, 7, 22, .08) 62%, rgba(4, 7, 22, .28) 100%);
+    linear-gradient(90deg, rgba(4, 7, 22, .1), transparent 30%, transparent 72%, rgba(4, 7, 22, .08)),
+    radial-gradient(ellipse at 50% 18%, transparent 0%, rgba(4, 7, 22, .03) 62%, rgba(4, 7, 22, .12) 100%);
 }
 
 body.odea-ui-v7 #view-map > * {
@@ -826,15 +826,15 @@ body.odea-ui-v7 #view-map > * {
 @media (max-width: 640px) {
   body.odea-ui-v7 #view-map::before {
     inset: -4px 0 0;
-    opacity: .9;
+    opacity: 1;
     background:
-      linear-gradient(180deg, rgba(4, 7, 22, .1) 0%, rgba(4, 7, 22, .16) 60%, rgba(4, 7, 22, .44) 100%),
+      linear-gradient(180deg, rgba(4, 7, 22, .02) 0%, rgba(4, 7, 22, .06) 60%, rgba(4, 7, 22, .24) 100%),
       url("./bg/odea-homeworld.webp") 64% top / auto 100% no-repeat;
   }
 
   body.odea-ui-v7 #view-map::after {
     background:
-      linear-gradient(90deg, rgba(4, 7, 22, .26), transparent 48%, rgba(4, 7, 22, .18)),
-      linear-gradient(180deg, transparent 0%, rgba(4, 7, 22, .12) 50%, rgba(4, 7, 22, .34) 100%);
+      linear-gradient(90deg, rgba(4, 7, 22, .12), transparent 48%, rgba(4, 7, 22, .08)),
+      linear-gradient(180deg, transparent 0%, rgba(4, 7, 22, .04) 50%, rgba(4, 7, 22, .14) 100%);
   }
 }
