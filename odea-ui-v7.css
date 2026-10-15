@@ -1,0 +1,840 @@
+/*
+ * ODEA UI v7 — capa visual segura
+ * Esta hoja solo redefine tokens, superficie, jerarquía y responsive.
+ * No modifica clases de estado ni selectores usados por la lógica.
+ */
+
+body.odea-ui-v7 {
+  --bg: #070b1e;
+  --bg2: #111936;
+  --tx: #eaf0ff;
+  --tx2: #aeb9d8;
+  --glow-green: #71f6b2;
+  --glow-cyan: #19d9ff;
+  --glow-magenta: #ff56d8;
+  --glow-amber: #ffd866;
+  --glow-orange: #ff9a62;
+  --glow-red: #ff668c;
+  --ok: #71f6b2;
+  --danger: #ff668c;
+  --radius: 16px;
+  --border: 1px solid rgba(163, 177, 232, 0.22);
+  background:
+    radial-gradient(ellipse 70% 55% at 58% -10%, rgba(124, 92, 255, 0.22), transparent 68%),
+    radial-gradient(ellipse 44% 38% at 92% 26%, rgba(25, 217, 255, 0.11), transparent 70%),
+    radial-gradient(ellipse 46% 42% at 4% 82%, rgba(255, 86, 216, 0.08), transparent 72%),
+    #070b1e;
+  color: var(--tx);
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+body.odea-ui-v7::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.55) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 72% 14%, rgba(255, 216, 102, 0.8) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 86% 68%, rgba(25, 217, 255, 0.55) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 34% 78%, rgba(255, 86, 216, 0.5) 0 1px, transparent 1.6px);
+  background-size: 210px 190px, 320px 290px, 260px 230px, 390px 340px;
+  opacity: 0.55;
+}
+
+body.odea-ui-v7 #grid-layer {
+  opacity: 0.62;
+  background-image:
+    linear-gradient(rgba(124, 92, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 92, 255, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.68) 55%, transparent 100%);
+}
+
+body.odea-ui-v7 #grid-layer::after {
+  opacity: 0.16;
+  animation-duration: 24s;
+}
+
+body.odea-ui-v7 h1,
+body.odea-ui-v7 h2,
+body.odea-ui-v7 h3,
+body.odea-ui-v7 .f-display,
+body.odea-ui-v7 .logo,
+body.odea-ui-v7 .side-logo,
+body.odea-ui-v7 .nav-item,
+body.odea-ui-v7 .navb,
+body.odea-ui-v7 .btn-neon,
+body.odea-ui-v7 .fab-continue {
+  font-family: "Orbitron", "Space Grotesk", sans-serif;
+}
+
+body.odea-ui-v7 p,
+body.odea-ui-v7 .modal p,
+body.odea-ui-v7 .map-sub,
+body.odea-ui-v7 .side-rank,
+body.odea-ui-v7 .side-foot,
+body.odea-ui-v7 .mission,
+body.odea-ui-v7 .daily-hero {
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+}
+
+body.odea-ui-v7 .app-side {
+  width: 260px;
+  background:
+    linear-gradient(180deg, rgba(12, 20, 54, 0.97), rgba(8, 12, 34, 0.98)),
+    radial-gradient(circle at 50% 0%, rgba(124, 92, 255, 0.16), transparent 55%);
+  border-right: 1px solid rgba(124, 92, 255, 0.35);
+  box-shadow: 16px 0 44px rgba(0, 0, 0, 0.28);
+}
+
+body.odea-ui-v7 .side-logo {
+  padding-top: 14px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 18px rgba(25, 217, 255, 0.5);
+}
+
+body.odea-ui-v7 .side-logo small {
+  color: #89d9ff;
+  letter-spacing: 2.4px;
+}
+
+body.odea-ui-v7 .side-holo {
+  border-color: rgba(25, 217, 255, 0.28);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(25, 217, 255, 0.13), transparent 58%),
+    rgba(5, 9, 28, 0.42);
+}
+
+body.odea-ui-v7 .side-id b {
+  color: #f3f6ff;
+}
+
+body.odea-ui-v7 .side-id span {
+  color: #89d9ff;
+}
+
+body.odea-ui-v7 .nav-item,
+body.odea-ui-v7 .side-inv {
+  min-height: 48px;
+  border: 1px solid transparent;
+  color: #c3cbed;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+body.odea-ui-v7 .nav-item:hover,
+body.odea-ui-v7 .side-inv:hover {
+  background: rgba(124, 92, 255, 0.14);
+  border-color: rgba(124, 92, 255, 0.32);
+  transform: translateX(2px);
+}
+
+body.odea-ui-v7 .nav-item.active {
+  color: #07152a;
+  background: linear-gradient(135deg, #71f6b2, #19d9ff);
+  box-shadow: 0 10px 24px rgba(25, 217, 255, 0.2);
+}
+
+body.odea-ui-v7 .side-inv {
+  background: rgba(17, 25, 54, 0.8);
+  border-color: rgba(255, 216, 102, 0.38);
+  color: #ffe49a;
+}
+
+body.odea-ui-v7 .layout {
+  max-width: 1480px;
+}
+
+body.odea-ui-v7 header {
+  background: rgba(7, 11, 30, 0.78);
+  border-bottom-color: rgba(124, 92, 255, 0.24);
+  box-shadow: 0 10px 34px rgba(2, 4, 16, 0.34);
+}
+
+body.odea-ui-v7 .map-hero {
+  border-color: rgba(124, 92, 255, 0.44);
+  background:
+    radial-gradient(circle at 84% 12%, rgba(25, 217, 255, 0.16), transparent 42%),
+    radial-gradient(circle at 12% 92%, rgba(255, 86, 216, 0.12), transparent 44%),
+    linear-gradient(135deg, rgba(17, 25, 54, 0.94), rgba(8, 13, 34, 0.92));
+  box-shadow: 0 18px 40px rgba(1, 4, 18, 0.22);
+}
+
+body.odea-ui-v7 .map-title {
+  color: #f1f4ff;
+  text-shadow: 0 0 18px rgba(25, 217, 255, 0.24);
+}
+
+body.odea-ui-v7 .map-sub {
+  color: #b7c3e8;
+}
+
+body.odea-ui-v7:has(#modal-layer.show) #fab-continue {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+body.odea-ui-v7 .modal {
+  max-width: 560px;
+  padding: 38px 34px 34px;
+  border-color: rgba(25, 217, 255, 0.58);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(124, 92, 255, 0.18), transparent 42%),
+    linear-gradient(145deg, rgba(20, 28, 66, 0.98), rgba(13, 17, 43, 0.98));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 26px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(124, 92, 255, 0.18);
+}
+
+body.odea-ui-v7 .modal h2 {
+  font-size: clamp(1.35rem, 2.6vw, 1.95rem);
+  letter-spacing: 1px;
+}
+
+body.odea-ui-v7 .modal p {
+  color: #c0c9e3;
+}
+
+body.odea-ui-v7 .modal input,
+body.odea-ui-v7 input[type="text"],
+body.odea-ui-v7 input[type="search"] {
+  min-height: 48px;
+  border-color: rgba(25, 217, 255, 0.42);
+  background: rgba(7, 11, 30, 0.72);
+  color: #f0f4ff;
+}
+
+body.odea-ui-v7 .btn-neon,
+body.odea-ui-v7 .fab-continue {
+  min-height: 48px;
+  border-color: rgba(25, 217, 255, 0.52);
+  background: linear-gradient(120deg, #71f6b2 0%, #19d9ff 56%, #7c5cff 125%);
+  box-shadow: 0 12px 28px rgba(25, 217, 255, 0.24);
+}
+
+body.odea-ui-v7 .fab-continue {
+  color: #061326;
+}
+
+body.odea-ui-v7 .fab-continue:hover,
+body.odea-ui-v7 .btn-neon:hover {
+  box-shadow: 0 16px 38px rgba(124, 92, 255, 0.36);
+}
+
+body.odea-ui-v7 :is(button, input, a):focus-visible {
+  outline: 2px solid #ffd866;
+  outline-offset: 3px;
+}
+
+body.odea-ui-v7 .nav-bottom {
+  background: rgba(8, 12, 34, 0.96);
+  border-top-color: rgba(124, 92, 255, 0.34);
+  box-shadow: 0 -10px 28px rgba(2, 4, 16, 0.3);
+}
+
+body.odea-ui-v7 .navb {
+  min-height: 56px;
+  color: #aeb9d8;
+}
+
+body.odea-ui-v7 .navb.active {
+  color: #f2f5ff;
+  background: rgba(124, 92, 255, 0.16);
+}
+
+body.odea-ui-v7 footer {
+  color: #8e9ac1;
+}
+
+body.odea-ui-v7 .odea-icon {
+  width: 1.25em;
+  height: 1.25em;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: currentColor;
+  vertical-align: -0.22em;
+}
+
+body.odea-ui-v7 .odea-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+body.odea-ui-v7 .ni-ico,
+body.odea-ui-v7 .nb-ico {
+  display: inline-grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  font-size: 0;
+  color: currentColor;
+}
+
+body.odea-ui-v7 .ni-ico .odea-icon,
+body.odea-ui-v7 .nb-ico .odea-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+@media (max-width: 999px) {
+  body.odea-ui-v7 .app-side {
+    width: min(88vw, 320px);
+  }
+
+  body.odea-ui-v7 .layout {
+    padding-bottom: 92px;
+  }
+}
+
+@media (max-width: 640px) {
+  body.odea-ui-v7 {
+    font-size: 15px;
+  }
+
+  body.odea-ui-v7 header {
+    background: rgba(7, 11, 30, 0.9);
+  }
+
+  body.odea-ui-v7 .modal {
+    width: calc(100% - 16px);
+    padding: 28px 18px 22px;
+    border-radius: 20px;
+  }
+
+  body.odea-ui-v7 .modal p {
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
+
+  body.odea-ui-v7 .fab-continue {
+    bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.odea-ui-v7 #grid-layer::after {
+    animation: none;
+  }
+}
+
+/* ==========================================================
+   ODEA UI v8 — misión de arranque + mapa orbital + misiones
+   Capa visual aislada: no cambia ids, datos ni eventos.
+   ========================================================== */
+
+body.odea-ui-v7:has(#modal-layer.show) header,
+body.odea-ui-v7:has(#modal-layer.show) .app-side,
+body.odea-ui-v7:has(#modal-layer.show) .nav-bottom,
+body.odea-ui-v7:has(#diag-layer.show) header,
+body.odea-ui-v7:has(#diag-layer.show) .app-side,
+body.odea-ui-v7:has(#diag-layer.show) .nav-bottom {
+  filter: blur(7px) saturate(.7);
+  opacity: .28;
+  pointer-events: none;
+  transition: filter .3s ease, opacity .3s ease;
+}
+
+body.odea-ui-v7:has(#modal-layer.show) #modal-layer,
+body.odea-ui-v7:has(#diag-layer.show) #diag-layer {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(25, 217, 255, .12), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .15), transparent 48%),
+    rgba(2, 5, 18, .88);
+}
+
+body.odea-ui-v7:has(#modal-layer.show) #fab-continue,
+body.odea-ui-v7:has(#diag-layer.show) #fab-continue {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+body.odea-ui-v7 #modal-layer .modal {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(25, 217, 255, .72);
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgba(25, 217, 255, .08) 8% 8.4%, transparent 8.4% 92%, rgba(255, 86, 216, .08) 92% 92.4%, transparent 92.4%),
+    radial-gradient(circle at 50% -12%, rgba(25, 217, 255, .2), transparent 42%),
+    linear-gradient(150deg, rgba(18, 29, 72, .98), rgba(8, 13, 34, .98));
+}
+
+body.odea-ui-v7 #modal-layer .modal::before {
+  content: "BRIEFING // SECTOR ODEA";
+  position: absolute;
+  top: 14px;
+  left: 22px;
+  color: #8fe6ff;
+  font: 600 .58rem/1 "Share Tech Mono", monospace;
+  letter-spacing: 2px;
+  opacity: .8;
+}
+
+body.odea-ui-v7 #modal-layer .modal::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(25, 217, 255, .13);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+body.odea-ui-v7 #modal-layer .modal .big-ico {
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 88px;
+  margin: 2px auto 10px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 216, 102, .58);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, .35), transparent 23%),
+    linear-gradient(145deg, rgba(255, 216, 102, .2), rgba(124, 92, 255, .22));
+  box-shadow: 0 0 34px rgba(25, 217, 255, .25), inset 0 0 24px rgba(255, 216, 102, .1);
+  font-size: 3rem;
+}
+
+body.odea-ui-v7 #modal-layer .modal h2,
+body.odea-ui-v7 #diag-layer .diag-modal h2 {
+  position: relative;
+  z-index: 1;
+  text-wrap: balance;
+}
+
+body.odea-ui-v7 #modal-layer .modal p {
+  position: relative;
+  z-index: 1;
+  max-width: 42ch;
+  margin-inline: auto;
+  line-height: 1.7;
+}
+
+body.odea-ui-v7 #modal-layer .modal input {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-color: rgba(255, 216, 102, .78);
+  box-shadow: 0 0 0 3px rgba(255, 216, 102, .08), 0 0 22px rgba(25, 217, 255, .18);
+}
+
+body.odea-ui-v7 #modal-layer .modal .btn-neon {
+  position: relative;
+  z-index: 1;
+  min-width: min(100%, 250px);
+}
+
+/* Diagnóstico: ancho estable, checkbox real y footer accesible. */
+body.odea-ui-v7 #diag-layer .diag-modal {
+  box-sizing: border-box;
+  width: min(680px, calc(100vw - 28px));
+  max-width: 680px;
+  max-height: min(82vh, 760px);
+  overflow-x: hidden;
+  padding: 32px 28px 20px;
+  border-color: rgba(124, 92, 255, .66);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(25, 217, 255, .13), transparent 40%),
+    linear-gradient(150deg, rgba(18, 29, 72, .99), rgba(8, 13, 34, .99));
+}
+
+body.odea-ui-v7 #diag-layer .diag-modal > p {
+  max-width: 60ch;
+  margin: 0 auto 16px;
+  line-height: 1.55;
+}
+
+body.odea-ui-v7 #diag-list {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+body.odea-ui-v7 #diag-list .diag-item {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 12px 14px;
+  margin: 0;
+  border-color: rgba(163, 177, 232, .22);
+  background: rgba(7, 11, 30, .6);
+}
+
+body.odea-ui-v7 #diag-list .diag-item:hover {
+  transform: translateX(2px);
+  border-color: rgba(25, 217, 255, .58);
+  background: rgba(25, 217, 255, .07);
+}
+
+body.odea-ui-v7 #diag-list .diag-item.checked {
+  border-color: rgba(113, 246, 178, .78);
+  background: linear-gradient(90deg, rgba(113, 246, 178, .11), rgba(25, 217, 255, .05));
+  box-shadow: inset 3px 0 0 #71f6b2;
+}
+
+body.odea-ui-v7 #diag-list .diag-item > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+body.odea-ui-v7 #diag-list .diag-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 20px !important;
+  min-width: 20px;
+  max-width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  border: 1px solid rgba(174, 185, 216, .62);
+  border-radius: 6px;
+  background: rgba(4, 8, 22, .88);
+  box-shadow: inset 0 0 0 3px rgba(4, 8, 22, .88);
+  cursor: pointer;
+}
+
+body.odea-ui-v7 #diag-list .diag-item input[type="checkbox"]:checked {
+  border-color: #71f6b2;
+  background: linear-gradient(135deg, #71f6b2, #19d9ff);
+  box-shadow: inset 0 0 0 3px rgba(9, 20, 38, .75), 0 0 12px rgba(113, 246, 178, .32);
+}
+
+body.odea-ui-v7 #diag-list .diag-item input[type="checkbox"]:checked::after {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: #061326;
+  font: 800 .78rem/1 "Space Grotesk", sans-serif;
+}
+
+body.odea-ui-v7 #diag-list .d-t {
+  color: #f3f6ff;
+  font: 700 .88rem/1.35 "Space Grotesk", sans-serif;
+}
+
+body.odea-ui-v7 #diag-list .d-meta {
+  color: #9aa9d1;
+  line-height: 1.45;
+}
+
+body.odea-ui-v7 #diag-layer .diag-actions {
+  position: sticky;
+  bottom: -20px;
+  z-index: 2;
+  box-sizing: border-box;
+  margin: 16px -28px -20px;
+  padding: 14px 28px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(8, 13, 34, .72), rgba(8, 13, 34, .99) 28%);
+  border-top: 1px solid rgba(124, 92, 255, .24);
+}
+
+body.odea-ui-v7 #diag-layer .diag-actions .btn-neon {
+  min-height: 48px;
+  flex: 1 1 220px !important;
+  margin-left: 0 !important;
+}
+
+/* Mapa: planetas como nodos orbitales con profundidad, no como botones sueltos. */
+body.odea-ui-v7 #map-stage .hub-wrap,
+body.odea-ui-v7 #map-stage .world-scroll {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(25, 217, 255, .09), transparent 18%),
+    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .14), transparent 52%),
+    linear-gradient(135deg, rgba(5, 11, 33, .94), rgba(7, 9, 28, .9));
+  border: 1px solid rgba(124, 92, 255, .38);
+}
+
+body.odea-ui-v7 #map-stage .hub-wrap::before,
+body.odea-ui-v7 #map-stage .world-scroll::before {
+  opacity: .32;
+  background:
+    radial-gradient(ellipse at 50% 46%, transparent 0 19%, rgba(25, 217, 255, .18) 19.2% 19.5%, transparent 20%),
+    radial-gradient(ellipse at 50% 46%, transparent 0 36%, rgba(255, 86, 216, .11) 36.2% 36.5%, transparent 37%),
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .62) 0 1px, transparent 1.6px);
+  background-size: auto, auto, 170px 150px;
+}
+
+body.odea-ui-v7 #map-stage .mworld {
+  width: 124px;
+  height: 124px;
+  border: 1px solid color-mix(in srgb, var(--mc) 68%, rgba(255, 255, 255, .25));
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, .4), transparent 17%),
+    radial-gradient(circle at 64% 68%, color-mix(in srgb, var(--mc) 86%, #05081a), #05081a 72%);
+  box-shadow:
+    inset -12px -15px 24px rgba(0, 0, 0, .48),
+    inset 7px 8px 18px rgba(255, 255, 255, .09),
+    0 0 22px color-mix(in srgb, var(--mc) 32%, transparent);
+}
+
+body.odea-ui-v7 #map-stage .mworld::after {
+  width: 74%;
+  height: 18px;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--mc) 38%, transparent), transparent 70%);
+  filter: blur(3px);
+}
+
+body.odea-ui-v7 #map-stage .mworld .mw-name {
+  text-shadow: 0 2px 8px rgba(2, 4, 16, .95);
+}
+
+body.odea-ui-v7 #map-stage .mworld .mw-rank {
+  color: #b9c4e6;
+}
+
+body.odea-ui-v7 #map-stage .mworld .mw-badge {
+  color: #07152a;
+  border: 0;
+  background: color-mix(in srgb, var(--mc) 80%, #fff);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--mc) 40%, transparent);
+}
+
+body.odea-ui-v7 #map-stage .mworld.camp {
+  box-shadow:
+    inset -12px -15px 24px rgba(0, 0, 0, .44),
+    0 0 0 6px rgba(113, 246, 178, .08),
+    0 0 34px rgba(113, 246, 178, .38);
+}
+
+/* Tarjetas de misión: información escaneable en un vistazo. */
+body.odea-ui-v7 .mission,
+body.odea-ui-v7 .dm-row {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(163, 177, 232, .2);
+  background:
+    linear-gradient(110deg, rgba(17, 25, 54, .9), rgba(8, 13, 34, .82)),
+    radial-gradient(circle at 100% 0%, rgba(25, 217, 255, .08), transparent 35%);
+  box-shadow: 0 10px 26px rgba(2, 4, 16, .18);
+}
+
+body.odea-ui-v7 .mission::before,
+body.odea-ui-v7 .dm-row::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, #19d9ff, #7c5cff);
+  opacity: .8;
+}
+
+body.odea-ui-v7 .mission:hover,
+body.odea-ui-v7 .dm-row:hover {
+  transform: translateY(-2px);
+  border-color: rgba(25, 217, 255, .5);
+  box-shadow: 0 16px 32px rgba(2, 4, 16, .28), 0 0 20px rgba(25, 217, 255, .08);
+}
+
+body.odea-ui-v7 .mission.done,
+body.odea-ui-v7 .dm-row.done {
+  border-color: rgba(113, 246, 178, .42);
+  background: linear-gradient(110deg, rgba(30, 79, 72, .45), rgba(8, 20, 36, .82));
+}
+
+body.odea-ui-v7 .mission.done::before,
+body.odea-ui-v7 .dm-row.done::before {
+  background: linear-gradient(180deg, #71f6b2, #19d9ff);
+}
+
+body.odea-ui-v7 .m-body,
+body.odea-ui-v7 .dm-body {
+  min-width: 0;
+}
+
+body.odea-ui-v7 .m-title,
+body.odea-ui-v7 .dm-title {
+  color: #f6f8ff;
+  line-height: 1.3;
+}
+
+body.odea-ui-v7 .m-desc,
+body.odea-ui-v7 .dm-desc {
+  color: #b7c3e8;
+  line-height: 1.5;
+}
+
+body.odea-ui-v7 .m-verif,
+body.odea-ui-v7 .dm-verif {
+  color: #8fa1cf;
+  line-height: 1.4;
+}
+
+body.odea-ui-v7 .m-tags,
+body.odea-ui-v7 .dm-tags {
+  gap: 6px;
+}
+
+body.odea-ui-v7 .odea-slot-glyph {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: inline-grid;
+  place-items: center;
+  margin-right: .28rem;
+  vertical-align: -.2em;
+  color: var(--dm-c, #19d9ff);
+  filter: drop-shadow(0 0 7px currentColor);
+}
+
+body.odea-ui-v7 .odea-slot-glyph svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body.odea-ui-v7 .dm-row:nth-child(1)::before {
+  background: linear-gradient(180deg, #19d9ff, #7c5cff);
+}
+
+body.odea-ui-v7 .dm-row:nth-child(2)::before {
+  background: linear-gradient(180deg, #71f6b2, #19d9ff);
+}
+
+body.odea-ui-v7 .dm-row:nth-child(3)::before {
+  background: linear-gradient(180deg, #ffd866, #ff9a62);
+}
+
+body.odea-ui-v7 .tag {
+  border-color: rgba(163, 177, 232, .3);
+  background: rgba(4, 8, 22, .32);
+}
+
+@media (max-width: 760px) {
+  body.odea-ui-v7 #modal-layer .modal,
+  body.odea-ui-v7 #diag-layer .diag-modal {
+    box-sizing: border-box;
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 24px);
+  }
+
+  body.odea-ui-v7 #modal-layer .modal {
+    padding: 30px 18px 22px;
+  }
+
+  body.odea-ui-v7 #diag-layer .diag-modal {
+    padding: 28px 14px 16px;
+  }
+
+  body.odea-ui-v7 #diag-layer .diag-actions {
+    margin-left: -14px;
+    margin-right: -14px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  body.odea-ui-v7 #diag-layer .diag-actions .btn-neon {
+    flex-basis: 100% !important;
+  }
+
+  body.odea-ui-v7 #map-stage .mworld {
+    width: 104px;
+    height: 104px;
+  }
+
+  body.odea-ui-v7 #map-stage .mworld .mw-ico {
+    font-size: 1.7rem;
+  }
+
+  body.odea-ui-v7 #map-stage .mworld .mw-name {
+    font-size: .54rem;
+    letter-spacing: 1px;
+  }
+
+  body.odea-ui-v7 #map-stage .mworld .mw-rank {
+    font-size: .54rem;
+  }
+}
+
+@media (max-width: 640px) {
+  body.odea-ui-v7 #map-stage .hub-wrap {
+    height: clamp(560px, calc(100dvh - 160px), 700px) !important;
+    min-height: 560px !important;
+  }
+
+  body.odea-ui-v7 #map-stage .hub-wrap .hub-svg {
+    opacity: .38;
+  }
+
+  body.odea-ui-v7 .fab-continue {
+    right: 10px;
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    padding-inline: 13px;
+    min-height: 44px;
+    font-size: .66rem;
+  }
+}
+
+/* Fondo principal ODEA: mundo sci-fi original, optimizado para legibilidad móvil. */
+body.odea-ui-v7 #view-map {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+body.odea-ui-v7 #view-map::before {
+  content: "";
+  position: absolute;
+  inset: -8px 0 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    linear-gradient(180deg, rgba(4, 7, 22, .2) 0%, rgba(4, 7, 22, .34) 34%, rgba(4, 7, 22, .9) 94%),
+    url("./bg/odea-homeworld.webp") center top / cover no-repeat;
+  filter: saturate(.94) contrast(1.04);
+}
+
+body.odea-ui-v7 #view-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 7, 22, .46), transparent 30%, transparent 72%, rgba(4, 7, 22, .34)),
+    radial-gradient(ellipse at 50% 18%, transparent 0%, rgba(4, 7, 22, .18) 62%, rgba(4, 7, 22, .58) 100%);
+}
+
+body.odea-ui-v7 #view-map > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  body.odea-ui-v7 #view-map::before {
+    inset: -4px 0 0;
+    opacity: .64;
+    background:
+      linear-gradient(180deg, rgba(4, 7, 22, .28) 0%, rgba(4, 7, 22, .4) 38%, rgba(4, 7, 22, .95) 92%),
+      url("./bg/odea-homeworld.webp") 64% top / auto 100% no-repeat;
+  }
+
+  body.odea-ui-v7 #view-map::after {
+    background:
+      linear-gradient(90deg, rgba(4, 7, 22, .58), transparent 48%, rgba(4, 7, 22, .4)),
+      linear-gradient(180deg, transparent 0%, rgba(4, 7, 22, .28) 50%, rgba(4, 7, 22, .68) 100%);
+  }
+}
