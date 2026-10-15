@@ -4244,6 +4244,7 @@ function renderDiary() {
 }
 /* --- 🍅 Pomodoro --- */
 let focusRunning = false, focusDomain = "estudio", focusMode = "focus", focusEnd = 0, focusTick = null, focusRemaining = 25 * 60;
+const FOCUS_TIMER_KEY = "focus_timer_v1";
 function focusOpen() { document.getElementById("focus-layer").classList.add("show"); renderFocus(); }
 function focusClose() { document.getElementById("focus-layer").classList.remove("show"); if (focusTick) { clearInterval(focusTick); focusTick = null; } focusRunning = false; }
 function fmtFocus(s) { const m = Math.floor(s / 60), ss = s % 60; return String(m).padStart(2, "0") + ":" + String(ss).padStart(2, "0"); }
@@ -4266,8 +4267,16 @@ function renderFocus() {
   const ss = document.getElementById("focus-sessions");
   if (ss) ss.textContent = focusSessionsToday();
 }
+function focusPersist() {
+  try {
+    localStorage.setItem(FOCUS_TIMER_KEY, JSON.stringify({
+      running: focusRunning, mode: focusMode, domain: focusDomain,
+      end: focusEnd, remaining: focusRemaining, t: Date.now()
+    }));
+  } catch (e) {}
+}
 function focusToggle() {
-  if (focusRunning) { clearInterval(focusTick); focusTick = null; focusRunning = false; renderFocus(); return; }
+  if (focusRunning) { clearInterval(focusTick); focusTick = null; focusRunning = false; focusPersist(); renderFocus(); return; }
   focusRunning = true;
   focusEnd = Date.now() + focusRemaining * 1000;
   focusTick = setInterval(function () {
@@ -4275,23 +4284,23 @@ function focusToggle() {
     if (focusRemaining <= 0) focusComplete();
     renderFocus();
   }, 500);
+  focusPersist();
   renderFocus();
 }
-function focusComplete() {
+function focusComplete(quiet) {
   clearInterval(focusTick); focusTick = null; focusRunning = false;
   if (focusMode === "focus") {
     const cap = 6;
     if (focusSessionsToday() >= cap) {
       toast("🍅", "Tope diario", "Ya hiciste " + cap + " sesiones de enfoque hoy.");
-      focusRemaining = 25 * 60; renderFocus(); return;
+      focusRemaining = 25 * 60; focusPersist(); renderFocus(); return;
     }
     const xp = 25;
     const f = gameState.focus = gameState.focus || { log: [], date: null };
     f.log = Array.isArray(f.log) ? f.log : [];
     f.log.push({ d: focusDomain, xp: xp, date: todayStr(), t: Date.now() });
     ODEA.bus.emit("focus.completed", { domain: focusDomain, xp: xp });
-    playSfx("fanfare");
-    confetti(window.innerWidth / 2, window.innerHeight * 0.3, 60);
+    if (!quiet) { playSfx("fanfare"); confetti(window.innerWidth / 2, window.innerHeight * 0.3, 60); }
     toast("🍅", "¡Sesión de enfoque completada!", "+" + xp + " XP para tu dominio " + focusDomain + ".");
     saveGame(); recomputeState(); updateUI();
     focusMode = "break"; focusRemaining = 5 * 60;
@@ -4299,11 +4308,41 @@ function focusComplete() {
     focusMode = "focus"; focusRemaining = 25 * 60;
     toast("☕", "Descanso terminado", "De vuelta al enfoque. ¡Vamos!");
   }
+  focusPersist();
   renderFocus();
 }
 function focusReset() {
   focusRunning = false; if (focusTick) { clearInterval(focusTick); focusTick = null; }
-  focusRemaining = focusMode === "focus" ? 25 * 60 : 5 * 60; renderFocus();
+  focusRemaining = focusMode === "focus" ? 25 * 60 : 5 * 60; focusPersist(); renderFocus();
+}
+function focusRestore() {
+  try {
+    const raw = localStorage.getItem(FOCUS_TIMER_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (!s || typeof s !== "object") return;
+    focusMode = s.mode === "break" ? "break" : "focus";
+    focusDomain = s.domain || "estudio";
+    if (typeof s.remaining === "number" && s.remaining >= 0) focusRemaining = s.remaining;
+    else focusRemaining = focusMode === "focus" ? 25 * 60 : 5 * 60;
+    if (s.running && typeof s.end === "number") {
+      focusEnd = s.end;
+      const left = Math.round((focusEnd - Date.now()) / 1000);
+      if (left > 0) {
+        focusRemaining = left;
+        focusRunning = true;
+        focusTick = setInterval(function () {
+          focusRemaining = Math.max(0, Math.round((focusEnd - Date.now()) / 1000));
+          if (focusRemaining <= 0) focusComplete();
+          renderFocus();
+        }, 500);
+      } else {
+        focusRemaining = 0;
+        focusComplete(true);
+      }
+    }
+    renderFocus();
+  } catch (e) {}
 }
 /* --- 💼 Tracker de postulaciones --- */
 function appRender() {
@@ -8071,6 +8110,7 @@ if (achLayer) renderAchievements();
 if (!hadSave || !gameState.startDate || !gameState.playerName || gameState.playerName === "Recluta") {
   showWelcome();
 }
+focusRestore();
 
 </script>
 <script>
