@@ -17,6 +17,12 @@
     shop: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 8v8M9.5 10.2c.5-1.5 4.5-1.7 5-.1.6 1.8-4.9 1.4-5 3.2-.1 1.7 4.3 1.9 5 .2"/></svg>'
   };
 
+  var slotIcons = {
+    study: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5z"/><path d="M5 5.5v15M9 7h6M9 10h7"/></svg>',
+    practice: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 4 13 13M4 7l13 13"/><path d="m5 19 3-3M16 8l3-3M3 21l4-1 2-2-3-3-2 2z"/></svg>',
+    consolidate: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8 12 2.7 2.7L16.5 9"/></svg>'
+  };
+
   function svg(name) {
     return '<span class="odea-icon" aria-hidden="true">' + (icons[name] || icons.map) + "</span>";
   }
@@ -44,6 +50,36 @@
     });
   }
 
+  function decorateMissionSlots(root) {
+    var scope = root || document;
+    scope.querySelectorAll(".dm-slot").forEach(function (el) {
+      if (el.dataset.odeaSlotMounted === "1") return;
+      var raw = (el.textContent || "").trim();
+      var kind = raw.indexOf("📚") === 0 ? "study" : raw.indexOf("🛠️") === 0 ? "practice" : raw.indexOf("🎯") === 0 ? "consolidate" : "";
+      if (!kind) return;
+      el.dataset.odeaSlotMounted = "1";
+      var label = raw.replace(/^(📚|🛠️|🎯)\s*/, "");
+      el.textContent = "";
+      var glyph = document.createElement("span");
+      glyph.className = "odea-slot-glyph";
+      glyph.setAttribute("aria-hidden", "true");
+      glyph.innerHTML = slotIcons[kind];
+      el.appendChild(glyph);
+      el.appendChild(document.createTextNode(label));
+    });
+  }
+
+  function classifyMissions(root) {
+    var scope = root || document;
+    scope.querySelectorAll(".mission").forEach(function (el) {
+      if (el.dataset.odeaMissionClassified === "1") return;
+      var title = el.querySelector(".m-title, .dm-title")?.textContent || "";
+      var kind = title.indexOf("📚") >= 0 ? "study" : title.indexOf("🛠️") >= 0 ? "practice" : title.indexOf("🎯") >= 0 ? "consolidate" : "";
+      if (kind) el.classList.add("mission-" + kind);
+      el.dataset.odeaMissionClassified = "1";
+    });
+  }
+
   function decorate() {
     mount('.nav-item[data-tab="map"] .ni-ico, .navb[data-tab="map"] .nb-ico', "map");
     mount('.nav-item[data-tab="daily"] .ni-ico, .navb[data-tab="daily"] .nb-ico', "daily");
@@ -54,6 +90,22 @@
     mount("#bottom-inv .nb-ico", "inventory");
     prependButtonIcon("#side-inv", "inventory");
     prependButtonIcon("#side-shop", "shop");
+    decorateMissionSlots(document);
+    classifyMissions(document);
+    if (!document.body.dataset.odeaObserver) {
+      document.body.dataset.odeaObserver = "1";
+      var observer = new MutationObserver(function (records) {
+        records.forEach(function (record) {
+          record.addedNodes.forEach(function (node) {
+            if (node.nodeType === 1) {
+              decorateMissionSlots(node);
+              classifyMissions(node);
+            }
+          });
+        });
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
 
   if (document.readyState === "loading") {
