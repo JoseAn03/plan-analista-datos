@@ -4246,7 +4246,7 @@ function renderDiary() {
 let focusRunning = false, focusDomain = "estudio", focusMode = "focus", focusEnd = 0, focusTick = null, focusRemaining = 25 * 60;
 const FOCUS_TIMER_KEY = "focus_timer_v1";
 function focusOpen() { document.getElementById("focus-layer").classList.add("show"); renderFocus(); }
-function focusClose() { document.getElementById("focus-layer").classList.remove("show"); if (focusTick) { clearInterval(focusTick); focusTick = null; } focusRunning = false; }
+function focusClose() { document.getElementById("focus-layer").classList.remove("show"); if (focusTick) { clearInterval(focusTick); focusTick = null; } focusRunning = false; focusPersist(); }
 function fmtFocus(s) { const m = Math.floor(s / 60), ss = s % 60; return String(m).padStart(2, "0") + ":" + String(ss).padStart(2, "0"); }
 function focusSessionsToday() {
   const f = gameState.focus || {};
