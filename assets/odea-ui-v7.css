@@ -559,11 +559,11 @@ body.odea-ui-v7 #map-stage .hub-wrap,
 body.odea-ui-v7 #map-stage .world-scroll {
   isolation: isolate;
   background:
-    radial-gradient(circle at 50% 42%, rgba(25, 217, 255, .08), transparent 20%),
-    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .1), transparent 54%),
-    linear-gradient(135deg, rgba(5, 11, 33, .28), rgba(7, 9, 28, .24));
+    linear-gradient(180deg, rgba(5, 3, 10, .42) 0%, rgba(5, 3, 10, .16) 40%, rgba(5, 3, 10, .5) 100%),
+    url("./bg/odea-bridge.webp") center / cover no-repeat;
   border: 1px solid rgba(124, 92, 255, .38);
 }
+body.odea-ui-v7 #map-stage .hub-bridge{display:none}
 
 body.odea-ui-v7 #map-stage .hub-wrap::before,
 body.odea-ui-v7 #map-stage .world-scroll::before {
