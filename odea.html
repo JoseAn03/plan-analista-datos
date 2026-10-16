@@ -959,7 +959,7 @@ html{-webkit-text-size-adjust:100%}
 .hub-bridge .hb-pulse{stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:0}
 .hub-bridge .hb-post{fill:#201a3a;stroke:#46406a;stroke-width:.3}
 .hub-bridge .hb-lamp{fill:#3a3550}
-.hub-bridge .hb-tex{stroke:url(#bridgeTex);stroke-width:12;opacity:.55}
+.hub-bridge .hb-tex{stroke:url(#bridgeTex);stroke-width:16;opacity:.85}
 .hub-bridge .hb-debris{fill:#2a2444;stroke:#4a4270;stroke-width:.3;opacity:.85}
 .hub-bridge .hb-badge circle{fill:#120c24;stroke:#3a3550;stroke-width:1.2}
 .hub-bridge .hb-badge text{font-size:6px;text-anchor:middle;dominant-baseline:central}
@@ -969,7 +969,7 @@ html{-webkit-text-size-adjust:100%}
 .hub-bridge.lit .hb-lane{opacity:.65}
 .hub-bridge.lit .hb-pulse{opacity:.55;filter:drop-shadow(0 0 3px #fff)}
 .hub-bridge.lit .hb-lamp{fill:#00e5ff;filter:drop-shadow(0 0 4px #00e5ff)}
-.hub-bridge.lit .hb-tex{opacity:1;filter:drop-shadow(0 0 5px rgba(0,229,255,.55))}
+.hub-bridge.lit .hb-tex{opacity:1;filter:drop-shadow(0 0 6px rgba(0,229,255,.6)) brightness(1.08)}
 .hub-bridge.lit .hb-debris,.hub-bridge.lit .hb-badge{display:none}
 .mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
   background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
@@ -2092,6 +2092,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <input type="file" id="import-file" accept=".json,application/json" hidden>
     </div>
     <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
+    <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar campaña de empleo">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
@@ -3581,6 +3582,20 @@ function resetGame() {
   renderAll();
   showWelcome();
   toast("🔄", "Progreso reiniciado", "El camino comienza de nuevo, recluta.");
+}
+function resetDailyCampaign() {
+  // Reinicia SOLO la campaña principal de misiones diarias (empleo).
+  // Conserva nombre, nivel, otros mundos, tienda, inventario, etc.
+  gameState.completedDaily = [];
+  gameState.completedWeekly = [];
+  gameState.lastDailyDate = null;
+  gameState.streak = 0;
+  gameState.shieldWeek = null;
+  recomputeState();
+  selectedDay = 1;
+  saveGame();
+  renderAll();
+  toast("🔄", "Campaña de empleo reiniciada", "Empezás el plan de empleo desde el día 1.");
 }
 
 /* --- Cálculo de nivel (spec) --- */
@@ -5252,6 +5267,11 @@ document.getElementById("confirm-yes").addEventListener("click", () => {
 });
 document.getElementById("confirm-layer").addEventListener("click", (e) => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove("show");
+});
+document.getElementById("btn-reset-daily").addEventListener("click", () => {
+  if (confirm("¿Reiniciar la campaña de empleo (misiones diarias) desde el día 1? Se borra tu progreso de misiones diarias y semanales, pero conserva tu nombre, nivel, tienda y demás mundos.")) {
+    resetDailyCampaign();
+  }
 });
 
 /* --- 💾 Respaldo: exportar/importar progreso (guardado local) --- */
@@ -7047,8 +7067,8 @@ function mapHubHTML() {
   ];
   const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">'
-    + '<defs><pattern id="bridgeTex" patternUnits="userSpaceOnUse" width="24" height="12">'
-    + '<image href="assets/bg/odea-bridge.webp" x="0" y="-4" width="24" height="20" preserveAspectRatio="xMidYMid slice"/></pattern></defs>';
+    + '<defs><pattern id="bridgeTex" patternUnits="userSpaceOnUse" width="24" height="10">'
+    + '<image href="assets/bg/odea-bridge.webp" width="24" height="10" preserveAspectRatio="xMidYMid slice"/></pattern></defs>';
   W.slice(1).forEach(ww => {
     const lit = ww.lit;
     const cx = ww.x > 50 ? 58 : 42;
@@ -7056,21 +7076,8 @@ function mapHubHTML() {
     const d = "M50 20 Q " + cx + " " + cy + " " + ww.x + " " + ww.y;
     const pt = function (t) { const it = 1 - t; return [it * it * 50 + 2 * it * t * cx + t * t * ww.x, it * it * 20 + 2 * it * t * cy + t * t * ww.y]; };
     let g = '<g class="hub-bridge' + (lit ? " lit" : "") + '">'
-      + '<path class="hb-shadow" d="' + d + '"/>'
-      + '<path class="hb-tex" d="' + d + '"/>'
-      + '<path class="hb-glow" d="' + d + '"/>'
-      + '<path class="hb-rail" d="' + d + '"/>'
-      + '<path class="hb-beam" d="' + d + '"/>';
-    for (let t = 0.22; t <= 0.78; t += 0.14) {
-      const p = pt(t);
-      g += '<circle class="hb-post" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="1.6"/>'
-        + '<circle class="hb-lamp" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="0.8"/>';
-    }
+      + '<path class="hb-tex" d="' + d + '"/>';
     const m = pt(0.5);
-    g += '<g class="hb-debris" transform="translate(' + m[0].toFixed(1) + ' ' + m[1].toFixed(1) + ')">'
-      + '<polygon points="0,-3 3,-1 2,3 -3,2"/>'
-      + '<polygon points="-7,1 -4,2 -5,6 -8,5"/>'
-      + '</g>';
     g += '<g class="hb-badge" transform="translate(' + m[0].toFixed(1) + ' ' + m[1].toFixed(1) + ')"><circle r="6"/><text>🔒</text></g>';
     svg += g + '</g>';
   });
