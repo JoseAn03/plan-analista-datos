@@ -959,20 +959,16 @@ html{-webkit-text-size-adjust:100%}
 .hub-bridge .hb-pulse{stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:0}
 .hub-bridge .hb-post{fill:#201a3a;stroke:#46406a;stroke-width:.3}
 .hub-bridge .hb-lamp{fill:#3a3550}
-.hub-bridge .hb-part{fill:#fff;opacity:0}
 .hub-bridge .hb-debris{fill:#2a2444;stroke:#4a4270;stroke-width:.3;opacity:.85}
 .hub-bridge .hb-badge circle{fill:#120c24;stroke:#3a3550;stroke-width:1.2}
 .hub-bridge .hb-badge text{font-size:6px;text-anchor:middle;dominant-baseline:central}
 .hub-bridge.lit .hb-shadow{opacity:.55}
 .hub-bridge.lit .hb-shield{opacity:.16}
 .hub-bridge.lit .hb-planks{stroke:#00e5ff;opacity:.9;filter:drop-shadow(0 0 3px rgba(0,229,255,.6))}
-.hub-bridge.lit .hb-lane{opacity:.65;animation:bridgeLane 1.2s linear infinite}
-.hub-bridge.lit .hb-pulse{opacity:.55;animation:bridgeLamp 2.6s ease-in-out infinite;filter:drop-shadow(0 0 3px #fff)}
-.hub-bridge.lit .hb-lamp{fill:#00e5ff;filter:drop-shadow(0 0 4px #00e5ff);animation:bridgeLamp 2.8s ease-in-out infinite}
-.hub-bridge.lit .hb-part{opacity:.95;filter:drop-shadow(0 0 4px #00e5ff)}
+.hub-bridge.lit .hb-lane{opacity:.65}
+.hub-bridge.lit .hb-pulse{opacity:.55;filter:drop-shadow(0 0 3px #fff)}
+.hub-bridge.lit .hb-lamp{fill:#00e5ff;filter:drop-shadow(0 0 4px #00e5ff)}
 .hub-bridge.lit .hb-debris,.hub-bridge.lit .hb-badge{display:none}
-@keyframes bridgeLane{to{stroke-dashoffset:-18}}
-@keyframes bridgeLamp{0%,100%{opacity:1}50%{opacity:.5}}
 .mworld{position:absolute;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:none;cursor:pointer;
   background:radial-gradient(circle at 50% 32%,rgba(30,36,66,.95),#11152c 72%);
   border:2px solid rgba(160,160,192,.25);transition:.25s;padding:0;font-family:inherit;color:#fff}
@@ -7075,9 +7071,6 @@ function mapHubHTML() {
       const p = pt(t);
       g += '<circle class="hb-post" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="1.6"/>'
         + '<circle class="hb-lamp" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="0.8"/>';
-    }
-    for (let k = 0; k < 3; k++) {
-      g += '<circle class="hb-part" r="0.9"><animateMotion dur="' + (3 + k * 0.7) + 's" repeatCount="indefinite" begin="' + (k * 0.9) + 's" path="' + d + '"/></circle>';
     }
     const m = pt(0.5);
     g += '<g class="hb-debris" transform="translate(' + m[0].toFixed(1) + ' ' + m[1].toFixed(1) + ')">'
