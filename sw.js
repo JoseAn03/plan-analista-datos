@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.56-20261019-radar';
+const CACHE_VERSION = 'odea-v5.57-20261019-noticias-img';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -34,7 +34,6 @@ const SHELL = [
   './assets/titans/apolo.png',
   './assets/titans/prometeo.png',
   './assets/worlds/camp.png',
-  './assets/worlds/fortaleza.png',
   './assets/worlds/torre.png',
   './assets/worlds/aldea.png',
   './assets/worlds/boveda.png',
