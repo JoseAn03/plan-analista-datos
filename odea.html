@@ -702,7 +702,7 @@ html{-webkit-text-size-adjust:100%}
   border-radius:10px;color:#fff;padding:10px;font-family:inherit;font-size:.84rem;resize:vertical}
 #diary-card textarea:focus{outline:2px solid var(--glow-cyan);outline-offset:2px}
 #diary-card .btn-neon{margin-top:8px}
-/* Tracker de postulaciones */
+/* Tracker de fuentes que sigo */
 .apps-wrap{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(255,170,0,.05);border:1px solid rgba(255,170,0,.3)}
 .apps-head{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:1px;color:#fff;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .apps-head span{color:var(--tx2);font-size:.68rem;font-weight:400}
@@ -904,7 +904,7 @@ html{-webkit-text-size-adjust:100%}
 }
 
 /* ==========================================================
-   🎖️ EMPLEO rank / 🦁 PODER / extra UI
+   📡 NOTICIAS rank / 🦁 PODER / extra UI
    ========================================================== */
 .emp-rank{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 16px;
   border-radius:14px;background:linear-gradient(120deg,rgba(255,170,0,.12),rgba(26,26,46,.4));
@@ -2010,7 +2010,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.55</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.56</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2021,7 +2021,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
     <button class="nav-item" data-tab="planner" aria-label="Mi plan de misiones"><span class="ni-ico">📋</span> MI PLAN</button>
     <button class="nav-item" data-tab="campaign" aria-label="Campaña de datos"><span class="ni-ico">📜</span> DATOS</button>
-    <button class="nav-item" data-tab="jobs" aria-label="Empleo"><span class="ni-ico">💼</span> EMPLEO</button>
+    <button class="nav-item" data-tab="jobs" aria-label="Noticias"><span class="ni-ico">📡</span> NOTICIAS</button>
     <button class="nav-item" data-tab="vida" aria-label="Vida"><span class="ni-ico">🧬</span> VIDA</button>
     <button class="nav-item" data-tab="capital" aria-label="El Imperio"><span class="ni-ico">👑</span> IMPERIO</button>
   </div>
@@ -2076,7 +2076,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.55</span>
+    <span class="ver" id="ver-badge">v5.56</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2085,7 +2085,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <button class="navb" data-tab="daily" aria-label="Hoy"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
   <button class="navb" data-tab="planner" aria-label="Mi plan"><span class="nb-ico">📋</span><span>Mi Plan</span></button>
   <button class="navb" data-tab="campaign" aria-label="Plan"><span class="nb-ico">📜</span><span>Plan</span></button>
-  <button class="navb" data-tab="jobs" aria-label="Empleo"><span class="nb-ico">💼</span><span>Empleo</span></button>
+  <button class="navb" data-tab="jobs" aria-label="Noticias"><span class="nb-ico">📡</span><span>Noticias</span></button>
   <button class="navb" data-tab="vida" aria-label="Vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
   <button class="navb" data-tab="capital" aria-label="Imperio"><span class="nb-ico">👑</span><span>Imperio</span></button>
   <button class="navb" id="bottom-inv" aria-label="Inventario"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
@@ -2158,32 +2158,32 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="chapters-root"></div>
     </section>
 
-    <!-- ============ VISTA 3: EMPLEO (solo buscar trabajo) ============ -->
+    <!-- ============ VISTA 3: NOTICIAS (radar de actualización diaria) ============ -->
     <section class="view" id="view-jobs">
       <div class="jobs-hero">
-        <div class="dh-kicker" style="color:var(--glow-amber)">💼 OPERACIÓN EMPLEO · 40 MISIONES</div>
-        <div class="dh-title" style="font-size:1.3rem">La campaña que consigue el trabajo</div>
-        <div class="dh-desc">Todo lo que tiene que ver con buscar trabajo: enviar currículums, aplicaciones, networking, LinkedIn, entrevistas y freelance. Cada misión suma XP a tu nivel.</div>
-        <div class="emp-rank"><span class="er-ico">🎖️</span><div class="er-info"><b id="emp-rank-name">Novato del Empleo</b><span id="emp-rank-lvl">Nv.1</span></div><div class="bar"><span id="emp-bar"></span></div></div>
+        <div class="dh-kicker" style="color:var(--glow-amber)">📡 RADAR DEL MUNDO · 30 NOTICIAS</div>
+        <div class="dh-title" style="font-size:1.3rem">Tu radar de actualización diaria</div>
+        <div class="dh-desc">Inteligencia artificial, tecnología nueva, cómo ganar más dinero y finanzas/trading. Leé, mirá y anotá cada día para estar al día con el mundo. Cada noticia suma XP.</div>
+        <div class="emp-rank"><span class="er-ico">📡</span><div class="er-info"><b id="emp-rank-name">Recién Llegado</b><span id="emp-rank-lvl">Nv.1</span></div><div class="bar"><span id="emp-bar"></span></div></div>
         <div class="chip-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">
-          <div class="mini-chip daily"><span class="mc-num" id="jb-apps">0/50</span><span class="mc-lab">Aplicaciones</span></div>
-          <div class="mini-chip weekly"><span class="mc-num" id="jb-done">0/40</span><span class="mc-lab">Misiones</span></div>
-          <div class="mini-chip camp"><span class="mc-num" id="jb-xp">0</span><span class="mc-lab">XP Empleo</span></div>
+          <div class="mini-chip daily"><span class="mc-num" id="jb-apps">0/30</span><span class="mc-lab">Leídas</span></div>
+          <div class="mini-chip weekly"><span class="mc-num" id="jb-done">30</span><span class="mc-lab">Pendientes</span></div>
+          <div class="mini-chip camp"><span class="mc-num" id="jb-xp">0</span><span class="mc-lab">XP Noticias</span></div>
         </div>
       </div>
       <div id="jobs-root"></div>
       <div class="apps-wrap">
-        <div class="apps-head">📋 Tracker de postulaciones <span id="apps-meta">0/5 esta semana</span></div>
+        <div class="apps-head">📡 Fuentes que sigo <span id="apps-meta">0/5 esta semana</span></div>
         <div class="apps-form">
-          <input id="app-empresa" placeholder="Empresa" maxlength="40" aria-label="Empresa">
+          <input id="app-empresa" placeholder="Fuente (medio, newsletter, canal)" maxlength="40" aria-label="Fuente">
           <input id="app-fecha" type="date" aria-label="Fecha">
           <select id="app-estado" aria-label="Estado">
-            <option value="enviada">📤 Enviada</option>
-            <option value="entrevista">🤝 Entrevista</option>
-            <option value="oferta">🎉 Oferta</option>
-            <option value="cerrada">🚫 Cerrada</option>
+            <option value="enviada">📥 Sigo</option>
+            <option value="entrevista">👀 Leída hoy</option>
+            <option value="oferta">⭐ Destacada</option>
+            <option value="cerrada">🚫 Abandonada</option>
           </select>
-          <button class="btn-neon" id="app-add" aria-label="Agregar postulación">➕</button>
+          <button class="btn-neon" id="app-add" aria-label="Agregar fuente">➕</button>
         </div>
         <div id="apps-list"></div>
       </div>
@@ -2259,7 +2259,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.55</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.56</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal">
@@ -2781,9 +2781,9 @@ const achievements = [
   { id:"ach_st30",   ico:"☄️", name:"Mes de Datos", desc:"Mantener racha de 30 días seguidos", xp:200 },
   { id:"ach_w3",     ico:"🎯", name:"Cazador Semanal", desc:"Completar 3 misiones semanales", xp:200 },
   { id:"ach_w6",     ico:"👑", name:"Dominio Semanal Total", desc:"Completar las 8 misiones semanales", xp:300 },
-  { id:"ach_j5",     ico:"📮", name:"Primer Envío", desc:"Completar la primera ronda de 5 aplicaciones", xp:80 },
-  { id:"ach_j25",    ico:"🚀", name:"Cazador de Empleo", desc:"Completar 25 aplicaciones (5 rondas)", xp:150 },
-  { id:"ach_j50",    ico:"🏆", name:"Máquina de Aplicaciones", desc:"Completar las 50 aplicaciones (10 rondas)", xp:250 },
+  { id:"ach_j5",     ico:"📡", name:"Primera Noticia", desc:"Leer tu primera noticia del radar", xp:80 },
+  { id:"ach_j25",    ico:"📰", name:"Cazador de Noticias", desc:"Leer 10 noticias del radar", xp:150 },
+  { id:"ach_j50",    ico:"🌐", name:"Radar Encendido", desc:"Leer 25 noticias del radar", xp:250 },
   { id:"ach_ch0",    ico:"🛡️", name:"Cimientos Sólidos", desc:"Completar el Capítulo 0: Cimientos", xp:150 },
   { id:"ach_ch1",    ico:"⚔️", name:"Oráculo SQL", desc:"Completar el Capítulo 1: SQL y Negocio", xp:150 },
   { id:"ach_ch2",    ico:"🧬", name:"Automatizador", desc:"Completar el Capítulo 2: ETL y Automatización", xp:150 },
@@ -2793,7 +2793,7 @@ const achievements = [
   { id:"ach_ch6",    ico:"👾", name:"Constructor de IA", desc:"Completar el Capítulo 6: IA Productiva", xp:150 },
   { id:"ach_ch7",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar el Capítulo 7: Empleo", xp:150 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
-  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 40 misiones de empleo", xp:700 },
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 30 noticias del radar", xp:700 },
   { id:"ach_xp1k",  ico:"⚡", name:"Primeros Mil", desc:"Acumular 1.000 XP totales en tu ecosistema", xp:100 },
   { id:"ach_xp5k",  ico:"🔥", name:"Motor de XP", desc:"Acumular 5.000 XP totales", xp:200 },
   { id:"ach_xp10k", ico:"🚀", name:"Órbita del Analista", desc:"Acumular 10.000 XP totales", xp:300 },
@@ -2802,7 +2802,7 @@ const achievements = [
   { id:"ach_xp75k", ico:"👑", name:"Dios del Ecosistema", desc:"Acumular 75.000 XP totales", xp:1000 },
   { id:"ach_god_cronos", ico:"🕰️", name:"Vencedor de Cronos", desc:"Derrotar a Cronos, el Titán del Tiempo", xp:600 },
   { id:"ach_god_atenea", ico:"🦉", name:"Vencedor de Atenea", desc:"Derrotar a Atenea, la Diosa de la Sabiduría", xp:600 },
-  { id:"ach_god_hermes", ico:"🪽", name:"Vencedor de Hermes", desc:"Derrotar a Hermes, el Dios del Comercio", xp:600 },
+  { id:"ach_god_hermes", ico:"🪽", name:"Vencedor de Hermes", desc:"Derrotar a Hermes, el Mensajero de las Noticias", xp:600 },
   { id:"ach_god_hestia", ico:"🔥", name:"Vencedor de Hestia", desc:"Derrotar a Hestia, la Diosa del Hogar", xp:600 },
   { id:"ach_god_pluto", ico:"💰", name:"Vencedor de Pluto", desc:"Derrotar a Pluto, el Dios de la Riqueza", xp:600 },
   { id:"ach_god_zeus", ico:"⚡", name:"Vencedor de Zeus", desc:"Derrotar a Zeus, el Rey de los Dioses", xp:1000 },
@@ -2810,7 +2810,8 @@ const achievements = [
   { id:"ach_titan_hades", ico:"💀", name:"Vencedor de Hades", desc:"Derrotar a Hades, el Titán del Tesoro", xp:500 },
   { id:"ach_titan_apolo", ico:"🎭", name:"Vencedor de Apolo", desc:"Derrotar a Apolo, el Titán de la Elocuencia", xp:500 },
   { id:"ach_titan_prometeo", ico:"🔥", name:"Vencedor de Prometeo", desc:"Derrotar a Prometeo, el Titán del Fuego", xp:500 },
-  { id:"ach_titan_all", ico:"🔱", name:"Tridente del Imperio", desc:"Derrotar a los 3 titanes del Imperio", xp:1000 }
+  { id:"ach_titan_all", ico:"🔱", name:"Tridente del Imperio", desc:"Derrotar a los 3 titanes del Imperio", xp:1000 },
+  { id:"ach_vida_all", ico:"🌱", name:"Guardián de la Aldea", desc:"Derrotar a los 7 guardianes de la Aldea de la Vida", xp:1000 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -2829,67 +2830,49 @@ const CHEERS = [
 
 
 /* ==========================================================
-   💼 OPERACIÓN EMPLEO: 40 misiones solo de buscar trabajo
-   (enviar CVs, aplicaciones, networking, LinkedIn,
-    entrevistas, freelance, seguimiento)
+   📡 RADAR DEL MUNDO: 30 noticias para estar al día
+   (IA, tecnología nueva, ganar más dinero, finanzas/trading
+    y rutina de actualización diaria)
    ========================================================== */
 const employmentMissions = [
-  /* --- BLOQUE 1: Aplicaciones y CV (rondas de 5 = 50 aplicaciones) --- */
-  { id:"j1",  blk:1, tag:"cv",    title:"CV Maestro 2.0", description:"Revisar tu CV con lupa de reclutador: métricas en cada logro, ATS-friendly, una página si es posible, versión ES y EN.", xp:200, verification:"2 versiones de CV (ES/EN) finales y pulidas" },
-  { id:"j2",  blk:1, tag:"cv",    title:"Kit de Cover Letters", description:"Escribir 3 plantillas de carta de presentación: data analyst, marketing analytics y soporte/BI. Cada una con huecos para personalizar.", xp:150, verification:"3 plantillas de cover letter listas" },
-  { id:"j3",  blk:1, tag:"cv",    title:"Tracker Maestro", description:"Crear tu hoja de seguimiento: empresa, puesto, fecha, estado, salario, contacto, link, notas. Con filtros y métricas.", xp:120, verification:"Tracker con 50 filas listo para usar" },
-  { id:"j4",  blk:1, tag:"round", title:"Ronda 1: Envía 5 CVs", description:"Enviar 5 aplicaciones personalizadas (CV adaptado + cover letter) a ofertas reales de tu lista. Registrar cada una.", xp:90, verification:"5 aplicaciones enviadas y registradas" },
-  { id:"j5",  blk:1, tag:"round", title:"Ronda 2: +5 Aplicaciones", description:"Otras 5 aplicaciones personalizadas. Mejora algo del proceso en cada una (mensaje, portafolio, ajuste de CV).", xp:100, verification:"10 aplicaciones acumuladas" },
-  { id:"j6",  blk:1, tag:"round", title:"Ronda 3: +5 Aplicaciones", description:"5 aplicaciones más con foco en empresas donde ya hiciste networking.", xp:110, verification:"15 aplicaciones acumuladas" },
-  { id:"j7",  blk:1, tag:"round", title:"Ronda 4: +5 Aplicaciones", description:"5 aplicaciones más. Prueba 2 formatos distintos de cover letter y anota cuál responde mejor.", xp:120, verification:"20 aplicaciones acumuladas" },
-  { id:"j8",  blk:1, tag:"round", title:"Ronda 5: +5 Aplicaciones", description:"5 aplicaciones más incluyendo 2 puestos de marketing analytics (tu diferenciación).", xp:130, verification:"25 aplicaciones acumuladas" },
-  { id:"j9",  blk:1, tag:"round", title:"Ronda 6: +5 Aplicaciones", description:"5 aplicaciones más. Actualiza tu portafolio con los proyectos que mencionas en cada CV.", xp:140, verification:"30 aplicaciones acumuladas" },
-  { id:"j10", blk:1, tag:"round", title:"Ronda 7: +5 Aplicaciones", description:"5 aplicaciones más. Agenda seguimiento de las primeras 10 enviadas (mensaje a reclutador).", xp:150, verification:"35 aplicaciones acumuladas" },
-  { id:"j11", blk:1, tag:"round", title:"Ronda 8: +5 Aplicaciones", description:"5 aplicaciones más. Analiza tu tracker: qué canales responden mejor y ajusta tu estrategia.", xp:160, verification:"40 aplicaciones acumuladas" },
-  { id:"j12", blk:1, tag:"round", title:"Ronda 9: +5 Aplicaciones", description:"5 aplicaciones más a empresas de tu lista de 30 con mensajes personalizados por research.", xp:170, verification:"45 aplicaciones acumuladas" },
-  { id:"j13", blk:1, tag:"round", title:"Ronda 10: Asedio Final 50", description:"Últimas 5 aplicaciones para completar 50. Registra métricas finales: aplicaciones, respuestas, entrevistas por canal.", xp:220, verification:"50 aplicaciones totales registradas" },
-  /* --- BLOQUE 2: Estrategia y mercado --- */
-  { id:"j14", blk:2, tag:"str", title:"Lista de 30 Empresas Objetivo", description:"Construir tu lista de 30 empresas (CR + remoto) con fit real: sector, stack, cultura, por qué te interesa.", xp:140, verification:"30 empresas documentadas en tu tracker" },
-  { id:"j15", blk:2, tag:"str", title:"Research Profundo x10", description:"Investigar a fondo 10 empresas de la lista: misión, productos, vacantes actuales, empleados en data, tecnología.", xp:140, verification:"10 fichas de research completas" },
-  { id:"j16", blk:2, tag:"str", title:"Radar de Empleos Automático", description:"Configurar tus alertas diarias (jobbot LinkedIn + n8n APIs) y revisar ofertas nuevas cada mañana 15 minutos.", xp:100, verification:"Alertas activas y rutina diaria de revisión" },
-  { id:"j17", blk:2, tag:"str", title:"CV por Sector", description:"Tener 3 versiones de CV adaptadas: data analyst, marketing analytics y soporte/BI, con keywords distintas.", xp:150, verification:"3 CVs sectoriales listos" },
-  { id:"j18", blk:2, tag:"str", title:"Banco de Métricas Personales", description:"Listar 15 logros medibles tuyos (ANC, Dokka, proyectos) escritos en formato STAR listos para CV y entrevistas.", xp:120, verification:"15 métricas STAR documentadas" },
-  /* --- BLOQUE 3: Networking --- */
-  { id:"j19", blk:3, tag:"net", title:"+30 Conexiones Relevantes", description:"Conectar con 30 profesionales: reclutadores tech, analistas y managers de datos en CR y LATAM.", xp:120, verification:"30 conexiones nuevas relevantes" },
-  { id:"j20", blk:3, tag:"net", title:"10 Mensajes Personalizados", description:"Escribir y enviar 10 mensajes de contacto personalizados (no plantilla) a personas de tus empresas objetivo.", xp:130, verification:"10 conversaciones iniciadas" },
-  { id:"j21", blk:3, tag:"net", title:"Evento de Datos", description:"Asistir a un meetup, webinar o conferencia de datos (virtual o presencial) y participar activamente.", xp:120, verification:"Evento asistido con 3+ contactos nuevos" },
-  { id:"j22", blk:3, tag:"net", title:"Entrevista Informativa #1", description:"Conversar 15 minutos con un analista o manager de datos sobre su rol, equipo y cómo entró.", xp:140, verification:"Entrevista informativa realizada" },
-  { id:"j23", blk:3, tag:"net", title:"Entrevista Informativa #2", description:"Segunda entrevista informativa, esta vez en una empresa de tu lista top 10.", xp:140, verification:"2ª entrevista informativa realizada" },
-  { id:"j24", blk:3, tag:"net", title:"3 Referidos", description:"Pedir referidos o recomendaciones a 3 contactos (excompañeros, reclutadores, conocidos en empresas objetivo).", xp:130, verification:"3 referidos solicitados" },
-  /* --- BLOQUE 4: LinkedIn y marca --- */
-  { id:"j25", blk:4, tag:"li", title:"Perfil 10/10", description:"Optimizar LinkedIn: headline con keywords, banner, about con historia y métricas, featured con tus proyectos, skills.", xp:130, verification:"Perfil revisado con checklist completa" },
-  { id:"j26", blk:4, tag:"li", title:"Contenido Semana A", description:"Publicar 2 posts esta semana contando un aprendizaje o resultado de tus proyectos (datos + historia).", xp:120, verification:"2 posts publicados (semana A)" },
-  { id:"j27", blk:4, tag:"li", title:"Contenido Semana B", description:"Publicar 2 posts más: un mini caso práctico (SQL, Power BI, A/B test) y algo de tu proceso de aprendizaje.", xp:120, verification:"2 posts publicados (semana B)" },
-  { id:"j28", blk:4, tag:"li", title:"Contenido Semana C", description:"Publicar 2 posts más: muestra un dashboard o insight real tuyo. Incluye visual.", xp:120, verification:"2 posts publicados (semana C)" },
-  { id:"j29", blk:4, tag:"li", title:"Contenido Semana D", description:"Publicar 2 posts más: tu opinión del mercado data en CR o lección de tu búsqueda. Total 8+ posts.", xp:120, verification:"2 posts publicados (semana D)" },
-  { id:"j30", blk:4, tag:"li", title:"Video Caso de Éxito", description:"Publicar un video corto explicando tu proyecto insignia y el impacto que tuvo. Etiqueta a personas de tu red.", xp:150, verification:"Video publicado en LinkedIn" },
-  /* --- BLOQUE 5: Entrevistas --- */
-  { id:"j31", blk:5, tag:"int", title:"Banco de 50 Preguntas", description:"Repasar y responder 50 preguntas técnicas (SQL, Python, estadística, casos) y conductuales con tus métricas.", xp:150, verification:"50 respuestas preparadas por escrito" },
-  { id:"j32", blk:5, tag:"int", title:"Simulacro IA #1", description:"Entrevista técnica simulada con IA (SQL + Python + estadística). Graba o anota errores y corrige.", xp:140, verification:"Simulacro 1 completado con notas de mejora" },
-  { id:"j33", blk:5, tag:"int", title:"Simulacro IA #2", description:"Simulacro de caso de negocio/marketing analytics: métricas, A/B testing, interpretación de resultados.", xp:140, verification:"Simulacro 2 completado" },
-  { id:"j34", blk:5, tag:"int", title:"Simulacro IA #3", description:"Simulacro conductual/HR en inglés: STAR, motivación, salario. Practica tu inglés C1.", xp:140, verification:"Simulacro 3 completado en inglés" },
-  { id:"j35", blk:5, tag:"int", title:"15 Preguntas para Reclutador", description:"Preparar 15 preguntas inteligentes para hacer al reclutador o hiring manager (equipo, datos, expectativas).", xp:100, verification:"Lista de 15 preguntas lista" },
-  { id:"j36", blk:5, tag:"int", title:"Sistema Post-Entrevista", description:"Crear tu rutina: agradecimiento 24h, seguimiento a los 7 días, registro de feedback. Aplicarla a 2 entrevistas.", xp:100, verification:"2 agradecimientos enviados y seguimiento registrado" },
-  /* --- BLOQUE 6: Freelance y extra --- */
-  { id:"j37", blk:6, tag:"free", title:"Perfiles Freelance Pulidos", description:"Completar perfiles en Fiverr y Upwork: portafolio, servicios claros, keywords y video de presentación si aplica.", xp:130, verification:"2 perfiles freelance completos" },
-  { id:"j38", blk:6, tag:"free", title:"5 Propuestas Personalizadas", description:"Enviar 5 propuestas freelance bien escritas (nunca genéricas) a proyectos reales de limpieza/dashboards/reportes.", xp:140, verification:"5 propuestas enviadas" },
-  { id:"j39", blk:6, tag:"free", title:"Vitrina Pública de Empleo", description:"Actualizar tu portafolio web con sección de proyectos destacados, CV descargable y GitHub README de perfil impecable.", xp:130, verification:"Portafolio + GitHub listos para reclutadores" },
-  { id:"j40", blk:6, tag:"free", title:"Pitch de 60 Segundos", description:"Grabar tu elevator pitch (quién eres, qué haces, impacto) y una presentación de 1 página sobre ti.", xp:120, verification:"Pitch grabado y presentación lista" },
-  /* --- BLOQUE 7: ⚡ Operación Relámpago — Semana Final (9-14 sept) --- */
-  { id:"j41", blk:7, tag:"final", title:"⚡ Día 1 — Primer Impacto", description:"5 mensajes directos a reclutadores o analistas de datos que ya trabajan en tus empresas objetivo. Revisa que tu LinkedIn diga exactamente lo mismo que tu CV maestro.", xp:110, verification:"5 contactos directos enviados hoy + LinkedIn alineado con el CV" },
-  { id:"j42", blk:7, tag:"final", title:"⚡ Día 2 — Ola de Contacto", description:"5 mensajes directos más. Además, corre 1 simulacro de entrevista técnica (SQL o Power BI) y anota qué te falló.", xp:120, verification:"5 contactos nuevos + 1 simulacro técnico con notas" },
-  { id:"j43", blk:7, tag:"final", title:"⚡ Día 3 — Seguimiento Táctico", description:"5 mensajes directos más. Da seguimiento a TODAS las aplicaciones enviadas que no han tenido respuesta (mensaje corto, directo, sin sonar desesperado).", xp:130, verification:"5 contactos nuevos + seguimiento enviado a aplicaciones pendientes" },
-  { id:"j44", blk:7, tag:"final", title:"⚡ Día 4 — Preparación de Combate", description:"5 mensajes directos más. Repasa tus 3 respuestas STAR con métricas reales de ANC en voz alta, cronometradas a menos de 90 segundos cada una.", xp:140, verification:"5 contactos nuevos + 3 respuestas STAR practicadas en voz alta" },
-  { id:"j45", blk:7, tag:"final", title:"⚡ Día 5 — Última Ofensiva", description:"5 mensajes directos más (o los que falten para llegar a 25+ en la semana). Simulacro final completo: técnico + conductual, sin pausas, como si fuera real.", xp:150, verification:"Contactos de la semana cerrados + simulacro final completado" },
-  { id:"j46", blk:7, tag:"final", title:"👑 Jefe Final — Cierre de Operación Relámpago", description:"Cierra el sprint: cuenta cuántos contactos directos hiciste en la semana, cuántas respuestas obtuviste y cuántas entrevistas quedaron agendadas o en proceso. Documenta el resultado en tu tracker, sin importar el número — el dato es la victoria.", xp:300, verification:"Métricas finales de la Operación Relámpago registradas en el tracker" }
+  /* --- BLOQUE 1: 🤖 Inteligencia Artificial --- */
+  { id:"n1",  blk:1, tag:"ia",      title:"Noticia de IA de hoy", description:"Leé 1 noticia reciente sobre IA (un modelo, una herramienta o un avance) y anotá el dato clave.", xp:60, verification:"Dato clave anotado (2-3 líneas)" },
+  { id:"n2",  blk:1, tag:"ia",      title:"Probá una herramienta de IA", description:"Probá una herramienta de IA nueva (chatbot, generador de imagen, copiloto) y anotá para qué te sirve.", xp:80, verification:"Herramienta probada + nota de uso" },
+  { id:"n3",  blk:1, tag:"ia",      title:"IA aplicada a tu trabajo", description:"Encontrá 1 uso concreto de IA para tu rol de datos/rent-a-car y describí cómo lo aplicarías.", xp:90, verification:"Caso de uso escrito" },
+  { id:"n4",  blk:1, tag:"ia",      title:"Prompt del día", description:"Practicá un prompt avanzado (análisis, resumen, código) y guardá el que mejor funcionó.", xp:70, verification:"Prompt guardado con su resultado" },
+  { id:"n5",  blk:1, tag:"ia",      title:"Video o curso corto de IA", description:"Mirá 1 video o lección corta sobre IA (15-30 min) y anotá 3 ideas.", xp:70, verification:"3 ideas anotadas" },
+  { id:"n6",  blk:1, tag:"ia",      title:"IA y finanzas", description:"Leé cómo se usa la IA en trading o inversión (robo-advisors, análisis) y anotá 1 insight.", xp:80, verification:"Insight anotado" },
+  /* --- BLOQUE 2: 🚀 Tecnología Nueva --- */
+  { id:"n7",  blk:2, tag:"tech",    title:"Lanzamiento tech del día", description:"Leé sobre un producto o lanzamiento tecnológico reciente y anotá por qué importa.", xp:60, verification:"Nota del lanzamiento" },
+  { id:"n8",  blk:2, tag:"tech",    title:"Software nuevo para datos", description:"Probá o investigá una herramienta nueva de datos (BI, base de datos, ETL) y anotá su utilidad.", xp:80, verification:"Nota de la herramienta" },
+  { id:"n9",  blk:2, tag:"tech",    title:"Chips y hardware", description:"Leé sobre avances de hardware (chips, GPUs, dispositivos) y anotá 1 dato.", xp:60, verification:"Dato anotado" },
+  { id:"n10", blk:2, tag:"tech",    title:"Startup del día", description:"Leé sobre una startup tech en crecimiento y anotá su modelo de negocio.", xp:70, verification:"Modelo anotado" },
+  { id:"n11", blk:2, tag:"tech",    title:"Ciberseguridad y privacidad", description:"Leé 1 noticia de seguridad o privacidad y anotá qué te cambia a vos.", xp:60, verification:"Nota personal" },
+  /* --- BLOQUE 3: 💰 Ganar Más Dinero --- */
+  { id:"n12", blk:3, tag:"dinero",  title:"Fuente de ingreso extra", description:"Investigá 1 forma de ingreso extra (freelance, inversión, venta) y anotá el primer paso.", xp:80, verification:"Plan de primer paso" },
+  { id:"n13", blk:3, tag:"dinero",  title:"Side hustle del día", description:"Leé sobre un caso real de ingreso extra y anotá qué podés copiar.", xp:70, verification:"Lección anotada" },
+  { id:"n14", blk:3, tag:"dinero",  title:"Habilidad rentable", description:"Aprendé 1 habilidad monetizable (30 min) y anotá cómo cobrarla.", xp:80, verification:"Habilidad + cómo cobrarla" },
+  { id:"n15", blk:3, tag:"dinero",  title:"Economía de creadores", description:"Leé cómo se monetiza contenido (newsletter, cursos, comunidad) y anotá 1 idea.", xp:70, verification:"Idea anotada" },
+  { id:"n16", blk:3, tag:"dinero",  title:"Negocio digital", description:"Investigá un modelo de negocio digital (SaaS, ecommerce, infoproducto) y anotá su estructura.", xp:80, verification:"Estructura anotada" },
+  { id:"n17", blk:3, tag:"dinero",  title:"Paso real hacia un ingreso", description:"Dá un paso real hacia un ingreso extra (crear perfil, publicar, contactar) y registralo.", xp:100, verification:"Acción real hecha" },
+  /* --- BLOQUE 4: 📈 Finanzas & Trading --- */
+  { id:"n18", blk:4, tag:"trading", title:"Mercado del día", description:"Revisá cómo cerraron los mercados hoy (acciones, cripto, forex) y anotá 1 movimiento.", xp:60, verification:"Movimiento anotado" },
+  { id:"n19", blk:4, tag:"trading", title:"Concepto de trading", description:"Aprendé 1 concepto (soporte/resistencia, velas, RSI, tendencia) y anotalo con un ejemplo.", xp:70, verification:"Concepto + ejemplo" },
+  { id:"n20", blk:4, tag:"trading", title:"Análisis de un activo", description:"Analizá 1 acción, cripto o ETF (precio, noticia, gráfico) y escribí tu lectura.", xp:80, verification:"Lectura escrita" },
+  { id:"n21", blk:4, tag:"trading", title:"Gestión de riesgo", description:"Leé sobre stop-loss, tamaño de posición y riesgo, y definí tu regla personal.", xp:80, verification:"Regla de riesgo escrita" },
+  { id:"n22", blk:4, tag:"trading", title:"Noticia macroeconómica", description:"Leé 1 noticia económica (tasas, inflación, empleo) y anotá su impacto en mercados.", xp:70, verification:"Impacto anotado" },
+  { id:"n23", blk:4, tag:"trading", title:"Cripto y blockchain", description:"Leé 1 noticia de cripto o blockchain y anotá lo esencial.", xp:60, verification:"Nota esencial" },
+  { id:"n24", blk:4, tag:"trading", title:"Tu diario de trading", description:"Creá tu diario o plan de trading: qué mirás, cuándo entrás, cuándo salís.", xp:90, verification:"Diario creado" },
+  /* --- BLOQUE 5: 📰 Actualización Diaria --- */
+  { id:"n25", blk:5, tag:"news",    title:"Rutina de 15 minutos", description:"Armá tu rutina diaria de noticias (qué leés, a qué hora, de qué fuentes) y cúmplela hoy.", xp:60, verification:"Rutina definida y cumplida" },
+  { id:"n26", blk:5, tag:"news",    title:"Tus 5 fuentes", description:"Elegí 5 fuentes o newsletters de IA, tech y finanzas, y suscribite.", xp:70, verification:"5 fuentes elegidas" },
+  { id:"n27", blk:5, tag:"news",    title:"Podcast de actualidad", description:"Escuchá 1 episodio de un podcast de tecnología o finanzas y anotá lo mejor.", xp:60, verification:"Nota del episodio" },
+  { id:"n28", blk:5, tag:"news",    title:"Newsletter completa", description:"Leé 1 newsletter completa (no solo el titular) y anotá 2 ideas.", xp:60, verification:"2 ideas anotadas" },
+  { id:"n29", blk:5, tag:"news",    title:"Resumen semanal", description:"Resumí lo más importante que aprendiste esta semana y guardalo.", xp:80, verification:"Resumen semanal guardado" },
+  { id:"n30", blk:5, tag:"news",    title:"Ruta del mes", description:"Definí qué tema querés dominar este mes (IA, trading, tecnología) y armá tu plan.", xp:90, verification:"Plan del mes" }
 ];
-const JOBS_BLOCKS = { 1:"📨 Aplicaciones y CV", 2:"🎯 Estrategia y Mercado", 3:"🤝 Networking", 4:"📣 LinkedIn y Marca", 5:"🎤 Entrevistas", 6:"🆓 Freelance y Extra", 7:"⚡ Operación Relámpago" };
-const JOBS_TAGS = { cv:"CV", round:"Aplicaciones", str:"Estrategia", net:"Networking", li:"LinkedIn", int:"Entrevistas", free:"Freelance", final:"Semana Final" };
+const JOBS_BLOCKS = { 1:"🤖 Inteligencia Artificial", 2:"🚀 Tecnología Nueva", 3:"💰 Ganar Más Dinero", 4:"📈 Finanzas & Trading", 5:"📰 Actualización Diaria" };
+const JOBS_TAGS = { ia:"IA", tech:"Tecnología", dinero:"Dinero", trading:"Trading", news:"Actualidad" };
 
 /* ==========================================================
    📈 CAPITAL — DATOS: Operación Capital (IA + mercados +
@@ -3357,7 +3340,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.55"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.56"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3412,7 +3395,6 @@ function firstPendingDay() {
 }
 function dayDoneCount(day) { return missionsOfDay(day).filter(m => gameState.completedDaily.includes(m.id)).length; }
 function jobsDoneCount() { return gameState.completedJobs.length; }
-function roundsDone() { return employmentMissions.filter(m => m.tag === "round" && gameState.completedJobs.includes(m.id)).length; }
 
 /* Objeto global de estado */
 let gameState = {
@@ -3420,7 +3402,7 @@ let gameState = {
   completedMissions: [],   // campaña: ids "m0_1"...
   completedDaily: [],      // días 1..56
   completedWeekly: [],     // semanas 1..8
-  completedJobs: [],       // empleo: ids j1..j40
+  completedJobs: [],       // noticias: ids n1..n30
   completedB2b: [],        // 💸 b2b: ids b0_1..
   unlockedAch: [],         // ids de logros ganados
   startDate: null,         // YYYY-MM-DD del día 1
@@ -3437,7 +3419,7 @@ let gameState = {
   planner: { items: [] }, // 🗓️ plan personal (refs {f, id} ordenadas)
   diary: { date: null, text: "" }, // 📓 diario de una línea (1/día)
   freezers: 0,                     // 🧊 congeladores de racha (máx 2)
-  applications: [],                // 💼 tracker de postulaciones
+  applications: [],                // 📡 fuentes que sigo
   focus: { log: [], date: null }   // 🍅 sesiones de enfoque (pomodoro)
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
@@ -3712,9 +3694,9 @@ function achievementState() {
     ach_st30: () => gameState.streak >= 30,
     ach_w3: () => weekN >= 3,
     ach_w6: () => allWeekly,
-    ach_j5: () => roundsDone() >= 1,
-    ach_j25: () => roundsDone() >= 5,
-    ach_j50: () => roundsDone() >= 10,
+    ach_j5: () => jobsDoneCount() >= 1,
+    ach_j25: () => jobsDoneCount() >= 10,
+    ach_j50: () => jobsDoneCount() >= 25,
     ach_ch0: () => (donePer[0] || 0) >= perChapter[0],
     ach_ch1: () => (donePer[1] || 0) >= perChapter[1],
     ach_ch2: () => (donePer[2] || 0) >= perChapter[2],
@@ -3741,7 +3723,8 @@ function achievementState() {
     ach_titan_hades: () => godDefeated("hades"),
     ach_titan_apolo: () => godDefeated("apolo"),
     ach_titan_prometeo: () => godDefeated("prometeo"),
-    ach_titan_all: () => TITAN_BOSSES.every(t => godDefeated(t.id))
+    ach_titan_all: () => TITAN_BOSSES.every(t => godDefeated(t.id)),
+    ach_vida_all: () => VIDA_BOSSES.every(v => godDefeated(v.id))
   };
   return achievements.filter(a => c[a.id] ? c[a.id]() : false);
 }
@@ -3969,7 +3952,7 @@ function renderAgendaHoy() {
   const vs = vidaCompute();
   const today = todayStr();
   const habDone = HABITOS.filter(function (h) { return vs.log.indexOf(h.id + "|" + today) >= 0; }).length;
-  const rounds = roundsDone();
+  const noticias = jobsDoneCount();
   let engLvl = 1;
   try { engLvl = capCompute().fronts.eng.ladder.lvl; } catch (e) {}
   const streak = gameState.streak || 0;
@@ -3996,9 +3979,9 @@ function renderAgendaHoy() {
         '<button class="agenda-item" data-jump="capital" aria-label="Ver tu inglés">' +
           '<span class="ai-ico">🌎</span><span class="ai-num">Nv.' + engLvl + '</span>' +
           '<span class="ai-lab">Inglés</span></button>' +
-        '<button class="agenda-item" data-jump="jobs" aria-label="Ver tus postulaciones">' +
-          '<span class="ai-ico">💼</span><span class="ai-num">' + rounds + "/10" + '</span>' +
-          '<span class="ai-lab">Postulaciones</span></button>' +
+        '<button class="agenda-item" data-jump="jobs" aria-label="Ver tus noticias">' +
+          '<span class="ai-ico">📡</span><span class="ai-num">' + noticias + "/30" + '</span>' +
+          '<span class="ai-lab">Noticias</span></button>' +
       '</div>' +
     '</div>';
 }
@@ -4013,7 +3996,7 @@ const PLANNER_FRONTS = [
   { f: "daily", ico: "🗓️", n: "Plan diario" },
   { f: "campaign", ico: "📜", n: "Campaña" },
   { f: "weekly", ico: "📯", n: "Semanal" },
-  { f: "jobs", ico: "💼", n: "Empleo" },
+  { f: "jobs", ico: "📡", n: "Noticias" },
   { f: "b2b", ico: "💸", n: "B2B" },
   { f: "cap", ico: "💰", n: "Capital" },
   { f: "eng", ico: "🌎", n: "Inglés" },
@@ -4241,10 +4224,10 @@ function plannerExportIcs() {
   });
 })();
 const APP_STATUSES = {
-  enviada: { n: "📤 Enviada", c: "#00ccff" },
-  entrevista: { n: "🤝 Entrevista", c: "#ffaa00" },
-  oferta: { n: "🎉 Oferta", c: "#00ff88" },
-  cerrada: { n: "🚫 Cerrada", c: "#ff3355" }
+  enviada: { n: "📥 Sigo", c: "#00ccff" },
+  entrevista: { n: "👀 Leída hoy", c: "#ffaa00" },
+  oferta: { n: "⭐ Destacada", c: "#00ff88" },
+  cerrada: { n: "🚫 Abandonada", c: "#ff3355" }
 };
 /* --- 📓 Diario de una línea --- */
 function renderDiary() {
@@ -4375,23 +4358,23 @@ function focusRestore() {
     renderFocus();
   } catch (e) {}
 }
-/* --- 💼 Tracker de postulaciones --- */
+/* --- 📡 Tracker de fuentes --- */
 function appRender() {
   const el = document.getElementById("apps-list");
   if (!el) return;
   const apps = gameState.applications || [];
   const wk = isoWeekKey(todayStr());
-  const weekly = apps.filter(function (a) { return a.week === wk && a.status !== "cerrada"; }).length;
+  const weekly = apps.filter(function (a) { return a.week === wk && a.estado !== "cerrada"; }).length;
   const metaEl = document.getElementById("apps-meta");
   if (metaEl) metaEl.textContent = weekly + "/5 esta semana";
   el.innerHTML = apps.length ? apps.map(function (a, i) {
-    const st = APP_STATUSES[a.status] || { n: a.status, c: "#aaa" };
+    const st = APP_STATUSES[a.estado] || { n: a.estado, c: "#aaa" };
     return '<div class="app-row">' +
       '<div class="app-body"><b>' + escapeHtml(a.empresa) + '</b><small>' + escapeHtml(a.fecha) + '</small></div>' +
       '<span class="app-status" style="--sc:' + st.c + '">' + st.n + '</span>' +
-      '<button class="app-del" data-ai="' + i + '" aria-label="Eliminar postulación">✕</button>' +
+      '<button class="app-del" data-ai="' + i + '" aria-label="Eliminar fuente">✕</button>' +
     '</div>';
-  }).join("") : '<p class="pl-empty">Aún no registrás postulaciones. Agregá tu primera.</p>';
+  }).join("") : '<p class="pl-empty">Aún no seguís fuentes. Agregá tu primera.</p>';
   el.querySelectorAll(".app-del").forEach(function (b) {
     b.addEventListener("click", function () {
       gameState.applications = gameState.applications || [];
@@ -4402,7 +4385,7 @@ function appRender() {
 }
 function appAdd() {
   const emp = document.getElementById("app-empresa").value.trim();
-  if (!emp) { toast("💼", "Falta empresa", "Escribe el nombre de la empresa."); return; }
+  if (!emp) { toast("📡", "Falta fuente", "Escribe el nombre de la fuente."); return; }
   const fecha = document.getElementById("app-fecha").value || todayStr();
   const estado = document.getElementById("app-estado").value;
   gameState.applications = gameState.applications || [];
@@ -4410,7 +4393,7 @@ function appAdd() {
   ODEA.bus.emit("application.added", { empresa: emp, estado: estado });
   saveGame(); appRender();
   document.getElementById("app-empresa").value = "";
-  toast("💼", "Postulación registrada", emp + " · " + estado);
+  toast("📡", "Fuente registrada", emp + " · " + estado);
 }
 /* --- 📊 Mapa de calor --- */
 function renderHeatmap() {
@@ -4560,13 +4543,13 @@ function syncMissionCards() {
   });
 }
 
-/* --- 💼 Vista EMPLEO --- */
+/* --- 📡 Vista NOTICIAS --- */
 function renderJobs() {
   const root = document.getElementById("jobs-root");
   if (!root) return;
   const doneSet = new Set(gameState.completedJobs);
   let html = "";
-  [1, 2, 3, 4, 5, 6].forEach(blk => {
+  [1, 2, 3, 4, 5].forEach(blk => {
     const list = employmentMissions.filter(m => m.blk === blk);
     html += '<div class="week-block"><h4>' + (JOBS_BLOCKS[blk] || "Bloque " + blk) +
       ' <span style="color:var(--tx2);font-weight:400">(' + list.filter(m => doneSet.has(m.id)).length + '/' + list.length + ')</span></h4>' +
@@ -4603,14 +4586,10 @@ function toggleJob(id, el) {
   updateUI();
   saveGame();
   if (wasDone) {
-    toast("↩️", "Misión de empleo desmarcada", "-" + m.xp + " XP · " + m.title);
+    toast("↩️", "Noticia desmarcada", "-" + m.xp + " XP · " + m.title);
   } else {
-    const apps = roundsDone() * 5;
-    toast("💼", "¡Misión de empleo cumplida! +" + m.xp + " XP", m.title + (m.tag === "round" ? " · " + apps + "/50 aplicaciones" : ""));
+    toast("📡", "¡Noticia leída! +" + m.xp + " XP", m.title);
     playSfx("coin");
-    if (m.tag === "round" && apps >= 50) {
-      setTimeout(() => toast("🏆", "¡50 APLICACIONES ENVIADAS!", "Logro Máquina de Aplicaciones desbloqueado", "levelup"), 1700);
-    }
     cheerRandom();
   }
   celebrateIfLevelUp(oldLevel);
@@ -4652,9 +4631,8 @@ function updateUI() {
   document.getElementById("c-count").textContent = gameState.completedMissions.length + "/" + CAMP_TOTAL;
   document.getElementById("ach-count").textContent = gameState.unlockedAch.length;
   document.getElementById("ach-total").textContent = achievements.length;
-  const appsN = roundsDone() * 5;
-  document.getElementById("jb-apps").textContent = Math.min(appsN, 50) + "/50";
-  document.getElementById("jb-done").textContent = jobsDoneCount() + "/" + employmentMissions.length;
+  document.getElementById("jb-apps").textContent = jobsDoneCount() + "/" + employmentMissions.length;
+  document.getElementById("jb-done").textContent = Math.max(0, employmentMissions.length - jobsDoneCount());
   document.getElementById("jb-xp").textContent = jobsXPGain().toLocaleString("es-CR");
   let minT = 0, maxT = 0;
   campaignAll.forEach(m => { const t = parseHours(m.estimatedTime); minT += t.min * 60; maxT += t.max * 60; });
@@ -5002,9 +4980,11 @@ function isoWeekKey(dateStr) {
 function updateStreak() {
   const td = todayStr();
   if (gameState.lastDailyDate === td) return;
-  if (gameState.lastDailyDate && diffDays(gameState.lastDailyDate, td) === 1) {
+  if (!gameState.lastDailyDate) {
+    gameState.streak = 1;   // primer día: la racha arranca en 1
+  } else if (diffDays(gameState.lastDailyDate, td) === 1) {
     gameState.streak += 1;   // día consecutivo: racha crece
-  } else if (gameState.lastDailyDate && diffDays(gameState.lastDailyDate, td) > 1) {
+  } else if (diffDays(gameState.lastDailyDate, td) > 1) {
     // hubo un hueco: ¿queda escudo esta semana?
     const wk = isoWeekKey(td);
     if (gameState.shieldWeek !== wk) {
@@ -5547,7 +5527,7 @@ function renderVidaEq(vs) {
   let growth = '<div class="sect-title">👑 Misiones de Crecimiento <small>raids personales: objetivos grandes, XP grande</small>' +
     '<span class="count-pill">' + vs.gv.growth.length + "/" + VIDA_GROWTH.length + "</span></div>";
   VIDA_GROWTH.forEach(m => { growth += vidaCardHTML(m, vs); });
-  el.innerHTML = balanceCard + pillars + growth;
+  el.innerHTML = balanceCard + pillars + growth + vidaBossHTML("eq");
 }
 function renderVidaKid(vs) {
   const el = document.getElementById("vida-kid");
@@ -5578,7 +5558,7 @@ function renderVidaKid(vs) {
   h += '<div class="sect-title">🏆 Hitos del Mini-Recluta <small>logros de desarrollo: se marcan cuando los conquiste</small>' +
     '<span class="count-pill">' + hitsN + "/" + KID_HITS.length + "</span></div>";
   KID_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("kid");
 }
 function renderVidaCpl(vs) {
   const el = document.getElementById("vida-cpl");
@@ -5599,7 +5579,7 @@ function renderVidaCpl(vs) {
   h += '<div class="sect-title">👑 Metas de la Alianza <small>sueños grandes construidos a cuatro manos</small>' +
     '<span class="count-pill">' + goalsN + "/" + CPL_GOALS.length + "</span></div>";
   CPL_GOALS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("cpl");
 }
 function renderVidaHist(vs) {
   const el = document.getElementById("vida-hist");
@@ -6461,17 +6441,17 @@ function flashFx() {
 }
 
 /* ==========================================================
-   🎖️ EMPLEO — rango propio (caza de trabajo + servicios)
+   📡 NOTICIAS — rango propio (radar de actualización diaria)
    ========================================================== */
 const EMP_LADDER = [
-  { xp: 0, n: "Novato del Empleo" },
-  { xp: 400, n: "Rastreador de Vacantes" },
-  { xp: 1000, n: "Arquitecto de CV" },
-  { xp: 1800, n: "Cazador de Oportunidades" },
-  { xp: 3000, n: "Maestro del Networking" },
-  { xp: 4500, n: "Ninja de Entrevistas" },
-  { xp: 6500, n: "Oferta en la Mano" },
-  { xp: 9000, n: "Leyenda del Empleo" }
+  { xp: 0, n: "Recién Llegado" },
+  { xp: 300, n: "Curioso del Radar" },
+  { xp: 700, n: "Lector Diario" },
+  { xp: 1200, n: "Cazador de Noticias" },
+  { xp: 2000, n: "Analista Informado" },
+  { xp: 3000, n: "Estratega del Dato" },
+  { xp: 4500, n: "Radar Humano" },
+  { xp: 6500, n: "Leyenda de la Actualidad" }
 ];
 function updateEmpRank() {
   const li = ladderInfo(EMP_LADDER, jobsXPGain());
@@ -6549,7 +6529,7 @@ function renderVidaPow(vs) {
   h += '<div class="sect-title">🏆 Misiones de Poder & Imagen <small>hitos grandes: mentalidad, marca y venta de servicios</small>' +
     '<span class="count-pill">' + c.hits + "/" + POW_HITS.length + "</span></div>";
   POW_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("pow");
 }
 
 /* ==========================================================
@@ -6629,7 +6609,7 @@ function renderVidaMen(vs) {
   h += '<div class="sect-title">🏛️ Estudio de los Grandes <small>22 misiones: figuras de datos, marketing, dinero y sabiduría humana</small>' +
     '<span class="count-pill">' + c.hits + "/" + MEN_HITS.length + "</span></div>";
   MEN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("men");
 }
 
 /* ==========================================================
@@ -6696,7 +6676,7 @@ function renderVidaPlan(vs) {
   h += '<div class="sect-title">🏆 Grandes Aventuras <small>planes especiales que se marcan cuando se viven</small>' +
     '<span class="count-pill">' + c.hits + "/" + PLAN_HITS.length + "</span></div>";
   PLAN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("plan");
 }
 
 /* ==========================================================
@@ -6777,7 +6757,7 @@ function renderVidaOrden(vs) {
   h += '<div class="sect-title">🏆 Misiones de Orden <small>depuraciones grandes y rutinas que transforman tu hogar</small>' +
     '<span class="count-pill">' + c.hits + "/" + ORDEN_HITS.length + "</span></div>";
   ORDEN_HITS.forEach(m => { h += vidaCardHTML(m, vs); });
-  el.innerHTML = h;
+  el.innerHTML = h + vidaBossHTML("orden");
 }
 
 
@@ -6813,7 +6793,7 @@ function mapRoad(points, off) {
 const GOD_BOSSES = [
   { id:"cronos", world:"camp", n:"Cronos", t:"El Titán del Tiempo", ico:"🕰️", c:"#00ff88", hp:15000, xp:600 },
   { id:"atenea", world:"torre", n:"Atenea", t:"La Diosa de la Sabiduría", ico:"🦉", c:"#00ccff", hp:8000, xp:600 },
-  { id:"hermes", world:"fortaleza", n:"Hermes", t:"El Dios del Comercio", ico:"🪽", c:"#ffaa00", hp:5000, xp:600 },
+  { id:"hermes", world:"fortaleza", n:"Hermes", t:"El Mensajero de las Noticias", ico:"🪽", c:"#ffaa00", hp:5000, xp:600 },
   { id:"hestia", world:"aldea", n:"Hestia", t:"La Diosa del Hogar", ico:"🔥", c:"#ff00ff", hp:6000, xp:600 },
   { id:"pluto",  world:"b2b",  n:"Pluto",  t:"El Dios de la Riqueza", ico:"💰", c:"#ffd700", hp:3200, xp:600 },
   { id:"zeus",   world:"boveda", n:"Zeus",  t:"El Rey de los Dioses", ico:"⚡", c:"#7c6cff", hp:18000, xp:1000 }
@@ -6836,12 +6816,23 @@ const TITAN_IMG = {
   apolo: "assets/titans/apolo.png",
   prometeo: "assets/titans/prometeo.png"
 };
+const VIDA_BOSSES = [
+  { id:"vida_temis",   vida:"eq",    n:"Temis",   t:"La Dama del Equilibrio", ico:"⚖️", c:"#00ff88", hp:2500, xp:400 },
+  { id:"vida_demeter", vida:"kid",   n:"Deméter", t:"La Madre del Legado", ico:"👶", c:"#2dd4bf", hp:3000, xp:400 },
+  { id:"vida_eros",    vida:"cpl",   n:"Eros",    t:"El Arquero de la Unión", ico:"💑", c:"#ff00aa", hp:2800, xp:400 },
+  { id:"vida_ares",    vida:"pow",   n:"Ares",    t:"El Titán del Poder", ico:"🦁", c:"#ffd700", hp:3200, xp:400 },
+  { id:"vida_metis",   vida:"men",   n:"Metis",   t:"La Fuente de la Sabiduría", ico:"🏛️", c:"#4dd0ff", hp:3500, xp:400 },
+  { id:"vida_dioniso", vida:"plan",  n:"Dioniso", t:"El Espíritu de la Aventura", ico:"🎢", c:"#00e5ff", hp:2800, xp:400 },
+  { id:"vida_hefesto", vida:"orden", n:"Hefesto", t:"El Herrero del Orden", ico:"🧹", c:"#ff8a3d", hp:3000, xp:400 }
+];
+const VIDA_BOSS_IMG = {};
+const VIDA_FRONT_LABEL = { eq:"Equilibrio", kid:"Legado", cpl:"Alianza", pow:"Poder & Imagen", men:"Sabios & Mentores", plan:"Planes & Aventuras", orden:"Orden & Hogar" };
 let godCombatId = null;
 function godOfWorld(w) { return GOD_BOSSES.find(g => g.world === w); }
 function godById(id) { return GOD_BOSSES.find(g => g.id === id); }
 function titanById(id) { return TITAN_BOSSES.find(t => t.id === id); }
 function titanOfFront(frontKey) { return TITAN_BOSSES.find(t => t.front === frontKey); }
-function bossById(id) { return GOD_BOSSES.find(g => g.id === id) || TITAN_BOSSES.find(t => t.id === id); }
+function bossById(id) { return GOD_BOSSES.find(g => g.id === id) || TITAN_BOSSES.find(t => t.id === id) || VIDA_BOSSES.find(v => v.id === id); }
 function titanPower(frontKey) {
   const f = CAP_FRONTS.find(x => x.k === frontKey);
   return f ? capFrontCompute(f).xp : 0;
@@ -6850,17 +6841,23 @@ function bossPower(boss) {
   const sp = shopPower();
   if (boss.world) return godPower(boss.world) + sp;
   if (boss.front) return titanPower(boss.front) + sp;
+  if (boss.vida) return (vidaCompute().xp[boss.vida] || 0) + sp;
   return sp;
 }
 function bossLabel(boss) {
   if (boss.world) return godWorldLabel(boss.world);
   if (boss.front) return { cap:"Capital", eng:"Inglés", ai:"IA" }[boss.front] || boss.front;
+  if (boss.vida) return VIDA_FRONT_LABEL[boss.vida] || boss.vida;
   return "";
 }
-function bossImg(boss) { return (GOD_IMG[boss.id] || TITAN_IMG[boss.id] || ""); }
+function bossImg(boss) { return (GOD_IMG[boss.id] || TITAN_IMG[boss.id] || VIDA_BOSS_IMG[boss.id] || ""); }
 function titanBossHTML(frontKey) {
   const t = titanOfFront(frontKey);
   return t ? godBossHTML(t) : "";
+}
+function vidaBossHTML(frontKey) {
+  const v = VIDA_BOSSES.find(b => b.vida === frontKey);
+  return v ? godBossHTML(v) : "";
 }
 function godDefeated(id) { return !!(gameState.gods || {})[id]; }
 function godPower(world) {
@@ -6875,14 +6872,14 @@ function godPower(world) {
   }
 }
 function godWorldLabel(world) {
-  return { camp:"Campamento Base", torre:"Campaña de Datos", fortaleza:"Fortaleza del Empleo",
+  return { camp:"Campamento Base", torre:"Campaña de Datos", fortaleza:"Radar del Mundo",
     aldea:"Aldea de la Vida", boveda:"El Imperio", b2b:"B2B · Ingreso Extra" }[world] || world;
 }
 function godBossHTML(boss) {
   const defeated = godDefeated(boss.id);
   const power = bossPower(boss);
   const img = bossImg(boss);
-  const isTitan = !!boss.front;
+  const isTitan = !!boss.front || !!boss.vida;
   const kicker = isTitan ? "⚡ SUB-JEFE DEL FRENTE" : "🏛️ JEFE DEL MUNDO";
   const pct = Math.min(100, Math.round((power / boss.hp) * 100));
   return '<div class="god-boss' + (isTitan ? " titan" : "") + '" style="--mc:' + boss.c + '">' +
@@ -6917,7 +6914,7 @@ function renderGodCombat() {
   const defeated = godDefeated(boss.id);
   const power = bossPower(boss);
   const img = bossImg(boss);
-  const isTitan = !!boss.front;
+  const isTitan = !!boss.front || !!boss.vida;
   const kicker = isTitan ? "⚡ SUB-JEFE DEL FRENTE" : "🏛️ JEFE DEL MUNDO";
   const pct = Math.min(100, Math.round((power / boss.hp) * 100));
   const remaining = Math.max(0, boss.hp - power);
@@ -6961,6 +6958,7 @@ function godAttack() {
     updateUI();
     renderMapStage();
     renderCapital();
+    renderVidaSubActiva();
     renderGodCombat();
     setTimeout(checkAchievements, 500);
   } else {
@@ -7039,7 +7037,7 @@ function mapHubHTML() {
   const nar = mapNarrow();
   const W = [
     { k: "camp", ico: "🏕️", n: nar ? "Campamento" : "Campamento Base", x: 50, y: 13, c: "#00ff88", lit: true },
-    { k: "fortaleza", ico: "💼", n: nar ? "Fortaleza" : "Fortaleza del Empleo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
+    { k: "fortaleza", ico: "📡", n: nar ? "Radar" : "Radar del Mundo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
     { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
     { k: "boveda", ico: "👑", n: nar ? "Imperio" : "El Imperio", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
@@ -7157,7 +7155,7 @@ function bovedaHTML() {
 }
 function fortalezaNodes() {
   const doneSet = new Set(gameState.completedJobs);
-  const blks = [1, 2, 3, 4, 5, 6, 7];
+  const blks = [1, 2, 3, 4, 5];
   const lists = blks.map(blk => employmentMissions.filter(m => m.blk === blk));
   const firstPend = lists.findIndex(list => list.filter(m => doneSet.has(m.id)).length < list.length);
   const out = { nodes: [], points: [] };
@@ -7234,7 +7232,7 @@ function renderMapStage() {
     null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
     camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
     torre: { t: "📜 CAMPAÑA DE DATOS", s: "8 etapas · 54 misiones para conseguir tu rol de datos" },
-    fortaleza: { t: "💼 FORTALEZA DEL EMPLEO", s: "7 bloques: aplicaciones, estrategia, networking, LinkedIn, entrevistas, freelance y la Operación Relámpago" },
+    fortaleza: { t: "📡 RADAR DEL MUNDO", s: "5 bloques: IA, tecnología, ganar dinero, finanzas/trading y actualización diaria" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "7 zonas: equilibrio, legado, alianza, poder, sabiduría, planes y orden" },
     boveda: { t: "👑 EL IMPERIO", s: "3 frentes: 💰 capital · 🌎 inglés · 🤖 IA — domina tu imperio" },
     b2b: { t: "💸 B2B — INGRESO EXTRA", s: "6 fases: fundamentos, portafolio, ingresos, inversión, marca y escalado" }
@@ -7299,10 +7297,10 @@ function mapOpenModal(kind, id) {
     const blk = Number(String(id).replace("blk", ""));
     const list = employmentMissions.filter(m => m.blk === blk);
     const doneSet = new Set(gameState.completedJobs);
-    let html = '<div style="--mc:#ffaa00"><div class="nm-head"><span class="nm-ico">💼</span>' +
-      '<div><div class="nm-code">FORTALEZA DEL EMPLEO · ' + list.filter(m => doneSet.has(m.id)).length + "/" + list.length + "</div>" +
+    let html = '<div style="--mc:#ffaa00"><div class="nm-head"><span class="nm-ico">📡</span>' +
+      '<div><div class="nm-code">RADAR DEL MUNDO · ' + list.filter(m => doneSet.has(m.id)).length + "/" + list.length + "</div>" +
       '<div class="nm-title">' + (JOBS_BLOCKS[blk] || "Bloque") + "</div></div></div>" +
-      '<p class="ch-narrative">Completa las misiones de este bloque para reforzar tu fortaleza.</p>' +
+      '<p class="ch-narrative">Completa las noticias de este bloque para encender tu radar.</p>' +
       list.map(m => {
         const done = doneSet.has(m.id);
         return '<div class="mission job' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
@@ -7439,7 +7437,7 @@ function mapHudPaint() {
   } else if (mapSt.w === "fortaleza") {
     const li = ladderInfo(EMP_LADDER, jobsXPGain());
     chips.push('<span class="mh-chip gold">🎖️ <b>' + li.name + "</b></span>");
-    chips.push('<span class="mh-chip green">💼 <b>' + jobsDoneCount() + "/" + employmentMissions.length + "</b></span>");
+    chips.push('<span class="mh-chip green">📡 <b>' + jobsDoneCount() + "/" + employmentMissions.length + "</b></span>");
   } else if (mapSt.w === "aldea") {
     const vs = vidaCompute();
     chips.push('<span class="mh-chip gold">🧬 <b>' + vs.hero.name + "</b></span>");
@@ -7473,7 +7471,7 @@ function mapEndBadge() {
   } else if (mapSt.w === "boveda" && capCompute().capsDone >= capCompute().totalWorlds) {
     html = '🏆 ¡IMPERIO CONQUISTADO!<small>Dominaste capital, inglés e IA — el triple frente completo</small>';
   } else if (mapSt.w === "fortaleza" && jobsDoneCount() >= employmentMissions.length) {
-    html = '🏆 ¡FORTALEZA CONQUISTADA!<small>Leyenda del Empleo · el trabajo te busca a ti</small>';
+    html = '🏆 ¡RADAR DOMINADO!<small>Leyenda de la Actualidad · estás al día con el mundo</small>';
   } else if (mapSt.w === "torre") {
     html = '🗺️ El camino sigue hacia la cima<small>completa capítulos para encender el sendero</small>';
   }
