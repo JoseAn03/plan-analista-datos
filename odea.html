@@ -1671,7 +1671,7 @@ header{padding:10px 14px}
   radial-gradient(1.2px 1.2px at 66% 96%, rgba(255,255,255,.5), transparent 60%),
   radial-gradient(ellipse 92% 72% at 50% 50%, transparent 55%, rgba(0,0,0,.5) 100%),
   linear-gradient(180deg, rgba(7,10,30,.5), rgba(10,14,40,.42) 46%, rgba(4,6,17,.3)),
-  url('assets/bg/cyber-city.png') center bottom/cover no-repeat}
+  url('assets/bg/cyber-city.webp') center bottom/cover no-repeat}
 /* Mundos como PLANETAS esféricos */
 .mworld{background:radial-gradient(circle at 33% 26%, color-mix(in srgb,var(--mc) 62%,#fff) 0%, color-mix(in srgb,var(--mc) 78%,#000) 42%, #05081a 78%);
   border-color:color-mix(in srgb,var(--mc) 60%,transparent);
@@ -2106,7 +2106,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="hud">
     <button class="snd-btn" id="snd-btn" title="Sonido: activar / silenciar" aria-label="Sonido: activar o silenciar">🔊</button>
-    <button class="snd-btn" id="focus-btn" title="Modo enfoque (Pomodoro 25/5)" aria-label="Modo enfoque Pomodoro"><img src="assets/focus.png" alt="" style="width:24px;height:24px;border-radius:50%;display:block"></button>
+    <button class="snd-btn" id="focus-btn" title="Modo enfoque (Pomodoro 25/5)" aria-label="Modo enfoque Pomodoro"><img src="assets/focus.webp" alt="" style="width:24px;height:24px;border-radius:50%;display:block"></button>
     <span class="streak-chip" id="streak-chip" title="Días seguidos completando tu misión diaria">
       <span class="flame">🔥</span> <span id="streak-n">0</span><span id="streak-mult"></span><span id="streak-shield"></span>
     <span class="coin-chip" title="Monedas: completá misiones para ganarlas y gastalas en la tienda">🪙 <span class="coin-num" id="coin-head">0</span></span>
@@ -3163,9 +3163,9 @@ const CAP_FRONTS = [
 const CAP_METAFORA = { cap: "la bóveda del tesoro", eng: "la academia de la lengua", ai: "la forja de la mente" };
 
 const CAP_FRONT_IMG = {
-  cap: "assets/fronts/cap.png",
-  eng: "assets/fronts/eng.png",
-  ai:  "assets/fronts/ai.png"
+  cap: "assets/fronts/cap.webp",
+  eng: "assets/fronts/eng.webp",
+  ai:  "assets/fronts/ai.webp"
 };
 
 
@@ -6810,12 +6810,12 @@ const GOD_BOSSES = [
   { id:"zeus",   world:"boveda", n:"Zeus",  t:"El Rey de los Dioses", ico:"⚡", c:"#7c6cff", hp:18000, xp:1000 }
 ];
 const GOD_IMG = {
-  cronos: "assets/gods/cronos.png",
-  atenea: "assets/gods/atenea.png",
-  hermes: "assets/gods/hermes.png",
-  hestia: "assets/gods/hestia.png",
-  pluto:  "assets/gods/pluto.png",
-  zeus:   "assets/gods/zeus.png"
+  cronos: "assets/gods/cronos.webp",
+  atenea: "assets/gods/atenea.webp",
+  hermes: "assets/gods/hermes.webp",
+  hestia: "assets/gods/hestia.webp",
+  pluto:  "assets/gods/pluto.webp",
+  zeus:   "assets/gods/zeus.webp"
 };
 const TITAN_BOSSES = [
   { id:"hades", front:"cap", n:"Hades", t:"El Titán del Tesoro", ico:"💀", c:"#00e5a0", hp:8000, xp:500 },
@@ -6823,9 +6823,9 @@ const TITAN_BOSSES = [
   { id:"prometeo", front:"ai", n:"Prometeo", t:"El Titán del Fuego", ico:"🔥", c:"#ff00ff", hp:6500, xp:500 }
 ];
 const TITAN_IMG = {
-  hades: "assets/titans/hades.png",
-  apolo: "assets/titans/apolo.png",
-  prometeo: "assets/titans/prometeo.png"
+  hades: "assets/titans/hades.webp",
+  apolo: "assets/titans/apolo.webp",
+  prometeo: "assets/titans/prometeo.webp"
 };
 const VIDA_BOSSES = [
   { id:"vida_temis",   vida:"eq",    n:"Temis",   t:"La Dama del Equilibrio", ico:"⚖️", c:"#00ff88", hp:2500, xp:400 },
@@ -7036,11 +7036,11 @@ function mapWorldStats() {
   };
 }
 const WORLD_IMG = {
-  "camp": "assets/worlds/camp.png",
-  "torre": "assets/worlds/torre.png",
-  "aldea": "assets/worlds/aldea.png",
-  "boveda": "assets/worlds/boveda.png",
-  "b2b": "assets/worlds/b2b.png",
+  "camp": "assets/worlds/camp.webp",
+  "torre": "assets/worlds/torre.webp",
+  "aldea": "assets/worlds/aldea.webp",
+  "boveda": "assets/worlds/boveda.webp",
+  "b2b": "assets/worlds/b2b.webp",
 };
 function mapHubHTML() {
   const s = mapWorldStats();
@@ -8057,7 +8057,7 @@ function holoGearHTML() {
    🧑‍🚀 V6.0 — AVATAR 2D (estilo limpio) + render en ambos hosts
    Reemplaza el holograma 3D por un personaje plano bonito.
    ========================================================== */
-const AVATAR_PNG = "assets/avatar.png";
+const AVATAR_PNG = "assets/avatar.webp";
 const AVATAR_HUE = { "#4dd0ff": 0, "#00ff88": -60, "#ff00ff": -140, "#ffd700": 80 };
 function avatarSVG2D(col) {
   const hue = AVATAR_HUE[col] || 0;
