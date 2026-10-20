@@ -211,6 +211,24 @@ aside.stats-panel h3{font-size:.85rem;color:var(--tx2);letter-spacing:2px;border
 .m-verif{margin-top:6px;font-size:.78rem;color:var(--glow-amber);opacity:.9}
 .m-verif::before{content:'⛭ VERIFICACIÓN: ';color:var(--glow-amber)}
 .m-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+/* --- ➕ Añadir a Mi Plan desde cualquier frente (v5.64) --- */
+.mission.has-plan,.sg-cap.has-plan{position:relative}
+.mission.has-plan .m-body{padding-right:32px}
+.sg-cap.has-plan{padding-right:38px}
+.btn-plan-add{position:absolute;top:0;right:0;z-index:2;width:44px;height:44px;padding:0;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;background:none;border:0;border-radius:12px;
+  font-family:'Orbitron',sans-serif;font-size:.9rem;line-height:1;color:#8b7cff;
+  transition:color .2s,transform .2s}
+.btn-plan-add::before{content:'';position:absolute;inset:9px;border-radius:10px;
+  border:1px solid rgba(124,108,255,.5);background:rgba(124,108,255,.12);
+  transition:border-color .2s,background .2s,box-shadow .2s}
+.btn-plan-add:hover{color:var(--glow-cyan);transform:scale(1.06)}
+.btn-plan-add:hover::before{border-color:rgba(0,204,255,.75);background:rgba(0,204,255,.16);box-shadow:0 0 12px rgba(0,204,255,.4)}
+.btn-plan-add:focus-visible{outline:2px solid var(--glow-cyan);outline-offset:-4px}
+.btn-plan-add.on{color:#ffd700}
+.btn-plan-add.on::before{border-color:rgba(255,215,0,.65);background:rgba(255,215,0,.14);box-shadow:0 0 10px rgba(255,215,0,.3)}
+/* variante en flujo: paneles que ya tienen su checkbox a la derecha */
+.btn-plan-add.inline{position:relative;flex:0 0 auto}
 .tag{font-size:.7rem;padding:2px 9px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;
   border:1px solid;background:rgba(255,255,255,.03);white-space:nowrap}
 .tag.cat-analyst{color:#00ff88;border-color:rgba(0,255,136,.4)}
@@ -2115,7 +2133,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.63</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.64</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2182,7 +2200,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.63</span>
+    <span class="ver" id="ver-badge">v5.64</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2368,7 +2386,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.63</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.64</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3449,7 +3467,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.63"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.64"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4074,7 +4092,7 @@ function sagaSafetyHTML() {
 }
 function sagaWeeklyHTML() {
   const done = sagaWeeklyDone();
-  return '<div class="sg-panel' + (done ? " done" : "") + '">' +
+  return '<div class="sg-panel has-plan' + (done ? " done" : "") + '">' +
     '<div class="sg-panel-ico">🎥</div>' +
     '<div class="sg-panel-body">' +
       '<div class="sg-panel-k">Misión semanal fija</div>' +
@@ -4082,6 +4100,7 @@ function sagaWeeklyHTML() {
       '<p>Un clip de 15 a 60 s, del tema que sea: la idea, el ensayo o el detrás de cámaras. ' +
         '<b>Mantiene tu racha</b>, suma XP a Poder &amp; Imagen y <b>+1 moneda</b>.</p>' +
     '</div>' +
+    planAddBtnHTML("sagas", "sg-weekly", "inline") +
     '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
       'data-sg-weekly="1" aria-label="Marcar la misión semanal de video"></div>' +
   '</div>';
@@ -4111,7 +4130,8 @@ function sagaChapterHTML(s, c) {
   const done = !!sagaState.chapters[c.id];
   const kidXP = Math.round(c.xp * (s.split.kid || 0));
   const powXP = Math.round(c.xp * (s.split.pow || 0));
-  return '<article class="sg-cap' + (done ? " done" : "") + '">' +
+  return '<article class="sg-cap has-plan' + (done ? " done" : "") + '">' +
+    planAddBtnHTML("sagas", c.id) +
     '<div class="sg-cap-head">' +
       '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
         'data-sg="' + c.id + '" aria-label="Marcar capítulo ' + c.n + ': ' + escapeHtml(c.title) + '"></div>' +
@@ -4673,8 +4693,66 @@ const PLANNER_FRONTS = [
   { f: "cap", ico: "💰", n: "Capital" },
   { f: "eng", ico: "🌎", n: "Inglés" },
   { f: "ai", ico: "🤖", n: "IA" },
-  { f: "vida", ico: "🧬", n: "Vida" }
+  { f: "vida", ico: "🧬", n: "Vida" },
+  { f: "sagas", ico: "📹", n: "Sagas" }
 ];
+/* --- ➕ Añadir a Mi Plan desde cualquier frente (v5.64) ---
+   Reutiliza el sistema existente: gameState.planner.items con refs
+   {f, id}. No hay almacenamiento nuevo ni migración. */
+function planHas(f, id) {
+  const pl = gameState.planner = gameState.planner || { items: [] };
+  if (!Array.isArray(pl.items)) pl.items = [];
+  const key = f + ":" + id;
+  return pl.items.some(function (it) { return plannerRefKey(it) === key; });
+}
+function planSyncAll() {
+  const pl = gameState.planner = gameState.planner || { items: [] };
+  if (!Array.isArray(pl.items)) pl.items = [];
+  const on = {};
+  pl.items.forEach(function (it) { on[plannerRefKey(it)] = true; });
+  document.querySelectorAll(".btn-plan-add").forEach(function (b) {
+    const has = !!on[b.getAttribute("data-pf") + ":" + b.getAttribute("data-pid")];
+    b.classList.toggle("on", has);
+    b.setAttribute("aria-pressed", has ? "true" : "false");
+    b.setAttribute("aria-label", has ? "Quitar de Mi Plan" : "Agregar a Mi Plan");
+    b.textContent = has ? "✓" : "＋";
+  });
+  /* si el panel está abierto, refleja el cambio de inmediato */
+  const layer = document.getElementById("planner-layer");
+  if (layer && layer.classList.contains("show")) renderPlannerPicker();
+}
+function planAddBtnHTML(f, id, extraClass) {
+  const on = planHas(f, id);
+  return '<button type="button" class="btn-plan-add' + (extraClass ? " " + extraClass : "") + (on ? " on" : "") +
+    '" data-pf="' + escapeHtml(f) + '" data-pid="' + escapeHtml(id) +
+    '" aria-pressed="' + (on ? "true" : "false") +
+    '" aria-label="' + (on ? "Quitar de Mi Plan" : "Agregar a Mi Plan") + '">' +
+    (on ? "✓" : "＋") + "</button>";
+}
+function planToggleFromBtn(f, id) {
+  if (!f || !id) return;
+  const info = plannerInfo(f, id);
+  if (!info) return;
+  const was = planHas(f, id);
+  plannerAdd(f, id);   /* guarda, repinta Mi Plan y sincroniza los ＋ */
+  playSfx("click");
+  toast("🗓️", was ? "Quitada de Mi Plan" : "Agregada a Mi Plan", info.title);
+}
+/* Índice de misiones de Vida (todas las zonas). Se construye en
+   diferido porque POW_*, MEN_*, PLAN_* y ORDEN_* se declaran más
+   abajo en el archivo. Excluye RETOS: son el reto del día ("Hoy"). */
+let _vidaMissionIdx = null;
+function vidaMissionIndex() {
+  if (_vidaMissionIdx) return _vidaMissionIdx;
+  const idx = {};
+  [HABITOS, VIDA_GROWTH, KID_DAILY, KID_WEEK, KID_HITS, KID_LEARN, KID_FUN,
+   CPL_WEEK, CPL_GOALS, POW_WEEK, POW_HITS, MEN_WEEK, MEN_HITS,
+   PLAN_WEEK, PLAN_HITS, ORDEN_DAILY, ORDEN_WEEK, ORDEN_HITS].forEach(function (list) {
+    (list || []).forEach(function (o) { idx[o.id] = o; });
+  });
+  _vidaMissionIdx = idx;
+  return idx;
+}
 function plannerCatalog() {
   const out = [];
   dailyMissions.forEach(function (m) { out.push({ f: "daily", id: m.id }); });
@@ -4683,11 +4761,18 @@ function plannerCatalog() {
   employmentMissions.forEach(function (m) { out.push({ f: "jobs", id: m.id }); });
   B2B_MISSIONS.forEach(function (m) { out.push({ f: "b2b", id: m.id }); });
   CAP_FRONTS.forEach(function (fr) { fr.missions.forEach(function (m) { out.push({ f: fr.k, id: m.id }); }); });
-  HABITOS.forEach(function (h) { out.push({ f: "vida", id: h.id }); });
-  VIDA_GROWTH.forEach(function (g) { out.push({ f: "vida", id: g.id }); });
+  /* v5.64: todas las zonas de Vida (Equilibrio, Legado, Alianza,
+     Poder, Sabios, Planes y Orden) desde un único índice */
+  const vidas = vidaMissionIndex();
+  Object.keys(vidas).forEach(function (id) { out.push({ f: "vida", id: id }); });
+  /* v5.64: capítulos de Sagas + su misión semanal fija */
+  SAGAS.forEach(function (s) {
+    s.chapters.forEach(function (c) { out.push({ f: "sagas", id: c.id }); });
+  });
+  out.push({ f: "sagas", id: "sg-weekly" });
   return out;
 }
-function plannerInfo(f, id) {
+function plannerInfo(f, id, vsCache) {
   let m;
   if (f === "daily") { m = dailyMissions.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedDaily.includes(id) } : null; }
   if (f === "campaign") { m = campaignAll.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedMissions.includes(id) } : null; }
@@ -4704,10 +4789,23 @@ function plannerInfo(f, id) {
   }
   if (f === "vida") {
     const o = VIDA_OBJ[id];
-    if (!o) return null;
-    const src = HABITOS.find(function (x) { return x.id === id; }) || VIDA_GROWTH.find(function (x) { return x.id === id; });
-    if (!src) return null;
-    return { title: src.t, xp: o.xp, done: vidaIsDone(vidaCompute(), { id: id }) };
+    const src = vidaMissionIndex()[id];
+    if (!o || !src) return null;
+    /* vsCache: el panel evalúa muchas misiones seguidas; se calcula una vez */
+    const vs = vsCache || vidaCompute();
+    return { title: src.t, xp: o.xp, done: vidaIsDone(vs, { id: id }) };
+  }
+  if (f === "sagas") {
+    if (id === "sg-weekly") {
+      return { title: "Grabar 1 video corto con mi hijo", xp: SAGA_WEEKLY_XP, done: sagaWeeklyDone() };
+    }
+    let cap = null;
+    SAGAS.forEach(function (s) {
+      if (cap) return;
+      const c = s.chapters.filter(function (x) { return x.id === id; })[0];
+      if (c) cap = c;
+    });
+    return cap ? { title: cap.title, xp: cap.xp, done: sagaChapterDone(id) } : null;
   }
   return null;
 }
@@ -4729,6 +4827,8 @@ function plannerToggle(it) {
   } else if (f === "vida") {
     const card = plannerFakeEl(); card.dataset = { mid: id }; card.closest = function () { return card; };
     vidaToggle({ target: card });
+  } else if (f === "sagas") {
+    if (id === "sg-weekly") toggleSagaWeekly(); else toggleSagaChapter(id);
   }
 }
 function renderPlanner() {
@@ -4738,11 +4838,12 @@ function renderPlanner() {
   if (!Array.isArray(pl.items)) pl.items = [];
   const items = pl.items;
   let listHTML = "";
+  let _vsPl = null;
   if (!items.length) {
     listHTML = '<div class="pl-empty">Aún no tenés misiones en tu plan. Tocá <b>Agregar misiones</b> y elegí de cualquier frente.</div>';
   } else {
     items.forEach(function (it, i) {
-      const info = plannerInfo(it.f, it.id);
+      const info = plannerInfo(it.f, it.id, it.f === "vida" ? (_vsPl || (_vsPl = vidaCompute())) : null);
       if (!info) return;
       const fr = PLANNER_FRONTS.find(function (x) { return x.f === it.f; });
       listHTML += '<div class="pl-item' + (info.done ? " done" : "") + '">' +
@@ -4770,6 +4871,9 @@ function renderPlanner() {
       '<div class="pl-list">' + listHTML + '</div>' +
       '<button class="btn-neon" id="planner-add" aria-label="Agregar misiones al plan">➕ Agregar misiones</button>' +
     '</div>';
+  /* v5.64: cualquier cambio del plan (＋, panel, quitar, reordenar)
+     deja los botones de las tarjetas y el panel en el mismo estado */
+  planSyncAll();
 }
 function plannerAdd(f, id) {
   const pl = gameState.planner = gameState.planner || { items: [] };
@@ -4814,13 +4918,14 @@ function renderPlannerPicker() {
   pl.items.forEach(function (it) { inPlan[plannerRefKey(it)] = true; });
   const cat = plannerCatalog();
   let html = "";
+  let _vsPick = null;
   PLANNER_FRONTS.forEach(function (fr) {
     if (plannerFront !== "all" && fr.f !== plannerFront) return;
     const list = cat.filter(function (c) { return c.f === fr.f; });
     if (!list.length) return;
     let rows = "";
     list.forEach(function (c) {
-      const info = plannerInfo(c.f, c.id);
+      const info = plannerInfo(c.f, c.id, c.f === "vida" ? (_vsPick || (_vsPick = vidaCompute())) : null);
       if (!info) return;
       if (onlyPending && info.done) return;
       const key = plannerRefKey(c);
@@ -4894,6 +4999,16 @@ function plannerExportIcs() {
     const b = e.target.closest("[data-ptf]");
     if (b) { plannerFront = b.dataset.ptf; renderPlannerPicker(); }
   });
+  /* ➕ Un solo listener en fase de captura: el botón nunca abre la
+     misión, no la completa y no da XP. Cubre todas las tarjetas,
+     incluidas las que se repintan y las de los modales del mapa. */
+  document.addEventListener("click", function (e) {
+    const btn = e.target && e.target.closest ? e.target.closest(".btn-plan-add") : null;
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    planToggleFromBtn(btn.getAttribute("data-pf"), btn.getAttribute("data-pid"));
+  }, true);
 })();
 const APP_STATUSES = {
   enviada: { n: "📥 Sigo", c: "#00ccff" },
@@ -5227,7 +5342,8 @@ function renderJobs() {
       ' <span style="color:var(--tx2);font-weight:400">(' + list.filter(m => doneSet.has(m.id)).length + '/' + list.length + ')</span></h4>' +
       list.map(m => {
         const done = doneSet.has(m.id);
-        return '<div class="mission job' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+        return '<div class="mission job has-plan' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+          planAddBtnHTML("jobs", m.id) +
           '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div>' +
           '<div class="m-body">' +
             '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
@@ -6154,7 +6270,8 @@ function vidaTagsHTML(o, vs, extra) {
 }
 function vidaCardHTML(o, vs, extra) {
   const done = vidaIsDone(vs, o);
-  return '<div class="mission small' + (done ? " done" : "") + '" data-mid="' + o.id + '">' +
+  return '<div class="mission small has-plan' + (done ? " done" : "") + '" data-mid="' + o.id + '">' +
+    planAddBtnHTML("vida", o.id) +
     '<div class="m-check"></div><div class="m-body">' +
     '<div class="m-title">' + o.t + "</div>" +
     '<div class="m-desc">' + o.d + "</div>" +
@@ -6499,7 +6616,8 @@ function capCompute() {
 function capCardHTML(m, vs, front) {
   const isDone = vs.doneSet.has(m.id);
   const isBoss = m.id === capFrontBossOf(front, m.cap).id;
-  return '<div class="mission' + (isDone ? " done" : "") + (isBoss ? " boss" : "") + '" data-cid="' + m.id + '" data-front="' + front.k + '">' +
+  return '<div class="mission has-plan' + (isDone ? " done" : "") + (isBoss ? " boss" : "") + '" data-cid="' + m.id + '" data-front="' + front.k + '">' +
+    planAddBtnHTML(front.k, m.id) +
     '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '"></div>' +
     '<div class="m-body">' +
     '<div class="m-title">' + (isBoss ? "👑 " : "") + m.t + "</div>" +
@@ -7993,7 +8111,8 @@ function mapOpenModal(kind, id) {
       '<p class="ch-narrative">Completa las noticias de este bloque para encender tu radar.</p>' +
       list.map(m => {
         const done = doneSet.has(m.id);
-        return '<div class="mission job' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+        return '<div class="mission job has-plan' + (done ? " done" : "") + '" data-id="' + m.id + '">' +
+          planAddBtnHTML("jobs", m.id) +
           '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div><div class="m-body">' +
           '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
           '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
@@ -8015,7 +8134,8 @@ function mapOpenModal(kind, id) {
       '<p class="ch-narrative">' + ch.narrative + "</p>" +
       list.map(m => {
         const done = doneSet.has(m.id);
-        return '<div class="mission' + (done ? " done" : '') + '" data-id="' + m.id + '">' +
+        return '<div class="mission has-plan' + (done ? " done" : '') + '" data-id="' + m.id + '">' +
+          planAddBtnHTML("b2b", m.id) +
           '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div><div class="m-body">' +
           '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
           '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
