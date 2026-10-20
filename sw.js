@@ -6,47 +6,49 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.59-20261019-racha';
+const CACHE_VERSION = 'odea-v5.60-20261020-auditoria';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
   './odea.html',
   './index.html',
-  './quiz.html',
-  './quiz-definitivo.html',
   './manifest.json',
   './assets/odea-ui-v7.css?v=8m',
   './assets/odea-icons-v7.js?v=8e',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
-  './assets/avatar.png',
-  './assets/fronts/cap.png',
-  './assets/fronts/eng.png',
-  './assets/fronts/ai.png',
-  './assets/gods/cronos.png',
-  './assets/gods/atenea.png',
-  './assets/gods/hermes.png',
-  './assets/gods/hestia.png',
-  './assets/gods/pluto.png',
-  './assets/gods/zeus.png',
-  './assets/titans/hades.png',
-  './assets/titans/apolo.png',
-  './assets/titans/prometeo.png',
-  './assets/worlds/camp.png',
-  './assets/worlds/torre.png',
-  './assets/worlds/aldea.png',
-  './assets/worlds/boveda.png',
-  './assets/worlds/b2b.png',
-  './assets/bg/cyber-city.png',
+  './assets/avatar.webp',
+  './assets/fronts/cap.webp',
+  './assets/fronts/eng.webp',
+  './assets/fronts/ai.webp',
+  './assets/gods/cronos.webp',
+  './assets/gods/atenea.webp',
+  './assets/gods/hermes.webp',
+  './assets/gods/hestia.webp',
+  './assets/gods/pluto.webp',
+  './assets/gods/zeus.webp',
+  './assets/titans/hades.webp',
+  './assets/titans/apolo.webp',
+  './assets/titans/prometeo.webp',
+  './assets/worlds/camp.webp',
+  './assets/worlds/torre.webp',
+  './assets/worlds/aldea.webp',
+  './assets/worlds/boveda.webp',
+  './assets/worlds/b2b.webp',
+  './assets/bg/cyber-city.webp',
   './assets/bg/odea-homeworld.webp',
-  './assets/focus.png'
+  './assets/focus.webp'
 ];
 
 self.addEventListener('install', (e) => {
+  // addAll es atomico: si UN solo recurso falla, no se instala nada.
+  // Precargamos uno por uno para que un asset caido no rompa el offline.
   e.waitUntil(
     caches.open(CACHE)
-      .then((c) => c.addAll(SHELL))
+      .then((c) => Promise.allSettled(SHELL.map((url) =>
+        c.add(url).catch((err) => console.warn('SW: no se pudo precachear', url, err))
+      )))
       .then(() => self.skipWaiting())
   );
 });
@@ -95,6 +97,6 @@ self.addEventListener('fetch', (e) => {
         }
         return res;
       });
-    }).catch(() => caches.match('./odea.html'))
+    }).catch(() => new Response('', { status: 504, statusText: 'Offline' }))
   );
 });
