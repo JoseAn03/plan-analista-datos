@@ -82,6 +82,27 @@ con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separa
   completar una saga suma **+5** y la misión semanal suma **+1**. Las monedas se calculan
   al vuelo en `sagaCoinsEarned()`; el XP sigue entrando una sola vez por `vidaCompute()`.
 
+### Mi Plan desde cualquier frente (v5.64)
+
+Cada tarjeta de misión elegible lleva un botón **＋** que la agrega a *Mi Plan*.
+Las misiones de la campaña principal y las de la pestaña *Hoy* no lo llevan.
+Reutiliza `gameState.planner.items` con refs `{f, id}`: no hay clave nueva,
+no hay migración y el progreso guardado sigue intacto.
+
+- **Frentes con ＋:** Vida (sus 7 zonas), Imperio (`cap`/`eng`/`ai`), Noticias,
+  B2B y Sagas. También aparece en los modales del mapa, que reutilizan los
+  mismos renders (`vida-zona`, `cap-zona`, `jobs-blk`, `b2b-ch`).
+- **Estados:** ＋ = no está en el plan · ✓ = ya está (tocar de nuevo la quita).
+  El estado se lee de `gameState.planner`, así que siempre coincide con el
+  panel «Agregar misiones».
+- **Sin efectos colaterales:** el clic se captura en fase de captura
+  (`document`, `capture: true`) y hace `stopPropagation`, así que el ＋ nunca
+  abre la misión, no la completa y no otorga XP.
+- **Vida completa:** `vidaMissionIndex()` indexa las 18 listas de Vida
+  (Equilibrio, Legado, Alianza, Poder, Sabios, Planes y Orden) en diferido.
+  `RETOS` queda fuera a propósito: es el reto del día y vive en *Hoy*.
+- **Verificación:** `node tests/smoke.mjs` incluye 4 checks del ＋.
+
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).

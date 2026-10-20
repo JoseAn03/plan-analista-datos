@@ -126,6 +126,23 @@ check('Sagas: botón volver al mapa', html.includes('id="sagas-back"'));
 check('Sagas: regla de seguridad visible',
   html.includes('Regla de oro: publicar seguro') && html.includes('controles parentales de Roblox'));
 
+// ---------- 12) Botón "＋" añadir a Mi Plan (v5.64) ----------
+check('＋ de Mi Plan: helper definido', html.includes('function planAddBtnHTML'));
+check('＋ en tarjetas elegibles (vida, imperio, noticias, b2b, sagas)',
+  html.includes('planAddBtnHTML("vida"') && /planAddBtnHTML\(front\.k/.test(html) &&
+  html.includes('planAddBtnHTML("jobs"') && html.includes('planAddBtnHTML("b2b"') &&
+  html.includes('planAddBtnHTML("sagas"'));
+check('＋ fuera de la campaña principal',
+  !/function campaignCard[\s\S]{0,900}planAddBtnHTML/.test(html) &&
+  !/function bossCard[\s\S]{0,900}planAddBtnHTML/.test(html));
+check('＋ fuera de "Hoy"',
+  !/function renderHero[\s\S]{0,1500}planAddBtnHTML/.test(html) &&
+  !/function renderWeekly[\s\S]{0,900}planAddBtnHTML/.test(html) &&
+  !/function renderReto[\s\S]{0,900}planAddBtnHTML/.test(html));
+check('＋ reutiliza Mi Plan (sin clave nueva)',
+  html.includes('planHas(f, id)') && html.includes('plannerAdd(f, id)') &&
+  !/odea_plan_/.test(html));
+
 // ---------- Resultado ----------
 console.log();
 if (fails.length) {
