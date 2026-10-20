@@ -64,7 +64,7 @@ Al publicar cambios hay que tocar **dos** sitios:
 Si cambias `assets/odea-ui-v7.css` o `assets/odea-icons-v7.js`, sube también el
 cache-busting `?v=` con el que se referencian en `odea.html` y en `SHELL`.
 
-### Sagas (v5.61)
+### Sagas (v5.61+)
 
 Las Sagas son misiones largas (5 y 7 capítulos) para crear videos y un juego de Roblox
 con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separada de
@@ -82,7 +82,7 @@ con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separa
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.61 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.62 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
 3. Entra en **Sagas**, marca un capítulo y recarga: debe seguir marcado.
 4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
 5. Importa un respaldo viejo (sin `odea_sagas_v1`): debe cargar sin errores y con Sagas en 0.

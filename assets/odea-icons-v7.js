@@ -2,6 +2,8 @@
  * ODEA Icons v7
  * Iconos vectoriales originales para la navegación principal.
  * Se monta después de la aplicación para no tocar la lógica de estado.
+ * Los iconos "jobs" (maletín) y "sagas" (claqueta) se dibujaron a mano
+ * con la misma retícula y grosor de línea que el resto del set.
  */
 (function () {
   "use strict";
@@ -11,7 +13,9 @@
     daily: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"/><path d="M7 3.5v4M17 3.5v4M3.5 10h17M7 14h3M14 14h3M7 17h3"/></svg>',
     planner: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="m8 12 1.3 1.3L12 10.5"/></svg>',
     campaign: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h10l2 2v15H6z"/><path d="M16 3.5v3h3M9 10h6M9 14h6M9 18h4"/></svg>',
+    jobs: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="7" width="17" height="12.5" rx="2"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M3.5 12h17"/></svg>',
     vida: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3c5 0 5 5 10 5M7 8c5 0 5 5 10 5M7 13c5 0 5 5 10 5M7 18c5 0 5 3 10 3"/><path d="M17 3c-5 0-5 5-10 5M17 8c-5 0-5 5-10 5M17 13c-5 0-5 5-10 5"/></svg>',
+    sagas: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="17" height="11.5" rx="2"/><path d="M3.5 9V7.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2V9"/><path d="m7.2 5.5 2 3.5M11.6 5.5l2 3.5M16 5.5l2 3.5"/></svg>',
     empire: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 19 2-8 4 3 2-8 2 8 4-3 2 8z"/><path d="M6 21h12M8 19l-1-4M16 19l1-4"/></svg>',
     inventory: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16v12H4z"/><path d="m4 7.5 2-3h12l2 3M9 11h6"/></svg>',
     shop: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 8v8M9.5 10.2c.5-1.5 4.5-1.7 5-.1.6 1.8-4.9 1.4-5 3.2-.1 1.7 4.3 1.9 5 .2"/></svg>'
@@ -85,7 +89,9 @@
     mount('.nav-item[data-tab="daily"] .ni-ico, .navb[data-tab="daily"] .nb-ico', "daily");
     mount('.nav-item[data-tab="planner"] .ni-ico, .navb[data-tab="planner"] .nb-ico', "planner");
     mount('.nav-item[data-tab="campaign"] .ni-ico, .navb[data-tab="campaign"] .nb-ico', "campaign");
+    mount('.nav-item[data-tab="jobs"] .ni-ico, .navb[data-tab="jobs"] .nb-ico', "jobs");
     mount('.nav-item[data-tab="vida"] .ni-ico, .navb[data-tab="vida"] .nb-ico', "vida");
+    mount('.nav-item[data-tab="sagas"] .ni-ico, .navb[data-tab="sagas"] .nb-ico', "sagas");
     mount('.nav-item[data-tab="capital"] .ni-ico, .navb[data-tab="capital"] .nb-ico', "empire");
     mount("#bottom-inv .nb-ico", "inventory");
     prependButtonIcon("#side-inv", "inventory");
