@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.62-20261020-iconos';
+const CACHE_VERSION = 'odea-v5.63-20261020-sagas-mapa';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -36,6 +36,7 @@ const SHELL = [
   './assets/worlds/aldea.webp',
   './assets/worlds/boveda.webp',
   './assets/worlds/b2b.webp',
+  './assets/worlds/sagas.svg',
   './assets/bg/cyber-city.webp',
   './assets/bg/odea-homeworld.webp',
   './assets/focus.webp'

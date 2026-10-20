@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Sagas con mi hijo">
+  <defs>
+    <radialGradient id="bg" cx="38%" cy="28%" r="82%">
+      <stop offset="0" stop-color="#3a1258"/>
+      <stop offset=".52" stop-color="#120a30"/>
+      <stop offset="1" stop-color="#05030a"/>
+    </radialGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00e5ff"/>
+      <stop offset=".55" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#ff4fd8"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe58a"/>
+      <stop offset="1" stop-color="#ffb300"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="160" cy="160" r="152" fill="url(#bg)" stroke="#ff4fd8" stroke-opacity=".55" stroke-width="2"/>
+  <circle cx="160" cy="160" r="139" fill="none" stroke="#00e5ff" stroke-opacity=".28" stroke-width="2" stroke-dasharray="2 10"/>
+  <circle cx="160" cy="160" r="128" fill="none" stroke="#7c5cff" stroke-opacity=".18" stroke-width="1"/>
+
+  <g fill="#fff" opacity=".8">
+    <circle cx="72" cy="86" r="2"/>
+    <circle cx="250" cy="72" r="1.5"/>
+    <circle cx="262" cy="228" r="2"/>
+    <circle cx="56" cy="224" r="1.5"/>
+  </g>
+
+  <g transform="rotate(-8 160 166)" filter="url(#glow)">
+    <rect x="76" y="116" width="168" height="112" rx="14" fill="#0b1028" stroke="url(#neon)" stroke-width="4"/>
+    <path d="M76 136 L244 110 L244 140 L76 166 Z" fill="url(#neon)" opacity=".9"/>
+    <path d="M76 136 L244 110" stroke="#fff" stroke-opacity=".4" stroke-width="2"/>
+    <g stroke="#071326" stroke-width="7" stroke-linecap="round">
+      <path d="M96 132 L116 129"/>
+      <path d="M128 128 L148 125"/>
+      <path d="M160 124 L180 121"/>
+      <path d="M192 120 L212 117"/>
+    </g>
+    <circle cx="210" cy="196" r="25" fill="#ff4fd8" stroke="#ffd166" stroke-width="3"/>
+    <path d="M203 182 L203 210 L225 196 Z" fill="#fff"/>
+    <rect x="96" y="164" width="74" height="7" rx="3.5" fill="#00e5ff" opacity=".55"/>
+    <rect x="96" y="180" width="56" height="6" rx="3" fill="#7c5cff" opacity=".55"/>
+    <rect x="96" y="194" width="66" height="6" rx="3" fill="#ffd166" opacity=".45"/>
+  </g>
+
+  <g transform="rotate(12 248 238)" filter="url(#glow)">
+    <rect x="226" y="218" width="44" height="44" rx="8" fill="#7c5cff" stroke="#00e5ff" stroke-width="3"/>
+    <rect x="236" y="228" width="24" height="24" rx="5" fill="#05030a" stroke="url(#gold)" stroke-width="2"/>
+  </g>
+</svg>
