@@ -6,14 +6,12 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.59-20261019-racha';
+const CACHE_VERSION = 'odea-v5.60-20261020-auditoria';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
   './odea.html',
   './index.html',
-  './quiz.html',
-  './quiz-definitivo.html',
   './manifest.json',
   './assets/odea-ui-v7.css?v=8m',
   './assets/odea-icons-v7.js?v=8e',
@@ -44,9 +42,13 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (e) => {
+  // addAll es atomico: si UN solo recurso falla, no se instala nada.
+  // Precargamos uno por uno para que un asset caido no rompa el offline.
   e.waitUntil(
     caches.open(CACHE)
-      .then((c) => c.addAll(SHELL))
+      .then((c) => Promise.allSettled(SHELL.map((url) =>
+        c.add(url).catch((err) => console.warn('SW: no se pudo precachear', url, err))
+      )))
       .then(() => self.skipWaiting())
   );
 });
@@ -95,6 +97,6 @@ self.addEventListener('fetch', (e) => {
         }
         return res;
       });
-    }).catch(() => caches.match('./odea.html'))
+    }).catch(() => new Response('', { status: 504, statusText: 'Offline' }))
   );
 });

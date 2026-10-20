@@ -2,9 +2,15 @@
 *.bak
 *.tmp
 *~
+*.backup-*.html
 new_daily_missions.js
 
 # dependencias / entorno
 node_modules/
 .env
 .venv/
+__pycache__/
+
+# sistema
+Thumbs.db
+.DS_Store

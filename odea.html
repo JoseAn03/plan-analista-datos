@@ -28,6 +28,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ODEA — App de Vida: Datos, IA, Imperio y Equilibrio</title>
 <meta name="description" content="ODEA es una ruta gamificada de 56 días para convertirte en analista de datos, con misiones, progreso, mundos y hábitos.">
@@ -2014,7 +2016,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.59</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.60</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2080,7 +2082,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.59</span>
+    <span class="ver" id="ver-badge">v5.60</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2263,7 +2265,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.59</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.60</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -2515,7 +2517,7 @@ const campaignMissions = [
   { id:"d6_8", chapter:6, title:"🗣️ Mock Técnico Completo", description:"SQL en vivo, modelado, fallo de datos, inglés y pregunta salarial.", xp:250, category:"employability", estimatedTime:"2-3 horas", verification:"Mock con score registrado" },
   { id:"d6_9", chapter:6, title:"📬 Segundo Lote y Seguimiento", description:"Enviar el resto del lote y hacer seguimientos de 4–7 días hábiles.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"Lote + seguimientos" },
   { id:"d6_10", chapter:6, title:"📈 Auditoría de Decisión Intermedia", description:"Calcular apps, respuestas, screens, técnicas y decidir continuar/extender/pivotar.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"Auditoría del Día 45" },
-  /* CAP 7: Días 46-60 */
+  /* CAP 7: Días 46-56 */
   { id:"d7_1", chapter:7, title:"🔥 Mocks Intensivos", description:"3 mocks técnicos, 2 de negocio, 1 de inglés y 1 de negociación salarial.", xp:300, category:"employability", estimatedTime:"6-8 horas", verification:"mocks_round2.md con scores" },
   { id:"d7_2", chapter:7, title:"🔧 Correcciones de Posicionamiento", description:"CV v2 y LinkedIn v2 incorporando el feedback de mocks y respuestas.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"CV_v2 + LinkedIn actualizado" },
   { id:"d7_3", chapter:7, title:"🚀 Segundo Lote (Intensivo)", description:"4–6 apps altamente compatibles con evidencia adaptada y registro completo.", xp:200, category:"employability", estimatedTime:"4-5 horas", verification:"Lote 2 en el embudo" },
@@ -2760,14 +2762,14 @@ const dailyMissions = [
    MISIÓN SEMANAL × 6 (una por semana)
    ========================================================== */
 const weeklyMissions = [
-  { week:1, title:"Perfil Imbatible", description:"Completar al menos 6 misiones diarias y dejar tu arsenal listo: CV Maestro (ES/EN), LinkedIn 10/10, portafolio publicado, lista de 30 empresas y tracker maestro.", xp:350, category:"employability", time:300, verification:"CV + LinkedIn + portafolio + lista 30 + tracker listos" },
-  { week:2, title:"Voz Visible", description:"Completar al menos 6 misiones diarias y publicar 4+ piezas de contenido (posts, mini caso, dashboard y video) que te hagan visible a reclutadores.", xp:400, category:"employability", time:360, verification:"4+ publicaciones en LinkedIn con métricas registradas" },
-  { week:3, title:"Máquina de Postular", description:"Completar al menos 6 misiones diarias y enviar 25 aplicaciones personalizadas con CV adaptado y cover letter, todas registradas en el tracker.", xp:450, category:"employability", time:360, verification:"25 aplicaciones enviadas y registradas" },
-  { week:4, title:"Red de Contactos", description:"Completar al menos 6 misiones diarias y activar tu red: contactar personas cálidas, recruiters, hacer 2 entrevistas informativas y pedir referidos.", xp:500, category:"employability", time:360, verification:"Networking activo: contactos + recruiters + 2 entrevistas informativas + referidos" },
-  { week:5, title:"Listo para la Entrevista", description:"Completar al menos 6 misiones diarias y preparar tu banco de 50 respuestas, mocks técnicos y de caso, y agendar una entrevista real.", xp:550, category:"employability", time:420, verification:"Banco 50 + mocks hechos + entrevista real agendada" },
-  { week:6, title:"Volante Girando", description:"Completar al menos 6 misiones diarias y llegar a 45 aplicaciones acumuladas manteniendo el ritmo de contenido y networking.", xp:600, category:"employability", time:420, verification:"45 aplicaciones acumuladas + contenido publicado" },
-  { week:7, title:"Negociador Maestro", description:"Completar al menos 6 misiones diarias y cerrar la etapa: 50 aplicaciones, seguimiento de procesos, rango salarial definido y negociación practicada.", xp:650, category:"employability", time:480, verification:"50 aplicaciones + seguimiento + números de negociación definidos" },
-  { week:8, title:"La Oferta Final", description:"Completar al menos 6 misiones diarias y llegar a la meta: evaluar ofertas, decidir, preparar tu onboarding y documentar tu caso de éxito.", xp:700, category:"employability", time:540, verification:"Oferta evaluada + decisión tomada + caso de éxito documentado" }
+  { id:"w1", week:1, title:"Perfil Imbatible", description:"Completar al menos 6 misiones diarias y dejar tu arsenal listo: CV Maestro (ES/EN), LinkedIn 10/10, portafolio publicado, lista de 30 empresas y tracker maestro.", xp:350, category:"employability", time:300, verification:"CV + LinkedIn + portafolio + lista 30 + tracker listos" },
+  { id:"w2", week:2, title:"Voz Visible", description:"Completar al menos 6 misiones diarias y publicar 4+ piezas de contenido (posts, mini caso, dashboard y video) que te hagan visible a reclutadores.", xp:400, category:"employability", time:360, verification:"4+ publicaciones en LinkedIn con métricas registradas" },
+  { id:"w3", week:3, title:"Máquina de Postular", description:"Completar al menos 6 misiones diarias y enviar 25 aplicaciones personalizadas con CV adaptado y cover letter, todas registradas en el tracker.", xp:450, category:"employability", time:360, verification:"25 aplicaciones enviadas y registradas" },
+  { id:"w4", week:4, title:"Red de Contactos", description:"Completar al menos 6 misiones diarias y activar tu red: contactar personas cálidas, recruiters, hacer 2 entrevistas informativas y pedir referidos.", xp:500, category:"employability", time:360, verification:"Networking activo: contactos + recruiters + 2 entrevistas informativas + referidos" },
+  { id:"w5", week:5, title:"Listo para la Entrevista", description:"Completar al menos 6 misiones diarias y preparar tu banco de 50 respuestas, mocks técnicos y de caso, y agendar una entrevista real.", xp:550, category:"employability", time:420, verification:"Banco 50 + mocks hechos + entrevista real agendada" },
+  { id:"w6", week:6, title:"Volante Girando", description:"Completar al menos 6 misiones diarias y llegar a 45 aplicaciones acumuladas manteniendo el ritmo de contenido y networking.", xp:600, category:"employability", time:420, verification:"45 aplicaciones acumuladas + contenido publicado" },
+  { id:"w7", week:7, title:"Negociador Maestro", description:"Completar al menos 6 misiones diarias y cerrar la etapa: 50 aplicaciones, seguimiento de procesos, rango salarial definido y negociación practicada.", xp:650, category:"employability", time:480, verification:"50 aplicaciones + seguimiento + números de negociación definidos" },
+  { id:"w8", week:8, title:"La Oferta Final", description:"Completar al menos 6 misiones diarias y llegar a la meta: evaluar ofertas, decidir, preparar tu onboarding y documentar tu caso de éxito.", xp:700, category:"employability", time:540, verification:"Oferta evaluada + decisión tomada + caso de éxito documentado" }
 ];
 
 /* ==========================================================
@@ -3344,7 +3346,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.59"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.60"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
