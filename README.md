@@ -17,7 +17,7 @@ guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.py` | Smoke test (sintaxis JS + invariantes) |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -26,6 +26,7 @@ guarda el progreso en `localStorage`.
 - **54 misiones de campaña** + **4 jefes** = 58
 - **8 misiones semanales**
 - **8 capítulos** (día 0 y días 1–56)
+- **2 sagas · 12 capítulos** (5 de video + 7 de Roblox), con XP para Legado y Poder & Imagen
 
 ---
 
@@ -45,11 +46,13 @@ Luego abre `http://localhost:8080/odea.html`.
 ### Tests
 
 ```bash
-python3 tests/smoke.py
+node tests/smoke.mjs
 ```
 
-Requiere Python 3 y Node. Valida la sintaxis del JS inline y algunos invariantes
-(símbolos clave, coherencia de versión HTML/sw.js, respaldos).
+Solo requiere Node 18+. Valida la sintaxis del JS inline, la coherencia de versión
+HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días y las Sagas.
+El workflow `.github/workflows/smoke.yml` lo ejecuta en cada push a `main` y en cada PR.
+(`tests/smoke.py` se conserva como variante antigua, pero el CI ya no lo usa).
 
 ### Versionado
 
@@ -61,11 +64,35 @@ Al publicar cambios hay que tocar **dos** sitios:
 Si cambias `assets/odea-ui-v7.css` o `assets/odea-icons-v7.js`, sube también el
 cache-busting `?v=` con el que se referencian en `odea.html` y en `SHELL`.
 
+### Sagas (v5.61)
+
+Las Sagas son misiones largas (5 y 7 capítulos) para crear videos y un juego de Roblox
+con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separada de
+`odea_save_v2`:
+
+- No se renombra ni se borra ninguna clave existente; `SAVE_KEY` sigue siendo `odea_save_v2`.
+- Si la clave no existe (usuario nuevo o respaldo viejo), las Sagas arrancan en 0 y el resto intacto.
+- `exportSave` ya incluye todas las claves `odea_*`, así que el respaldo lleva las Sagas.
+  Al importar un respaldo viejo la app sigue funcionando y las Sagas empiezan de cero.
+- El XP se calcula al vuelo en `vidaCompute()`: 60/40 a Legado/Poder en video y 75/25
+  en Roblox. No se guarda XP extra ni se duplica.
+- La misión semanal «Grabar 1 video corto con mi hijo» llama a `updateStreak()`
+  (con escudo y congeladores) y guarda la partida.
+
+### Verificar que el progreso viejo se conserva
+
+1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
+2. Abre v5.61 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+3. Entra en **Sagas**, marca un capítulo y recarga: debe seguir marcado.
+4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
+5. Importa un respaldo viejo (sin `odea_sagas_v1`): debe cargar sin errores y con Sagas en 0.
+
 ---
 
 ## Despliegue
 
-GitHub Pages sirve la rama `main` desde la raíz. No hay paso de compilación ni CI.
+GitHub Pages sirve la rama `main` desde la raíz. No hay paso de compilación; el CI
+solo ejecuta el smoke test en push a `main` y en pull requests.
 El service worker cachea el shell, así que **un cambio sin subir `CACHE_VERSION` no llega
 a los usuarios que ya tienen la app instalada**.
 
