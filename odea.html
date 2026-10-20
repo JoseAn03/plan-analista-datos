@@ -2012,7 +2012,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <link rel="stylesheet" href="./assets/odea-ui-v7.css?v=8m">
 <style id="sagas-css">
 /* ==========================================================
-   📹 SAGAS (v5.61) — estilos
+   📹 SAGAS (v5.62) — estilos
    ========================================================== */
 .sg-hero{background:linear-gradient(135deg,rgba(0,204,255,.10),rgba(124,108,255,.12) 55%,rgba(255,215,0,.08));
   border:1px solid rgba(124,108,255,.30);border-radius:var(--radius);padding:18px;margin-bottom:16px}
@@ -2105,7 +2105,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.61</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.62</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2172,7 +2172,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.61</span>
+    <span class="ver" id="ver-badge">v5.62</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2358,7 +2358,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.61</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.62</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3439,7 +3439,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.61"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.62"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3629,7 +3629,7 @@ function loadGame() {
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
 /* ==========================================================
-   📹 SAGAS (v5.61) — misiones largas con capítulos
+   📹 SAGAS (v5.62) — misiones largas con capítulos
    Estado propio en una clave NUEVA: odea_sagas_v1.
    No renombra ni borra ninguna clave existente y no toca
    la estructura de odea_save_v2.
@@ -8906,6 +8906,6 @@ focusRestore();
   });
 })();
 </script>
-<script src="./assets/odea-icons-v7.js?v=8e" defer></script>
+<script src="./assets/odea-icons-v7.js?v=8f" defer></script>
 </body>
 </html>
