@@ -2405,14 +2405,14 @@ const LEVELS = [
 ];
 
 const CHAPTERS = [
-  { id:0, code:"DÍA 0", title:"⚙️ Preparación del Sistema", subtitle:"Arranque limpio y medible", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de que arranque el conteo de 60 días." },
+  { id:0, code:"DÍA 0", title:"⚙️ Preparación del Sistema", subtitle:"Arranque limpio y medible", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de que arranque el conteo de 56 días." },
   { id:1, code:"DÍAS 1–5", title:"Posicionamiento y Base de Control", subtitle:"Dejar de ser un candidato genérico", color:"#00ccff", icon:"🎯", narrative:"Evidencia, CV, LinkedIn, narrativa e inglés: controlar tu posicionamiento antes de postular." },
   { id:2, code:"DÍAS 6–12", title:"Datos, Ingesta y Raw", subtitle:"La base de datos sólida", color:"#7c6cff", icon:"🗄️", narrative:"Dataset sintético, casos adversariales, validación de schema y carga raw reproducible." },
   { id:3, code:"DÍAS 13–20", title:"dbt, Modelos y Calidad", subtitle:"El corazón del pipeline", color:"#ff00ff", icon:"🧱", narrative:"Modelos, fact table, grano y tests estructurales y de negocio." },
   { id:4, code:"DÍAS 21–30", title:"CI, Freshness y Operación", subtitle:"Producción de verdad", color:"#ffaa00", icon:"🔄", narrative:"Pull request, CI, freshness, scheduling, alertas y la demo técnica completa." },
   { id:5, code:"DÍAS 31–35", title:"Dashboard y README", subtitle:"Contar la historia", color:"#ff6600", icon:"📊", narrative:"Dashboard sobre marts, validación de métricas y README ejecutivo." },
   { id:6, code:"DÍAS 36–45", title:"Publicación, Vídeo y Conversión", subtitle:"Salir al mercado", color:"#f72585", icon:"📣", narrative:"Vídeo, portafolio, candidaturas, networking y mocks técnicos." },
-  { id:7, code:"DÍAS 46–60", title:"Cierre, Iteración y Decisión", subtitle:"La decisión final", color:"#ff3355", icon:"🏆", narrative:"Mocks intensivos, negociación, auditoría de embudo y decisión al Día 60." }
+  { id:7, code:"DÍAS 46–56", title:"Cierre, Iteración y Decisión", subtitle:"La decisión final", color:"#ff3355", icon:"🏆", narrative:"Mocks intensivos, negociación, auditoría de embudo y decisión al Día 56." }
 ];
 
 const CAT = {
@@ -2519,7 +2519,7 @@ const campaignMissions = [
   { id:"d7_5", chapter:7, title:"🧭 Auditoría de Embudo", description:"Calcular tasas de conversión por etapa e identificar la mayor fuga.", xp:200, category:"employability", estimatedTime:"2-3 horas", verification:"funnel_audit_day55.md" },
   { id:"d7_6", chapter:7, title:"🔄 Iteración Según Fuga", description:"Aplicar la acción específica del umbral rojo sin abrir nueva tecnología.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Cambio documentado y medible" },
   { id:"d7_7", chapter:7, title:"💰 Preparación de Negociación", description:"Rangos, alternativas (EOR vs contractor), preguntas de cierre y walk-away number.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"negotiation_playbook.md" },
-  { id:"d7_8", chapter:7, title:"🏆 Decisión Final (Día 60)", description:"Revisar criterios de terminado y decidir: aceptar oferta, extender o pivotar.", xp:350, category:"employability", estimatedTime:"2-3 horas", verification:"day60_decision.md con justificación" }
+  { id:"d7_8", chapter:7, title:"🏆 Decisión Final (Día 56)", description:"Revisar criterios de terminado y decidir: aceptar oferta, extender o pivotar.", xp:350, category:"employability", estimatedTime:"2-3 horas", verification:"day60_decision.md con justificación" }
 ];
 
 /* --- 👑 Proyectos finales (uno por capítulo): garantizan tu nivel real --- */
@@ -2527,7 +2527,7 @@ const bossMissions = [
   { id:"b2", chapter:2, boss:true, title:"Primer Checkpoint Técnico", description:"Ejecutar el flujo completo input → validation → raw → log → retry → final state y documentar la evidencia.", xp:400, category:"analyst", estimatedTime:"6-8 horas", verification:"Ejecución reproducible + 3 fallos documentados" },
   { id:"b4", chapter:4, boss:true, title:"Demo Técnica Completa", description:"Grabar el flujo PR → CI → test fallido → corrección → merge → batch → freshness → mart → audit log.", xp:500, category:"analyst", estimatedTime:"8-10 horas", verification:"Demo grabada + carpeta de evidencias" },
   { id:"b6", chapter:6, boss:true, title:"Auditoría de Decisión Intermedia", description:"Calcular aplicaciones, respuestas, screens, técnicas y referrals; decidir continuar, extender o pivotar.", xp:500, category:"employability", estimatedTime:"6-8 horas", verification:"Auditoría del Día 45 con decisión" },
-  { id:"b7", chapter:7, boss:true, title:"Decisión Final del Día 60", description:"Revisar todos los criterios de terminado y decidir: aceptar oferta, extender 15 días o pivotar con evidencia.", xp:600, category:"employability", estimatedTime:"6-8 horas", verification:"day60_decision.md con decisión" }
+  { id:"b7", chapter:7, boss:true, title:"Decisión Final del Día 56", description:"Revisar todos los criterios de terminado y decidir: aceptar oferta, extender 15 días o pivotar con evidencia.", xp:600, category:"employability", estimatedTime:"6-8 horas", verification:"day60_decision.md con decisión" }
 ];
 const campaignAll = campaignMissions.concat(bossMissions);
 /* 🔗 Enlaces de recursos por misión */
@@ -6161,7 +6161,7 @@ const REWARDS = [
   /* 🤖 Automation */
   { id: "rw_auto1", ico: "🤖", sec: "🛡️ Campaña", n: "Visor del Automatizador", cond: () => (gameState.completedMissions || []).length >= 8 },
   { id: "rw_auto2", ico: "🛰️", sec: "🛡️ Campaña", n: "Núcleo de la Transición", cond: () => (gameState.completedMissions || []).length >= 28 },
-  { id: "rw_auto3", ico: "🏆", sec: "🛡️ Campaña", n: "Corona del Día 60", cond: () => (gameState.completedMissions || []).length >= CAMP_TOTAL },
+  { id: "rw_auto3", ico: "🏆", sec: "🛡️ Campaña", n: "Corona del Día 56", cond: () => (gameState.completedMissions || []).length >= CAMP_TOTAL },
   /* 💸 B2B */
   { id: "rw_b2b1", ico: "💸", sec: "💸 B2B", n: "Moneda del Fundador", cond: () => (gameState.completedB2b || []).length >= 3 },
   { id: "rw_b2b2", ico: "🏦", sec: "💸 B2B", n: "Cofre del Ingreso Extra", cond: () => (gameState.completedB2b || []).length >= 9 },
