@@ -114,6 +114,15 @@ check('Sagas: XP va a Legado y Poder',
   html.includes('xp.kid += sagaAreaXP("kid")') && html.includes('xp.pow += sagaAreaXP("pow")'));
 check('Sagas: recompensas finales', html.includes('rw_sg_video') && html.includes('rw_sg_roblox'));
 check('Sagas: pestaña y vista', html.includes('data-tab="sagas"') && html.includes('id="view-sagas"'));
+check('Sagas: mundo integrado en el mapa',
+  html.includes('{ k: "sagas"') && html.includes('sagas: s.sagas') && html.includes('assets/worlds/sagas.svg'));
+check('Sagas: monedas integradas',
+  html.includes('function sagaCoinsEarned()') && html.includes('sagaCoinsEarned() +'));
+check('Sagas: evalúa logros al completar',
+  /function toggleSagaChapter[\s\S]*?checkAchievements\(\)/.test(html));
+check('Logro IA no se desbloquea con lista vacía',
+  html.includes('aiMissions.length > 0 && aiMissions.every'));
+check('Sagas: botón volver al mapa', html.includes('id="sagas-back"'));
 check('Sagas: regla de seguridad visible',
   html.includes('Regla de oro: publicar seguro') && html.includes('controles parentales de Roblox'));
 

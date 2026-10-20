@@ -78,12 +78,15 @@ con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separa
   en Roblox. No se guarda XP extra ni se duplica.
 - La misión semanal «Grabar 1 video corto con mi hijo» llama a `updateStreak()`
   (con escudo y congeladores) y guarda la partida.
+- En v5.63 las Sagas también son un mundo del **Mapa**. Cada capítulo suma **1 moneda**,
+  completar una saga suma **+5** y la misión semanal suma **+1**. Las monedas se calculan
+  al vuelo en `sagaCoinsEarned()`; el XP sigue entrando una sola vez por `vidaCompute()`.
 
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.62 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
-3. Entra en **Sagas**, marca un capítulo y recarga: debe seguir marcado.
+2. Abre v5.63 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
 5. Importa un respaldo viejo (sin `odea_sagas_v1`): debe cargar sin errores y con Sagas en 0.
 

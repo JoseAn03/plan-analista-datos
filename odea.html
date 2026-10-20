@@ -2012,7 +2012,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <link rel="stylesheet" href="./assets/odea-ui-v7.css?v=8m">
 <style id="sagas-css">
 /* ==========================================================
-   📹 SAGAS (v5.62) — estilos
+   📹 SAGAS (v5.61+) — estilos
    ========================================================== */
 .sg-hero{background:linear-gradient(135deg,rgba(0,204,255,.10),rgba(124,108,255,.12) 55%,rgba(255,215,0,.08));
   border:1px solid rgba(124,108,255,.30);border-radius:var(--radius);padding:18px;margin-bottom:16px}
@@ -2028,6 +2028,12 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 .sg-chip b{color:var(--tx)}
 .sg-chip.cyan{border-color:rgba(0,204,255,.4);color:var(--glow-cyan)}
 .sg-chip.gold{border-color:rgba(255,215,0,.4);color:#ffd700}
+.sg-back{display:inline-flex;align-items:center;gap:6px;margin-top:12px;min-height:40px;
+  font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:1px;cursor:pointer}
+body.odea-ui-v7 .sg-back{width:auto!important;margin-left:0;padding:9px 16px;min-height:44px;
+  border:1px solid rgba(0,204,255,.45);border-radius:999px;background:rgba(6,12,28,.72);
+  color:var(--glow-cyan);box-shadow:none;font-size:.68rem;letter-spacing:1px}
+body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shadow:0 0 18px rgba(0,204,255,.22)}
 
 .sg-safety{border:1px solid rgba(255,170,0,.42);background:rgba(255,170,0,.07);
   border-radius:var(--radius);padding:14px 16px;margin-bottom:16px}
@@ -2097,6 +2103,10 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   .sg-hero{padding:14px}
   .sg-cap{padding:12px 0 14px}
   .sg-panel{padding:12px}
+  body.odea-ui-v7 #map-stage .mworld{width:96px;height:96px}
+  body.odea-ui-v7 #map-stage .mworld .mw-ico img{width:52px;height:52px}
+  body.odea-ui-v7 #map-stage .mworld .mw-name{font-size:.52rem;letter-spacing:.8px}
+  body.odea-ui-v7 #map-stage .mworld .mw-rank{font-size:.52rem}
 }
 </style>
 </head>
@@ -2105,7 +2115,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.62</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.63</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2172,7 +2182,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.62</span>
+    <span class="ver" id="ver-badge">v5.63</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2358,7 +2368,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.62</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.63</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3439,7 +3449,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.62"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.63"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3629,7 +3639,7 @@ function loadGame() {
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
 /* ==========================================================
-   📹 SAGAS (v5.62) — misiones largas con capítulos
+   📹 SAGAS (v5.61+) — misiones largas con capítulos
    Estado propio en una clave NUEVA: odea_sagas_v1.
    No renombra ni borra ninguna clave existente y no toca
    la estructura de odea_save_v2.
@@ -3939,6 +3949,18 @@ function sagaStats() {
   if (sagaWeeklyDone()) xp += SAGA_WEEKLY_XP;
   return { caps: caps, total: total, xp: xp, pct: total ? Math.round((caps / total) * 100) : 0 };
 }
+/* Monedas: 1 por capítulo, +5 por saga completa y +1 por la misión semanal.
+   Se calculan al vuelo (igual que el XP) para no duplicar datos guardados. */
+function sagaCoinsForSaga(s) {
+  const done = sagaDoneCount(s);
+  return done + (done === s.chapters.length ? 5 : 0);
+}
+function sagaCoinsEarned() {
+  let coins = 0;
+  SAGAS.forEach(function (s) { coins += sagaCoinsForSaga(s); });
+  if (sagaWeeklyDone()) coins += 1;
+  return coins;
+}
 function videoRank(n) {
   if (n >= 15) return { name: "Estudio", ico: "🏛️", next: null };
   if (n >= 5) return { name: "Creador", ico: "🎬", next: 15 };
@@ -3959,6 +3981,8 @@ function toggleSagaChapter(id) {
   else sagaState.chapters[id] = true;
   saveSagas();
   recomputeState();
+  const achFresh = checkAchievements();
+  if (achFresh) { saveGame(); recomputeState(); }
   updateUI();
   renderSagas();
   evalRewards();
@@ -3993,6 +4017,8 @@ function toggleSagaWeekly() {
   updateStreak();   // mantiene la racha (misma lógica de escudo/congelador)
   saveGame();       // updateStreak cambia lastDailyDate/streak: hay que persistirlo
   recomputeState();
+  const achFresh = checkAchievements();
+  if (achFresh) { saveGame(); recomputeState(); }
   updateUI();
   renderSagas();
   evalRewards();
@@ -4019,17 +4045,21 @@ function sagaUndoVideo() {
 
 /* --- Render --- */
 function sagaHeroHTML(st) {
+  const coins = sagaCoinsEarned();
   return '<div class="sg-hero">' +
     '<div class="sg-kicker">📹 Operación Legado Creativo · Sagas con mi hijo</div>' +
     '<div class="sg-title">Creadores en equipo</div>' +
     '<div class="sg-desc">Sagas largas para construir algo real con tu hijo: videos y un juego de Roblox. ' +
       'Cada capítulo es una sesión corta, con un objetivo claro y un momento para grabar. ' +
-      'El XP se reparte entre <b>Legado</b> (tiempo con él) y <b>Poder &amp; Imagen</b> (contenido para redes).</div>' +
+      'El XP se reparte entre <b>Legado</b> (tiempo con él) y <b>Poder &amp; Imagen</b> (contenido para redes). ' +
+      'Cada capítulo también suma <b>1 moneda</b>; completar una saga suma <b>+5</b> extra.</div>' +
     '<div class="sg-chips">' +
       '<span class="sg-chip cyan">📚 <b>' + st.caps + '/' + st.total + '</b> capítulos</span>' +
       '<span class="sg-chip gold">⭐ <b>' + st.xp + '</b> XP de saga</span>' +
+      '<span class="sg-chip gold">🪙 <b>' + coins + '</b> ' + (coins === 1 ? 'moneda de saga' : 'monedas de saga') + '</span>' +
       '<span class="sg-chip">📈 <b>' + st.pct + '%</b> completado</span>' +
     '</div>' +
+    '<button class="btn-neon ghost sg-back" type="button" id="sagas-back" aria-label="Volver al mapa">◀ VOLVER AL MAPA</button>' +
   '</div>';
 }
 function sagaSafetyHTML() {
@@ -4050,7 +4080,7 @@ function sagaWeeklyHTML() {
       '<div class="sg-panel-k">Misión semanal fija</div>' +
       '<h3>Grabar 1 video corto con mi hijo</h3>' +
       '<p>Un clip de 15 a 60 s, del tema que sea: la idea, el ensayo o el detrás de cámaras. ' +
-        '<b>Mantiene tu racha</b> y suma XP a Poder &amp; Imagen.</p>' +
+        '<b>Mantiene tu racha</b>, suma XP a Poder &amp; Imagen y <b>+1 moneda</b>.</p>' +
     '</div>' +
     '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
       'data-sg-weekly="1" aria-label="Marcar la misión semanal de video"></div>' +
@@ -4086,7 +4116,7 @@ function sagaChapterHTML(s, c) {
       '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
         'data-sg="' + c.id + '" aria-label="Marcar capítulo ' + c.n + ': ' + escapeHtml(c.title) + '"></div>' +
       '<div>' +
-        '<div class="sg-cap-n">Capítulo ' + c.n + ' · <em>+' + c.xp + ' XP</em> · ' +
+        '<div class="sg-cap-n">Capítulo ' + c.n + ' · <em>+' + c.xp + ' XP</em> · 🪙 +1 · ' +
           kidXP + ' Legado / ' + powXP + ' Poder</div>' +
         '<h3>' + escapeHtml(c.title) + '</h3>' +
       '</div>' +
@@ -4109,6 +4139,7 @@ function sagaHTML(s) {
       '<span class="sg-saga-t"><b>' + escapeHtml(s.title) + '</b><small>' + escapeHtml(s.desc) + '</small></span>' +
       '<span class="sg-pct">' + doneN + '/' + totalN + ' · ' + pct + '%</span>' +
       '<span class="sg-chip gold">⭐ ' + sagaEarnedXP(s) + '/' + sagaXPTotal(s) + ' XP</span>' +
+      '<span class="sg-chip gold">🪙 ' + sagaCoinsForSaga(s) + '</span>' +
       '<span class="sg-bar"><span style="width:' + pct + '%"></span></span>' +
     '</summary>' +
     '<div class="sg-caps">' + s.chapters.map(function (c) { return sagaChapterHTML(s, c); }).join("") + '</div>' +
@@ -4142,6 +4173,8 @@ function renderSagas() {
   if (add) add.addEventListener("click", sagaAddVideo);
   const undo = document.getElementById("sg-video-undo");
   if (undo) undo.addEventListener("click", sagaUndoVideo);
+  const back = document.getElementById("sagas-back");
+  if (back) back.addEventListener("click", function () { playSfx("click"); goTab("map"); });
 }
 
 /* Delegación de clicks: los checkboxes se re-crean en cada render */
@@ -4313,7 +4346,8 @@ function achievementState() {
   campaignAll.forEach(m => { perChapter[m.chapter] = (perChapter[m.chapter] || 0) + 1; });
   const donePer = {};
   campaignAll.forEach(m => { if (doneSet.has(m.id)) donePer[m.chapter] = (donePer[m.chapter] || 0) + 1; });
-  const aiAll = campaignAll.filter(m => m.category === "ai").every(m => doneSet.has(m.id));
+  const aiMissions = campaignAll.filter(m => m.category === "ai");
+  const aiAll = aiMissions.length > 0 && aiMissions.every(m => doneSet.has(m.id));
   const dailyN = fullDaysCount();
   const missN = gameState.completedDaily.length;
   const weekN = gameState.completedWeekly.length;
@@ -7638,7 +7672,7 @@ function closeGodCombat() {
 })();
 
 function mapWorldStats() {
-  const vs = vidaCompute(), cap = capCompute();
+  const vs = vidaCompute(), cap = capCompute(), sg = sagaStats(), sgCoins = sagaCoinsEarned();
   const pendHoy = (function () {
     const d = firstPendingDay();
     if (d > DAILY_TOTAL) return 0;
@@ -7669,6 +7703,11 @@ function mapWorldStats() {
       rank: (gameState.completedB2b || []).length + "/" + B2B_MISSIONS.length + " misiones",
       badge: ""
     },
+    sagas: {
+      pct: sg.pct,
+      rank: sg.caps + "/" + sg.total + " cap. · " + sg.xp + " XP",
+      badge: sgCoins ? "🪙" + sgCoins : ""
+    },
     boveda: {
       pct: Math.round((cap.doneCount / cap.totalMissions) * 100),
       rank: cap.ladder.name
@@ -7681,19 +7720,21 @@ const WORLD_IMG = {
   "aldea": "assets/worlds/aldea.webp",
   "boveda": "assets/worlds/boveda.webp",
   "b2b": "assets/worlds/b2b.webp",
+  "sagas": "assets/worlds/sagas.svg",
 };
 function mapHubHTML() {
   const s = mapWorldStats();
   const nar = mapNarrow();
   const W = [
     { k: "camp", ico: "🏕️", n: nar ? "Campamento" : "Campamento Base", x: 50, y: 13, c: "#00ff88", lit: true },
-    { k: "fortaleza", ico: "📡", n: nar ? "Radar" : "Radar del Mundo", x: 20, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
-    { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 80, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
+    { k: "sagas", ico: "📹", n: nar ? "Sagas" : "Sagas con mi hijo", x: 50, y: 44, c: "#ff4fd8", lit: s.sagas.pct > 0 },
+    { k: "fortaleza", ico: "📡", n: nar ? "Radar" : "Radar del Mundo", x: 18, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
+    { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 82, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
     { k: "boveda", ico: "👑", n: nar ? "Imperio" : "El Imperio", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
     { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 79, c: "#ffaa00", lit: s.b2b.pct > 0 }
   ];
-  const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b };
+  const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b, sagas: s.sagas };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
   W.slice(1).forEach(ww => {
     svg += '<defs><linearGradient id="bg-' + ww.k + '" gradientUnits="userSpaceOnUse" x1="50" y1="20" x2="' + ww.x + '" y2="' + ww.y + '">'
@@ -7907,6 +7948,7 @@ function mapGoHome() {
 }
 function mapEnter(w) {
   playSfx("travel");
+  if (w === "sagas") { goTab("sagas"); return; }
   if (w === "aldea") {
     mapSt.w = "aldea";
   } else {
@@ -8544,6 +8586,7 @@ function coinsEarned() {
     ((st.capital && st.capital.done) ? st.capital.done.length : 0) +
     ((st.capital && st.capital.eng) ? st.capital.eng.length : 0) +
     ((st.capital && st.capital.ai) ? st.capital.ai.length : 0) +
+    sagaCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
 }
 function coinsBalance() { return Math.max(0, coinsEarned() - (shopState().spent || 0)); }
