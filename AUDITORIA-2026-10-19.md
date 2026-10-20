@@ -116,10 +116,8 @@ base-uri 'self'; form-action 'none'
 - 25 comprobaciones: sintaxis JS, símbolos clave, coherencia de versión HTML↔SW,
   `<h1>` único, `<main>`, IDs duplicados en el DOM, **existencia de todos los assets del
   shell**, 56 días y ausencia de referencias al día 60.
-- Workflow `.github/workflows/smoke.yml` preparado para ejecutarlo en cada push a `main` y en
-  cada PR. **No está en la rama todavía**: el token de `gh` no tiene el scope `workflow` y
-  GitHub rechaza subir archivos de `.github/workflows/`. Para activarlo:
-  `gh auth refresh -h github.com -s workflow`, luego añadir el archivo y hacer push.
+- Workflow `.github/workflows/smoke.yml` **activo**: se ejecuta en cada push a `main` y en
+  cada PR. Primera ejecución, en este mismo PR: **success** (`✓ Smoke test OK`).
 
 ```
 ✓ Smoke test OK
@@ -190,4 +188,8 @@ fix: alinear el plan a 56 dias (elimina referencias residuales al dia 60)
 a11y: h1/main, dialogos accesibles, Escape + trampa de foco, aria-live y teclado en checkboxes
 perf: convertir imagenes a WebP (2.5 MB -> 536 KB, -78%)
 chore: elimina la app de 45 dias, higiene de repo, CSP, PWA robusta y CI
+docs: informe de auditoria con estado de correcciones
+ci: ejecutar smoke test en push a main y en pull requests
 ```
+
+Pull Request: https://github.com/JoseAn03/plan-analista-datos/pull/1
