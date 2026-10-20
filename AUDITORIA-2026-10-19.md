@@ -116,7 +116,10 @@ base-uri 'self'; form-action 'none'
 - 25 comprobaciones: sintaxis JS, símbolos clave, coherencia de versión HTML↔SW,
   `<h1>` único, `<main>`, IDs duplicados en el DOM, **existencia de todos los assets del
   shell**, 56 días y ausencia de referencias al día 60.
-- Workflow `.github/workflows/smoke.yml` que lo ejecuta en cada push a `main` y en cada PR.
+- Workflow `.github/workflows/smoke.yml` preparado para ejecutarlo en cada push a `main` y en
+  cada PR. **No está en la rama todavía**: el token de `gh` no tiene el scope `workflow` y
+  GitHub rechaza subir archivos de `.github/workflows/`. Para activarlo:
+  `gh auth refresh -h github.com -s workflow`, luego añadir el archivo y hacer push.
 
 ```
 ✓ Smoke test OK
