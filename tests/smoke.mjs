@@ -102,6 +102,21 @@ const days = new Set([...html.matchAll(/\bday:(\d+),/g)].map((m) => Number(m[1])
 check('56 días de misiones diarias', days.size === 56, `${days.size} días`);
 check('Sin referencias al día 60', !/\b(46[–-]60|Día 60|60 días)\b/.test(html));
 
+// ---------- 11) Sagas ----------
+check('Sagas: clave nueva odea_sagas_v1', html.includes('const SAGA_KEY = "odea_sagas_v1"'));
+check('Sagas: no cambia la clave de guardado', html.includes('const SAVE_KEY = "odea_save_v2"'));
+const sagaIds = [...html.matchAll(/id: "(video|roblox)-(\d+)", n: \2, xp:/g)];
+check('Sagas: 12 capítulos (5 video + 7 roblox)',
+  sagaIds.filter((m) => m[1] === 'video').length === 5 &&
+  sagaIds.filter((m) => m[1] === 'roblox').length === 7,
+  `${sagaIds.length} capítulos`);
+check('Sagas: XP va a Legado y Poder',
+  html.includes('xp.kid += sagaAreaXP("kid")') && html.includes('xp.pow += sagaAreaXP("pow")'));
+check('Sagas: recompensas finales', html.includes('rw_sg_video') && html.includes('rw_sg_roblox'));
+check('Sagas: pestaña y vista', html.includes('data-tab="sagas"') && html.includes('id="view-sagas"'));
+check('Sagas: regla de seguridad visible',
+  html.includes('Regla de oro: publicar seguro') && html.includes('controles parentales de Roblox'));
+
 // ---------- Resultado ----------
 console.log();
 if (fails.length) {

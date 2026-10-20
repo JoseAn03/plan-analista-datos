@@ -2010,13 +2010,102 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 
 </style>
 <link rel="stylesheet" href="./assets/odea-ui-v7.css?v=8m">
+<style id="sagas-css">
+/* ==========================================================
+   📹 SAGAS (v5.61) — estilos
+   ========================================================== */
+.sg-hero{background:linear-gradient(135deg,rgba(0,204,255,.10),rgba(124,108,255,.12) 55%,rgba(255,215,0,.08));
+  border:1px solid rgba(124,108,255,.30);border-radius:var(--radius);padding:18px;margin-bottom:16px}
+.sg-kicker{font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:2px;color:var(--glow-cyan);
+  text-transform:uppercase;margin-bottom:6px}
+.sg-title{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:var(--tx);margin-bottom:6px}
+.sg-desc{font-size:.86rem;color:var(--tx2);line-height:1.6}
+.sg-desc b{color:var(--tx)}
+.sg-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.sg-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;
+  border:1px solid rgba(160,160,192,.22);background:rgba(10,10,26,.6);
+  font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--tx2)}
+.sg-chip b{color:var(--tx)}
+.sg-chip.cyan{border-color:rgba(0,204,255,.4);color:var(--glow-cyan)}
+.sg-chip.gold{border-color:rgba(255,215,0,.4);color:#ffd700}
+
+.sg-safety{border:1px solid rgba(255,170,0,.42);background:rgba(255,170,0,.07);
+  border-radius:var(--radius);padding:14px 16px;margin-bottom:16px}
+.sg-safety h3{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--glow-amber);margin-bottom:8px}
+.sg-safety ul{margin:0 0 0 18px;font-size:.8rem;color:var(--tx2);line-height:1.55}
+.sg-safety li{margin:4px 0}
+.sg-safety b{color:var(--tx)}
+
+.sg-panel{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;background:var(--bg2);
+  border:var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px}
+.sg-panel.done{border-color:rgba(0,255,136,.4)}
+.sg-panel-ico{font-size:1.8rem;line-height:1}
+.sg-panel-body{flex:1;min-width:210px}
+.sg-panel-k{font-family:'Share Tech Mono',monospace;font-size:.64rem;letter-spacing:1.5px;
+  color:var(--tx2);text-transform:uppercase}
+.sg-panel h3{font-family:'Orbitron',sans-serif;font-size:.9rem;margin:3px 0 6px;color:var(--tx)}
+.sg-panel p{font-size:.8rem;color:var(--tx2);line-height:1.5;margin:4px 0}
+.sg-panel > .m-check{flex:0 0 30px;width:30px;height:30px;margin-top:0}
+.sg-panel.done .m-check,.sg-cap.done .m-check{background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));
+  border-color:var(--glow-green);box-shadow:0 0 14px rgba(0,255,136,.55)}
+.sg-panel.done .m-check::after,.sg-cap.done .m-check::after{opacity:1;transform:scale(1)}
+
+.sg-saga{background:var(--bg2);border:var(--border);border-radius:var(--radius);
+  margin-bottom:16px;overflow:hidden}
+.sg-saga[open]{border-color:rgba(0,204,255,.38);box-shadow:0 0 22px rgba(0,204,255,.10)}
+.sg-saga summary{cursor:pointer;list-style:none;padding:14px 16px;display:flex;
+  align-items:center;gap:12px;flex-wrap:wrap;user-select:none}
+.sg-saga summary::-webkit-details-marker{display:none}
+.sg-saga summary:hover{background:rgba(255,255,255,.025)}
+.sg-saga-ico{font-size:1.7rem;line-height:1}
+.sg-saga-t{flex:1 1 190px;min-width:0}
+.sg-saga-t b{display:block;font-family:'Orbitron',sans-serif;font-size:.95rem;color:var(--tx)}
+.sg-saga-t small{display:block;color:var(--tx2);font-size:.72rem;margin-top:2px;line-height:1.4}
+.sg-pct{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--glow-cyan)}
+.sg-bar{display:block;flex:1 1 100%;height:8px;border-radius:99px;
+  background:rgba(160,160,192,.15);overflow:hidden}
+.sg-bar > span{display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#00ccff,#7c6cff,#ffd700);transition:width .35s ease}
+.sg-caps{padding:0 14px 6px;border-top:1px solid rgba(160,160,192,.12)}
+
+.sg-cap{border-bottom:1px dashed rgba(160,160,192,.18);padding:14px 2px 16px}
+.sg-cap:last-child{border-bottom:0}
+.sg-cap.done{opacity:.9}
+.sg-cap-head{display:flex;gap:12px;align-items:flex-start}
+.sg-cap-head > div:last-child{flex:1;min-width:0}
+.sg-cap-n{font-family:'Share Tech Mono',monospace;font-size:.64rem;letter-spacing:1px;
+  color:var(--tx2);text-transform:uppercase}
+.sg-cap-n em{font-style:normal;color:#ffd700}
+.sg-cap h3{font-family:'Orbitron',sans-serif;font-size:.86rem;color:var(--tx);margin:3px 0 0;line-height:1.35}
+.sg-goal,.sg-teach{font-size:.81rem;line-height:1.55;margin:8px 0}
+.sg-goal{color:var(--tx)}
+.sg-teach{border-left:3px solid var(--glow-magenta);padding-left:10px;color:var(--tx2)}
+.sg-teach b,.sg-goal b{color:var(--tx)}
+.sg-steps{margin:8px 0 8px 18px;font-size:.8rem;color:var(--tx2);line-height:1.55}
+.sg-steps li{margin:3px 0}
+.sg-code{font-family:'Share Tech Mono',monospace;font-size:.74rem;line-height:1.5;
+  background:#0d0d20;border:1px solid rgba(124,108,255,.35);border-radius:9px;
+  padding:9px 11px;margin:8px 0;white-space:pre;color:#c9d4ff;overflow-x:auto}
+.sg-challenge,.sg-rec{font-size:.76rem;line-height:1.5;border-radius:10px;
+  padding:8px 10px;margin-top:8px}
+.sg-challenge{color:var(--glow-green);border:1px dashed rgba(0,255,136,.35);background:rgba(0,255,136,.04)}
+.sg-rec{color:var(--glow-amber);border:1px dashed rgba(255,170,0,.4);background:rgba(255,170,0,.04)}
+.sg-actions{display:flex;gap:8px;flex-wrap:wrap;width:100%;margin-top:2px}
+.sg-actions .btn-neon{font-size:.68rem;padding:8px 12px}
+@media (max-width:640px){
+  .sg-title{font-size:1.05rem}
+  .sg-hero{padding:14px}
+  .sg-cap{padding:12px 0 14px}
+  .sg-panel{padding:12px}
+}
+</style>
 </head>
 <body class="odea-ui-v7">
 <h1 class="sr-only">ODEA — Plan maestro de 56 días para convertirte en analista de datos</h1>
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.60</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.61</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2029,6 +2118,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
     <button class="nav-item" data-tab="campaign" aria-label="Campaña de datos"><span class="ni-ico">📜</span> DATOS</button>
     <button class="nav-item" data-tab="jobs" aria-label="Noticias"><span class="ni-ico">📡</span> NOTICIAS</button>
     <button class="nav-item" data-tab="vida" aria-label="Vida"><span class="ni-ico">🧬</span> VIDA</button>
+    <button class="nav-item" data-tab="sagas" aria-label="Sagas con mi hijo"><span class="ni-ico">📹</span> SAGAS</button>
     <button class="nav-item" data-tab="capital" aria-label="El Imperio"><span class="ni-ico">👑</span> IMPERIO</button>
   </div>
   <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
@@ -2082,7 +2172,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.60</span>
+    <span class="ver" id="ver-badge">v5.61</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2093,6 +2183,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
   <button class="navb" data-tab="campaign" aria-label="Plan"><span class="nb-ico">📜</span><span>Plan</span></button>
   <button class="navb" data-tab="jobs" aria-label="Noticias"><span class="nb-ico">📡</span><span>Noticias</span></button>
   <button class="navb" data-tab="vida" aria-label="Vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
+  <button class="navb" data-tab="sagas" aria-label="Sagas"><span class="nb-ico">📹</span><span>Sagas</span></button>
   <button class="navb" data-tab="capital" aria-label="Imperio"><span class="nb-ico">👑</span><span>Imperio</span></button>
   <button class="navb" id="bottom-inv" aria-label="Inventario"><span class="nb-ico">🎒</span><span>Inventario</span><em class="inv-badge hidden">0</em></button>
 </nav>
@@ -2260,12 +2351,14 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
       <div id="cap-allmsg"></div>
     </section>
 
-
+    <section class="view" id="view-sagas">
+      <div id="sagas-root"></div>
+    </section>
   </main>
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.60</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.61</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3346,7 +3439,7 @@ function ladderInfo(ladder, xp) {
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.60"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.61"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3535,8 +3628,547 @@ function loadGame() {
     return true;
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
+/* ==========================================================
+   📹 SAGAS (v5.61) — misiones largas con capítulos
+   Estado propio en una clave NUEVA: odea_sagas_v1.
+   No renombra ni borra ninguna clave existente y no toca
+   la estructura de odea_save_v2.
+   ========================================================== */
+const SAGA_KEY = "odea_sagas_v1";
+const SAGA_WEEKLY_XP = 150;
+
+const SAGAS = [
+  {
+    id: "video",
+    ico: "🎬",
+    color: "#00ccff",
+    title: "Creadores de Video",
+    desc: "5 capítulos · De una idea a un video publicado, grabando en equipo.",
+    split: { kid: 0.6, pow: 0.4 },
+    chapters: [
+      {
+        id: "video-1", n: 1, xp: 200,
+        title: "La gran idea",
+        objective: "Elegir juntos un tema que a él le emocione contar.",
+        teach: "Un video no empieza con una cámara: empieza con una idea que te divierte. Si a él le gusta el tema, va a querer grabar.",
+        steps: [
+          "Pregúntale: «¿de qué podrías hablar como si fueras experto?».",
+          "Anoten 3 ideas en papel, sin juzgar ninguna.",
+          "Elijan la que les dé más risa o curiosidad.",
+          "Pónganle un título de 6 palabras.",
+          "Guarden la idea en una nota del celular."
+        ],
+        challenge: "Él elige el tema final y lo cuenta en una sola frase.",
+        record: "Graba 10 segundos de él contando la idea. Ese clip será el inicio del video."
+      },
+      {
+        id: "video-2", n: 2, xp: 220,
+        title: "Guion de 3 partes",
+        objective: "Armar un guion corto que se entienda sin esfuerzo.",
+        teach: "Todo video corto tiene tres partes: inicio (engancha), nudo (cuenta lo importante) y cierre (invita a quedarse).",
+        steps: [
+          "Inicio de 5 s: una pregunta o una promesa.",
+          "Nudo de 20 a 30 s: dos o tres cosas que quiere contar.",
+          "Cierre de 5 s: «sígueme para la parte 2».",
+          "Escriban una frase por parte, con sus palabras.",
+          "Ensayen una vez sin grabar."
+        ],
+        challenge: "Él escribe el cierre con sus propias palabras.",
+        record: "Graba el ensayo completo: al final de la saga van a comparar su evolución."
+      },
+      {
+        id: "video-3", n: 3, xp: 240,
+        title: "Luz y sonido",
+        objective: "Grabar con imagen clara y voz limpia usando solo el celular.",
+        teach: "La luz va de frente, nunca detrás. El sonido importa más que la imagen: un cuarto silencioso vale más que una cámara cara.",
+        steps: [
+          "Busquen una ventana y pongan la luz de frente.",
+          "Celular a la altura de los ojos, apoyado o con un tripie casero.",
+          "Apaguen ventilador, TV y notificaciones.",
+          "Hablen a 30 cm del micrófono, sin taparlo con la mano.",
+          "Graben dos tomas de 30 s y elijan la mejor."
+        ],
+        challenge: "Él acomoda la luz y el celular sin ayuda.",
+        record: "Graba un antes/después: el mismo texto con luz mala y con luz buena."
+      },
+      {
+        id: "video-4", n: 4, xp: 240,
+        title: "Edición básica",
+        objective: "Editar el video en el celular con una app gratuita (CapCut, InShot o similar).",
+        teach: "Editar es quitar lo que sobra, no agregar de todo. Un video limpio y corto gana más que uno lleno de efectos.",
+        steps: [
+          "Abran la app y creen un proyecto nuevo.",
+          "Recorten los silencios del inicio y del final.",
+          "Activen subtítulos automáticos y corrijan las palabras raras.",
+          "Agreguen música suave al 20% de volumen.",
+          "Exporten en 1080p y guárdenlo en el celular."
+        ],
+        challenge: "Él decide qué pedazo sobra y lo recorta.",
+        record: "Graba la pantalla mientras editan juntos: ese clip es contenido extra."
+      },
+      {
+        id: "video-5", n: 5, xp: 260,
+        title: "Publicar y celebrar",
+        objective: "Publicar el video con seguridad y registrar el logro en la app.",
+        teach: "Publicar es compartir, no buscar perfección. Revisar juntos antes de subir es el hábito más importante.",
+        steps: [
+          "Vean el video completo y revisen que no haya datos personales.",
+          "Elijan la plataforma y usen la cuenta del adulto.",
+          "Escriban un título con gancho y 3 hashtags.",
+          "Publiquen y guarden el enlace.",
+          "Apunten el video en el contador de Sagas."
+        ],
+        challenge: "Él elige el título final y los hashtags.",
+        record: "Graba su reacción al ver el video publicado. Es el cierre perfecto de la saga."
+      }
+    ]
+  },
+  {
+    id: "roblox",
+    ico: "🧱",
+    color: "#7c6cff",
+    title: "Constructores de Roblox",
+    desc: "7 capítulos · Un juego sencillo en Roblox Studio, con él como director.",
+    split: { kid: 0.75, pow: 0.25 },
+    chapters: [
+      {
+        id: "roblox-1", n: 1, xp: 240,
+        title: "El tema lo decide él",
+        objective: "Elegir juntos el juego que van a construir, con él como director.",
+        teach: "Un juego empieza con una pregunta: ¿qué haría feliz a quien lo juegue? La idea de él vale; nuestro trabajo es ayudarlo a hacerla posible.",
+        steps: [
+          "Lluvia de ideas de 5 minutos: cualquier juego vale.",
+          "Él elige una sola idea y explica por qué le gusta.",
+          "Dibujen el mapa en papel: entrada, reto y meta.",
+          "Definan el objetivo del jugador en una frase.",
+          "Pónganle nombre al juego."
+        ],
+        challenge: "Él presenta su idea en 30 segundos, como un director.",
+        record: "Graba su presentación de 30 segundos: será el tráiler de la saga."
+      },
+      {
+        id: "roblox-2", n: 2, xp: 240,
+        title: "Conocer Roblox Studio",
+        objective: "Abrir Roblox Studio y perderle el miedo a la interfaz.",
+        teach: "Studio es el taller donde se construyen los juegos. No es lo mismo que jugar en Roblox: aquí se crea.",
+        steps: [
+          "Instalen Roblox Studio y abran la plantilla Baseplate.",
+          "Muévanse con W, A, S, D y roten la cámara con clic derecho.",
+          "Prueben las herramientas Mover, Escalar y Rotar.",
+          "Agreguen un bloque y cámbienle el color.",
+          "Guarden una copia con el nombre del juego."
+        ],
+        challenge: "Él coloca tres bloques y les pone nombre en el Explorer.",
+        record: "Graba su primer minuto dentro de Studio, con sus reacciones."
+      },
+      {
+        id: "roblox-3", n: 3, xp: 240,
+        title: "Construir el mapa",
+        objective: "Construir el escenario del juego con bloques simples.",
+        teach: "El mapa es el escenario. Empieza grande y simple: primero el camino, después los detalles.",
+        steps: [
+          "Hagan el suelo y el camino principal con Parts.",
+          "Agreguen tres plataformas a distintas alturas.",
+          "Cambien colores y materiales para diferenciar zonas.",
+          "Agrupen todo en un Model llamado «Mapa».",
+          "Prueben la cámara desde arriba y desde el jugador."
+        ],
+        challenge: "Él construye una plataforma secreta y la esconde.",
+        record: "Haz un time-lapse de 20 segundos mientras construyen."
+      },
+      {
+        id: "roblox-4", n: 4, xp: 240,
+        title: "Monedas y obstáculos",
+        objective: "Agregar un reto justo: monedas para recoger y un obstáculo que evitar.",
+        teach: "Un reto justo es difícil pero posible. Si es imposible, el jugador se aburre; si es muy fácil, también.",
+        steps: [
+          "Inserten un Part pequeño, color amarillo y forma de moneda.",
+          "Duplíquenlo 5 veces y repártanlos por el mapa.",
+          "Agreguen un obstáculo rojo que quite vidas o reinicie.",
+          "Ajusten la dificultad: que se pueda pasar con práctica.",
+          "Prueben el recorrido completo."
+        ],
+        challenge: "Él esconde tres monedas en lugares con sentido.",
+        record: "Graba el recorrido completo, con sus intentos y fallos."
+      },
+      {
+        id: "roblox-5", n: 5, xp: 280,
+        title: "La primera mecánica en Luau",
+        objective: "Programar que la moneda desaparezca al tocarla.",
+        teach: "Luau es el idioma de Roblox y se lee como instrucciones: «cuando alguien toque esto, desaparece».",
+        code: "local moneda = script.Parent\nmoneda.Touched:Connect(function()\n  moneda:Destroy()\nend)",
+        steps: [
+          "Seleccionen la moneda y agreguen un Script dentro.",
+          "Escriban el código tal como está (o cópienlo).",
+          "Presionen Play y toquen la moneda.",
+          "Verifiquen que desaparece y que no hay errores en Output.",
+          "Cambien el color de la moneda y vuelvan a probar."
+        ],
+        challenge: "Él escribe print(\"¡Hola, Roblox!\") en la Command Bar y lo ejecuta.",
+        record: "Graba su cara cuando la moneda desaparece por primera vez."
+      },
+      {
+        id: "roblox-6", n: 6, xp: 240,
+        title: "Playtest: probar y arreglar",
+        objective: "Jugar el juego y arreglar al menos un problema.",
+        teach: "Probar es parte de crear. Los errores no son fracasos: son pistas de qué mejorar.",
+        steps: [
+          "Presionen Play y jueguen de principio a fin.",
+          "Anoten tres cosas que confundan o aburran.",
+          "Arreglen una sola cosa (la más importante).",
+          "Vuelvan a probar y comparen.",
+          "Guarden una copia antes de seguir."
+        ],
+        challenge: "Él encuentra un bug y propone cómo arreglarlo.",
+        record: "Graba su reacción al encontrar el primer bug."
+      },
+      {
+        id: "roblox-7", n: 7, xp: 240,
+        title: "Publicar el juego",
+        objective: "Publicar el juego (o guardarlo listo) y jugarlo con alguien.",
+        teach: "Publicar es compartir lo que hicieron. No tiene que ser perfecto: tiene que ser suyo.",
+        steps: [
+          "Revisen la configuración de privacidad y los controles parentales.",
+          "Escriban nombre, descripción e ícono del juego.",
+          "Publiquen o guarden como lugar listo para publicar.",
+          "Compartan el enlace con un familiar o amigo.",
+          "Jueguen juntos la primera partida publicada."
+        ],
+        challenge: "Él escribe la descripción del juego.",
+        record: "Graba la primera partida publicada, con los dos jugando."
+      }
+    ]
+  }
+];
+
+function sagaDefaults() {
+  return {
+    v: 1,
+    chapters: {},
+    videos: { count: 0, log: [] },
+    weekly: { week: null, done: false }
+  };
+}
+var sagaState = sagaDefaults();
+
+function sagaChapterIds() {
+  const ids = [];
+  SAGAS.forEach(function (s) { s.chapters.forEach(function (c) { ids.push(c.id); }); });
+  return ids;
+}
+function loadSagas() {
+  try {
+    const raw = localStorage.getItem(SAGA_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== "object") return;
+    const valid = {};
+    sagaChapterIds().forEach(function (id) {
+      if (data.chapters && data.chapters[id]) valid[id] = true;
+    });
+    const vids = data.videos || {};
+    const n = parseInt(vids.count, 10);
+    sagaState.chapters = valid;
+    sagaState.videos = {
+      count: isFinite(n) ? Math.max(0, Math.min(9999, n)) : 0,
+      log: Array.isArray(vids.log)
+        ? vids.log.slice(-200).filter(function (x) { return x && typeof x.d === "string"; })
+        : []
+    };
+    const w = data.weekly || {};
+    sagaState.weekly = {
+      week: typeof w.week === "string" ? w.week : null,
+      done: !!w.done
+    };
+  } catch (e) {
+    /* Estado nuevo ilegible: se usan los valores por defecto.
+       No se borra nada para poder recuperarlo manualmente. */
+  }
+}
+function saveSagas() {
+  try { localStorage.setItem(SAGA_KEY, JSON.stringify(sagaState)); }
+  catch (e) {
+    if (!saveSagas._warned) {
+      saveSagas._warned = true;
+      try { toast("⚠️", "No se pudo guardar Sagas", "El navegador se quedó sin espacio. Exporta tu respaldo."); } catch (e2) {}
+    }
+  }
+}
+function resetSagas() {
+  sagaState = sagaDefaults();
+  try { localStorage.removeItem(SAGA_KEY); } catch (e) {}
+}
+function sagaChapterDone(id) { return !!sagaState.chapters[id]; }
+function sagaDoneCount(s) {
+  return s.chapters.filter(function (c) { return !!sagaState.chapters[c.id]; }).length;
+}
+function sagaDone(sagaId) {
+  const s = SAGAS.filter(function (x) { return x.id === sagaId; })[0];
+  return !!s && s.chapters.every(function (c) { return !!sagaState.chapters[c.id]; });
+}
+function sagaXPTotal(s) {
+  return s.chapters.reduce(function (a, c) { return a + c.xp; }, 0);
+}
+function sagaEarnedXP(s) {
+  return s.chapters.reduce(function (a, c) { return a + (sagaState.chapters[c.id] ? c.xp : 0); }, 0);
+}
+function sagaWeeklyDone() {
+  return !!sagaState.weekly.done && sagaState.weekly.week === isoWeekKey(todayStr());
+}
+/* XP que las sagas aportan a Legado (kid) y Poder & Imagen (pow) */
+function sagaAreaXP(cat) {
+  if (!sagaState || (cat !== "kid" && cat !== "pow")) return 0;
+  let total = 0;
+  SAGAS.forEach(function (s) {
+    const share = (s.split && s.split[cat]) || 0;
+    if (!share) return;
+    s.chapters.forEach(function (c) {
+      if (sagaState.chapters[c.id]) total += Math.round(c.xp * share);
+    });
+  });
+  if (sagaWeeklyDone()) total += Math.round(SAGA_WEEKLY_XP / 2);
+  return total;
+}
+function sagaStats() {
+  let caps = 0, total = 0, xp = 0;
+  SAGAS.forEach(function (s) {
+    caps += sagaDoneCount(s);
+    total += s.chapters.length;
+    xp += sagaEarnedXP(s);
+  });
+  if (sagaWeeklyDone()) xp += SAGA_WEEKLY_XP;
+  return { caps: caps, total: total, xp: xp, pct: total ? Math.round((caps / total) * 100) : 0 };
+}
+function videoRank(n) {
+  if (n >= 15) return { name: "Estudio", ico: "🏛️", next: null };
+  if (n >= 5) return { name: "Creador", ico: "🎬", next: 15 };
+  if (n >= 1) return { name: "Novato", ico: "🌱", next: 5 };
+  return { name: "Sin publicar", ico: "🎥", next: 1 };
+}
+
+/* --- Acciones --- */
+function toggleSagaChapter(id) {
+  let saga = null, cap = null;
+  for (let i = 0; i < SAGAS.length; i++) {
+    const c = SAGAS[i].chapters.filter(function (x) { return x.id === id; })[0];
+    if (c) { saga = SAGAS[i]; cap = c; break; }
+  }
+  if (!cap) return;
+  const was = !!sagaState.chapters[id];
+  if (was) delete sagaState.chapters[id];
+  else sagaState.chapters[id] = true;
+  saveSagas();
+  recomputeState();
+  updateUI();
+  renderSagas();
+  evalRewards();
+  if (!was) {
+    toast("✅", "Capítulo " + cap.n + " completado", "+" + cap.xp + " XP · " + cap.title, "ach");
+    try { playSfx("coin"); } catch (e) {}
+    if (sagaDone(saga.id)) {
+      setTimeout(function () {
+        toast("🏆", "¡SAGA COMPLETA!", saga.title + ". Recompensa desbloqueada en tu arsenal.", "levelup");
+        try { confetti(window.innerWidth / 2, window.innerHeight * 0.3, 120); } catch (e) {}
+        try { playSfx("fanfare"); } catch (e) {}
+      }, 700);
+    }
+  } else {
+    toast("↩️", "Capítulo desmarcado", "-" + cap.xp + " XP · " + cap.title);
+  }
+}
+
+function toggleSagaWeekly() {
+  const wk = isoWeekKey(todayStr());
+  if (sagaWeeklyDone()) {
+    sagaState.weekly = { week: wk, done: false };
+    saveSagas();
+    recomputeState();
+    updateUI();
+    renderSagas();
+    toast("↩️", "Misión semanal desmarcada", "El XP se retira; la racha ya ganada no se puede deshacer.");
+    return;
+  }
+  sagaState.weekly = { week: wk, done: true };
+  saveSagas();
+  updateStreak();   // mantiene la racha (misma lógica de escudo/congelador)
+  saveGame();       // updateStreak cambia lastDailyDate/streak: hay que persistirlo
+  recomputeState();
+  updateUI();
+  renderSagas();
+  evalRewards();
+  toast("🎥", "¡Video de la semana!", "+" + SAGA_WEEKLY_XP + " XP · racha mantenida.");
+}
+
+function sagaAddVideo() {
+  sagaState.videos.count += 1;
+  sagaState.videos.log.push({ d: todayStr() });
+  if (sagaState.videos.log.length > 200) sagaState.videos.log.shift();
+  saveSagas();
+  renderSagas();
+  const r = videoRank(sagaState.videos.count);
+  toast("🎬", "Video #" + sagaState.videos.count + " publicado", "Rango actual: " + r.name + ".");
+}
+function sagaUndoVideo() {
+  if (sagaState.videos.count <= 0) return;
+  sagaState.videos.count -= 1;
+  sagaState.videos.log.pop();
+  saveSagas();
+  renderSagas();
+  toast("↩️", "Contador ajustado", "Videos publicados: " + sagaState.videos.count + ".");
+}
+
+/* --- Render --- */
+function sagaHeroHTML(st) {
+  return '<div class="sg-hero">' +
+    '<div class="sg-kicker">📹 Operación Legado Creativo · Sagas con mi hijo</div>' +
+    '<div class="sg-title">Creadores en equipo</div>' +
+    '<div class="sg-desc">Sagas largas para construir algo real con tu hijo: videos y un juego de Roblox. ' +
+      'Cada capítulo es una sesión corta, con un objetivo claro y un momento para grabar. ' +
+      'El XP se reparte entre <b>Legado</b> (tiempo con él) y <b>Poder &amp; Imagen</b> (contenido para redes).</div>' +
+    '<div class="sg-chips">' +
+      '<span class="sg-chip cyan">📚 <b>' + st.caps + '/' + st.total + '</b> capítulos</span>' +
+      '<span class="sg-chip gold">⭐ <b>' + st.xp + '</b> XP de saga</span>' +
+      '<span class="sg-chip">📈 <b>' + st.pct + '%</b> completado</span>' +
+    '</div>' +
+  '</div>';
+}
+function sagaSafetyHTML() {
+  return '<div class="sg-safety">' +
+    '<h3>🛡️ Regla de oro: publicar seguro</h3>' +
+    '<ul>' +
+      '<li><b>Decidimos juntos</b> qué se publica. Si él no quiere, no se publica.</li>' +
+      '<li><b>Nada de datos personales:</b> escuela, dirección, ubicación, uniforme, nombre completo ni horarios.</li>' +
+      '<li><b>Si tiene menos de 13 años:</b> usen los <b>controles parentales de Roblox</b> y revisen la privacidad antes de publicar. Publiquen desde la cuenta del adulto.</li>' +
+    '</ul>' +
+  '</div>';
+}
+function sagaWeeklyHTML() {
+  const done = sagaWeeklyDone();
+  return '<div class="sg-panel' + (done ? " done" : "") + '">' +
+    '<div class="sg-panel-ico">🎥</div>' +
+    '<div class="sg-panel-body">' +
+      '<div class="sg-panel-k">Misión semanal fija</div>' +
+      '<h3>Grabar 1 video corto con mi hijo</h3>' +
+      '<p>Un clip de 15 a 60 s, del tema que sea: la idea, el ensayo o el detrás de cámaras. ' +
+        '<b>Mantiene tu racha</b> y suma XP a Poder &amp; Imagen.</p>' +
+    '</div>' +
+    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
+      'data-sg-weekly="1" aria-label="Marcar la misión semanal de video"></div>' +
+  '</div>';
+}
+function sagaCounterHTML() {
+  const n = sagaState.videos.count;
+  const r = videoRank(n);
+  const pct = r.next ? Math.min(100, Math.round((n / r.next) * 100)) : 100;
+  const next = r.next
+    ? '<span class="sg-chip">Siguiente rango: <b>' + r.next + '</b> videos</span>'
+    : '<span class="sg-chip gold">Rango máximo alcanzado</span>';
+  return '<div class="sg-panel">' +
+    '<div class="sg-panel-ico">' + r.ico + '</div>' +
+    '<div class="sg-panel-body">' +
+      '<div class="sg-panel-k">Videos publicados</div>' +
+      '<h3><span id="sg-videos-n">' + n + '</span> · ' + r.name + '</h3>' +
+      '<span class="sg-bar"><span style="width:' + pct + '%"></span></span>' +
+      '<div class="sg-chips">' + next + '</div>' +
+    '</div>' +
+    '<div class="sg-actions">' +
+      '<button class="btn-neon" type="button" id="sg-video-add" aria-label="Sumar un video publicado">＋ PUBLICAR VIDEO</button>' +
+      '<button class="btn-neon ghost" type="button" id="sg-video-undo"' + (n ? "" : " disabled") + '>DESHACER</button>' +
+    '</div>' +
+  '</div>';
+}
+function sagaChapterHTML(s, c) {
+  const done = !!sagaState.chapters[c.id];
+  const kidXP = Math.round(c.xp * (s.split.kid || 0));
+  const powXP = Math.round(c.xp * (s.split.pow || 0));
+  return '<article class="sg-cap' + (done ? " done" : "") + '">' +
+    '<div class="sg-cap-head">' +
+      '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" ' +
+        'data-sg="' + c.id + '" aria-label="Marcar capítulo ' + c.n + ': ' + escapeHtml(c.title) + '"></div>' +
+      '<div>' +
+        '<div class="sg-cap-n">Capítulo ' + c.n + ' · <em>+' + c.xp + ' XP</em> · ' +
+          kidXP + ' Legado / ' + powXP + ' Poder</div>' +
+        '<h3>' + escapeHtml(c.title) + '</h3>' +
+      '</div>' +
+    '</div>' +
+    '<p class="sg-goal"><b>Objetivo:</b> ' + escapeHtml(c.objective) + '</p>' +
+    '<div class="sg-teach"><b>Qué le enseño:</b> ' + escapeHtml(c.teach) + '</div>' +
+    (c.code ? '<pre class="sg-code">' + escapeHtml(c.code) + '</pre>' : "") +
+    '<ol class="sg-steps">' + c.steps.map(function (x) { return '<li>' + escapeHtml(x) + '</li>'; }).join("") + '</ol>' +
+    '<div class="sg-challenge"><b>🎯 Reto para él (solo):</b> ' + escapeHtml(c.challenge) + '</div>' +
+    '<div class="sg-rec"><b>🎥 Momento para grabar:</b> ' + escapeHtml(c.record) + '</div>' +
+  '</article>';
+}
+function sagaHTML(s) {
+  const doneN = sagaDoneCount(s);
+  const totalN = s.chapters.length;
+  const pct = Math.round((doneN / totalN) * 100);
+  return '<details class="sg-saga" data-saga="' + s.id + '">' +
+    '<summary>' +
+      '<span class="sg-saga-ico">' + s.ico + '</span>' +
+      '<span class="sg-saga-t"><b>' + escapeHtml(s.title) + '</b><small>' + escapeHtml(s.desc) + '</small></span>' +
+      '<span class="sg-pct">' + doneN + '/' + totalN + ' · ' + pct + '%</span>' +
+      '<span class="sg-chip gold">⭐ ' + sagaEarnedXP(s) + '/' + sagaXPTotal(s) + ' XP</span>' +
+      '<span class="sg-bar"><span style="width:' + pct + '%"></span></span>' +
+    '</summary>' +
+    '<div class="sg-caps">' + s.chapters.map(function (c) { return sagaChapterHTML(s, c); }).join("") + '</div>' +
+  '</details>';
+}
+function renderSagas() {
+  const root = document.getElementById("sagas-root");
+  if (!root) return;
+  const openIds = Array.prototype.map.call(
+    root.querySelectorAll("details.sg-saga[open]"),
+    function (d) { return d.getAttribute("data-saga"); }
+  );
+  const active = document.activeElement;
+  const focusSg = active && active.getAttribute ? active.getAttribute("data-sg") : null;
+  const focusWeekly = !!(active && active.hasAttribute && active.hasAttribute("data-sg-weekly"));
+  const st = sagaStats();
+  root.innerHTML = sagaHeroHTML(st) + sagaSafetyHTML() + sagaWeeklyHTML() +
+    sagaCounterHTML() + SAGAS.map(sagaHTML).join("");
+  openIds.forEach(function (id) {
+    const d = root.querySelector('details.sg-saga[data-saga="' + id + '"]');
+    if (d) d.open = true;
+  });
+  if (focusSg) {
+    const el = root.querySelector('[data-sg="' + focusSg + '"]');
+    if (el) el.focus();
+  } else if (focusWeekly) {
+    const el = root.querySelector("[data-sg-weekly]");
+    if (el) el.focus();
+  }
+  const add = document.getElementById("sg-video-add");
+  if (add) add.addEventListener("click", sagaAddVideo);
+  const undo = document.getElementById("sg-video-undo");
+  if (undo) undo.addEventListener("click", sagaUndoVideo);
+}
+
+/* Delegación de clicks: los checkboxes se re-crean en cada render */
+(function sagaBind() {
+  const root = document.getElementById("sagas-root");
+  if (!root) return;
+  root.addEventListener("click", function (e) {
+    const chk = e.target.closest(".m-check");
+    if (!chk) return;
+    if (chk.hasAttribute("data-sg-weekly")) { toggleSagaWeekly(); return; }
+    const id = chk.getAttribute("data-sg");
+    if (id) toggleSagaChapter(id);
+  });
+  root.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const chk = e.target.closest(".m-check");
+    if (!chk) return;
+    e.preventDefault();
+    chk.click();
+  });
+})();
+
+loadSagas();
+
 function resetGame() {
   localStorage.removeItem(SAVE_KEY);
+  resetSagas();
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }, capital: { done: [], eng: [], ai: [] },
@@ -5128,7 +5760,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
     const tab = btn.dataset.tab;
-    ["map", "daily", "planner", "campaign", "jobs", "vida", "capital"].forEach(t => {
+    ["map", "daily", "planner", "campaign", "jobs", "vida", "sagas", "capital"].forEach(t => {
       const v = document.getElementById("view-" + t);
       if (v) v.classList.toggle("active", tab === t);
     });
@@ -5139,6 +5771,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     if (tab === "jobs") updateEmpRank();
     if (tab === "vida") renderVidaSubActiva();
     if (tab === "capital") renderCapital();
+    if (tab === "sagas") renderSagas();
   });
 });
 
@@ -5426,6 +6059,8 @@ function vidaCompute() {
       if (o) xp[o.cat] += o.xp;
     });
   });
+  xp.kid += sagaAreaXP("kid");
+  xp.pow += sagaAreaXP("pow");
   const total = xp.eq + xp.kid + xp.cpl + xp.pow + xp.men + xp.plan + xp.orden;
   const today = todayStr(), week = isoWeekKey(todayStr());
   const dayP = dayPilars[today] || new Set();
@@ -6187,8 +6822,10 @@ const REWARDS = [
   /* 👟 Pies */
   { id: "rw_boot1", ico: "👟", sec: "🛡️ Campaña", n: "Botas del Recluta", cond: () => fullDaysCount() >= 3 },
   { id: "rw_boot2", ico: "🥾", sec: "🛡️ Campaña", n: "Botas del Explorador", cond: () => fullDaysCount() >= 15 },
-  { id: "rw_boot3", ico: "👢", sec: "🎖️ General", n: "Botas del Caminante", cond: () => jobsDoneCount() >= 5 }
-
+  { id: "rw_boot3", ico: "👢", sec: "🎖️ General", n: "Botas del Caminante", cond: () => jobsDoneCount() >= 5 },
+  /* 📹 Sagas */
+  { id: "rw_sg_video", ico: "🎬", sec: "📹 Sagas", n: "Claqueta del Director", cond: () => sagaDone("video") },
+  { id: "rw_sg_roblox", ico: "🧱", sec: "📹 Sagas", n: "Bloque del Constructor", cond: () => sagaDone("roblox") }
 ];
 
 const RW_SLOT_ORDER = ["cabeza", "hombros", "torso", "pies", "medallas"];
@@ -6201,7 +6838,8 @@ const RW_SLOT = {
   "rw_cap7": "torso", "rw_auto2": "torso", "rw_b2b1": "torso", "rw_b2b2": "torso",
   "rw_b2b3": "torso", "rw_ch2": "torso", "rw_ch4": "torso", "rw_ch5": "torso",
   "rw_ch7": "torso", "rw_first": "torso",
-  "rw_boot1": "pies", "rw_boot2": "pies", "rw_boot3": "pies"
+  "rw_boot1": "pies", "rw_boot2": "pies", "rw_boot3": "pies",
+  "rw_sg_video": "cabeza", "rw_sg_roblox": "torso"
 };
 function rwSlot(id) { return RW_SLOT[id] || "hombros"; }
 function migrateEquipped(old) {
@@ -7769,7 +8407,7 @@ function rwOpenChest2() {
 function goTab(tab) {
   document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
   document.querySelectorAll(".navb").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
-  ["map", "daily", "planner", "campaign", "jobs", "vida", "capital"].forEach(function (t) {
+  ["map", "daily", "planner", "campaign", "jobs", "vida", "sagas", "capital"].forEach(function (t) {
     const v = document.getElementById("view-" + t);
     if (v) v.classList.toggle("active", tab === t);
   });
@@ -7781,6 +8419,7 @@ function goTab(tab) {
   if (tab === "jobs") { renderJobs(); appRender(); updateEmpRank(); }
   if (tab === "vida") renderVidaSubActiva();
   if (tab === "capital") renderCapital();
+  if (tab === "sagas") renderSagas();
   if (tab === "map") renderMapStage();
   if (tab === "campaign") renderChapters();
   window.scrollTo(0, 0);
