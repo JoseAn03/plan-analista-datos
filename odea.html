@@ -9,13 +9,16 @@
   2. En la primera pantalla escribe tu nombre de recluta. El
      Día 1 de tu campaña arranca ese mismo día.
   3. Cada día = 3 MISIONES (📚 estudiar + 🛠️ practicar + 🎯
-     consolidar ≈ 2.5-3 h). Al completar un día entero SUBES DE
-     NIVEL (+1) y se desbloquea el siguiente día.
-  4. La CAMPAÑA incluye 👑 PROYECTOS FINALES por capítulo que se
-     desbloquean según tu nivel (garantizan tu nivel real).
-  4. Cada semana tiene UNA MISIÓN SEMANAL especial.
-  5. Todo se guarda automáticamente en localStorage.
-  6. Botón "Reiniciar progreso" (abajo a la izquierda) para
+     consolidar ≈ 2.5-3 h). Al completar un día entero se
+     desbloquea el siguiente día y sube tu racha.
+  4. Tu NIVEL ODEA sube con TODO el XP: campaña, diarias,
+     noticias, B2B, imperio, vida, sagas, logros, jefes,
+     enfoque y diario.
+  5. La CAMPAÑA incluye 👑 PROYECTOS FINALES por capítulo que se
+     desbloquean al completar los días indicados.
+  6. Cada semana tiene UNA MISIÓN SEMANAL especial.
+  7. Todo se guarda automáticamente en localStorage.
+  8. Botón "Reiniciar progreso" (abajo a la izquierda) para
      empezar de cero.
   ------------------------------------------------------------
   ESTRUCTURA DEL CÓDIGO:
@@ -437,7 +440,8 @@ footer b{color:var(--glow-green)}
 html{-webkit-text-size-adjust:100%}
 @media (max-width:960px){
   /* Contenido primero, panel de perfil después */
-  .layout{display:flex;flex-direction:column;gap:14px;padding:12px}
+  .layout{display:flex;flex-direction:column;gap:14px;padding:12px;align-items:stretch}
+  .main-col{width:100%;min-width:0}
   .layout > div:nth-child(2){order:1;width:100%}
   aside.stats-panel{order:2;position:static;width:100%;margin-top:2px}
 }
@@ -510,7 +514,8 @@ html{-webkit-text-size-adjust:100%}
 @media (max-width:400px){
   .days-grid{grid-template-columns:1fr 1fr;gap:6px}
   .day-card{padding:8px;min-height:100px}
-  /* ==========================================================
+}
+/* ==========================================================
    🧬 VIDA — Operación Héroe Integral (side quests)
    ========================================================== */
 .vida-hero{position:relative;overflow:hidden;background:linear-gradient(150deg,#161032,#190f33 55%,#0e0922);
@@ -674,14 +679,36 @@ html{-webkit-text-size-adjust:100%}
 .pl-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
 .pl-empty{font-size:.8rem;color:var(--tx2);padding:12px;border:1px dashed rgba(140,150,220,.3);border-radius:12px;text-align:center}
 .pl-empty b{color:#fff}
-.pl-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;
+.pl-item{display:flex;flex-direction:column;gap:0;padding:0;border-radius:12px;overflow:hidden;
   background:rgba(10,10,26,.55);border:1px solid rgba(140,150,220,.18)}
 .pl-item.done{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.06)}
+.pl-row{display:flex;align-items:center;gap:10px;padding:10px 12px}
 .pl-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pl-main{appearance:none;-webkit-appearance:none;background:none;border:0;text-align:left;color:inherit;font:inherit;
+  cursor:pointer;padding:4px 0;min-height:48px;box-sizing:border-box;justify-content:center;border-radius:8px}
+.pl-front,.pl-title,.pl-xp{flex:0 0 auto}
+.pl-title{line-height:1.3}
+.pl-main:hover .pl-title,.pl-main:focus-visible .pl-title{color:var(--glow-cyan)}
+.pl-main:focus-visible{outline:2px solid var(--glow-cyan);outline-offset:2px}
 .pl-front{font-size:.62rem;color:var(--glow-cyan);letter-spacing:.5px;text-transform:uppercase}
-.pl-title{font-size:.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-title{font-size:.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .15s}
 .pl-item.done .pl-title{color:var(--glow-green);text-decoration:line-through}
 .pl-xp{font-size:.66rem;color:var(--tx2)}
+.pl-hint{color:var(--glow-cyan);text-decoration:underline dotted;text-underline-offset:2px}
+.pl-caret{color:var(--glow-cyan);display:inline-block;transition:transform .15s}
+.pl-desc{padding:0 12px 12px;border-top:1px dashed rgba(140,150,220,.18);margin-top:2px}
+.pl-desc[hidden]{display:none}
+.pl-desc p{margin:10px 0 0;font-size:.76rem;line-height:1.5;color:var(--tx2)}
+.pl-desc p b{color:#fff}
+.pl-desc .pl-task{color:#e8ecff}
+.pl-desc .pl-verif{color:var(--glow-green)}
+.pl-desc .pl-challenge{color:var(--glow-amber)}
+.pl-desc .pl-steps{margin-top:10px;font-size:.76rem;color:var(--tx2)}
+.pl-desc .pl-steps b{color:#fff}
+.pl-desc .pl-steps ol{margin:6px 0 0 18px;padding:0}
+.pl-desc .pl-steps li{margin:3px 0;line-height:1.45}
+.pl-desc .pl-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pl-desc .pl-meta .tag{font-size:.6rem;padding:3px 8px;border:1px solid rgba(140,150,220,.25);border-radius:99px;color:var(--tx2)}
 .pl-actions{display:flex;gap:5px;flex-shrink:0}
 .pl-btn{cursor:pointer;width:30px;height:30px;border-radius:8px;border:1px solid rgba(140,150,220,.25);
   background:rgba(10,10,26,.6);color:var(--tx2);font-size:.8rem;transition:.15s}
@@ -804,12 +831,82 @@ html{-webkit-text-size-adjust:100%}
 @keyframes badgeBlink{0%,100%{opacity:1}50%{opacity:.6}}
 /* --- Arsenal modal --- */
 #rw-layer{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
-  background:rgba(5,3,10,.82);backdrop-filter:blur(4px);padding:14px;overflow-y:auto}
+  background:rgba(5,3,10,.92);padding:14px;overflow-y:auto}
 #rw-layer.show{display:flex}
 .rw-modal{background:linear-gradient(165deg,#1c1730,#12101f);border:1px solid rgba(255,215,0,.35);border-radius:18px;
   max-width:680px;width:100%;padding:26px 22px;position:relative;box-shadow:0 0 60px rgba(255,170,0,.15);animation:fadeSlide .3s ease}
 .rw-modal h2{font-family:'Orbitron',sans-serif;color:#ffd700;text-align:center;letter-spacing:2px;font-size:1.25rem;text-shadow:0 0 18px rgba(255,215,0,.4)}
 .rw-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px}
+.rw-tabs{display:flex;gap:8px;justify-content:center;margin:10px 0 14px}
+.rw-tab{cursor:pointer;padding:8px 16px;border-radius:99px;border:1px solid rgba(160,160,192,.28);
+  background:rgba(26,26,46,.65);color:var(--tx2);font-family:'Orbitron',sans-serif;font-size:.7rem;
+  letter-spacing:1.5px;transition:.2s}
+.rw-tab:hover{color:#fff;border-color:var(--glow-cyan)}
+.rw-tab.active{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a0d00;border-color:transparent;font-weight:800;
+  box-shadow:0 0 16px rgba(255,200,0,.35)}
+.rw-profile{max-height:58vh;overflow-y:auto;padding:2px 4px 6px;display:flex;flex-direction:column;gap:10px}
+.pf-hero{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(0,204,255,.06) 60%,rgba(255,0,255,.06));
+  border:1px solid rgba(255,215,0,.3)}
+.pf-lvl{flex:0 0 auto;width:78px;height:78px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle,rgba(255,215,0,.22),rgba(10,10,26,.8) 70%);border:2px solid #ffd700;
+  box-shadow:0 0 20px rgba(255,215,0,.35)}
+.pf-lvl-n{font-family:'Orbitron',sans-serif;font-size:1.65rem;font-weight:900;color:#ffd700;line-height:1}
+.pf-lvl-l{font-size:.48rem;letter-spacing:1.5px;color:var(--tx2);margin-top:3px}
+.pf-hero-main{flex:1;min-width:0}
+.pf-name{font-family:'Orbitron',sans-serif;font-size:.9rem;color:#fff;font-weight:800;letter-spacing:.5px}
+.pf-rank{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--glow-cyan);display:block;margin-top:2px}
+.pf-xp{font-size:.68rem;color:var(--tx2);margin-top:5px}
+.pf-xp b{color:#ffd700;font-size:.82rem}
+.pf-bar{height:7px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.pf-bar>span{display:block;height:100%;border-radius:99px;transition:width .25s}
+.pf-hero .pf-bar{height:9px;margin-top:6px;background:rgba(10,10,26,.7);border:1px solid rgba(255,215,0,.2)}
+.pf-hero .bar{height:9px;margin-top:6px;background:rgba(10,10,26,.7);border-radius:99px;overflow:hidden;border:1px solid rgba(255,215,0,.2)}
+.pf-hero .bar>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ffaa00,#ffd700);box-shadow:0 0 10px rgba(255,215,0,.5)}
+.pf-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pf-chip{font-size:.6rem;padding:3px 8px;border-radius:99px;background:rgba(10,10,26,.55);border:1px solid rgba(140,150,220,.2);color:var(--tx2)}
+.pf-chip b{color:#fff}
+.pf-sec-title{font-family:'Orbitron',sans-serif;font-size:.66rem;letter-spacing:1.2px;color:var(--glow-amber);
+  text-transform:uppercase;margin:4px 0 -2px;display:flex;align-items:center;gap:6px}
+.pf-sec-title small{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--tx2);letter-spacing:.5px;text-transform:none}
+.pf-xp-list{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border-radius:12px;background:rgba(10,10,26,.45);border:1px solid rgba(140,150,220,.14)}
+.pf-xp-row{display:grid;grid-template-columns:86px 1fr 64px;align-items:center;gap:8px;font-size:.66rem;color:var(--tx2)}
+.pf-xp-row b{color:#fff;font-weight:600}
+.pf-xp-row .pf-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.pf-xp-row .pf-bar>span{display:block;height:100%;border-radius:99px}
+.pf-xp-row .pf-val{text-align:right;font-family:'Share Tech Mono',monospace;color:#dfe6ff}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pf-front{padding:10px;border-radius:12px;background:rgba(10,10,26,.5);border:1px solid rgba(140,150,220,.16);
+  cursor:pointer;transition:.15s;text-align:left}
+.pf-front:hover{border-color:var(--glow-cyan);transform:translateY(-1px)}
+.pf-front-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.pf-front-name{font-size:.7rem;color:#fff;font-weight:700}
+.pf-front-count{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--glow-green)}
+.pf-front-sub{font-size:.58rem;color:var(--tx2);margin-top:3px;display:flex;justify-content:space-between;gap:6px}
+.pf-front .pf-bar{height:5px;margin-top:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.pf-front .pf-bar>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#00ccff,#00ff88)}
+.pf-domains{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border-radius:12px;background:rgba(10,10,26,.45);border:1px solid rgba(140,150,220,.14)}
+.pf-dom-row{display:grid;grid-template-columns:108px 1fr 74px;align-items:center;gap:8px;font-size:.65rem;color:var(--tx2)}
+.pf-dom-row .pf-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.pf-dom-row .pf-bar>span{display:block;height:100%;border-radius:99px}
+.pf-dom-row .pf-val{text-align:right;font-family:'Share Tech Mono',monospace;color:#dfe6ff}
+.pf-ranks{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.pf-rank-card{padding:9px 10px;border-radius:11px;background:rgba(10,10,26,.5);border:1px solid rgba(140,150,220,.14)}
+.pf-rank-card b{display:block;font-size:.68rem;color:#fff}
+.pf-rank-card small{display:block;font-size:.56rem;color:var(--tx2);margin-top:2px}
+.pf-rank-card .pf-bar{margin-top:6px}
+.pf-note{font-size:.64rem;line-height:1.5;color:var(--tx2);padding:10px 12px;border-radius:11px;
+  background:rgba(0,204,255,.05);border:1px solid rgba(0,204,255,.22)}
+.pf-note b{color:#fff}
+@media(max-width:520px){
+  .rw-profile{max-height:56vh}
+  .pf-hero{gap:10px;padding:11px}
+  .pf-lvl{width:64px;height:64px}
+  .pf-lvl-n{font-size:1.35rem}
+  .pf-xp-row{grid-template-columns:72px 1fr 56px}
+  .pf-dom-row{grid-template-columns:88px 1fr 64px}
+  .pf-grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+}
 .rw-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
 .rw-stats .bal-pill{font-size:.75rem}
 .chest-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px;
@@ -1239,7 +1336,6 @@ html{-webkit-text-size-adjust:100%}
 .kid-chips{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
 
 .chip-grid .mc-lab{font-size:.55rem}
-}
 
 /* ==========================================================
    🗺️ V5.4 — PSEUDO-3D (diorama): perspectiva + terreno
@@ -1733,6 +1829,12 @@ header{padding:10px 14px}
   .streak-chip{padding:4px 9px;font-size:.78rem}
   .level-badge{padding:3px 9px;font-size:.82rem}
 }
+@media (max-width:420px){
+  .hud{gap:5px}
+  .streak-chip{padding:2px 5px;font-size:.66rem}
+  #streak-mult{font-size:.6rem}
+  .level-badge{padding:2px 5px;font-size:.66rem}
+}
 
 /* ==========================================================
    ⚡ V5.16 — RENDIMIENTO (sin bajones en movil)
@@ -2133,7 +2235,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.64</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.65</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2200,7 +2302,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </div>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.64</span>
+    <span class="ver" id="ver-badge">v5.65</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2386,7 +2488,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.64</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.65</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -2407,15 +2509,22 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <h2 id="rw-title">🎒 INVENTARIO</h2>
       <button class="close-x" id="rw-close" aria-label="Cerrar inventario">✕</button>
     </div>
-    <p class="rw-sub">Tus recompensas. Toca una para equiparla: se verá sobre tu personaje.</p>
-    <div class="rw-stats">
-      <span class="bal-pill" id="rw-count">🏅 0/30 desbloqueados</span>
-      <span class="bal-pill">🎒 <b id="rw-queue-n">0</b> en cofre</span>
+    <div class="rw-tabs" id="rw-tabs" role="tablist" aria-label="Secciones del inventario">
+      <button class="rw-tab active" type="button" data-rwt="profile" role="tab" aria-selected="true">🧬 PERFIL</button>
+      <button class="rw-tab" type="button" data-rwt="arsenal" role="tab" aria-selected="false">🎒 ARSENAL</button>
     </div>
-    <div class="inv-char" id="inv-char"></div>
-    <div id="rw-chest-wrap"></div>
-    <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos.</p></div>
-    <button class="btn-neon rw-back" id="rw-close2" aria-label="Volver al mapa">◀ VOLVER AL MAPA</button>
+    <div id="rw-profile" class="rw-profile" role="tabpanel" aria-label="Perfil y estadísticas"></div>
+    <div id="rw-arsenal-panel" role="tabpanel" aria-label="Arsenal" hidden>
+      <p class="rw-sub" id="rw-sub">Tus recompensas. Toca una para equiparla: se verá sobre tu personaje.</p>
+      <div class="rw-stats">
+        <span class="bal-pill" id="rw-count">🏅 0/30 desbloqueados</span>
+        <span class="bal-pill">🎒 <b id="rw-queue-n">0</b> en cofre</span>
+      </div>
+      <div class="inv-char" id="inv-char"></div>
+      <div id="rw-chest-wrap"></div>
+      <div id="rw-grid-wrap"><div class="rw-grid" id="rw-grid"></div><p class="rw-locked-note">Los ❓ se revelan cuando logres sus hitos.</p></div>
+    </div>
+    <button class="btn-neon rw-back" id="rw-close2" aria-label="Cerrar inventario">◀ CERRAR</button>
   </div>
 </div>
 
@@ -2530,6 +2639,23 @@ const LEVELS = [
   { xp: 15000, name: "Analista Legendario" },
   { xp: 20000, name: "Dios de los Datos" }
 ];
+/* 🧬 Nivel ODEA (v5.65): una sola escalera para TODO el XP.
+   Cada rango de LEVELS se divide en 7 niveles (igual que levelName),
+   así el nivel global responde a cualquier frente, no solo a los días.
+   Después del último subnivel, +1 nivel cada 3.000 XP. */
+const ODE_LADDER = (function () {
+  const out = [];
+  for (let i = 0; i < LEVELS.length; i++) {
+    const start = LEVELS[i].xp;
+    const end = LEVELS[i + 1] ? LEVELS[i + 1].xp : start + 5000;
+    for (let s = 0; s < 7; s++) out.push({ xp: Math.round(start + (end - start) * (s / 7)), rank: i });
+  }
+  const lastXp = out[out.length - 1].xp;
+  for (let xp = Math.ceil((lastXp + 1) / 3000) * 3000; xp <= 300000; xp += 3000) {
+    out.push({ xp: xp, rank: LEVELS.length - 1 });
+  }
+  return out;
+})();
 
 const CHAPTERS = [
   { id:0, code:"DÍA 0", title:"⚙️ Preparación del Sistema", subtitle:"Arranque limpio y medible", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de que arranque el conteo de 56 días." },
@@ -3461,13 +3587,31 @@ function ladderInfo(ladder, xp) {
     need: nxt ? nxt.xp - xp : 0
   };
 }
+/* Nivel global ODEA: suma TODO el XP del ecosistema. */
+function odeInfo(xp) {
+  xp = Math.max(0, Number(xp) || 0);
+  let lvl = 1;
+  for (let i = 0; i < ODE_LADDER.length; i++) if (xp >= ODE_LADDER[i].xp) lvl = i + 1;
+  const cur = ODE_LADDER[lvl - 1], nxt = ODE_LADDER[lvl] || null;
+  return {
+    lvl: lvl,
+    name: levelName(lvl),
+    pct: nxt ? Math.min(100, Math.round(((xp - cur.xp) / (nxt.xp - cur.xp)) * 100)) : 100,
+    need: nxt ? nxt.xp - xp : 0,
+    nextXp: nxt ? nxt.xp : null,
+    curXp: cur.xp,
+    xp: xp
+  };
+}
+function odeLevelNow() { return (gameState && gameState.odeLevel) || odeInfo(gameState ? gameState.totalXP : 0).lvl; }
+function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); }
 
 /* ==========================================================
    D) JS / ESTADO, FECHAS Y CÁLCULOS
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.64"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.65"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3544,7 +3688,8 @@ let gameState = {
   reto: { date: null, id: null, done: false }, // 🎲 reto del día
   rewards: { unlocked: [], queue: [], equipped: {} }, // 🎒 arsenal del héroe
   planner: { items: [] }, // 🗓️ plan personal (refs {f, id} ordenadas)
-  diary: { date: null, text: "" }, // 📓 diario de una línea (1/día)
+  diary: { date: null, text: "", log: [] }, // 📓 diario de una línea (1/día, XP acumulada)
+  activity: {}, // 🏃 misiones completadas por día (racha de cualquier frente)
   freezers: 0,                     // 🧊 congeladores de racha (máx 2)
   applications: [],                // 📡 fuentes que sigo
   focus: { log: [], date: null }   // 🍅 sesiones de enfoque (pomodoro)
@@ -3564,7 +3709,7 @@ function diffDays(fromStr, toStr) {
 
 /* --- Día desbloqueado hoy: 1..56 --- */
 function unlockedDay() {
-  return Math.min(fullDaysCount() + 1, DAILY_TOTAL); // desbloqueo por nivel
+  return Math.min(fullDaysCount() + 1, DAILY_TOTAL); // desbloqueo por días completos (no por XP)
 }
 function currentWeek() { return Math.ceil(unlockedDay() / 7); }
 function weekAvailable() {
@@ -3648,7 +3793,32 @@ function loadGame() {
       }) : []
     };
     const di2 = data.diary || {};
-    gameState.diary = { date: (typeof di2.date === "string") ? di2.date : null, text: (typeof di2.text === "string") ? di2.text : "" };
+    const diaryLog = Array.isArray(di2.log) ? di2.log.filter(function (e) {
+      return e && typeof e.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.date);
+    }).map(function (e) { return { date: e.date, xp: Math.max(0, Number(e.xp) || 15) }; }) : [];
+    const diaryDate = (typeof di2.date === "string") ? di2.date : null;
+    const diaryText = (typeof di2.text === "string") ? di2.text : "";
+    /* Migración aditiva: el diario viejo guardaba solo el día actual.
+       Lo pasamos al historial para que su XP no se pierda al cambiar de día. */
+    if (diaryDate && diaryText.trim() && !diaryLog.some(function (e) { return e.date === diaryDate; })) {
+      diaryLog.push({ date: diaryDate, xp: 15 });
+    }
+    gameState.diary = { date: diaryDate, text: diaryText, log: diaryLog };
+    const ac0 = (data.activity && typeof data.activity === "object") ? data.activity : {};
+    const ac1 = {};
+    Object.keys(ac0).forEach(function (k) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(k)) return;
+      const v = ac0[k] || {};
+      const n = Math.max(0, Math.min(500, Number(v.n) || 0));
+      const by = {};
+      if (v.by && typeof v.by === "object") Object.keys(v.by).slice(0, 12).forEach(function (f) {
+        by[f] = Math.max(0, Math.min(500, Number(v.by[f]) || 0));
+      });
+      if (n > 0) ac1[k] = { n: n, by: by };
+    });
+    const acKeys = Object.keys(ac1).sort();
+    gameState.activity = {};
+    acKeys.slice(-400).forEach(function (k) { gameState.activity[k] = ac1[k]; });
     gameState.freezers = (typeof data.freezers === "number" && data.freezers >= 0) ? Math.min(2, data.freezers) : 0;
     gameState.applications = Array.isArray(data.applications) ? data.applications : [];
     const fc2 = data.focus || {};
@@ -3994,16 +4164,21 @@ function toggleSagaChapter(id) {
     if (c) { saga = SAGAS[i]; cap = c; break; }
   }
   if (!cap) return;
+  const beforeOde = odeLevelNow();
   const was = !!sagaState.chapters[id];
   if (was) delete sagaState.chapters[id];
   else sagaState.chapters[id] = true;
   saveSagas();
+  activityAdd("sagas", was ? -1 : 1);
   recomputeState();
+  activityMaybeStreak();
   const achFresh = checkAchievements();
   if (achFresh) { saveGame(); recomputeState(); }
+  saveGame();
   updateUI();
   renderSagas();
   evalRewards();
+  celebrateIfLevelUp(beforeOde);
   if (!was) {
     toast("✅", "Capítulo " + cap.n + " completado", "+" + cap.xp + " XP · " + cap.title, "ach");
     try { playSfx("coin"); } catch (e) {}
@@ -4021,10 +4196,13 @@ function toggleSagaChapter(id) {
 
 function toggleSagaWeekly() {
   const wk = isoWeekKey(todayStr());
+  const beforeOde = odeLevelNow();
   if (sagaWeeklyDone()) {
     sagaState.weekly = { week: wk, done: false };
     saveSagas();
+    activityAdd("sagas", -1);
     recomputeState();
+    saveGame();
     updateUI();
     renderSagas();
     toast("↩️", "Misión semanal desmarcada", "El XP se retira; la racha ya ganada no se puede deshacer.");
@@ -4032,14 +4210,17 @@ function toggleSagaWeekly() {
   }
   sagaState.weekly = { week: wk, done: true };
   saveSagas();
-  updateStreak();   // mantiene la racha (misma lógica de escudo/congelador)
+  activityAdd("sagas", 1);
+  updateStreak();   // el video semanal mantiene la racha (misma lógica de escudo/congelador)
   saveGame();       // updateStreak cambia lastDailyDate/streak: hay que persistirlo
   recomputeState();
+  activityMaybeStreak();
   const achFresh = checkAchievements();
   if (achFresh) { saveGame(); recomputeState(); }
   updateUI();
   renderSagas();
   evalRewards();
+  celebrateIfLevelUp(beforeOde);
   toast("🎥", "¡Video de la semana!", "+" + SAGA_WEEKLY_XP + " XP · racha mantenida.");
 }
 
@@ -4229,7 +4410,7 @@ function resetGame() {
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: {} },
     planner: { items: [] },
-    diary: { date: null, text: "" }, freezers: 0, applications: [], focus: { log: [], date: null }
+    diary: { date: null, text: "", log: [] }, activity: {}, freezers: 0, applications: [], focus: { log: [], date: null }
   };
   selectedDay = 1;
   renderAll();
@@ -4286,7 +4467,48 @@ function focusTotalXP() {
 /* --- 📓 Diario de una línea --- */
 function diaryXPGain() {
   const d = gameState.diary || {};
-  return (d.date === todayStr() && d.text && String(d.text).trim()) ? 15 : 0;
+  /* v5.65: el XP del diario ya no se pierde al cambiar de día.
+     Se guarda un historial {date, xp} y se suma como cualquier otra fuente. */
+  return (d.log || []).reduce(function (s, e) { return s + (Number(e.xp) || 0); }, 0);
+}
+/* --- 🏆 XP de jefes derrotados (antes solo se mostraba en el toast) --- */
+function bossXPSum() {
+  const g = gameState.gods || {};
+  let total = 0;
+  [GOD_BOSSES, TITAN_BOSSES, VIDA_BOSSES].forEach(function (list) {
+    (list || []).forEach(function (b) { if (g[b.id]) total += (b.xp || 0); });
+  });
+  return total;
+}
+/* --- 🏃 Actividad diaria: cualquier misión de cualquier frente --- */
+const STREAK_MIN_MISSIONS = 5;
+function activityToday() {
+  const a = (gameState.activity || {})[todayStr()];
+  return a ? (Number(a.n) || 0) : 0;
+}
+function activityAdd(front, delta) {
+  const d = Math.round(Number(delta) || 0);
+  if (!d) return activityToday();
+  const td = todayStr();
+  const all = gameState.activity = gameState.activity || {};
+  const day = all[td] = all[td] || { n: 0, by: {} };
+  day.n = Math.max(0, (Number(day.n) || 0) + d);
+  day.by = day.by || {};
+  day.by[front] = Math.max(0, (Number(day.by[front]) || 0) + d);
+  if (day.n === 0) delete all[td];
+  const keys = Object.keys(all).sort();
+  if (keys.length > 400) keys.slice(0, keys.length - 400).forEach(function (k) { delete all[k]; });
+  return day.n;
+}
+function activityMaybeStreak() {
+  if (activityToday() < STREAK_MIN_MISSIONS) return false;
+  if (gameState.lastDailyDate === todayStr()) return false;
+  const before = gameState.streak || 0;
+  updateStreak();
+  if ((gameState.streak || 0) > before) {
+    setTimeout(function () { toast("🔥", "RACHA +1", "Completaste " + STREAK_MIN_MISSIONS + "+ misiones hoy en cualquier frente. Racha: " + gameState.streak + " días."); }, 600);
+  }
+  return true;
 }
 /* --- 🧊 Congelador de racha --- */
 function shopBuyFreezer() {
@@ -4346,9 +4568,14 @@ function recomputeState() {
   const capital = capCompute().xp;
   const focus = focusTotalXP();
   const diary = diaryXPGain();
-  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary };
-  gameState.totalXP = career + ach + vida + capital + focus + diary;
-  gameState.level = Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1); // 1 día completo = +1 nivel
+  const bosses = bossXPSum();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses };
+  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses;
+  /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
+  gameState.campaignLevel = campaignLevel();
+  gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
+  /* Nivel ODEA: sube con TODO el XP (campaña, diarias, noticias, B2B, imperio, vida, sagas, logros, jefes, enfoque y diario). */
+  gameState.odeLevel = odeInfo(gameState.totalXP).lvl;
   gameState.stats = { domains: domainLevels() };
 }
 
@@ -4500,7 +4727,7 @@ const PHRASES = [
   "Tu futuro yo te agradece cada día completo.",
   "No necesitas motivación: necesitas el primer clic.",
   "La constancia vence al talento cuando el talento no es constante.",
-  "Cierra el día con 3 palomitas y el nivel sube solo."
+  "Cierra el día con 3 palomitas y desbloqueás el siguiente día."
 ];
 const SLOT_META = {
   A: { label: "📚 Estudiar",  col: "#00ccff", glow: "rgba(0,204,255,.45)" },
@@ -4774,18 +5001,57 @@ function plannerCatalog() {
 }
 function plannerInfo(f, id, vsCache) {
   let m;
-  if (f === "daily") { m = dailyMissions.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedDaily.includes(id) } : null; }
-  if (f === "campaign") { m = campaignAll.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedMissions.includes(id) } : null; }
-  if (f === "weekly") { m = weeklyMissions.find(function (x) { return x.week === Number(id); }); return m ? { title: m.title, xp: m.xp, done: gameState.completedWeekly.includes(Number(id)) } : null; }
-  if (f === "jobs") { m = employmentMissions.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: gameState.completedJobs.includes(id) } : null; }
-  if (f === "b2b") { m = B2B_MISSIONS.find(function (x) { return x.id === id; }); return m ? { title: m.title, xp: m.xp, done: (gameState.completedB2b || []).includes(id) } : null; }
+  if (f === "daily") {
+    m = dailyMissions.find(function (x) { return x.id === id; });
+    return m ? {
+      title: m.title, xp: m.xp, done: gameState.completedDaily.includes(id),
+      desc: m.description, verif: m.verification,
+      meta: ["🗓️ Día " + m.day + " · " + m.slot, "⏱️ " + m.time + " min", "📚 " + (CAT[m.category] ? CAT[m.category].label : m.category)]
+    } : null;
+  }
+  if (f === "campaign") {
+    m = campaignAll.find(function (x) { return x.id === id; });
+    return m ? {
+      title: m.title, xp: m.xp, done: gameState.completedMissions.includes(id),
+      desc: m.description, verif: m.verification,
+      meta: ["📖 Capítulo " + m.chapter, "⏱️ " + m.estimatedTime, "📚 " + (CAT[m.category] ? CAT[m.category].label : m.category)]
+    } : null;
+  }
+  if (f === "weekly") {
+    m = weeklyMissions.find(function (x) { return x.week === Number(id); });
+    return m ? {
+      title: m.title, xp: m.xp, done: gameState.completedWeekly.includes(Number(id)),
+      desc: m.description, verif: m.verification,
+      meta: ["📯 Semana " + m.week, "⏱️ " + fmtMins(m.time)]
+    } : null;
+  }
+  if (f === "jobs") {
+    m = employmentMissions.find(function (x) { return x.id === id; });
+    return m ? {
+      title: m.title, xp: m.xp, done: gameState.completedJobs.includes(id),
+      desc: m.description, verif: m.verification,
+      meta: ["📡 " + (JOBS_TAGS[m.tag] || m.tag), "🔔 Bloque " + m.blk]
+    } : null;
+  }
+  if (f === "b2b") {
+    m = B2B_MISSIONS.find(function (x) { return x.id === id; });
+    return m ? {
+      title: m.title, xp: m.xp, done: (gameState.completedB2b || []).includes(id),
+      desc: m.description, verif: m.verification,
+      meta: ["💸 Fase " + m.chapter, "⏱️ " + m.estimatedTime]
+    } : null;
+  }
   if (f === "cap" || f === "eng" || f === "ai") {
     const fr = CAP_FRONTS.find(function (x) { return x.k === f; });
     if (!fr) return null;
     m = fr.missions.find(function (x) { return x.id === id; });
     if (!m) return null;
     const done = (gameState.capital[fr.store] || []).includes(id);
-    return { title: m.t, xp: m.xp, done: done };
+    return {
+      title: m.t, xp: m.xp, done: done,
+      desc: m.d, verif: m.v,
+      meta: [fr.ico + " " + fr.n, "🌍 Mundo " + m.cap, "⏱️ " + fmtMins(m.time)]
+    };
   }
   if (f === "vida") {
     const o = VIDA_OBJ[id];
@@ -4793,19 +5059,36 @@ function plannerInfo(f, id, vsCache) {
     if (!o || !src) return null;
     /* vsCache: el panel evalúa muchas misiones seguidas; se calcula una vez */
     const vs = vsCache || vidaCompute();
-    return { title: src.t, xp: o.xp, done: vidaIsDone(vs, { id: id }) };
+    const zone = { eq: "⚖️ Equilibrio", kid: "👶 Legado", cpl: "💑 Alianza", pow: "🦁 Poder & Imagen", men: "🏛️ Sabios", plan: "🎢 Planes", orden: "🧹 Orden" };
+    return {
+      title: src.t, xp: o.xp, done: vidaIsDone(vs, { id: id }),
+      desc: src.d, verif: src.v || "",
+      meta: [zone[o.cat] || "🧬 Vida", src.time ? "⏱️ " + src.time : "", o.kind === "daily" ? "🔁 Se repite hoy" : o.kind === "weekly" ? "📅 Semanal" : "🏁 Una vez"]
+    };
   }
   if (f === "sagas") {
     if (id === "sg-weekly") {
-      return { title: "Grabar 1 video corto con mi hijo", xp: SAGA_WEEKLY_XP, done: sagaWeeklyDone() };
+      return {
+        title: "Grabar 1 video corto con mi hijo", xp: SAGA_WEEKLY_XP, done: sagaWeeklyDone(),
+        desc: "Grabar y publicar un video corto con tu hijo esta semana. Vale como misión semanal, mantiene la racha y suma XP a Legado y Poder.",
+        verif: "Video corto grabado y publicado (o guardado) esta semana",
+        meta: ["📹 Saga semanal", "🔁 Se renueva cada semana"]
+      };
     }
-    let cap = null;
+    let cap = null, saga = null;
     SAGAS.forEach(function (s) {
       if (cap) return;
       const c = s.chapters.filter(function (x) { return x.id === id; })[0];
-      if (c) cap = c;
+      if (c) { cap = c; saga = s; }
     });
-    return cap ? { title: cap.title, xp: cap.xp, done: sagaChapterDone(id) } : null;
+    return cap ? {
+      title: cap.title, xp: cap.xp, done: sagaChapterDone(id),
+      desc: cap.objective, verif: cap.record || "",
+      teach: cap.teach || "",
+      steps: Array.isArray(cap.steps) ? cap.steps : [],
+      challenge: cap.challenge || "",
+      meta: ["📹 " + saga.title, "Capítulo " + cap.n]
+    } : null;
   }
   return null;
 }
@@ -4846,18 +5129,32 @@ function renderPlanner() {
       const info = plannerInfo(it.f, it.id, it.f === "vida" ? (_vsPl || (_vsPl = vidaCompute())) : null);
       if (!info) return;
       const fr = PLANNER_FRONTS.find(function (x) { return x.f === it.f; });
+      let desc = "";
+      if (info.desc) desc += '<p class="pl-task"><b>Qué hacer:</b> ' + escapeHtml(info.desc) + '</p>';
+      if (info.teach) desc += '<p class="pl-teach"><b>💡 Por qué:</b> ' + escapeHtml(info.teach) + '</p>';
+      if (info.steps && info.steps.length) {
+        desc += '<div class="pl-steps"><b>Paso a paso:</b><ol>' + info.steps.map(function (s) { return '<li>' + escapeHtml(s) + '</li>'; }).join("") + '</ol></div>';
+      }
+      if (info.challenge) desc += '<p class="pl-challenge"><b>🎯 Reto:</b> ' + escapeHtml(info.challenge) + '</p>';
+      if (info.verif) desc += '<p class="pl-verif"><b>✔ Cómo saber que está hecha:</b> ' + escapeHtml(info.verif) + '</p>';
+      const metas = (info.meta || []).filter(Boolean);
+      if (metas.length) desc += '<div class="pl-meta">' + metas.map(function (t) { return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join("") + '</div>';
+      if (!desc) desc = '<p class="pl-task">Esta misión no tiene una descripción extra.</p>';
       listHTML += '<div class="pl-item' + (info.done ? " done" : "") + '">' +
-        '<div class="pl-body">' +
-          '<span class="pl-front">' + (fr ? fr.ico + " " + fr.n : it.f) + '</span>' +
-          '<span class="pl-title">' + (info.done ? "✓ " : "") + escapeHtml(info.title) + '</span>' +
-          '<span class="pl-xp">+' + info.xp + ' XP</span>' +
+        '<div class="pl-row">' +
+          '<button type="button" class="pl-body pl-main" data-pl-expand="' + i + '" aria-expanded="false" aria-controls="pl-desc-' + i + '">' +
+            '<span class="pl-front">' + (fr ? fr.ico + " " + fr.n : it.f) + '</span>' +
+            '<span class="pl-title">' + (info.done ? "✓ " : "") + escapeHtml(info.title) + '</span>' +
+            '<span class="pl-xp">+' + info.xp + ' XP · <span class="pl-hint">ver qué hacer</span> <span class="pl-caret" aria-hidden="true">▾</span></span>' +
+          '</button>' +
+          '<div class="pl-actions">' +
+            '<button class="pl-btn" data-pl-up="' + i + '" aria-label="Subir misión">▲</button>' +
+            '<button class="pl-btn" data-pl-down="' + i + '" aria-label="Bajar misión">▼</button>' +
+            '<button class="pl-btn do" data-pl-toggle="' + i + '" aria-label="' + (info.done ? "Deshacer misión" : "Completar misión") + '">' + (info.done ? "↩" : "✓") + '</button>' +
+            '<button class="pl-btn rm" data-pl-rm="' + i + '" aria-label="Quitar misión del plan">✕</button>' +
+          '</div>' +
         '</div>' +
-        '<div class="pl-actions">' +
-          '<button class="pl-btn" data-pl-up="' + i + '" aria-label="Subir misión">▲</button>' +
-          '<button class="pl-btn" data-pl-down="' + i + '" aria-label="Bajar misión">▼</button>' +
-          '<button class="pl-btn do" data-pl-toggle="' + i + '" aria-label="' + (info.done ? "Deshacer misión" : "Completar misión") + '">' + (info.done ? "↩" : "✓") + '</button>' +
-          '<button class="pl-btn rm" data-pl-rm="' + i + '" aria-label="Quitar misión del plan">✕</button>' +
-        '</div>' +
+        '<div class="pl-desc" id="pl-desc-' + i + '" hidden>' + desc + '</div>' +
       '</div>';
     });
   }
@@ -4970,7 +5267,22 @@ function plannerExportIcs() {
 (function () {
   const wrap = document.getElementById("planner-wrap");
   if (wrap) wrap.addEventListener("click", function (e) {
-    let b = e.target.closest("[data-pl-up]");
+    let b = e.target.closest("[data-pl-expand]");
+    if (b) {
+      const i = b.getAttribute("data-pl-expand");
+      const panel = document.getElementById("pl-desc-" + i);
+      if (panel) {
+        const open = panel.hasAttribute("hidden");
+        if (open) panel.removeAttribute("hidden"); else panel.setAttribute("hidden", "");
+        b.setAttribute("aria-expanded", open ? "true" : "false");
+        const caret = b.querySelector(".pl-caret");
+        if (caret) caret.textContent = open ? "▴" : "▾";
+        const hint = b.querySelector(".pl-hint");
+        if (hint) hint.textContent = open ? "ocultar" : "ver qué hacer";
+      }
+      return;
+    }
+    b = e.target.closest("[data-pl-up]");
     if (b) { plannerMove(Number(b.dataset.plUp), -1); return; }
     b = e.target.closest("[data-pl-down]");
     if (b) { plannerMove(Number(b.dataset.plDown), 1); return; }
@@ -5020,7 +5332,8 @@ const APP_STATUSES = {
 function renderDiary() {
   const el = document.getElementById("diary-card");
   if (!el) return;
-  const d = gameState.diary || (gameState.diary = { date: null, text: "" });
+  const d = gameState.diary || (gameState.diary = { date: null, text: "", log: [] });
+  if (!Array.isArray(d.log)) d.log = [];
   const done = d.date === todayStr() && d.text && String(d.text).trim();
   el.innerHTML =
     '<div class="diary-card-inner">' +
@@ -5035,10 +5348,16 @@ function renderDiary() {
   if (sv) sv.addEventListener("click", function () {
     const t = document.getElementById("diary-input").value.trim();
     if (!t) { toast("✍️", "Escribe algo", "Aunque sea una línea."); return; }
-    gameState.diary = { date: todayStr(), text: t };
+    const beforeOde = odeLevelNow();
+    const td = todayStr();
+    const log = d.log = Array.isArray(d.log) ? d.log : [];
+    const prev = log.find(function (e) { return e.date === td; });
+    if (prev) prev.xp = 15; else log.push({ date: td, xp: 15 });
+    gameState.diary = { date: td, text: t, log: log };
     ODEA.bus.emit("diary.written", { xp: 15 });
     saveGame(); recomputeState(); updateUI(); renderDiary();
-    toast("📓", "Diario guardado", "+15 XP para tu dominio Cuerpo.");
+    celebrateIfLevelUp(beforeOde);
+    toast("📓", "Diario guardado", "+15 XP para tu dominio Cuerpo. Ya queda en tu historial.");
   });
   const ed = document.getElementById("diary-edit");
   if (ed) ed.addEventListener("click", function () { gameState.diary.text = ""; renderDiary(); });
@@ -5097,6 +5416,7 @@ function focusComplete(quiet) {
       focusRemaining = 25 * 60; focusPersist(); renderFocus(); return;
     }
     const xp = 25;
+    const beforeOde = odeLevelNow();
     const f = gameState.focus = gameState.focus || { log: [], date: null };
     f.log = Array.isArray(f.log) ? f.log : [];
     f.log.push({ d: focusDomain, xp: xp, date: todayStr(), t: Date.now() });
@@ -5104,6 +5424,7 @@ function focusComplete(quiet) {
     if (!quiet) { playSfx("fanfare"); confetti(window.innerWidth / 2, window.innerHeight * 0.3, 60); }
     toast("🍅", "¡Sesión de enfoque completada!", "+" + xp + " XP para tu dominio " + focusDomain + ".");
     saveGame(); recomputeState(); updateUI();
+    celebrateIfLevelUp(beforeOde);
     focusMode = "break"; focusRemaining = 5 * 60;
   } else {
     focusMode = "focus"; focusRemaining = 25 * 60;
@@ -5305,7 +5626,7 @@ function campaignCard(m, isDone) {
 }
 function bossCard(b, isDone) {
   const cat = CAT[b.category];
-  const locked = !isDone && gameState.level < bossMinLevel(b.chapter);
+  const locked = !isDone && campaignLevel() < bossMinLevel(b.chapter);
   const need = bossMinLevel(b.chapter);
   return '<div class="mission boss' + (isDone ? " done" : "") + (locked ? " locked" : "") + '" data-id="' + b.id + '">' +
     '<div class="m-check' + (locked ? " locked" : "") + '" role="checkbox" tabindex="0" aria-checked="' + isDone + '">' + (locked ? "🔒" : "") + '</div>' +
@@ -5315,7 +5636,7 @@ function bossCard(b, isDone) {
       '<div class="m-verif">' + escapeHtml(b.verification) + '</div>' +
       '<div class="m-tags">' + catTag(b.category) + xpTag(b.xp) + timeTag(parseHours(b.estimatedTime).min * 60) +
         (locked
-          ? '<span class="tag time" style="color:var(--glow-amber);border-color:rgba(255,170,0,.55)">🔒 Requiere NIVEL ' + need + '</span>'
+          ? '<span class="tag time" style="color:var(--glow-amber);border-color:rgba(255,170,0,.55)">🔒 Requiere DÍA ' + need + '</span>'
           : '<span class="tag time" style="color:#ffd700;border-color:rgba(255,215,0,.5)">👑 PROYECTO FINAL</span>') +
       '</div>' +
     '</div></div>';
@@ -5358,7 +5679,7 @@ function renderJobs() {
 function toggleJob(id, el) {
   const m = employmentMissions.find(x => x.id === id);
   if (!m) return;
-  const oldLevel = gameState.level;
+  const oldLevel = odeLevelNow();
   const wasDone = gameState.completedJobs.includes(id);
   if (wasDone) {
     gameState.completedJobs = gameState.completedJobs.filter(x => x !== id);
@@ -5367,7 +5688,9 @@ function toggleJob(id, el) {
     ODEA.bus.emit("job.applied", { id: id, xp: m.xp });
     if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, "#ffaa00", 26); }
   }
+  activityAdd("jobs", wasDone ? -1 : 1);
   recomputeState();
+  activityMaybeStreak();
   const ach = checkAchievements();
   if (ach) recomputeState();
   renderJobs();
@@ -5384,30 +5707,33 @@ function toggleJob(id, el) {
 }
 /* --- HUD / panel global --- */
 function updateUI() {
-  const pct = Math.min(100, Math.round(((gameState.level - 1) / DAILY_TOTAL) * 100));
+  const _oi = odeInfo(gameState.totalXP);
+  const pct = _oi.pct;
   const _hudLvl = document.getElementById("hud-level");
-  _hudLvl.textContent = gameState.level > DAILY_TOTAL ? "★ NIVEL MÁX" : "NIVEL " + gameState.level;
+  _hudLvl.textContent = "NIVEL " + _oi.lvl;
+  _hudLvl.title = "Nivel ODEA · sube con todo el XP del ecosistema";
   { const _tc = HOLO_TIERS[holoTier()].col; _hudLvl.style.color = _tc; _hudLvl.style.borderColor = _tc; _hudLvl.style.boxShadow = "0 0 14px " + _tc; }
-  { const _hr = document.getElementById("hud-rank"); _hr.textContent = levelName(gameState.level); _hr.style.color = HOLO_TIERS[holoTier()].col; }
+  { const _hr = document.getElementById("hud-rank"); _hr.textContent = _oi.name + (_oi.nextXp ? " · faltan " + _oi.need.toLocaleString("es-CR") + " XP" : " · MÁX"); _hr.style.color = HOLO_TIERS[holoTier()].col; }
   document.getElementById("hud-xp").textContent = gameState.totalXP.toLocaleString("es-CR") + " XP";
   document.getElementById("hud-pct").textContent = pct + "%";
   document.getElementById("hud-bar").style.width = pct + "%";
   document.getElementById("s-name").textContent = gameState.playerName;
   const gearEl = document.getElementById("s-gear");
   if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === ((gameState.rewards || {}).equipped || {}).medallas) || {}).ico || "";
-  document.getElementById("s-lvl").textContent = "Nv." + gameState.level;
+  document.getElementById("s-lvl").textContent = "Nv." + _oi.lvl;
   document.getElementById("streak-n").textContent = gameState.streak;
   const streakChip = document.getElementById("streak-chip");
   streakChip.style.boxShadow = gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
   const fpd = firstPendingDay();
-  streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd));
+  streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd) && activityToday() < STREAK_MIN_MISSIONS);
   const _sm = streakMult();
   const _smEl = document.getElementById("streak-mult");
   if (_smEl) _smEl.textContent = _sm > 1 ? " ×" + _sm : "";
   const _shEl = document.getElementById("streak-shield");
   if (_shEl) _shEl.textContent = streakShieldReady() ? " 🛡️" : "";
   streakChip.title = "Racha de " + gameState.streak + (gameState.streak === 1 ? " día" : " días") +
-    (_sm > 1 ? " · boost ×" + _sm + " XP" : "") + (streakShieldReady() ? " · escudo 🛡️ listo" : "");
+    " · hoy " + activityToday() + "/" + STREAK_MIN_MISSIONS + " misiones de cualquier frente" +
+    (_sm > 1 ? " · boost ×" + _sm + " XP en diarias" : "") + (streakShieldReady() ? " · escudo 🛡️ listo" : "");
   const _cb = coinsBalance();
   const _cbEl = document.getElementById("coin-badge");
   if (_cbEl) _cbEl.textContent = _cb.toLocaleString("es-CR");
@@ -5463,7 +5789,10 @@ function renderEcoXP() {
     ["📜 Carrera", b.career, "#00ff88"],
     ["🏅 Logros", b.ach, "#ffd700"],
     ["🧬 Vida", b.vida, "#ff00ff"],
-    ["👑 Imperio", b.capital, "#7c6cff"]
+    ["👑 Imperio", b.capital, "#7c6cff"],
+    ["🏆 Jefes", b.bosses || 0, "#ff6600"],
+    ["🍅 Enfoque", b.focus || 0, "#00ccff"],
+    ["📓 Diario", b.diary || 0, "#ff00aa"]
   ];
   const max = Math.max(1, ...rows.map(r => r[1]));
   box.innerHTML = rows.map(r =>
@@ -5585,7 +5914,7 @@ function showLevelUp(newLevel, name) {
   const next = levelName(newLevel + 1);
   const nextName = (next !== name) ? next : null;
   document.getElementById("modal-text").innerHTML =
-    '<span class="lu-lvl">NIVEL ' + newLevel + "</span>" +
+    '<span class="lu-lvl">NIVEL ODEA ' + newLevel + "</span>" +
     '<span class="lu-rank">' + escapeHtml(name) + "</span>" +
     (nextName ? '<span class="lu-next">Próximo rango: ' + escapeHtml(nextName) + "</span>" : '<span class="lu-next">⚡ Rango máximo alcanzado</span>');
   document.getElementById("modal-input").style.display = "none";
@@ -5605,9 +5934,10 @@ function showWelcome() {
     "Estás en una misión para convertirte en el <b>analista de datos más poderoso del reino digital</b>.<br><br>" +
     "Tu plan maestro dura <b>56 días (8 semanas)</b>. Cada día tiene <b>3 misiones</b> " +
     "(📚 estudiar + 🛠️ practicar + 🎯 consolidar ≈ 2.5-3 horas).<br><br>" +
-    "🎖️ <b>Al completar un día entero, subes de nivel (+1)</b> y se desbloquea el siguiente día. " +
-    "La campaña incluye <b>👑 proyectos finales</b> por capítulo que exigen cierto nivel. " +
-    "Completa las 3 de hoy para mantener tu <b>racha 🔥</b>. ¡Tu Día 1 empieza hoy!";
+    "🎖️ <b>Al completar un día entero se desbloquea el siguiente día</b> y sube tu racha. " +
+    "Tu <b>Nivel ODEA</b> sube con todo el XP, venga del frente que venga. " +
+    "La campaña incluye <b>👑 proyectos finales</b> por capítulo que se desbloquean al avanzar los días. " +
+    "Completa las 3 de hoy o <b>5 misiones de cualquier frente</b> para mantener tu <b>racha 🔥</b>. ¡Tu Día 1 empieza hoy!";
   document.getElementById("modal-input").value = gameState.playerName !== "Recluta" ? gameState.playerName : "";
   document.getElementById("modal-input").style.display = "block";
   document.getElementById("modal-btn").textContent = "COMENZAR MISIÓN";
@@ -5643,8 +5973,9 @@ function renderAll() {
 
 /* --- Level-up común tras un cambio --- */
 function celebrateIfLevelUp(oldLevel) {
-  if (gameState.level > oldLevel) {
-    setTimeout(() => showLevelUp(gameState.level, levelName(gameState.level)), 900);
+  const now = odeLevelNow();
+  if (now > oldLevel) {
+    setTimeout(() => showLevelUp(now, levelName(now)), 900);
     playSfx("levelup");
     const badge = document.getElementById("hud-level");
     badge.classList.add("pulse");
@@ -5663,10 +5994,10 @@ function cheerRandom() {
 function toggleCampaign(id, el) {
   const m = campaignAll.find(x => x.id === id);
   if (!m) return;
-  const oldLevel = gameState.level;
+  const oldLevel = odeLevelNow();
   const wasDone = gameState.completedMissions.includes(id);
-  if (!wasDone && m.boss && gameState.level < bossMinLevel(m.chapter)) {
-    toast("🔒", "👑 Proyecto final bloqueado", "Requiere NIVEL " + bossMinLevel(m.chapter) + " (completa " + (bossMinLevel(m.chapter) - 1) + " días de plan diario). Tu nivel: " + gameState.level);
+  if (!wasDone && m.boss && campaignLevel() < bossMinLevel(m.chapter)) {
+    toast("🔒", "👑 Proyecto final bloqueado", "Requiere DÍA " + bossMinLevel(m.chapter) + " (completa " + (bossMinLevel(m.chapter) - 1) + " días de plan diario). Tu día actual: " + campaignLevel());
     playSfx("error");
     return;
   }
@@ -5679,7 +6010,9 @@ function toggleCampaign(id, el) {
     burst(rect.left + rect.width / 2, rect.top + rect.height / 2, m.boss ? "#ffd700" : CAT_COLORS[m.category], m.boss ? 60 : 30);
     xpFloat(rect.left + rect.width / 2, rect.top, m.xp);
   }
+  activityAdd("campaign", wasDone ? -1 : 1);
   recomputeState();
+  activityMaybeStreak();
   const achFresh = checkAchievements();
   if (achFresh) recomputeState();
   syncMissionCards();
@@ -5701,7 +6034,7 @@ function toggleCampaign(id, el) {
   saveGame();
 }
 
-/* --- Racha: al completar una misión diaria hoy --- */
+/* --- Racha: día completo de "Hoy" (3/3) o 5 misiones de cualquier frente --- */
 /* ==========================================================
    💸 B2B — planeta de Ingreso Extra (navegación del mapa)
    ========================================================== */
@@ -5730,7 +6063,7 @@ function b2bNodes() {
 function toggleB2B(id, el) {
   const m = B2B_MISSIONS.find(x => x.id === id);
   if (!m) return;
-  const oldLevel = gameState.level;
+  const oldLevel = odeLevelNow();
   const wasDone = (gameState.completedB2b || []).includes(id);
   if (wasDone) {
     gameState.completedB2b = gameState.completedB2b.filter(x => x !== id);
@@ -5739,7 +6072,9 @@ function toggleB2B(id, el) {
     ODEA.bus.emit("mission.completed", { id: id, source: "b2b", xp: m.xp });
     if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); xpFloat(r.left + r.width / 2, r.top, m.xp); }
   }
+  activityAdd("b2b", wasDone ? -1 : 1);
   recomputeState();
+  activityMaybeStreak();
   const ach = checkAchievements();
   if (ach) recomputeState();
   updateUI();
@@ -5753,7 +6088,7 @@ function toggleB2B(id, el) {
   }
   celebrateIfLevelUp(oldLevel);
 }
-/* --- Racha: al completar una misión diaria hoy --- */
+/* --- Racha: día completo de "Hoy" (3/3) o 5 misiones de cualquier frente --- */
 
 
 function isoWeekKey(dateStr) {
@@ -5827,10 +6162,10 @@ function toggleDailyMission(id, btnEl) {
   const day = m.day;
   const frontier = firstPendingDay(); // día objetivo actual
   const wasFullBefore = isDayFull(day);
-  const oldLevel = gameState.level;
+  const oldLevel = odeLevelNow();
   const wasDone = gameState.completedDaily.includes(id);
   if (!wasDone && !isDayUnlocked(day)) {
-    toast("🔒", "Requiere NIVEL " + day, "Completa el día anterior entero (3 misiones) para subir de nivel y desbloquear este día.");
+    toast("🔒", "Requiere DÍA " + day, "Completa el día anterior entero (3 misiones) para desbloquear este día.");
     playSfx("error");
     return;
   }
@@ -5843,11 +6178,13 @@ function toggleDailyMission(id, btnEl) {
     burst(rect.left + 30, rect.top, SLOT_META[m.slot] ? SLOT_META[m.slot].col : "#00ff88", 26);
     xpFloat(rect.left + 30, rect.top - 8, m.xp);
   }
+  activityAdd("daily", wasDone ? -1 : 1);
   recomputeState();
   const achFresh = checkAchievements();
   if (achFresh) recomputeState();
   const fullNow = isDayFull(day);
   if (!wasDone && !wasFullBefore && fullNow && day === frontier) updateStreak();
+  if (!wasDone) activityMaybeStreak();
   renderDailyView();
   updateUI();
   if (wasDone) {
@@ -5879,7 +6216,7 @@ function toggleWeekly(week) {
     toast("🔒", "Semana no disponible", "La Semana " + week + " se desbloquea más adelante.");
     return;
   }
-  const oldLevel = gameState.level;
+  const oldLevel = odeLevelNow();
   const wasDone = gameState.completedWeekly.includes(week);
   if (wasDone) {
     gameState.completedWeekly = gameState.completedWeekly.filter(w => w !== week);
@@ -5890,7 +6227,9 @@ function toggleWeekly(week) {
     burst(window.innerWidth / 2, 220, "#ffaa00", 60);
     xpFloat(window.innerWidth / 2, 200, m.xp);
   }
+  activityAdd("weekly", wasDone ? -1 : 1);
   recomputeState();
+  activityMaybeStreak();
   const achFresh = checkAchievements();
   if (achFresh) recomputeState();
   renderDailyView();
@@ -5938,7 +6277,7 @@ document.getElementById("roadmap").addEventListener("click", e => {
   if (!card) return;
   const day = Number(card.dataset.day);
   if (!isDayUnlocked(day)) {
-    toast("🔒", "Requiere NIVEL " + day, "Completa el día anterior entero para subir de nivel y desbloquear este.");
+    toast("🔒", "Requiere DÍA " + day, "Completa el día anterior entero (3 misiones) para desbloquear este día.");
     return;
   }
   selectedDay = day;
@@ -6167,7 +6506,7 @@ document.getElementById("diag-apply").addEventListener("click", () => {
   selectedDay = firstPendingDay();
   renderAll();
   if (nDays > 0) {
-    toast("⚡", "Diagnóstico aplicado", nDays + " día" + (nDays > 1 ? "s" : "") + " pre-completados (" + (nDays * 3) + " misiones) · Nivel " + gameState.level + " · Sigue en el Día " + selectedDay, "levelup");
+    toast("⚡", "Diagnóstico aplicado", nDays + " día" + (nDays > 1 ? "s" : "") + " pre-completados (" + (nDays * 3) + " misiones) · Día " + campaignLevel() + " · Sigue en el Día " + selectedDay, "levelup");
   } else {
     toast("🕹️", "Bienvenido, " + gameState.playerName, "Empezando desde el Día 1. ¡Tu misión te espera!");
   }
@@ -6501,6 +6840,7 @@ function vidaToggle(ev) {
   const before = vidaCompute();
   const beforeLv = { hero: before.hero.lvl, eq: before.sub.eq.lvl, kid: before.sub.kid.lvl, cpl: before.sub.cpl.lvl };
   const beforeBal = before.todayBalanced;
+  const beforeOde = odeLevelNow();
   let done = false, cat = o.cat;
   if (o.kind === "daily" || o.kind === "weekly") {
     const key = o.kind === "daily" ? todayStr() : isoWeekKey(todayStr());
@@ -6515,11 +6855,14 @@ function vidaToggle(ev) {
     if (i >= 0) { list.splice(i, 1); done = false; } else { list.push(id); done = true; }
   }
   gameState.vida = gv;
+  activityAdd("vida", done ? 1 : -1);
   const rect = card.getBoundingClientRect();
   const colors = { eq: "#7c6cff", kid: "#00ff88", cpl: "#ff00aa", pow: "#ffd700", men: "#4dd0ff" };
   if (done) burst(rect.left + rect.width / 2, rect.top + 20, colors[cat], 26);
   if (done) xpFloat(rect.left + rect.width / 2, rect.top, o.xp);
   const vs = vidaCompute();
+  recomputeState();
+  activityMaybeStreak();
   if (done) {
     const balNow = vs.todayBalanced;
     toast("✅", "¡Misión de vida cumplida! +" + o.xp + " XP", o.t + (balNow && !beforeBal ? "" : ""));
@@ -6540,8 +6883,10 @@ function vidaToggle(ev) {
     toast("↩️", "Misión desmarcada", "-" + o.xp + " XP · " + o.t);
   }
   saveGame();
+  updateUI();
   renderVidaSubActiva();
   evalRewards();
+  celebrateIfLevelUp(beforeOde);
 }
 /* --- Eventos: pestañas internas + delegación de clics --- */
 (function () {
@@ -6714,6 +7059,7 @@ function capToggleMission(card) {
   const done = Array.isArray(cap[key]) ? cap[key] : (cap[key] = []);
   const before = capFrontCompute(front);
   const beforeLvl = before.ladder.lvl;
+  const beforeOde = odeLevelNow();
   const wasDone = done.includes(id);
   const pcBefore = before.perCap.find(p => p.cap === o.cap);
   const capCompletedNow = !wasDone && pcBefore.done + 1 === pcBefore.total;
@@ -6726,7 +7072,10 @@ function capToggleMission(card) {
     const ch = front.chapters.find(c => c.cap === o.cap);
     burst(rect.left + rect.width / 2, rect.top + 20, ch ? ch.color : "#00e5a0", 26);
   }
+  activityAdd(front.k, wasDone ? -1 : 1);
   const vs = capFrontCompute(front);
+  recomputeState();
+  activityMaybeStreak();
   if (wasDone) {
     toast("↩️", "Misión desmarcada", "-" + o.xp + " XP");
   } else {
@@ -6748,8 +7097,10 @@ function capToggleMission(card) {
     confetti(window.innerWidth / 2, 150, 90);
   }
   saveGame();
+  updateUI();
   renderCapital();
   evalRewards();
+  celebrateIfLevelUp(beforeOde);
 }
 /* --- Eventos de la vista CAPITAL --- */
 (function () {
@@ -6899,6 +7250,7 @@ function completarReto() {
   const log = gameState.vida.log = Array.isArray(gameState.vida.log) ? gameState.vida.log : [];
   const en = reto.id + "|" + hoy;
   if (log.indexOf(en) >= 0) return;
+  const beforeOde = odeLevelNow();
   log.push(en);
   gsR.done = true;
   playSfx("coin");
@@ -6907,9 +7259,15 @@ function completarReto() {
   if (rect) xpFloat(rect.left + rect.width / 2, rect.top, reto.xp);
   toast("🎲", "¡RETO COMPLETADO! +" + reto.xp + " XP", reto.t);
   saveGame();
+  activityAdd("vida", 1);
+  recomputeState();
+  activityMaybeStreak();
+  saveGame();
   renderReto();
   renderVidaSide(vidaCompute());
+  updateUI();
   evalRewards();
+  celebrateIfLevelUp(beforeOde);
 }
 
 /* ==========================================================
@@ -7108,6 +7466,135 @@ function rwModalRender() {
     gridBox.style.display = "block";
     rwGridRender2();
   }
+  rwProfileRender();
+  rwApplyTab();
+}
+/* --- 🧬 PERFIL dentro del inventario (v5.65) --- */
+let rwTab = "profile";
+function rwApplyTab() {
+  const p = document.getElementById("rw-profile");
+  const a = document.getElementById("rw-arsenal-panel");
+  if (!p || !a) return;
+  const showP = rwTab !== "arsenal";
+  p.style.display = showP ? "flex" : "none";
+  a.style.display = showP ? "none" : "block";
+  document.querySelectorAll("#rw-tabs .rw-tab").forEach(function (b) {
+    const on = b.getAttribute("data-rwt") === (showP ? "profile" : "arsenal");
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-selected", on ? "true" : "false");
+  });
+  const t = document.getElementById("rw-title");
+  if (t) t.textContent = showP ? "🎒 INVENTARIO · PERFIL" : "🎒 INVENTARIO · ARSENAL";
+  const sub = document.getElementById("rw-sub");
+  if (sub) sub.textContent = "Tus recompensas. Toca una para equiparla: se verá sobre tu personaje.";
+}
+function pfBar(pct, color) {
+  return '<div class="pf-bar"><span style="width:' + Math.max(0, Math.min(100, Math.round(pct || 0))) + '%;background:' + color + '"></span></div>';
+}
+function rwProfileRender() {
+  const root = document.getElementById("rw-profile");
+  if (!root) return;
+  const oi = odeInfo(gameState.totalXP);
+  const b = gameState.xpBreakdown || { career: 0, ach: 0, vida: 0, capital: 0, focus: 0, diary: 0, bosses: 0 };
+  const vs = vidaCompute(), cap = capCompute(), sg = sagaStats();
+  const emp = ladderInfo(EMP_LADDER, jobsXPGain());
+  const domains = domainLevels();
+  const st = rwState();
+  const gv = gameState.vida || {};
+  const vidaLifetime = (Array.isArray(gv.log) ? gv.log.length : 0) +
+    ["growth", "kid", "couple", "pow", "men", "plan", "orden"].reduce(function (s, k) { return s + (Array.isArray(gv[k]) ? gv[k].length : 0); }, 0);
+  const capitalDone = cap.doneCount || 0;
+  const totalDone = (gameState.completedDaily || []).length + (gameState.completedMissions || []).length +
+    (gameState.completedWeekly || []).length + (gameState.completedJobs || []).length +
+    (gameState.completedB2b || []).length + capitalDone + vidaLifetime + sg.caps + (sagaWeeklyDone() ? 1 : 0);
+  const activeDays = Math.max(Object.keys(gameState.activity || {}).length, Number(gameState.streak) || 0);
+  const todayN = activityToday();
+  const coins = coinsBalance();
+
+  const bRows = [
+    ["📜 Carrera", b.career || 0, "#00ff88"],
+    ["🏅 Logros", b.ach || 0, "#ffd700"],
+    ["🧬 Vida", b.vida || 0, "#ff00ff"],
+    ["👑 Imperio", b.capital || 0, "#7c6cff"],
+    ["🏆 Jefes", b.bosses || 0, "#ff6600"],
+    ["🍅 Enfoque", b.focus || 0, "#00ccff"],
+    ["📓 Diario", b.diary || 0, "#ff00aa"]
+  ];
+  const bMax = Math.max(1, bRows.reduce(function (s, r) { return Math.max(s, r[1]); }, 0));
+
+  const fronts = [
+    { ico: "🗓️", n: "Plan diario", pct: ((gameState.completedDaily || []).length / (DAILY_TOTAL * 3)) * 100, count: (gameState.completedDaily || []).length + "/" + (DAILY_TOTAL * 3), sub: "+" + dailyXPGain() + " XP", go: "daily" },
+    { ico: "📜", n: "Campaña", pct: ((gameState.completedMissions || []).length / CAMP_TOTAL) * 100, count: (gameState.completedMissions || []).length + "/" + CAMP_TOTAL, sub: "+" + campaignXPGain() + " XP", go: "campaign" },
+    { ico: "📯", n: "Semanal", pct: ((gameState.completedWeekly || []).length / WEEKLY_TOTAL) * 100, count: (gameState.completedWeekly || []).length + "/" + WEEKLY_TOTAL, sub: "+" + weeklyXPGain() + " XP", go: "daily" },
+    { ico: "📡", n: "Noticias", pct: (jobsDoneCount() / employmentMissions.length) * 100, count: jobsDoneCount() + "/" + employmentMissions.length, sub: "+" + jobsXPGain() + " XP", go: "jobs" },
+    { ico: "💸", n: "B2B", pct: (((gameState.completedB2b || []).length / B2B_MISSIONS.length) * 100), count: (gameState.completedB2b || []).length + "/" + B2B_MISSIONS.length, sub: "+" + b2bXPGain() + " XP", go: "map", world: "b2b" },
+    { ico: "💰", n: "Capital · Inglés · IA", pct: (capitalDone / cap.totalMissions) * 100, count: capitalDone + "/" + cap.totalMissions, sub: "+" + cap.xp + " XP", go: "capital" },
+    { ico: "🧬", n: "Vida integral", pct: vs.hero.pct, count: "Nv." + vs.hero.lvl, sub: vs.hero.name + " · +" + vs.total + " XP", go: "vida" },
+    { ico: "📹", n: "Sagas", pct: sg.pct, count: sg.caps + "/" + sg.total, sub: "+" + sg.xp + " XP (va a Vida)", go: "sagas" }
+  ];
+
+  const rankCards = [
+    { ico: "🧬", n: "Vida integral", lvl: vs.hero.lvl, name: vs.hero.name, pct: vs.hero.pct, col: "#ff00ff" },
+    { ico: "👑", n: "Imperio", lvl: cap.ladder.lvl, name: cap.ladder.name, pct: cap.ladder.pct, col: "#7c6cff" },
+    { ico: "📡", n: "Noticias", lvl: emp.lvl, name: emp.name, pct: emp.pct, col: "#ffaa00" },
+    { ico: "💰", n: "Capital", lvl: cap.fronts.cap.ladder.lvl, name: cap.fronts.cap.ladder.name, pct: cap.fronts.cap.ladder.pct, col: "#00e5a0" },
+    { ico: "🌎", n: "Inglés", lvl: cap.fronts.eng.ladder.lvl, name: cap.fronts.eng.ladder.name, pct: cap.fronts.eng.ladder.pct, col: "#00ccff" },
+    { ico: "🤖", n: "IA", lvl: cap.fronts.ai.ladder.lvl, name: cap.fronts.ai.ladder.name, pct: cap.fronts.ai.ladder.pct, col: "#ff00ff" }
+  ];
+
+  let html = "";
+  html += '<div class="pf-hero">' +
+    '<div class="pf-lvl"><span class="pf-lvl-n">' + oi.lvl + '</span><span class="pf-lvl-l">NIVEL ODEA</span></div>' +
+    '<div class="pf-hero-main">' +
+      '<div class="pf-name">' + escapeHtml(gameState.playerName || "Recluta") + '</div>' +
+      '<span class="pf-rank">' + escapeHtml(oi.name) + '</span>' +
+      '<div class="pf-xp"><b>' + gameState.totalXP.toLocaleString("es-CR") + ' XP</b> total · ' +
+        (oi.nextXp ? 'faltan ' + oi.need.toLocaleString("es-CR") + ' XP para el nivel ' + (oi.lvl + 1) : "nivel máximo") + '</div>' +
+      pfBar(oi.pct, "linear-gradient(90deg,#ffaa00,#ffd700)") +
+      '<div class="pf-chips">' +
+        '<span class="pf-chip">🔥 Racha <b>' + (gameState.streak || 0) + '</b> día' + ((gameState.streak || 0) === 1 ? "" : "s") + '</span>' +
+        '<span class="pf-chip">🎯 Hoy <b>' + todayN + "/" + STREAK_MIN_MISSIONS + '</b> misiones</span>' +
+        '<span class="pf-chip">📅 Días activos <b>' + activeDays + '</b></span>' +
+        '<span class="pf-chip">✅ Misiones <b>' + totalDone + '</b></span>' +
+        '<span class="pf-chip">🏅 Logros <b>' + (gameState.unlockedAch || []).length + "/" + achievements.length + '</b></span>' +
+        '<span class="pf-chip">🎒 <b>' + st.unlocked.length + "/" + REWARDS.length + '</b></span>' +
+        '<span class="pf-chip">🪙 <b>' + coins.toLocaleString("es-CR") + '</b></span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+  html += '<div class="pf-sec-title">⚡ XP del ecosistema <small>todo suma al Nivel ODEA</small></div>' +
+    '<div class="pf-xp-list">' + bRows.map(function (r) {
+      return '<div class="pf-xp-row"><span>' + r[0] + '</span>' + pfBar((r[1] / bMax) * 100, r[2]) +
+        '<span class="pf-val">' + r[1].toLocaleString("es-CR") + '</span></div>';
+    }).join("") + '</div>';
+
+  html += '<div class="pf-sec-title">🗺️ Frentes <small>toca para ir</small></div>' +
+    '<div class="pf-grid">' + fronts.map(function (f) {
+      return '<button type="button" class="pf-front" data-go="' + f.go + '"' + (f.world ? ' data-world="' + f.world + '"' : '') + '>' +
+        '<span class="pf-front-top"><span class="pf-front-name">' + f.ico + " " + f.n + '</span><span class="pf-front-count">' + f.count + '</span></span>' +
+        pfBar(f.pct, "linear-gradient(90deg,#00ccff,#00ff88)") +
+        '<span class="pf-front-sub"><span>' + escapeHtml(f.sub) + '</span><span>' + Math.round(f.pct || 0) + '%</span></span>' +
+      '</button>';
+    }).join("") + '</div>';
+
+  html += '<div class="pf-sec-title">📊 Dominios <small>% de contenido dominado</small></div>' +
+    '<div class="pf-domains">' + domains.map(function (d) {
+      return '<div class="pf-dom-row"><span>' + d.ico + " " + d.n + '</span>' + pfBar(d.pct, d.c) +
+        '<span class="pf-val">Nv.' + d.lvl + " · " + d.pct + '%</span></div>';
+    }).join("") + '</div>';
+
+  html += '<div class="pf-sec-title">🏅 Rangos internos <small>cada frente conserva su escalera</small></div>' +
+    '<div class="pf-ranks">' + rankCards.map(function (r) {
+      return '<div class="pf-rank-card"><b>' + r.ico + " " + r.n + " · Nv." + r.lvl + '</b>' +
+        '<small>' + escapeHtml(r.name) + '</small>' + pfBar(r.pct, r.col) + '</div>';
+    }).join("") +
+    '<div class="pf-rank-card"><b>📹 Sagas · ' + sg.caps + "/" + sg.total + '</b><small>' + sg.pct + '% de capítulos completados</small>' + pfBar(sg.pct, "#00ccff") + '</div>' +
+    '</div>';
+
+  html += '<div class="pf-note"><b>Un solo ecosistema:</b> tu <b>Nivel ODEA</b> sube con todo el XP (campaña, diarias, noticias, B2B, imperio, vida, sagas, logros, jefes, enfoque y diario). La <b>racha</b> sube al completar un día entero de “Hoy” (3/3) o al llegar a <b>' + STREAK_MIN_MISSIONS + ' misiones</b> en cualquier frente durante el día. Los días del plan se desbloquean completando el día anterior; por eso ahora se muestran como “Día”, no como “Nivel”.</div>';
+
+  root.innerHTML = html;
 }
 function rwOpenChest() {
   const st = rwState();
@@ -7155,7 +7642,7 @@ function rwOpenChest() {
 }
 function rwOpenArsenal() {
   const st = rwState();
-  if (st.queue.length > 0) playSfx("click");
+  if (st.queue.length > 0) { playSfx("click"); rwTab = "arsenal"; }
   rwModalRender();
   document.getElementById("rw-layer").classList.add("show");
 }
@@ -7171,6 +7658,24 @@ function rwCloseArsenal() {
   if (close2) close2.addEventListener("click", rwCloseArsenal);
   const layer = document.getElementById("rw-layer");
   if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) rwCloseArsenal(); });
+  const rwTabs = document.getElementById("rw-tabs");
+  if (rwTabs) rwTabs.addEventListener("click", function (e) {
+    const b = e.target.closest("[data-rwt]");
+    if (!b) return;
+    rwTab = b.getAttribute("data-rwt");
+    rwApplyTab();
+    if (rwTab === "arsenal") rwGridRender2();
+  });
+  const rwProf = document.getElementById("rw-profile");
+  if (rwProf) rwProf.addEventListener("click", function (e) {
+    const b = e.target.closest("[data-go]");
+    if (!b) return;
+    const go = b.getAttribute("data-go");
+    const world = b.getAttribute("data-world");
+    rwCloseArsenal();
+    goTab(go);
+    if (go === "map" && world) setTimeout(function () { mapEnter(world); }, 60);
+  });
   const snd = document.getElementById("snd-btn");
   if (snd) {
     snd.addEventListener("click", function () {
@@ -7749,20 +8254,25 @@ function godAttack() {
   if (godDefeated(boss.id)) return;
   const power = bossPower(boss);
   if (power >= boss.hp) {
+    const beforeOde = odeLevelNow();
     gameState.gods = gameState.gods || {};
     gameState.gods[boss.id] = true;
     ODEA.bus.emit("boss.defeated", { id: boss.id, xp: boss.xp });
+    activityAdd("boss", 1);
     saveGame();
     playSfx("fanfare");
     confetti(window.innerWidth / 2, window.innerHeight * 0.35, 90);
     flashFx();
     toast("🏆", "¡" + boss.n + " DERROTADO!", "Has conquistado " + bossLabel(boss) + " · +" + boss.xp + " XP", "levelup");
     recomputeState();
+    activityMaybeStreak();
+    saveGame();
     updateUI();
     renderMapStage();
     renderCapital();
     renderVidaSubActiva();
     renderGodCombat();
+    celebrateIfLevelUp(beforeOde);
     setTimeout(checkAchievements, 500);
   } else {
     playSfx("error");
@@ -7799,8 +8309,8 @@ function mapWorldStats() {
   const retoPend = !(gameState.vida.log || []).some(e => e.indexOf("reto") === 0 && e.indexOf("|" + todayStr()) > 0);
   return {
     camp: {
-      pct: Math.min(100, Math.round(((gameState.level - 1) / DAILY_TOTAL) * 100)),
-      rank: "NIVEL " + gameState.level + " · " + levelName(gameState.level),
+      pct: Math.min(100, Math.round(((campaignLevel() - 1) / DAILY_TOTAL) * 100)),
+      rank: "DÍA " + Math.min(campaignLevel(), DAILY_TOTAL) + "/" + DAILY_TOTAL + " · NIVEL ODEA " + odeLevelNow(),
       badge: (gameState.streak > 0 ? "🔥" + gameState.streak : "") + (retoPend ? " 🎲" : "") + (pendHoy > 0 ? " ⚔" + pendHoy : "")
     },
     torre: {
@@ -7939,7 +8449,7 @@ function torreNodes() {
       t: ch.code + " — " + ch.title, count: d + "/" + total,
       pct: Math.round((d / total) * 100), done: d === total,
       cur: i === firstPend, boss: boss && !doneSet.has(boss.id),
-      bossLock: boss && !doneSet.has(boss.id) && gameState.level < bossMinLevel(ch.id)
+      bossLock: boss && !doneSet.has(boss.id) && campaignLevel() < bossMinLevel(ch.id)
     }));
   });
   return out;
@@ -8047,7 +8557,7 @@ function renderMapStage() {
   const h = H[mapSt.w] || H.null;
   title.textContent = h.t;
   sub.innerHTML = (mapSt.w === null)
-    ? '<b>' + escapeHtml(gameState.playerName) + "</b> · Día " + unlockedDay() + " · NIVEL " + gameState.level + " — " + h.s
+    ? '<b>' + escapeHtml(gameState.playerName) + "</b> · Día " + unlockedDay() + " · NIVEL ODEA " + odeLevelNow() + " — " + h.s
     : escapeHtml(h.s);
   back.classList.toggle("hidden", mapSt.w === null);
   stage.innerHTML = mapSt.w === null ? mapHubHTML() : mapWorldHTML(mapSt.w);
@@ -8231,12 +8741,12 @@ function mapHudPaint() {
   hud.style.display = "flex";
   let chips = [];
   if (mapSt.w === "camp") {
-    chips.push('<span class="mh-chip gold">⚡ NIVEL <b>' + gameState.level + "</b> · " + levelName(gameState.level) + "</span>");
+    chips.push('<span class="mh-chip gold">⚡ NIVEL ODEA <b>' + odeLevelNow() + "</b> · " + levelName(odeLevelNow()) + "</span>");
     chips.push('<span class="mh-chip green">📅 <b>' + fullDaysCount() + "/" + DAILY_TOTAL + "</b> días</span>");
     chips.push('<span class="mh-chip">🔥 racha ' + (gameState.streak || 0) + "</span>");
     chips.push('<span class="mh-chip">🗓 Semana <b>' + Math.min(8, Math.ceil(unlockedDay() / 7)) + "</b> de 8</span>");
   } else if (mapSt.w === "torre") {
-    chips.push('<span class="mh-chip gold">⚡ NIVEL <b>' + gameState.level + '</b> · ' + levelName(gameState.level) + "</span>");
+    chips.push('<span class="mh-chip gold">⚡ NIVEL ODEA <b>' + odeLevelNow() + '</b> · ' + levelName(odeLevelNow()) + "</span>");
     chips.push('<span class="mh-chip green">🗡 <b>' + gameState.completedMissions.length + "/" + CAMP_TOTAL + "</b> misiones</span>");
     chips.push('<span class="mh-chip">🗓 ' + fullDaysCount() + "/" + DAILY_TOTAL + " días</span>");
   } else if (mapSt.w === "boveda") {
@@ -8347,7 +8857,7 @@ function mapSpecialModal(kind, id) {
       '<div><div class="nm-code">CAMPAMENTO BASE · ' + doneN + "/" + list.length + ' · Día ' + (isDayUnlocked(d) ? "" : "🔒 ") + '</div>' +
       '<div class="nm-title">DÍA ' + d + (d === firstPendingDay() ? " · HOY" : "") + "</div>" +
       '<div class="nm-sub">+' + xpSum + ' XP en total' + (full ? " · día completo ✓" : "") + "</div></div></div>";
-    html += '<p class="ch-narrative">' + (full ? "Día conquistado. El sendero se ilumina." : "Completa las 3 misiones del día para subir de nivel y encender el camino.") + "</p>";
+    html += '<p class="ch-narrative">' + (full ? "Día conquistado. El sendero se ilumina." : "Completa las 3 misiones del día para desbloquear el siguiente y encender el camino.") + "</p>";
     list.forEach(m => {
       const done = gameState.completedDaily.indexOf(m.id) >= 0;
       html += '<div class="mission' + (done ? " done" : "") + '" data-dmid="' + m.id + '">' +
@@ -8445,7 +8955,7 @@ const HOLO_TIERS = [
   { col: "#ffd700", aura: "rgba(255,215,0,.75)", n: 6 }    // 7-9+
 ];
 function holoTier() {
-  const lvl = gameState.level || 1;
+  const lvl = odeLevelNow();
   if (lvl >= 7) return 3;
   if (lvl >= 5) return 2;
   if (lvl >= 3) return 1;
@@ -8593,7 +9103,7 @@ function sideSync() {
   const n = document.getElementById("side-name");
   if (n) n.textContent = gameState.playerName;
   const r = document.getElementById("side-rank");
-  if (r) r.textContent = "NIVEL " + gameState.level + " · " + levelName(gameState.level);
+  if (r) r.textContent = "NIVEL " + odeLevelNow() + " · " + levelName(odeLevelNow());
   const s = document.getElementById("side-streak");
   if (s) {
     const sm = streakMult();

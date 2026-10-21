@@ -10,6 +10,7 @@
  */
 import { readFileSync, existsSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import vm from 'node:vm';
 import { tmpdir } from 'node:os';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -142,6 +143,77 @@ check('＋ fuera de "Hoy"',
 check('＋ reutiliza Mi Plan (sin clave nueva)',
   html.includes('planHas(f, id)') && html.includes('plannerAdd(f, id)') &&
   !/odea_plan_/.test(html));
+
+// ---------- 13) v5.65: Nivel ODEA, racha global, perfil y plan expandible ----------
+check('v5.65: APP_VERSION y caché', html.includes('const APP_VERSION = "5.65"') && /odea-v5\.65-/.test(sw));
+check('v5.65: escalera global ODE_LADDER + odeInfo', html.includes('const ODE_LADDER') &&
+  html.includes('function odeInfo(') && html.includes('function odeLevelNow(') &&
+  html.includes('function campaignLevel('));
+check('v5.65: escalera ODEA ordenada (20k=57, 27k=64)', (() => {
+  const start = html.indexOf('const LEVELS =');
+  const end = html.indexOf('const CHAPTERS =');
+  if (start < 0 || end <= start) return false;
+  const ctx = {};
+  vm.runInNewContext(html.slice(start, end) + '\nthis.out = { LEVELS, ODE_LADDER };', ctx);
+  const ladder = ctx.out.ODE_LADDER;
+  const lvlAt = (xp) => ladder.reduce((n, e, i) => xp >= e.xp ? i + 1 : n, 1);
+  return ladder.length >= 57 &&
+    ladder.every((e, i) => !i || e.xp > ladder[i - 1].xp) &&
+    lvlAt(0) === 1 && lvlAt(20000) === 57 && lvlAt(24286) === 63 &&
+    lvlAt(27000) === 64 && lvlAt(30000) === 65;
+})());
+check('v5.65: todo el XP suma (jefes incluidos)',
+  /const bosses = bossXPSum\(\)/.test(html) &&
+  /gameState\.totalXP = career \+ ach \+ vida \+ capital \+ focus \+ diary \+ bosses/.test(html) &&
+  /gameState\.odeLevel = odeInfo\(gameState\.totalXP\)\.lvl/.test(html));
+check('v5.65: el nivel de días queda como campaña',
+  /gameState\.campaignLevel = campaignLevel\(\)/.test(html) &&
+  /gameState\.level = gameState\.campaignLevel/.test(html));
+check('v5.65: racha con 5 misiones de cualquier frente',
+  html.includes('const STREAK_MIN_MISSIONS = 5') &&
+  html.includes('function activityAdd(') && html.includes('function activityMaybeStreak(') &&
+  /activityAdd\("daily"/.test(html) && /activityAdd\("campaign"/.test(html) &&
+  /activityAdd\("jobs"/.test(html) && /activityAdd\("b2b"/.test(html) &&
+  /activityAdd\("vida"/.test(html) && /activityAdd\("sagas"/.test(html) &&
+  /activityAdd\(front\.k/.test(html) && /activityAdd\("boss"/.test(html));
+check('v5.65: diario persistente migra guardados viejos',
+  /diary: \{ date: null, text: "", log: \[\] \}/.test(html) &&
+  html.includes('const diaryLog = Array.isArray(di2.log)') &&
+  html.includes('if (diaryDate && diaryText.trim()') &&
+  /function diaryXPGain\(\)[\s\S]{0,500}\(d\.log \|\| \[\]\)\.reduce/.test(html));
+check('v5.65: Mi Plan devuelve descripción/verificación/pasos',
+  /function plannerInfo[\s\S]*?desc: m\.description, verif: m\.verification/.test(html) &&
+  /function plannerInfo[\s\S]*?desc: cap\.objective/.test(html) &&
+  html.includes('teach: cap.teach') && html.includes('steps: Array.isArray(cap.steps)'));
+check('v5.65: Mi Plan expandible sin completar la misión',
+  html.includes('data-pl-expand="') && html.includes('aria-expanded="false"') &&
+  html.includes('class="pl-desc" id="pl-desc-') &&
+  /closest\("\[data-pl-expand\]"\)[\s\S]{0,700}setAttribute\("hidden"/.test(html));
+check('v5.65: área táctil del título del plan >= 44px',
+  /\.pl-main\{[^}]*min-height:48px/.test(html));
+check('v5.65: CSS del media 400px no se traga VIDA/planner',
+  (() => {
+    const m = /@media \(max-width:400px\)\{([\s\S]*?)\n\}/.exec(html);
+    return !!m && !m[1].includes('.vida-hero') && !m[1].includes('.pl-main') && !m[1].includes('.rw-profile');
+  })());
+check('v5.65: perfil dentro del inventario',
+  html.includes('id="rw-tabs"') && html.includes('data-rwt="profile"') &&
+  html.includes('data-rwt="arsenal"') && html.includes('id="rw-profile"') &&
+  html.includes('id="rw-arsenal-panel"') &&
+  html.includes('function rwProfileRender(') && html.includes('function rwApplyTab('));
+check('v5.65: perfil muestra XP, frentes, dominios y rangos',
+  html.includes('XP del ecosistema') && html.includes('Frentes') &&
+  html.includes('Dominios') && html.includes('Rangos internos') &&
+  html.includes('pf-xp-list') && html.includes('pf-grid') && html.includes('pf-ranks'));
+check('v5.65: perfil tiene atajos a los frentes',
+  html.includes('go: "daily"') && html.includes('go: "campaign"') &&
+  html.includes('go: "jobs"') && html.includes('go: "capital"') &&
+  html.includes('go: "vida"') && html.includes('go: "sagas"') &&
+  html.includes("data-go=\"' + f.go + '\""));
+check('v5.65: HUD/sidebar/mapa usan Nivel ODEA',
+  html.includes('_hudLvl.textContent = "NIVEL " + _oi.lvl') &&
+  html.includes('"Nv." + _oi.lvl') &&
+  html.includes('NIVEL ODEA') && html.includes('odeLevelNow()'));
 
 // ---------- Resultado ----------
 console.log();
