@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.65-20261020-perfil-niveles';
+const CACHE_VERSION = 'odea-v5.66-20261020-curva-xp-sidebar';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',

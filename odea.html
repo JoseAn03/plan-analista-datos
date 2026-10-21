@@ -1584,6 +1584,17 @@ header{padding:10px 14px}
 .side-stats .mini-chip{padding:6px 2px}
 .perfil-block{display:none!important}
 .side-stats .vida-mini,.side-stats .vida-mini b{font-size:.68rem}
+/* Ajustes compactos: respaldos y reinicios sin el panel de estadísticas */
+.side-settings{margin-top:10px;border-top:1px dashed rgba(160,160,192,.18);padding-top:6px}
+.side-settings summary{cursor:pointer;list-style:none;padding:7px 4px;font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:1.5px;color:var(--tx2);text-transform:uppercase}
+.side-settings summary::-webkit-details-marker{display:none}
+.side-settings summary::before{content:'▸';display:inline-block;margin-right:6px;color:var(--glow-cyan);transition:transform .2s}
+.side-settings[open] summary::before{transform:rotate(90deg)}
+.side-settings summary:hover{color:#fff}
+.side-settings-body{padding:2px 0 4px}
+.side-settings .side-ach{display:block;width:100%;margin-top:2px}
+.side-settings .backup-row{margin-top:8px}
+.side-settings .btn-reset{font-size:.7rem;padding:7px;margin-top:8px}
 @media (min-width:1000px){
   .app-side{width:258px}
   header,.layout,footer{margin-left:258px}
@@ -2235,7 +2246,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.65</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.66</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2251,58 +2262,22 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
     <button class="nav-item" data-tab="sagas" aria-label="Sagas con mi hijo"><span class="ni-ico">📹</span> SAGAS</button>
     <button class="nav-item" data-tab="capital" aria-label="El Imperio"><span class="ni-ico">👑</span> IMPERIO</button>
   </div>
-  <div class="side-sec">📊 ESTADO DEL RECLUTA</div>
-  <div class="side-stats" id="side-stats">
-    <h2 class="side-sec-title">⚡ Perfil del Recluta</h2>
-    <div class="stat-block perfil-block">
-      <div class="stat-head"><span><span class="stat-ico">🪪</span><b id="s-name">Recluta</b><span id="s-gear" class="gear-slot"></span></span><span id="s-lvl">Nv.1</span></div>
-      <div class="holo-stage" id="holo-stage"></div>
-    </div>
-    <div id="domains-stats"></div>
-    <div class="stat-block">
-      <div class="stat-head"><span><span class="stat-ico">🧬</span>Héroe Integral (Vida)</span><span id="s-vlvl">Nv.1</span></div>
-      <div class="bar stat violet"><span id="s-vbar"></span></div>
-      <div class="vida-mini">
-        <span title="Frente Equilibrio (cuerpo, mente, dinero)">⚖️ <b id="vm-eq">Nv.1</b></span>
-        <span title="Frente Legado (tu hijo)">👶 <b id="vm-kid">Nv.1</b></span>
-        <span title="Frente Alianza (tu pareja)">💑 <b id="vm-cpl">Nv.1</b></span>
-        <span title="Frente Poder e Imagen (mentalidad, presencia, marca)">🦁 <b id="vm-pow">Nv.1</b></span>
-        <span title="Frente Sabios & Mentores (grandes figuras)">🏛️ <b id="vm-men">Nv.1</b></span>
-        <span title="Frente Planes & Aventuras (salidas y tiempo de calidad)">🎢 <b id="vm-plan">Nv.1</b></span>
-        <span title="Frente Orden & Hogar (orden presente y limpieza)">🧹 <b id="vm-orden">Nv.1</b></span>
+  <details class="side-settings" id="side-settings">
+    <summary>⚙️ AJUSTES</summary>
+    <div class="side-settings-body">
+      <button class="btn-backup side-ach" id="ach-link" type="button" aria-label="Abrir salón de logros">🏅 SALÓN DE LOGROS</button>
+      <div class="backup-row">
+        <button class="btn-backup" id="btn-export" type="button" title="Descarga tu progreso como archivo de respaldo" aria-label="Respaldar progreso">⬇️ RESPALDAR</button>
+        <button class="btn-backup" id="btn-import" type="button" title="Restaura tu progreso desde un respaldo" aria-label="Restaurar progreso desde respaldo">⬆️ RESTAURAR</button>
+        <input type="file" id="import-file" accept=".json,application/json" hidden>
       </div>
+      <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
+      <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar campaña de empleo">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
     </div>
-    <div class="stat-block">
-      <div class="stat-head" title="Tres frentes del imperio: capital, inglés e IA"><span><span class="stat-ico">👑</span>El Imperio (💰·🌎·🤖)</span><span id="s-clvl">Nv.1</span></div>
-      <div class="bar stat cap"><span id="s-cbar"></span></div>
-      <div class="vida-mini">
-        <span>Rango: <b id="s-crank">Novato del Imperio</b></span>
-        <span>⚔️ <b id="s-cdone">0/33</b></span>
-      </div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-head" title="XP unificado de todas las áreas: carrera, logros, vida y capital"><span><span class="stat-ico">⚡</span>XP del Ecosistema</span><span id="eco-xp-total">0</span></div>
-      <div class="eco-xp" id="eco-xp"></div>
-    </div>
-    <div class="chip-grid">
-      <div class="mini-chip daily"><span class="mc-num" id="d-count">0/56</span><span class="mc-lab">Días</span></div>
-      <div class="mini-chip weekly"><span class="mc-num" id="w-count">0/8</span><span class="mc-lab">Semanas</span></div>
-      <div class="mini-chip camp"><span class="mc-num" id="c-count">0/32</span><span class="mc-lab">Campaña</span></div>
-    </div>
-    <div class="radar-wrap"><canvas id="radar-chart" width="230" height="200"></canvas></div>
-    <div class="time-est">⏱️ Tiempo total estimado<br><b id="time-total">0 h</b></div>
-    <div class="ach-mini" id="ach-link">🏅 Logros: <b id="ach-count">0</b>/<span id="ach-total">24</span> · Ver salón ▸</div>
-    <div class="backup-row">
-      <button class="btn-backup" id="btn-export" type="button" title="Descarga tu progreso como archivo de respaldo" aria-label="Respaldar progreso">⬇️ RESPALDAR</button>
-      <button class="btn-backup" id="btn-import" type="button" title="Restaura tu progreso desde un respaldo" aria-label="Restaurar progreso desde respaldo">⬆️ RESTAURAR</button>
-      <input type="file" id="import-file" accept=".json,application/json" hidden>
-    </div>
-    <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
-    <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar campaña de empleo">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
-  </div>
+  </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.65</span>
+    <span class="ver" id="ver-badge">v5.66</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2488,7 +2463,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.65</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.66</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -2639,20 +2614,22 @@ const LEVELS = [
   { xp: 15000, name: "Analista Legendario" },
   { xp: 20000, name: "Dios de los Datos" }
 ];
-/* 🧬 Nivel ODEA (v5.65): una sola escalera para TODO el XP.
-   Cada rango de LEVELS se divide en 7 niveles (igual que levelName),
-   así el nivel global responde a cualquier frente, no solo a los días.
-   Después del último subnivel, +1 nivel cada 3.000 XP. */
+/* 🧬 Nivel ODEA (v5.66): una sola escalera para TODO el XP.
+   63 niveles con curva progresiva: los primeros suben rápido y cada vez
+   hace falta más XP. Así el nivel refleja el recorrido completo sin
+   dispararse por sumar XP de varios frentes el mismo día.
+   Hitos: Nv.2=88 · Nv.5=991 · Nv.10=4.097 · Nv.20=15.147 · Nv.63=120.000 XP. */
+const ODE_MAX_LEVEL = 63;
+const ODE_MAX_XP = 120000;
+const ODE_CURVE = 1.75;
 const ODE_LADDER = (function () {
   const out = [];
-  for (let i = 0; i < LEVELS.length; i++) {
-    const start = LEVELS[i].xp;
-    const end = LEVELS[i + 1] ? LEVELS[i + 1].xp : start + 5000;
-    for (let s = 0; s < 7; s++) out.push({ xp: Math.round(start + (end - start) * (s / 7)), rank: i });
-  }
-  const lastXp = out[out.length - 1].xp;
-  for (let xp = Math.ceil((lastXp + 1) / 3000) * 3000; xp <= 300000; xp += 3000) {
-    out.push({ xp: xp, rank: LEVELS.length - 1 });
+  for (let lvl = 1; lvl <= ODE_MAX_LEVEL; lvl++) {
+    const t = (lvl - 1) / (ODE_MAX_LEVEL - 1);
+    out.push({
+      xp: lvl === 1 ? 0 : Math.round(ODE_MAX_XP * Math.pow(t, ODE_CURVE)),
+      rank: Math.min(LEVELS.length - 1, Math.floor((lvl - 1) / 7))
+    });
   }
   return out;
 })();
@@ -3611,7 +3588,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.65"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.66"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -5709,158 +5686,55 @@ function toggleJob(id, el) {
 function updateUI() {
   const _oi = odeInfo(gameState.totalXP);
   const pct = _oi.pct;
+  const setTxt = function (id, txt) { const e = document.getElementById(id); if (e) e.textContent = txt; };
   const _hudLvl = document.getElementById("hud-level");
-  _hudLvl.textContent = "NIVEL " + _oi.lvl;
-  _hudLvl.title = "Nivel ODEA · sube con todo el XP del ecosistema";
-  { const _tc = HOLO_TIERS[holoTier()].col; _hudLvl.style.color = _tc; _hudLvl.style.borderColor = _tc; _hudLvl.style.boxShadow = "0 0 14px " + _tc; }
-  { const _hr = document.getElementById("hud-rank"); _hr.textContent = _oi.name + (_oi.nextXp ? " · faltan " + _oi.need.toLocaleString("es-CR") + " XP" : " · MÁX"); _hr.style.color = HOLO_TIERS[holoTier()].col; }
-  document.getElementById("hud-xp").textContent = gameState.totalXP.toLocaleString("es-CR") + " XP";
-  document.getElementById("hud-pct").textContent = pct + "%";
-  document.getElementById("hud-bar").style.width = pct + "%";
-  document.getElementById("s-name").textContent = gameState.playerName;
-  const gearEl = document.getElementById("s-gear");
-  if (gearEl) gearEl.textContent = (REWARDS.find(r2 => r2.id === ((gameState.rewards || {}).equipped || {}).medallas) || {}).ico || "";
-  document.getElementById("s-lvl").textContent = "Nv." + _oi.lvl;
-  document.getElementById("streak-n").textContent = gameState.streak;
+  if (_hudLvl) {
+    _hudLvl.textContent = "NIVEL " + _oi.lvl;
+    _hudLvl.title = "Nivel ODEA · sube con todo el XP del ecosistema";
+    const _tc = HOLO_TIERS[holoTier()].col;
+    _hudLvl.style.color = _tc;
+    _hudLvl.style.borderColor = _tc;
+    _hudLvl.style.boxShadow = "0 0 14px " + _tc;
+  }
+  const _hr = document.getElementById("hud-rank");
+  if (_hr) {
+    _hr.textContent = _oi.name + (_oi.nextXp ? " · faltan " + _oi.need.toLocaleString("es-CR") + " XP" : " · MÁX");
+    _hr.style.color = HOLO_TIERS[holoTier()].col;
+  }
+  setTxt("hud-xp", gameState.totalXP.toLocaleString("es-CR") + " XP");
+  setTxt("hud-pct", pct + "%");
+  const hudBar = document.getElementById("hud-bar");
+  if (hudBar) hudBar.style.width = pct + "%";
+  setTxt("streak-n", gameState.streak);
   const streakChip = document.getElementById("streak-chip");
-  streakChip.style.boxShadow = gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
-  const fpd = firstPendingDay();
-  streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd) && activityToday() < STREAK_MIN_MISSIONS);
-  const _sm = streakMult();
-  const _smEl = document.getElementById("streak-mult");
-  if (_smEl) _smEl.textContent = _sm > 1 ? " ×" + _sm : "";
-  const _shEl = document.getElementById("streak-shield");
-  if (_shEl) _shEl.textContent = streakShieldReady() ? " 🛡️" : "";
-  streakChip.title = "Racha de " + gameState.streak + (gameState.streak === 1 ? " día" : " días") +
-    " · hoy " + activityToday() + "/" + STREAK_MIN_MISSIONS + " misiones de cualquier frente" +
-    (_sm > 1 ? " · boost ×" + _sm + " XP en diarias" : "") + (streakShieldReady() ? " · escudo 🛡️ listo" : "");
+  if (streakChip) {
+    streakChip.style.boxShadow = gameState.streak >= 7 ? "0 0 20px rgba(255,170,0,.6)" : "";
+    const fpd = firstPendingDay();
+    streakChip.classList.toggle("risk", gameState.streak > 0 && isDayUnlocked(fpd) && !isDayFull(fpd) && activityToday() < STREAK_MIN_MISSIONS);
+    const _sm = streakMult();
+    const _smEl = document.getElementById("streak-mult");
+    if (_smEl) _smEl.textContent = _sm > 1 ? " ×" + _sm : "";
+    const _shEl = document.getElementById("streak-shield");
+    if (_shEl) _shEl.textContent = streakShieldReady() ? " 🛡️" : "";
+    streakChip.title = "Racha de " + gameState.streak + (gameState.streak === 1 ? " día" : " días") +
+      " · hoy " + activityToday() + "/" + STREAK_MIN_MISSIONS + " misiones de cualquier frente" +
+      (_sm > 1 ? " · boost ×" + _sm + " XP en diarias" : "") + (streakShieldReady() ? " · escudo 🛡️ listo" : "");
+  }
   const _cb = coinsBalance();
   const _cbEl = document.getElementById("coin-badge");
   if (_cbEl) _cbEl.textContent = _cb.toLocaleString("es-CR");
   const _chEl = document.getElementById("coin-head");
   if (_chEl) _chEl.textContent = _cb.toLocaleString("es-CR");
-  renderDomains();
-  document.getElementById("d-count").textContent = fullDaysCount() + "/" + DAILY_TOTAL;
-  document.getElementById("w-count").textContent = gameState.completedWeekly.length + "/" + WEEKLY_TOTAL;
-  document.getElementById("c-count").textContent = gameState.completedMissions.length + "/" + CAMP_TOTAL;
-  document.getElementById("ach-count").textContent = gameState.unlockedAch.length;
-  document.getElementById("ach-total").textContent = achievements.length;
-  document.getElementById("jb-apps").textContent = jobsDoneCount() + "/" + employmentMissions.length;
-  document.getElementById("jb-done").textContent = Math.max(0, employmentMissions.length - jobsDoneCount());
-  document.getElementById("jb-xp").textContent = jobsXPGain().toLocaleString("es-CR");
-  let minT = 0, maxT = 0;
-  campaignAll.forEach(m => { const t = parseHours(m.estimatedTime); minT += t.min * 60; maxT += t.max * 60; });
-  dailyMissions.forEach(m => { minT += m.time; maxT += m.time; });
-  weeklyMissions.forEach(m => { minT += m.time; maxT += m.time; });
-  document.getElementById("time-total").textContent =
-    minT === maxT ? fmtHours(minT) : fmtHours(minT) + " – " + fmtHours(maxT);
-  drawRadar();
-  renderEcoXP();
+  setTxt("jb-apps", jobsDoneCount() + "/" + employmentMissions.length);
+  setTxt("jb-done", Math.max(0, employmentMissions.length - jobsDoneCount()));
+  setTxt("jb-xp", jobsXPGain().toLocaleString("es-CR"));
+  /* Las estadísticas y el XP del ecosistema viven solo en INVENTARIO → PERFIL. */
   evalRewards();
   rwGearRender();
   updateEmpRank();
   holoRender();
   sideSync();
 }
-function setBar(barId, txtId, value) {
-  document.getElementById(barId).style.width = value + "%";
-  document.getElementById(txtId).textContent = value + "%";
-}
-function renderDomains() {
-  const host = document.getElementById("domains-stats");
-  if (!host) return;
-  host.innerHTML = domainLevels().map(function (d) {
-    return '<div class="stat-block">' +
-      '<div class="stat-head"><span><span class="stat-ico">' + d.ico + '</span>' + d.n + '</span><span>Nv.' + d.lvl + ' · ' + d.pct + '%</span></div>' +
-      '<div class="bar stat"><span style="width:' + d.pct + '%;background:linear-gradient(90deg,' + d.c + ',' + d.c + '88)"></span></div>' +
-    '</div>';
-  }).join("");
-}
-
-/* --- XP del Ecosistema: desglose unificado (carrera · logros · vida · capital) --- */
-function renderEcoXP() {
-  const b = gameState.xpBreakdown || { career: 0, ach: 0, vida: 0, capital: 0 };
-  const total = gameState.totalXP || 0;
-  const elT = document.getElementById("eco-xp-total");
-  if (elT) elT.textContent = total.toLocaleString("es-CR") + " XP";
-  const box = document.getElementById("eco-xp");
-  if (!box) return;
-  const rows = [
-    ["📜 Carrera", b.career, "#00ff88"],
-    ["🏅 Logros", b.ach, "#ffd700"],
-    ["🧬 Vida", b.vida, "#ff00ff"],
-    ["👑 Imperio", b.capital, "#7c6cff"],
-    ["🏆 Jefes", b.bosses || 0, "#ff6600"],
-    ["🍅 Enfoque", b.focus || 0, "#00ccff"],
-    ["📓 Diario", b.diary || 0, "#ff00aa"]
-  ];
-  const max = Math.max(1, ...rows.map(r => r[1]));
-  box.innerHTML = rows.map(r =>
-    '<div class="eco-row"><span class="eco-lab">' + r[0] + '</span>' +
-    '<div class="eco-bar"><span style="width:' + Math.round((r[1] / max) * 100) + '%;background:' + r[2] + '"></span></div>' +
-    '<span class="eco-val">' + r[1].toLocaleString("es-CR") + '</span></div>'
-  ).join("");
-}
-
-/* --- Radar --- */
-const radar = document.getElementById("radar-chart");
-const radarCtx = radar.getContext("2d");
-function drawRadar() {
-  const ds = domainLevels();
-  const n = ds.length;
-  const W = radar.width, H = radar.height, cx = W / 2, cy = H / 2 + 6, R = 68;
-  const angles = ds.map(function (_, i) { return -Math.PI / 2 + i * (2 * Math.PI / n); });
-  radarCtx.clearRect(0, 0, W, H);
-  for (let ring = 1; ring <= 4; ring++) {
-    const rr = (R * ring) / 4;
-    radarCtx.beginPath();
-    angles.forEach(function (a, i) {
-      const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
-      i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
-    });
-    radarCtx.closePath();
-    radarCtx.strokeStyle = "rgba(160,160,192,.18)";
-    radarCtx.lineWidth = 1;
-    radarCtx.stroke();
-  }
-  angles.forEach(function (a, i) {
-    radarCtx.beginPath();
-    radarCtx.moveTo(cx, cy);
-    radarCtx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
-    radarCtx.strokeStyle = "rgba(160,160,192,.25)";
-    radarCtx.stroke();
-    radarCtx.fillStyle = ds[i].c;
-    radarCtx.font = "10px 'Share Tech Mono', monospace";
-    radarCtx.textAlign = "center";
-    radarCtx.fillText(ds[i].s, cx + (R + 20) * Math.cos(a), cy + (R + 20) * Math.sin(a) + 3);
-  });
-  radarCtx.beginPath();
-  angles.forEach(function (a, i) {
-    const rr = Math.max(4, R * Math.min(1, ds[i].pct / 100));
-    const x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a);
-    i === 0 ? radarCtx.moveTo(x, y) : radarCtx.lineTo(x, y);
-  });
-  radarCtx.closePath();
-  radarCtx.fillStyle = "rgba(0,255,136,.14)";
-  radarCtx.fill();
-  radarCtx.strokeStyle = "rgba(0,255,136,.8)";
-  radarCtx.lineWidth = 1.6;
-  radarCtx.shadowColor = "rgba(0,255,136,.6)";
-  radarCtx.shadowBlur = 10;
-  radarCtx.stroke();
-  radarCtx.shadowBlur = 0;
-  angles.forEach(function (a, i) {
-    const rr = Math.max(4, R * Math.min(1, ds[i].pct / 100));
-    radarCtx.beginPath();
-    radarCtx.arc(cx + rr * Math.cos(a), cy + rr * Math.sin(a), 3.5, 0, Math.PI * 2);
-    radarCtx.fillStyle = ds[i].c;
-    radarCtx.shadowColor = ds[i].c;
-    radarCtx.shadowBlur = 8;
-    radarCtx.fill();
-    radarCtx.shadowBlur = 0;
-  });
-}
-
 /* --- Partículas --- */
 const pCanvas = document.getElementById("particles-canvas");
 const pCtx = pCanvas.getContext("2d");
@@ -6341,7 +6215,8 @@ document.getElementById("modal-input").addEventListener("keydown", e => {
 /* --- Logros --- */
 const achLayer = document.getElementById("ach-layer");
 function openAchievements() { renderAchievements(); achLayer.classList.add("show"); }
-document.getElementById("ach-link").addEventListener("click", openAchievements);
+const achQuick = document.getElementById("ach-link");
+if (achQuick) achQuick.addEventListener("click", openAchievements);
 document.getElementById("logo").addEventListener("click", openAchievements);
 document.getElementById("ach-close").addEventListener("click", () => achLayer.classList.remove("show"));
 achLayer.addEventListener("click", e => { if (e.target === achLayer) achLayer.classList.remove("show"); });
@@ -7552,6 +7427,7 @@ function rwProfileRender() {
         (oi.nextXp ? 'faltan ' + oi.need.toLocaleString("es-CR") + ' XP para el nivel ' + (oi.lvl + 1) : "nivel máximo") + '</div>' +
       pfBar(oi.pct, "linear-gradient(90deg,#ffaa00,#ffd700)") +
       '<div class="pf-chips">' +
+        '<span class="pf-chip">📅 Día <b>' + Math.min(campaignLevel(), DAILY_TOTAL) + "/" + DAILY_TOTAL + '</b></span>' +
         '<span class="pf-chip">🔥 Racha <b>' + (gameState.streak || 0) + '</b> día' + ((gameState.streak || 0) === 1 ? "" : "s") + '</span>' +
         '<span class="pf-chip">🎯 Hoy <b>' + todayN + "/" + STREAK_MIN_MISSIONS + '</b> misiones</span>' +
         '<span class="pf-chip">📅 Días activos <b>' + activeDays + '</b></span>' +
@@ -7563,11 +7439,16 @@ function rwProfileRender() {
     '</div>' +
   '</div>';
 
+  const curveMiles = [2, 3, 5, 10, 20, 30, 40, 50, 63].map(function (n) {
+    return "Nv." + n + " = " + ODE_LADDER[n - 1].xp.toLocaleString("es-CR") + " XP";
+  }).join(" · ");
+
   html += '<div class="pf-sec-title">⚡ XP del ecosistema <small>todo suma al Nivel ODEA</small></div>' +
     '<div class="pf-xp-list">' + bRows.map(function (r) {
       return '<div class="pf-xp-row"><span>' + r[0] + '</span>' + pfBar((r[1] / bMax) * 100, r[2]) +
         '<span class="pf-val">' + r[1].toLocaleString("es-CR") + '</span></div>';
-    }).join("") + '</div>';
+    }).join("") + '</div>' +
+    '<div class="pf-note"><b>Ritmo de nivel:</b> ' + curveMiles + '. La curva sube rápido al inicio y se vuelve más exigente después. El <b>Día</b> de campaña avanza por separado.</div>';
 
   html += '<div class="pf-sec-title">🗺️ Frentes <small>toca para ir</small></div>' +
     '<div class="pf-grid">' + fronts.map(function (f) {
