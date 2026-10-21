@@ -17,7 +17,7 @@ guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + niveles/perfil v5.65). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -50,7 +50,8 @@ node tests/smoke.mjs
 ```
 
 Solo requiere Node 18+. Valida la sintaxis del JS inline, la coherencia de versión
-HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días y las Sagas.
+HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días, las Sagas,
+el Nivel ODEA, la racha global, el diario persistente, Mi Plan expandible y el perfil.
 El workflow `.github/workflows/smoke.yml` lo ejecuta en cada push a `main` y en cada PR.
 (`tests/smoke.py` se conserva como variante antigua, pero el CI ya no lo usa).
 
@@ -103,13 +104,50 @@ no hay migración y el progreso guardado sigue intacto.
   `RETOS` queda fuera a propósito: es el reto del día y vive en *Hoy*.
 - **Verificación:** `node tests/smoke.mjs` incluye 4 checks del ＋.
 
+### Niveles, racha y perfil (v5.65)
+
+Un solo ecosistema para todo el progreso:
+
+- **Nivel ODEA:** se calcula con **todo** `gameState.totalXP` mediante `ODE_LADDER`
+  y `odeInfo()`: 7 subniveles por rango de `LEVELS` y, al terminar la escalera,
+  +1 nivel cada 3.000 XP (27.000, 30.000…). Es el nivel que se ve en el HUD,
+  la barra lateral y el mapa.
+- **Día del plan:** `gameState.level` se conserva como día de campaña
+  (`campaignLevel()`); los días se desbloquean con `unlockedDay()` y los jefes
+  usan ese día. La UI lo llama **DÍA**.
+- **XP completo:** `gameState.totalXP = carrera + logros + vida + capital + enfoque +
+  diario + jefes`. Los jefes (`GOD_BOSSES`, `TITAN_BOSSES`, `VIDA_BOSSES`) ya suman
+  de verdad, no solo en el toast. El diario guarda un historial `diary.log` y su XP
+  ya no se pierde al cambiar de día; los guardados viejos migran solos.
+- **Racha global:** sube al completar un día entero de *Hoy* (3/3), al marcar la
+  misión semanal de Sagas o al llegar a **5 misiones** del día en cualquier frente.
+  Se registra en `gameState.activity[YYYY-MM-DD]` (`activityAdd()` /
+  `activityMaybeStreak()`), sin farmear dos veces el mismo día.
+- **Mi Plan expandible:** cada misión agregada se puede tocar para ver qué hacer,
+  cómo verificarla, tiempo, pasos, por qué y reto. Expandir no completa ni
+  desmarca la misión; el área táctil del título mide 48 px.
+- **Perfil dentro del inventario:** el modal `#rw-layer` ahora tiene las pestañas
+  **PERFIL** y **ARSENAL**. El perfil muestra Nivel ODEA, XP total, desglose por
+  fuente, racha, misiones, logros, monedas, los 8 frentes con atajo directo,
+  dominios y rangos internos de cada frente.
+- **CSS corregido:** el `@media (max-width:400px)` de los días se cerraba mucho
+  después y se tragaba VIDA, planner, Sagas e inventario. Ahora cierra donde debe,
+  así que esos estilos también se aplican en escritorio. En móvil, `.layout` usa
+  `align-items:stretch` y `.main-col{width:100%;min-width:0}` para que el plan
+  expandido no ensanche el viewport (verificado a 390 px).
+
+No cambian `SAVE_KEY` (`odea_save_v2`) ni `SAGA_KEY` (`odea_sagas_v1`); todos los
+campos nuevos son aditivos y `loadGame()` los normaliza.
+
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.63 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.65 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
-5. Importa un respaldo viejo (sin `odea_sagas_v1`): debe cargar sin errores y con Sagas en 0.
+5. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log` ni `activity`): debe cargar sin errores,
+   con Sagas en 0, el diario migrado y la racha y misiones intactas.
+6. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA y toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
 
 ---
 
