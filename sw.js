@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.68-20261020-disparo-rapido';
+const CACHE_VERSION = 'odea-v5.69-20261020-radar-senales';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',

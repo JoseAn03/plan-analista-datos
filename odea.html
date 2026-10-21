@@ -2244,7 +2244,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 }
 
 /* ==========================================================
-   🎯 LA CACERÍA (v5.68) — mundo de postulaciones reales
+   🎯 LA CACERÍA (v5.69) — mundo de postulaciones reales
    ========================================================== */
 :root{--hunt-pink:#ff4f9a;--hunt-gold:#ffd166;--hunt-violet:#b06cff}
 #view-hunt{--hunt-accent:var(--hunt-pink)}
@@ -2368,6 +2368,29 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 .hunt-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
 .hunt-empty{padding:18px 12px;text-align:center;border:1px dashed rgba(255,79,154,.28);border-radius:12px;color:var(--tx2);font-size:.73rem;background:rgba(255,79,154,.03)}
 .hunt-empty b{color:#fff}
+.hunt-radar-progress{margin-top:12px;padding:11px 13px;border-radius:13px;background:rgba(255,79,154,.06);border:1px solid rgba(255,79,154,.24)}
+.hunt-radar-progress .hunt-bar{margin-top:6px}
+.hunt-radar-list{display:grid;gap:9px;margin-top:12px}
+.hunt-radar-item{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
+  padding:11px 12px;border-radius:13px;cursor:pointer;font-family:inherit;color:inherit;
+  background:rgba(8,8,22,.62);border:1px solid rgba(160,160,192,.2);transition:.18s}
+.hunt-radar-item:hover{border-color:var(--hunt-pink);background:rgba(255,79,154,.08);transform:translateY(-1px)}
+.hunt-radar-item:active{transform:scale(.99)}
+.hunt-radar-item.done{cursor:default;border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.055);box-shadow:inset 0 0 22px rgba(0,255,136,.035)}
+.hunt-radar-check{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:var(--hunt-gold);
+  background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.32)}
+.hunt-radar-item.done .hunt-radar-check{color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;box-shadow:0 0 18px rgba(0,255,136,.24)}
+.hunt-radar-info{min-width:0}
+.hunt-radar-info b{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:.5px}
+.hunt-radar-info span{display:block;color:var(--tx2);font-size:.62rem;margin-top:2px}
+.hunt-radar-reward{font-size:.62rem;color:var(--hunt-gold);white-space:nowrap;text-align:right}
+.hunt-radar-item.done .hunt-radar-reward{color:var(--glow-green)}
+@media (max-width:640px){
+  .hunt-radar-item{grid-template-columns:40px minmax(0,1fr);gap:9px;padding:10px}
+  .hunt-radar-check{width:40px;height:40px}
+  .hunt-radar-reward{grid-column:2;text-align:left;margin-top:-3px}
+}
 .hunt-vac-list{display:grid;gap:9px;margin-top:11px}
 .hunt-vac{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px;
   border-radius:13px;background:rgba(8,8,22,.6);border:1px solid rgba(160,160,192,.18);position:relative;overflow:hidden}
@@ -2526,7 +2549,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.68</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.69</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2558,7 +2581,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.68</span>
+    <span class="ver" id="ver-badge">v5.69</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2749,7 +2772,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.68</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.69</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3888,7 +3911,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.68"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.69"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3950,6 +3973,7 @@ function defaultHunt() {
     created: null,
     quota: 5,
     quickShots: 0,
+    radarChecks: { date: null, done: [] },
     applications: [],
     vacancies: [],
     forge: {},
@@ -6194,7 +6218,7 @@ function renderAll() {
 }
 
 /* ==========================================================
-   🎯 V5.68 — LA CACERÍA
+   🎯 V5.69 — LA CACERÍA
    Mundo de postulaciones reales. Estado aditivo en gameState.hunt.
    No toca las claves de otros mundos ni duplica XP/monedas: todo
    se calcula desde hunt.log, igual que Sagas calcula sus monedas.
@@ -6219,7 +6243,7 @@ const HUNT_DIFF = {
   "Difícil": "#ffd166",
   "Épica":   "#ff4f9a"
 };
-const HUNT_DAILY_CORE = ["d_quota", "d_burst", "d_follow2"];
+const HUNT_DAILY_CORE = ["d_quota", "d_burst", "d_follow2", "d_radar5"];
 const HUNT_MISSIONS = [
   /* --- Diarias rotativas --- */
   { id:"d_quota", group:"daily", freq:"daily", diff:"Media", xp:60, coins:3, ico:"🎯", core:true,
@@ -6240,9 +6264,9 @@ const HUNT_MISSIONS = [
   { id:"d_outside", group:"daily", freq:"daily", diff:"Media", xp:60, coins:2, ico:"🧭",
     t:"Postula a 1 empresa fuera de tu zona cómoda", d:"Marca la casilla «fuera de zona cómoda» al registrar el disparo.",
     goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.outside; }).length; } },
-  { id:"d_radar5", group:"daily", freq:"daily", diff:"Fácil", xp:40, coins:1, ico:"📡",
-    t:"Guarda 5 vacantes nuevas en el Radar", d:"Investiga, filtra y guarda oportunidades con match real.",
-    goal:5, p:function(){ return huntTodayVacancies().length; } },
+  { id:"d_radar5", group:"daily", freq:"daily", diff:"Fácil", xp:40, coins:1, ico:"📡", core:true,
+    t:"Completa 5 señales en el Radar", d:"Marcá las 5 señales del Radar. Cada check paga XP y monedas al instante.",
+    goal:5, p:function(){ return huntRadarCheckCount(); } },
   { id:"d_letter", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"✍️",
     t:"Postula con carta personalizada", d:"Una carta específica demuestra que leíste la vacante.",
     goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.letter; }).length; } },
@@ -6501,6 +6525,11 @@ function huntEnsureDay() {
     h.surprise = { date: today, type: huntPickSurprise(today), done: false };
   }
   if (h.comboDate !== today) { h.combo = 0; h.comboDate = today; }
+  if (!h.radarChecks || h.radarChecks.date !== today) h.radarChecks = { date: today, done: [] };
+  if (!Array.isArray(h.radarChecks.done)) h.radarChecks.done = [];
+  h.radarChecks.done = h.radarChecks.done.map(Number).filter(function (n, i, arr) {
+    return n >= 1 && n <= 5 && arr.indexOf(n) === i;
+  });
   if (!h.settings || typeof h.settings !== "object") h.settings = { fx: true, vibrate: true };
   if (!h.boss || typeof h.boss !== "object") h.boss = defaultHunt().boss;
   if (!Array.isArray(h.boss.favorites)) h.boss.favorites = [];
@@ -6542,6 +6571,12 @@ function huntWeekApps() {
 function huntTodayVacancies() {
   const today = todayStr();
   return huntEnsureDay().vacancies.filter(function (v) { return v.date === today; });
+}
+function huntRadarChecks() {
+  return huntEnsureDay().radarChecks.done;
+}
+function huntRadarCheckCount() {
+  return huntRadarChecks().length;
 }
 function huntFollowupsToday() {
   const today = todayStr();
@@ -6675,6 +6710,13 @@ function normalizeHunt(raw) {
   out.created = huntDateStr(raw.created) || null;
   out.quota = huntClamp(raw.quota || 5, 1, 20);
   out.quickShots = Math.max(0, Math.min(99999, Number(raw.quickShots) || 0));
+  const rc = (raw.radarChecks && typeof raw.radarChecks === "object") ? raw.radarChecks : {};
+  out.radarChecks = {
+    date: huntDateStr(rc.date),
+    done: Array.isArray(rc.done) ? rc.done.map(Number).filter(function (n, i, arr) {
+      return n >= 1 && n <= 5 && arr.indexOf(n) === i;
+    }).slice(0, 5) : []
+  };
   out.streak = Math.max(0, Math.min(9999, Number(raw.streak) || 0));
   out.bestStreak = Math.max(out.streak, Math.min(9999, Number(raw.bestStreak) || 0));
   out.lastPost = huntDateStr(raw.lastPost);
@@ -6955,6 +6997,31 @@ function huntOpenQuickDetail() {
     id: ""
   }));
 }
+function huntRadarCheck(n) {
+  const h = huntEnsureDay();
+  const idx = huntClamp(n, 1, 5);
+  if (h.radarChecks.done.indexOf(idx) >= 0) return;
+  h.radarChecks.done.push(idx);
+  h.log.push({
+    key: "radar:" + todayStr() + ":" + idx,
+    id: "radar_" + todayStr() + "_" + idx,
+    kind: "bonus", date: todayStr(), xp: 20, coins: 1,
+    title: "Radar: señal " + idx + "/5"
+  });
+  let bonus = false;
+  if (h.radarChecks.done.length === 5 && !huntLogHasKey("radar_bonus:" + todayStr())) {
+    bonus = true;
+    h.log.push({
+      key: "radar_bonus:" + todayStr(),
+      id: "radar_bonus_" + todayStr(),
+      kind: "bonus", date: todayStr(), xp: 50, coins: 3,
+      title: "Radar completo: 5/5 señales"
+    });
+  }
+  activityAdd("hunt", 1);
+  activityMaybeStreak();
+  huntAfterChange("Señal " + idx + "/5 completada · +20 XP · +1 🪙" + (bonus ? " · BONUS +50 XP · +3 🪙" : ""), "shot");
+}
 function huntCheckMissions(opts) {
   opts = opts || {};
   const h = huntEnsureDay();
@@ -7060,9 +7127,9 @@ function huntHeroHTML() {
     return '<option value="' + n + '"' + (Number(h.quota) === n ? " selected" : "") + '>' + n + ' postulaciones</option>';
   }).join("");
   return '<div class="hunt-hero">' +
-    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.68</div>' +
+    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.69</div>' +
     '<div class="hunt-title">LA <em>CACERÍA</em></div>' +
-    '<div class="hunt-desc">Encontrá vacantes, adaptá el CV o usá el <b>disparo rápido de un toque</b>: la empresa y el puesto se eligen solos, sin formulario. Después seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
+    '<div class="hunt-desc">Usá el <b>disparo rápido de un toque</b>: la empresa y el puesto se eligen solos, sin formulario. En el <b>Radar</b> marcá 5 señales diarias con un check y cobrá la recompensa al instante. Después seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
     '<div class="hunt-rank-card" style="border-color:' + r.cur.c + '55">' +
       '<div class="hunt-rank-medal" style="border-color:' + r.cur.c + ';box-shadow:0 0 20px ' + r.cur.c + '35">' + r.cur.ico + '</div>' +
       '<div class="hunt-rank-info"><b style="color:' + r.cur.c + '">' + escapeHtml(r.cur.name) + '</b><small>' + escapeHtml(r.cur.desc) + ' · ' + r.n + ' disparos</small></div>' +
@@ -7091,7 +7158,7 @@ function huntHeroHTML() {
 function huntMapHTML() {
   const h = huntEnsureDay();
   const zones = [
-    { id: "radar", ico: "📡", n: "RADAR", badge: h.vacancies.filter(function (v) { return v.status !== "applied"; }).length + " vacantes" },
+    { id: "radar", ico: "📡", n: "RADAR", badge: huntRadarCheckCount() >= 5 ? "✓ 5/5" : huntRadarCheckCount() + "/5" },
     { id: "forja", ico: "🛠️", n: "FORJA", badge: h.vacancies.filter(function (v) { return huntForgeScore(v.id) < 3; }).length + " por adaptar" },
     { id: "shot", ico: "🏹", n: "DISPARO", badge: huntTodayApps().length + "/" + huntQuota() },
     { id: "track", ico: "📊", n: "SEGUIMIENTO", badge: huntOverdueApps().length ? "⚠ " + huntOverdueApps().length : "al día" },
@@ -7166,23 +7233,24 @@ function huntVacancyCardHTML(v) {
     '</div>' +
   '</div>';
 }
+function huntRadarItemHTML(n, done) {
+  return '<button class="hunt-radar-item ' + (done ? "done" : "") + '" data-hunt-act="radar-check" data-n="' + n + '" type="button" aria-pressed="' + (done ? "true" : "false") + '" ' + (done ? "disabled" : "") + '>' +
+    '<span class="hunt-radar-check">' + (done ? "✓" : n) + '</span>' +
+    '<span class="hunt-radar-info"><b>Señal ' + n + '</b><span>' + (done ? "Completada · recompensa cobrada" : "Tocar para marcar completada") + '</span></span>' +
+    '<span class="hunt-radar-reward">' + (done ? "✓ +20 XP" : "+20 XP · +1 🪙") + '</span>' +
+  '</button>';
+}
 function huntZoneRadarHTML() {
   const h = huntEnsureDay();
-  const list = h.vacancies.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+  const done = h.radarChecks.done || [];
+  const count = done.length;
+  const pct = Math.round((count / 5) * 100);
   return '<div class="hunt-panel">' +
-    huntPanelHead("📡 RADAR DE VACANTES", "Cada vacante es un enemigo: nivel, empresa, puesto, link, fecha y match con tu perfil.",
-      '<span class="hunt-pill">' + list.filter(function (v) { return v.status !== "applied"; }).length + ' en radar</span>') +
-    '<form class="hunt-form" id="hunt-vac-form">' +
-      '<div class="hunt-field"><label for="hv-company">Empresa</label><input class="hunt-input" id="hv-company" name="company" maxlength="80" required placeholder="Ej. BAC Credomatic"></div>' +
-      '<div class="hunt-field"><label for="hv-role">Puesto</label><input class="hunt-input" id="hv-role" name="role" maxlength="100" required placeholder="Data Analyst / BI Analyst"></div>' +
-      '<div class="hunt-field"><label for="hv-link">Link de la vacante</label><input class="hunt-input" id="hv-link" name="link" maxlength="500" placeholder="https://..."></div>' +
-      '<div class="hunt-field"><label for="hv-match">% de match</label><input class="hunt-input" id="hv-match" name="match" type="number" min="0" max="100" value="60" inputmode="numeric"></div>' +
-      '<div class="hunt-field"><label for="hv-industry">Industria</label><input class="hunt-input" id="hv-industry" name="industry" maxlength="60" placeholder="Finanzas, retail, salud..."></div>' +
-      '<div class="hunt-field"><label for="hv-notes">Notas</label><input class="hunt-input" id="hv-notes" name="notes" maxlength="600" placeholder="Por qué te interesa / requisitos clave"></div>' +
-      '<div class="hunt-form-actions"><button class="hunt-btn primary" type="submit">➕ GUARDAR EN RADAR</button><span class="hunt-section-sub">El nivel del enemigo se calcula con el % de match.</span></div>' +
-    '</form>' +
-    (list.length ? '<div class="hunt-vac-list">' + list.map(huntVacancyCardHTML).join("") + '</div>' :
-      '<div class="hunt-empty" style="margin-top:11px"><b>El radar está limpio.</b><br>Guardá tu primera vacante y empezá la cacería.</div>') +
+    huntPanelHead("📡 RADAR DE SEÑALES", "Cinco señales diarias. Un check por señal: recompensa inmediata y progreso para la misión del Radar.",
+      '<span class="hunt-pill ' + (count >= 5 ? "green" : "") + '">' + count + '/5 hoy</span>') +
+    '<div class="hunt-radar-progress"><div class="hunt-quota-top"><b>' + (count >= 5 ? "✓ RADAR COMPLETO" : "SEÑALES COMPLETADAS") + '</b><span>' + pct + '%</span></div><div class="hunt-bar"><span style="width:' + pct + '%"></span></div></div>' +
+    '<div class="hunt-radar-list">' + [1, 2, 3, 4, 5].map(function (n) { return huntRadarItemHTML(n, done.indexOf(n) >= 0); }).join("") + '</div>' +
+    '<div class="hunt-crit ' + (count >= 5 ? "ready" : "") + '" style="margin-top:10px">' + (count >= 5 ? "⚡ Radar completo: bonus cobrado. Mañana vuelven las 5 señales." : "Cada señal paga +20 XP y +1 🪙. Al completar las 5: bonus +50 XP y +3 🪙.") + '</div>' +
   '</div>';
 }
 function huntZoneForgeHTML() {
@@ -7192,7 +7260,7 @@ function huntZoneForgeHTML() {
     huntPanelHead("🛠️ FORJA DE CV", "Adaptá palabras clave, proyecto y carta para cada vacante. Los 3 checks activan el <b>daño crítico</b>.",
       '<span class="hunt-pill pink">' + vacs.filter(function (v) { return huntForgeScore(v.id) >= 3; }).length + ' listas</span>');
   if (!vacs.length) {
-    html += '<div class="hunt-empty"><b>No hay vacantes para forjar.</b><br>Primero guardá una en el Radar.</div>';
+    html += '<div class="hunt-empty"><b>No hay vacantes guardadas para forjar.</b><br>El Radar ahora es una lista de 5 señales. Usá DISPARO RÁPIDO para postular sin formulario.</div>';
   } else {
     html += vacs.map(function (v) {
       const f = huntForge(v.id);
@@ -7768,6 +7836,7 @@ function huntBossClose() {
     if (!b) return;
     const act = b.getAttribute("data-hunt-act");
     if (act === "radar") { huntUI.zone = "radar"; huntRender(); return; }
+    if (act === "radar-check") { huntRadarCheck(Number(b.getAttribute("data-n"))); return; }
     if (act === "track") { huntUI.zone = "track"; huntRender(); return; }
     if (act === "forge") {
       const vid = b.getAttribute("data-vid");
@@ -7837,27 +7906,6 @@ function huntBossClose() {
     }
   });
   view.addEventListener("submit", function (e) {
-    if (e.target.id === "hunt-vac-form") {
-      e.preventDefault();
-      const form = e.target;
-      const company = huntFormValue(form, "company").trim();
-      const role = huntFormValue(form, "role").trim();
-      if (!company || !role) { toast("⚠️", "Faltan datos", "Empresa y puesto son obligatorios."); return; }
-      const h = huntEnsureDay();
-      h.vacancies.unshift({
-        id: "vac_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
-        company: company, role: role,
-        link: huntFormValue(form, "link").trim(),
-        industry: huntFormValue(form, "industry").trim(),
-        match: huntClamp(huntFormValue(form, "match"), 0, 100),
-        date: todayStr(),
-        status: "radar",
-        notes: huntFormValue(form, "notes").trim(),
-        appId: null
-      });
-      huntAfterChange("Vacante guardada en el radar.");
-      return;
-    }
     if (e.target.id === "hunt-q-form") {
       e.preventDefault();
       const form = e.target;
