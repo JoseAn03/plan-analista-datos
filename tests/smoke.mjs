@@ -144,12 +144,12 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   html.includes('planHas(f, id)') && html.includes('plannerAdd(f, id)') &&
   !/odea_plan_/.test(html));
 
-// ---------- 13) v5.65: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.65: APP_VERSION y caché', html.includes('const APP_VERSION = "5.65"') && /odea-v5\.65-/.test(sw));
+// ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
+check('v5.66: APP_VERSION y caché', html.includes('const APP_VERSION = "5.66"') && /odea-v5\.66-/.test(sw));
 check('v5.65: escalera global ODE_LADDER + odeInfo', html.includes('const ODE_LADDER') &&
   html.includes('function odeInfo(') && html.includes('function odeLevelNow(') &&
   html.includes('function campaignLevel('));
-check('v5.65: escalera ODEA ordenada (20k=57, 27k=64)', (() => {
+check('v5.66: curva ODEA progresiva (63 niveles, 120k máximo)', (() => {
   const start = html.indexOf('const LEVELS =');
   const end = html.indexOf('const CHAPTERS =');
   if (start < 0 || end <= start) return false;
@@ -157,11 +157,31 @@ check('v5.65: escalera ODEA ordenada (20k=57, 27k=64)', (() => {
   vm.runInNewContext(html.slice(start, end) + '\nthis.out = { LEVELS, ODE_LADDER };', ctx);
   const ladder = ctx.out.ODE_LADDER;
   const lvlAt = (xp) => ladder.reduce((n, e, i) => xp >= e.xp ? i + 1 : n, 1);
-  return ladder.length >= 57 &&
+  return ladder.length === 63 &&
     ladder.every((e, i) => !i || e.xp > ladder[i - 1].xp) &&
-    lvlAt(0) === 1 && lvlAt(20000) === 57 && lvlAt(24286) === 63 &&
-    lvlAt(27000) === 64 && lvlAt(30000) === 65;
+    lvlAt(0) === 1 && lvlAt(88) === 2 && lvlAt(295) === 3 &&
+    lvlAt(5000) === 11 && lvlAt(20000) === 23 && lvlAt(120000) === 63;
 })());
+check('v5.66: primeros niveles rápidos y después más exigentes',
+  (() => {
+    const m = /const ODE_LADDER = \(function \(\) \{([\s\S]*?)\n\}\)\(\);/.exec(html);
+    return !!m && m[1].includes('Math.pow(t, ODE_CURVE)') &&
+      html.includes('const ODE_MAX_LEVEL = 63') &&
+      html.includes('const ODE_MAX_XP = 120000') &&
+      html.includes('const ODE_CURVE = 1.75');
+  })());
+check('v5.66: barra lateral sin estadísticas ni XP del ecosistema',
+  !html.includes('id="side-stats"') && !html.includes('id="s-lvl"') &&
+  !html.includes('id="eco-xp-total"') && !html.includes('id="eco-xp"') &&
+  !html.includes('id="radar-chart"') && !html.includes('id="d-count"') &&
+  !html.includes('id="w-count"') && !html.includes('id="c-count"'));
+check('v5.66: respaldos, reinicios y logros siguen disponibles en AJUSTES',
+  html.includes('class="side-settings"') && html.includes('id="ach-link"') &&
+  html.includes('id="btn-export"') && html.includes('id="btn-import"') &&
+  html.includes('id="btn-reset"') && html.includes('id="btn-reset-daily"'));
+check('v5.66: perfil del inventario conserva estadísticas y curva',
+  html.includes('id="rw-profile"') && html.includes('XP del ecosistema') &&
+  html.includes('Ritmo de nivel') && html.includes('curveMiles'));
 check('v5.65: todo el XP suma (jefes incluidos)',
   /const bosses = bossXPSum\(\)/.test(html) &&
   /gameState\.totalXP = career \+ ach \+ vida \+ capital \+ focus \+ diary \+ bosses/.test(html) &&
@@ -210,9 +230,9 @@ check('v5.65: perfil tiene atajos a los frentes',
   html.includes('go: "jobs"') && html.includes('go: "capital"') &&
   html.includes('go: "vida"') && html.includes('go: "sagas"') &&
   html.includes("data-go=\"' + f.go + '\""));
-check('v5.65: HUD/sidebar/mapa usan Nivel ODEA',
+check('v5.66: HUD, identidad lateral y mapa usan Nivel ODEA',
   html.includes('_hudLvl.textContent = "NIVEL " + _oi.lvl') &&
-  html.includes('"Nv." + _oi.lvl') &&
+  html.includes('r.textContent = "NIVEL " + odeLevelNow()') &&
   html.includes('NIVEL ODEA') && html.includes('odeLevelNow()'));
 
 // ---------- Resultado ----------

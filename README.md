@@ -17,7 +17,7 @@ guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + niveles/perfil v5.65). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil v5.66). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -51,7 +51,7 @@ node tests/smoke.mjs
 
 Solo requiere Node 18+. Valida la sintaxis del JS inline, la coherencia de versión
 HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días, las Sagas,
-el Nivel ODEA, la racha global, el diario persistente, Mi Plan expandible y el perfil.
+el Nivel ODEA, la curva de XP, la racha global, el diario persistente, Mi Plan expandible y el perfil.
 El workflow `.github/workflows/smoke.yml` lo ejecuta en cada push a `main` y en cada PR.
 (`tests/smoke.py` se conserva como variante antigua, pero el CI ya no lo usa).
 
@@ -104,17 +104,20 @@ no hay migración y el progreso guardado sigue intacto.
   `RETOS` queda fuera a propósito: es el reto del día y vive en *Hoy*.
 - **Verificación:** `node tests/smoke.mjs` incluye 4 checks del ＋.
 
-### Niveles, racha y perfil (v5.65)
+### Niveles, racha y perfil (v5.66)
 
 Un solo ecosistema para todo el progreso:
 
-- **Nivel ODEA:** se calcula con **todo** `gameState.totalXP` mediante `ODE_LADDER`
-  y `odeInfo()`: 7 subniveles por rango de `LEVELS` y, al terminar la escalera,
-  +1 nivel cada 3.000 XP (27.000, 30.000…). Es el nivel que se ve en el HUD,
-  la barra lateral y el mapa.
+- **Curva de Nivel ODEA:** se calcula con **todo** `gameState.totalXP` mediante
+  `ODE_LADDER` y `odeInfo()`. Son 63 niveles con una curva progresiva
+  (`120.000 XP` máximo, exponente `1.75`): los primeros niveles suben rápido y
+  cada vez cuesta más. Hitos: Nv.2 = 88 XP, Nv.3 = 295, Nv.5 = 991,
+  Nv.10 = 4.097, Nv.20 = 15.147, Nv.30 = 31.746, Nv.40 = 53.316,
+  Nv.50 = 79.495 y Nv.63 = 120.000. Así 5.000 XP ya no disparan al nivel 35:
+  equivalen al Nv.11. Es el nivel que se ve en el HUD, la identidad lateral y el mapa.
 - **Día del plan:** `gameState.level` se conserva como día de campaña
   (`campaignLevel()`); los días se desbloquean con `unlockedDay()` y los jefes
-  usan ese día. La UI lo llama **DÍA**.
+  usan ese día. La UI lo llama **DÍA** y el perfil lo muestra como dato aparte.
 - **XP completo:** `gameState.totalXP = carrera + logros + vida + capital + enfoque +
   diario + jefes`. Los jefes (`GOD_BOSSES`, `TITAN_BOSSES`, `VIDA_BOSSES`) ya suman
   de verdad, no solo en el toast. El diario guarda un historial `diary.log` y su XP
@@ -127,9 +130,14 @@ Un solo ecosistema para todo el progreso:
   cómo verificarla, tiempo, pasos, por qué y reto. Expandir no completa ni
   desmarca la misión; el área táctil del título mide 48 px.
 - **Perfil dentro del inventario:** el modal `#rw-layer` ahora tiene las pestañas
-  **PERFIL** y **ARSENAL**. El perfil muestra Nivel ODEA, XP total, desglose por
-  fuente, racha, misiones, logros, monedas, los 8 frentes con atajo directo,
-  dominios y rangos internos de cada frente.
+  **PERFIL** y **ARSENAL**. El perfil es el único lugar para las estadísticas:
+  Nivel ODEA, XP total, desglose por fuente, ritmo de la curva, racha, día de
+  campaña, misiones, logros, monedas, los 8 frentes con atajo directo, dominios
+  y rangos internos de cada frente.
+- **Barra lateral limpia:** se quitó el panel `#side-stats` (perfil duplicado,
+  dominios, Vida, Imperio, XP del ecosistema, radar, tiempo y chips). La barra
+  conserva identidad, nivel, navegación y una sección plegable **⚙️ AJUSTES**
+  con el salón de logros, respaldar, restaurar y los dos reinicios.
 - **CSS corregido:** el `@media (max-width:400px)` de los días se cerraba mucho
   después y se tragaba VIDA, planner, Sagas e inventario. Ahora cierra donde debe,
   así que esos estilos también se aplican en escritorio. En móvil, `.layout` usa
@@ -142,12 +150,13 @@ campos nuevos son aditivos y `loadGame()` los normaliza.
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.65 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.66 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
 5. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log` ni `activity`): debe cargar sin errores,
    con Sagas en 0, el diario migrado y la racha y misiones intactas.
-6. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA y toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
+6. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
+7. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
 
 ---
 
