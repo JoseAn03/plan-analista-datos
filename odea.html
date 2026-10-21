@@ -2244,7 +2244,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 }
 
 /* ==========================================================
-   🎯 LA CACERÍA (v5.67) — mundo de postulaciones reales
+   🎯 LA CACERÍA (v5.68) — mundo de postulaciones reales
    ========================================================== */
 :root{--hunt-pink:#ff4f9a;--hunt-gold:#ffd166;--hunt-violet:#b06cff}
 #view-hunt{--hunt-accent:var(--hunt-pink)}
@@ -2281,6 +2281,36 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 .hunt-quota-box{margin-top:12px;padding:11px 13px;border-radius:13px;background:rgba(255,79,154,.07);border:1px solid rgba(255,79,154,.28);position:relative;z-index:1}
 .hunt-quota-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-size:.72rem;color:var(--tx2)}
 .hunt-quota-top b{color:#fff;font-family:'Orbitron',sans-serif;letter-spacing:.5px}
+.hunt-quick{margin-top:12px;padding:13px;border-radius:15px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,79,154,.12),rgba(28,14,48,.86) 55%,rgba(8,8,22,.94));
+  border:1px solid rgba(255,209,102,.3);box-shadow:inset 0 0 36px rgba(255,79,154,.06)}
+.hunt-quick::before{content:"";position:absolute;width:190px;height:190px;right:-70px;top:-100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,209,102,.16),transparent 68%);pointer-events:none}
+.hunt-quick-top{display:flex;gap:6px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;z-index:1}
+.hunt-quick-target{display:grid;grid-template-columns:64px minmax(0,1fr);gap:11px;align-items:center;margin-top:11px;position:relative;z-index:1}
+.hunt-enemy.big{width:64px;height:64px;font-size:1.9rem;border-radius:15px;box-shadow:0 0 20px rgba(255,79,154,.18)}
+.hunt-quick-info{min-width:0}
+.hunt-quick-info b{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:.92rem;line-height:1.25;letter-spacing:.3px}
+.hunt-quick-info > span{display:block;color:var(--tx2);font-size:.68rem;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hunt-burst{margin-top:11px;padding:10px 11px;border-radius:12px;background:rgba(8,8,22,.55);border:1px solid rgba(255,209,102,.18);position:relative;z-index:1}
+.hunt-burst .hunt-bar{margin-top:6px;height:9px}
+.hunt-quick-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:7px;margin-top:9px;position:relative;z-index:1}
+.hunt-quick-mini{padding:8px;border-radius:10px;text-align:center;background:rgba(8,8,22,.5);border:1px solid rgba(160,160,192,.16)}
+.hunt-quick-mini b{display:block;font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--hunt-gold)}
+.hunt-quick-mini span{display:block;font-size:.52rem;letter-spacing:.8px;color:var(--tx2);text-transform:uppercase;margin-top:1px}
+.hunt-mini-bar{height:5px;border-radius:99px;background:#16162e;overflow:hidden;margin-top:5px;border:1px solid rgba(160,160,192,.15)}
+.hunt-mini-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--hunt-pink),var(--hunt-gold));transition:width .4s}
+.hunt-fire{position:relative;z-index:1;width:100%;margin-top:12px;cursor:pointer;border:0;border-radius:13px;padding:15px 14px;
+  font-family:'Orbitron',sans-serif;font-size:clamp(.78rem,2.8vw,1rem);font-weight:900;letter-spacing:1px;color:#fff;
+  background:linear-gradient(135deg,#ff4f9a,#b06cff 55%,#ffd166);background-size:180% 180%;
+  box-shadow:0 0 26px rgba(255,79,154,.38),inset 0 0 18px rgba(255,255,255,.12);
+  animation:huntPulse 2.4s ease-in-out infinite;transition:transform .16s,filter .16s}
+.hunt-fire:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.hunt-fire:active{transform:scale(.97)}
+.hunt-quick-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;position:relative;z-index:1}
+.hunt-quick-actions .hunt-btn{flex:1 1 auto;justify-content:center;text-align:center}
+.hunt-quick-sub{font-size:.64rem;color:var(--tx2);line-height:1.5;margin-top:6px;position:relative;z-index:1}
+@keyframes huntPulse{0%,100%{box-shadow:0 0 22px rgba(255,79,154,.3),inset 0 0 18px rgba(255,255,255,.1)}50%{box-shadow:0 0 40px rgba(255,209,102,.5),inset 0 0 18px rgba(255,255,255,.16)}}
 .hunt-bar{height:11px;border-radius:99px;background:#111126;border:1px solid rgba(160,160,192,.2);overflow:hidden;position:relative}
 .hunt-bar > span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--hunt-pink),var(--hunt-gold));
   box-shadow:0 0 14px rgba(255,79,154,.55);transition:width .55s cubic-bezier(.22,1,.36,1)}
@@ -2468,6 +2498,12 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   .hunt-node .hn-n{font-size:.44rem;letter-spacing:.3px}
   .hunt-node .hn-badge{font-size:.45rem}
   .hunt-panel{padding:12px;border-radius:13px}
+  .hunt-quick{padding:11px;border-radius:13px}
+  .hunt-quick-target{grid-template-columns:52px minmax(0,1fr);gap:9px}
+  .hunt-enemy.big{width:52px;height:52px;font-size:1.55rem}
+  .hunt-quick-info b{font-size:.8rem}
+  .hunt-fire{padding:14px 10px;letter-spacing:.5px}
+  .hunt-quick-actions .hunt-btn{font-size:.58rem;padding:7px 8px}
   .hunt-form{grid-template-columns:1fr}
   .hunt-vac{grid-template-columns:42px minmax(0,1fr);gap:8px}
   .hunt-enemy{width:42px;height:42px;font-size:1.2rem}
@@ -2490,7 +2526,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.67</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.68</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2522,7 +2558,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.67</span>
+    <span class="ver" id="ver-badge">v5.68</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2713,7 +2749,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.67</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.68</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3852,7 +3888,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.67"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.68"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3913,6 +3949,7 @@ function defaultHunt() {
   return {
     created: null,
     quota: 5,
+    quickShots: 0,
     applications: [],
     vacancies: [],
     forge: {},
@@ -6157,7 +6194,7 @@ function renderAll() {
 }
 
 /* ==========================================================
-   🎯 V5.67 — LA CACERÍA
+   🎯 V5.68 — LA CACERÍA
    Mundo de postulaciones reales. Estado aditivo en gameState.hunt.
    No toca las claves de otros mundos ni duplica XP/monedas: todo
    se calcula desde hunt.log, igual que Sagas calcula sus monedas.
@@ -6182,12 +6219,15 @@ const HUNT_DIFF = {
   "Difícil": "#ffd166",
   "Épica":   "#ff4f9a"
 };
-const HUNT_DAILY_CORE = ["d_quota", "d_follow2"];
+const HUNT_DAILY_CORE = ["d_quota", "d_burst", "d_follow2"];
 const HUNT_MISSIONS = [
   /* --- Diarias rotativas --- */
   { id:"d_quota", group:"daily", freq:"daily", diff:"Media", xp:60, coins:3, ico:"🎯", core:true,
     t:"Postula a {quota} empresas hoy", d:"La cuota diaria es el ataque principal. Sin disparos no hay cacería.",
     goal:function(){ return huntQuota(); }, p:function(){ return huntTodayApps().length; } },
+  { id:"d_burst", group:"daily", freq:"daily", diff:"Difícil", xp:95, coins:5, ico:"💥", core:true,
+    t:"Ráfaga: postula a 5–7 empresas hoy", d:"Una ráfaga intensiva mueve el embudo. Usá el botón de disparo rápido: cada toque registra una postulación sin formulario.",
+    goal:function(){ return huntBurstGoal(); }, p:function(){ return huntTodayApps().length; } },
   { id:"d_adapt3", group:"daily", freq:"daily", diff:"Difícil", xp:90, coins:4, ico:"🛡️",
     t:"Postula a 3 empresas y adapta el CV en cada una", d:"Adaptar el CV sube el daño. Calidad sobre cantidad.",
     goal:3, p:function(){ return huntTodayApps().filter(function(a){ return !!a.adapted; }).length; } },
@@ -6238,6 +6278,15 @@ const HUNT_MISSIONS = [
   { id:"w_25", group:"weekly", freq:"weekly", diff:"Difícil", xp:220, coins:8, ico:"🏹",
     t:"25 postulaciones en la semana", d:"Constancia real: el embudo necesita volumen para moverse.",
     goal:25, p:function(){ return huntWeekApps().length; } },
+  { id:"w_50", group:"weekly", freq:"weekly", diff:"Épica", xp:450, coins:18, ico:"🚀",
+    t:"50 postulaciones en la semana", d:"Modo intensivo: duplicá el volumen sin perder el seguimiento.",
+    goal:50, p:function(){ return huntWeekApps().length; } },
+  { id:"w_80", group:"weekly", freq:"weekly", diff:"Épica", xp:750, coins:30, ico:"🌋",
+    t:"80 postulaciones en la semana", d:"Cacería de alto volumen. La ráfaga diaria y el disparo rápido son tus aliados.",
+    goal:80, p:function(){ return huntWeekApps().length; } },
+  { id:"w_100", group:"weekly", freq:"weekly", diff:"Épica", xp:1100, coins:45, ico:"👑",
+    t:"100 postulaciones en la semana", d:"Desafío leyenda: cien disparos en siete días. Solo para cazadores implacables.",
+    goal:100, p:function(){ return huntWeekApps().length; } },
   { id:"w_industries", group:"weekly", freq:"weekly", diff:"Media", xp:120, coins:4, ico:"🏭",
     t:"3 postulaciones a industrias distintas", d:"Diversifica el riesgo y descubre sectores que no habías considerado.",
     goal:3, p:function(){ return huntDistinctIndustries(huntWeekApps()); } },
@@ -6364,6 +6413,37 @@ const HUNT_BANK = [
   { id:"q30", cat:"Datos y ciberseguridad", diff:"Difícil", time:150, q:"¿Qué haces si encuentras un error grave en datos que ya se reportaron?",
     keys:["Avisar rápido a los afectados","Documentar el error y el alcance","Corregir y comunicar el impacto","Prevenir la recurrencia con validaciones"] }
 ];
+/* --- Bolsa de objetivos para el disparo rápido: 30 empresas × 4 roles = 120 --- */
+const HUNT_TARGET_COMPANIES = [
+  ["BAC Credomatic", "Banca"], ["Banco Nacional", "Banca"], ["Banco de Costa Rica", "Banca"],
+  ["Walmart", "Retail"], ["Amazon", "E-commerce"], ["Amazon Web Services", "Tecnología"],
+  ["Boston Scientific", "Salud"], ["Cargill", "Agroindustria"], ["Intel", "Tecnología"],
+  ["HP", "Tecnología"], ["Dell", "Tecnología"], ["IBM", "Tecnología"],
+  ["Oracle", "Tecnología"], ["Microsoft", "Tecnología"], ["Google", "Tecnología"],
+  ["Accenture", "Consultoría"], ["Deloitte", "Consultoría"], ["KPMG", "Consultoría"],
+  ["PwC", "Consultoría"], ["EY", "Consultoría"], ["Grupo ICE", "Energía"],
+  ["Claro", "Telecomunicaciones"], ["Movistar", "Telecomunicaciones"], ["Tigo", "Telecomunicaciones"],
+  ["Coca-Cola", "Consumo"], ["Nestlé", "Consumo"], ["Unilever", "Consumo"],
+  ["Pfizer", "Farmacéutica"], ["Bayer", "Farmacéutica"], ["Siemens", "Industria"]
+];
+const HUNT_TARGET_ROLES = ["Data Analyst", "BI Analyst", "Analista de Datos", "Data Analyst Jr"];
+const HUNT_TARGETS = (function () {
+  const out = [];
+  HUNT_TARGET_COMPANIES.forEach(function (c) {
+    HUNT_TARGET_ROLES.forEach(function (role) {
+      const n = out.length + 1;
+      out.push({
+        id: "target_" + n,
+        company: c[0],
+        industry: c[1],
+        role: role,
+        match: 55 + ((n * 7) % 41)
+      });
+    });
+  });
+  return out;
+})();
+
 const HUNT_TEMPLATES = {
   followup: {
     t: "Seguimiento amable", ico: "📨",
@@ -6446,6 +6526,10 @@ function huntQuota() {
   const base = huntClamp(h.quota || 5, 1, 20);
   if (huntSurpriseType() === "double") return Math.max(10, base);
   return base;
+}
+function huntBurstGoal() {
+  const day = Math.floor(new Date(todayStr() + "T00:00:00").getTime() / 86400000) || 1;
+  return 5 + (Math.abs(day) % 3);
 }
 function huntTodayApps() {
   const today = todayStr();
@@ -6590,6 +6674,7 @@ function normalizeHunt(raw) {
   const out = d;
   out.created = huntDateStr(raw.created) || null;
   out.quota = huntClamp(raw.quota || 5, 1, 20);
+  out.quickShots = Math.max(0, Math.min(99999, Number(raw.quickShots) || 0));
   out.streak = Math.max(0, Math.min(9999, Number(raw.streak) || 0));
   out.bestStreak = Math.max(out.streak, Math.min(9999, Number(raw.bestStreak) || 0));
   out.lastPost = huntDateStr(raw.lastPost);
@@ -6624,7 +6709,9 @@ function normalizeHunt(raw) {
       coins: Math.max(0, Math.min(1000, Number(a.coins) || 0)),
       ts: Math.max(0, Number(a.ts) || 0),
       followupDone: !!a.followupDone,
-      vacancyId: a.vacancyId ? String(a.vacancyId) : null
+      vacancyId: a.vacancyId ? String(a.vacancyId) : null,
+      quick: !!a.quick,
+      targetId: a.targetId ? String(a.targetId) : null
     };
   }).filter(Boolean);
   const vacs = Array.isArray(raw.vacancies) ? raw.vacancies : [];
@@ -6792,7 +6879,9 @@ function huntAddApplication(data) {
     coins: 0,
     ts: Date.now(),
     followupDone: false,
-    vacancyId: data.vacancyId ? String(data.vacancyId) : null
+    vacancyId: data.vacancyId ? String(data.vacancyId) : null,
+    quick: !!data.quick,
+    targetId: data.targetId ? String(data.targetId) : null
   };
   app.xp = huntShotXP(app, beforeCount);
   app.coins = huntShotCoins(app);
@@ -6811,6 +6900,60 @@ function huntAddApplication(data) {
   activityAdd("hunt", 1);
   activityMaybeStreak();
   return app;
+}
+function huntNextQuickTarget() {
+  const h = huntEnsureDay();
+  if (!HUNT_TARGETS.length) return { id: "target_free", company: "Empresa objetivo", role: "Data Analyst", industry: "Datos", match: 60 };
+  const idx = Math.max(0, Number(h.quickShots) || 0) % HUNT_TARGETS.length;
+  const t = HUNT_TARGETS[idx];
+  return { id: t.id, company: t.company, role: t.role, industry: t.industry, match: t.match };
+}
+function huntQuickShot() {
+  const h = huntEnsureDay();
+  const t = huntNextQuickTarget();
+  const app = huntAddApplication({
+    company: t.company,
+    role: t.role,
+    link: "",
+    channel: "Disparo rápido",
+    industry: t.industry,
+    match: t.match,
+    date: todayStr(),
+    status: "enviada",
+    notes: "Disparo rápido · sin formulario. Objetivo " + (((Number(h.quickShots) || 0) % HUNT_TARGETS.length) + 1) + "/" + HUNT_TARGETS.length + ".",
+    adapted: false,
+    letter: false,
+    project: false,
+    outside: false,
+    respondedFast: false,
+    quick: true,
+    targetId: t.id
+  });
+  h.quickShots = Math.max(0, Number(h.quickShots) || 0) + 1;
+  huntAfterChange("💥 " + t.company + " · " + t.role + " · +" + app.xp + " XP · +" + app.coins + " 🪙", "shot");
+  return app;
+}
+function huntSkipTarget() {
+  const h = huntEnsureDay();
+  h.quickShots = Math.max(0, Number(h.quickShots) || 0) + 1;
+  const t = huntNextQuickTarget();
+  saveGame();
+  huntRender();
+  toast("⏭", "Objetivo cambiado", "Siguiente objetivo: " + t.company + " · " + t.role + ".");
+}
+function huntOpenQuickDetail() {
+  const h = huntEnsureDay();
+  const t = huntNextQuickTarget();
+  huntBossRun = null;
+  if (huntBossTimer) { clearInterval(huntBossTimer); huntBossTimer = null; }
+  huntModalOpen(huntShotFormHTML(null, {
+    company: t.company,
+    role: t.role,
+    industry: t.industry,
+    match: t.match,
+    link: "",
+    id: ""
+  }));
 }
 function huntCheckMissions(opts) {
   opts = opts || {};
@@ -6917,9 +7060,9 @@ function huntHeroHTML() {
     return '<option value="' + n + '"' + (Number(h.quota) === n ? " selected" : "") + '>' + n + ' postulaciones</option>';
   }).join("");
   return '<div class="hunt-hero">' +
-    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.67</div>' +
+    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.68</div>' +
     '<div class="hunt-title">LA <em>CACERÍA</em></div>' +
-    '<div class="hunt-desc">Encontrá vacantes, adaptá el CV, dispará postulaciones y seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
+    '<div class="hunt-desc">Encontrá vacantes, adaptá el CV o usá el <b>disparo rápido de un toque</b>: la empresa y el puesto se eligen solos, sin formulario. Después seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
     '<div class="hunt-rank-card" style="border-color:' + r.cur.c + '55">' +
       '<div class="hunt-rank-medal" style="border-color:' + r.cur.c + ';box-shadow:0 0 20px ' + r.cur.c + '35">' + r.cur.ico + '</div>' +
       '<div class="hunt-rank-info"><b style="color:' + r.cur.c + '">' + escapeHtml(r.cur.name) + '</b><small>' + escapeHtml(r.cur.desc) + ' · ' + r.n + ' disparos</small></div>' +
@@ -7069,29 +7212,55 @@ function huntZoneForgeHTML() {
   html += '</div>';
   return html;
 }
+function huntQuickPanelHTML() {
+  const h = huntEnsureDay();
+  const today = huntTodayApps();
+  const quota = huntQuota();
+  const burstGoal = huntBurstGoal();
+  const burstPct = Math.min(100, Math.round((today.length / Math.max(1, burstGoal)) * 100));
+  const quotaPct = Math.min(100, Math.round((today.length / Math.max(1, quota)) * 100));
+  const burstDone = today.length >= burstGoal;
+  const quotaDone = today.length >= quota;
+  const target = huntNextQuickTarget();
+  const targetN = (Math.max(0, Number(h.quickShots) || 0) % HUNT_TARGETS.length) + 1;
+  const lvl = huntEnemyLevel(target.match);
+  const fireLabel = burstDone ? "✓ RÁFAGA COMPLETA · SEGUIR DISPARANDO" : (quotaDone ? "✓ CUOTA CUMPLIDA · SEGUIR DISPARANDO" : "🏹 DISPARAR AHORA");
+  return '<div class="hunt-quick">' +
+    '<div class="hunt-quick-top"><span class="hunt-pill pink">🎯 OBJETIVO ' + targetN + '/' + HUNT_TARGETS.length + '</span><span class="hunt-pill">RÁFAGA LIBRE</span></div>' +
+    '<div class="hunt-quick-target">' +
+      '<div class="hunt-enemy big">' + huntEnemyIco(lvl) + '</div>' +
+      '<div class="hunt-quick-info"><b>' + escapeHtml(target.role) + '</b><span>' + escapeHtml(target.company) + ' · ' + escapeHtml(target.industry) + '</span>' +
+        '<div class="hunt-vac-meta"><span class="hunt-tag hot">Nv.' + lvl + '</span><span class="hunt-tag ' + (Number(target.match) >= 80 ? "good" : "") + '">🎯 ' + Math.round(Number(target.match) || 0) + '% match</span><span class="hunt-tag">⚡ 1 toque</span></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="hunt-burst"><div class="hunt-quota-top"><b>RÁFAGA DE HOY</b><span>' + today.length + '/' + burstGoal + ' · ' + (burstDone ? 'COMPLETA' : 'EN CURSO') + '</span></div><div class="hunt-bar"><span style="width:' + burstPct + '%"></span></div><div class="hunt-quick-sub">' + (burstDone ? 'Ráfaga completada. Podés seguir disparando para la cuota y las metas semanales.' : 'La misión Ráfaga pide entre 5 y 7 postulaciones hoy. Sin formularios.') + '</div></div>' +
+    '<div class="hunt-quick-row"><div class="hunt-quick-mini"><b>' + today.length + '/' + quota + '</b><span>CUOTA</span><div class="hunt-mini-bar"><i style="width:' + quotaPct + '%"></i></div></div><div class="hunt-quick-mini"><b>' + huntWeekApps().length + '</b><span>SEMANA</span><div class="hunt-quick-sub" style="margin-top:2px">Meta 50/80/100</div></div><div class="hunt-quick-mini"><b>' + h.applications.filter(function (a) { return !!a.quick; }).length + '</b><span>DISPAROS RÁPIDOS</span></div></div>' +
+    '<button class="hunt-fire" data-hunt-act="quick-shot" type="button">' + fireLabel + '</button>' +
+    '<div class="hunt-quick-sub" style="text-align:center;margin-top:7px">Se eligen solos empresa, puesto, match y nivel. Un toque registra la postulación y avanza la misión.</div>' +
+    '<div class="hunt-quick-actions"><button class="hunt-btn ghost" data-hunt-act="shot-detail" type="button">✏ Registrar con detalle</button><button class="hunt-btn ghost" data-hunt-act="skip-target" type="button">⏭ Cambiar objetivo</button><button class="hunt-btn ghost" data-hunt-act="radar" type="button">📡 Radar</button></div>' +
+  '</div>';
+}
 function huntZoneShotHTML() {
   const h = huntEnsureDay();
   const today = huntTodayApps();
   const quota = huntQuota();
-  const pct = Math.min(100, Math.round((today.length / Math.max(1, quota)) * 100));
   const recent = h.applications.slice(0, 8);
   return '<div class="hunt-panel">' +
-    huntPanelHead("🏹 DISPARO", "Registrar una postulación es el ataque principal. Cuanto mejor adaptada, más XP y monedas.", '<span class="hunt-pill gold">' + today.length + "/" + quota + ' hoy</span>') +
-    '<div class="hunt-quota-box" style="margin-top:0"><div class="hunt-quota-top"><b>' + (today.length >= quota ? "✓ CUOTA CUMPLIDA" : "PROGRESO DE HOY") + '</b><span>' + (huntSurpriseType() === "double" ? "💥 x2 cuota" : "Combo actual: " + Math.min(6, today.length) + "x") + '</span></div><div class="hunt-bar" style="margin-top:6px"><span style="width:' + pct + '%"></span></div></div>' +
-    '<div class="hunt-form-actions" style="margin-top:12px"><button class="hunt-btn primary" data-hunt-act="shot" type="button">🏹 NUEVO DISPARO</button><button class="hunt-btn ghost" data-hunt-act="radar" type="button">📡 BUSCAR VACANTE</button><span class="hunt-section-sub">Base 30 XP · +25 CV adaptado · +10 carta · +15 proyecto · +15 match ≥80% · +combo.</span></div>' +
+    huntPanelHead("🏹 DISPARO RÁPIDO", "Un toque, una postulación. La empresa y el puesto se eligen solos; el detalle queda como opción.", '<span class="hunt-pill gold">' + today.length + "/" + quota + ' hoy</span>') +
+    huntQuickPanelHTML() +
     (recent.length ? '<div class="hunt-vac-list">' + recent.map(function (a) {
       const overdue = huntIsOverdue(a);
       return '<div class="hunt-vac ' + (a.status === "oferta" ? "applied" : "") + ' ' + (overdue ? "regenerated" : "") + '">' +
         '<div class="hunt-enemy">' + HUNT_STATUS[a.status].ico + '</div>' +
         '<div class="hunt-vac-main"><b>' + escapeHtml(a.role) + '</b><span>' + escapeHtml(a.company) + ' · ' + huntDateLabel(a.date) + ' · ' + escapeHtml(a.channel) + '</span>' +
           '<div class="hunt-vac-meta"><span class="hunt-tag good">+' + a.xp + ' XP</span><span class="hunt-tag hot">+' + a.coins + ' 🪙</span>' +
-          (a.adapted ? '<span class="hunt-tag good">CV adaptado</span>' : '<span class="hunt-tag">CV genérico</span>') +
+          (a.quick ? '<span class="hunt-tag hot">⚡ Rápido</span>' : (a.adapted ? '<span class="hunt-tag good">CV adaptado</span>' : '<span class="hunt-tag">CV genérico</span>')) +
           (a.letter ? '<span class="hunt-tag">Carta</span>' : '') + (a.project ? '<span class="hunt-tag">Proyecto</span>' : '') +
           (overdue ? '<span class="hunt-tag" style="color:#ff8fa6">🧟 Regenerado</span>' : '') + '</div>' +
         '</div>' +
         '<div class="hunt-vac-actions"><button class="hunt-btn" data-hunt-act="edit-app" data-id="' + escapeHtml(a.id) + '" type="button">✏ EDITAR</button><button class="hunt-btn green" data-hunt-act="followup" data-id="' + escapeHtml(a.id) + '" type="button">📨 SEGUÍ</button></div>' +
       '</div>';
-    }).join("") + '</div>' : '<div class="hunt-empty" style="margin-top:11px"><b>Todavía no disparaste hoy.</b><br>Guardá una vacante en el Radar o registrá una postulación directa.</div>') +
+    }).join("") + '</div>' : '<div class="hunt-empty" style="margin-top:11px"><b>Todavía no disparaste hoy.</b><br>Usá el botón grande: no hace falta llenar empresa, puesto ni link.</div>') +
   '</div>';
 }
 function huntFunnelHTML() {
@@ -7118,7 +7287,7 @@ function huntAppRowHTML(a) {
   const search = (a.company + " " + a.role + " " + a.notes + " " + a.industry).toLowerCase();
   return '<tr class="hunt-tr" data-search="' + escapeHtml(search) + '" data-status="' + escapeHtml(a.status) + '">' +
     '<td><b>' + escapeHtml(a.company) + '</b><span class="hunt-note">' + escapeHtml(a.industry || "—") + '</span></td>' +
-    '<td><b>' + escapeHtml(a.role) + '</b>' + (a.adapted ? '<span class="hunt-ok">✓ CV adaptado</span>' : '') + '</td>' +
+    '<td><b>' + escapeHtml(a.role) + '</b>' + (a.quick ? '<span class="hunt-ok">⚡ Rápido</span>' : '') + (a.adapted ? '<span class="hunt-ok">✓ CV adaptado</span>' : '') + '</td>' +
     '<td>' + escapeHtml(a.date) + '</td>' +
     '<td>' + (link ? '<a href="' + link + '" target="_blank" rel="noopener" style="color:var(--glow-cyan)">🔗 Ver</a>' : '—') + '</td>' +
     '<td>' + escapeHtml(a.channel) + '</td>' +
@@ -7610,6 +7779,9 @@ function huntBossClose() {
       return;
     }
     if (act === "shot") { huntOpenShot(null, b.getAttribute("data-vid")); return; }
+    if (act === "quick-shot") { huntQuickShot(); return; }
+    if (act === "shot-detail") { huntOpenQuickDetail(); return; }
+    if (act === "skip-target") { huntSkipTarget(); return; }
     if (act === "edit-app") { huntOpenShot(b.getAttribute("data-id"), null); return; }
     if (act === "followup") { huntMarkFollowup(b.getAttribute("data-id")); return; }
     if (act === "manual") {
