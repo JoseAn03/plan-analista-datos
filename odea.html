@@ -1518,6 +1518,9 @@ header{padding:10px 14px}
 .nav-item.active{color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;
   box-shadow:0 0 18px rgba(0,255,136,.3);font-weight:700}
 .nav-item .ni-ico{font-size:1.05rem;width:22px;text-align:center;filter:drop-shadow(0 0 5px rgba(255,255,255,.15))}
+.nav-item .ni-tag{margin-left:auto;font-style:normal;font-size:.45rem;letter-spacing:.8px;padding:2px 5px;border-radius:99px;
+  color:#211200;background:linear-gradient(135deg,var(--hunt-gold,#ffd166),#ff9f43);font-family:'Share Tech Mono',monospace;font-weight:700}
+.nav-item.active .ni-tag{background:#04120b;color:var(--glow-green)}
 .side-foot{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;align-items:center;border-top:1px dashed rgba(160,160,192,.18)}
 .side-streak{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--glow-amber)}
 .side-foot .ver{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:#556}
@@ -2239,6 +2242,247 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   body.odea-ui-v7 #map-stage .mworld .mw-name{font-size:.52rem;letter-spacing:.8px}
   body.odea-ui-v7 #map-stage .mworld .mw-rank{font-size:.52rem}
 }
+
+/* ==========================================================
+   🎯 LA CACERÍA (v5.67) — mundo de postulaciones reales
+   ========================================================== */
+:root{--hunt-pink:#ff4f9a;--hunt-gold:#ffd166;--hunt-violet:#b06cff}
+#view-hunt{--hunt-accent:var(--hunt-pink)}
+.hunt-wrap{display:flex;flex-direction:column;gap:14px;min-width:0}
+#hunt-root.hunt-no-fx *, #hunt-root.hunt-no-fx *::before, #hunt-root.hunt-no-fx *::after{animation:none!important;transition:none!important}
+.hunt-hero{position:relative;overflow:hidden;border-radius:18px;padding:20px;
+  background:linear-gradient(145deg,rgba(48,12,36,.94),rgba(24,12,44,.94) 48%,rgba(8,10,24,.98));
+  border:1px solid rgba(255,79,154,.38);box-shadow:0 0 34px rgba(255,79,154,.12),inset 0 0 50px rgba(176,108,255,.06)}
+.hunt-hero::before{content:"";position:absolute;width:260px;height:260px;right:-80px;top:-120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,79,154,.22),transparent 68%);pointer-events:none}
+.hunt-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.035) 3px 4px)}
+.hunt-kicker{font-size:.66rem;letter-spacing:2px;color:var(--hunt-gold);text-transform:uppercase;position:relative;z-index:1}
+.hunt-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;letter-spacing:2px;
+  color:#fff;margin:4px 0 6px;text-shadow:0 0 18px rgba(255,79,154,.7);position:relative;z-index:1}
+.hunt-title em{font-style:normal;color:var(--hunt-pink)}
+.hunt-desc{font-size:.78rem;color:var(--tx2);max-width:760px;line-height:1.55;position:relative;z-index:1}
+.hunt-desc b{color:#fff}
+.hunt-rank-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px;
+  border-radius:14px;background:rgba(8,8,22,.58);border:1px solid rgba(255,209,102,.25);position:relative;z-index:1}
+.hunt-rank-medal{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;font-size:1.55rem;
+  background:linear-gradient(135deg,rgba(255,79,154,.18),rgba(176,108,255,.16));border:1px solid rgba(255,79,154,.35);
+  box-shadow:0 0 20px rgba(255,79,154,.18);flex:0 0 auto}
+.hunt-rank-info{min-width:150px;flex:1}
+.hunt-rank-info b{display:block;font-family:'Orbitron',sans-serif;font-size:1rem;color:#fff;letter-spacing:1px}
+.hunt-rank-info small{display:block;color:var(--tx2);font-size:.68rem}
+.hunt-rank-track{min-width:160px;flex:1.3}
+.hunt-rank-track .hunt-bar{height:9px;margin-top:6px}
+.hunt-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(102px,1fr));gap:8px;margin-top:12px;position:relative;z-index:1}
+.hunt-chip{padding:9px 8px;border-radius:11px;text-align:center;background:rgba(10,10,26,.62);border:1px solid rgba(160,160,192,.18)}
+.hunt-chip b{display:block;font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#fff}
+.hunt-chip span{display:block;font-size:.56rem;color:var(--tx2);letter-spacing:1px;text-transform:uppercase}
+.hunt-chip.pink b{color:var(--hunt-pink)}.hunt-chip.gold b{color:var(--hunt-gold)}.hunt-chip.cyan b{color:var(--glow-cyan)}.hunt-chip.green b{color:var(--glow-green)}
+.hunt-quota-box{margin-top:12px;padding:11px 13px;border-radius:13px;background:rgba(255,79,154,.07);border:1px solid rgba(255,79,154,.28);position:relative;z-index:1}
+.hunt-quota-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-size:.72rem;color:var(--tx2)}
+.hunt-quota-top b{color:#fff;font-family:'Orbitron',sans-serif;letter-spacing:.5px}
+.hunt-bar{height:11px;border-radius:99px;background:#111126;border:1px solid rgba(160,160,192,.2);overflow:hidden;position:relative}
+.hunt-bar > span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--hunt-pink),var(--hunt-gold));
+  box-shadow:0 0 14px rgba(255,79,154,.55);transition:width .55s cubic-bezier(.22,1,.36,1)}
+.hunt-settings{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:11px;position:relative;z-index:1}
+.hunt-settings label{font-size:.62rem;color:var(--tx2);letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+.hunt-settings select{background:#101026;color:#fff;border:1px solid rgba(255,79,154,.35);border-radius:8px;padding:6px 8px;font-family:inherit;font-size:.7rem}
+.hunt-toggle{cursor:pointer;border:1px solid rgba(160,160,192,.28);background:rgba(10,10,26,.6);color:var(--tx2);
+  border-radius:99px;padding:6px 10px;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.4px}
+.hunt-toggle.on{color:#04120b;background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;font-weight:700}
+.hunt-toggle.off{opacity:.62}
+.hunt-reset{border-color:rgba(255,51,85,.35);color:#ff8fa6}
+.hunt-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;position:relative;padding:9px 7px;
+  border-radius:16px;background:rgba(10,10,26,.7);border:1px solid rgba(176,108,255,.2);overflow:hidden}
+.hunt-map::before{content:"";position:absolute;left:9%;right:9%;top:50%;height:2px;transform:translateY(-50%);
+  background:linear-gradient(90deg,rgba(255,79,154,.18),rgba(255,209,102,.55),rgba(176,108,255,.22));box-shadow:0 0 12px rgba(255,209,102,.22)}
+.hunt-node{position:relative;z-index:1;cursor:pointer;border:1px solid rgba(160,160,192,.22);border-radius:12px;
+  background:linear-gradient(180deg,rgba(24,24,48,.96),rgba(10,10,26,.96));color:var(--tx2);padding:9px 3px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;transition:.2s;min-width:0}
+.hunt-node:hover{border-color:var(--hunt-gold);color:#fff;transform:translateY(-1px)}
+.hunt-node.active{border-color:var(--hunt-pink);color:#fff;background:linear-gradient(180deg,rgba(72,17,50,.96),rgba(24,12,38,.98));
+  box-shadow:0 0 18px rgba(255,79,154,.28),inset 0 0 18px rgba(255,79,154,.08)}
+.hunt-node .hn-ico{font-size:1.28rem;line-height:1;filter:drop-shadow(0 0 6px rgba(255,255,255,.12))}
+.hunt-node .hn-n{font-family:'Orbitron',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.7px;white-space:nowrap}
+.hunt-node .hn-badge{font-size:.52rem;color:var(--hunt-gold);min-height:11px;line-height:1.1}
+.hunt-node.active .hn-badge{color:#fff}
+.hunt-zone{min-width:0}
+.hunt-panel{background:linear-gradient(145deg,rgba(22,22,42,.82),rgba(12,12,28,.9));border:1px solid rgba(160,160,192,.18);
+  border-radius:16px;padding:15px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.hunt-panel + .hunt-panel{margin-top:12px}
+.hunt-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:11px}
+.hunt-section-title{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:1px;color:#fff;margin:0}
+.hunt-section-sub{font-size:.68rem;color:var(--tx2);margin-top:3px}
+.hunt-pill{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(255,209,102,.3);background:rgba(255,209,102,.07);
+  color:var(--hunt-gold);border-radius:99px;padding:3px 9px;font-size:.6rem;letter-spacing:.5px;white-space:nowrap}
+.hunt-pill.pink{border-color:rgba(255,79,154,.35);background:rgba(255,79,154,.08);color:#ff9ac2}
+.hunt-pill.green{border-color:rgba(0,255,136,.28);background:rgba(0,255,136,.06);color:var(--glow-green)}
+.hunt-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.hunt-field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.hunt-field.wide{grid-column:1/-1}
+.hunt-field label{font-size:.6rem;letter-spacing:.8px;text-transform:uppercase;color:var(--tx2)}
+.hunt-input,.hunt-select,.hunt-textarea{width:100%;background:rgba(8,8,20,.82);border:1px solid rgba(160,160,192,.28);
+  border-radius:9px;padding:9px 10px;color:#fff;font-family:'Share Tech Mono',monospace;font-size:.76rem;min-width:0}
+.hunt-input:focus,.hunt-select:focus,.hunt-textarea:focus{outline:2px solid var(--hunt-pink);outline-offset:1px}
+.hunt-textarea{resize:vertical;min-height:64px;line-height:1.45}
+.hunt-form-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hunt-btn{cursor:pointer;border:1px solid rgba(255,79,154,.35);background:rgba(255,79,154,.1);color:#ffd7e7;
+  border-radius:9px;padding:8px 12px;font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.7px;font-weight:700;transition:.18s}
+.hunt-btn:hover{background:rgba(255,79,154,.2);border-color:var(--hunt-pink);color:#fff;transform:translateY(-1px)}
+.hunt-btn.primary{background:linear-gradient(135deg,var(--hunt-pink),var(--hunt-violet));border-color:transparent;color:#fff;box-shadow:0 0 18px rgba(255,79,154,.3)}
+.hunt-btn.gold{background:linear-gradient(135deg,var(--hunt-gold),#ff9f43);border-color:transparent;color:#211200}
+.hunt-btn.green{background:linear-gradient(135deg,var(--glow-green),var(--glow-cyan));border-color:transparent;color:#04120b}
+.hunt-btn.ghost{background:transparent;border-color:rgba(160,160,192,.3);color:var(--tx2);box-shadow:none}
+.hunt-btn.danger{background:rgba(255,51,85,.1);border-color:rgba(255,51,85,.45);color:#ff8fa6}
+.hunt-btn:active{transform:scale(.96)}
+.hunt-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.hunt-empty{padding:18px 12px;text-align:center;border:1px dashed rgba(255,79,154,.28);border-radius:12px;color:var(--tx2);font-size:.73rem;background:rgba(255,79,154,.03)}
+.hunt-empty b{color:#fff}
+.hunt-vac-list{display:grid;gap:9px;margin-top:11px}
+.hunt-vac{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px;
+  border-radius:13px;background:rgba(8,8,22,.6);border:1px solid rgba(160,160,192,.18);position:relative;overflow:hidden}
+.hunt-vac.applied{border-color:rgba(0,255,136,.28)}
+.hunt-vac.regenerated{border-color:rgba(255,51,85,.38);box-shadow:inset 0 0 20px rgba(255,51,85,.06)}
+.hunt-enemy{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-size:1.45rem;
+  background:radial-gradient(circle at 35% 25%,rgba(255,79,154,.28),rgba(20,10,34,.9));border:1px solid rgba(255,79,154,.3)}
+.hunt-vac-main{min-width:0}
+.hunt-vac-main b{display:block;color:#fff;font-size:.82rem;line-height:1.25}
+.hunt-vac-main span{display:block;color:var(--tx2);font-size:.64rem;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hunt-vac-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.hunt-tag{display:inline-flex;align-items:center;gap:3px;border:1px solid rgba(160,160,192,.2);border-radius:99px;padding:2px 7px;font-size:.55rem;color:var(--tx2);background:rgba(255,255,255,.025)}
+.hunt-tag.hot{border-color:rgba(255,209,102,.4);color:var(--hunt-gold);background:rgba(255,209,102,.06)}
+.hunt-tag.good{border-color:rgba(0,255,136,.3);color:var(--glow-green);background:rgba(0,255,136,.05)}
+.hunt-vac-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.hunt-vac-actions .hunt-btn{padding:6px 9px;font-size:.58rem}
+.hunt-hp{height:5px;border-radius:99px;background:#16162e;overflow:hidden;margin-top:6px;border:1px solid rgba(160,160,192,.15)}
+.hunt-hp span{display:block;height:100%;background:linear-gradient(90deg,var(--hunt-pink),var(--hunt-gold));transition:width .3s}
+.hunt-check-grid{display:grid;gap:7px;margin-top:9px}
+.hunt-check{display:flex;gap:9px;align-items:flex-start;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.025);
+  border:1px solid rgba(160,160,192,.16);cursor:pointer;font-size:.72rem;color:var(--tx2)}
+.hunt-check input{margin-top:2px;accent-color:var(--hunt-pink);width:16px;height:16px;flex:0 0 auto}
+.hunt-check.on{border-color:rgba(0,255,136,.35);background:rgba(0,255,136,.055);color:#dfffee}
+.hunt-check b{color:#fff;display:block;font-size:.72rem}
+.hunt-check small{display:block;color:var(--tx2);font-size:.6rem;margin-top:1px}
+.hunt-forge-vac{margin-top:11px;padding:12px;border-radius:13px;background:rgba(8,8,22,.6);border:1px solid rgba(160,160,192,.18)}
+.hunt-forge-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.hunt-forge-top b{color:#fff}
+.hunt-forge-top span{font-size:.64rem;color:var(--tx2)}
+.hunt-crit{margin-top:8px;padding:8px 10px;border-radius:9px;font-size:.66rem;text-align:center;letter-spacing:.5px;border:1px solid rgba(255,209,102,.32);background:rgba(255,209,102,.07);color:var(--hunt-gold)}
+.hunt-crit.ready{border-color:rgba(0,255,136,.45);background:rgba(0,255,136,.09);color:var(--glow-green);box-shadow:0 0 18px rgba(0,255,136,.12);animation:huntGlow 1.8s ease-in-out infinite}
+.hunt-shot-preview{grid-column:1/-1;padding:10px 12px;border-radius:10px;background:rgba(255,209,102,.06);border:1px dashed rgba(255,209,102,.28);font-size:.68rem;color:var(--tx2)}
+.hunt-shot-preview b{color:var(--hunt-gold)}
+.hunt-missions{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px;margin-top:10px}
+.hunt-mission{padding:11px;border-radius:12px;background:rgba(8,8,22,.58);border:1px solid rgba(160,160,192,.17);display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.hunt-mission::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mc,#ff4f9a);opacity:.8}
+.hunt-mission.done{border-color:rgba(0,255,136,.32);background:rgba(0,255,136,.035)}
+.hunt-mission.done::before{background:var(--glow-green)}
+.hunt-mission-top{display:flex;justify-content:space-between;gap:7px;align-items:flex-start}
+.hunt-mission-top b{color:#fff;font-size:.74rem;line-height:1.3}
+.hunt-mission-top span{font-size:.56rem;color:var(--tx2);white-space:nowrap}
+.hunt-mission p{font-size:.63rem;color:var(--tx2);line-height:1.4;margin:0}
+.hunt-mission-foot{display:flex;justify-content:space-between;align-items:center;gap:7px;flex-wrap:wrap;margin-top:auto}
+.hunt-mission-reward{font-size:.6rem;color:var(--hunt-gold);white-space:nowrap}
+.hunt-mission-progress{height:5px;border-radius:99px;background:#17172e;overflow:hidden;border:1px solid rgba(160,160,192,.12)}
+.hunt-mission-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--glow-green),var(--glow-cyan))}
+.hunt-mission .hunt-btn{padding:5px 8px;font-size:.55rem}
+.hunt-mission-filter{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.hunt-filter-btn{cursor:pointer;border:1px solid rgba(160,160,192,.24);background:transparent;color:var(--tx2);border-radius:99px;padding:5px 10px;font-family:inherit;font-size:.6rem}
+.hunt-filter-btn.active{background:rgba(255,79,154,.14);border-color:var(--hunt-pink);color:#fff}
+.hunt-funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.hunt-funnel-step{padding:12px 8px;border-radius:12px;text-align:center;background:rgba(8,8,22,.58);border:1px solid rgba(160,160,192,.17);position:relative}
+.hunt-funnel-step b{display:block;font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#fff}
+.hunt-funnel-step span{display:block;font-size:.58rem;letter-spacing:.6px;text-transform:uppercase;color:var(--tx2)}
+.hunt-funnel-step small{display:block;margin-top:3px;color:var(--hunt-gold);font-size:.58rem}
+.hunt-funnel-step:nth-child(2){border-color:rgba(0,204,255,.28)}.hunt-funnel-step:nth-child(3){border-color:rgba(255,209,102,.28)}.hunt-funnel-step:nth-child(4){border-color:rgba(0,255,136,.28)}
+.hunt-tools{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.hunt-tools .hunt-input{flex:1;min-width:150px}
+.hunt-tools .hunt-select{width:auto;min-width:130px}
+.hunt-table-wrap{overflow-x:auto;margin-top:10px;border-radius:12px;border:1px solid rgba(160,160,192,.18);-webkit-overflow-scrolling:touch}
+.hunt-table{width:100%;border-collapse:collapse;min-width:880px;font-size:.66rem}
+.hunt-table th{text-align:left;padding:9px 8px;background:rgba(255,79,154,.08);color:#ffd7e7;font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.6px;white-space:nowrap;position:sticky;top:0}
+.hunt-table td{padding:8px;border-top:1px solid rgba(160,160,192,.1);vertical-align:top;color:var(--tx2)}
+.hunt-table td b{color:#fff;font-size:.68rem}
+.hunt-table .hunt-input,.hunt-table .hunt-select{padding:5px 6px;font-size:.62rem}
+.hunt-table .hunt-btn{padding:4px 7px;font-size:.52rem}
+.hunt-status{display:inline-flex;align-items:center;gap:3px;border-radius:99px;padding:2px 7px;font-size:.54rem;border:1px solid rgba(160,160,192,.25);white-space:nowrap}
+.hunt-status.enviada{color:var(--glow-cyan);border-color:rgba(0,204,255,.3);background:rgba(0,204,255,.06)}
+.hunt-status.vista{color:var(--hunt-gold);border-color:rgba(255,209,102,.3);background:rgba(255,209,102,.06)}
+.hunt-status.entrevista{color:var(--hunt-violet);border-color:rgba(176,108,255,.35);background:rgba(176,108,255,.08)}
+.hunt-status.rechazada{color:#ff8fa6;border-color:rgba(255,51,85,.35);background:rgba(255,51,85,.06)}
+.hunt-status.oferta{color:var(--glow-green);border-color:rgba(0,255,136,.35);background:rgba(0,255,136,.07)}
+.hunt-overdue{color:#ff8fa6;font-size:.56rem;display:block;margin-top:2px}
+.hunt-ok{color:var(--glow-green);font-size:.56rem;display:block;margin-top:2px}
+.hunt-note{color:var(--tx2);font-size:.6rem;max-width:150px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hunt-templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-top:10px}
+.hunt-template{padding:11px;border-radius:12px;background:rgba(8,8,22,.58);border:1px solid rgba(160,160,192,.17)}
+.hunt-template b{display:block;color:#fff;font-size:.74rem;margin-bottom:5px}
+.hunt-template p{font-size:.62rem;color:var(--tx2);line-height:1.45;margin:0 0 8px;max-height:95px;overflow:auto}
+.hunt-q-list{display:grid;gap:8px;margin-top:10px}
+.hunt-q{padding:11px;border-radius:12px;background:rgba(8,8,22,.58);border:1px solid rgba(160,160,192,.17)}
+.hunt-q-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.hunt-q-top b{color:#fff;font-size:.73rem;line-height:1.35}
+.hunt-q-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.hunt-star{cursor:pointer;border:none;background:transparent;color:#5f5f82;font-size:1rem;line-height:1;padding:2px}
+.hunt-star.on{color:var(--hunt-gold);text-shadow:0 0 10px rgba(255,209,102,.6)}
+.hunt-q-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.hunt-badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin-top:10px}
+.hunt-badge{padding:10px 7px;border-radius:12px;text-align:center;background:rgba(8,8,22,.58);border:1px solid rgba(160,160,192,.16);opacity:.55}
+.hunt-badge.unlocked{opacity:1;border-color:rgba(255,209,102,.35);background:rgba(255,209,102,.055);box-shadow:0 0 14px rgba(255,209,102,.08)}
+.hunt-badge .hb-ico{display:block;font-size:1.35rem;margin-bottom:3px}
+.hunt-badge b{display:block;font-size:.6rem;color:#fff;line-height:1.25}
+.hunt-badge small{display:block;font-size:.52rem;color:var(--tx2);margin-top:2px}
+.hunt-history{display:grid;gap:6px;margin-top:10px}
+.hunt-history-row{display:flex;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:9px;background:rgba(8,8,22,.5);border:1px solid rgba(160,160,192,.12);font-size:.62rem;color:var(--tx2)}
+.hunt-history-row b{color:#fff;font-size:.62rem}
+.hunt-history-row span{color:var(--hunt-gold)}
+.hunt-modal-layer{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:14px;
+  background:rgba(2,2,10,.82);backdrop-filter:blur(7px)}
+.hunt-modal-layer.show{display:flex;animation:fadeSlide .2s ease-out}
+.hunt-modal-box{width:min(720px,100%);max-height:92vh;overflow:auto;border-radius:18px;padding:16px;
+  background:linear-gradient(155deg,#1b1029,#100b20 55%,#080814);border:1px solid rgba(255,79,154,.38);box-shadow:0 0 45px rgba(255,79,154,.22)}
+.hunt-modal-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.hunt-modal-head h2{font-family:'Orbitron',sans-serif;font-size:1.02rem;color:#fff;letter-spacing:1px;margin:0}
+.hunt-modal-head p{font-size:.64rem;color:var(--tx2);margin:3px 0 0}
+.hunt-modal-close{cursor:pointer;border:1px solid rgba(160,160,192,.28);background:rgba(10,10,26,.7);color:#fff;border-radius:9px;width:34px;height:34px;font-size:1rem;flex:0 0 auto}
+.hunt-boss-timer{font-family:'Orbitron',sans-serif;font-size:1.7rem;color:var(--hunt-gold);text-align:center;letter-spacing:2px;margin:8px 0 2px;text-shadow:0 0 18px rgba(255,209,102,.35)}
+.hunt-boss-timer.low{color:#ff8fa6;animation:huntHit .65s ease-in-out infinite}
+.hunt-boss-hp{height:13px;border-radius:99px;background:#160b1a;border:1px solid rgba(255,79,154,.3);overflow:hidden;margin:8px 0 3px}
+.hunt-boss-hp span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff3355,#ff4f9a);transition:width .35s}
+.hunt-boss-hp-label{text-align:center;font-size:.6rem;color:var(--tx2);margin-bottom:8px}
+.hunt-boss-question{font-size:.9rem;color:#fff;line-height:1.5;padding:11px;border-radius:11px;background:rgba(255,79,154,.065);border:1px solid rgba(255,79,154,.22);margin:8px 0}
+.hunt-boss-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.hunt-boss-score{text-align:center;font-family:'Orbitron',sans-serif;font-size:1.5rem;color:var(--glow-green);margin:8px 0}
+.hunt-modal .hunt-form{grid-template-columns:1fr 1fr}
+.hunt-modal .hunt-form .wide{grid-column:1/-1}
+.hunt-flash{animation:huntHit .5s ease-out}
+.hunt-float{position:fixed;z-index:90;pointer-events:none;font-family:'Orbitron',sans-serif;font-weight:900;font-size:1rem;color:var(--hunt-gold);text-shadow:0 0 14px rgba(255,209,102,.7);animation:huntFloat 1.2s ease-out forwards}
+@keyframes huntHit{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes huntGlow{0%,100%{box-shadow:0 0 10px rgba(0,255,136,.1)}50%{box-shadow:0 0 24px rgba(0,255,136,.35)}}
+@keyframes huntFloat{0%{opacity:1;transform:translateY(0) scale(.9)}100%{opacity:0;transform:translateY(-54px) scale(1.08)}}
+@media (max-width:640px){
+  .hunt-hero{padding:15px;border-radius:15px}
+  .hunt-desc{font-size:.7rem}
+  .hunt-map{gap:5px;padding:7px 5px}
+  .hunt-node{padding:7px 2px 6px;border-radius:10px}
+  .hunt-node .hn-ico{font-size:1.05rem}
+  .hunt-node .hn-n{font-size:.44rem;letter-spacing:.3px}
+  .hunt-node .hn-badge{font-size:.45rem}
+  .hunt-panel{padding:12px;border-radius:13px}
+  .hunt-form{grid-template-columns:1fr}
+  .hunt-vac{grid-template-columns:42px minmax(0,1fr);gap:8px}
+  .hunt-enemy{width:42px;height:42px;font-size:1.2rem}
+  .hunt-vac-actions{grid-column:1/-1;justify-content:flex-start}
+  .hunt-funnel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hunt-missions{grid-template-columns:1fr}
+  .hunt-modal-box{padding:13px;border-radius:14px}
+  .hunt-modal .hunt-form{grid-template-columns:1fr}
+  .hunt-chips{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:400px){
+  .hunt-node .hn-n{font-size:.4rem}
+  .hunt-node .hn-ico{font-size:.95rem}
+  .hunt-title{font-size:1.4rem}
+}
 </style>
 </head>
 <body class="odea-ui-v7">
@@ -2246,7 +2490,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.66</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.67</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2255,6 +2499,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
+    <button class="nav-item" data-tab="hunt" aria-label="La Cacería: postulaciones y entrevistas"><span class="ni-ico">🎯</span> LA CACERÍA<em class="ni-tag">NUEVO</em></button>
     <button class="nav-item" data-tab="planner" aria-label="Mi plan de misiones"><span class="ni-ico">📋</span> MI PLAN</button>
     <button class="nav-item" data-tab="campaign" aria-label="Campaña de datos"><span class="ni-ico">📜</span> DATOS</button>
     <button class="nav-item" data-tab="jobs" aria-label="Noticias"><span class="ni-ico">📡</span> NOTICIAS</button>
@@ -2277,7 +2522,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.66</span>
+    <span class="ver" id="ver-badge">v5.67</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2347,6 +2592,11 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
           <div id="roadmap"></div>
         </div>
       </div>
+    </section>
+
+    <!-- ============ VISTA 1.1: LA CACERÍA (postulaciones reales) ============ -->
+    <section class="view" id="view-hunt">
+      <div id="hunt-root"></div>
     </section>
 
     <!-- ============ VISTA 1.5: MI PLAN (planner personal) ============ -->
@@ -2463,7 +2713,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.66</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.67</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -2549,6 +2799,12 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <button class="btn-neon ghost" id="focus-reset">↺ REINICIAR</button>
     </div>
     <div class="focus-sessions">Sesiones de hoy: <span id="focus-sessions">0</span></div>
+  </div>
+</div>
+
+<div id="hunt-layer" class="hunt-modal-layer" role="dialog" aria-modal="true" aria-label="La Cacería: ventana de acción">
+  <div class="hunt-modal-box" id="hunt-modal-box">
+    <div id="hunt-modal-body"></div>
   </div>
 </div>
 
@@ -3041,7 +3297,15 @@ const achievements = [
   { id:"ach_titan_apolo", ico:"🎭", name:"Vencedor de Apolo", desc:"Derrotar a Apolo, el Titán de la Elocuencia", xp:500 },
   { id:"ach_titan_prometeo", ico:"🔥", name:"Vencedor de Prometeo", desc:"Derrotar a Prometeo, el Titán del Fuego", xp:500 },
   { id:"ach_titan_all", ico:"🔱", name:"Tridente del Imperio", desc:"Derrotar a los 3 titanes del Imperio", xp:1000 },
-  { id:"ach_vida_all", ico:"🌱", name:"Guardián de la Aldea", desc:"Derrotar a los 7 guardianes de la Aldea de la Vida", xp:1000 }
+  { id:"ach_vida_all", ico:"🌱", name:"Guardián de la Aldea", desc:"Derrotar a los 7 guardianes de la Aldea de la Vida", xp:1000 },
+  { id:"ach_hunt_first", ico:"🎯", name:"Primer Disparo", desc:"Registrar tu primera postulación en La Cacería", xp:100 },
+  { id:"ach_hunt_10", ico:"🏹", name:"Rastreador Activo", desc:"Registrar 10 postulaciones reales", xp:250 },
+  { id:"ach_hunt_50", ico:"🔥", name:"Cazador Imparable", desc:"Registrar 50 postulaciones reales", xp:500 },
+  { id:"ach_hunt_100", ico:"👑", name:"Leyenda de la Cacería", desc:"Registrar 100 postulaciones reales", xp:1000 },
+  { id:"ach_hunt_interview", ico:"🎙️", name:"Primera Entrevista", desc:"Llegar a una entrevista real", xp:300 },
+  { id:"ach_hunt_offer", ico:"💼", name:"Primera Oferta", desc:"Recibir tu primera oferta de trabajo", xp:800 },
+  { id:"ach_hunt_st7", ico:"☄️", name:"Semana de Caza", desc:"Mantener 7 días seguidos postulando", xp:200 },
+  { id:"ach_hunt_st30", ico:"🌌", name:"Mes de Caza", desc:"Mantener 30 días seguidos postulando", xp:500 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -3588,7 +3852,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.66"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.67"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3644,6 +3908,31 @@ function firstPendingDay() {
 function dayDoneCount(day) { return missionsOfDay(day).filter(m => gameState.completedDaily.includes(m.id)).length; }
 function jobsDoneCount() { return gameState.completedJobs.length; }
 
+/* --- 🎯 La Cacería: estado propio, aditivo y migrable --- */
+function defaultHunt() {
+  return {
+    created: null,
+    quota: 5,
+    applications: [],
+    vacancies: [],
+    forge: {},
+    followups: [],
+    missions: { daily: { date: null, done: [] }, weekly: { week: null, done: [] } },
+    log: [],
+    manual: [],
+    streak: 0,
+    bestStreak: 0,
+    lastPost: null,
+    combo: 0,
+    comboDate: null,
+    quotaBonusDate: null,
+    regenCount: 0,
+    boss: { favorites: [], custom: [], history: [], failed: [] },
+    settings: { fx: true, vibrate: true },
+    surprise: { date: null, type: null, done: false }
+  };
+}
+
 /* Objeto global de estado */
 let gameState = {
   playerName: "Recluta",
@@ -3668,8 +3957,9 @@ let gameState = {
   diary: { date: null, text: "", log: [] }, // 📓 diario de una línea (1/día, XP acumulada)
   activity: {}, // 🏃 misiones completadas por día (racha de cualquier frente)
   freezers: 0,                     // 🧊 congeladores de racha (máx 2)
-  applications: [],                // 📡 fuentes que sigo
-  focus: { log: [], date: null }   // 🍅 sesiones de enfoque (pomodoro)
+  applications: [],                // 📡 fuentes que sigo (Noticias)
+  focus: { log: [], date: null },  // 🍅 sesiones de enfoque (pomodoro)
+  hunt: defaultHunt()              // 🎯 La Cacería: postulaciones, radar, forja, jefe
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -3800,6 +4090,9 @@ function loadGame() {
     gameState.applications = Array.isArray(data.applications) ? data.applications : [];
     const fc2 = data.focus || {};
     gameState.focus = { log: Array.isArray(fc2.log) ? fc2.log : [], date: (typeof fc2.date === "string") ? fc2.date : null };
+    /* 🎯 Migración aditiva: los guardados viejos no tienen hunt; se crea vacío.
+       Los datos existentes de otros mundos no se tocan. */
+    gameState.hunt = normalizeHunt(data.hunt);
     return true;
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
@@ -4432,6 +4725,15 @@ function jobsXPGain() {
 function b2bXPGain() {
   return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
 }
+/* --- 🎯 La Cacería: XP y monedas se calculan desde su historial (no se duplican) --- */
+function huntXPGain() {
+  const log = (gameState.hunt && Array.isArray(gameState.hunt.log)) ? gameState.hunt.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.xp) || 0); }, 0);
+}
+function huntCoinsEarned() {
+  const log = (gameState.hunt && Array.isArray(gameState.hunt.log)) ? gameState.hunt.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.coins) || 0); }, 0);
+}
 /* --- 🍅 Enfoque (pomodoro) --- */
 function focusXPGain(id) {
   const f = gameState.focus || {};
@@ -4546,8 +4848,9 @@ function recomputeState() {
   const focus = focusTotalXP();
   const diary = diaryXPGain();
   const bosses = bossXPSum();
-  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses };
-  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses;
+  const hunt = huntXPGain();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt };
+  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt;
   /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
   gameState.campaignLevel = campaignLevel();
   gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
@@ -4578,6 +4881,8 @@ function achievementState() {
   const allCampaign = doneSet.size >= CAMP_TOTAL;
   const allDaily = dailyN >= DAILY_TOTAL;
   const allWeekly = weekN >= WEEKLY_TOTAL;
+  const huntApps = (gameState.hunt && Array.isArray(gameState.hunt.applications)) ? gameState.hunt.applications : [];
+  const huntStreak = (typeof huntLiveStreak === "function") ? huntLiveStreak() : ((gameState.hunt && gameState.hunt.streak) || 0);
   const c = {
     ach_first: () => doneSet.size + missN + weekN + jobsDoneCount() >= 1,
     ach_ten: () => dailyN >= 10,
@@ -4620,7 +4925,15 @@ function achievementState() {
     ach_titan_apolo: () => godDefeated("apolo"),
     ach_titan_prometeo: () => godDefeated("prometeo"),
     ach_titan_all: () => TITAN_BOSSES.every(t => godDefeated(t.id)),
-    ach_vida_all: () => VIDA_BOSSES.every(v => godDefeated(v.id))
+    ach_vida_all: () => VIDA_BOSSES.every(v => godDefeated(v.id)),
+    ach_hunt_first: () => huntApps.length >= 1,
+    ach_hunt_10: () => huntApps.length >= 10,
+    ach_hunt_50: () => huntApps.length >= 50,
+    ach_hunt_100: () => huntApps.length >= 100,
+    ach_hunt_interview: () => huntApps.some(a => a.status === "entrevista" || a.status === "oferta"),
+    ach_hunt_offer: () => huntApps.some(a => a.status === "oferta"),
+    ach_hunt_st7: () => huntStreak >= 7,
+    ach_hunt_st30: () => huntStreak >= 30
   };
   return achievements.filter(a => c[a.id] ? c[a.id]() : false);
 }
@@ -4670,7 +4983,8 @@ function totalMissionCount() {
   try {
     return (campaignAll.length || 0) + (dailyMissions.length || 0) + (weeklyMissions.length || 0) +
       (employmentMissions.length || 0) + (B2B_MISSIONS.length || 0) +
-      (GOD_BOSSES.length || 0) + (TITAN_BOSSES.length || 0);
+      (GOD_BOSSES.length || 0) + (TITAN_BOSSES.length || 0) +
+      ((typeof HUNT_MISSIONS !== "undefined" ? HUNT_MISSIONS.length : 0) || 0);
   } catch (e) { return 0; }
 }
 function applyVersion() {
@@ -5835,11 +6149,1641 @@ function renderAll() {
     renderChapters();
     renderVida();
     renderCapital();
+    renderHunt();
     updateEmpRank();
   };
   if (window.requestIdleCallback) requestIdleCallback(_resto, { timeout: 900 });
   else setTimeout(_resto, 60);
 }
+
+/* ==========================================================
+   🎯 V5.67 — LA CACERÍA
+   Mundo de postulaciones reales. Estado aditivo en gameState.hunt.
+   No toca las claves de otros mundos ni duplica XP/monedas: todo
+   se calcula desde hunt.log, igual que Sagas calcula sus monedas.
+   ========================================================== */
+const HUNT_STATUS = {
+  enviada:   { n: "Enviada",   ico: "📤" },
+  vista:     { n: "Vista",     ico: "👀" },
+  entrevista:{ n: "Entrevista",ico: "🎙️" },
+  rechazada: { n: "Rechazada", ico: "🚫" },
+  oferta:    { n: "Oferta",    ico: "🏆" }
+};
+const HUNT_RANKS = [
+  { min: 0,   name: "Novato",     ico: "🐣", c: "#a0a0c0", desc: "Primeros pasos en el radar" },
+  { min: 10,  name: "Rastreador", ico: "🔎", c: "#00ccff", desc: "Ya sigues el rastro correcto" },
+  { min: 30,  name: "Cazador",    ico: "🏹", c: "#ffd166", desc: "Disparos constantes y precisos" },
+  { min: 60,  name: "Élite",      ico: "⚡", c: "#b06cff", desc: "Tu proceso compite en serio" },
+  { min: 100, name: "Leyenda",    ico: "👑", c: "#ff4f9a", desc: "El mercado ya conoce tu nombre" }
+];
+const HUNT_DIFF = {
+  "Fácil":   "#00ff88",
+  "Media":   "#00ccff",
+  "Difícil": "#ffd166",
+  "Épica":   "#ff4f9a"
+};
+const HUNT_DAILY_CORE = ["d_quota", "d_follow2"];
+const HUNT_MISSIONS = [
+  /* --- Diarias rotativas --- */
+  { id:"d_quota", group:"daily", freq:"daily", diff:"Media", xp:60, coins:3, ico:"🎯", core:true,
+    t:"Postula a {quota} empresas hoy", d:"La cuota diaria es el ataque principal. Sin disparos no hay cacería.",
+    goal:function(){ return huntQuota(); }, p:function(){ return huntTodayApps().length; } },
+  { id:"d_adapt3", group:"daily", freq:"daily", diff:"Difícil", xp:90, coins:4, ico:"🛡️",
+    t:"Postula a 3 empresas y adapta el CV en cada una", d:"Adaptar el CV sube el daño. Calidad sobre cantidad.",
+    goal:3, p:function(){ return huntTodayApps().filter(function(a){ return !!a.adapted; }).length; } },
+  { id:"d_follow2", group:"daily", freq:"daily", diff:"Fácil", xp:35, coins:1, ico:"📨", core:true,
+    t:"Envía 2 seguimientos", d:"El seguimiento a 3–5 días mantiene vivo el proceso.",
+    goal:2, p:function(){ return huntFollowupsToday().length; } },
+  { id:"d_contact2", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"🤝", manual:true,
+    t:"Contacta a 2 reclutadores en LinkedIn", d:"Un mensaje corto y específico abre más puertas que 20 postulaciones genéricas.",
+    goal:2, p:function(){ return huntManualCount("d_contact2", "daily"); } },
+  { id:"d_outside", group:"daily", freq:"daily", diff:"Media", xp:60, coins:2, ico:"🧭",
+    t:"Postula a 1 empresa fuera de tu zona cómoda", d:"Marca la casilla «fuera de zona cómoda» al registrar el disparo.",
+    goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.outside; }).length; } },
+  { id:"d_radar5", group:"daily", freq:"daily", diff:"Fácil", xp:40, coins:1, ico:"📡",
+    t:"Guarda 5 vacantes nuevas en el Radar", d:"Investiga, filtra y guarda oportunidades con match real.",
+    goal:5, p:function(){ return huntTodayVacancies().length; } },
+  { id:"d_letter", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"✍️",
+    t:"Postula con carta personalizada", d:"Una carta específica demuestra que leíste la vacante.",
+    goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.letter; }).length; } },
+  { id:"d_project", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"🧪",
+    t:"Postula con el proyecto insignia enlazado", d:"Tu portafolio es la prueba; enlázalo en la postulación.",
+    goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.project; }).length; } },
+  { id:"d_match80", group:"daily", freq:"daily", diff:"Difícil", xp:80, coins:3, ico:"💎",
+    t:"Postula a una vacante con match mayor a 80%", d:"Apunta a oportunidades donde tu perfil encaja de verdad.",
+    goal:1, p:function(){ return huntTodayApps().filter(function(a){ return Number(a.match) >= 80; }).length; } },
+  { id:"d_fast", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"⚡",
+    t:"Responde a un reclutador en menos de 24 h", d:"Marca la casilla «respondí en <24 h» al registrar o editar.",
+    goal:1, p:function(){ return huntTodayApps().filter(function(a){ return !!a.respondedFast; }).length; } },
+  { id:"d_research", group:"daily", freq:"daily", diff:"Fácil", xp:30, coins:1, ico:"🔍", manual:true,
+    t:"Investiga 1 empresa antes de postular", d:"Revisa producto, clientes, noticias y retos. Anota una hipótesis.",
+    goal:1, p:function(){ return huntManualCount("d_research", "daily"); } },
+  { id:"d_tracker", group:"daily", freq:"daily", diff:"Fácil", xp:30, coins:1, ico:"🗂️", manual:true,
+    t:"Actualiza el estado de tu tracker", d:"Un estado viejo es un enemigo regenerado. Pon al día la tabla.",
+    goal:1, p:function(){ return huntManualCount("d_tracker", "daily"); } },
+  { id:"d_referral", group:"daily", freq:"daily", diff:"Media", xp:55, coins:2, ico:"🪪", manual:true,
+    t:"Pide 1 referido o recomendación interna", d:"Un referido puede saltarse el filtro inicial.",
+    goal:1, p:function(){ return huntManualCount("d_referral", "daily"); } },
+  { id:"d_prep", group:"daily", freq:"daily", diff:"Fácil", xp:35, coins:1, ico:"🎙️", manual:true,
+    t:"Practica 10 minutos de entrevista", d:"Abre Modo Jefe y responde una pregunta en voz alta.",
+    goal:1, p:function(){ return huntManualCount("d_prep", "daily"); } },
+  { id:"d_dream", group:"daily", freq:"daily", diff:"Difícil", xp:90, coins:4, ico:"🌟", manual:true,
+    t:"Postula a tu empresa soñada", d:"El miedo también se entrena. Si encajas, dispara.",
+    goal:1, p:function(){ return huntManualCount("d_dream", "daily"); } },
+  { id:"d_nospam", group:"daily", freq:"daily", diff:"Difícil", xp:100, coins:5, ico:"🔬",
+    t:"Haz 3 postulaciones de calidad", d:"CV adaptado + carta + proyecto enlazado. Una buena vale más que cinco genéricas.",
+    goal:3, p:function(){ return huntTodayApps().filter(function(a){ return a.adapted && a.letter && a.project; }).length; } },
+
+  /* --- Semanales --- */
+  { id:"w_25", group:"weekly", freq:"weekly", diff:"Difícil", xp:220, coins:8, ico:"🏹",
+    t:"25 postulaciones en la semana", d:"Constancia real: el embudo necesita volumen para moverse.",
+    goal:25, p:function(){ return huntWeekApps().length; } },
+  { id:"w_industries", group:"weekly", freq:"weekly", diff:"Media", xp:120, coins:4, ico:"🏭",
+    t:"3 postulaciones a industrias distintas", d:"Diversifica el riesgo y descubre sectores que no habías considerado.",
+    goal:3, p:function(){ return huntDistinctIndustries(huntWeekApps()); } },
+  { id:"w_boss", group:"weekly", freq:"weekly", diff:"Media", xp:100, coins:3, ico:"👹",
+    t:"1 práctica completa en Modo Jefe", d:"Completa una pregunta con autoevaluación y guarda el puntaje.",
+    goal:1, p:function(){ return huntBossWeekCount(); } },
+  { id:"w_follow", group:"weekly", freq:"weekly", diff:"Media", xp:120, coins:4, ico:"📬",
+    t:"Cierra la semana con todos los seguimientos al día", d:"Sin enemigos regenerados: cada postulación con su próximo paso.",
+    goal:1, p:function(){ return (huntState().applications.length > 0 && huntOverdueApps().length === 0) ? 1 : 0; } },
+  { id:"w_network", group:"weekly", freq:"weekly", diff:"Media", xp:110, coins:3, ico:"🌐", manual:true,
+    t:"Activa tu red: 5 contactos nuevos", d:"Reclutadores, excompañeros, gente de empresas objetivo.",
+    goal:5, p:function(){ return huntManualCount("w_network", "weekly"); } },
+
+  /* --- Calidad --- */
+  { id:"q_letter", group:"quality", freq:"weekly", diff:"Media", xp:60, coins:2, ico:"💌",
+    t:"Postula con carta personalizada", d:"Una carta que menciona el producto, el equipo o un reto concreto.",
+    goal:1, p:function(){ return huntWeekApps().filter(function(a){ return !!a.letter; }).length; } },
+  { id:"q_project", group:"quality", freq:"weekly", diff:"Media", xp:60, coins:2, ico:"🧩",
+    t:"Postula con el proyecto insignia enlazado", d:"Muestra evidencia, no solo adjetivos.",
+    goal:1, p:function(){ return huntWeekApps().filter(function(a){ return !!a.project; }).length; } },
+  { id:"q_fast", group:"quality", freq:"weekly", diff:"Media", xp:60, coins:2, ico:"⏱️",
+    t:"Responde a un reclutador en menos de 24 h", d:"La velocidad importa cuando el proceso está caliente.",
+    goal:1, p:function(){ return huntWeekApps().filter(function(a){ return !!a.respondedFast; }).length; } },
+  { id:"q_match80", group:"quality", freq:"weekly", diff:"Difícil", xp:90, coins:4, ico:"🎯",
+    t:"Postula a una vacante con match mayor a 80%", d:"Calidad de encaje: menos ruido, más entrevistas.",
+    goal:1, p:function(){ return huntWeekApps().filter(function(a){ return Number(a.match) >= 80; }).length; } },
+
+  /* --- Portafolio / LinkedIn --- */
+  { id:"p_publish", group:"portfolio", freq:"weekly", diff:"Media", xp:70, coins:2, ico:"📣", manual:true,
+    t:"Publica un avance del proyecto", d:"Un post corto con qué hiciste, qué aprendiste y el resultado.",
+    goal:1, p:function(){ return huntManualCount("p_publish", "weekly"); } },
+  { id:"p_headline", group:"portfolio", freq:"weekly", diff:"Fácil", xp:35, coins:1, ico:"🏷️", manual:true,
+    t:"Actualiza el titular de LinkedIn", d:"Di qué resuelves y para quién, no solo tu cargo.",
+    goal:1, p:function(){ return huntManualCount("p_headline", "weekly"); } },
+  { id:"p_recommend", group:"portfolio", freq:"weekly", diff:"Media", xp:60, coins:2, ico:"💬", manual:true,
+    t:"Pide una recomendación", d:"A un profesor, exjefe o cliente. Facilítale 2 logros concretos.",
+    goal:1, p:function(){ return huntManualCount("p_recommend", "weekly"); } },
+  { id:"p_comment", group:"portfolio", freq:"weekly", diff:"Fácil", xp:45, coins:1, ico:"🗨️", manual:true,
+    t:"Comenta en 3 publicaciones de empresas objetivo", d:"Aporta algo útil; no dejes un «me interesa» genérico.",
+    goal:3, p:function(){ return huntManualCount("p_comment", "weekly"); } },
+  { id:"p_portfolio", group:"portfolio", freq:"weekly", diff:"Difícil", xp:100, coins:4, ico:"🗃️", manual:true,
+    t:"Agrega un caso nuevo a tu portafolio", d:"Problema, datos, método, visualización y recomendación.",
+    goal:1, p:function(){ return huntManualCount("p_portfolio", "weekly"); } },
+
+  /* --- Sorpresa (una activa por día) --- */
+  { id:"s_golden", group:"surprise", freq:"daily", diff:"Difícil", xp:120, coins:6, ico:"🌇", surprise:"golden",
+    t:"Hora dorada: dispara hoy", d:"Las postulaciones de 8 a 10 pm dan x2 XP. La misión se completa con cualquier disparo de hoy.",
+    goal:1, p:function(){ return (huntSurpriseType() === "golden" && huntTodayApps().length > 0) ? 1 : 0; } },
+  { id:"s_wander", group:"surprise", freq:"daily", diff:"Difícil", xp:120, coins:6, ico:"👾", surprise:"wander",
+    t:"Jefe errante: responde la pregunta sorpresa", d:"Abre Modo Jefe y completa el duelo sorpresa para el botín extra.",
+    goal:1, p:function(){ return huntSurpriseType() === "wander" && huntBossHistoryToday().some(function(e){ return !!e.surprise; }) ? 1 : 0; } },
+  { id:"s_double", group:"surprise", freq:"daily", diff:"Épica", xp:180, coins:10, ico:"💥", surprise:"double",
+    t:"Día de doble cuota: cumple 10 disparos", d:"El jefe del día duplica la cuota. Completa 10 postulaciones reales.",
+    goal:10, p:function(){ return huntSurpriseType() === "double" ? Math.min(10, huntTodayApps().length) : 0; } }
+];
+const HUNT_MISSION_BY_ID = {};
+HUNT_MISSIONS.forEach(function (m) { HUNT_MISSION_BY_ID[m.id] = m; });
+
+/* --- Banco de 30 preguntas: SQL 8 · Excel 4 · Python 5 · Negocio 5 · STAR 5 · Datos/Seguridad 3 --- */
+const HUNT_BANK = [
+  { id:"q1", cat:"SQL", diff:"Fácil", time:90, q:"¿Cuál es la diferencia entre WHERE y HAVING?",
+    keys:["WHERE filtra filas antes de agrupar","HAVING filtra grupos después de agregar","HAVING puede usar agregados como COUNT o SUM; WHERE no","Ejemplo: WHERE fecha > ... y HAVING COUNT(*) > 1"] },
+  { id:"q2", cat:"SQL", diff:"Fácil", time:90, q:"¿Diferencia entre INNER JOIN y LEFT JOIN?",
+    keys:["INNER devuelve solo las coincidencias","LEFT conserva todas las filas de la tabla izquierda","Si no hay match, las columnas de la derecha quedan NULL","Cuidado al filtrar la tabla derecha en WHERE: puede convertirlo en INNER"] },
+  { id:"q3", cat:"SQL", diff:"Media", time:120, q:"¿Cómo encontrarías registros duplicados en una tabla?",
+    keys:["Agrupar por las columnas que definen el duplicado","Usar HAVING COUNT(*) > 1","Incluir todas las columnas clave, no solo el id","Revisar antes de borrar o deduplicar"] },
+  { id:"q4", cat:"SQL", diff:"Media", time:120, q:"¿Para qué sirve una función de ventana?",
+    keys:["Calcula sobre un conjunto de filas sin colapsarlas","ROW_NUMBER y RANK sirven para rankings","SUM OVER (PARTITION BY ...) permite acumulados por grupo","Se usa para comparar filas con su grupo o con la fila anterior"] },
+  { id:"q5", cat:"SQL", diff:"Difícil", time:150, q:"¿Cómo obtienes el segundo valor más alto de una columna?",
+    keys:["DENSE_RANK() OVER (ORDER BY col DESC) = 2","Alternativa con subconsulta: MAX(col) < (SELECT MAX(col) ...)","Considerar NULLs y empates","Probar con valores repetidos"] },
+  { id:"q6", cat:"SQL", diff:"Media", time:120, q:"¿Qué es una CTE y cuándo la usas?",
+    keys:["Se define con WITH nombre AS (...)","Mejora la legibilidad de consultas largas","Permite reutilizar subconsultas y separar pasos","También existe la CTE recursiva"] },
+  { id:"q7", cat:"SQL", diff:"Fácil", time:90, q:"¿Diferencia entre UNION y UNION ALL?",
+    keys:["UNION elimina duplicados","UNION ALL conserva todos los registros","UNION ALL suele ser más rápido porque no ordena ni deduplica","Elegir según si necesitas duplicados"] },
+  { id:"q8", cat:"SQL", diff:"Difícil", time:150, q:"¿Cómo optimizarías una consulta lenta?",
+    keys:["Leer el plan de ejecución","Revisar índices en filtros y joins","Evitar SELECT * y filtrar temprano","Revisar el tamaño de las tablas y la lógica de los joins"] },
+
+  { id:"q9", cat:"Excel", diff:"Fácil", time:90, q:"¿Diferencia entre BUSCARV y BUSCARX / INDEX+MATCH?",
+    keys:["BUSCARV solo busca a la derecha de la columna clave","BUSCARX permite buscar en cualquier dirección","INDEX+MATCH es flexible y clásico","Manejar errores con SI.ERROR/IFERROR"] },
+  { id:"q10", cat:"Excel", diff:"Fácil", time:90, q:"¿Qué es una tabla dinámica y para qué la usas?",
+    keys:["Resume datos de forma interactiva","Permite filas, columnas, valores y filtros","Ejemplo: reservas por día y marca","Actualizar y validar totales contra la fuente"] },
+  { id:"q11", cat:"Excel", diff:"Media", time:120, q:"¿Cómo limpias espacios y mayúsculas inconsistentes?",
+    keys:["ESPACIOS/TRIM para espacios extra","MAYUSC/NOMPROPIO para estandarizar","Power Query para repetir la limpieza","Validar antes de analizar y documentar la regla"] },
+  { id:"q12", cat:"Excel", diff:"Media", time:120, q:"¿Para qué sirve una macro VBA y qué ejemplo propio tienes?",
+    keys:["Automatiza tareas repetitivas","Ejemplo real: consolidar reportes o limpiar archivos","Se guarda en .xlsm y hay que probarla","Documentar y controlar errores"] },
+
+  { id:"q13", cat:"Python", diff:"Fácil", time:90, q:"¿Diferencia entre lista, tupla y diccionario?",
+    keys:["Lista: mutable y ordenada","Tupla: inmutable y ordenada","Diccionario: pares clave-valor","Elegir según si necesitas mutar, proteger o buscar por clave"] },
+  { id:"q14", cat:"Python", diff:"Fácil", time:90, q:"¿Cómo lees un CSV y limpias nulos con pandas?",
+    keys:["pd.read_csv(...) para cargar","isna()/isnull() para detectar","fillna() o dropna() según el caso","Revisar tipos y nulos antes de agregar"] },
+  { id:"q15", cat:"Python", diff:"Media", time:120, q:"¿Diferencia entre merge y concat en pandas?",
+    keys:["merge une por llaves, como un JOIN","concat apila filas o columnas","Validar duplicados después del merge","Elegir how y on con intención"] },
+  { id:"q16", cat:"Python", diff:"Fácil", time:90, q:"¿Qué es groupby y cuál es un ejemplo?",
+    keys:["Agrupa por una o varias columnas","Agrega con sum/mean/count","Ejemplo: df.groupby('col')['x'].sum()","reset_index() para volver a una tabla plana"] },
+  { id:"q17", cat:"Python", diff:"Media", time:120, q:"¿Cómo detectarías outliers?",
+    keys:["Rango intercuartílico (IQR)","Z-score","Boxplot o visualización","Investigar antes de eliminar: puede ser un dato real"] },
+
+  { id:"q18", cat:"Casos de negocio", diff:"Difícil", time:180, q:"Las reservas bajaron 15% este mes, ¿cómo investigas?",
+    keys:["Segmentar por canal, marca, fecha y geografía","Comparar con el periodo anterior y con el mismo mes del año pasado","Revisar estacionalidad y cambios de precio","Validar la calidad del dato antes de concluir","Formular hipótesis y recomendar una acción"] },
+  { id:"q19", cat:"Casos de negocio", diff:"Media", time:150, q:"¿Qué KPIs usarías para una operación de renta de autos?",
+    keys:["Utilización de flota","Ingreso por día/vehículo","Tasa de no-show","Duración promedio de renta","Ocupación y rotación"] },
+  { id:"q20", cat:"Casos de negocio", diff:"Media", time:120, q:"¿Cómo comunicarías un hallazgo a un gerente no técnico?",
+    keys:["Conclusión primero","1–2 gráficos claros","Impacto en dinero o tiempo","Recomendación accionable","Dejar los detalles técnicos para el anexo"] },
+  { id:"q21", cat:"Casos de negocio", diff:"Media", time:120, q:"¿Cómo priorizas si te piden 5 reportes urgentes a la vez?",
+    keys:["Evaluar impacto y urgencia","Estimar esfuerzo","Acordar prioridades con el solicitante","Comunicar qué se entrega y qué se pospone"] },
+  { id:"q22", cat:"Casos de negocio", diff:"Media", time:120, q:"¿Cómo validas que un dashboard muestra números correctos?",
+    keys:["Conciliar con la fuente original","Pruebas de totales y filtros","Revisión con el dueño del proceso","Documentar definiciones y cambios"] },
+
+  { id:"q23", cat:"Conductuales", diff:"Fácil", time:120, q:"Cuéntame de un proyecto del que estés orgulloso.",
+    keys:["Situación: contexto y problema","Tarea: tu responsabilidad concreta","Acción: qué hiciste tú","Resultado: métrica o impacto medible"] },
+  { id:"q24", cat:"Conductuales", diff:"Media", time:120, q:"Háblame de un error que cometiste y qué aprendiste.",
+    keys:["Describir el error sin excusas","Reconocer y corregir el impacto","Avisar a las personas afectadas","Explicar el aprendizaje y la prevención"] },
+  { id:"q25", cat:"Conductuales", diff:"Media", time:120, q:"Cuéntame de una vez que automatizaste algo y qué impacto tuvo.",
+    keys:["Proceso manual repetitivo","Herramienta o script que usaste","Tiempo o errores ahorrados","Impacto medible y adopción"] },
+  { id:"q26", cat:"Conductuales", diff:"Media", time:120, q:"¿Cómo manejas la presión y varios plazos a la vez?",
+    keys:["Priorizar por impacto y urgencia","Comunicar plazos y riesgos","Dividir en entregables","Ejemplo STAR con resultado"] },
+  { id:"q27", cat:"Conductuales", diff:"Media", time:120, q:"¿Por qué quieres ser analista de datos y por qué esta empresa?",
+    keys:["Motivación genuina por resolver con datos","Conectar tus habilidades con el negocio","Investigar la empresa y su producto","Aportar valor desde el primer mes"] },
+
+  { id:"q28", cat:"Datos y ciberseguridad", diff:"Media", time:120, q:"¿Qué es información sensible y cómo la proteges al analizar datos?",
+    keys:["Anonimizar o seudonimizar","Mínimo privilegio","No compartir datos reales en ejemplos","Cumplir políticas y normativas"] },
+  { id:"q29", cat:"Datos y ciberseguridad", diff:"Fácil", time:90, q:"¿Diferencia entre autenticación y autorización?",
+    keys:["Autenticación verifica quién eres","Autorización define qué puedes hacer","Ejemplo: login vs roles/permisos","Aplicar mínimo privilegio"] },
+  { id:"q30", cat:"Datos y ciberseguridad", diff:"Difícil", time:150, q:"¿Qué haces si encuentras un error grave en datos que ya se reportaron?",
+    keys:["Avisar rápido a los afectados","Documentar el error y el alcance","Corregir y comunicar el impacto","Prevenir la recurrencia con validaciones"] }
+];
+const HUNT_TEMPLATES = {
+  followup: {
+    t: "Seguimiento amable", ico: "📨",
+    body: "Hola [Nombre], espero que estés bien. Quería dar seguimiento a mi postulación para [Puesto] en [Empresa], enviada el [Fecha]. Sigo muy interesado en aportar con [habilidad o proyecto]. ¿Hay alguna actualización del proceso? Gracias, [Tu nombre]."
+  },
+  recruiter: {
+    t: "Contacto a reclutador", ico: "🤝",
+    body: "Hola [Nombre], vi la vacante de [Puesto] en [Empresa] y me gustaría postularme. Tengo experiencia en [SQL/Python/Excel] y un proyecto de [tema] que puede aportar a [objetivo del equipo]. ¿Te parece si te comparto mi CV? Gracias, [Tu nombre]."
+  },
+  thanks: {
+    t: "Agradecimiento post-entrevista", ico: "🙏",
+    body: "Hola [Nombre], gracias por la entrevista de hoy para [Puesto]. Me quedé con ganas de aportar en [tema o reto]. Quedo atento a los siguientes pasos y a cualquier información adicional que necesites. Saludos, [Tu nombre]."
+  }
+};
+
+/* --- Helpers de fechas, estado y migración --- */
+function huntState() {
+  if (!gameState.hunt || typeof gameState.hunt !== "object") gameState.hunt = defaultHunt();
+  return gameState.hunt;
+}
+function huntDateStr(v) {
+  return (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v)) ? v : null;
+}
+function huntClamp(n, min, max) { n = Number(n) || 0; return Math.max(min, Math.min(max, n)); }
+function huntAddDays(dateStr, n) {
+  const d = new Date((dateStr || todayStr()) + "T00:00:00");
+  d.setDate(d.getDate() + (Number(n) || 0));
+  return fmtDate(d);
+}
+function huntWeekKey(dateStr) { return isoWeekKey(dateStr || todayStr()); }
+function huntDateLabel(dateStr) {
+  if (!dateStr) return "—";
+  return dateStr.slice(8, 10) + "/" + dateStr.slice(5, 7);
+}
+function huntStatusLabel(s) {
+  const st = HUNT_STATUS[s] || HUNT_STATUS.enviada;
+  return st.ico + " " + st.n;
+}
+function huntSafeLink(url) {
+  const u = String(url || "").trim();
+  return /^https?:\/\//i.test(u) ? escapeHtml(u) : "";
+}
+function huntPickSurprise(dateStr) {
+  const day = Math.floor(new Date((dateStr || todayStr()) + "T00:00:00").getTime() / 86400000);
+  const list = ["golden", "wander", "double"];
+  return list[Math.abs(day) % list.length];
+}
+function huntEnsureDay() {
+  const h = huntState();
+  const today = todayStr(), week = isoWeekKey(today);
+  if (!h.missions || typeof h.missions !== "object") h.missions = defaultHunt().missions;
+  if (!h.missions.daily || h.missions.daily.date !== today) h.missions.daily = { date: today, done: [] };
+  if (!h.missions.weekly || h.missions.weekly.week !== week) h.missions.weekly = { week: week, done: [] };
+  if (!h.surprise || h.surprise.date !== today || ["golden", "wander", "double"].indexOf(h.surprise.type) < 0) {
+    h.surprise = { date: today, type: huntPickSurprise(today), done: false };
+  }
+  if (h.comboDate !== today) { h.combo = 0; h.comboDate = today; }
+  if (!h.settings || typeof h.settings !== "object") h.settings = { fx: true, vibrate: true };
+  if (!h.boss || typeof h.boss !== "object") h.boss = defaultHunt().boss;
+  if (!Array.isArray(h.boss.favorites)) h.boss.favorites = [];
+  if (!Array.isArray(h.boss.custom)) h.boss.custom = [];
+  if (!Array.isArray(h.boss.history)) h.boss.history = [];
+  if (!Array.isArray(h.boss.failed)) h.boss.failed = [];
+  if (!Array.isArray(h.applications)) h.applications = [];
+  if (!Array.isArray(h.vacancies)) h.vacancies = [];
+  if (!Array.isArray(h.followups)) h.followups = [];
+  if (!Array.isArray(h.log)) h.log = [];
+  if (!Array.isArray(h.manual)) h.manual = [];
+  if (!h.forge || typeof h.forge !== "object") h.forge = {};
+  return h;
+}
+function huntSurpriseType() { return huntEnsureDay().surprise.type || "golden"; }
+function huntGoldenHour() {
+  if (huntSurpriseType() !== "golden") return false;
+  const hh = new Date().getHours();
+  return hh >= 20 && hh < 22;
+}
+function huntQuota() {
+  const h = huntEnsureDay();
+  const base = huntClamp(h.quota || 5, 1, 20);
+  if (huntSurpriseType() === "double") return Math.max(10, base);
+  return base;
+}
+function huntTodayApps() {
+  const today = todayStr();
+  return huntEnsureDay().applications.filter(function (a) { return a.date === today; });
+}
+function huntWeekApps() {
+  const week = isoWeekKey(todayStr());
+  return huntEnsureDay().applications.filter(function (a) { return isoWeekKey(a.date) === week; });
+}
+function huntTodayVacancies() {
+  const today = todayStr();
+  return huntEnsureDay().vacancies.filter(function (v) { return v.date === today; });
+}
+function huntFollowupsToday() {
+  const today = todayStr();
+  return huntEnsureDay().followups.filter(function (f) { return f.date === today; });
+}
+function huntManualCount(id, freq) {
+  const today = todayStr(), week = isoWeekKey(today);
+  return huntEnsureDay().manual.filter(function (e) {
+    if (e.id !== id) return false;
+    return freq === "weekly" ? isoWeekKey(e.date) === week : e.date === today;
+  }).length;
+}
+function huntDistinctIndustries(apps) {
+  const set = {};
+  (apps || []).forEach(function (a) { if (a.industry && String(a.industry).trim()) set[String(a.industry).trim().toLowerCase()] = 1; });
+  return Object.keys(set).length;
+}
+function huntBossWeekCount() {
+  const week = isoWeekKey(todayStr());
+  return huntEnsureDay().boss.history.filter(function (e) { return isoWeekKey(e.date) === week; }).length;
+}
+function huntBossHistoryToday() {
+  const today = todayStr();
+  return huntEnsureDay().boss.history.filter(function (e) { return e.date === today; });
+}
+function huntLiveStreak() {
+  const h = huntEnsureDay();
+  if (!h.lastPost) return 0;
+  const delta = diffDays(h.lastPost, todayStr());
+  if (delta < 0 || delta > 1) return 0;
+  return Math.max(0, Number(h.streak) || 0);
+}
+function huntRankInfo() {
+  const n = huntEnsureDay().applications.length;
+  let i = 0;
+  while (i + 1 < HUNT_RANKS.length && n >= HUNT_RANKS[i + 1].min) i++;
+  const cur = HUNT_RANKS[i], next = HUNT_RANKS[i + 1] || null;
+  const pct = next ? Math.max(0, Math.min(100, ((n - cur.min) / (next.min - cur.min)) * 100)) : 100;
+  return { n: n, cur: cur, next: next, pct: pct, idx: i };
+}
+function huntOverdueApps() {
+  const today = todayStr();
+  return huntEnsureDay().applications.filter(function (a) {
+    if (a.followupDone || !a.nextAction) return false;
+    if (a.status === "oferta" || a.status === "rechazada") return false;
+    return a.nextAction < today;
+  });
+}
+function huntIsOverdue(app) {
+  return !!app && !app.followupDone && !!app.nextAction &&
+    app.nextAction < todayStr() && app.status !== "oferta" && app.status !== "rechazada";
+}
+function huntNextActionLabel(app) {
+  if (!app.nextAction) return "Sin próximo paso";
+  const d = diffDays(todayStr(), app.nextAction);
+  if (d < 0) return "VENCIDO hace " + Math.abs(d) + " día" + (Math.abs(d) === 1 ? "" : "s");
+  if (d === 0) return "HOY";
+  return "en " + d + " día" + (d === 1 ? "" : "s");
+}
+function huntForge(vid) {
+  const h = huntEnsureDay();
+  const f = h.forge[vid] || {};
+  return { keywords: !!f.keywords, project: !!f.project, letter: !!f.letter };
+}
+function huntForgeScore(vid) {
+  const f = huntForge(vid);
+  return (f.keywords ? 1 : 0) + (f.project ? 1 : 0) + (f.letter ? 1 : 0);
+}
+function huntLogHasKey(key) {
+  return huntEnsureDay().log.some(function (e) { return e.key === key; });
+}
+function huntMissionPeriod(def) {
+  if (def.freq === "daily") return todayStr();
+  if (def.freq === "weekly") return isoWeekKey(todayStr());
+  return "once";
+}
+function huntMissionLogged(def) {
+  return huntLogHasKey("mission:" + def.id + ":" + huntMissionPeriod(def));
+}
+function huntMissionGoal(def) {
+  try { return Math.max(1, Number(typeof def.goal === "function" ? def.goal() : def.goal) || 1); }
+  catch (e) { return 1; }
+}
+function huntMissionProgress(def) {
+  try { return Math.max(0, Number(def.p ? def.p() : 0) || 0); }
+  catch (e) { return 0; }
+}
+function huntMissionTitle(def) {
+  return String(def.t || "").replace("{quota}", String(huntQuota()));
+}
+function huntDailyRotation() {
+  let seed = Math.floor(new Date(todayStr() + "T00:00:00").getTime() / 86400000) || 1;
+  const pool = HUNT_MISSIONS.filter(function (m) { return m.group === "daily" && !m.core; });
+  for (let i = pool.length - 1; i > 0; i--) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const j = Math.abs(seed) % (i + 1);
+    const tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+  }
+  return pool.slice(0, 6).map(function (m) { return m.id; });
+}
+function huntActiveMissions() {
+  const rot = huntDailyRotation();
+  const sType = huntSurpriseType();
+  return HUNT_MISSIONS.filter(function (m) {
+    if (m.group === "daily") return m.core || rot.indexOf(m.id) >= 0;
+    if (m.group === "surprise") return m.surprise === sType;
+    return true;
+  });
+}
+function huntMissionDone(def) {
+  const h = huntEnsureDay();
+  if (def.freq === "daily") return h.missions.daily.done.indexOf(def.id) >= 0 || huntMissionLogged(def);
+  if (def.freq === "weekly") return h.missions.weekly.done.indexOf(def.id) >= 0 || huntMissionLogged(def);
+  return huntMissionLogged(def);
+}
+function huntMarkMissionDone(def) {
+  const h = huntEnsureDay();
+  if (def.freq === "daily") {
+    if (h.missions.daily.done.indexOf(def.id) < 0) h.missions.daily.done.push(def.id);
+  } else if (def.freq === "weekly") {
+    if (h.missions.weekly.done.indexOf(def.id) < 0) h.missions.weekly.done.push(def.id);
+  }
+  if (def.group === "surprise") h.surprise.done = true;
+}
+
+/* --- Normalización segura para guardados viejos --- */
+function normalizeHunt(raw) {
+  const d = defaultHunt();
+  if (!raw || typeof raw !== "object") return d;
+  const out = d;
+  out.created = huntDateStr(raw.created) || null;
+  out.quota = huntClamp(raw.quota || 5, 1, 20);
+  out.streak = Math.max(0, Math.min(9999, Number(raw.streak) || 0));
+  out.bestStreak = Math.max(out.streak, Math.min(9999, Number(raw.bestStreak) || 0));
+  out.lastPost = huntDateStr(raw.lastPost);
+  out.combo = Math.max(0, Math.min(999, Number(raw.combo) || 0));
+  out.comboDate = huntDateStr(raw.comboDate);
+  out.quotaBonusDate = huntDateStr(raw.quotaBonusDate);
+  out.regenCount = Math.max(0, Math.min(9999, Number(raw.regenCount) || 0));
+  const apps = Array.isArray(raw.applications) ? raw.applications : [];
+  out.applications = apps.slice(0, 500).map(function (a) {
+    if (!a || typeof a !== "object") return null;
+    const company = String(a.company || "").trim().slice(0, 80);
+    const role = String(a.role || "").trim().slice(0, 100);
+    if (!company && !role) return null;
+    return {
+      id: String(a.id || ("app_" + Math.random().toString(36).slice(2, 10))),
+      company: company || "Empresa",
+      role: role || "Puesto",
+      link: String(a.link || "").slice(0, 500),
+      channel: String(a.channel || "Portal").slice(0, 40),
+      industry: String(a.industry || "").slice(0, 60),
+      date: huntDateStr(a.date) || todayStr(),
+      status: HUNT_STATUS[a.status] ? a.status : "enviada",
+      nextAction: huntDateStr(a.nextAction),
+      notes: String(a.notes || "").slice(0, 600),
+      match: huntClamp(a.match || 0, 0, 100),
+      adapted: !!a.adapted,
+      letter: !!a.letter,
+      project: !!a.project,
+      outside: !!a.outside,
+      respondedFast: !!a.respondedFast,
+      xp: Math.max(0, Math.min(10000, Number(a.xp) || 0)),
+      coins: Math.max(0, Math.min(1000, Number(a.coins) || 0)),
+      ts: Math.max(0, Number(a.ts) || 0),
+      followupDone: !!a.followupDone,
+      vacancyId: a.vacancyId ? String(a.vacancyId) : null
+    };
+  }).filter(Boolean);
+  const vacs = Array.isArray(raw.vacancies) ? raw.vacancies : [];
+  out.vacancies = vacs.slice(0, 500).map(function (v) {
+    if (!v || typeof v !== "object") return null;
+    const company = String(v.company || "").trim().slice(0, 80);
+    const role = String(v.role || "").trim().slice(0, 100);
+    if (!company && !role) return null;
+    return {
+      id: String(v.id || ("vac_" + Math.random().toString(36).slice(2, 10))),
+      company: company || "Empresa",
+      role: role || "Puesto",
+      link: String(v.link || "").slice(0, 500),
+      industry: String(v.industry || "").slice(0, 60),
+      match: huntClamp(v.match || 0, 0, 100),
+      date: huntDateStr(v.date) || todayStr(),
+      status: v.status === "applied" ? "applied" : "radar",
+      notes: String(v.notes || "").slice(0, 600),
+      appId: v.appId ? String(v.appId) : null
+    };
+  }).filter(Boolean);
+  out.forge = {};
+  if (raw.forge && typeof raw.forge === "object") {
+    Object.keys(raw.forge).slice(0, 600).forEach(function (vid) {
+      const f = raw.forge[vid];
+      if (!f || typeof f !== "object") return;
+      out.forge[vid] = { keywords: !!f.keywords, project: !!f.project, letter: !!f.letter };
+    });
+  }
+  const fus = Array.isArray(raw.followups) ? raw.followups : [];
+  out.followups = fus.slice(-1000).map(function (f) {
+    if (!f || typeof f !== "object") return null;
+    return { id: String(f.id || ("fu_" + Math.random().toString(36).slice(2, 8))), appId: String(f.appId || ""), date: huntDateStr(f.date) || todayStr() };
+  }).filter(Boolean);
+  const md = (raw.missions && raw.missions.daily) || {};
+  const mw = (raw.missions && raw.missions.weekly) || {};
+  out.missions = {
+    daily: { date: huntDateStr(md.date), done: Array.isArray(md.done) ? md.done.filter(function (id) { return !!HUNT_MISSION_BY_ID[id]; }).slice(0, 50) : [] },
+    weekly: { week: (typeof mw.week === "string" ? mw.week : null), done: Array.isArray(mw.done) ? mw.done.filter(function (id) { return !!HUNT_MISSION_BY_ID[id]; }).slice(0, 50) : [] }
+  };
+  const logs = Array.isArray(raw.log) ? raw.log : [];
+  out.log = logs.slice(-2000).map(function (e) {
+    if (!e || typeof e !== "object") return null;
+    const xp = Math.max(0, Math.min(50000, Number(e.xp) || 0));
+    const coins = Math.max(0, Math.min(5000, Number(e.coins) || 0));
+    if (!xp && !coins) return null;
+    return {
+      key: String(e.key || ""),
+      id: String(e.id || ""),
+      appId: e.appId ? String(e.appId) : null,
+      kind: ["shot", "mission", "bonus", "boss"].indexOf(e.kind) >= 0 ? e.kind : "mission",
+      date: huntDateStr(e.date) || todayStr(),
+      xp: xp,
+      coins: coins,
+      title: String(e.title || "").slice(0, 160)
+    };
+  }).filter(Boolean);
+  const mans = Array.isArray(raw.manual) ? raw.manual : [];
+  out.manual = mans.slice(-1200).map(function (e) {
+    if (!e || typeof e !== "object") return null;
+    return { id: String(e.id || ""), date: huntDateStr(e.date) || todayStr() };
+  }).filter(function (e) { return e && e.id; });
+  const b = (raw.boss && typeof raw.boss === "object") ? raw.boss : {};
+  out.boss = {
+    favorites: Array.isArray(b.favorites) ? b.favorites.map(String).slice(0, 200) : [],
+    custom: Array.isArray(b.custom) ? b.custom.slice(0, 100).map(function (q) {
+      if (!q || typeof q !== "object" || !q.q) return null;
+      return {
+        id: String(q.id || ("cq_" + Math.random().toString(36).slice(2, 8))),
+        cat: String(q.cat || "Personalizada").slice(0, 40),
+        diff: ["Fácil", "Media", "Difícil"].indexOf(q.diff) >= 0 ? q.diff : "Media",
+        time: huntClamp(q.time || 120, 30, 600),
+        q: String(q.q).slice(0, 400),
+        keys: Array.isArray(q.keys) ? q.keys.map(function (k) { return String(k).slice(0, 240); }).filter(Boolean).slice(0, 10) : []
+      };
+    }).filter(Boolean) : [],
+    history: Array.isArray(b.history) ? b.history.slice(-300).map(function (e) {
+      if (!e || typeof e !== "object") return null;
+      return {
+        qid: String(e.qid || ""),
+        date: huntDateStr(e.date) || todayStr(),
+        score: huntClamp(e.score || 0, 0, 100),
+        checked: huntClamp(e.checked || 0, 0, 20),
+        total: huntClamp(e.total || 0, 0, 20),
+        timeUsed: Math.max(0, Number(e.timeUsed) || 0),
+        surprise: !!e.surprise
+      };
+    }).filter(Boolean) : [],
+    failed: Array.isArray(b.failed) ? b.failed.map(String).slice(0, 200) : []
+  };
+  out.settings = {
+    fx: !(raw.settings && raw.settings.fx === false),
+    vibrate: !(raw.settings && raw.settings.vibrate === false)
+  };
+  const sp = raw.surprise || {};
+  out.surprise = {
+    date: huntDateStr(sp.date),
+    type: ["golden", "wander", "double"].indexOf(sp.type) >= 0 ? sp.type : null,
+    done: !!sp.done
+  };
+  return out;
+}
+
+/* --- Cálculo de recompensas por disparo --- */
+function huntShotXP(app, beforeCount) {
+  let xp = 30;
+  if (app.adapted) xp += 25;
+  if (app.letter) xp += 10;
+  if (app.project) xp += 15;
+  if (Number(app.match) >= 80) xp += 15;
+  xp += Math.min(25, Math.max(0, beforeCount) * 5);
+  if (huntGoldenHour()) xp *= 2;
+  return Math.round(xp);
+}
+function huntShotCoins(app) {
+  return 1 + (app.adapted ? 1 : 0) + (app.letter ? 1 : 0) + (app.project ? 1 : 0);
+}
+function huntCheckQuotaBonus() {
+  const h = huntEnsureDay();
+  const today = todayStr();
+  const key = "quota:" + today;
+  if (huntTodayApps().length >= huntQuota() && h.quotaBonusDate !== today && !huntLogHasKey(key)) {
+    h.quotaBonusDate = today;
+    h.log.push({ key: key, id: "quota_" + today, kind: "bonus", date: today, xp: 50, coins: 3, title: "Cuota diaria cumplida" });
+    return true;
+  }
+  return false;
+}
+function huntUpdateStreak(app) {
+  const h = huntEnsureDay();
+  const today = todayStr();
+  if (h.lastPost === today) {
+    h.streak = Math.max(1, Number(h.streak) || 0);
+  } else if (h.lastPost && diffDays(h.lastPost, today) === 1) {
+    h.streak = Math.max(1, Number(h.streak) || 0) + 1;
+  } else {
+    h.streak = 1;
+  }
+  h.lastPost = today;
+  h.bestStreak = Math.max(Number(h.bestStreak) || 0, h.streak);
+  h.combo = huntTodayApps().length;
+  h.comboDate = today;
+}
+function huntAddApplication(data) {
+  const h = huntEnsureDay();
+  const beforeCount = huntTodayApps().length;
+  const app = {
+    id: "app_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
+    company: String(data.company || "").trim().slice(0, 80),
+    role: String(data.role || "").trim().slice(0, 100),
+    link: String(data.link || "").trim().slice(0, 500),
+    channel: String(data.channel || "Portal").slice(0, 40),
+    industry: String(data.industry || "").trim().slice(0, 60),
+    date: huntDateStr(data.date) || todayStr(),
+    status: HUNT_STATUS[data.status] ? data.status : "enviada",
+    nextAction: huntDateStr(data.nextAction) || huntAddDays(huntDateStr(data.date) || todayStr(), 4),
+    notes: String(data.notes || "").slice(0, 600),
+    match: huntClamp(data.match || 0, 0, 100),
+    adapted: !!data.adapted,
+    letter: !!data.letter,
+    project: !!data.project,
+    outside: !!data.outside,
+    respondedFast: !!data.respondedFast,
+    xp: 0,
+    coins: 0,
+    ts: Date.now(),
+    followupDone: false,
+    vacancyId: data.vacancyId ? String(data.vacancyId) : null
+  };
+  app.xp = huntShotXP(app, beforeCount);
+  app.coins = huntShotCoins(app);
+  h.applications.unshift(app);
+  h.log.push({
+    key: "shot:" + app.id, id: "shot_" + app.id, appId: app.id, kind: "shot",
+    date: todayStr(), xp: app.xp, coins: app.coins,
+    title: "Disparo: " + app.role + " · " + app.company
+  });
+  if (app.vacancyId) {
+    const v = h.vacancies.find(function (x) { return x.id === app.vacancyId; });
+    if (v) { v.status = "applied"; v.appId = app.id; }
+  }
+  huntUpdateStreak(app);
+  huntCheckQuotaBonus();
+  activityAdd("hunt", 1);
+  activityMaybeStreak();
+  return app;
+}
+function huntCheckMissions(opts) {
+  opts = opts || {};
+  const h = huntEnsureDay();
+  const fresh = [];
+  huntActiveMissions().forEach(function (def) {
+    if (huntMissionDone(def)) return;
+    const goal = huntMissionGoal(def);
+    const prog = huntMissionProgress(def);
+    if (prog < goal) return;
+    const period = huntMissionPeriod(def);
+    const key = "mission:" + def.id + ":" + period;
+    if (huntLogHasKey(key)) return;
+    h.log.push({
+      key: key, id: "mission_" + def.id + "_" + period, kind: "mission",
+      date: todayStr(), xp: def.xp, coins: def.coins, title: "Misión: " + huntMissionTitle(def)
+    });
+    huntMarkMissionDone(def);
+    fresh.push(def);
+  });
+  if (fresh.length) {
+    saveGame();
+    if (opts.notify) {
+      fresh.slice(0, 3).forEach(function (def, i) {
+        setTimeout(function () {
+          toast(def.ico || "🎯", "MISIÓN COMPLETADA +" + def.xp + " XP", huntMissionTitle(def) + " · +" + def.coins + " 🪙", "ach");
+        }, i * 420);
+      });
+      huntFx("mission");
+    }
+  }
+  return fresh;
+}
+function huntAfterChange(msg, fxKind, x, y) {
+  const h = huntEnsureDay();
+  h.combo = huntTodayApps().length;
+  saveGame();
+  recomputeState();
+  huntCheckMissions({ notify: true });
+  checkAchievements();
+  recomputeState();
+  updateUI();
+  huntRender();
+  if (msg) toast("🎯", "La Cacería", msg);
+  if (fxKind) huntFx(fxKind, x, y);
+}
+function huntFx(kind, x, y) {
+  const h = huntState();
+  const fxOn = h.settings.fx !== false;
+  const vibOn = h.settings.vibrate !== false;
+  if (fxOn) {
+    if (kind === "mission") {
+      playSfx("fanfare");
+      confetti(window.innerWidth / 2, window.innerHeight * 0.24, 80);
+      flashFx();
+    } else if (kind === "shot") {
+      playSfx("pop");
+      burst(x || window.innerWidth / 2, y || 150, "#ff4f9a", 34);
+      burst(x || window.innerWidth / 2, y || 150, "#ffd166", 24);
+    } else if (kind === "boss") {
+      playSfx("chime");
+      confetti(window.innerWidth / 2, window.innerHeight * 0.22, 70);
+    } else if (kind === "bad") {
+      playSfx("error");
+    }
+  }
+  if (vibOn && navigator.vibrate) {
+    try {
+      navigator.vibrate(kind === "mission" ? [35, 45, 35] : kind === "boss" ? [60, 40, 60] : 22);
+    } catch (e) {}
+  }
+}
+
+/* --- Interfaz de La Cacería --- */
+const huntUI = { zone: "radar", missionFilter: "daily", bossCat: "all", bossFailedOnly: false, search: "", status: "all" };
+function huntEnemyLevel(match) {
+  return Math.min(5, 1 + Math.floor(huntClamp(match, 0, 100) / 20));
+}
+function huntEnemyIco(level) {
+  return ["👾", "🕷️", "🐉", "🤖", "👹"][Math.max(0, Math.min(4, level - 1))];
+}
+function huntChipHTML(cls, num, lab) {
+  return '<div class="hunt-chip ' + cls + '"><b>' + escapeHtml(String(num)) + '</b><span>' + escapeHtml(lab) + '</span></div>';
+}
+function huntPanelHead(title, sub, extra) {
+  return '<div class="hunt-section-head"><div><h3 class="hunt-section-title">' + title + '</h3>' +
+    (sub ? '<div class="hunt-section-sub">' + sub + '</div>' : '') + '</div>' +
+    (extra ? '<div>' + extra + '</div>' : '') + '</div>';
+}
+function huntHeroHTML() {
+  const h = huntEnsureDay();
+  const r = huntRankInfo();
+  const todayN = huntTodayApps().length;
+  const quota = huntQuota();
+  const qpct = Math.min(100, Math.round((todayN / Math.max(1, quota)) * 100));
+  const streak = huntLiveStreak();
+  const overdue = huntOverdueApps().length;
+  const fxOn = h.settings.fx !== false;
+  const vibOn = h.settings.vibrate !== false;
+  const nextTxt = r.next ? ((r.next.min - r.n) + " disparos para " + r.next.name) : "Rango máximo alcanzado";
+  const opts = [3, 5, 8, 10];
+  if (opts.indexOf(h.quota) < 0) opts.push(h.quota);
+  const quotaOpts = opts.sort(function (a, b) { return a - b; }).map(function (n) {
+    return '<option value="' + n + '"' + (Number(h.quota) === n ? " selected" : "") + '>' + n + ' postulaciones</option>';
+  }).join("");
+  return '<div class="hunt-hero">' +
+    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.67</div>' +
+    '<div class="hunt-title">LA <em>CACERÍA</em></div>' +
+    '<div class="hunt-desc">Encontrá vacantes, adaptá el CV, dispará postulaciones y seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
+    '<div class="hunt-rank-card" style="border-color:' + r.cur.c + '55">' +
+      '<div class="hunt-rank-medal" style="border-color:' + r.cur.c + ';box-shadow:0 0 20px ' + r.cur.c + '35">' + r.cur.ico + '</div>' +
+      '<div class="hunt-rank-info"><b style="color:' + r.cur.c + '">' + escapeHtml(r.cur.name) + '</b><small>' + escapeHtml(r.cur.desc) + ' · ' + r.n + ' disparos</small></div>' +
+      '<div class="hunt-rank-track"><div class="hunt-quota-top"><span>' + escapeHtml(nextTxt) + '</span><span>' + Math.round(r.pct) + '%</span></div><div class="hunt-bar"><span style="width:' + r.pct + '%;background:linear-gradient(90deg,' + r.cur.c + ',var(--hunt-gold))"></span></div></div>' +
+    '</div>' +
+    '<div class="hunt-chips">' +
+      huntChipHTML("pink", todayN + "/" + quota, "Cuota de hoy") +
+      huntChipHTML("gold", "🔥 " + streak, "Racha de caza") +
+      huntChipHTML("cyan", h.applications.length, "Postulaciones") +
+      huntChipHTML("green", huntXPGain().toLocaleString("es-CR"), "XP Cacería") +
+      huntChipHTML("gold", "🪙 " + huntCoinsEarned().toLocaleString("es-CR"), "Monedas") +
+      huntChipHTML("pink", overdue, "Seguimientos vencidos") +
+    '</div>' +
+    '<div class="hunt-quota-box">' +
+      '<div class="hunt-quota-top"><b>' + (todayN >= quota ? "✓ CUOTA CUMPLIDA" : "CUOTA DIARIA " + todayN + "/" + quota) + '</b><span>' + (huntSurpriseType() === "double" ? "💥 Día de doble cuota" : "Combo " + Math.min(6, todayN) + "x") + '</span></div>' +
+      '<div class="hunt-bar" style="margin-top:6px"><span style="width:' + qpct + '%"></span></div>' +
+      '<div class="hunt-settings">' +
+        '<label>Cuota <select data-hunt-quota aria-label="Cuota diaria de postulaciones">' + quotaOpts + '</select></label>' +
+        '<button class="hunt-toggle ' + (fxOn ? "on" : "off") + '" data-hunt-act="toggle-fx" type="button">🔊 Efectos ' + (fxOn ? "ON" : "OFF") + '</button>' +
+        '<button class="hunt-toggle ' + (vibOn ? "on" : "off") + '" data-hunt-act="toggle-vibrate" type="button">📳 Vibración ' + (vibOn ? "ON" : "OFF") + '</button>' +
+        '<button class="hunt-toggle hunt-reset" data-hunt-act="reset" type="button">⟲ Reiniciar Cacería</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+function huntMapHTML() {
+  const h = huntEnsureDay();
+  const zones = [
+    { id: "radar", ico: "📡", n: "RADAR", badge: h.vacancies.filter(function (v) { return v.status !== "applied"; }).length + " vacantes" },
+    { id: "forja", ico: "🛠️", n: "FORJA", badge: h.vacancies.filter(function (v) { return huntForgeScore(v.id) < 3; }).length + " por adaptar" },
+    { id: "shot", ico: "🏹", n: "DISPARO", badge: huntTodayApps().length + "/" + huntQuota() },
+    { id: "track", ico: "📊", n: "SEGUIMIENTO", badge: huntOverdueApps().length ? "⚠ " + huntOverdueApps().length : "al día" },
+    { id: "boss", ico: "👹", n: "JEFE", badge: h.boss.history.length + " duelos" }
+  ];
+  return '<div class="hunt-map" role="tablist" aria-label="Zonas de La Cacería">' + zones.map(function (z) {
+    return '<button class="hunt-node ' + (huntUI.zone === z.id ? "active" : "") + '" data-hunt-zone="' + z.id + '" role="tab" aria-selected="' + (huntUI.zone === z.id ? "true" : "false") + '">' +
+      '<span class="hn-ico">' + z.ico + '</span><span class="hn-n">' + z.n + '</span><span class="hn-badge">' + escapeHtml(z.badge) + '</span></button>';
+  }).join("") + '</div>';
+}
+function huntMissionCardHTML(def) {
+  const done = huntMissionDone(def);
+  const goal = huntMissionGoal(def);
+  const prog = Math.min(goal, huntMissionProgress(def));
+  const pct = Math.round((prog / Math.max(1, goal)) * 100);
+  const color = HUNT_DIFF[def.diff] || "#ff4f9a";
+  return '<div class="hunt-mission ' + (done ? "done" : "") + '" style="--mc:' + color + '">' +
+    '<div class="hunt-mission-top"><b>' + (done ? "✓ " : "") + (def.ico || "🎯") + " " + escapeHtml(huntMissionTitle(def)) + '</b><span>' + escapeHtml(def.diff) + '</span></div>' +
+    '<p>' + escapeHtml(def.d || "") + '</p>' +
+    '<div class="hunt-mission-progress"><span style="width:' + (done ? 100 : pct) + '%"></span></div>' +
+    '<div class="hunt-mission-foot"><span class="hunt-mission-reward">+' + def.xp + ' XP · +' + def.coins + ' 🪙</span>' +
+      (done ? '<span class="hunt-pill green">COMPLETADA</span>' :
+        (def.manual ? '<button class="hunt-btn" data-hunt-act="manual" data-mid="' + def.id + '" type="button">REGISTRAR +1</button>' :
+          '<span class="hunt-pill">' + prog + "/" + goal + '</span>')) +
+    '</div></div>';
+}
+function huntMissionPanelHTML() {
+  const groups = [
+    ["all", "TODAS"], ["daily", "DIARIAS"], ["weekly", "SEMANALES"],
+    ["quality", "CALIDAD"], ["portfolio", "PORTAFOLIO"], ["surprise", "SORPRESA"]
+  ];
+  const active = huntActiveMissions();
+  const filter = huntUI.missionFilter || "daily";
+  const shown = filter === "all" ? active : active.filter(function (m) { return m.group === filter; });
+  const doneN = shown.filter(huntMissionDone).length;
+  return '<div class="hunt-panel" id="hunt-missions">' +
+    huntPanelHead("🎯 MISIONES DE CAZA", "Diarias rotativas, semanales, calidad, portafolio y sorpresa. Cada una paga XP y monedas reales.",
+      '<span class="hunt-pill pink">' + doneN + "/" + shown.length + ' hoy</span>') +
+    '<div class="hunt-mission-filter" role="tablist" aria-label="Filtro de misiones">' + groups.map(function (g) {
+      return '<button class="hunt-filter-btn ' + (filter === g[0] ? "active" : "") + '" data-hunt-mfilter="' + g[0] + '" type="button">' + g[1] + '</button>';
+    }).join("") + '</div>' +
+    '<div class="hunt-missions">' + (shown.length ? shown.map(huntMissionCardHTML).join("") : '<div class="hunt-empty">No hay misiones en este grupo hoy.</div>') + '</div>' +
+    '<div class="hunt-section-sub" style="margin-top:9px">Las diarias rotan cada día; las semanales se reinician los lunes. La sorpresa cambia según el día.</div>' +
+  '</div>';
+}
+function huntVacancyCardHTML(v) {
+  const applied = v.status === "applied" || !!v.appId;
+  const score = huntForgeScore(v.id);
+  const lvl = huntEnemyLevel(v.match);
+  const hp = applied ? 0 : Math.max(10, 100 - score * 20);
+  const link = huntSafeLink(v.link);
+  const app = applied && v.appId ? huntEnsureDay().applications.find(function (a) { return a.id === v.appId; }) : null;
+  const overdue = app ? huntIsOverdue(app) : false;
+  return '<div class="hunt-vac ' + (applied ? "applied" : "") + ' ' + (overdue ? "regenerated" : "") + '">' +
+    '<div class="hunt-enemy" title="Nivel de enemigo ' + lvl + '">' + huntEnemyIco(lvl) + '</div>' +
+    '<div class="hunt-vac-main"><b>' + escapeHtml(v.role) + '</b><span>' + escapeHtml(v.company) + (v.industry ? " · " + escapeHtml(v.industry) : "") + '</span>' +
+      '<div class="hunt-vac-meta">' +
+        '<span class="hunt-tag hot">Nv.' + lvl + '</span>' +
+        '<span class="hunt-tag ' + (Number(v.match) >= 80 ? "good" : "") + '">🎯 ' + Math.round(Number(v.match) || 0) + '% match</span>' +
+        '<span class="hunt-tag">📅 ' + huntDateLabel(v.date) + '</span>' +
+        (score >= 3 ? '<span class="hunt-tag good">⚔ CV crítico</span>' : '<span class="hunt-tag">🛠 CV ' + score + '/3</span>') +
+        (applied ? '<span class="hunt-tag good">📤 Disparada</span>' : '') +
+        (overdue ? '<span class="hunt-tag" style="color:#ff8fa6;border-color:rgba(255,51,85,.4)">🧟 Regenerado</span>' : '') +
+      '</div>' +
+      (applied ? '<div class="hunt-hp"><span style="width:' + hp + '%"></span></div>' : '<div class="hunt-hp"><span style="width:' + hp + '%"></span></div>') +
+    '</div>' +
+    '<div class="hunt-vac-actions">' +
+      (link ? '<a class="hunt-btn ghost" href="' + link + '" target="_blank" rel="noopener">🔗 VACANTE</a>' : '') +
+      '<button class="hunt-btn" data-hunt-act="forge" data-vid="' + escapeHtml(v.id) + '" type="button">🛠 FORJAR</button>' +
+      (applied ? '<button class="hunt-btn green" data-hunt-act="track" type="button">📊 SEGUIR</button>' : '<button class="hunt-btn primary" data-hunt-act="shot" data-vid="' + escapeHtml(v.id) + '" type="button">🏹 DISPARAR</button>') +
+      '<button class="hunt-btn danger" data-hunt-act="del-vac" data-vid="' + escapeHtml(v.id) + '" type="button" aria-label="Eliminar vacante">✕</button>' +
+    '</div>' +
+  '</div>';
+}
+function huntZoneRadarHTML() {
+  const h = huntEnsureDay();
+  const list = h.vacancies.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+  return '<div class="hunt-panel">' +
+    huntPanelHead("📡 RADAR DE VACANTES", "Cada vacante es un enemigo: nivel, empresa, puesto, link, fecha y match con tu perfil.",
+      '<span class="hunt-pill">' + list.filter(function (v) { return v.status !== "applied"; }).length + ' en radar</span>') +
+    '<form class="hunt-form" id="hunt-vac-form">' +
+      '<div class="hunt-field"><label for="hv-company">Empresa</label><input class="hunt-input" id="hv-company" name="company" maxlength="80" required placeholder="Ej. BAC Credomatic"></div>' +
+      '<div class="hunt-field"><label for="hv-role">Puesto</label><input class="hunt-input" id="hv-role" name="role" maxlength="100" required placeholder="Data Analyst / BI Analyst"></div>' +
+      '<div class="hunt-field"><label for="hv-link">Link de la vacante</label><input class="hunt-input" id="hv-link" name="link" maxlength="500" placeholder="https://..."></div>' +
+      '<div class="hunt-field"><label for="hv-match">% de match</label><input class="hunt-input" id="hv-match" name="match" type="number" min="0" max="100" value="60" inputmode="numeric"></div>' +
+      '<div class="hunt-field"><label for="hv-industry">Industria</label><input class="hunt-input" id="hv-industry" name="industry" maxlength="60" placeholder="Finanzas, retail, salud..."></div>' +
+      '<div class="hunt-field"><label for="hv-notes">Notas</label><input class="hunt-input" id="hv-notes" name="notes" maxlength="600" placeholder="Por qué te interesa / requisitos clave"></div>' +
+      '<div class="hunt-form-actions"><button class="hunt-btn primary" type="submit">➕ GUARDAR EN RADAR</button><span class="hunt-section-sub">El nivel del enemigo se calcula con el % de match.</span></div>' +
+    '</form>' +
+    (list.length ? '<div class="hunt-vac-list">' + list.map(huntVacancyCardHTML).join("") + '</div>' :
+      '<div class="hunt-empty" style="margin-top:11px"><b>El radar está limpio.</b><br>Guardá tu primera vacante y empezá la cacería.</div>') +
+  '</div>';
+}
+function huntZoneForgeHTML() {
+  const h = huntEnsureDay();
+  const vacs = h.vacancies.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+  let html = '<div class="hunt-panel">' +
+    huntPanelHead("🛠️ FORJA DE CV", "Adaptá palabras clave, proyecto y carta para cada vacante. Los 3 checks activan el <b>daño crítico</b>.",
+      '<span class="hunt-pill pink">' + vacs.filter(function (v) { return huntForgeScore(v.id) >= 3; }).length + ' listas</span>');
+  if (!vacs.length) {
+    html += '<div class="hunt-empty"><b>No hay vacantes para forjar.</b><br>Primero guardá una en el Radar.</div>';
+  } else {
+    html += vacs.map(function (v) {
+      const f = huntForge(v.id);
+      const score = huntForgeScore(v.id);
+      return '<div class="hunt-forge-vac">' +
+        '<div class="hunt-forge-top"><div><b>' + escapeHtml(v.role) + '</b> <span>· ' + escapeHtml(v.company) + '</span></div><span>' + score + '/3 · ' + (score >= 3 ? "DAÑO CRÍTICO" : "CV en proceso") + '</span></div>' +
+        '<div class="hunt-check-grid">' +
+          '<label class="hunt-check ' + (f.keywords ? "on" : "") + '"><input type="checkbox" data-hunt-forge="keywords" data-vid="' + escapeHtml(v.id) + '" ' + (f.keywords ? "checked" : "") + '><span><b>Palabras clave de la vacante</b><small>Incluí las herramientas y responsabilidades exactas que pide.</small></span></label>' +
+          '<label class="hunt-check ' + (f.project ? "on" : "") + '"><input type="checkbox" data-hunt-forge="project" data-vid="' + escapeHtml(v.id) + '" ' + (f.project ? "checked" : "") + '><span><b>Proyecto relevante enlazado</b><small>Elegí el caso que mejor hable del problema de esa empresa.</small></span></label>' +
+          '<label class="hunt-check ' + (f.letter ? "on" : "") + '"><input type="checkbox" data-hunt-forge="letter" data-vid="' + escapeHtml(v.id) + '" ' + (f.letter ? "checked" : "") + '><span><b>Carta personalizada</b><small>Mencioná producto, equipo o un reto concreto. Nada genérico.</small></span></label>' +
+        '</div>' +
+        '<div class="hunt-crit ' + (score >= 3 ? "ready" : "") + '">' + (score >= 3 ? "⚔ DAÑO CRÍTICO LISTO · dispará con ventaja" : "Completá los 3 checks para daño crítico") + '</div>' +
+        '<div class="hunt-form-actions" style="margin-top:9px"><button class="hunt-btn primary" data-hunt-act="shot" data-vid="' + escapeHtml(v.id) + '" type="button">🏹 DISPARAR CON ESTE CV</button><button class="hunt-btn ghost" data-hunt-act="radar" type="button">◀ VOLVER AL RADAR</button></div>' +
+      '</div>';
+    }).join("");
+  }
+  html += '</div>';
+  return html;
+}
+function huntZoneShotHTML() {
+  const h = huntEnsureDay();
+  const today = huntTodayApps();
+  const quota = huntQuota();
+  const pct = Math.min(100, Math.round((today.length / Math.max(1, quota)) * 100));
+  const recent = h.applications.slice(0, 8);
+  return '<div class="hunt-panel">' +
+    huntPanelHead("🏹 DISPARO", "Registrar una postulación es el ataque principal. Cuanto mejor adaptada, más XP y monedas.", '<span class="hunt-pill gold">' + today.length + "/" + quota + ' hoy</span>') +
+    '<div class="hunt-quota-box" style="margin-top:0"><div class="hunt-quota-top"><b>' + (today.length >= quota ? "✓ CUOTA CUMPLIDA" : "PROGRESO DE HOY") + '</b><span>' + (huntSurpriseType() === "double" ? "💥 x2 cuota" : "Combo actual: " + Math.min(6, today.length) + "x") + '</span></div><div class="hunt-bar" style="margin-top:6px"><span style="width:' + pct + '%"></span></div></div>' +
+    '<div class="hunt-form-actions" style="margin-top:12px"><button class="hunt-btn primary" data-hunt-act="shot" type="button">🏹 NUEVO DISPARO</button><button class="hunt-btn ghost" data-hunt-act="radar" type="button">📡 BUSCAR VACANTE</button><span class="hunt-section-sub">Base 30 XP · +25 CV adaptado · +10 carta · +15 proyecto · +15 match ≥80% · +combo.</span></div>' +
+    (recent.length ? '<div class="hunt-vac-list">' + recent.map(function (a) {
+      const overdue = huntIsOverdue(a);
+      return '<div class="hunt-vac ' + (a.status === "oferta" ? "applied" : "") + ' ' + (overdue ? "regenerated" : "") + '">' +
+        '<div class="hunt-enemy">' + HUNT_STATUS[a.status].ico + '</div>' +
+        '<div class="hunt-vac-main"><b>' + escapeHtml(a.role) + '</b><span>' + escapeHtml(a.company) + ' · ' + huntDateLabel(a.date) + ' · ' + escapeHtml(a.channel) + '</span>' +
+          '<div class="hunt-vac-meta"><span class="hunt-tag good">+' + a.xp + ' XP</span><span class="hunt-tag hot">+' + a.coins + ' 🪙</span>' +
+          (a.adapted ? '<span class="hunt-tag good">CV adaptado</span>' : '<span class="hunt-tag">CV genérico</span>') +
+          (a.letter ? '<span class="hunt-tag">Carta</span>' : '') + (a.project ? '<span class="hunt-tag">Proyecto</span>' : '') +
+          (overdue ? '<span class="hunt-tag" style="color:#ff8fa6">🧟 Regenerado</span>' : '') + '</div>' +
+        '</div>' +
+        '<div class="hunt-vac-actions"><button class="hunt-btn" data-hunt-act="edit-app" data-id="' + escapeHtml(a.id) + '" type="button">✏ EDITAR</button><button class="hunt-btn green" data-hunt-act="followup" data-id="' + escapeHtml(a.id) + '" type="button">📨 SEGUÍ</button></div>' +
+      '</div>';
+    }).join("") + '</div>' : '<div class="hunt-empty" style="margin-top:11px"><b>Todavía no disparaste hoy.</b><br>Guardá una vacante en el Radar o registrá una postulación directa.</div>') +
+  '</div>';
+}
+function huntFunnelHTML() {
+  const h = huntEnsureDay();
+  const total = h.applications.length;
+  const responded = h.applications.filter(function (a) { return ["vista", "entrevista", "oferta", "rechazada"].indexOf(a.status) >= 0; }).length;
+  const interviews = h.applications.filter(function (a) { return ["entrevista", "oferta"].indexOf(a.status) >= 0; }).length;
+  const offers = h.applications.filter(function (a) { return a.status === "oferta"; }).length;
+  const p = function (n) { return total ? Math.round((n / total) * 100) : 0; };
+  return '<div class="hunt-funnel">' +
+    '<div class="hunt-funnel-step"><b>' + total + '</b><span>Postuladas</span><small>100%</small></div>' +
+    '<div class="hunt-funnel-step"><b>' + responded + '</b><span>Respondidas</span><small>' + p(responded) + '%</small></div>' +
+    '<div class="hunt-funnel-step"><b>' + interviews + '</b><span>Entrevistas</span><small>' + p(interviews) + '%</small></div>' +
+    '<div class="hunt-funnel-step"><b>' + offers + '</b><span>Ofertas</span><small>' + p(offers) + '%</small></div>' +
+  '</div>';
+}
+function huntAppRowHTML(a) {
+  const overdue = huntIsOverdue(a);
+  const link = huntSafeLink(a.link);
+  const nextTxt = huntNextActionLabel(a);
+  const statusOpts = Object.keys(HUNT_STATUS).map(function (k) {
+    return '<option value="' + k + '"' + (a.status === k ? " selected" : "") + '>' + HUNT_STATUS[k].ico + " " + HUNT_STATUS[k].n + '</option>';
+  }).join("");
+  const search = (a.company + " " + a.role + " " + a.notes + " " + a.industry).toLowerCase();
+  return '<tr class="hunt-tr" data-search="' + escapeHtml(search) + '" data-status="' + escapeHtml(a.status) + '">' +
+    '<td><b>' + escapeHtml(a.company) + '</b><span class="hunt-note">' + escapeHtml(a.industry || "—") + '</span></td>' +
+    '<td><b>' + escapeHtml(a.role) + '</b>' + (a.adapted ? '<span class="hunt-ok">✓ CV adaptado</span>' : '') + '</td>' +
+    '<td>' + escapeHtml(a.date) + '</td>' +
+    '<td>' + (link ? '<a href="' + link + '" target="_blank" rel="noopener" style="color:var(--glow-cyan)">🔗 Ver</a>' : '—') + '</td>' +
+    '<td>' + escapeHtml(a.channel) + '</td>' +
+    '<td><span class="hunt-status ' + escapeHtml(a.status) + '">' + huntStatusLabel(a.status) + '</span><br><select class="hunt-select" data-hunt-status="' + escapeHtml(a.id) + '" aria-label="Estado de ' + escapeHtml(a.company) + '">' + statusOpts + '</select></td>' +
+    '<td>' + (a.nextAction ? escapeHtml(a.nextAction) + '<span class="' + (overdue ? "hunt-overdue" : "hunt-ok") + '">' + escapeHtml(nextTxt) + '</span>' : '<span class="hunt-ok">Cerrado</span>') + '</td>' +
+    '<td><span class="hunt-note" title="' + escapeHtml(a.notes) + '">' + escapeHtml(a.notes || "—") + '</span></td>' +
+    '<td><button class="hunt-btn" data-hunt-act="edit-app" data-id="' + escapeHtml(a.id) + '" type="button">✏</button> ' +
+      (!a.followupDone && a.nextAction && a.nextAction <= todayStr() && a.status !== "oferta" && a.status !== "rechazada" ? '<button class="hunt-btn green" data-hunt-act="followup" data-id="' + escapeHtml(a.id) + '" type="button">📨</button>' : '') +
+    '</td></tr>';
+}
+function huntZoneTrackHTML() {
+  const h = huntEnsureDay();
+  const overdue = huntOverdueApps();
+  const apps = h.applications.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+  const statusOpts = [["all", "Todos los estados"]].concat(Object.keys(HUNT_STATUS).map(function (k) { return [k, HUNT_STATUS[k].n]; })).map(function (x) {
+    return '<option value="' + x[0] + '"' + (huntUI.status === x[0] ? " selected" : "") + '>' + x[1] + '</option>';
+  }).join("");
+  return '<div class="hunt-panel">' +
+    huntPanelHead("📊 SEGUIMIENTO", "Embudo real, tabla editable y recordatorios a 3–5 días. Si no seguís, el enemigo se regenera.",
+      '<span class="hunt-pill ' + (overdue.length ? "pink" : "green") + '">' + (overdue.length ? "⚠ " + overdue.length + " vencidos" : "✓ al día") + '</span>') +
+    huntFunnelHTML() +
+    (overdue.length ? '<div class="hunt-crit" style="margin-top:10px;border-color:rgba(255,51,85,.4);background:rgba(255,51,85,.07);color:#ff9ab2">🧟 ' + overdue.length + ' enemigo(s) regenerado(s): tenés seguimientos vencidos. Abrí el registro, enviá el mensaje y marcá «Seguí».</div>' : '') +
+    '<div class="hunt-tools"><input class="hunt-input" id="hunt-search" placeholder="🔎 Buscar empresa, puesto o nota..." value="' + escapeHtml(huntUI.search) + '" aria-label="Buscar en el seguimiento"><select class="hunt-select" id="hunt-status-filter" aria-label="Filtrar por estado">' + statusOpts + '</select><button class="hunt-btn primary" data-hunt-act="shot" type="button">🏹 NUEVO DISPARO</button></div>' +
+    (apps.length ? '<div class="hunt-table-wrap"><table class="hunt-table"><thead><tr><th>Empresa</th><th>Puesto</th><th>Fecha</th><th>Link</th><th>Canal</th><th>Estado</th><th>Próxima acción</th><th>Notas</th><th>Acciones</th></tr></thead><tbody id="hunt-table-body">' + apps.map(huntAppRowHTML).join("") + '</tbody></table></div>' :
+      '<div class="hunt-empty" style="margin-top:11px"><b>El embudo está vacío.</b><br>Registrá tu primera postulación en Disparo.</div>') +
+  '</div>' +
+  '<div class="hunt-panel">' +
+    huntPanelHead("📋 PLANTILLAS PARA COPIAR", "Mensajes listos para seguimiento, reclutador y agradecimiento post-entrevista.", '<span class="hunt-pill">1 toque</span>') +
+    '<div class="hunt-templates">' + Object.keys(HUNT_TEMPLATES).map(function (k) {
+      const t = HUNT_TEMPLATES[k];
+      return '<div class="hunt-template"><b>' + t.ico + " " + escapeHtml(t.t) + '</b><p>' + escapeHtml(t.body) + '</p><button class="hunt-btn" data-hunt-act="copy-template" data-key="' + k + '" type="button">📋 COPIAR</button></div>';
+    }).join("") + '</div>' +
+  '</div>';
+}
+function huntQuestionById(id) {
+  return HUNT_BANK.concat(huntEnsureDay().boss.custom).find(function (q) { return q.id === id; });
+}
+function huntAllQuestions() {
+  return HUNT_BANK.concat(huntEnsureDay().boss.custom);
+}
+function huntWanderQuestion() {
+  const all = huntAllQuestions();
+  if (!all.length) return null;
+  const day = Math.floor(new Date(todayStr() + "T00:00:00").getTime() / 86400000);
+  return all[Math.abs(day) % all.length];
+}
+function huntZoneBossHTML() {
+  const h = huntEnsureDay();
+  const all = huntAllQuestions();
+  const failedSet = {}; h.boss.failed.forEach(function (id) { failedSet[id] = 1; });
+  const cats = ["all"].concat(Array.from(new Set(all.map(function (q) { return q.cat; }))));
+  const list = all.filter(function (q) {
+    if (huntUI.bossCat !== "all" && q.cat !== huntUI.bossCat) return false;
+    if (huntUI.bossFailedOnly && !failedSet[q.id]) return false;
+    return true;
+  });
+  const hist = h.boss.history.slice(-8).reverse();
+  const avg = h.boss.history.length ? Math.round(h.boss.history.reduce(function (s, e) { return s + (Number(e.score) || 0); }, 0) / h.boss.history.length) : 0;
+  const badges = achievements.filter(function (a) { return a.id.indexOf("ach_hunt_") === 0; });
+  const unlocked = {}; (gameState.unlockedAch || []).forEach(function (id) { unlocked[id] = 1; });
+  const wander = huntSurpriseType() === "wander" && !h.surprise.done;
+  return '<div class="hunt-panel">' +
+    huntPanelHead("👹 MODO JEFE", "Preguntas reales de entrevista con cronómetro, barra de vida y autoevaluación. Repetí las falladas hasta dominarlas.",
+      '<button class="hunt-btn ' + (huntUI.bossFailedOnly ? "primary" : "ghost") + '" data-hunt-act="boss-failed" type="button">🔁 REPETIR FALLADAS</button>') +
+    (wander ? '<div class="hunt-crit ready" style="display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;margin-bottom:10px">' +
+      '<span>👾 <b>JEFE ERRANTE</b> · completá un duelo sorpresa hoy para el botín extra.</span>' +
+      '<button class="hunt-btn primary" data-hunt-act="boss-wander" type="button">⚔ ENFRENTAR</button></div>' : '') +
+    '<div class="hunt-chips">' + huntChipHTML("pink", all.length, "Preguntas") + huntChipHTML("gold", h.boss.history.length, "Duelos") + huntChipHTML("green", avg + "%", "Promedio") + huntChipHTML("cyan", h.boss.failed.length, "Por repasar") + '</div>' +
+    '<div class="hunt-mission-filter" style="margin-top:10px">' + cats.map(function (c) {
+      return '<button class="hunt-filter-btn ' + (huntUI.bossCat === c ? "active" : "") + '" data-hunt-boss-cat="' + escapeHtml(c) + '" type="button">' + (c === "all" ? "TODAS" : escapeHtml(c).toUpperCase()) + '</button>';
+    }).join("") + '</div>' +
+    '<details class="hunt-template" style="margin-top:10px"><summary style="cursor:pointer;color:var(--hunt-gold);font-size:.72rem">➕ Agregar pregunta propia</summary>' +
+      '<form class="hunt-form" id="hunt-q-form" style="margin-top:9px">' +
+        '<div class="hunt-field wide"><label for="hq-text">Pregunta</label><input class="hunt-input" id="hq-text" name="q" maxlength="400" required placeholder="Ej. ¿Cómo priorizas una solicitud ambigua?"></div>' +
+        '<div class="hunt-field"><label for="hq-cat">Categoría</label><input class="hunt-input" id="hq-cat" name="cat" maxlength="40" placeholder="Casos de negocio"></div>' +
+        '<div class="hunt-field"><label for="hq-diff">Dificultad</label><select class="hunt-select" id="hq-diff" name="diff"><option>Fácil</option><option selected>Media</option><option>Difícil</option></select></div>' +
+        '<div class="hunt-field"><label for="hq-time">Tiempo sugerido (seg)</label><input class="hunt-input" id="hq-time" name="time" type="number" min="30" max="600" value="120"></div>' +
+        '<div class="hunt-field wide"><label for="hq-keys">Puntos clave (uno por línea)</label><textarea class="hunt-textarea" id="hq-keys" name="keys" placeholder="Punto 1&#10;Punto 2&#10;Punto 3"></textarea></div>' +
+        '<div class="hunt-form-actions"><button class="hunt-btn primary" type="submit">GUARDAR PREGUNTA</button></div>' +
+      '</form></details>' +
+    '<div class="hunt-q-list">' + (list.length ? list.map(function (q) {
+      const fav = h.boss.favorites.indexOf(q.id) >= 0;
+      return '<div class="hunt-q"><div class="hunt-q-top"><b>' + escapeHtml(q.q) + '</b><button class="hunt-star ' + (fav ? "on" : "") + '" data-hunt-fav="' + escapeHtml(q.id) + '" type="button" aria-label="Favorita">' + (fav ? "★" : "☆") + '</button></div>' +
+        '<div class="hunt-q-meta"><span class="hunt-tag">' + escapeHtml(q.cat) + '</span><span class="hunt-tag hot">' + escapeHtml(q.diff) + '</span><span class="hunt-tag">⏱ ' + q.time + 's</span><span class="hunt-tag">' + q.keys.length + ' puntos clave</span>' + (failedSet[q.id] ? '<span class="hunt-tag" style="color:#ff8fa6">🔁 repasar</span>' : '') + '</div>' +
+        '<div class="hunt-q-actions"><button class="hunt-btn primary" data-hunt-act="boss" data-qid="' + escapeHtml(q.id) + '" type="button">⚔ ENTRENAR</button></div></div>';
+    }).join("") : '<div class="hunt-empty">No hay preguntas con ese filtro.</div>') + '</div>' +
+    (hist.length ? '<div class="hunt-history">' + hist.map(function (e) {
+      const q = huntQuestionById(e.qid);
+      return '<div class="hunt-history-row"><b>' + (q ? escapeHtml(q.cat) : "Pregunta") + " · " + escapeHtml(huntDateLabel(e.date)) + '</b><span>' + e.score + '% · ' + e.checked + "/" + e.total + ' puntos</span></div>';
+    }).join("") + '</div>' : '') +
+  '</div>' +
+  '<div class="hunt-panel">' +
+    huntPanelHead("🏅 INSIGNIAS DE CAZA", "Logros permanentes de La Cacería. También aparecen en el Salón de Logros y suman XP.", '<span class="hunt-pill gold">' + badges.filter(function (a) { return unlocked[a.id]; }).length + "/" + badges.length + '</span>') +
+    '<div class="hunt-badge-grid">' + badges.map(function (a) {
+      const on = !!unlocked[a.id];
+      return '<div class="hunt-badge ' + (on ? "unlocked" : "") + '"><span class="hb-ico">' + (on ? a.ico : "🔒") + '</span><b>' + escapeHtml(a.name) + '</b><small>' + escapeHtml(a.desc) + '</small></div>';
+    }).join("") + '</div>' +
+  '</div>';
+}
+function huntZoneHTML() {
+  const zone = huntUI.zone || "radar";
+  let html = "";
+  if (zone === "forja") html = huntZoneForgeHTML();
+  else if (zone === "shot") html = huntZoneShotHTML();
+  else if (zone === "track") html = huntZoneTrackHTML();
+  else if (zone === "boss") html = huntZoneBossHTML();
+  else html = huntZoneRadarHTML();
+  return html + huntMissionPanelHTML();
+}
+function huntRender() {
+  const root = document.getElementById("hunt-root");
+  if (!root) return;
+  const hs = huntEnsureDay();
+  root.classList.toggle("hunt-no-fx", hs.settings.fx === false);
+  const fresh = huntCheckMissions({ notify: false });
+  if (fresh.length) {
+    recomputeState();
+    updateUI();
+  }
+  root.innerHTML = '<div class="hunt-wrap">' + huntHeroHTML() + huntMapHTML() + '<div class="hunt-zone" id="hunt-zone">' + huntZoneHTML() + '</div></div>';
+  huntApplyTableFilter();
+}
+function renderHunt() { huntRender(); }
+function huntApplyTableFilter() {
+  const input = document.getElementById("hunt-search");
+  const status = document.getElementById("hunt-status-filter");
+  if (!input && !status) return;
+  const q = (huntUI.search || "").toLowerCase();
+  const st = huntUI.status || "all";
+  document.querySelectorAll("#hunt-table-body .hunt-tr").forEach(function (row) {
+    const searchOk = !q || (row.getAttribute("data-search") || "").indexOf(q) >= 0;
+    const statusOk = st === "all" || row.getAttribute("data-status") === st;
+    row.style.display = searchOk && statusOk ? "" : "none";
+  });
+}
+
+/* --- Ventana modal de La Cacería --- */
+let huntBossRun = null, huntBossTimer = null;
+function huntModalOpen(html) {
+  const layer = document.getElementById("hunt-layer");
+  const body = document.getElementById("hunt-modal-body");
+  if (!layer || !body) return;
+  body.innerHTML = html;
+  layer.classList.add("show");
+}
+function huntModalClose() {
+  if (huntBossTimer) { clearInterval(huntBossTimer); huntBossTimer = null; }
+  huntBossRun = null;
+  const layer = document.getElementById("hunt-layer");
+  if (layer) layer.classList.remove("show");
+}
+function huntShotFormHTML(app, vac) {
+  const h = huntEnsureDay();
+  const a = app || {};
+  const v = vac || {};
+  const editing = !!a.id;
+  const match = (a.match != null ? a.match : v.match != null ? v.match : 60);
+  const status = a.status || "enviada";
+  const date = a.date || todayStr();
+  const next = a.nextAction || huntAddDays(date, 4);
+  const selectedVac = a.vacancyId || v.id || "";
+  const vopts = '<option value="">— Ninguna / directa —</option>' + h.vacancies.map(function (x) {
+    return '<option value="' + escapeHtml(x.id) + '"' + (selectedVac === x.id ? " selected" : "") + '>' + escapeHtml(x.company + " · " + x.role) + '</option>';
+  }).join("");
+  const shopts = Object.keys(HUNT_STATUS).map(function (k) {
+    return '<option value="' + k + '"' + (status === k ? " selected" : "") + '>' + HUNT_STATUS[k].ico + " " + HUNT_STATUS[k].n + '</option>';
+  }).join("");
+  return '<div class="hunt-modal-head"><div><h2>' + (editing ? "✏ EDITAR POSTULACIÓN" : "🏹 NUEVO DISPARO") + '</h2><p>Registrá una postulación real. La calidad paga más que el spam.</p></div><button class="hunt-modal-close" data-hunt-boss-close type="button" aria-label="Cerrar">✕</button></div>' +
+    '<form class="hunt-form" id="hunt-shot-form">' +
+      '<input type="hidden" name="id" value="' + escapeHtml(a.id || "") + '">' +
+      '<div class="hunt-field wide"><label for="hs-vac">Vacante del radar (opcional)</label><select class="hunt-select" id="hs-vac" name="vacancyId">' + vopts + '</select></div>' +
+      '<div class="hunt-field"><label for="hs-company">Empresa *</label><input class="hunt-input" id="hs-company" name="company" maxlength="80" required value="' + escapeHtml(a.company || v.company || "") + '"></div>' +
+      '<div class="hunt-field"><label for="hs-role">Puesto *</label><input class="hunt-input" id="hs-role" name="role" maxlength="100" required value="' + escapeHtml(a.role || v.role || "") + '"></div>' +
+      '<div class="hunt-field"><label for="hs-link">Link</label><input class="hunt-input" id="hs-link" name="link" maxlength="500" value="' + escapeHtml(a.link || v.link || "") + '"></div>' +
+      '<div class="hunt-field"><label for="hs-match">% match</label><input class="hunt-input" id="hs-match" name="match" type="number" min="0" max="100" value="' + Math.round(Number(match) || 0) + '"></div>' +
+      '<div class="hunt-field"><label for="hs-channel">Canal</label><select class="hunt-select" id="hs-channel" name="channel">' + ["LinkedIn", "Portal de empleo", "Referido", "Email", "Otro"].map(function (c) {
+        return '<option' + (a.channel === c ? " selected" : "") + '>' + c + '</option>';
+      }).join("") + '</select></div>' +
+      '<div class="hunt-field"><label for="hs-industry">Industria</label><input class="hunt-input" id="hs-industry" name="industry" maxlength="60" value="' + escapeHtml(a.industry || v.industry || "") + '"></div>' +
+      '<div class="hunt-field"><label for="hs-date">Fecha de postulación</label><input class="hunt-input" id="hs-date" name="date" type="date" value="' + escapeHtml(date) + '"></div>' +
+      '<div class="hunt-field"><label for="hs-next">Próxima acción</label><input class="hunt-input" id="hs-next" name="nextAction" type="date" value="' + escapeHtml(next) + '"></div>' +
+      '<div class="hunt-field"><label for="hs-status">Estado</label><select class="hunt-select" id="hs-status" name="status">' + shopts + '</select></div>' +
+      '<div class="hunt-field wide"><div class="hunt-check-grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">' +
+        '<label class="hunt-check ' + ((a.adapted || huntForgeScore(v.id) >= 1) ? "on" : "") + '"><input type="checkbox" name="adapted" ' + ((a.adapted || huntForgeScore(v.id) >= 1) ? "checked" : "") + '><span><b>CV adaptado a la vacante</b><small>Palabras clave y enfoque.</small></span></label>' +
+        '<label class="hunt-check ' + ((a.letter || huntForgeScore(v.id) >= 3) ? "on" : "") + '"><input type="checkbox" name="letter" ' + ((a.letter || huntForgeScore(v.id) >= 3) ? "checked" : "") + '><span><b>Carta personalizada</b><small>Mencioná el contexto.</small></span></label>' +
+        '<label class="hunt-check ' + ((a.project || huntForgeScore(v.id) >= 2) ? "on" : "") + '"><input type="checkbox" name="project" ' + ((a.project || huntForgeScore(v.id) >= 2) ? "checked" : "") + '><span><b>Proyecto insignia enlazado</b><small>Evidencia concreta.</small></span></label>' +
+        '<label class="hunt-check ' + (a.outside ? "on" : "") + '"><input type="checkbox" name="outside" ' + (a.outside ? "checked" : "") + '><span><b>Fuera de mi zona cómoda</b><small>Empresa o industria nueva.</small></span></label>' +
+        '<label class="hunt-check ' + (a.respondedFast ? "on" : "") + '"><input type="checkbox" name="respondedFast" ' + (a.respondedFast ? "checked" : "") + '><span><b>Respondí en menos de 24 h</b><small>Velocidad cuando el proceso está caliente.</small></span></label>' +
+      '</div></div>' +
+      '<div class="hunt-field wide"><label for="hs-notes">Notas</label><textarea class="hunt-textarea" id="hs-notes" name="notes" maxlength="600" placeholder="Contacto, requisitos, siguiente paso...">' + escapeHtml(a.notes || "") + '</textarea></div>' +
+      '<div class="hunt-shot-preview">⚡ <b>Recompensa:</b> base 30 XP · CV adaptado +25 · carta +10 · proyecto +15 · match ≥80% +15 · combo +5 por disparo (máx. 25). Hora dorada (8–10 pm) duplica el XP.</div>' +
+      '<div class="hunt-form-actions"><button class="hunt-btn primary" type="submit">' + (editing ? "GUARDAR CAMBIOS" : "🏹 REGISTRAR DISPARO") + '</button><button class="hunt-btn ghost" data-hunt-boss-close type="button">CANCELAR</button>' +
+        (editing ? '<button class="hunt-btn danger" data-hunt-del-app="' + escapeHtml(a.id) + '" type="button">ELIMINAR</button>' : '') +
+      '</div>' +
+    '</form>';
+}
+function huntOpenShot(appId, vacId) {
+  const h = huntEnsureDay();
+  const app = appId ? h.applications.find(function (a) { return a.id === appId; }) : null;
+  const vac = vacId ? h.vacancies.find(function (v) { return v.id === vacId; }) : null;
+  if (appId && !app) { toast("⚠️", "No encontrada", "Esa postulación ya no existe."); return; }
+  huntBossRun = null;
+  if (huntBossTimer) { clearInterval(huntBossTimer); huntBossTimer = null; }
+  huntModalOpen(huntShotFormHTML(app, vac));
+}
+function huntFormValue(form, name) {
+  const el = form.elements[name];
+  return el ? el.value : "";
+}
+function huntFormChecked(form, name) {
+  const el = form.elements[name];
+  return !!(el && el.checked);
+}
+function huntSaveShotForm(form) {
+  const h = huntEnsureDay();
+  const id = huntFormValue(form, "id");
+  const data = {
+    company: huntFormValue(form, "company").trim(),
+    role: huntFormValue(form, "role").trim(),
+    link: huntFormValue(form, "link").trim(),
+    channel: huntFormValue(form, "channel"),
+    industry: huntFormValue(form, "industry").trim(),
+    date: huntFormValue(form, "date") || todayStr(),
+    nextAction: huntFormValue(form, "nextAction"),
+    status: huntFormValue(form, "status"),
+    notes: huntFormValue(form, "notes").trim(),
+    match: huntClamp(huntFormValue(form, "match"), 0, 100),
+    adapted: huntFormChecked(form, "adapted"),
+    letter: huntFormChecked(form, "letter"),
+    project: huntFormChecked(form, "project"),
+    outside: huntFormChecked(form, "outside"),
+    respondedFast: huntFormChecked(form, "respondedFast"),
+    vacancyId: huntFormValue(form, "vacancyId") || null
+  };
+  if (!data.company || !data.role) {
+    toast("⚠️", "Faltan datos", "Empresa y puesto son obligatorios.");
+    return;
+  }
+  if (id) {
+    const app = h.applications.find(function (a) { return a.id === id; });
+    if (!app) { huntModalClose(); toast("⚠️", "No encontrada", "Esa postulación ya no existe."); return; }
+    const oldVac = app.vacancyId;
+    Object.keys(data).forEach(function (k) { if (k !== "id") app[k] = data[k]; });
+    if (data.status === "oferta" || data.status === "rechazada") app.nextAction = null;
+    else if (!app.nextAction) app.nextAction = huntAddDays(todayStr(), data.status === "entrevista" ? 2 : 4);
+    if (data.vacancyId && data.vacancyId !== oldVac) {
+      const v = h.vacancies.find(function (x) { return x.id === data.vacancyId; });
+      if (v) { v.status = "applied"; v.appId = app.id; }
+    }
+    if (oldVac && oldVac !== data.vacancyId) {
+      const ov = h.vacancies.find(function (x) { return x.id === oldVac; });
+      if (ov) { ov.status = "radar"; ov.appId = null; }
+    }
+    huntModalClose();
+    huntAfterChange("Postulación actualizada.");
+  } else {
+    const app = huntAddApplication(data);
+    huntModalClose();
+    huntAfterChange("Disparo registrado: +" + app.xp + " XP · +" + app.coins + " 🪙", "shot");
+  }
+}
+function huntDeleteApplication(id) {
+  const h = huntEnsureDay();
+  const app = h.applications.find(function (a) { return a.id === id; });
+  if (!app) return;
+  if (!confirm("¿Eliminar la postulación de " + app.company + " · " + app.role + "? También se quitará su XP/monedas de La Cacería.")) return;
+  h.applications = h.applications.filter(function (a) { return a.id !== id; });
+  h.log = h.log.filter(function (e) { return e.appId !== id && e.key !== "shot:" + id; });
+  h.followups = h.followups.filter(function (f) { return f.appId !== id; });
+  if (app.vacancyId) {
+    const v = h.vacancies.find(function (x) { return x.id === app.vacancyId; });
+    if (v) { v.status = "radar"; v.appId = null; }
+  }
+  huntModalClose();
+  huntAfterChange("Postulación eliminada.");
+}
+function huntSetStatus(id, status) {
+  const h = huntEnsureDay();
+  const app = h.applications.find(function (a) { return a.id === id; });
+  if (!app || !HUNT_STATUS[status]) return;
+  app.status = status;
+  if (status === "oferta" || status === "rechazada") app.nextAction = null;
+  else if (!app.nextAction) app.nextAction = huntAddDays(todayStr(), status === "entrevista" ? 2 : 4);
+  if (status === "oferta") {
+    toast("🏆", "¡OFERTA!", "La cacería dio resultado. Registrá los detalles y celebrá.");
+    huntFx("boss");
+  }
+  saveGame();
+  recomputeState();
+  checkAchievements();
+  recomputeState();
+  updateUI();
+  huntRender();
+}
+function huntMarkFollowup(id) {
+  const h = huntEnsureDay();
+  const app = h.applications.find(function (a) { return a.id === id; });
+  if (!app) return;
+  if (h.followups.some(function (f) { return f.appId === id && f.date === todayStr(); })) {
+    toast("📨", "Ya registrado", "Hoy ya marcaste un seguimiento para esta postulación.");
+    return;
+  }
+  h.followups.push({ id: "fu_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), appId: id, date: todayStr() });
+  app.followupDone = true;
+  app.nextAction = null;
+  huntAfterChange("Seguimiento registrado. El enemigo queda contenido.", "shot");
+}
+function huntToggleForge(vid, key) {
+  const h = huntEnsureDay();
+  const f = huntForge(vid);
+  f[key] = !f[key];
+  h.forge[vid] = f;
+  saveGame();
+  huntRender();
+  if (huntForgeScore(vid) >= 3) {
+    toast("⚔️", "DAÑO CRÍTICO LISTO", "CV adaptado, proyecto y carta. Ahora disparás con ventaja.");
+    playSfx("chime");
+  }
+}
+function huntToggleFav(qid) {
+  const h = huntEnsureDay();
+  const i = h.boss.favorites.indexOf(qid);
+  if (i >= 0) h.boss.favorites.splice(i, 1);
+  else h.boss.favorites.push(qid);
+  saveGame();
+  huntRender();
+}
+function huntCopyText(text) {
+  const done = function () { toast("📋", "Plantilla copiada", "Pegala en LinkedIn o email y personalizá los corchetes."); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(function () { huntCopyFallback(text, done); });
+  } else huntCopyFallback(text, done);
+}
+function huntCopyFallback(text, done) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+    done();
+  } catch (e) { toast("⚠️", "No se pudo copiar", "Seleccioná el texto manualmente."); }
+}
+function huntReset() {
+  if (!confirm("¿Reiniciar SOLO La Cacería? Se borran vacantes, postulaciones, misiones, historial del jefe y su XP/monedas. Los demás mundos no se tocan.")) return;
+  gameState.hunt = defaultHunt();
+  saveGame();
+  recomputeState();
+  updateUI();
+  huntRender();
+  toast("⟲", "La Cacería reiniciada", "El resto de tu progreso sigue intacto.");
+}
+function huntFormatTime(sec) {
+  sec = Math.max(0, Math.round(sec));
+  return String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
+}
+function huntBossOpen(id, surprise) {
+  const q = huntQuestionById(id);
+  if (!q) { toast("⚠️", "Pregunta no encontrada", "Actualizá el banco e intentá de nuevo."); return; }
+  if (huntBossTimer) { clearInterval(huntBossTimer); huntBossTimer = null; }
+  huntBossRun = { q: q, left: Math.max(30, Number(q.time) || 120), running: true, surprise: !!surprise, started: Date.now(), pausedAt: 0 };
+  huntModalOpen('<div class="hunt-modal-head"><div><h2>👹 MODO JEFE</h2><p>' + escapeHtml(q.cat) + " · " + escapeHtml(q.diff) + ' · autoevaluación</p></div><button class="hunt-modal-close" data-hunt-boss-close type="button" aria-label="Cerrar">✕</button></div>' +
+    '<div class="hunt-boss-timer" id="hunt-boss-timer">' + huntFormatTime(huntBossRun.left) + '</div>' +
+    '<div class="hunt-boss-hp"><span id="hunt-boss-hp" style="width:100%"></span></div>' +
+    '<div class="hunt-boss-hp-label" id="hunt-boss-hp-label">VIDA DEL JEFE 100% · 0/' + q.keys.length + ' puntos</div>' +
+    '<div class="hunt-boss-question">' + escapeHtml(q.q) + '</div>' +
+    '<div class="hunt-section-sub">Marcá cada punto que cubriste en tu respuesta. El jefe pierde vida por cada acierto.</div>' +
+    '<div class="hunt-check-grid">' + q.keys.map(function (k, i) {
+      return '<label class="hunt-check"><input type="checkbox" data-hunt-key="' + i + '"><span>' + escapeHtml(k) + '</span></label>';
+    }).join("") + '</div>' +
+    '<div class="hunt-boss-actions"><button class="hunt-btn ghost" data-hunt-boss-pause type="button">⏸ PAUSA</button><button class="hunt-btn primary" data-hunt-boss-finish type="button">✅ TERMINAR Y GUARDAR</button><button class="hunt-btn danger" data-hunt-boss-close type="button">SALIR</button></div>' +
+    (surprise ? '<div class="hunt-crit ready" style="margin-top:10px">👾 JEFE ERRANTE · recompensa extra si completás el duelo</div>' : ''));
+  huntBossTick();
+  huntBossTimer = setInterval(huntBossTick, 1000);
+}
+function huntBossTick() {
+  if (!huntBossRun) return;
+  if (huntBossRun.running) {
+    huntBossRun.left -= 1;
+    if (huntBossRun.left <= 0) {
+      huntBossRun.left = 0;
+      huntBossRun.running = false;
+      playSfx("error");
+    }
+  }
+  const t = document.getElementById("hunt-boss-timer");
+  if (t) {
+    t.textContent = huntFormatTime(huntBossRun.left);
+    t.classList.toggle("low", huntBossRun.left <= 15);
+  }
+}
+function huntBossPause() {
+  if (!huntBossRun) return;
+  huntBossRun.running = !huntBossRun.running;
+  const b = document.querySelector("[data-hunt-boss-pause]");
+  if (b) b.textContent = huntBossRun.running ? "⏸ PAUSA" : "▶ CONTINUAR";
+}
+function huntBossUpdateHp() {
+  if (!huntBossRun) return;
+  const checks = Array.prototype.slice.call(document.querySelectorAll("[data-hunt-key]"));
+  const total = checks.length || 1;
+  const on = checks.filter(function (c) { return c.checked; }).length;
+  const pct = Math.round(((total - on) / total) * 100);
+  const hp = document.getElementById("hunt-boss-hp");
+  const lab = document.getElementById("hunt-boss-hp-label");
+  if (hp) hp.style.width = pct + "%";
+  if (lab) lab.textContent = "VIDA DEL JEFE " + pct + "% · " + on + "/" + total + " puntos";
+  document.querySelectorAll("[data-hunt-key]").forEach(function (c) {
+    const box = c.closest(".hunt-check");
+    if (box) box.classList.toggle("on", c.checked);
+  });
+}
+function huntBossFinish() {
+  if (!huntBossRun) return;
+  const run = huntBossRun;
+  const checks = Array.prototype.slice.call(document.querySelectorAll("[data-hunt-key]"));
+  const total = checks.length || 1;
+  const checked = checks.filter(function (c) { return c.checked; }).length;
+  const score = Math.round((checked / total) * 100);
+  const h = huntEnsureDay();
+  const q = run.q;
+  h.boss.history.push({
+    qid: q.id, date: todayStr(), score: score, checked: checked, total: total,
+    timeUsed: Math.max(0, (Number(q.time) || 120) - run.left), surprise: !!run.surprise
+  });
+  h.boss.history = h.boss.history.slice(-300);
+  if (score < 100) {
+    if (h.boss.failed.indexOf(q.id) < 0) h.boss.failed.push(q.id);
+  } else {
+    h.boss.failed = h.boss.failed.filter(function (id) { return id !== q.id; });
+  }
+  const logKey = "boss:" + q.id + ":" + todayStr() + (run.surprise ? ":surprise" : "");
+  if (!huntLogHasKey(logKey)) {
+    const xp = 30 + (score >= 80 ? 20 : 0) + (score === 100 ? 25 : 0) + (run.surprise ? 40 : 0);
+    const coins = 1 + (score === 100 ? 2 : 0) + (run.surprise ? 2 : 0);
+    h.log.push({ key: logKey, id: "boss_" + q.id + "_" + todayStr() + (run.surprise ? "_surprise" : ""), kind: "boss", date: todayStr(), xp: xp, coins: coins, title: (run.surprise ? "Duelo errante: " : "Duelo: ") + q.cat });
+  }
+  huntBossClose();
+  const msg = score === 100 ? "¡PERFECTO! " + score + "% · jefe derrotado." : score >= 70 ? "Buen duelo: " + score + "%. Repasá los puntos faltantes." : "Duelo " + score + "%. La pregunta queda en «repetir falladas».";
+  huntAfterChange(msg, score >= 50 ? "boss" : "bad");
+}
+function huntBossClose() {
+  if (huntBossTimer) { clearInterval(huntBossTimer); huntBossTimer = null; }
+  huntBossRun = null;
+  const layer = document.getElementById("hunt-layer");
+  if (layer) layer.classList.remove("show");
+}
+
+/* --- Eventos de La Cacería (delegación: el HTML se repinta) --- */
+(function () {
+  const view = document.getElementById("view-hunt");
+  if (!view) return;
+  view.addEventListener("click", function (e) {
+    const zone = e.target.closest("[data-hunt-zone]");
+    if (zone) {
+      huntUI.zone = zone.getAttribute("data-hunt-zone");
+      huntRender();
+      const z = document.getElementById("hunt-zone");
+      if (z) setTimeout(function () { z.scrollIntoView({ behavior: "smooth", block: "start" }); }, 30);
+      return;
+    }
+    const mf = e.target.closest("[data-hunt-mfilter]");
+    if (mf) {
+      huntUI.missionFilter = mf.getAttribute("data-hunt-mfilter");
+      huntRender();
+      return;
+    }
+    const bc = e.target.closest("[data-hunt-boss-cat]");
+    if (bc) {
+      huntUI.bossCat = bc.getAttribute("data-hunt-boss-cat");
+      huntRender();
+      return;
+    }
+    const fav = e.target.closest("[data-hunt-fav]");
+    if (fav) {
+      huntToggleFav(fav.getAttribute("data-hunt-fav"));
+      return;
+    }
+    const b = e.target.closest("[data-hunt-act]");
+    if (!b) return;
+    const act = b.getAttribute("data-hunt-act");
+    if (act === "radar") { huntUI.zone = "radar"; huntRender(); return; }
+    if (act === "track") { huntUI.zone = "track"; huntRender(); return; }
+    if (act === "forge") {
+      const vid = b.getAttribute("data-vid");
+      const h = huntEnsureDay();
+      const v = h.vacancies.find(function (x) { return x.id === vid; });
+      huntUI.zone = "forja";
+      huntRender();
+      if (v) toast("🛠️", "Forjando CV", "Adaptá palabras clave, proyecto y carta para " + v.company + ".");
+      return;
+    }
+    if (act === "shot") { huntOpenShot(null, b.getAttribute("data-vid")); return; }
+    if (act === "edit-app") { huntOpenShot(b.getAttribute("data-id"), null); return; }
+    if (act === "followup") { huntMarkFollowup(b.getAttribute("data-id")); return; }
+    if (act === "manual") {
+      const def = HUNT_MISSION_BY_ID[b.getAttribute("data-mid")];
+      if (!def) return;
+      if (!def.manual) return;
+      const h = huntEnsureDay();
+      h.manual.push({ id: def.id, date: todayStr() });
+      huntAfterChange("Acción registrada: " + huntMissionTitle(def));
+      return;
+    }
+    if (act === "copy-template") {
+      const t = HUNT_TEMPLATES[b.getAttribute("data-key")];
+      if (t) huntCopyText(t.body);
+      return;
+    }
+    if (act === "del-vac") {
+      const vid = b.getAttribute("data-vid");
+      const h = huntEnsureDay();
+      const v = h.vacancies.find(function (x) { return x.id === vid; });
+      if (!v || !confirm("¿Eliminar la vacante de " + v.company + "?")) return;
+      h.vacancies = h.vacancies.filter(function (x) { return x.id !== vid; });
+      delete h.forge[vid];
+      h.applications.forEach(function (a) { if (a.vacancyId === vid) a.vacancyId = null; });
+      huntAfterChange("Vacante eliminada del radar.");
+      return;
+    }
+    if (act === "toggle-fx") {
+      const h = huntEnsureDay();
+      h.settings.fx = h.settings.fx === false;
+      saveGame(); huntRender();
+      toast(h.settings.fx ? "🔊" : "🔇", "Efectos de La Cacería", h.settings.fx ? "Activados." : "Apagados.");
+      return;
+    }
+    if (act === "toggle-vibrate") {
+      const h = huntEnsureDay();
+      h.settings.vibrate = h.settings.vibrate === false;
+      saveGame(); huntRender();
+      toast(h.settings.vibrate ? "📳" : "📴", "Vibración", h.settings.vibrate ? "Activada." : "Apagada.");
+      return;
+    }
+    if (act === "reset") { huntReset(); return; }
+    if (act === "boss") { huntBossOpen(b.getAttribute("data-qid"), false); return; }
+    if (act === "boss-wander") {
+      const wq = huntWanderQuestion();
+      if (wq) huntBossOpen(wq.id, true);
+      return;
+    }
+    if (act === "boss-failed") {
+      huntUI.bossFailedOnly = !huntUI.bossFailedOnly;
+      huntRender();
+      return;
+    }
+  });
+  view.addEventListener("submit", function (e) {
+    if (e.target.id === "hunt-vac-form") {
+      e.preventDefault();
+      const form = e.target;
+      const company = huntFormValue(form, "company").trim();
+      const role = huntFormValue(form, "role").trim();
+      if (!company || !role) { toast("⚠️", "Faltan datos", "Empresa y puesto son obligatorios."); return; }
+      const h = huntEnsureDay();
+      h.vacancies.unshift({
+        id: "vac_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+        company: company, role: role,
+        link: huntFormValue(form, "link").trim(),
+        industry: huntFormValue(form, "industry").trim(),
+        match: huntClamp(huntFormValue(form, "match"), 0, 100),
+        date: todayStr(),
+        status: "radar",
+        notes: huntFormValue(form, "notes").trim(),
+        appId: null
+      });
+      huntAfterChange("Vacante guardada en el radar.");
+      return;
+    }
+    if (e.target.id === "hunt-q-form") {
+      e.preventDefault();
+      const form = e.target;
+      const q = huntFormValue(form, "q").trim();
+      if (!q) { toast("⚠️", "Falta la pregunta", "Escribí el enunciado."); return; }
+      const keys = huntFormValue(form, "keys").split(/\n|;/).map(function (s) { return s.trim(); }).filter(Boolean);
+      if (!keys.length) { toast("⚠️", "Faltan puntos clave", "Escribí al menos un punto para autoevaluarte."); return; }
+      const h = huntEnsureDay();
+      h.boss.custom.push({
+        id: "cq_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+        cat: huntFormValue(form, "cat").trim() || "Personalizada",
+        diff: huntFormValue(form, "diff") || "Media",
+        time: huntClamp(huntFormValue(form, "time"), 30, 600) || 120,
+        q: q,
+        keys: keys.slice(0, 10)
+      });
+      saveGame();
+      huntRender();
+      toast("➕", "Pregunta agregada", "Ya está en tu banco de Modo Jefe.");
+      return;
+    }
+  });
+  view.addEventListener("change", function (e) {
+    if (e.target.matches("[data-hunt-forge]")) {
+      huntToggleForge(e.target.getAttribute("data-vid"), e.target.getAttribute("data-hunt-forge"));
+      return;
+    }
+    if (e.target.matches("[data-hunt-quota]")) {
+      const h = huntEnsureDay();
+      h.quota = huntClamp(e.target.value, 1, 20);
+      saveGame();
+      huntCheckQuotaBonus();
+      huntAfterChange("Cuota diaria ajustada a " + h.quota + " postulaciones.");
+      return;
+    }
+    if (e.target.matches("[data-hunt-status]")) {
+      huntSetStatus(e.target.getAttribute("data-hunt-status"), e.target.value);
+      return;
+    }
+  });
+  view.addEventListener("input", function (e) {
+    if (e.target.id === "hunt-search") {
+      huntUI.search = e.target.value;
+      huntApplyTableFilter();
+      return;
+    }
+    if (e.target.id === "hunt-status-filter") {
+      huntUI.status = e.target.value;
+      huntApplyTableFilter();
+    }
+  });
+  view.addEventListener("change", function (e) {
+    if (e.target.id === "hunt-status-filter") {
+      huntUI.status = e.target.value;
+      huntApplyTableFilter();
+    }
+  });
+})();
+
+(function () {
+  const layer = document.getElementById("hunt-layer");
+  if (!layer) return;
+  layer.addEventListener("click", function (e) {
+    if (e.target === layer) { huntBossClose(); return; }
+    if (e.target.closest("[data-hunt-boss-close]")) { huntBossClose(); return; }
+    if (e.target.closest("[data-hunt-boss-pause]")) { huntBossPause(); return; }
+    if (e.target.closest("[data-hunt-boss-finish]")) { huntBossFinish(); return; }
+    const del = e.target.closest("[data-hunt-del-app]");
+    if (del) { huntDeleteApplication(del.getAttribute("data-hunt-del-app")); return; }
+  });
+  layer.addEventListener("submit", function (e) {
+    if (e.target.matches("#hunt-shot-form")) {
+      e.preventDefault();
+      huntSaveShotForm(e.target);
+    }
+  });
+  layer.addEventListener("change", function (e) {
+    if (e.target.matches("[data-hunt-key]")) { huntBossUpdateHp(); return; }
+    if (e.target.id === "hs-vac") {
+      const h = huntEnsureDay();
+      const v = h.vacancies.find(function (x) { return x.id === e.target.value; });
+      if (!v) return;
+      const form = document.getElementById("hunt-shot-form");
+      if (!form) return;
+      const set = function (name, val) { if (form.elements[name]) form.elements[name].value = val; };
+      set("company", v.company); set("role", v.role); set("link", v.link || "");
+      set("match", v.match); set("industry", v.industry || "");
+      const f = huntForge(v.id);
+      if (form.elements.adapted) form.elements.adapted.checked = !!f.keywords;
+      if (form.elements.letter) form.elements.letter.checked = !!f.letter;
+      if (form.elements.project) form.elements.project.checked = !!f.project;
+    }
+    if (e.target.matches("#hunt-shot-form input[type=checkbox]")) {
+      const box = e.target.closest(".hunt-check");
+      if (box) box.classList.toggle("on", e.target.checked);
+    }
+  });
+})();
 
 /* ==========================================================
    G) JS / ACCIONES, EVENTOS E INICIALIZACIÓN
@@ -7370,7 +9314,7 @@ function rwProfileRender() {
   const root = document.getElementById("rw-profile");
   if (!root) return;
   const oi = odeInfo(gameState.totalXP);
-  const b = gameState.xpBreakdown || { career: 0, ach: 0, vida: 0, capital: 0, focus: 0, diary: 0, bosses: 0 };
+  const b = gameState.xpBreakdown || { career: 0, ach: 0, vida: 0, capital: 0, focus: 0, diary: 0, bosses: 0, hunt: 0 };
   const vs = vidaCompute(), cap = capCompute(), sg = sagaStats();
   const emp = ladderInfo(EMP_LADDER, jobsXPGain());
   const domains = domainLevels();
@@ -7392,6 +9336,7 @@ function rwProfileRender() {
     ["🧬 Vida", b.vida || 0, "#ff00ff"],
     ["👑 Imperio", b.capital || 0, "#7c6cff"],
     ["🏆 Jefes", b.bosses || 0, "#ff6600"],
+    ["🎯 La Cacería", b.hunt || 0, "#ff4f9a"],
     ["🍅 Enfoque", b.focus || 0, "#00ccff"],
     ["📓 Diario", b.diary || 0, "#ff00aa"]
   ];
@@ -8960,7 +10905,7 @@ function rwOpenChest2() {
 function goTab(tab) {
   document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
   document.querySelectorAll(".navb").forEach(function (b) { b.classList.toggle("active", b.dataset.tab === tab); });
-  ["map", "daily", "planner", "campaign", "jobs", "vida", "sagas", "capital"].forEach(function (t) {
+  ["map", "daily", "hunt", "planner", "campaign", "jobs", "vida", "sagas", "capital"].forEach(function (t) {
     const v = document.getElementById("view-" + t);
     if (v) v.classList.toggle("active", tab === t);
   });
@@ -8968,6 +10913,7 @@ function goTab(tab) {
   const fab = document.getElementById("fab-continue");
   if (fab) fab.classList.toggle("hidden", tab === "daily");
   if (tab === "daily") renderDailyView();
+  if (tab === "hunt") renderHunt();
   if (tab === "planner") { renderPlanner(); renderHeatmap(); }
   if (tab === "jobs") { renderJobs(); appRender(); updateEmpRank(); }
   if (tab === "vida") renderVidaSubActiva();
@@ -9098,6 +11044,7 @@ function coinsEarned() {
     ((st.capital && st.capital.eng) ? st.capital.eng.length : 0) +
     ((st.capital && st.capital.ai) ? st.capital.ai.length : 0) +
     sagaCoinsEarned() +
+    huntCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
 }
 function coinsBalance() { return Math.max(0, coinsEarned() - (shopState().spent || 0)); }
@@ -9380,7 +11327,7 @@ focusRestore();
 /* --- Accesibilidad: Escape, trampa de foco y teclado en checkboxes --- */
 (function a11yOverlays() {
   const LAYERS = ["node-layer", "god-layer", "rw-layer", "planner-layer",
-                  "shop-layer", "focus-layer", "ach-layer", "confirm-layer"];
+                  "shop-layer", "focus-layer", "hunt-layer", "ach-layer", "confirm-layer"];
   const els = LAYERS.map(function (id) { return document.getElementById(id); }).filter(Boolean);
   const triggers = new WeakMap();
 
@@ -9415,6 +11362,7 @@ focusRestore();
       if (!layer) return;
       e.preventDefault();
       if (layer.id === "focus-layer" && typeof focusClose === "function") focusClose();
+      else if (layer.id === "hunt-layer" && typeof huntBossClose === "function") huntBossClose();
       else layer.classList.remove("show");
       return;
     }

@@ -17,7 +17,7 @@ guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil v5.66). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.67). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -27,6 +27,7 @@ guarda el progreso en `localStorage`.
 - **8 misiones semanales**
 - **8 capítulos** (día 0 y días 1–56)
 - **2 sagas · 12 capítulos** (5 de video + 7 de Roblox), con XP para Legado y Poder & Imagen
+- **La Cacería:** 33 misiones (16 diarias rotativas, 5 semanales, 4 de calidad, 5 de portafolio/LinkedIn y 3 sorpresa), 30 preguntas de entrevista y 8 insignias propias
 
 ---
 
@@ -51,7 +52,8 @@ node tests/smoke.mjs
 
 Solo requiere Node 18+. Valida la sintaxis del JS inline, la coherencia de versión
 HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días, las Sagas,
-el Nivel ODEA, la curva de XP, la racha global, el diario persistente, Mi Plan expandible y el perfil.
+el Nivel ODEA, la curva de XP, la racha global, el diario persistente, Mi Plan expandible,
+el perfil y el estado/migración de La Cacería.
 El workflow `.github/workflows/smoke.yml` lo ejecuta en cada push a `main` y en cada PR.
 (`tests/smoke.py` se conserva como variante antigua, pero el CI ya no lo usa).
 
@@ -147,16 +149,58 @@ Un solo ecosistema para todo el progreso:
 No cambian `SAVE_KEY` (`odea_save_v2`) ni `SAGA_KEY` (`odea_sagas_v1`); todos los
 campos nuevos son aditivos y `loadGame()` los normaliza.
 
+### La Cacería (v5.67+)
+
+La Cacería reemplaza funcionalmente al antiguo mundo de Empleo con un mundo propio de
+postulaciones reales. Es un ítem independiente de la barra lateral (después de **HOY**),
+con su propio ícono y cinco zonas:
+
+- **RADAR:** registra vacantes con empresa, puesto, enlace, canal, industria, match y notas.
+  El nivel del enemigo y el daño crítico se calculan desde el match.
+- **FORJA:** adapta el CV con tres chequeos por vacante (palabras clave, proyecto y carta).
+  Los tres activan **DAÑO CRÍTICO LISTO**.
+- **DISPARO:** registra la postulación, calcula XP/monedas y suma combo. La cuota diaria
+  es configurable (5 por defecto) y se paga una sola vez al cumplirla.
+- **SEGUIMIENTO:** embudo de cuatro etapas, tabla con búsqueda/filtros, estados,
+  seguimientos, fechas vencidas y plantillas copiables.
+- **JEFE:** Modo Jefe con 30 preguntas, cronómetro, barra de vida, autoevaluación,
+  historial, favoritas, preguntas propias y repetición de falladas.
+
+Detalles de implementación:
+
+- **Estado aditivo:** todo vive en `gameState.hunt` dentro de `odea_save_v2`.
+  No cambian `SAVE_KEY` ni `SAGA_KEY`; `normalizeHunt()` migra guardados viejos
+  sin tocar otros mundos.
+- **Una sola fuente de verdad:** el XP y las monedas de La Cacería se calculan desde
+  `hunt.log` (`shot`, `mission`, `bonus`, `boss`, `quota`). `recomputeState()` suma
+  la categoría `hunt` y `coinsEarned()` suma sus monedas, sin duplicar estado.
+- **Misiones:** 33 en total (16 diarias con 2 fijas + 6 rotativas, 5 semanales,
+  4 de calidad, 5 de portafolio/LinkedIn y 3 sorpresa). Hay bonus por calidad,
+  racha, combo y cuota; los rangos son Novato, Rastreador, Cazador, Élite y Leyenda.
+- **Insignias:** primera postulación, 10, 50, 100, primera entrevista, primera oferta,
+  racha 7 y racha 30. También se reflejan en el Salón de Logros global como `ach_hunt_*`.
+- **Respaldo:** `exportSave` incluye La Cacería y `importSave` la normaliza; un respaldo
+  viejo sin `hunt` carga con el mundo limpio y el resto intacto.
+- **Móvil:** las cinco zonas se verificaron a 390 px sin overflow horizontal del body.
+  La tabla ancha scrollea dentro de su contenedor, no ensancha la página.
+- **Verificación:** `tests/smoke.mjs` comprueba versión, banco de 30 preguntas, 33 misiones,
+  migración y claves. El E2E local recorre radar, forja, disparo, combo, cuota,
+  seguimiento, embudo, tabla, Modo Jefe, falladas, jefe errante, favoritas, insignias,
+  efectos/animaciones/vibración, persistencia y suma de XP (107 checks, 0 fallos).
+
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.66 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.67 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
-4. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas.
-5. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log` ni `activity`): debe cargar sin errores,
-   con Sagas en 0, el diario migrado y la racha y misiones intactas.
-6. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
-7. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
+4. Entra en **LA CACERÍA**: la cuota debe arrancar en 5, el radar vacío y el banco del jefe con 30 preguntas.
+   Agrega una vacante, forja el CV, dispara, marca un seguimiento y completa un duelo del jefe; recarga y
+   comprueba que todo sigue ahí y que el XP/monedas subieron.
+5. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas y La Cacería.
+6. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log`, `activity` ni `hunt`): debe cargar sin errores,
+   con Sagas en 0, La Cacería limpia, el diario migrado y la racha y misiones intactas.
+7. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
+8. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
 
 ---
 
