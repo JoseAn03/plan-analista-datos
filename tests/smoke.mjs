@@ -145,7 +145,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.67: APP_VERSION y caché', html.includes('const APP_VERSION = "5.67"') && /odea-v5\.67-/.test(sw));
+check('v5.68: APP_VERSION y caché', html.includes('const APP_VERSION = "5.68"') && /odea-v5\.68-/.test(sw));
 check('v5.65: escalera global ODE_LADDER + odeInfo', html.includes('const ODE_LADDER') &&
   html.includes('function odeInfo(') && html.includes('function odeLevelNow(') &&
   html.includes('function campaignLevel('));
@@ -235,53 +235,67 @@ check('v5.66: HUD, identidad lateral y mapa usan Nivel ODEA',
   html.includes('r.textContent = "NIVEL " + odeLevelNow()') &&
   html.includes('NIVEL ODEA') && html.includes('odeLevelNow()'));
 
-// ---------- 14) La Cacería (v5.67) ----------
+// ---------- 14) La Cacería (v5.68) ----------
 const huntMissionIds = [...html.matchAll(/id:\s*"(d_|w_|q_|p_|s_)[a-z0-9]+"/g)];
 const bankCount = [...html.matchAll(/id:\s*"q\d+"/g)].length;
 const bankCats = [...html.matchAll(/cat:\s*"([^"]+)"/g)].map((m) => m[1]);
 const catCount = (name) => bankCats.filter((c) => c === name).length;
-check('v5.67: La Cacería es ítem propio de la barra lateral',
+check('v5.68: La Cacería es ítem propio de la barra lateral',
   html.includes('class="nav-item" data-tab="hunt"') && html.includes('id="view-hunt"') &&
   !html.includes('class="navb" data-tab="hunt"'));
-check('v5.67: 5 zonas conectadas del mini mapa',
+check('v5.68: 5 zonas conectadas del mini mapa',
   html.includes('data-hunt-zone="radar"') === false ?
     ['radar', 'forja', 'shot', 'track', 'boss'].every((z) => html.includes('id: "' + z + '"')) :
     ['radar', 'forja', 'shot', 'track', 'boss'].every((z) => html.includes('data-hunt-zone="' + z + '"')));
-check('v5.67: estado aditivo y migración segura',
+check('v5.68: estado aditivo y migración segura',
   html.includes('hunt: defaultHunt()') && html.includes('gameState.hunt = normalizeHunt(data.hunt)') &&
   html.includes('function normalizeHunt(raw)') && html.includes('const SAVE_KEY = "odea_save_v2"'));
-check('v5.67: mínimo 30 misiones distintas', huntMissionIds.length >= 30, `${huntMissionIds.length} misiones`);
-check('v5.67: banco de 30 preguntas y reparto por categoría',
+check('v5.68: mínimo 37 misiones distintas', huntMissionIds.length >= 37, `${huntMissionIds.length} misiones`);
+check('v5.68: banco de 30 preguntas y reparto por categoría',
   bankCount === 30 && catCount('SQL') === 8 && catCount('Excel') === 4 &&
   catCount('Python') === 5 && catCount('Casos de negocio') === 5 &&
   catCount('Conductuales') === 5 && catCount('Datos y ciberseguridad') === 3,
   `${bankCount} preguntas · SQL ${catCount('SQL')} · Excel ${catCount('Excel')} · Python ${catCount('Python')}`);
-check('v5.67: XP y monedas de La Cacería integrados',
+check('v5.68: XP y monedas de La Cacería integrados',
   html.includes('function huntXPGain()') && html.includes('function huntCoinsEarned()') &&
   html.includes('huntCoinsEarned() +') && html.includes('const hunt = huntXPGain()') &&
   html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt }'));
-check('v5.67: cuota, racha, combo, rangos y calidad',
+check('v5.68: cuota, racha, combo, rangos y calidad',
   html.includes('quota: 5') && html.includes('function huntQuota()') &&
   html.includes('function huntLiveStreak()') && html.includes('combo') &&
   html.includes('const HUNT_RANKS') && html.includes('if (app.adapted) xp += 25'));
-check('v5.67: embudo, tabla, filtros y plantillas',
+check('v5.68: embudo, tabla, filtros y plantillas',
   html.includes('function huntFunnelHTML()') && html.includes('data-hunt-status="') &&
   html.includes('id="hunt-search"') && html.includes('HUNT_TEMPLATES') &&
   html.includes('followup') && html.includes('recruiter') && html.includes('thanks'));
-check('v5.67: Modo Jefe con cronómetro, HP, historial y falladas',
+check('v5.68: Modo Jefe con cronómetro, HP, historial y falladas',
   html.includes('function huntBossOpen(') && html.includes('function huntBossFinish(') &&
   html.includes('hunt-boss-timer') && html.includes('hunt-boss-hp') &&
   html.includes('h.boss.failed') && html.toLowerCase().includes('repetir falladas'));
-check('v5.67: jefe errante activa la misión sorpresa',
+check('v5.68: jefe errante activa la misión sorpresa',
   html.includes('function huntWanderQuestion(') && html.includes('data-hunt-act="boss-wander"') &&
   html.includes('huntBossOpen(wq.id, true)') && html.includes('run.surprise ? ":surprise"'));
-check('v5.67: respaldo incluye La Cacería por gameState',
+check('v5.68: respaldo incluye La Cacería por gameState',
   html.includes('const bundle = { _format: "odea_bundle_v2", appVersion: APP_VERSION, save: gameState') &&
   html.includes('localStorage.setItem(SAVE_KEY, JSON.stringify(save))'));
-check('v5.67: efectos, animaciones y vibración configurables',
+check('v5.68: efectos, animaciones y vibración configurables',
   html.includes('data-hunt-act="toggle-fx"') && html.includes('data-hunt-act="toggle-vibrate"') &&
   html.includes('function huntFx(') && html.includes('navigator.vibrate') &&
   html.includes('hunt-no-fx') && html.includes('root.classList.toggle("hunt-no-fx"'));
+check('v5.68: disparo rápido de un toque sin formulario',
+  html.includes('data-hunt-act="quick-shot"') && html.includes('function huntQuickShot()') &&
+  html.includes('function huntNextQuickTarget()') && html.includes('quick: true') &&
+  html.includes('targetId') && html.includes('Disparo rápido') &&
+  html.includes('Registrar con detalle'));
+check('v5.68: bolsa de 120 objetivos (30 empresas × 4 roles)',
+  html.includes('const HUNT_TARGET_COMPANIES') && html.includes('const HUNT_TARGET_ROLES') &&
+  html.includes('const HUNT_TARGETS') && /HUNT_TARGET_COMPANIES\.forEach/.test(html) &&
+  html.includes('30 empresas × 4 roles = 120'));
+check('v5.68: ráfaga 5–7 y metas semanales 50/80/100',
+  html.includes('id:"d_burst"') && html.includes('function huntBurstGoal()') &&
+  /return 5 \+ \(Math\.abs\(day\) % 3\)/.test(html) &&
+  ['w_50', 'w_80', 'w_100'].every((id) => html.includes('id:"' + id + '"')) &&
+  html.includes('Ráfaga: postula a 5–7 empresas hoy'));
 
 // ---------- Resultado ----------
 console.log();
