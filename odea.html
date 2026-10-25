@@ -2244,7 +2244,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 }
 
 /* ==========================================================
-   🎯 LA CACERÍA (v5.69) — mundo de postulaciones reales
+   🎯 LA CACERÍA (v5.70) — mundo de postulaciones reales
    ========================================================== */
 :root{--hunt-pink:#ff4f9a;--hunt-gold:#ffd166;--hunt-violet:#b06cff}
 #view-hunt{--hunt-accent:var(--hunt-pink)}
@@ -2542,6 +2542,100 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   .hunt-node .hn-ico{font-size:.95rem}
   .hunt-title{font-size:1.4rem}
 }
+
+/* ==========================================================
+   🎯 CACERIA v2 (v5.70) — pantalla de disparos
+   ========================================================== */
+.hunt-v2{display:flex;flex-direction:column;gap:12px;min-width:0;padding-bottom:24px}
+.hunt-v2-head{padding:2px 2px 0}
+.hunt-v2-kicker{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:2px;color:var(--hunt-gold);text-transform:uppercase}
+.hunt-v2-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.35rem,5vw,2rem);font-weight:900;letter-spacing:1.5px;color:#fff;margin:3px 0;text-shadow:0 0 18px rgba(255,79,154,.55)}
+.hunt-v2-sub{font-size:.76rem;color:var(--tx2);line-height:1.5}
+.hunt-v2-top{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;padding:14px;border-radius:16px;
+  background:linear-gradient(145deg,rgba(48,12,36,.9),rgba(20,12,40,.94));border:1px solid rgba(255,79,154,.32);box-shadow:0 0 26px rgba(255,79,154,.1)}
+.hunt-v2-ring{--p:0;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;
+  background:conic-gradient(var(--hunt-pink) calc(var(--p) * 1%),rgba(160,160,192,.16) 0);box-shadow:0 0 22px rgba(255,79,154,.18)}
+.hunt-v2-ring-in{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#0b0b1a;border:1px solid rgba(255,255,255,.08)}
+.hunt-v2-ring-in b{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#fff;line-height:1}
+.hunt-v2-ring-in span{font-size:.52rem;letter-spacing:1.5px;color:var(--tx2);margin-top:3px}
+.hunt-v2-stats{display:flex;flex-direction:column;gap:6px;min-width:0}
+.hunt-v2-stat{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:7px 9px;border-radius:9px;
+  background:rgba(8,8,22,.5);border:1px solid rgba(160,160,192,.14);font-size:.66rem;color:var(--tx2)}
+.hunt-v2-stat b{font-family:'Share Tech Mono',monospace;color:#fff;font-size:.72rem;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hunt-v2-warn{padding:8px 11px;border-radius:10px;font-size:.68rem;color:#ffd166;background:rgba(255,209,102,.07);border:1px dashed rgba(255,209,102,.35)}
+.hunt-v2-boss{padding:13px;border-radius:15px;background:linear-gradient(145deg,rgba(70,12,22,.82),rgba(24,10,34,.94));
+  border:1px solid rgba(255,79,154,.36);box-shadow:inset 0 0 32px rgba(255,79,154,.06)}
+.hunt-v2-boss.done{border-color:rgba(0,255,136,.42);box-shadow:0 0 22px rgba(0,255,136,.1)}
+.hunt-v2-boss-head{display:flex;justify-content:space-between;gap:9px;align-items:flex-start;flex-wrap:wrap}
+.hunt-v2-boss-kicker{display:block;font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:1.5px;color:var(--hunt-gold);text-transform:uppercase}
+.hunt-v2-boss-head b{display:block;font-family:'Orbitron',sans-serif;font-size:.95rem;color:#fff;margin-top:2px}
+.hunt-v2-boss-days{font-size:.64rem;color:var(--hunt-gold);white-space:nowrap}
+.hunt-v2-bar{height:8px;border-radius:99px;background:rgba(160,160,192,.16);overflow:hidden;margin-top:8px}
+.hunt-v2-bar > span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--hunt-pink),var(--hunt-gold));transition:width .3s ease}
+.hunt-v2-bar.boss > span{background:linear-gradient(90deg,#ff3355,#ffd166)}
+.hunt-v2-boss-foot{display:flex;justify-content:space-between;gap:8px;font-size:.62rem;color:var(--tx2);margin-top:5px}
+.hunt-v2-boss-win{margin-top:8px;padding:7px 9px;border-radius:8px;font-size:.66rem;color:var(--glow-green);background:rgba(0,255,136,.07);border:1px solid rgba(0,255,136,.28)}
+.hunt-v2-section-title{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:2px;
+  font-family:'Orbitron',sans-serif;font-size:.73rem;letter-spacing:1px;color:#fff}
+.hunt-v2-section-title span{font-family:'Share Tech Mono',monospace;font-size:.55rem;letter-spacing:1px;color:var(--hunt-gold)}
+.hunt-v2-platforms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.hunt-v2-chip{min-height:42px;padding:7px 6px;border-radius:10px;cursor:pointer;color:var(--tx2);font-family:'Share Tech Mono',monospace;
+  font-size:.62rem;line-height:1.25;background:rgba(10,10,26,.7);border:1px solid rgba(160,160,192,.2)}
+.hunt-v2-chip.on{color:#fff;border-color:var(--hunt-pink);background:rgba(255,79,154,.13);box-shadow:0 0 12px rgba(255,79,154,.18)}
+.hunt-v2-list{display:grid;gap:8px}
+.hunt-v2-mission{padding:11px;border-radius:14px;background:linear-gradient(145deg,rgba(18,14,38,.9),rgba(8,8,22,.96));
+  border:1px solid rgba(160,160,192,.18);min-width:0}
+.hunt-v2-mission.base{border-left:3px solid var(--mc,var(--hunt-pink))}
+.hunt-v2-mission.done{border-color:rgba(0,255,136,.3);opacity:.92}
+.hunt-v2-mission-head{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.hunt-v2-ico{font-size:1.4rem;line-height:1;flex:0 0 auto}
+.hunt-v2-mission-info{flex:1;min-width:0}
+.hunt-v2-mission-info b{display:block;font-family:'Orbitron',sans-serif;font-size:.78rem;color:#fff;line-height:1.25}
+.hunt-v2-mission-info span{display:block;font-size:.65rem;color:var(--tx2);line-height:1.4;margin-top:2px}
+.hunt-v2-tag,.hunt-v2-dmg{flex:0 0 auto;padding:3px 7px;border-radius:999px;font-family:'Share Tech Mono',monospace;
+  font-size:.54rem;letter-spacing:.5px;color:var(--hunt-gold);border:1px solid rgba(255,209,102,.3);background:rgba(255,209,102,.06)}
+.hunt-v2-dmg{color:#ff8fa6;border-color:rgba(255,79,154,.3);background:rgba(255,79,154,.06)}
+.hunt-v2-progress{display:flex;align-items:center;gap:7px;margin-top:8px}
+.hunt-v2-progress .hunt-v2-bar{flex:1;margin-top:0;height:6px}
+.hunt-v2-progress > span{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--tx2);white-space:nowrap}
+.hunt-v2-mission-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.hunt-v2-reward{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--hunt-gold)}
+.hunt-v2-hint{font-size:.58rem;color:var(--tx2)}
+.hunt-v2-fire{width:100%;min-height:48px;padding:11px;border-radius:11px;cursor:pointer;font-family:'Orbitron',sans-serif;
+  font-weight:900;font-size:.82rem;letter-spacing:1px;color:#160516;border:1px solid var(--hunt-pink);
+  background:linear-gradient(135deg,var(--hunt-pink),var(--hunt-gold));box-shadow:0 0 18px rgba(255,79,154,.22)}
+.hunt-v2-fire:active{transform:translateY(1px);box-shadow:0 0 10px rgba(255,79,154,.16)}
+.hunt-v2-footer{margin-top:4px;padding:12px;border-radius:15px;background:rgba(10,10,26,.68);border:1px solid rgba(255,209,102,.24)}
+.hunt-v2-rank{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 10px;align-items:center}
+.hunt-v2-rank-ico{font-size:1.45rem;grid-row:1/3}
+.hunt-v2-rank-info b{display:block;font-family:'Orbitron',sans-serif;font-size:.82rem;color:#fff}
+.hunt-v2-rank-info small{display:block;font-size:.6rem;color:var(--tx2)}
+.hunt-v2-rank-bar{display:flex;align-items:center;gap:7px;grid-column:2}
+.hunt-v2-rank-bar .hunt-v2-bar{flex:1;margin-top:0;height:7px}
+.hunt-v2-rank-bar > span{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--hunt-gold)}
+.hunt-v2-totals{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:.64rem;color:var(--tx2)}
+.hunt-v2-totals b{color:#fff;font-family:'Share Tech Mono',monospace}
+.hunt-v2-undo{width:100%;min-height:44px;margin-top:9px;border-radius:10px;cursor:pointer;font-family:'Share Tech Mono',monospace;
+  font-size:.7rem;color:var(--glow-cyan);background:transparent;border:1px solid rgba(0,204,255,.35)}
+.hunt-v2-undo:disabled{opacity:.35;cursor:not-allowed}
+.hunt-v2-note{font-size:.55rem;color:var(--tx2);text-align:center;line-height:1.45;margin-top:8px}
+@media (max-width:520px){
+  .hunt-v2-top{padding:11px;gap:9px}
+  .hunt-v2-ring{width:90px;height:90px}
+  .hunt-v2-ring-in{width:68px;height:68px}
+  .hunt-v2-ring-in b{font-size:.95rem}
+  .hunt-v2-stat{padding:6px 7px;font-size:.6rem}
+  .hunt-v2-platforms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hunt-v2-mission{padding:9px}
+  .hunt-v2-fire{font-size:.76rem}
+}
+@media (max-width:640px){
+  .hunt-v2{padding-bottom:164px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hunt-v2-bar > span,.hunt-v2-fire{transition:none!important}
+}
 </style>
 </head>
 <body class="odea-ui-v7">
@@ -2549,7 +2643,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.69</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.70</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2576,12 +2670,12 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
         <input type="file" id="import-file" accept=".json,application/json" hidden>
       </div>
       <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
-      <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar campaña de empleo">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
+      <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar solo La Cacería" title="Reinicia solo los disparos, rango, combo, cadena y jefe de La Cacería">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
     </div>
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.69</span>
+    <span class="ver" id="ver-badge">v5.70</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2772,7 +2866,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.69</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.70</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3360,11 +3454,17 @@ const achievements = [
   { id:"ach_hunt_first", ico:"🎯", name:"Primer Disparo", desc:"Registrar tu primera postulación en La Cacería", xp:100 },
   { id:"ach_hunt_10", ico:"🏹", name:"Rastreador Activo", desc:"Registrar 10 postulaciones reales", xp:250 },
   { id:"ach_hunt_50", ico:"🔥", name:"Cazador Imparable", desc:"Registrar 50 postulaciones reales", xp:500 },
-  { id:"ach_hunt_100", ico:"👑", name:"Leyenda de la Cacería", desc:"Registrar 100 postulaciones reales", xp:1000 },
-  { id:"ach_hunt_interview", ico:"🎙️", name:"Primera Entrevista", desc:"Llegar a una entrevista real", xp:300 },
-  { id:"ach_hunt_offer", ico:"💼", name:"Primera Oferta", desc:"Recibir tu primera oferta de trabajo", xp:800 },
-  { id:"ach_hunt_st7", ico:"☄️", name:"Semana de Caza", desc:"Mantener 7 días seguidos postulando", xp:200 },
-  { id:"ach_hunt_st30", ico:"🌌", name:"Mes de Caza", desc:"Mantener 30 días seguidos postulando", xp:500 }
+  { id:"ach_hunt_100", ico:"👑", name:"Centurión de la Cacería", desc:"Registrar 100 disparos reales", xp:1000 },
+  { id:"ach_hunt_r25", ico:"🔎", name:"Rastreador", desc:"Alcanzar el rango Rastreador (25 disparos)", xp:100 },
+  { id:"ach_hunt_r75", ico:"🏹", name:"Cazador", desc:"Alcanzar el rango Cazador (75 disparos)", xp:200 },
+  { id:"ach_hunt_r150", ico:"🎯", name:"Francotirador", desc:"Alcanzar el rango Francotirador (150 disparos)", xp:300 },
+  { id:"ach_hunt_burst", ico:"⚡", name:"Ráfaga", desc:"Completar la misión diaria Ráfaga (5 disparos)", xp:200 },
+  { id:"ach_hunt_boss", ico:"🐉", name:"Cazador de Jefes", desc:"Derrotar al jefe semanal", xp:300 },
+  { id:"ach_hunt_legend", ico:"👑", name:"Leyenda", desc:"Alcanzar el rango Leyenda (300 disparos)", xp:1000 },
+  { id:"ach_hunt_interview", ico:"🎙️", name:"Primera Entrevista", desc:"Logro legado de La Cacería", xp:300 },
+  { id:"ach_hunt_offer", ico:"💼", name:"Primera Oferta", desc:"Logro legado de La Cacería", xp:800 },
+  { id:"ach_hunt_st7", ico:"☄️", name:"Semana de Caza", desc:"Mantener 7 días seguidos disparando", xp:200 },
+  { id:"ach_hunt_st30", ico:"🌌", name:"Mes de Caza", desc:"Mantener 30 días seguidos disparando", xp:500 }
 ];
 
 /* --- Mensajes de ánimo --- */
@@ -3911,7 +4011,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.69"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.70"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -3990,7 +4090,16 @@ function defaultHunt() {
     regenCount: 0,
     boss: { favorites: [], custom: [], history: [], failed: [] },
     settings: { fx: true, vibrate: true },
-    surprise: { date: null, type: null, done: false }
+    surprise: { date: null, type: null, done: false },
+    /* CACERIA v2: estado aditivo. Las postulaciones viejas siguen en applications;
+       legacyShots solo las cuenta para total/rango. */
+    v2: {
+      legacyShots: 0,
+      shots: [],
+      platform: "linkedin",
+      chain: { lastDay: null, days: 0, best: 0 },
+      lastUndo: null
+    }
   };
 }
 
@@ -4943,7 +5052,11 @@ function achievementState() {
   const allDaily = dailyN >= DAILY_TOTAL;
   const allWeekly = weekN >= WEEKLY_TOTAL;
   const huntApps = (gameState.hunt && Array.isArray(gameState.hunt.applications)) ? gameState.hunt.applications : [];
-  const huntStreak = (typeof huntLiveStreak === "function") ? huntLiveStreak() : ((gameState.hunt && gameState.hunt.streak) || 0);
+  /* CACERIA v2: total = postulaciones viejas migradas + disparos nuevos. */
+  const huntTotal = (typeof huntV2TotalShots === "function") ? huntV2TotalShots() : huntApps.length;
+  const huntChain = (typeof huntV2BestChain === "function") ? huntV2BestChain() : 0;
+  const huntBurst = (typeof huntV2DailyDone === "function") ? huntV2DailyDone("burst") : false;
+  const huntBoss = (typeof huntV2BossDefeated === "function") ? huntV2BossDefeated() : false;
   const c = {
     ach_first: () => doneSet.size + missN + weekN + jobsDoneCount() >= 1,
     ach_ten: () => dailyN >= 10,
@@ -4987,14 +5100,20 @@ function achievementState() {
     ach_titan_prometeo: () => godDefeated("prometeo"),
     ach_titan_all: () => TITAN_BOSSES.every(t => godDefeated(t.id)),
     ach_vida_all: () => VIDA_BOSSES.every(v => godDefeated(v.id)),
-    ach_hunt_first: () => huntApps.length >= 1,
-    ach_hunt_10: () => huntApps.length >= 10,
-    ach_hunt_50: () => huntApps.length >= 50,
-    ach_hunt_100: () => huntApps.length >= 100,
+    ach_hunt_first: () => huntTotal >= 1,
+    ach_hunt_10: () => huntTotal >= 10,
+    ach_hunt_50: () => huntTotal >= 50,
+    ach_hunt_100: () => huntTotal >= 100,
+    ach_hunt_r25: () => huntTotal >= 25,
+    ach_hunt_r75: () => huntTotal >= 75,
+    ach_hunt_r150: () => huntTotal >= 150,
+    ach_hunt_burst: () => huntBurst,
+    ach_hunt_boss: () => huntBoss,
+    ach_hunt_legend: () => huntTotal >= 300,
     ach_hunt_interview: () => huntApps.some(a => a.status === "entrevista" || a.status === "oferta"),
     ach_hunt_offer: () => huntApps.some(a => a.status === "oferta"),
-    ach_hunt_st7: () => huntStreak >= 7,
-    ach_hunt_st30: () => huntStreak >= 30
+    ach_hunt_st7: () => huntChain >= 7,
+    ach_hunt_st30: () => huntChain >= 30
   };
   return achievements.filter(a => c[a.id] ? c[a.id]() : false);
 }
@@ -6218,7 +6337,7 @@ function renderAll() {
 }
 
 /* ==========================================================
-   🎯 V5.69 — LA CACERÍA
+   🎯 V5.70 — LA CACERÍA
    Mundo de postulaciones reales. Estado aditivo en gameState.hunt.
    No toca las claves de otros mundos ni duplica XP/monedas: todo
    se calcula desde hunt.log, igual que Sagas calcula sus monedas.
@@ -6482,6 +6601,328 @@ const HUNT_TEMPLATES = {
     body: "Hola [Nombre], gracias por la entrevista de hoy para [Puesto]. Me quedé con ganas de aportar en [tema o reto]. Quedo atento a los siguientes pasos y a cualquier información adicional que necesites. Saludos, [Tu nombre]."
   }
 };
+
+/* ==========================================================
+   🎯 CACERIA v2 (v5.70) — sistema de misiones de disparos
+   Estado aditivo en gameState.hunt.v2. El XP/monedas se siguen
+   calculando desde hunt.log, sin duplicar la contabilidad.
+   ========================================================== */
+const HUNT_V2_BOSS_HP = 30;          /* HP configurable del jefe semanal */
+const HUNT_V2_DAILY_GOAL = 5;        /* meta del anillo diario */
+const HUNT_V2_CRIT_CHANCE = 0.12;    /* 12% de disparo crítico */
+const HUNT_V2_COMBO_MS = 30 * 60 * 1000;
+const HUNT_V2_ANTI_SPAM_AT = 12;
+
+const HUNT_V2_PLATFORMS = [
+  { id:"linkedin",    ico:"💼", name:"LinkedIn" },
+  { id:"indeed",      ico:"🔎", name:"Indeed" },
+  { id:"computrabajo",ico:"🧭", name:"Computrabajo" },
+  { id:"encuentra24", ico:"🌎", name:"Encuentra24" },
+  { id:"correo",      ico:"✉️", name:"Correo directo" },
+  { id:"otra",        ico:"🧩", name:"Otra" }
+];
+const HUNT_V2_PLATFORM_IDS = HUNT_V2_PLATFORMS.map(function (p) { return p.id; });
+
+const HUNT_V2_MISSIONS = [
+  { id:"rabbit",    ico:"🐇", name:"Presa fácil",      desc:"Postulación rápida (Easy Apply)", xp:10, damage:1, color:"#00ff88" },
+  { id:"precision", ico:"🎯", name:"Tiro de precisión", desc:"Postulación con CV adaptado a la oferta", xp:25, damage:2, color:"#00ccff" },
+  { id:"letter",    ico:"✉️", name:"Disparo certero",   desc:"Postulación con carta o mensaje al reclutador", xp:40, damage:3, color:"#ffd166" },
+  { id:"direct",    ico:"🏢", name:"Asalto directo",   desc:"Postulación en el sitio de la empresa o por correo", xp:30, damage:2, color:"#ff4f9a" }
+];
+const HUNT_V2_MISSION_BY_ID = {};
+HUNT_V2_MISSIONS.forEach(function (m) { HUNT_V2_MISSION_BY_ID[m.id] = m; });
+
+const HUNT_V2_DAILY = [
+  { id:"dawn",    ico:"🌅", name:"Cazador del alba", desc:"3 disparos antes de las 10:00 am", goal:3, xp:50 },
+  { id:"burst",   ico:"⚡", name:"Ráfaga",            desc:"5 disparos en el día", goal:5, xp:100 },
+  { id:"tracker", ico:"🗺️", name:"Rastreador",        desc:"3 plataformas distintas en el día", goal:3, xp:60 }
+];
+const HUNT_V2_DAILY_BY_ID = {};
+HUNT_V2_DAILY.forEach(function (d) { HUNT_V2_DAILY_BY_ID[d.id] = d; });
+
+const HUNT_V2_RANKS = [
+  { min:0,   name:"Aprendiz",      ico:"🐣", color:"#a0a0c0", bonus:0 },
+  { min:25,  name:"Rastreador",    ico:"🔎", color:"#00ccff", bonus:50 },
+  { min:75,  name:"Cazador",       ico:"🏹", color:"#ffd166", bonus:100 },
+  { min:150, name:"Francotirador", ico:"🎯", color:"#b06cff", bonus:200 },
+  { min:300, name:"Leyenda",       ico:"👑", color:"#ff4f9a", bonus:300 }
+];
+
+const HUNT_V2_BOSSES = [
+  { ico:"🐉", name:"Dragón de Cristal" },
+  { ico:"🐍", name:"Hidra de ATS" },
+  { ico:"🗿", name:"Golem de Requisitos" },
+  { ico:"👻", name:"Espectro del Silencio" },
+  { ico:"🦖", name:"Wyvern de la Ronda Final" },
+  { ico:"🌊", name:"Leviatán de LinkedIn" },
+  { ico:"🔥", name:"Fénix del Rechazo" },
+  { ico:"⚡", name:"Titán de la Oferta" }
+];
+
+function huntV2Default() {
+  return { legacyShots:0, shots:[], platform:"linkedin", chain:{ lastDay:null, days:0, best:0 }, lastUndo:null };
+}
+function huntV2State() {
+  const h = huntEnsureDay();
+  if (!h.v2 || typeof h.v2 !== "object") {
+    h.v2 = huntV2Default();
+    h.v2.legacyShots = Array.isArray(h.applications) ? h.applications.length : 0;
+  }
+  const v = h.v2;
+  if (!Array.isArray(v.shots)) v.shots = [];
+  if (!v.chain || typeof v.chain !== "object") v.chain = { lastDay:null, days:0, best:0 };
+  v.chain.days = Math.max(0, Math.min(9999, Number(v.chain.days) || 0));
+  v.chain.best = Math.max(v.chain.days, Math.min(9999, Number(v.chain.best) || 0));
+  v.chain.lastDay = huntDateStr(v.chain.lastDay);
+  if (HUNT_V2_PLATFORM_IDS.indexOf(v.platform) < 0) v.platform = "linkedin";
+  if (typeof v.legacyShots !== "number" || !isFinite(v.legacyShots)) {
+    v.legacyShots = Array.isArray(h.applications) ? h.applications.length : 0;
+  }
+  v.legacyShots = Math.max(0, Math.min(999999, Math.floor(v.legacyShots)));
+  return v;
+}
+function huntV2TotalShots() { const v = huntV2State(); return v.legacyShots + v.shots.length; }
+function huntV2TodayShots(date) {
+  const d = date || todayStr();
+  return huntV2State().shots.filter(function (s) { return s.date === d; });
+}
+function huntV2WeekShots() {
+  const wk = isoWeekKey(todayStr());
+  return huntV2State().shots.filter(function (s) { return isoWeekKey(s.date) === wk; });
+}
+function huntV2Hash(str) {
+  let h = 0;
+  str = String(str || "");
+  for (let i = 0; i < str.length; i++) h = ((h * 31) + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+function huntV2Pct(n, d) { return Math.max(0, Math.min(100, Math.round((Number(n) || 0) / Math.max(1, Number(d) || 1) * 100))); }
+function huntV2ComboInfo(now) {
+  const shots = huntV2State().shots;
+  const t = Number(now) || Date.now();
+  if (!shots.length) return { active:false, count:0, apply:1 };
+  const last = shots[shots.length - 1];
+  if (t - last.ts > HUNT_V2_COMBO_MS) return { active:false, count:0, apply:1 };
+  let count = 1;
+  for (let i = shots.length - 2; i >= 0; i--) {
+    if (shots[i + 1].ts - shots[i].ts <= HUNT_V2_COMBO_MS) count++;
+    else break;
+  }
+  const apply = count >= 3 ? 2 : count === 2 ? 1.5 : 1.2;
+  return { active:true, count:count, apply:apply };
+}
+function huntV2ChainInfo() {
+  const v = huntV2State(), today = todayStr(), last = v.chain.lastDay;
+  let active = 0, protectedByFreezer = false;
+  if (last === today || last === huntAddDays(today, -1)) active = v.chain.days;
+  else if (last && diffDays(last, today) === 2 && (gameState.freezers || 0) > 0) {
+    active = v.chain.days;
+    protectedByFreezer = true;
+  }
+  return { days:v.chain.days, active:active, protected:protectedByFreezer, lastDay:last, best:v.chain.best || v.chain.days || 0 };
+}
+function huntV2BestChain() { const v = huntV2State(); return Math.max(Number(v.chain.best) || 0, Number(v.chain.days) || 0); }
+function huntV2RankInfo(total) {
+  const n = (typeof total === "number") ? total : huntV2TotalShots();
+  let i = 0;
+  while (i + 1 < HUNT_V2_RANKS.length && n >= HUNT_V2_RANKS[i + 1].min) i++;
+  const cur = HUNT_V2_RANKS[i], next = HUNT_V2_RANKS[i + 1] || null;
+  const pct = next ? Math.max(0, Math.min(100, ((n - cur.min) / Math.max(1, next.min - cur.min)) * 100)) : 100;
+  return { total:n, cur:cur, next:next, idx:i, pct:pct };
+}
+function huntV2BossInfo() {
+  const week = isoWeekKey(todayStr());
+  const shots = huntV2WeekShots();
+  let damage = 0;
+  shots.forEach(function (s) { const m = HUNT_V2_MISSION_BY_ID[s.mission]; if (m) damage += m.damage; });
+  const boss = HUNT_V2_BOSSES[Math.abs(huntV2Hash(week)) % HUNT_V2_BOSSES.length];
+  const dow = (new Date().getDay() + 6) % 7;
+  return {
+    week: week, ico: boss.ico, name: boss.name, hp: Math.max(0, HUNT_V2_BOSS_HP - damage),
+    max: HUNT_V2_BOSS_HP, damage: damage, defeated: damage >= HUNT_V2_BOSS_HP, daysLeft: 7 - dow
+  };
+}
+function huntV2BossDefeated() { return huntV2BossInfo().defeated; }
+function huntV2DailyProgress(id) {
+  const shots = huntV2TodayShots();
+  if (id === "dawn") return shots.filter(function (s) { return new Date(s.ts).getHours() < 10; }).length;
+  if (id === "burst") return shots.length;
+  if (id === "tracker") {
+    const set = {};
+    shots.forEach(function (s) { set[s.platform] = 1; });
+    return Object.keys(set).length;
+  }
+  return 0;
+}
+function huntV2DailyDone(id, date) {
+  const key = "v2daily:" + id + ":" + (date || todayStr());
+  const log = (gameState.hunt && Array.isArray(gameState.hunt.log)) ? gameState.hunt.log : [];
+  return log.some(function (e) { return e.key === key; });
+}
+function huntV2SetPlatform(pid) {
+  if (HUNT_V2_PLATFORM_IDS.indexOf(pid) < 0) return;
+  huntV2State().platform = pid;
+  saveGame();
+  huntRender();
+}
+let huntV2Busy = false;
+function huntV2Shot(missionId, ev) {
+  if (huntV2Busy) return;
+  const def = HUNT_V2_MISSION_BY_ID[missionId];
+  if (!def) return;
+  huntV2Busy = true;
+  try {
+    const h = huntEnsureDay();
+    const v = huntV2State();
+    const oldLevel = odeLevelNow();
+    const oldTotal = huntV2TotalShots();
+    const now = Date.now();
+    const date = fmtDate(new Date(now));
+    const todayBefore = huntV2TodayShots(date).length;
+    const combo = huntV2ComboInfo(now);
+    const crit = Math.random() < HUNT_V2_CRIT_CHANCE;
+    const anti = todayBefore >= HUNT_V2_ANTI_SPAM_AT;
+    let xp = def.xp * combo.apply * (crit ? 2 : 1);
+    if (anti) xp *= 0.5;
+    xp = Math.max(1, Math.round(xp));
+    const coins = crit ? 10 : 2;
+    const platform = v.platform || "linkedin";
+    const pdef = HUNT_V2_PLATFORMS.filter(function (p) { return p.id === platform; })[0];
+    const shot = {
+      id: "v2shot_" + now + "_" + Math.random().toString(36).slice(2, 7),
+      ts: now, date: date, mission: def.id, platform: platform,
+      xp: xp, coins: coins, crit: crit, combo: combo.apply, damage: def.damage
+    };
+    const prev = {
+      activity: JSON.parse(JSON.stringify(gameState.activity || {})),
+      streak: Number(gameState.streak) || 0,
+      lastDailyDate: gameState.lastDailyDate || null,
+      shieldWeek: gameState.shieldWeek || null,
+      unlockedAch: (gameState.unlockedAch || []).slice(),
+      chain: JSON.parse(JSON.stringify(v.chain || {})),
+      freezers: Number(gameState.freezers) || 0
+    };
+    v.shots.push(shot);
+    const addLog = function (key, kind, xpAdd, coinsAdd, title) {
+      h.log.push({
+        key: key, id: "v2log_" + shot.id + "_" + kind + "_" + Math.random().toString(36).slice(2, 6),
+        shotId: shot.id, kind: kind, date: date, xp: xpAdd, coins: coinsAdd, title: title
+      });
+    };
+    addLog("v2shot:" + shot.id, "shot", xp, coins, def.name + " · " + (pdef ? pdef.name : platform));
+    const extras = [];
+    /* Cadena: se bonifica una vez en el primer disparo del día. */
+    if (v.chain.lastDay !== date) {
+      let days = Math.max(0, Number(v.chain.days) || 0);
+      let usedFreezer = false;
+      if (!v.chain.lastDay) days = 1;
+      else {
+        const gap = diffDays(v.chain.lastDay, date);
+        if (gap === 1) days = Math.max(1, days) + 1;
+        else if (gap === 2 && (gameState.freezers || 0) > 0) {
+          gameState.freezers = Math.max(0, (gameState.freezers || 0) - 1);
+          usedFreezer = true;
+          days = Math.max(1, days) + 1;
+        } else days = 1;
+      }
+      v.chain = { lastDay: date, days: days, best: Math.max(days, Number(v.chain.best) || 0) };
+      const chainXp = 20 * Math.min(10, days);
+      addLog("v2chain:" + date, "bonus", chainXp, 0, "Cadena de caza · " + days + " día" + (days === 1 ? "" : "s"));
+      extras.push("🔥 Cadena " + days + "d +" + chainXp + " XP" + (usedFreezer ? " (congelador)" : ""));
+    }
+    /* Diarias: se cobran automáticamente al alcanzar la meta. */
+    HUNT_V2_DAILY.forEach(function (d) {
+      if (huntV2DailyProgress(d.id) >= d.goal && !huntV2DailyDone(d.id, date)) {
+        addLog("v2daily:" + d.id + ":" + date, "bonus", d.xp, 0, "Bonus: " + d.name);
+        extras.push(d.ico + " " + d.name + " +" + d.xp + " XP");
+      }
+    });
+    /* Jefe semanal. */
+    const boss = huntV2BossInfo();
+    let bossWin = false;
+    if (boss.defeated && !huntLogHasKey("v2boss:" + boss.week)) {
+      addLog("v2boss:" + boss.week, "boss", 300, 100, "Jefe derrotado: " + boss.name);
+      bossWin = true;
+      extras.push("🐉 Jefe derrotado +300 XP +100 🪙");
+    }
+    /* Rango: bonus y logro al cruzar un umbral. */
+    const beforeRank = huntV2RankInfo(oldTotal);
+    const afterRank = huntV2RankInfo(oldTotal + 1);
+    if (afterRank.idx > beforeRank.idx && afterRank.cur.bonus > 0 && !huntLogHasKey("v2rank:" + afterRank.cur.min)) {
+      addLog("v2rank:" + afterRank.cur.min, "bonus", afterRank.cur.bonus, 0, "Ascenso: " + afterRank.cur.name);
+      extras.push("🏅 " + afterRank.cur.name + " +" + afterRank.cur.bonus + " XP");
+    }
+    v.lastUndo = {
+      shotId: shot.id,
+      prevActivity: prev.activity,
+      prevStreak: prev.streak,
+      prevLastDailyDate: prev.lastDailyDate,
+      prevShieldWeek: prev.shieldWeek,
+      prevUnlockedAch: prev.unlockedAch,
+      prevChain: prev.chain,
+      prevFreezers: prev.freezers
+    };
+    activityAdd("hunt", 1);
+    activityMaybeStreak();
+    saveGame();
+    recomputeState();
+    checkAchievements();
+    recomputeState();
+    updateUI();
+    huntRender();
+    celebrateIfLevelUp(oldLevel);
+    if (bossWin) {
+      huntFx("boss", ev && ev.clientX, ev && ev.clientY);
+      toast("🐉", "¡JEFE DERROTADO!", boss.name + " · +300 XP · +100 🪙", "ach");
+    } else if (crit) {
+      huntFx("crit", ev && ev.clientX, ev && ev.clientY);
+    } else {
+      huntFx("shot", ev && ev.clientX, ev && ev.clientY);
+    }
+    const sub = "+" + xp + " XP · +" + coins + " 🪙" +
+      (crit ? " · ¡CRÍTICO! XP ×2" : "") +
+      (combo.apply > 1 ? " · combo ×" + combo.apply : "") +
+      (anti ? " · anti-spam 50%" : "") +
+      (extras.length ? " · " + extras.join(" · ") : "");
+    toast(crit ? "💥" : "🎯", (crit ? "¡CRÍTICO! " : "") + def.name, sub, crit ? "ach" : "");
+  } finally {
+    huntV2Busy = false;
+  }
+}
+function huntV2Undo() {
+  const v = huntV2State();
+  const u = v.lastUndo;
+  if (!u || !u.shotId) { toast("↩️", "Nada que deshacer", "Primero dispara una misión."); return; }
+  const last = v.shots[v.shots.length - 1];
+  if (!last || last.id !== u.shotId) {
+    v.lastUndo = null;
+    saveGame();
+    huntRender();
+    toast("⚠️", "No se puede deshacer", "El último disparo ya no coincide con el guardado.");
+    return;
+  }
+  const h = huntState();
+  h.log = (Array.isArray(h.log) ? h.log : []).filter(function (e) { return e.shotId !== u.shotId; });
+  v.shots.pop();
+  gameState.activity = (u.prevActivity && typeof u.prevActivity === "object") ? JSON.parse(JSON.stringify(u.prevActivity)) : {};
+  gameState.streak = Math.max(0, Number(u.prevStreak) || 0);
+  gameState.lastDailyDate = huntDateStr(u.prevLastDailyDate);
+  gameState.shieldWeek = (typeof u.prevShieldWeek === "string") ? u.prevShieldWeek : null;
+  gameState.unlockedAch = Array.isArray(u.prevUnlockedAch) ? u.prevUnlockedAch.map(String) : [];
+  const uc = (u.prevChain && typeof u.prevChain === "object") ? u.prevChain : {};
+  v.chain = {
+    lastDay: huntDateStr(uc.lastDay),
+    days: Math.max(0, Number(uc.days) || 0),
+    best: Math.max(0, Number(uc.best) || 0)
+  };
+  gameState.freezers = Math.max(0, Math.min(2, Number(u.prevFreezers) || 0));
+  v.lastUndo = null;
+  saveGame();
+  recomputeState();
+  updateUI();
+  huntRender();
+  toast("↩️", "Disparo deshecho", "Se revirtieron +" + last.xp + " XP y +" + last.coins + " 🪙.");
+}
 
 /* --- Helpers de fechas, estado y migración --- */
 function huntState() {
@@ -6803,6 +7244,7 @@ function normalizeHunt(raw) {
     return {
       key: String(e.key || ""),
       id: String(e.id || ""),
+      shotId: e.shotId ? String(e.shotId) : null,
       appId: e.appId ? String(e.appId) : null,
       kind: ["shot", "mission", "bonus", "boss"].indexOf(e.kind) >= 0 ? e.kind : "mission",
       date: huntDateStr(e.date) || todayStr(),
@@ -6853,6 +7295,68 @@ function normalizeHunt(raw) {
     date: huntDateStr(sp.date),
     type: ["golden", "wander", "double"].indexOf(sp.type) >= 0 ? sp.type : null,
     done: !!sp.done
+  };
+  /* CACERIA v2: normalización aditiva y migración de postulaciones viejas.
+     Sin v2, legacyShots = applications normalizadas. Con v2, se respeta
+     legacyShots para no volver a contar las postulaciones en cada carga. */
+  const rv = (raw.v2 && typeof raw.v2 === "object") ? raw.v2 : null;
+  const validPlatforms = ["linkedin", "indeed", "computrabajo", "encuentra24", "correo", "otra"];
+  const validMissions = ["rabbit", "precision", "letter", "direct"];
+  const legacy = rv && typeof rv.legacyShots === "number" ? rv.legacyShots : out.applications.length;
+  const rawShots = (rv && Array.isArray(rv.shots)) ? rv.shots.slice(-5000) : [];
+  const normShots = rawShots.map(function (s, i) {
+    if (!s || typeof s !== "object") return null;
+    const ts = Math.max(0, Number(s.ts) || 0);
+    const date = huntDateStr(s.date) || (ts ? fmtDate(new Date(ts)) : todayStr());
+    const mission = validMissions.indexOf(s.mission) >= 0 ? s.mission : "rabbit";
+    const dmg = mission === "letter" ? 3 : (mission === "precision" || mission === "direct" ? 2 : 1);
+    return {
+      id: String(s.id || ("v2shot_" + i + "_" + ts)),
+      ts: ts,
+      date: date,
+      mission: mission,
+      platform: validPlatforms.indexOf(s.platform) >= 0 ? s.platform : "linkedin",
+      xp: Math.max(0, Math.min(50000, Number(s.xp) || 0)),
+      coins: Math.max(0, Math.min(5000, Number(s.coins) || 0)),
+      crit: !!s.crit,
+      combo: Math.max(1, Math.min(2, Number(s.combo) || 1)),
+      damage: Math.max(1, Math.min(3, Number(s.damage) || dmg))
+    };
+  }).filter(Boolean);
+  const rc2 = (rv && rv.chain && typeof rv.chain === "object") ? rv.chain : {};
+  const chainDays = Math.max(0, Math.min(9999, Number(rc2.days) || 0));
+  const chain = {
+    lastDay: huntDateStr(rc2.lastDay),
+    days: chainDays,
+    best: Math.max(chainDays, Math.min(9999, Number(rc2.best) || 0))
+  };
+  let lastUndo = null;
+  if (rv && rv.lastUndo && typeof rv.lastUndo === "object" && rv.lastUndo.shotId) {
+    const u = rv.lastUndo;
+    if (normShots.some(function (s) { return s.id === String(u.shotId); })) {
+      const uc = (u.prevChain && typeof u.prevChain === "object") ? u.prevChain : {};
+      lastUndo = {
+        shotId: String(u.shotId),
+        prevActivity: (u.prevActivity && typeof u.prevActivity === "object") ? u.prevActivity : {},
+        prevStreak: Math.max(0, Number(u.prevStreak) || 0),
+        prevLastDailyDate: huntDateStr(u.prevLastDailyDate),
+        prevShieldWeek: typeof u.prevShieldWeek === "string" ? u.prevShieldWeek : null,
+        prevUnlockedAch: Array.isArray(u.prevUnlockedAch) ? u.prevUnlockedAch.map(String).slice(0, 500) : [],
+        prevChain: {
+          lastDay: huntDateStr(uc.lastDay),
+          days: Math.max(0, Number(uc.days) || 0),
+          best: Math.max(0, Number(uc.best) || 0)
+        },
+        prevFreezers: Math.max(0, Math.min(2, Number(u.prevFreezers) || 0))
+      };
+    }
+  }
+  out.v2 = {
+    legacyShots: Math.max(0, Math.min(999999, Math.floor(legacy))),
+    shots: normShots,
+    platform: (rv && validPlatforms.indexOf(rv.platform) >= 0) ? rv.platform : "linkedin",
+    chain: chain,
+    lastUndo: lastUndo
   };
   return out;
 }
@@ -7080,6 +7584,12 @@ function huntFx(kind, x, y) {
       playSfx("pop");
       burst(x || window.innerWidth / 2, y || 150, "#ff4f9a", 34);
       burst(x || window.innerWidth / 2, y || 150, "#ffd166", 24);
+    } else if (kind === "crit") {
+      /* CACERIA v2: destello dorado distinto para crítico. */
+      playSfx("chime");
+      flashFx();
+      burst(x || window.innerWidth / 2, y || 150, "#ffd166", 70);
+      burst(x || window.innerWidth / 2, y || 150, "#ffffff", 26);
     } else if (kind === "boss") {
       playSfx("chime");
       confetti(window.innerWidth / 2, window.innerHeight * 0.22, 70);
@@ -7092,6 +7602,93 @@ function huntFx(kind, x, y) {
       navigator.vibrate(kind === "mission" ? [35, 45, 35] : kind === "boss" ? [60, 40, 60] : 22);
     } catch (e) {}
   }
+}
+
+/* --- CACERIA v2: pantalla de disparos --- */
+function huntV2BossHTML() {
+  const b = huntV2BossInfo();
+  const hpPct = huntV2Pct(b.hp, b.max);
+  return '<div class="hunt-v2-boss ' + (b.defeated ? "done" : "") + '">' +
+    '<div class="hunt-v2-boss-head"><div><span class="hunt-v2-boss-kicker">JEFE SEMANAL</span><b>' + b.ico + " " + escapeHtml(b.name) + '</b></div>' +
+      '<span class="hunt-v2-boss-days">' + (b.defeated ? "✓ DERROTADO" : (b.daysLeft === 1 ? "1 día" : b.daysLeft + " días")) + '</span></div>' +
+    '<div class="hunt-v2-bar boss"><span style="width:' + hpPct + '%"></span></div>' +
+    '<div class="hunt-v2-boss-foot"><span>HP ' + b.hp + "/" + b.max + '</span><span>Daño ' + Math.min(b.damage, b.max) + "/" + b.max + '</span></div>' +
+    (b.defeated ? '<div class="hunt-v2-boss-win">✓ +300 XP · +100 🪙 · Logro Cazador de Jefes</div>' : '') +
+  '</div>';
+}
+function huntV2PlatformsHTML() {
+  const v = huntV2State();
+  return '<div class="hunt-v2-section-title">PLATAFORMA <span>ELIGE ANTES DE DISPARAR</span></div>' +
+    '<div class="hunt-v2-platforms" role="group" aria-label="Plataforma de postulación">' +
+      HUNT_V2_PLATFORMS.map(function (p) {
+        const on = v.platform === p.id;
+        return '<button class="hunt-v2-chip ' + (on ? "on" : "") + '" data-hunt-act="v2-platform" data-pid="' + p.id + '" type="button" aria-pressed="' + (on ? "true" : "false") + '">' + p.ico + " " + escapeHtml(p.name) + '</button>';
+      }).join("") +
+    '</div>';
+}
+function huntV2DailyCardHTML(d) {
+  const prog = Math.min(d.goal, huntV2DailyProgress(d.id));
+  const done = huntV2DailyDone(d.id);
+  return '<div class="hunt-v2-mission daily ' + (done ? "done" : "") + '">' +
+    '<div class="hunt-v2-mission-head"><span class="hunt-v2-ico">' + d.ico + '</span>' +
+      '<div class="hunt-v2-mission-info"><b>' + escapeHtml(d.name) + '</b><span>' + escapeHtml(d.desc) + '</span></div>' +
+      '<span class="hunt-v2-tag">' + (done ? "✓ COBRADO" : "BONUS") + '</span></div>' +
+    '<div class="hunt-v2-progress"><div class="hunt-v2-bar"><span style="width:' + (done ? 100 : huntV2Pct(prog, d.goal)) + '%"></span></div><span>' + prog + "/" + d.goal + '</span></div>' +
+    '<div class="hunt-v2-mission-foot"><span class="hunt-v2-reward">+' + d.xp + ' XP</span><span class="hunt-v2-hint">Se completa con tus disparos</span></div>' +
+  '</div>';
+}
+function huntV2BaseCardHTML(m, todayShots) {
+  const n = todayShots.filter(function (s) { return s.mission === m.id; }).length;
+  const pct = huntV2Pct(n, HUNT_V2_DAILY_GOAL);
+  return '<div class="hunt-v2-mission base" style="--mc:' + m.color + '">' +
+    '<div class="hunt-v2-mission-head"><span class="hunt-v2-ico">' + m.ico + '</span>' +
+      '<div class="hunt-v2-mission-info"><b>' + escapeHtml(m.name) + '</b><span>' + escapeHtml(m.desc) + '</span></div>' +
+      '<span class="hunt-v2-dmg">⚔ ' + m.damage + '</span></div>' +
+    '<div class="hunt-v2-progress"><div class="hunt-v2-bar"><span style="width:' + pct + '%"></span></div><span>' + n + ' hoy</span></div>' +
+    '<div class="hunt-v2-mission-foot"><span class="hunt-v2-reward">+' + m.xp + ' XP · 🪙 2</span>' +
+      '<button class="hunt-v2-fire" data-hunt-act="v2-shot" data-mid="' + m.id + '" type="button" aria-label="Disparar: ' + escapeHtml(m.name) + '">🎯 DISPARAR</button></div>' +
+  '</div>';
+}
+function huntV2HTML() {
+  const v = huntV2State();
+  const today = huntV2TodayShots();
+  const combo = huntV2ComboInfo();
+  const chain = huntV2ChainInfo();
+  const rank = huntV2RankInfo();
+  const total = huntV2TotalShots();
+  const week = huntV2WeekShots();
+  const pct = huntV2Pct(today.length, HUNT_V2_DAILY_GOAL);
+  const anti = today.length >= HUNT_V2_ANTI_SPAM_AT;
+  const chainTxt = chain.active ? ("🔥 " + chain.days + (chain.days === 1 ? " día" : " días") + (chain.protected ? " 🧊" : "")) : "Sin cadena";
+  const comboTxt = combo.active ? ("🔥 ×" + combo.apply + " · " + combo.count + " seguido" + (combo.count === 1 ? "" : "s")) : "Sin combo";
+  return '<div class="hunt-v2">' +
+    '<div class="hunt-v2-head"><div class="hunt-v2-kicker">🎯 LA CACERÍA · v5.70</div>' +
+      '<div class="hunt-v2-title">CACERÍA DE CONTRATOS</div>' +
+      '<div class="hunt-v2-sub">Un disparo = una postulación real. Sin formularios, sin escribir.</div></div>' +
+    '<div class="hunt-v2-top">' +
+      '<div class="hunt-v2-ring" style="--p:' + pct + '"><div class="hunt-v2-ring-in"><b>' + today.length + "/" + HUNT_V2_DAILY_GOAL + '</b><span>HOY</span></div></div>' +
+      '<div class="hunt-v2-stats">' +
+        '<div class="hunt-v2-stat"><span>Racha de cacería</span><b>' + chainTxt + '</b></div>' +
+        '<div class="hunt-v2-stat"><span>Combo activo</span><b>' + comboTxt + '</b></div>' +
+        '<div class="hunt-v2-stat"><span>Meta diaria</span><b>' + Math.min(today.length, HUNT_V2_DAILY_GOAL) + "/" + HUNT_V2_DAILY_GOAL + '</b></div>' +
+      '</div>' +
+    '</div>' +
+    (anti ? '<div class="hunt-v2-warn">⚠ Anti-spam activo: desde el disparo 13 el XP baja al 50%.</div>' : '') +
+    huntV2BossHTML() +
+    huntV2PlatformsHTML() +
+    '<div class="hunt-v2-section-title">MISIONES DIARIAS <span>BONUS</span></div>' +
+    '<div class="hunt-v2-list">' + HUNT_V2_DAILY.map(huntV2DailyCardHTML).join("") + '</div>' +
+    '<div class="hunt-v2-section-title">MISIONES BASE <span>REPETIBLES</span></div>' +
+    '<div class="hunt-v2-list">' + HUNT_V2_MISSIONS.map(function (m) { return huntV2BaseCardHTML(m, today); }).join("") + '</div>' +
+    '<div class="hunt-v2-footer">' +
+      '<div class="hunt-v2-rank"><span class="hunt-v2-rank-ico">' + rank.cur.ico + '</span>' +
+        '<div class="hunt-v2-rank-info"><b>' + escapeHtml(rank.cur.name) + '</b><small>' + (rank.next ? ((rank.next.min - total) + " disparos para " + escapeHtml(rank.next.name)) : "Rango máximo") + '</small></div>' +
+        '<div class="hunt-v2-rank-bar"><div class="hunt-v2-bar"><span style="width:' + rank.pct + '%"></span></div><span>' + Math.round(rank.pct) + '%</span></div></div>' +
+      '<div class="hunt-v2-totals"><span>🎯 <b>' + total + '</b> disparos totales</span><span>📅 <b>' + week.length + '</b> esta semana</span></div>' +
+      '<button class="hunt-v2-undo" data-hunt-act="v2-undo" type="button"' + (v.lastUndo ? '' : ' disabled') + '>↩ Deshacer último disparo</button>' +
+      '<div class="hunt-v2-note">Crítico 12%: XP ×2 y +10 🪙 · Combo hasta ×2 · Cadena +20 XP por día</div>' +
+    '</div>' +
+  '</div>';
 }
 
 /* --- Interfaz de La Cacería --- */
@@ -7127,7 +7724,7 @@ function huntHeroHTML() {
     return '<option value="' + n + '"' + (Number(h.quota) === n ? " selected" : "") + '>' + n + ' postulaciones</option>';
   }).join("");
   return '<div class="hunt-hero">' +
-    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.69</div>' +
+    '<div class="hunt-kicker">🎯 MUNDO DE CAZA · POSTULACIONES REALES · v5.70</div>' +
     '<div class="hunt-title">LA <em>CACERÍA</em></div>' +
     '<div class="hunt-desc">Usá el <b>disparo rápido de un toque</b>: la empresa y el puesto se eligen solos, sin formulario. En el <b>Radar</b> marcá 5 señales diarias con un check y cobrá la recompensa al instante. Después seguí cada proceso hasta la oferta. <b>Una postulación adaptada vale más que cinco genéricas</b>: la calidad es el daño crítico.</div>' +
     '<div class="hunt-rank-card" style="border-color:' + r.cur.c + '55">' +
@@ -7470,13 +8067,8 @@ function huntRender() {
   if (!root) return;
   const hs = huntEnsureDay();
   root.classList.toggle("hunt-no-fx", hs.settings.fx === false);
-  const fresh = huntCheckMissions({ notify: false });
-  if (fresh.length) {
-    recomputeState();
-    updateUI();
-  }
-  root.innerHTML = '<div class="hunt-wrap">' + huntHeroHTML() + huntMapHTML() + '<div class="hunt-zone" id="hunt-zone">' + huntZoneHTML() + '</div></div>';
-  huntApplyTableFilter();
+  /* CACERIA v2: se reemplaza toda la pantalla vieja por el tablero de disparos. */
+  root.innerHTML = huntV2HTML();
 }
 function renderHunt() { huntRender(); }
 function huntApplyTableFilter() {
@@ -7698,7 +8290,7 @@ function huntCopyFallback(text, done) {
   } catch (e) { toast("⚠️", "No se pudo copiar", "Seleccioná el texto manualmente."); }
 }
 function huntReset() {
-  if (!confirm("¿Reiniciar SOLO La Cacería? Se borran vacantes, postulaciones, misiones, historial del jefe y su XP/monedas. Los demás mundos no se tocan.")) return;
+  if (!confirm("¿Reiniciar SOLO La Cacería? Se borran disparos, postulaciones viejas, jefe semanal, rango, combo, cadena y su XP/monedas. Los demás mundos no se tocan.")) return;
   gameState.hunt = defaultHunt();
   saveGame();
   recomputeState();
@@ -7835,6 +8427,10 @@ function huntBossClose() {
     const b = e.target.closest("[data-hunt-act]");
     if (!b) return;
     const act = b.getAttribute("data-hunt-act");
+    /* CACERIA v2: acciones del tablero nuevo. */
+    if (act === "v2-shot") { huntV2Shot(b.getAttribute("data-mid"), e); return; }
+    if (act === "v2-platform") { huntV2SetPlatform(b.getAttribute("data-pid")); return; }
+    if (act === "v2-undo") { huntV2Undo(); return; }
     if (act === "radar") { huntUI.zone = "radar"; huntRender(); return; }
     if (act === "radar-check") { huntRadarCheck(Number(b.getAttribute("data-n"))); return; }
     if (act === "track") { huntUI.zone = "track"; huntRender(); return; }
@@ -8403,9 +8999,8 @@ document.getElementById("confirm-layer").addEventListener("click", (e) => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove("show");
 });
 document.getElementById("btn-reset-daily").addEventListener("click", () => {
-  if (confirm("¿Reiniciar la campaña de empleo (misiones diarias) desde el día 1? Se borra tu progreso de misiones diarias y semanales, pero conserva tu nombre, nivel, tienda y demás mundos.")) {
-    resetDailyCampaign();
-  }
+  /* CACERIA v2: este botón de Ajustes ahora reinicia SOLO La Cacería. */
+  huntReset();
 });
 
 /* --- 💾 Respaldo: exportar/importar progreso (guardado local) --- */
