@@ -17,7 +17,7 @@ guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.69). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -27,7 +27,7 @@ guarda el progreso en `localStorage`.
 - **8 misiones semanales**
 - **8 capítulos** (día 0 y días 1–56)
 - **2 sagas · 12 capítulos** (5 de video + 7 de Roblox), con XP para Legado y Poder & Imagen
-- **La Cacería:** 37 misiones (17 diarias con ráfaga 5–7, 8 semanales con metas 50/80/100, 4 de calidad, 5 de portafolio/LinkedIn y 3 sorpresa), 120 objetivos de disparo rápido, Radar de 5 señales diarias, 30 preguntas de entrevista y 8 insignias propias
+- **La Cacería v2:** 4 misiones base repetibles, 3 diarias automáticas, 6 plataformas, jefe semanal de 30 HP, crítico 12%, combo de 30 min, cadena de días, anti-spam desde el disparo 13 y 5 rangos. Las postulaciones viejas se migran como disparos legacy.
 
 ---
 
@@ -149,75 +149,70 @@ Un solo ecosistema para todo el progreso:
 No cambian `SAVE_KEY` (`odea_save_v2`) ni `SAGA_KEY` (`odea_sagas_v1`); todos los
 campos nuevos son aditivos y `loadGame()` los normaliza.
 
-### La Cacería (v5.69+)
+### La Cacería v2 (v5.70)
 
-La Cacería reemplaza funcionalmente al antiguo mundo de Empleo con un mundo propio de
-postulaciones reales. Es un ítem independiente de la barra lateral (después de **HOY**),
-con su propio ícono y cinco zonas:
+La Cacería dejó de ser un formulario de postulaciones y ahora es un tablero de
+**disparos**: un toque = una postulación real. No se escribe empresa, puesto, enlace,
+fecha ni notas.
 
-- **RADAR:** lista de **5 señales diarias** con un check por señal. No pide empresa,
-  puesto, enlace, match ni notas. Cada señal paga **+20 XP y +1 🪙** al instante;
-  completar las cinco paga un bonus de **+50 XP y +3 🪙** y cierra la misión diaria.
-  Las vacantes guardadas en versiones anteriores siguen disponibles en FORJA.
-- **FORJA:** adapta el CV con tres chequeos por vacante (palabras clave, proyecto y carta).
-  Los tres activan **DAÑO CRÍTICO LISTO**.
-- **DISPARO:** el ataque principal es **un solo botón**. Cada toque elige automáticamente
-  empresa, puesto, match y nivel de una bolsa de **120 objetivos** (30 empresas × 4 roles),
-  registra la postulación y suma XP/monedas/combo sin pedir formulario. El botón cambia a
-  **RÁFAGA COMPLETA** o **CUOTA CUMPLIDA** y permite seguir disparando. “Registrar con
-  detalle” abre el formulario completo solo para quien quiera seguimiento fino; “Cambiar
-  objetivo” salta al siguiente sin registrar nada. La cuota diaria es configurable (5 por
-  defecto) y se paga una sola vez al cumplirla.
-- **SEGUIMIENTO:** embudo de cuatro etapas, tabla con búsqueda/filtros, estados,
-  seguimientos, fechas vencidas y plantillas copiables.
-- **JEFE:** Modo Jefe con 30 preguntas, cronómetro, barra de vida, autoevaluación,
-  historial, favoritas, preguntas propias y repetición de falladas.
+- **Pantalla:** anillo diario con meta 5, racha de cacería, combo, jefe semanal,
+  plataforma, 3 misiones diarias automáticas, 4 misiones base repetibles y pie con
+  rango, totales y **Deshacer último disparo**.
+- **Misiones base:** 🐇 Presa fácil (+10 XP, 1 daño), 🎯 Tiro de precisión (+25 XP, 2),
+  ✉️ Disparo certero (+40 XP, 3) y 🏢 Asalto directo (+30 XP, 2).
+- **Diarias:** 🌅 Cazador del alba (3 disparos antes de las 10:00, +50 XP),
+  ⚡ Ráfaga (5 disparos, +100 XP) y 🗺️ Rastreador (3 plataformas, +60 XP).
+  Se cobran solas; sus tarjetas no tienen botón.
+- **Plataformas:** LinkedIn, Indeed, Computrabajo, Encuentra24, Correo directo y Otra.
+  La última elección se recuerda.
+- **Combo:** el 2.º disparo dentro de 30 min paga ×1.2, el 3.º ×1.5 y el 4.º o más ×2.
+- **Cadena:** +20 XP por día consecutivo, con tope ×10. Si se pierde un día y hay
+  congelador, se consume uno para mantener la cadena.
+- **Jefe semanal:** lunes a domingo, 30 HP. Cada disparo resta 1–3 HP. Al llegar a 0:
+  +300 XP, +100 monedas, logro **Cazador de Jefes** y animación de victoria.
+- **Crítico:** 12% de probabilidad, XP ×2, +10 monedas, destello dorado y texto
+  **¡CRÍTICO!**.
+- **Anti-spam:** desde el disparo 13 del día el XP baja al 50%, con aviso discreto.
+- **Rangos:** Aprendiz (0) → Rastreador (25) → Cazador (75) → Francotirador (150) →
+  Leyenda (300). Cada ascenso da bonus de XP y un logro.
+- **Deshacer:** revierte el último disparo y todo lo que activó: XP, monedas, total,
+  diarias, jefe, cadena, congelador, racha general y logros desbloqueados por ese disparo.
 
 Detalles de implementación:
 
-- **Estado aditivo:** todo vive en `gameState.hunt` dentro de `odea_save_v2`.
-  No cambian `SAVE_KEY` ni `SAGA_KEY`; `normalizeHunt()` migra guardados viejos
-  sin tocar otros mundos.
-- **Una sola fuente de verdad:** el XP y las monedas de La Cacería se calculan desde
-  `hunt.log` (`shot`, `mission`, `bonus`, `boss`, `quota`, `radar`). `recomputeState()`
-  suma la categoría `hunt` y `coinsEarned()` suma sus monedas, sin duplicar estado.
-  Los checks del Radar viven en `hunt.radarChecks` y se reinician cada día.
-- **Misiones:** 37 en total (17 diarias con 4 fijas + 6 rotativas, 8 semanales,
-  4 de calidad, 5 de portafolio/LinkedIn y 3 sorpresa). La misión fija **Ráfaga** pide
-  postular a **5–7 empresas hoy** (el objetivo exacto rota 5/6/7 según el día) y las
-  semanales intensivas piden **25, 50, 80 o 100** postulaciones. Hay bonus por calidad,
-  racha, combo y cuota; los rangos son Novato, Rastreador, Cazador, Élite y Leyenda.
-- **Insignias:** primera postulación, 10, 50, 100, primera entrevista, primera oferta,
-  racha 7 y racha 30. También se reflejan en el Salón de Logros global como `ach_hunt_*`.
-- **Respaldo:** `exportSave` incluye La Cacería y `importSave` la normaliza; un respaldo
-  viejo sin `hunt` carga con el mundo limpio y el resto intacto.
-- **Móvil:** las cinco zonas se verificaron a 390 px sin overflow horizontal del body.
-  La tabla ancha scrollea dentro de su contenedor, no ensancha la página.
-- **Verificación:** `tests/smoke.mjs` comprueba versión, banco de 30 preguntas, 37 misiones,
-  120 objetivos, ráfaga 5–7, metas 50/80/100, migración y claves, y que el Radar no tenga
-  formulario de empresa. El E2E local recorre disparo rápido sin formulario, avance de
-  objetivo, ráfaga, cuota, los 5 checks del Radar con sus recompensas y bonus, forja con
-  una vacante heredada, disparo detallado, combo, seguimiento, embudo, tabla, Modo Jefe,
-  falladas, jefe errante, favoritas, insignias, efectos/animaciones/vibración, persistencia
-  y suma de XP. Una prueba de estrés adicional registra 100 disparos rápidos seguidos,
-  completa las metas semanales 50/80/100 y confirma que la bolsa de 120 objetivos sigue
-  activa sin errores.
+- **Estado aditivo:** los datos nuevos viven en `gameState.hunt.v2` dentro de
+  `odea_save_v2`. No cambian `SAVE_KEY` ni `SAGA_KEY`. `normalizeHunt()` migra
+  `applications` viejas a `v2.legacyShots`; cuentan para total/rango, no para las
+  diarias, combo o jefe nuevos.
+- **Una sola fuente de verdad:** el XP y las monedas se siguen calculando desde
+  `hunt.log`. Cada disparo agrega entradas con `shotId`; deshacer elimina esas entradas.
+  `recomputeState()` suma la categoría `hunt` y `coinsEarned()` sus monedas.
+- **Racha general:** cada disparo usa `activityAdd("hunt", 1)` y puede completar la
+  racha global como cualquier otra misión.
+- **Logros:** primer disparo, 10, 50, 100, rangos 25/75/150/300, Ráfaga, Cazador de Jefes,
+  cadena 7/30. Se reutilizan los IDs globales `ach_hunt_*`.
+- **Respaldo:** `exportSave` incluye `hunt.v2`; `importSave` lo normaliza. Un respaldo
+  viejo sin `v2` carga con `legacyShots = applications.length` y el resto intacto.
+- **Reinicio:** **AJUSTES → REINICIAR CAMPAÑA DE EMPLEO** ahora llama a `huntReset()` y
+  borra solo La Cacería, con confirmación. No toca otros mundos.
+- **Móvil:** pantalla verificada a 390 px sin overflow horizontal (`docScroll=390`).
+- **Verificación:** `tests/smoke.mjs` comprueba versión, estado `hunt.v2`, migración,
+  4 misiones base, diarias, plataformas, jefe, crítico, combo, anti-spam, rangos,
+  logros, reset y respaldo. El E2E local recorre disparo, ascenso, deshacer, combo,
+  Ráfaga, Rastreador, jefe, crítico, anti-spam, persistencia y deshacer tras recargar.
 
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.69 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.70 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
-4. Entra en **LA CACERÍA**: la cuota debe arrancar en 5, el Radar debe mostrar 5 señales sin formulario
-   y el banco del jefe con 30 preguntas. Marca las 5 señales: cada una debe pagar XP/monedas al instante,
-   la quinta debe pagar el bonus y la misión diaria del Radar debe quedar completa. En **DISPARO**, pulsa
-   el botón grande varias veces: debe registrar postulaciones sin formulario, avanzar el objetivo 1/120,
-   completar la ráfaga de 5–7 y seguir permitiendo disparos. Si conservas una vacante anterior, forja el CV,
-   dispara con detalle, marca un seguimiento y completa un duelo del jefe; recarga y comprueba que todo sigue
-   ahí y que el XP/monedas subieron.
-5. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas y La Cacería.
-6. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log`, `activity` ni `hunt`): debe cargar sin errores,
-   con Sagas en 0, La Cacería limpia, el diario migrado y la racha y misiones intactas.
+4. Entra en **LA CACERÍA**: no debe haber formularios. Elige una plataforma y pulsa **DISPARAR** varias veces.
+   Debe subir el anillo, el total, el XP/monedas, la barra del jefe y aparecer combo/cadena cuando corresponda.
+   Comprueba que las tarjetas diarias se cobran solas y que **Deshacer último disparo** revierte todo.
+   Si había postulaciones viejas, deben aparecer como disparos totales y el rango debe reflejarlas.
+5. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas y `hunt.v2`.
+6. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log`, `activity` ni `hunt.v2`): debe cargar sin errores,
+   con Sagas en 0, La Cacería limpia/migrada, el diario migrado y la racha y misiones intactas.
 7. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
 8. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
 

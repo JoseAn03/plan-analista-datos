@@ -145,7 +145,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.69: APP_VERSION y caché', html.includes('const APP_VERSION = "5.69"') && /odea-v5\.69-/.test(sw));
+check('v5.70: APP_VERSION y caché', html.includes('const APP_VERSION = "5.70"') && /odea-v5\.70-20261024-caceria-disparos/.test(sw));
 check('v5.65: escalera global ODE_LADDER + odeInfo', html.includes('const ODE_LADDER') &&
   html.includes('function odeInfo(') && html.includes('function odeLevelNow(') &&
   html.includes('function campaignLevel('));
@@ -235,83 +235,77 @@ check('v5.66: HUD, identidad lateral y mapa usan Nivel ODEA',
   html.includes('r.textContent = "NIVEL " + odeLevelNow()') &&
   html.includes('NIVEL ODEA') && html.includes('odeLevelNow()'));
 
-// ---------- 14) La Cacería (v5.69) ----------
-const huntMissionIds = [...html.matchAll(/id:\s*"(d_|w_|q_|p_|s_)[a-z0-9]+"/g)];
+// ---------- 14) La Cacería v2 (v5.70) ----------
 const bankCount = [...html.matchAll(/id:\s*"q\d+"/g)].length;
 const bankCats = [...html.matchAll(/cat:\s*"([^"]+)"/g)].map((m) => m[1]);
 const catCount = (name) => bankCats.filter((c) => c === name).length;
-check('v5.69: La Cacería es ítem propio de la barra lateral',
+const v2Start = html.indexOf('function huntV2BossHTML()');
+const v2End = html.indexOf('/* --- Interfaz de La Cacería --- */', v2Start);
+const v2Body = (v2Start >= 0 && v2End > v2Start) ? html.slice(v2Start, v2End) : '';
+check('v5.70: La Cacería es ítem propio de la barra lateral',
   html.includes('class="nav-item" data-tab="hunt"') && html.includes('id="view-hunt"') &&
   !html.includes('class="navb" data-tab="hunt"'));
-check('v5.69: 5 zonas conectadas del mini mapa',
-  html.includes('data-hunt-zone="radar"') === false ?
-    ['radar', 'forja', 'shot', 'track', 'boss'].every((z) => html.includes('id: "' + z + '"')) :
-    ['radar', 'forja', 'shot', 'track', 'boss'].every((z) => html.includes('data-hunt-zone="' + z + '"')));
-check('v5.69: estado aditivo y migración segura',
-  html.includes('hunt: defaultHunt()') && html.includes('gameState.hunt = normalizeHunt(data.hunt)') &&
-  html.includes('function normalizeHunt(raw)') && html.includes('const SAVE_KEY = "odea_save_v2"'));
-check('v5.69: mínimo 37 misiones distintas', huntMissionIds.length >= 37, `${huntMissionIds.length} misiones`);
-check('v5.69: banco de 30 preguntas y reparto por categoría',
+check('v5.70: estado aditivo hunt.v2 y migración legacy',
+  html.includes('legacyShots: 0') && html.includes('shots: []') &&
+  html.includes('gameState.hunt = normalizeHunt(data.hunt)') &&
+  html.includes('function normalizeHunt(raw)') && html.includes('const SAVE_KEY = "odea_save_v2"') &&
+  html.includes('shotId: e.shotId ? String(e.shotId) : null'));
+check('v5.70: 4 misiones base repetibles',
+  html.includes('const HUNT_V2_MISSIONS') &&
+  ['rabbit', 'precision', 'letter', 'direct'].every((id) => html.includes('id:"' + id + '"')) &&
+  html.includes('xp:10, damage:1') && html.includes('xp:25, damage:2') &&
+  html.includes('xp:40, damage:3') && html.includes('xp:30, damage:2'));
+check('v5.70: diarias, plataformas y anillo de meta 5',
+  html.includes('const HUNT_V2_DAILY') && html.includes('id:"dawn"') &&
+  html.includes('id:"burst"') && html.includes('id:"tracker"') &&
+  html.includes('const HUNT_V2_PLATFORMS') && html.includes('const HUNT_V2_DAILY_GOAL = 5') &&
+  html.includes('linkedin') && html.includes('computrabajo') && html.includes('encuentra24'));
+check('v5.70: jefe semanal HP 30 y recompensa única',
+  html.includes('const HUNT_V2_BOSS_HP = 30') && html.includes('function huntV2BossInfo()') &&
+  html.includes('v2boss:') && html.includes('Jefe derrotado') &&
+  html.includes('300') && html.includes('100') && html.includes('daysLeft'));
+check('v5.70: crítico 12%, combo 30 min y anti-spam 13',
+  html.includes('const HUNT_V2_CRIT_CHANCE = 0.12') &&
+  html.includes('const HUNT_V2_COMBO_MS = 30 * 60 * 1000') &&
+  html.includes('const HUNT_V2_ANTI_SPAM_AT = 12') &&
+  html.includes('const apply = count >= 3 ? 2 : count === 2 ? 1.5 : 1.2') &&
+  html.includes('¡CRÍTICO!') && html.includes('anti-spam'));
+check('v5.70: rangos, bonus y logros conectados',
+  html.includes('const HUNT_V2_RANKS') && html.includes('name:"Aprendiz"') &&
+  html.includes('name:"Rastreador"') && html.includes('name:"Cazador"') &&
+  html.includes('name:"Francotirador"') && html.includes('name:"Leyenda"') &&
+  html.includes('v2rank:') && html.includes('ach_hunt_boss') &&
+  html.includes('huntV2TotalShots()') && html.includes('huntV2BestChain()') &&
+  html.includes('huntV2DailyDone("burst")'));
+check('v5.70: pantalla nueva sin formularios ni campos',
+  v2Body.length > 0 && v2Body.includes('hunt-v2-fire') &&
+  v2Body.includes('data-hunt-act="v2-shot"') &&
+  v2Body.includes('data-hunt-act="v2-platform"') &&
+  v2Body.includes('data-hunt-act="v2-undo"') &&
+  !/<(input|select|textarea|form)\b/i.test(v2Body));
+check('v5.70: render v2 y acciones de disparo/deshacer',
+  html.includes('root.innerHTML = huntV2HTML();') &&
+  html.includes('if (act === "v2-shot")') &&
+  html.includes('if (act === "v2-platform")') &&
+  html.includes('if (act === "v2-undo")') &&
+  html.includes('function huntV2Shot(missionId, ev)') &&
+  html.includes('function huntV2Undo()'));
+check('v5.70: XP y monedas desde hunt.log sin duplicar',
+  html.includes('function huntXPGain()') && html.includes('function huntCoinsEarned()') &&
+  html.includes('huntCoinsEarned() +') && html.includes('const hunt = huntXPGain()') &&
+  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt }'));
+check('v5.70: Ajustes reinicia solo La Cacería',
+  /getElementById\("btn-reset-daily"\)[\s\S]{0,220}huntReset\(\)/.test(html) &&
+  !html.includes('resetDailyCampaign();'));
+check('v5.70: respaldo/restauración conserva hunt.v2',
+  html.includes('const bundle = { _format: "odea_bundle_v2", appVersion: APP_VERSION, save: gameState') &&
+  html.includes('localStorage.setItem(SAVE_KEY, JSON.stringify(save))') &&
+  html.includes('function importSave('));
+check('v5.70: banco de 30 preguntas y reparto por categoría',
   bankCount === 30 && catCount('SQL') === 8 && catCount('Excel') === 4 &&
   catCount('Python') === 5 && catCount('Casos de negocio') === 5 &&
   catCount('Conductuales') === 5 && catCount('Datos y ciberseguridad') === 3,
   `${bankCount} preguntas · SQL ${catCount('SQL')} · Excel ${catCount('Excel')} · Python ${catCount('Python')}`);
-check('v5.69: XP y monedas de La Cacería integrados',
-  html.includes('function huntXPGain()') && html.includes('function huntCoinsEarned()') &&
-  html.includes('huntCoinsEarned() +') && html.includes('const hunt = huntXPGain()') &&
-  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt }'));
-check('v5.69: cuota, racha, combo, rangos y calidad',
-  html.includes('quota: 5') && html.includes('function huntQuota()') &&
-  html.includes('function huntLiveStreak()') && html.includes('combo') &&
-  html.includes('const HUNT_RANKS') && html.includes('if (app.adapted) xp += 25'));
-check('v5.69: embudo, tabla, filtros y plantillas',
-  html.includes('function huntFunnelHTML()') && html.includes('data-hunt-status="') &&
-  html.includes('id="hunt-search"') && html.includes('HUNT_TEMPLATES') &&
-  html.includes('followup') && html.includes('recruiter') && html.includes('thanks'));
-check('v5.69: Modo Jefe con cronómetro, HP, historial y falladas',
-  html.includes('function huntBossOpen(') && html.includes('function huntBossFinish(') &&
-  html.includes('hunt-boss-timer') && html.includes('hunt-boss-hp') &&
-  html.includes('h.boss.failed') && html.toLowerCase().includes('repetir falladas'));
-check('v5.69: jefe errante activa la misión sorpresa',
-  html.includes('function huntWanderQuestion(') && html.includes('data-hunt-act="boss-wander"') &&
-  html.includes('huntBossOpen(wq.id, true)') && html.includes('run.surprise ? ":surprise"'));
-check('v5.69: respaldo incluye La Cacería por gameState',
-  html.includes('const bundle = { _format: "odea_bundle_v2", appVersion: APP_VERSION, save: gameState') &&
-  html.includes('localStorage.setItem(SAVE_KEY, JSON.stringify(save))'));
-check('v5.69: efectos, animaciones y vibración configurables',
-  html.includes('data-hunt-act="toggle-fx"') && html.includes('data-hunt-act="toggle-vibrate"') &&
-  html.includes('function huntFx(') && html.includes('navigator.vibrate') &&
-  html.includes('hunt-no-fx') && html.includes('root.classList.toggle("hunt-no-fx"'));
-check('v5.69: disparo rápido de un toque sin formulario',
-  html.includes('data-hunt-act="quick-shot"') && html.includes('function huntQuickShot()') &&
-  html.includes('function huntNextQuickTarget()') && html.includes('quick: true') &&
-  html.includes('targetId') && html.includes('Disparo rápido') &&
-  html.includes('Registrar con detalle'));
-check('v5.69: bolsa de 120 objetivos (30 empresas × 4 roles)',
-  html.includes('const HUNT_TARGET_COMPANIES') && html.includes('const HUNT_TARGET_ROLES') &&
-  html.includes('const HUNT_TARGETS') && /HUNT_TARGET_COMPANIES\.forEach/.test(html) &&
-  html.includes('30 empresas × 4 roles = 120'));
-check('v5.69: ráfaga 5–7 y metas semanales 50/80/100',
-  html.includes('id:"d_burst"') && html.includes('function huntBurstGoal()') &&
-  /return 5 \+ \(Math\.abs\(day\) % 3\)/.test(html) &&
-  ['w_50', 'w_80', 'w_100'].every((id) => html.includes('id:"' + id + '"')) &&
-  html.includes('Ráfaga: postula a 5–7 empresas hoy'));
-check('v5.69: Radar de 5 señales sin formulario de empresa',
-  html.includes('function huntZoneRadarHTML()') && html.includes('RADAR DE SEÑALES') &&
-  html.includes('data-hunt-act="radar-check"') && html.includes('function huntRadarCheck(') &&
-  html.includes('radarChecks: { date: null, done: [] }') && !html.includes('hunt-vac-form'));
-check('v5.69: Radar paga recompensa inmediata y bonus',
-  html.includes('h.radarChecks.done.push(idx)') &&
-  html.includes('key: "radar:"') && html.includes('key: "radar_bonus:"') &&
-  html.includes('xp: 20, coins: 1') && html.includes('xp: 50, coins: 3') &&
-  html.includes('[1, 2, 3, 4, 5].map(function (n) { return huntRadarItemHTML'));
-check('v5.69: misión del Radar usa los checks, no vacantes',
-  /id:"d_radar5"[\s\S]{0,320}core:true[\s\S]{0,320}p:function\(\)\{ return huntRadarCheckCount\(\); \}/.test(html) &&
-  html.includes('const HUNT_DAILY_CORE = ["d_quota", "d_burst", "d_follow2", "d_radar5"]') &&
-  !/id:"d_radar5"[\s\S]{0,320}p:function\(\)\{ return huntTodayVacancies\(\)\.length; \}/.test(html));
-check('v5.69: vacantes antiguas siguen disponibles en FORJA',
-  html.includes('function huntZoneForgeHTML()') && html.includes('h.vacancies.slice()') &&
-  html.includes('No hay vacantes guardadas para forjar'));
 
 // ---------- Resultado ----------
 console.log();
