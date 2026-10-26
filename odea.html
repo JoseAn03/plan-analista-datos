@@ -631,6 +631,13 @@ html{-webkit-text-size-adjust:100%}
 .bar.stat.cap>span{background:linear-gradient(90deg,#00e5a0,#00ccff);box-shadow:0 0 10px rgba(0,229,160,.5)}
 .chapter.clocked .chapter-head{opacity:.6}
 .ch-lock{padding:16px;border:1px dashed rgba(255,170,0,.4);border-radius:12px;color:var(--glow-amber);font-size:.88rem;text-align:center;background:rgba(255,170,0,.05)}
+.ch-req{font-size:.76rem;color:var(--tx2);margin:7px 2px 0;line-height:1.5}
+.ch-req b{color:var(--glow-cyan)}
+.prod-checklist{margin:10px 0 14px;padding:11px 14px;border-radius:12px;background:rgba(255,215,0,.045);border:1px solid rgba(255,215,0,.32);font-size:.78rem;line-height:1.55}
+.prod-checklist>b{display:block;color:#ffd700;font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:1.4px;margin-bottom:7px}
+.prod-checklist ul{margin:0;padding-left:18px;color:var(--tx2)}
+.prod-checklist li{margin:3px 0}
+.prod-checklist li::marker{color:var(--glow-green)}
 #cap-allmsg{margin-top:14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(0,229,160,.1),rgba(124,108,255,.08));border:1px solid rgba(0,229,160,.4);font-size:.88rem;line-height:1.55;display:none}
 #cap-allmsg b{color:#fff}
 .vh-mini-note{font-size:.78rem;color:var(--tx2);margin:10px 0 0;line-height:1.5}
@@ -2643,7 +2650,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.70</small></div>
+  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.72</small></div>
   <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2675,7 +2682,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.70</span>
+    <span class="ver" id="ver-badge">v5.72</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2683,7 +2690,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <button class="navb active" data-tab="map" aria-label="Mapa"><span class="nb-ico">🗺️</span><span>Mapa</span></button>
   <button class="navb" data-tab="daily" aria-label="Hoy"><span class="nb-ico">🗓️</span><span>Hoy</span></button>
   <button class="navb" data-tab="planner" aria-label="Mi plan"><span class="nb-ico">📋</span><span>Mi Plan</span></button>
-  <button class="navb" data-tab="campaign" aria-label="Plan"><span class="nb-ico">📜</span><span>Plan</span></button>
+  <button class="navb" data-tab="campaign" aria-label="Campaña de datos"><span class="nb-ico">📜</span><span>Datos</span></button>
   <button class="navb" data-tab="jobs" aria-label="Noticias"><span class="nb-ico">📡</span><span>Noticias</span></button>
   <button class="navb" data-tab="vida" aria-label="Vida"><span class="nb-ico">🧬</span><span>Vida</span></button>
   <button class="navb" data-tab="sagas" aria-label="Sagas"><span class="nb-ico">📹</span><span>Sagas</span></button>
@@ -2847,7 +2854,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
           <div class="bar"><span id="cap-bar" style="width:0%"></span></div>
         </div>
       </div>
-      <div class="vh-mini-note">Tres frentes para dominar tu imperio: 💰 <b>capital</b> (invertir y multiplicar), 🌎 <b>inglés</b> (hablar fluido) e 🤖 <b>IA</b> (volverte experto). Cada mundo se desbloquea al completar el anterior. 📚 Educativo · no es consejo de inversión.</div>
+      <div class="vh-mini-note">Tres frentes para dominar tu imperio: 💰 <b>capital</b> (invertir y multiplicar), 🌎 <b>inglés</b> (hablar fluido) y 🤖 <b>IA</b> (volverte experto). La automatización con IA y datos ahora está en <b>DATOS → Campaña de Datos</b>. Cada mundo se desbloquea al completar el anterior. 📚 Educativo · no es consejo de inversión.</div>
       <div class="sub-tabs">
         <button class="sub-tab active" data-csub="cap" aria-label="Bóveda del capital">💰 BÓVEDA DEL CAPITAL</button>
         <button class="sub-tab" data-csub="eng" aria-label="Lengua del imperio">🌎 LENGUA DEL IMPERIO</button>
@@ -2866,7 +2873,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.70</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.72</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3007,6 +3014,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </div>
 </div>
 
+<script src="flujos_odea.js"></script>
 <script>
 "use strict";
 /* ==========================================================
@@ -3043,16 +3051,22 @@ const ODE_LADDER = (function () {
   return out;
 })();
 
-const CHAPTERS = [
-  { id:0, code:"DÍA 0", title:"⚙️ Preparación del Sistema", subtitle:"Arranque limpio y medible", color:"#00ff88", icon:"⚙️", narrative:"Entorno técnico, legal y operativo listo antes de que arranque el conteo de 56 días." },
-  { id:1, code:"DÍAS 1–5", title:"Posicionamiento y Base de Control", subtitle:"Dejar de ser un candidato genérico", color:"#00ccff", icon:"🎯", narrative:"Evidencia, CV, LinkedIn, narrativa e inglés: controlar tu posicionamiento antes de postular." },
-  { id:2, code:"DÍAS 6–12", title:"Datos, Ingesta y Raw", subtitle:"La base de datos sólida", color:"#7c6cff", icon:"🗄️", narrative:"Dataset sintético, casos adversariales, validación de schema y carga raw reproducible." },
-  { id:3, code:"DÍAS 13–20", title:"dbt, Modelos y Calidad", subtitle:"El corazón del pipeline", color:"#ff00ff", icon:"🧱", narrative:"Modelos, fact table, grano y tests estructurales y de negocio." },
-  { id:4, code:"DÍAS 21–30", title:"CI, Freshness y Operación", subtitle:"Producción de verdad", color:"#ffaa00", icon:"🔄", narrative:"Pull request, CI, freshness, scheduling, alertas y la demo técnica completa." },
-  { id:5, code:"DÍAS 31–35", title:"Dashboard y README", subtitle:"Contar la historia", color:"#ff6600", icon:"📊", narrative:"Dashboard sobre marts, validación de métricas y README ejecutivo." },
-  { id:6, code:"DÍAS 36–45", title:"Publicación, Vídeo y Conversión", subtitle:"Salir al mercado", color:"#f72585", icon:"📣", narrative:"Vídeo, portafolio, candidaturas, networking y mocks técnicos." },
-  { id:7, code:"DÍAS 46–56", title:"Cierre, Iteración y Decisión", subtitle:"La decisión final", color:"#ff3355", icon:"🏆", narrative:"Mocks intensivos, negociación, auditoría de embudo y decisión al Día 56." }
-];
+/* Campaña de Datos = El Taller de Flujos v2.
+   Fuente única: flujos_odea.js (FL_CHAPTERS / FL_MISSIONS).
+   Cada mundo tiene un jefe final y el checklist de producción desde el Mundo 5. */
+const CHAPTERS = FL_CHAPTERS.map(function (ch) {
+  return {
+    id: ch.cap,
+    code: ch.code,
+    title: ch.title,
+    subtitle: ch.req,
+    color: ch.color,
+    icon: ch.ico,
+    narrative: ch.narrative,
+    req: ch.req,
+    prod: !!ch.prod
+  };
+});
 
 const CAT = {
   analyst:{label:"Analista",tag:"cat-analyst"},
@@ -3095,93 +3109,30 @@ const B2B_MISSIONS = [
 ];
 
 
-/* --- Campaña: 24 misiones alineadas a las 8 etapas + tu perfil --- */
-const campaignMissions = [
-  /* CAP 0: Día 0 */
-  { id:"d0_1", chapter:0, title:"Preparación del Sistema", description:"Configurar Python, gcloud CLI, dbt y GitHub; definir presupuesto de cloud y checklist legal/financiero CR.", xp:150, category:"analyst", estimatedTime:"4-5 horas", verification:"system_setup.md + dbt debug + gcloud auth list" },
-  /* CAP 1: Días 1-5 */
-  { id:"d1_1", chapter:1, title:"📋 Inventario de Evidencia", description:"Listar sistemas construidos, separar evidencia pública/confidencial y elegir 3 logros para el CV.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"evidence_inventory.md con 6+ historias" },
-  { id:"d1_2", chapter:1, title:"🎯 CV y LinkedIn de Élite", description:"Título Data/BI/Operations Analyst, resumen en inglés y responsabilidades convertidas en resultados.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"CV de 1 página + LinkedIn actualizado" },
-  { id:"d1_3", chapter:1, title:"🎙️ Inglés y Narrativa", description:"Grabar 'Tell me about your background' y 'an automation you built'; detectar muletillas y errores.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"interview_baseline.md con 3 áreas de mejora" },
-  { id:"d1_4", chapter:1, title:"🧭 Definición del Producto", description:"Elegir 3 decisiones operacionales, definir usuario, frecuencia y SLA inicial del proyecto ancla.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"product_brief.md de una página" },
-  { id:"d1_5", chapter:1, title:"🤝 Contrato, Repo y Primer Contacto", description:"Definir grano de fact_reservations, crear repo con README y enviar el primer mensaje cálido.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Repo + contract.yml + primer mensaje" },
-  /* CAP 2: Días 6-12 */
-  { id:"d2_1", chapter:2, title:"🧪 Dataset Sintético y Esquema", description:"Definir columnas y dominios, crear datos de reservas/flota y documentar qué es simulación.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Dataset happy path + esquema documentado" },
-  { id:"d2_2", chapter:2, title:"🛡️ Casos Adversariales", description:"Duplicados, nulos críticos, cancelación tardía, registro tardío y revenue fuera de rango.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"adversarial_cases + tabla de comportamiento" },
-  { id:"d2_3", chapter:2, title:"🔍 Validación de Schema", description:"Validación de columnas, tipos y campos obligatorios; decidir qué detiene el batch y qué va a cuarentena.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Validación reproducible + tests unitarios" },
-  { id:"d2_4", chapter:2, title:"📥 Carga Raw", description:"Carga append-only con batch_id, timestamp de ingestión y registro de filas aceptadas/rechazadas.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Carga raw reproducible + log" },
-  { id:"d2_5", chapter:2, title:"🔁 Idempotencia", description:"Ejecutar el mismo batch dos veces, verificar que no duplica y definir watermark y reintento.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Prueba de idempotencia + nota de diseño" },
-  { id:"d2_6", chapter:2, title:"💵 BigQuery y Costes", description:"Datasets separados, particionado por fecha, revisar bytes procesados y poner límites.", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"cost_and_storage_decisions.md" },
-  { id:"d2_7", chapter:2, title:"🚦 Primer Checkpoint Técnico", description:"Ejecutar el flujo completo input → validation → raw → log → retry → final state.", xp:250, category:"analyst", estimatedTime:"4-5 horas", verification:"Ejecución exitosa + 3 fallos documentados" },
-  /* CAP 3: Días 13-20 */
-  { id:"d3_1", chapter:3, title:"🧱 Configuración dbt", description:"Proyecto, perfiles, sources y staging inicial usando ref().", xp:250, category:"analyst", estimatedTime:"4-5 horas", verification:"Primer modelo staging compilando" },
-  { id:"d3_2", chapter:3, title:"🗂️ Dimensiones", description:"Crear dimensiones de fecha, aeropuerto, vehículo y canal; documentar si necesitan histórico.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Modelos de dimensiones documentados" },
-  { id:"d3_3", chapter:3, title:"🏛️ Fact Table y Grano", description:"Implementar fact_reservations, confirmar el grano y añadir claves y campos derivados.", xp:250, category:"analyst", estimatedTime:"5-6 horas", verification:"Primer mart consultable" },
-  { id:"d3_4", chapter:3, title:"✅ Tests Estructurales", description:"not_null, unique, relaciones, valores aceptados y rango de fechas.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"dbt test con evidencia" },
-  { id:"d3_5", chapter:3, title:"💼 Tests de Negocio", description:"No duplicación por grano, reconciliación de conteos y de revenue, estados válidos.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"2 singular tests de negocio" },
-  { id:"d3_6", chapter:3, title:"⏳ Incrementalidad y Datos Tardíos", description:"Definir unique_key, probar registro tardío y ejecutar un backfill pequeño.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Prueba de late-arriving data" },
-  { id:"d3_7", chapter:3, title:"📚 Documentación y Catálogo", description:"Documentar modelos, columnas y métricas con descripciones útiles; generar artefactos dbt.", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"Documentación navegable + capturas" },
-  { id:"d3_8", chapter:3, title:"💥 Fallo Controlado", description:"Introducir un duplicado/inválido, confirmar que el test falla, corregir y guardar evidencia.", xp:250, category:"analyst", estimatedTime:"3-4 horas", verification:"failure_demo.md con causa y corrección" },
-  /* CAP 4: Días 21-30 */
-  { id:"d4_1", chapter:4, title:"🌿 Rama y Pull Request", description:"Crear rama de feature, cambiar un modelo y abrir PR con checks requeridos.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Primer PR visible" },
-  { id:"d4_2", chapter:4, title:"⚙️ CI Temporal", description:"Ejecutar en dataset temporal los modelos afectados y dependencias downstream.", xp:200, category:"analyst", estimatedTime:"4-5 horas", verification:"Action con estado visible" },
-  { id:"d4_3", chapter:4, title:"🚧 Gate de Calidad", description:"Hacer fallar un test en PR, confirmar el bloqueo del merge y corregir.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"PR rojo → corrección → verde" },
-  { id:"d4_4", chapter:4, title:"⏱️ Freshness y SLA", description:"Definir SLA, configurar source freshness y crear un caso de fuente atrasada.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Freshness configurado + evidencia" },
-  { id:"d4_5", chapter:4, title:"🕐 Scheduling", description:"Scheduler sencillo, batch con timeout y retries.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Ejecución programada reproducible" },
-  { id:"d4_6", chapter:4, title:"🔔 Alertas", description:"Definir qué ocurre ante fallo de schema/freshness/volumen y crear alerta mínima.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"alerting.md" },
-  { id:"d4_7", chapter:4, title:"♻️ Backfill y Recuperación", description:"Backfill de un rango pequeño, documentar anti-duplicados y escribir runbook.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"runbooks/recovery.md" },
-  { id:"d4_8", chapter:4, title:"📊 Auditoría de Ejecución", description:"Registrar run id, duración, filas aceptadas/rechazadas, estado y error.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"Tabla audit_runs" },
-  { id:"d4_9", chapter:4, title:"🔐 Seguridad y Reproducibilidad", description:"Retirar secretos, revisar .gitignore, .env.example y fijar versiones.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"Checklist de seguridad + ejecución limpia" },
-  { id:"d4_10", chapter:4, title:"🎬 Demo Técnica Completa", description:"Grabar PR → CI → test fallido → corrección → merge → batch → freshness → mart → audit.", xp:300, category:"analyst", estimatedTime:"5-6 horas", verification:"Demo grabada + carpeta de evidencias" },
-  /* CAP 5: Días 31-35 */
-  { id:"d5_1", chapter:5, title:"🎨 Diseño del Dashboard", description:"Definir usuario, 3 preguntas, 3 métricas, filtros y acción esperada.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"Diseño definido antes de abrir la herramienta" },
-  { id:"d5_2", chapter:5, title:"📊 Dashboard Operativo", description:"Construir dashboard sobre marts (no raw/staging) con datos reales.", xp:250, category:"analyst", estimatedTime:"6-8 horas", verification:"Dashboard publicado" },
-  { id:"d5_3", chapter:5, title:"🧮 Validación de Métricas", description:"Comparar tarjetas con SQL de referencia; revisar zona horaria, filtros y duplicados.", xp:200, category:"analyst", estimatedTime:"3-4 horas", verification:"Métricas validadas y documentadas" },
-  { id:"d5_4", chapter:5, title:"📖 README Ejecutivo", description:"README de 5 minutos: problema, arquitectura, grano, métricas, CI, costes y fallos.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"README con las 13 secciones" },
-  { id:"d5_5", chapter:5, title:"👥 Revisión Externa", description:"Enviar el repo a 1 persona técnica y 1 de negocio; pedir 4 preguntas concretas.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Lista de correcciones + feedback" },
-  /* CAP 6: Días 36-45 */
-  { id:"d6_1", chapter:6, title:"🛠️ Correcciones de Mayor Impacto", description:"Corregir solo los 3 problemas que más reducirían la confianza del hiring manager.", xp:150, category:"analyst", estimatedTime:"3-4 horas", verification:"3 correcciones de confianza" },
-  { id:"d6_2", chapter:6, title:"✍️ Guion del Vídeo", description:"Escribir guion de 220–250 palabras y cronometrarlo (mostrar sistema y decisiones).", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Guion cronometrado" },
-  { id:"d6_3", chapter:6, title:"🎥 Grabación", description:"Grabar 3 versiones, elegir la de mejor claridad y subtitular en inglés si es posible.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Vídeo grabado y subtitulado" },
-  { id:"d6_4", chapter:6, title:"🌐 Perfil y Portafolio", description:"Actualizar repo pinnado, LinkedIn y landing page con repo, vídeo y CV.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Landing activa + LinkedIn actualizado" },
-  { id:"d6_5", chapter:6, title:"📨 Primer Lote de Candidaturas", description:"Enviar 2–3 apps compatibles registrando requisito, evidencia y país permitido.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"2–3 apps registradas" },
-  { id:"d6_6", chapter:6, title:"🤝 Networking Cálido", description:"Contactar 5 personas del sprint sin pedir referencia en el primer mensaje.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"5 contactos realizados" },
-  { id:"d6_7", chapter:6, title:"🌎 Recruiters y Nearshore", description:"Confirmar LATAM, horario y contractor/EOR antes de invertir tiempo.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Lista de empresas confirmadas" },
-  { id:"d6_8", chapter:6, title:"🗣️ Mock Técnico Completo", description:"SQL en vivo, modelado, fallo de datos, inglés y pregunta salarial.", xp:250, category:"employability", estimatedTime:"2-3 horas", verification:"Mock con score registrado" },
-  { id:"d6_9", chapter:6, title:"📬 Segundo Lote y Seguimiento", description:"Enviar el resto del lote y hacer seguimientos de 4–7 días hábiles.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"Lote + seguimientos" },
-  { id:"d6_10", chapter:6, title:"📈 Auditoría de Decisión Intermedia", description:"Calcular apps, respuestas, screens, técnicas y decidir continuar/extender/pivotar.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"Auditoría del Día 45" },
-  /* CAP 7: Días 46-56 */
-  { id:"d7_1", chapter:7, title:"🔥 Mocks Intensivos", description:"3 mocks técnicos, 2 de negocio, 1 de inglés y 1 de negociación salarial.", xp:300, category:"employability", estimatedTime:"6-8 horas", verification:"mocks_round2.md con scores" },
-  { id:"d7_2", chapter:7, title:"🔧 Correcciones de Posicionamiento", description:"CV v2 y LinkedIn v2 incorporando el feedback de mocks y respuestas.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"CV_v2 + LinkedIn actualizado" },
-  { id:"d7_3", chapter:7, title:"🚀 Segundo Lote (Intensivo)", description:"4–6 apps altamente compatibles con evidencia adaptada y registro completo.", xp:200, category:"employability", estimatedTime:"4-5 horas", verification:"Lote 2 en el embudo" },
-  { id:"d7_4", chapter:7, title:"📣 Contenido y Comunidad", description:"1 post técnico público + 3–5 mensajes de valor en comunidades.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"URL del post + registro de mensajes" },
-  { id:"d7_5", chapter:7, title:"🧭 Auditoría de Embudo", description:"Calcular tasas de conversión por etapa e identificar la mayor fuga.", xp:200, category:"employability", estimatedTime:"2-3 horas", verification:"funnel_audit_day55.md" },
-  { id:"d7_6", chapter:7, title:"🔄 Iteración Según Fuga", description:"Aplicar la acción específica del umbral rojo sin abrir nueva tecnología.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Cambio documentado y medible" },
-  { id:"d7_7", chapter:7, title:"💰 Preparación de Negociación", description:"Rangos, alternativas (EOR vs contractor), preguntas de cierre y walk-away number.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"negotiation_playbook.md" },
-  { id:"d7_8", chapter:7, title:"🏆 Decisión Final (Día 56)", description:"Revisar criterios de terminado y decidir: aceptar oferta, extender o pivotar.", xp:350, category:"employability", estimatedTime:"2-3 horas", verification:"day56_decision.md con justificación" }
-];
-
-/* --- 👑 Proyectos finales (uno por capítulo): garantizan tu nivel real --- */
-const bossMissions = [
-  { id:"b2", chapter:2, boss:true, title:"Primer Checkpoint Técnico", description:"Ejecutar el flujo completo input → validation → raw → log → retry → final state y documentar la evidencia.", xp:400, category:"analyst", estimatedTime:"6-8 horas", verification:"Ejecución reproducible + 3 fallos documentados" },
-  { id:"b4", chapter:4, boss:true, title:"Demo Técnica Completa", description:"Grabar el flujo PR → CI → test fallido → corrección → merge → batch → freshness → mart → audit log.", xp:500, category:"analyst", estimatedTime:"8-10 horas", verification:"Demo grabada + carpeta de evidencias" },
-  { id:"b6", chapter:6, boss:true, title:"Auditoría de Decisión Intermedia", description:"Calcular aplicaciones, respuestas, screens, técnicas y referrals; decidir continuar, extender o pivotar.", xp:500, category:"employability", estimatedTime:"6-8 horas", verification:"Auditoría del Día 45 con decisión" },
-  { id:"b7", chapter:7, boss:true, title:"Decisión Final del Día 56", description:"Revisar todos los criterios de terminado y decidir: aceptar oferta, extender 15 días o pivotar con evidencia.", xp:600, category:"employability", estimatedTime:"6-8 horas", verification:"day56_decision.md con decisión" }
-];
-const campaignAll = campaignMissions.concat(bossMissions);
+/* --- Campaña de Datos: 74 misiones del Taller de Flujos (64 regulares + 10 jefes) --- */
+function flCampaignCategory(cap) {
+  return (cap >= 3 && cap <= 8) ? "ai" : "analyst";
+}
+const flCampaignMissions = FL_MISSIONS.map(function (m) {
+  return {
+    id: m.id,
+    chapter: m.cap,
+    title: m.t,
+    description: m.d,
+    xp: m.xp,
+    category: flCampaignCategory(m.cap),
+    estimatedTime: m.time + " min",
+    time: m.time,
+    verification: m.v,
+    boss: FL_BOSS_IDS.indexOf(m.id) >= 0
+  };
+});
+const campaignMissions = flCampaignMissions.filter(function (m) { return !m.boss; });
+const bossMissions = flCampaignMissions.filter(function (m) { return m.boss; });
+/* Conserva el orden de flujos_odea.js: mundo → misiones → jefe. */
+const campaignAll = flCampaignMissions;
 /* 🔗 Enlaces de recursos por misión */
 const MISSION_LINKS = {
-  "d0_1": "https://docs.python.org/3/",
-  "d1_2": "https://www.linkedin.com/",
-  "d1_3": "https://www.ielts.org/",
-  "d2_6": "https://cloud.google.com/bigquery/pricing",
-  "d3_1": "https://docs.getdbt.com/docs/get-started/getting-started/set-up-dbt",
-  "d3_4": "https://docs.getdbt.com/docs/build/tests",
-  "d4_1": "https://docs.github.com/en/pull-requests",
-  "d4_4": "https://docs.getdbt.com/docs/build/sources",
-  "d5_2": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
-  "d6_8": "https://www.interviewquery.com/",
-  "d7_8": "https://www.linkedin.com/jobs/",
   "b1_1": "https://n8n.io/",
   "b2_1": "https://www.upwork.com/"
 };
@@ -3423,16 +3374,18 @@ const achievements = [
   { id:"ach_j5",     ico:"📡", name:"Primera Noticia", desc:"Leer tu primera noticia del radar", xp:80 },
   { id:"ach_j25",    ico:"📰", name:"Cazador de Noticias", desc:"Leer 10 noticias del radar", xp:150 },
   { id:"ach_j50",    ico:"🌐", name:"Radar Encendido", desc:"Leer 25 noticias del radar", xp:250 },
-  { id:"ach_ch0",    ico:"🛡️", name:"Cimientos Sólidos", desc:"Completar el Capítulo 0: Cimientos", xp:150 },
-  { id:"ach_ch1",    ico:"⚔️", name:"Oráculo SQL", desc:"Completar el Capítulo 1: SQL y Negocio", xp:150 },
-  { id:"ach_ch2",    ico:"🧬", name:"Automatizador", desc:"Completar el Capítulo 2: ETL y Automatización", xp:150 },
-  { id:"ach_ch3",    ico:"🤖", name:"Domador de Máquinas", desc:"Completar el Capítulo 3: IA Aplicada", xp:150 },
-  { id:"ach_ch4",    ico:"📊", name:"Narrador Visual", desc:"Completar el Capítulo 4: Dashboards y Storytelling", xp:150 },
-  { id:"ach_ch5",    ico:"🎯", name:"Estratega de Marketing", desc:"Completar el Capítulo 5: Marketing Analytics", xp:150 },
-  { id:"ach_ch6",    ico:"👾", name:"Constructor de IA", desc:"Completar el Capítulo 6: IA Productiva", xp:150 },
-  { id:"ach_ch7",    ico:"🏆", name:"Conquistador del Empleo", desc:"Completar el Capítulo 7: Empleo", xp:150 },
+  { id:"ach_ch0",    ico:"🧩", name:"Cimientos del Flujo", desc:"Completar el Mundo 1: Cimientos del Flujo", xp:150 },
+  { id:"ach_ch1",    ico:"🌐", name:"Conectores", desc:"Completar el Mundo 2: Conectores: Traé los Datos", xp:150 },
+  { id:"ach_ch2",    ico:"🧠", name:"Motor de Triage", desc:"Completar el Mundo 3: El LLM como Componente", xp:150 },
+  { id:"ach_ch3",    ico:"📄", name:"Fábrica de Documentos", desc:"Completar el Mundo 4: Documentos Inteligentes", xp:150 },
+  { id:"ach_ch4",    ico:"📊", name:"Reportes que Piensan", desc:"Completar el Mundo 5: Reportes que Piensan", xp:150 },
+  { id:"ach_ch5",    ico:"💬", name:"Analista Conversacional", desc:"Completar el Mundo 6: Pregúntale a tus Datos", xp:150 },
+  { id:"ach_ch6",    ico:"🔀", name:"Orquestador", desc:"Completar el Mundo 7: Orquestación y Canales", xp:150 },
+  { id:"ach_ch7",    ico:"🛡️", name:"Calidad y Seguridad", desc:"Completar el Mundo 8: Calidad, Costos y Seguridad", xp:150 },
+  { id:"ach_ch8",    ico:"🚗", name:"Copiloto de Operaciones", desc:"Completar el Mundo 9: Rent-a-Car y Turismo", xp:150 },
+  { id:"ach_ch9",    ico:"👑", name:"Maestro de Flujos", desc:"Completar el Mundo 10: La Maestría", xp:200 },
   { id:"ach_ai",     ico:"🧠", name:"Genio de la IA", desc:"Completar todas las misiones de categoría IA", xp:150 },
-  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar campaña, los 56 días, las 8 semanas y las 30 noticias del radar", xp:700 },
+  { id:"ach_legend", ico:"💎", name:"Leyenda de ODEA", desc:"Completar la Campaña de Datos, los 56 días, las 8 semanas y las 30 noticias del radar", xp:700 },
   { id:"ach_xp1k",  ico:"⚡", name:"Primeros Mil", desc:"Acumular 1.000 XP totales en tu ecosistema", xp:100 },
   { id:"ach_xp5k",  ico:"🔥", name:"Motor de XP", desc:"Acumular 5.000 XP totales", xp:200 },
   { id:"ach_xp10k", ico:"🚀", name:"Órbita del Analista", desc:"Acumular 10.000 XP totales", xp:300 },
@@ -3536,9 +3489,9 @@ const JOBS_TAGS = { ia:"IA", tech:"Tecnología", dinero:"Dinero", trading:"Tradi
 /* ==========================================================
    📈 CAPITAL — DATOS: Tres frentes del Imperio
    💰 Bóveda del Capital (inversión) · 🌎 Lengua del Imperio
-   (inglés) · 🤖 Forja de Mentes (IA). Cada frente es un
-   mundo con sus propios mundos internos y misiones. Contenido
-   educativo, no es consejo de inversión.
+   (inglés) · 🤖 Forja de Mentes (IA). Cada frente es un mundo con
+   sus propios mundos internos y misiones. Contenido educativo,
+   no es consejo de inversión.
    ========================================================== */
 const CAP_LADDER = [
   { xp: 0,     n: "Novato del Imperio" },
@@ -3803,7 +3756,8 @@ const AI_MISSIONS = [
 const AI_OBJ = {};
 AI_MISSIONS.forEach(m => { AI_OBJ[m.id] = { xp: m.xp, cap: m.cap }; });
 
-/* Registro de los tres frentes */
+/* Registro de los tres frentes del Imperio.
+   El Taller de Flujos vive ahora en DATOS → Campaña de Datos. */
 const CAP_FRONTS = [
   { k: "cap", ico: "💰", n: "Bóveda del Capital", c: "#00e5a0", ladder: CAPF_LADDER, chapters: CAP_CHAPTERS, missions: CAP_MISSIONS, obj: CAP_OBJ, store: "done" },
   { k: "eng", ico: "🌎", n: "Lengua del Imperio", c: "#00ccff", ladder: ENG_LADDER, chapters: ENG_CHAPTERS, missions: ENG_MISSIONS, obj: ENG_OBJ, store: "eng" },
@@ -4011,7 +3965,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.70"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.72"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4179,6 +4133,11 @@ function loadGame() {
     if (!data) return false;
     gameState.playerName = data.playerName || "Recluta";
     gameState.completedMissions = (data.completedMissions || []).filter(id => campaignAll.some(m => m.id === id));
+    /* Migración v5.72: el Taller estaba en Capital. Su progreso pasa a la Campaña. */
+    const legacyFl = (data.capital && Array.isArray(data.capital.fl)) ? data.capital.fl : [];
+    gameState.completedMissions = Array.from(new Set(gameState.completedMissions.concat(
+      legacyFl.filter(id => campaignAll.some(m => m.id === id))
+    )));
     gameState.completedDaily = (data.completedDaily || []).filter(id =>
       /^\d+[ABC]$/.test(String(id)) && parseInt(id, 10) >= 1 && parseInt(id, 10) <= DAILY_TOTAL);
     gameState.completedWeekly = (data.completedWeekly || []).filter(n => n >= 1 && n <= WEEKLY_TOTAL);
@@ -5072,14 +5031,16 @@ function achievementState() {
     ach_j5: () => jobsDoneCount() >= 1,
     ach_j25: () => jobsDoneCount() >= 10,
     ach_j50: () => jobsDoneCount() >= 25,
-    ach_ch0: () => (donePer[0] || 0) >= perChapter[0],
-    ach_ch1: () => (donePer[1] || 0) >= perChapter[1],
-    ach_ch2: () => (donePer[2] || 0) >= perChapter[2],
-    ach_ch3: () => (donePer[3] || 0) >= perChapter[3],
-    ach_ch4: () => (donePer[4] || 0) >= perChapter[4],
-    ach_ch5: () => (donePer[5] || 0) >= perChapter[5],
-    ach_ch6: () => (donePer[6] || 0) >= perChapter[6],
-    ach_ch7: () => (donePer[7] || 0) >= perChapter[7],
+    ach_ch0: () => (perChapter[1] || 0) > 0 && (donePer[1] || 0) >= perChapter[1],
+    ach_ch1: () => (perChapter[2] || 0) > 0 && (donePer[2] || 0) >= perChapter[2],
+    ach_ch2: () => (perChapter[3] || 0) > 0 && (donePer[3] || 0) >= perChapter[3],
+    ach_ch3: () => (perChapter[4] || 0) > 0 && (donePer[4] || 0) >= perChapter[4],
+    ach_ch4: () => (perChapter[5] || 0) > 0 && (donePer[5] || 0) >= perChapter[5],
+    ach_ch5: () => (perChapter[6] || 0) > 0 && (donePer[6] || 0) >= perChapter[6],
+    ach_ch6: () => (perChapter[7] || 0) > 0 && (donePer[7] || 0) >= perChapter[7],
+    ach_ch7: () => (perChapter[8] || 0) > 0 && (donePer[8] || 0) >= perChapter[8],
+    ach_ch8: () => (perChapter[9] || 0) > 0 && (donePer[9] || 0) >= perChapter[9],
+    ach_ch9: () => (perChapter[10] || 0) > 0 && (donePer[10] || 0) >= perChapter[10],
     ach_ai: () => aiAll,
     ach_legend: () => allCampaign && allDaily && allWeekly && jobsDoneCount() >= employmentMissions.length,
     ach_xp1k:  () => gameState.totalXP >= 1000,
@@ -5485,7 +5446,7 @@ function plannerInfo(f, id, vsCache) {
     return m ? {
       title: m.title, xp: m.xp, done: gameState.completedMissions.includes(id),
       desc: m.description, verif: m.verification,
-      meta: ["📖 Capítulo " + m.chapter, "⏱️ " + m.estimatedTime, "📚 " + (CAT[m.category] ? CAT[m.category].label : m.category)]
+      meta: ["📖 Mundo " + m.chapter, "⏱️ " + (m.time || m.estimatedTime) + " min", "📚 " + (CAT[m.category] ? CAT[m.category].label : m.category)]
     } : null;
   }
   if (f === "weekly") {
@@ -5512,7 +5473,7 @@ function plannerInfo(f, id, vsCache) {
       meta: ["💸 Fase " + m.chapter, "⏱️ " + m.estimatedTime]
     } : null;
   }
-  if (f === "cap" || f === "eng" || f === "ai") {
+  if (CAP_FRONTS.some(function (fr) { return fr.k === f; })) {
     const fr = CAP_FRONTS.find(function (x) { return x.k === f; });
     if (!fr) return null;
     m = fr.missions.find(function (x) { return x.id === id; });
@@ -5575,7 +5536,7 @@ function plannerToggle(it) {
   else if (f === "weekly") toggleWeekly(Number(id));
   else if (f === "jobs") toggleJob(id, null);
   else if (f === "b2b") toggleB2B(id, null);
-  else if (f === "cap" || f === "eng" || f === "ai") {
+  else if (CAP_FRONTS.some(function (fr) { return fr.k === f; })) {
     const card = plannerFakeEl(); card.dataset = { cid: id, front: f };
     capToggleMission(card);
   } else if (f === "vida") {
@@ -6036,12 +5997,17 @@ function renderDailyView() {
 }
 
 /* --- Campaña: capítulos, misiones y 👑 PROYECTO FINAL (jefe) --- */
-function bossMinLevel(chapter) { return Math.min(7 * chapter + 1, DAILY_TOTAL + 1); }
+function chapterPending(chapter) {
+  return campaignMissions.filter(function (m) {
+    return m.chapter === chapter && !gameState.completedMissions.includes(m.id);
+  }).length;
+}
+function bossUnlocked(chapter) { return chapterPending(chapter) === 0; }
 function progressSummaryHTML(doneSet) {
   const totalDone = gameState.completedMissions.length;
   const overall = Math.round((totalDone / CAMP_TOTAL) * 100);
   let h = '<div class="prog-summary">' +
-    '<div class="ps-head"><span>🗺️ PROGRESO DE LA CAMPAÑA</span><span>' + totalDone + '/' + CAMP_TOTAL + ' · ' + overall + '%</span></div>' +
+    '<div class="ps-head"><span>🗺️ CAMPAÑA DE DATOS · PROGRESO</span><span>' + totalDone + '/' + CAMP_TOTAL + ' · ' + overall + '%</span></div>' +
     '<div class="bar"><span style="width:' + overall + '%"></span></div>' +
     '<div class="ps-grid">';
   CHAPTERS.forEach(ch => {
@@ -6058,6 +6024,7 @@ function progressSummaryHTML(doneSet) {
 function renderChapters() {
   const root = document.getElementById("chapters-root");
   const doneSet = new Set(gameState.completedMissions);
+  const openIds = new Set([...root.querySelectorAll(".chapter.open")].map(sec => sec.dataset.chapter));
   root.innerHTML = progressSummaryHTML(doneSet);
   CHAPTERS.forEach(ch => {
     const chM = campaignMissions.filter(m => m.chapter === ch.id);
@@ -6067,8 +6034,10 @@ function renderChapters() {
     const pct = Math.round((chDone / totalM) * 100);
     const sec = document.createElement("section");
     sec.className = "chapter";
+    sec.dataset.chapter = String(ch.id);
     sec.style.setProperty("--ch-color", ch.color);
     if (pct === 100) sec.style.borderColor = ch.color;
+    if (openIds.has(String(ch.id))) sec.classList.add("open");
     sec.innerHTML =
       '<div class="chapter-head" role="button" tabindex="0" aria-expanded="false">' +
         '<span class="chapter-ico">' + ch.icon + '</span>' +
@@ -6078,9 +6047,14 @@ function renderChapters() {
           '<span class="ch-chev">▶</span></div>' +
       '</div>' +
       '<div class="chapter-body"><p class="ch-narrative">' + escapeHtml(ch.narrative) + '</p>' +
+        capChapterExtrasHTML(ch) +
         chM.map(m => campaignCard(m, doneSet.has(m.id))).join("") +
         (boss ? bossCard(boss, doneSet.has(boss.id)) : "") +
       '</div>';
+    if (openIds.has(String(ch.id))) {
+      const head = sec.querySelector(".chapter-head");
+      if (head) head.setAttribute("aria-expanded", "true");
+    }
     root.appendChild(sec);
   });
 }
@@ -6092,22 +6066,22 @@ function campaignCard(m, isDone) {
       '<div class="m-title">' + escapeHtml(m.title) + '</div>' +
       '<div class="m-desc">' + escapeHtml(m.description) + '</div>' +
       '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
-      '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + linkTag(m.id) + '</div>' +
+      '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(m.time || parseHours(m.estimatedTime).min * 60) + linkTag(m.id) + '</div>' +
     '</div></div>';
 }
 function bossCard(b, isDone) {
   const cat = CAT[b.category];
-  const locked = !isDone && campaignLevel() < bossMinLevel(b.chapter);
-  const need = bossMinLevel(b.chapter);
+  const locked = !isDone && !bossUnlocked(b.chapter);
+  const pending = chapterPending(b.chapter);
   return '<div class="mission boss' + (isDone ? " done" : "") + (locked ? " locked" : "") + '" data-id="' + b.id + '">' +
     '<div class="m-check' + (locked ? " locked" : "") + '" role="checkbox" tabindex="0" aria-checked="' + isDone + '">' + (locked ? "🔒" : "") + '</div>' +
     '<div class="m-body">' +
       '<div class="m-title">👑 ' + escapeHtml(b.title) + '</div>' +
       '<div class="m-desc">' + escapeHtml(b.description) + '</div>' +
       '<div class="m-verif">' + escapeHtml(b.verification) + '</div>' +
-      '<div class="m-tags">' + catTag(b.category) + xpTag(b.xp) + timeTag(parseHours(b.estimatedTime).min * 60) +
+      '<div class="m-tags">' + catTag(b.category) + xpTag(b.xp) + timeTag(b.time || parseHours(b.estimatedTime).min * 60) +
         (locked
-          ? '<span class="tag time" style="color:var(--glow-amber);border-color:rgba(255,170,0,.55)">🔒 Requiere DÍA ' + need + '</span>'
+          ? '<span class="tag time" style="color:var(--glow-amber);border-color:rgba(255,170,0,.55)">🔒 Completa ' + pending + ' misión' + (pending === 1 ? "" : "es") + ' del Mundo ' + b.chapter + '</span>'
           : '<span class="tag time" style="color:#ffd700;border-color:rgba(255,215,0,.5)">👑 PROYECTO FINAL</span>') +
       '</div>' +
     '</div></div>';
@@ -8630,8 +8604,8 @@ function toggleCampaign(id, el) {
   if (!m) return;
   const oldLevel = odeLevelNow();
   const wasDone = gameState.completedMissions.includes(id);
-  if (!wasDone && m.boss && campaignLevel() < bossMinLevel(m.chapter)) {
-    toast("🔒", "👑 Proyecto final bloqueado", "Requiere DÍA " + bossMinLevel(m.chapter) + " (completa " + (bossMinLevel(m.chapter) - 1) + " días de plan diario). Tu día actual: " + campaignLevel());
+  if (!wasDone && m.boss && !bossUnlocked(m.chapter)) {
+    toast("🔒", "👑 Proyecto final bloqueado", "Completa las " + chapterPending(m.chapter) + " misiones pendientes del Mundo " + m.chapter + " para desbloquear a su jefe.");
     playSfx("error");
     return;
   }
@@ -8651,6 +8625,9 @@ function toggleCampaign(id, el) {
   if (achFresh) recomputeState();
   syncMissionCards();
   updateUI();
+  renderChapters();
+  const mapView = document.getElementById("view-map");
+  if (mapView && mapView.classList.contains("active")) mapRefresh();
   if (wasDone) {
     toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
   } else {
@@ -9552,7 +9529,8 @@ window.addEventListener("resize", function () {
 /* ==========================================================
    📈 CAPITAL — MÓDULO: campaña IA + mercados + inversión
    ========================================================== */
-const capOpenSet = { cap: new Set(), eng: new Set(), ai: new Set() };
+const capOpenSet = {};
+CAP_FRONTS.forEach(function (f) { capOpenSet[f.k] = new Set(); });
 function capFrontMissionsOf(front, cap) { return front.missions.filter(m => m.cap === cap); }
 function capFrontBossOf(front, cap) {
   const list = capFrontMissionsOf(front, cap);
@@ -9612,6 +9590,16 @@ function fmtMins(min) {
   const h = Math.floor(min / 60), r = min % 60;
   return h + (r ? " h " + r + " min" : " h");
 }
+function capChapterExtrasHTML(ch) {
+  let html = "";
+  if (ch.req) html += '<div class="ch-req"><b>Antes:</b> ' + ch.req + "</div>";
+  if (ch.prod && typeof FL_PROD_CHECKLIST !== "undefined") {
+    html += '<div class="prod-checklist"><b>⚙️ CHECKLIST DE PRODUCCIÓN OBLIGATORIO</b><ul>' +
+      FL_PROD_CHECKLIST.map(function (item) { return "<li>" + item + "</li>"; }).join("") +
+      "</ul></div>";
+  }
+  return html;
+}
 function capChaptersHTML(front, vs) {
   let html = "";
   front.chapters.forEach(ch => {
@@ -9629,6 +9617,7 @@ function capChaptersHTML(front, vs) {
       '<span class="ch-chev">▶</span></div></div>';
     if (unlocked) {
       html += '<div class="chapter-body"><p class="ch-narrative">' + ch.narrative + "</p>" +
+        capChapterExtrasHTML(ch) +
         capFrontMissionsOf(front, ch.cap).map(m => capCardHTML(m, vs, front)).join("") + "</div>";
     } else {
       html += '<div class="chapter-body"><div class="ch-lock">🔒 Completa el mundo anterior <b>entero</b> para desbloquear esta zona.</div></div>';
@@ -9678,7 +9667,7 @@ function renderCapital() {
   if (msg) {
     msg.style.display = allDone ? "block" : "none";
     if (allDone) {
-      msg.innerHTML = "🎉 <b>¡IMPERIO COMPLETO, recluta!</b> Dominaste los tres frentes — 💰 capital, 🌎 inglés e 🤖 IA — y alcanzaste el rango <b>" + vs.ladder.name + "</b>. Eres el experto que buscabas.";
+      msg.innerHTML = "🎉 <b>¡IMPERIO COMPLETO, recluta!</b> Dominaste los tres frentes — 💰 capital, 🌎 inglés y 🤖 IA — y alcanzaste el rango <b>" + vs.ladder.name + "</b>. La Campaña de Datos te espera en DATOS.";
     }
   }
 }
@@ -9946,19 +9935,19 @@ const REWARDS = [
   /* 🤖 Automation */
   { id: "rw_auto1", ico: "🤖", sec: "🛡️ Campaña", n: "Visor del Automatizador", cond: () => (gameState.completedMissions || []).length >= 8 },
   { id: "rw_auto2", ico: "🛰️", sec: "🛡️ Campaña", n: "Núcleo de la Transición", cond: () => (gameState.completedMissions || []).length >= 28 },
-  { id: "rw_auto3", ico: "🏆", sec: "🛡️ Campaña", n: "Corona del Día 56", cond: () => (gameState.completedMissions || []).length >= CAMP_TOTAL },
+  { id: "rw_auto3", ico: "🏆", sec: "🛡️ Campaña", n: "Corona de la Campaña", cond: () => (gameState.completedMissions || []).length >= CAMP_TOTAL },
   /* 💸 B2B */
   { id: "rw_b2b1", ico: "💸", sec: "💸 B2B", n: "Moneda del Fundador", cond: () => (gameState.completedB2b || []).length >= 3 },
   { id: "rw_b2b2", ico: "🏦", sec: "💸 B2B", n: "Cofre del Ingreso Extra", cond: () => (gameState.completedB2b || []).length >= 9 },
   { id: "rw_b2b3", ico: "👑", sec: "💸 B2B", n: "Trono del Ingreso Estable", cond: () => (gameState.completedB2b || []).length >= B2B_MISSIONS.length },
   /* ✨ Accesorios extra — Campaña de Datos */
-  { id: "rw_cat_an", ico: "🔬", sec: "🛡️ Campaña", n: "Lupa del Analista", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "analyst").length >= 15 },
-  { id: "rw_cat_emp", ico: "🎯", sec: "🛡️ Campaña", n: "Brújula del Cazatalentos", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "employability").length >= 15 },
-  { id: "rw_ch2", ico: "🗄️", sec: "🛡️ Campaña", n: "Llave del Almacén de Datos", cond: () => campaignMissions.filter(m => m.chapter === 2).every(m => gameState.completedMissions.includes(m.id)) },
-  { id: "rw_ch3", ico: "🧱", sec: "🛡️ Campaña", n: "Pico del Constructor", cond: () => campaignMissions.filter(m => m.chapter === 3).every(m => gameState.completedMissions.includes(m.id)) },
-  { id: "rw_ch4", ico: "🚦", sec: "🛡️ Campaña", n: "Semáforo del Pipeline", cond: () => campaignMissions.filter(m => m.chapter === 4).every(m => gameState.completedMissions.includes(m.id)) },
-  { id: "rw_ch5", ico: "📊", sec: "🛡️ Campaña", n: "Gráfico de Poder", cond: () => campaignMissions.filter(m => m.chapter === 5).every(m => gameState.completedMissions.includes(m.id)) },
-  { id: "rw_ch7", ico: "🏆", sec: "🛡️ Campaña", n: "Llave de la Decisión", cond: () => campaignMissions.filter(m => m.chapter === 7).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_cat_an", ico: "🔬", sec: "🛡️ Campaña", n: "Lupa de Datos", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "analyst").length >= 15 },
+  { id: "rw_cat_emp", ico: "🎯", sec: "🛡️ Campaña", n: "Núcleo de Agentes", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "ai").length >= 20 },
+  { id: "rw_ch2", ico: "🌐", sec: "🛡️ Campaña", n: "Conectores", cond: () => campaignMissions.filter(m => m.chapter === 2).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch3", ico: "🧠", sec: "🛡️ Campaña", n: "El LLM como Componente", cond: () => campaignMissions.filter(m => m.chapter === 3).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch4", ico: "📄", sec: "🛡️ Campaña", n: "Documentos Inteligentes", cond: () => campaignMissions.filter(m => m.chapter === 4).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch5", ico: "📊", sec: "🛡️ Campaña", n: "Reportes que Piensan", cond: () => campaignMissions.filter(m => m.chapter === 5).every(m => gameState.completedMissions.includes(m.id)) },
+  { id: "rw_ch7", ico: "🔀", sec: "🛡️ Campaña", n: "Orquestación y Canales", cond: () => campaignMissions.filter(m => m.chapter === 7).every(m => gameState.completedMissions.includes(m.id)) },
   { id: "rw_first", ico: "🌱", sec: "🎖️ General", n: "Semilla del Primer Paso", cond: () => (gameState.completedMissions || []).length >= 1 },
   { id: "rw_st14", ico: "⚡", sec: "🎖️ General", n: "Rayo de la Constancia", cond: () => (gameState.streak || 0) >= 14 },
   { id: "rw_b2b5", ico: "🚀", sec: "💸 B2B", n: "Cohete del Escalado", cond: () => B2B_MISSIONS.filter(m => m.chapter === 5).every(m => (gameState.completedB2b || []).includes(m.id)) },
@@ -11055,7 +11044,7 @@ function mnodeHTML(x, y, cfg) {
     '<span class="mn-count">' + cfg.count + "</span></button>";
 }
 function mapWorldTrack(points, roadCfg, extraDefs) {
-  const H = 940;
+  const H = Math.max(940, points.reduce(function (m, p) { return Math.max(m, p[1]); }, 0) + 100);
   return '<div class="world-track" style="position:relative;height:' + H + 'px">' +
     '<svg class="world-svg" viewBox="0 0 100 ' + H + '" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">' +
@@ -11083,14 +11072,15 @@ function torreNodes() {
     const total = list.length + (boss ? 1 : 0);
     const d = list.filter(m => doneSet.has(m.id)).length + (boss && doneSet.has(boss.id) ? 1 : 0);
     const x = mapNarrow() ? 50 : (i % 2 === 0 ? 50 : 30);
-    const y = (mapNarrow() ? (60 + i * 112) : (822 - i * 106));
+    const gap = mapNarrow() ? 112 : (CHAPTERS.length > 1 ? 742 / (CHAPTERS.length - 1) : 0);
+    const y = (mapNarrow() ? (60 + i * 112) : (822 - i * gap));
     out.points.push([x, y]);
     out.nodes.push(mnodeHTML(x, y, {
       id: "ch" + ch.id, act: "camp-ch", ico: ch.icon, color: ch.color,
       t: ch.code + " — " + ch.title, count: d + "/" + total,
       pct: Math.round((d / total) * 100), done: d === total,
       cur: i === firstPend, boss: boss && !doneSet.has(boss.id),
-      bossLock: boss && !doneSet.has(boss.id) && campaignLevel() < bossMinLevel(ch.id)
+      bossLock: boss && !doneSet.has(boss.id) && !bossUnlocked(ch.id)
     }));
   });
   return out;
@@ -11141,8 +11131,9 @@ function mapWorldHTML(w) {
   else { return campHTML(); }
   const curIdx = nodes.findIndex(n => n.indexOf("current") >= 0);
   litTo = curIdx >= 0 ? curIdx + 1 : nodes.length;
-  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><span class="shoot s1"></span><span class="shoot s2"></span><div class="world-track" style="position:relative;height:940px">' +
-    '<svg class="world-svg" viewBox="0 0 100 940" preserveAspectRatio="none">' +
+  const trackH = Math.max(940, points.reduce(function (m, p) { return Math.max(m, p[1]); }, 0) + 100);
+  let html = '<div class="world-scroll t-' + w + '" id="world-scroll"><span class="fog"><i></i><i></i><i></i></span><span class="shoot s1"></span><span class="shoot s2"></span><div class="world-track" style="position:relative;height:' + trackH + 'px">' +
+    '<svg class="world-svg" viewBox="0 0 100 ' + trackH + '" preserveAspectRatio="none">' +
     '<defs><linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00ff88"/><stop offset="1" stop-color="#00ccff"/></linearGradient></defs>';
   points.forEach((p, i) => {
     if (i === 0) return;
@@ -11189,7 +11180,7 @@ function renderMapStage() {
   const H = {
     null: { t: "🗺️ MAPA DE MUNDOS", s: "Tu aventura: toca un mundo para explorar su camino" },
     camp: { t: "🏕️ CAMPAMENTO BASE", s: "56 días, 8 semanas: el sendero que forja a un analista" },
-    torre: { t: "📜 CAMPAÑA DE DATOS", s: "8 etapas · 54 misiones para conseguir tu rol de datos" },
+    torre: { t: "📜 CAMPAÑA DE DATOS", s: CHAPTERS.length + " mundos · " + campaignAll.length + " misiones de flujos con IA, datos y producción" },
     fortaleza: { t: "📡 RADAR DEL MUNDO", s: "5 bloques: IA, tecnología, ganar dinero, finanzas/trading y actualización diaria" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "7 zonas: equilibrio, legado, alianza, poder, sabiduría, planes y orden" },
     boveda: { t: "👑 EL IMPERIO", s: "3 frentes: 💰 capital · 🌎 inglés · 🤖 IA — domina tu imperio" },
@@ -11235,8 +11226,8 @@ function mapOpenModal(kind, id) {
   const body = document.getElementById("node-body");
   if (!layer || !body) return;
   if (kind === "camp-ch") {
-    const n = Number(String(id).replace("ch", ""));
-    const ch = CHAPTERS[n];
+    const chId = Number(String(id).replace("ch", ""));
+    const ch = CHAPTERS.find(function (x) { return x.id === chId; });
     if (!ch) return;
     const doneSet = new Set(gameState.completedMissions);
     const list = campaignMissions.filter(m => m.chapter === ch.id);
@@ -11248,6 +11239,7 @@ function mapOpenModal(kind, id) {
       '<div class="nm-title">' + ch.title + "</div>" +
       '<div class="nm-sub">' + (ch.subtitle || "") + "</div></div></div>" +
       '<p class="ch-narrative">' + ch.narrative + "</p>" +
+      capChapterExtrasHTML(ch) +
       list.map(m => campaignCard(m, doneSet.has(m.id))).join("") +
       (boss ? bossCard(boss, doneSet.has(boss.id)) : "") +
       (d === total ? '<div class="nm-done">✓ CAPÍTULO COMPLETADO</div>' : "") + "</div>";
@@ -11430,7 +11422,7 @@ function mapEndBadge() {
   if (mapSt.w === "torre" && gameState.completedMissions.length >= CAMP_TOTAL) {
     html = '🏆 ¡CAMPAÑA DE DATOS CONQUISTADA!<small>Eres Analista Legendario · sigue con el resto de mundos</small>';
   } else if (mapSt.w === "boveda" && capCompute().capsDone >= capCompute().totalWorlds) {
-    html = '🏆 ¡IMPERIO CONQUISTADO!<small>Dominaste capital, inglés e IA — el triple frente completo</small>';
+    html = '🏆 ¡IMPERIO CONQUISTADO!<small>Dominaste capital, inglés e IA — los tres frentes completos</small>';
   } else if (mapSt.w === "fortaleza" && jobsDoneCount() >= employmentMissions.length) {
     html = '🏆 ¡RADAR DOMINADO!<small>Leyenda de la Actualidad · estás al día con el mundo</small>';
   } else if (mapSt.w === "torre") {
@@ -11855,9 +11847,9 @@ function coinsEarned() {
   return (st.completedDaily.length + st.completedMissions.length + st.completedWeekly.length +
     st.completedJobs.length + ((st.completedB2b || []).length) +
     ((st.vida && st.vida.log) ? st.vida.log.length : 0) +
-    ((st.capital && st.capital.done) ? st.capital.done.length : 0) +
-    ((st.capital && st.capital.eng) ? st.capital.eng.length : 0) +
-    ((st.capital && st.capital.ai) ? st.capital.ai.length : 0) +
+    ((st.capital ? Object.keys(st.capital).reduce(function (s, k) {
+      return s + (Array.isArray(st.capital[k]) ? st.capital[k].length : 0);
+    }, 0) : 0)) +
     sagaCoinsEarned() +
     huntCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
