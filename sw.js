@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.70-20261024-caceria-disparos';
+const CACHE_VERSION = 'odea-v5.72-20261025-campana-taller';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -15,6 +15,7 @@ const SHELL = [
   './manifest.json',
   './assets/odea-ui-v7.css?v=8m',
   './assets/odea-icons-v7.js?v=8f',
+  './flujos_odea.js',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
@@ -22,6 +23,7 @@ const SHELL = [
   './assets/fronts/cap.webp',
   './assets/fronts/eng.webp',
   './assets/fronts/ai.webp',
+
   './assets/gods/cronos.webp',
   './assets/gods/atenea.webp',
   './assets/gods/hermes.webp',

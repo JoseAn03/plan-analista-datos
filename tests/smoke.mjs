@@ -18,9 +18,11 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const HTML_PATH = join(ROOT, 'odea.html');
 const SW_PATH = join(ROOT, 'sw.js');
+const FL_PATH = join(ROOT, 'flujos_odea.js');
 
 const html = readFileSync(HTML_PATH, 'utf8');
 const sw = readFileSync(SW_PATH, 'utf8');
+const fl = readFileSync(FL_PATH, 'utf8');
 const fails = [];
 
 function check(name, ok, detail = '') {
@@ -47,17 +49,32 @@ try {
 } finally {
   rmSync(tmp, { recursive: true, force: true });
 }
+try {
+  execFileSync(process.execPath, ['--check', FL_PATH], { stdio: 'pipe' });
+  check('Sintaxis JS de flujos_odea.js', true);
+} catch (e) {
+  check('Sintaxis JS de flujos_odea.js', false);
+  console.log(`\n${e.stderr?.toString() ?? e.message}`);
+}
 
 // ---------- 2) Símbolos clave ----------
 for (const sym of ['CAP_FRONTS', 'capCompute', 'renderCapital', 'capToggleMission',
                    'ENG_OBJ', 'AI_OBJ', 'CAPF_LADDER', 'bovedaHTML', 'exportSave', 'importSave']) {
   check(`Símbolo definido: ${sym}`, new RegExp(`\\b${sym}\\b`).test(html));
 }
+for (const sym of ['FL_LADDER', 'FL_CHAPTERS', 'FL_MISSIONS', 'FL_OBJ', 'FL_PROD_CHECKLIST']) {
+  check(`Símbolo definido: ${sym}`, new RegExp(`\\b${sym}\\b`).test(fl));
+}
 
 // ---------- 3) Tres frentes del Imperio ----------
 const fronts = /const CAP_FRONTS = \[([\s\S]*?)\];/.exec(html);
-check('CAP_FRONTS con cap/eng/ai',
-  !!fronts && ['k: "cap"', 'k: "eng"', 'k: "ai"'].every((k) => fronts[1].includes(k)));
+check('CAP_FRONTS con cap/eng/ai y sin fl',
+  !!fronts && ['k: "cap"', 'k: "eng"', 'k: "ai"'].every((k) => fronts[1].includes(k)) &&
+  !fronts[1].includes('k: "fl"') && !fronts[1].includes('store: "fl"'));
+check('CAP_METAFORA y CAP_FRONT_IMG sin fl',
+  !/CAP_METAFORA = \{[^}]*fl:/.test(html) &&
+  !/CAP_FRONT_IMG = \{[\s\S]*?fl:\s*"assets\/fronts\/fl\.svg"/.test(html) &&
+  !html.includes('assets/fronts/fl.svg'));
 
 // ---------- 4) Etiquetas viejas ----------
 check('Sin "💰 Capital" residual (UI)', !html.includes('"💰 Capital"'));
@@ -145,7 +162,10 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.70: APP_VERSION y caché', html.includes('const APP_VERSION = "5.70"') && /odea-v5\.70-20261024-caceria-disparos/.test(sw));
+check('v5.72: APP_VERSION y caché', html.includes('const APP_VERSION = "5.72"') && /odea-v5\.72-20261025-campana-taller/.test(sw));
+check('v5.72: Taller cargado como fuente de la Campaña',
+  html.includes('<script src="flujos_odea.js"></script>') &&
+  sw.includes("'./flujos_odea.js'") && !sw.includes("'./assets/fronts/fl.svg'"));
 check('v5.65: escalera global ODE_LADDER + odeInfo', html.includes('const ODE_LADDER') &&
   html.includes('function odeInfo(') && html.includes('function odeLevelNow(') &&
   html.includes('function campaignLevel('));
@@ -306,6 +326,158 @@ check('v5.70: banco de 30 preguntas y reparto por categoría',
   catCount('Python') === 5 && catCount('Casos de negocio') === 5 &&
   catCount('Conductuales') === 5 && catCount('Datos y ciberseguridad') === 3,
   `${bankCount} preguntas · SQL ${catCount('SQL')} · Excel ${catCount('Excel')} · Python ${catCount('Python')}`);
+
+// ---------- 15) El Taller de Flujos v2 (fuente de la Campaña, v5.72) ----------
+const flCtx = {};
+vm.runInNewContext(fl + '\nthis.out = { FL_LADDER, FL_CHAPTERS, FL_MISSIONS, FL_OBJ, FL_PROD_CHECKLIST, FL_TOTAL_XP, FL_TOTAL_MINUTES, FL_BOSS_IDS };', flCtx);
+const F = flCtx.out;
+const flCounts = F.FL_CHAPTERS.map((ch) => F.FL_MISSIONS.filter((m) => m.cap === ch.cap).length);
+const flXP = F.FL_CHAPTERS.map((ch) => F.FL_MISSIONS.filter((m) => m.cap === ch.cap).reduce((s, m) => s + m.xp, 0));
+const flHours = F.FL_CHAPTERS.map((ch) => F.FL_MISSIONS.filter((m) => m.cap === ch.cap).reduce((s, m) => s + m.time, 0) / 60);
+const flBosses = F.FL_CHAPTERS.map((ch) => {
+  const list = F.FL_MISSIONS.filter((m) => m.cap === ch.cap);
+  return list.length ? list[list.length - 1].id : null;
+});
+const flAllText = F.FL_MISSIONS.map((m) => `${m.t} ${m.d} ${m.v}`).join(' ').toLowerCase();
+const prodText = F.FL_PROD_CHECKLIST.join(' ').toLowerCase();
+
+check('v5.72: Taller con 10 mundos, 74 misiones y 10 jefes',
+  F.FL_CHAPTERS.length === 10 && F.FL_MISSIONS.length === 74 && flBosses.filter(Boolean).length === 10,
+  `${F.FL_CHAPTERS.length} mundos · ${F.FL_MISSIONS.length} misiones · ${flBosses.filter(Boolean).length} jefes`);
+check('v5.72: XP exactos 21.100 y ~163 h',
+  F.FL_TOTAL_XP === 21100 && F.FL_TOTAL_MINUTES === 9765 && Math.abs(F.FL_TOTAL_MINUTES / 60 - 162.75) < 0.01,
+  `${F.FL_TOTAL_XP} XP · ${(F.FL_TOTAL_MINUTES / 60).toFixed(2)} h`);
+check('v5.72: misiones por mundo 6/6/8/8/8/8/8/10/7/5',
+  JSON.stringify(flCounts) === JSON.stringify([6, 6, 8, 8, 8, 8, 8, 10, 7, 5]), flCounts.join('/'));
+check('v5.72: XP por mundo exactos',
+  JSON.stringify(flXP) === JSON.stringify([1200, 1500, 1900, 2150, 2200, 2500, 2350, 2800, 2400, 2100]), flXP.join('/'));
+check('v5.72: horas por mundo alineadas al diseño',
+  JSON.stringify(flHours.map((h) => Number(h.toFixed(2)))) === JSON.stringify([6.25, 10.5, 14, 16.5, 17, 20.5, 19, 22, 20, 17]),
+  flHours.map((h) => h.toFixed(2)).join('/'));
+check('v5.72: IDs de jefe exactos',
+  JSON.stringify(flBosses) === JSON.stringify(['fl1_6', 'fl2_6', 'fl3_8', 'fl4_8', 'fl5_8', 'fl6_8', 'fl7_8', 'fl8_10', 'fl9_7', 'fl10_5']),
+  flBosses.join(', '));
+check('v5.72: títulos de los 10 mundos',
+  JSON.stringify(F.FL_CHAPTERS.map((ch) => ch.title)) === JSON.stringify([
+    'Cimientos del Flujo', 'Conectores: Traé los Datos', 'El LLM como Componente',
+    'Documentos Inteligentes', 'Reportes que Piensan', 'Pregúntale a tus Datos',
+    'Orquestación y Canales', 'Calidad, Costos y Seguridad', 'Rent-a-Car y Turismo', 'La Maestría'
+  ]));
+check('v5.72: escalera 0/800/1.850/3.200/5.500/9.000/14.000/21.100',
+  JSON.stringify(F.FL_LADDER.map((r) => r.xp)) === JSON.stringify([0, 800, 1850, 3200, 5500, 9000, 14000, 21100]) &&
+  /maestro de flujos/i.test(F.FL_LADDER[F.FL_LADDER.length - 1].n));
+check('v5.72: toda misión tiene id/cap/t/d/xp/time/v y XP positiva',
+  F.FL_MISSIONS.every((m) => /^fl\d+_\d+$/.test(m.id) && m.cap >= 1 && m.cap <= 10 &&
+    m.t && m.d && m.v && Number.isFinite(m.xp) && m.xp > 0 && Number.isFinite(m.time) && m.time > 0) &&
+  new Set(F.FL_MISSIONS.map((m) => m.id)).size === 74 &&
+  Object.keys(F.FL_OBJ).length === 74);
+check('v5.72: checklist de producción obligatorio desde el Mundo 5',
+  F.FL_CHAPTERS.every((ch) => (ch.cap >= 5) === !!ch.prod) &&
+  F.FL_PROD_CHECKLIST.length === 8 &&
+  ['idempotencia', 'observabilidad', 'costos', 'seguridad', 'human override', 'runbook', 'tests', 'data contract', 'quality gates']
+    .every((term) => prodText.includes(term)));
+check('v5.72: contenido experto conectado a datos y agentes',
+  ['text-to-sql', 'quality gate', 'audit log', 'golden set', 'lineage', 'human override', 'idempotencia']
+    .every((term) => flAllText.includes(term)));
+
+check('v5.72: Campaña se deriva del Taller (10 mundos, 74 misiones)',
+  html.includes('const CHAPTERS = FL_CHAPTERS.map') &&
+  html.includes('const flCampaignMissions = FL_MISSIONS.map') &&
+  html.includes('const campaignMissions = flCampaignMissions.filter') &&
+  html.includes('const bossMissions = flCampaignMissions.filter'));
+check('v5.72: DATOS abre la Campaña de Datos y no Campamento Base',
+  html.includes('data-tab="campaign" aria-label="Campaña de datos"') &&
+  html.includes('<span>Datos</span>') &&
+  html.includes('CAMPAÑA DE DATOS · PROGRESO'));
+check('v5.72: Capital queda en 3 frentes y sin Taller duplicado',
+  !!fronts && ['k: "cap"', 'k: "eng"', 'k: "ai"'].every((k) => fronts[1].includes(k)) &&
+  !html.includes('data-csub="fl"') && !html.includes('id="cap-fl"') &&
+  !html.includes('id="vm-fl"') && !html.includes('store: "fl"') &&
+  !html.includes('fronts.fl') && !html.includes('assets/fronts/fl.svg'));
+check('v5.72: guardado nuevo sin fl y migración desde capital.fl',
+  /capital: \{ done: \[\], eng: \[\], ai: \[\] \}/.test(html) &&
+  !/capital: \{[^}]*fl:/.test(html) &&
+  !html.includes('ai: [], fl: []') &&
+  html.includes('const legacyFl = (data.capital && Array.isArray(data.capital.fl))') &&
+  /legacyFl\.filter\(id => campaignAll\.some/.test(html) &&
+  !/fl: Array\.isArray\(cp\.fl\)/.test(html));
+check('v5.72: jefes de Campaña se desbloquean por mundo, no por días',
+  html.includes('function chapterPending(') && html.includes('function bossUnlocked(') &&
+  /bossCard[\s\S]{0,1200}!bossUnlocked\(b\.chapter\)/.test(html) &&
+  /toggleCampaign[\s\S]{0,900}!bossUnlocked\(m\.chapter\)/.test(html) &&
+  !html.includes('bossMinLevel') && !html.includes('días de plan diario'));
+check('v5.72: Campaña muestra requisitos y checklist de producción',
+  html.includes('capChapterExtrasHTML(ch)') &&
+  /function capChapterExtrasHTML[\s\S]{0,500}FL_PROD_CHECKLIST/.test(html) &&
+  /function renderChapters[\s\S]{0,2500}capChapterExtrasHTML\(ch\)/.test(html));
+check('v5.72: Campaña refresca progreso y jefe sin recargar',
+  /toggleCampaign[\s\S]{0,1800}renderChapters\(\)/.test(html) &&
+  /toggleCampaign[\s\S]{0,1900}mapRefresh\(\)/.test(html) &&
+  html.includes('const openIds = new Set') &&
+  html.includes('sec.dataset.chapter'));
+check('v5.72: mapa y perfil reflejan 10 mundos y 3 frentes',
+  html.includes('CHAPTERS.length + " mundos · "') &&
+  html.includes('3 frentes:') &&
+  html.includes('Tres Frentes') &&
+  html.includes('Capital · Inglés · IA'));
+check('v5.72: mapa de Campaña ajusta el alto a 10 nodos',
+  /const trackH = Math\.max\(940/.test(html) &&
+  /viewBox="0 0 100 ' \+ trackH \+ '"/.test(html));
+
+// ---------- 16) Campaña de Datos = Taller de Flujos (v5.72) ----------
+const chaptersStart = html.indexOf('const CHAPTERS = FL_CHAPTERS.map');
+const chaptersEnd = html.indexOf('});', chaptersStart) + 3;
+const mapStart = html.indexOf('function flCampaignCategory');
+const mapEnd = html.indexOf('const campaignAll =', mapStart);
+const mapEndSemi = html.indexOf(';', mapEnd) + 1;
+const campCtx = {};
+vm.runInNewContext(
+  fl + '\n' + html.slice(chaptersStart, chaptersEnd) + '\n' + html.slice(mapStart, mapEndSemi) +
+  '\nthis.out = { CHAPTERS, campaignMissions, bossMissions, campaignAll, flCampaignCategory };',
+  campCtx
+);
+const C = campCtx.out;
+const allXP = C.campaignAll.reduce((s, m) => s + m.xp, 0);
+const allMin = C.campaignAll.reduce((s, m) => s + m.time, 0);
+const bossIds = C.bossMissions.map((m) => m.id);
+const allIds = new Set(C.campaignAll.map((m) => m.id));
+const flIds = F.FL_MISSIONS.map((m) => m.id);
+const flTitle = new Map(F.FL_MISSIONS.map((m) => [m.id, m.t]));
+check('v5.72: Campaña 64 regulares + 10 jefes = 74',
+  C.campaignMissions.length === 64 && C.bossMissions.length === 10 && C.campaignAll.length === 74,
+  `${C.campaignMissions.length}+${C.bossMissions.length}=${C.campaignAll.length}`);
+check('v5.72: Campaña conserva 21.100 XP y 9.765 min',
+  allXP === 21100 && allMin === 9765 && Math.abs(allMin / 60 - 162.75) < 0.01,
+  `${allXP} XP · ${(allMin / 60).toFixed(2)} h`);
+check('v5.72: 10 mundos con ids 1..10 y títulos del Taller',
+  C.CHAPTERS.length === 10 &&
+  JSON.stringify(C.CHAPTERS.map((ch) => ch.id)) === JSON.stringify([1,2,3,4,5,6,7,8,9,10]) &&
+  C.CHAPTERS[0].title === 'Cimientos del Flujo' &&
+  C.CHAPTERS[9].title === 'La Maestría');
+check('v5.72: jefes exactos y marcados en la Campaña',
+  JSON.stringify(bossIds) === JSON.stringify(['fl1_6', 'fl2_6', 'fl3_8', 'fl4_8', 'fl5_8', 'fl6_8', 'fl7_8', 'fl8_10', 'fl9_7', 'fl10_5']) &&
+  C.bossMissions.every((m) => m.boss === true) &&
+  C.campaignMissions.every((m) => m.boss === false));
+check('v5.72: todas las misiones mapeadas con campos de Campaña',
+  JSON.stringify(C.campaignAll.map((m) => m.id)) === JSON.stringify(flIds) &&
+  C.campaignAll.every((m) => m.id && m.chapter >= 1 && m.chapter <= 10 &&
+    m.title && m.description && m.verification && m.xp > 0 && m.time > 0 &&
+    m.estimatedTime === m.time + ' min' && m.category &&
+    m.title === flTitle.get(m.id)));
+check('v5.72: categorías conservan logros y colores',
+  C.campaignAll.filter((m) => m.category === 'ai').length > 0 &&
+  C.campaignAll.filter((m) => m.category === 'analyst').length >= 15 &&
+  !C.campaignAll.some((m) => m.category === 'employability') &&
+  C.CHAPTERS.every((ch) => C.campaignAll.filter((m) => m.chapter === ch.id)
+    .every((m) => m.category === (ch.id >= 3 && ch.id <= 8 ? 'ai' : 'analyst'))));
+check('v5.72: no quedan IDs ni misiones de la campaña vieja',
+  ['d0_1', 'd1_1', 'd2_1', 'd3_1', 'd4_1', 'd5_1', 'd5_6', 'd6_1', 'd7_1', 'b2', 'b4', 'b6', 'b7']
+    .every((id) => !allIds.has(id)));
+check('v5.72: CHAPTERS incluye requisito y checklist de producción',
+  C.CHAPTERS.every((ch) => ch.req && ch.subtitle === ch.req && ch.narrative && ch.icon) &&
+  C.CHAPTERS.every((ch) => (ch.id >= 5) === !!ch.prod));
+check('v5.72: se conserva SAVE_KEY y SAGA_KEY',
+  html.includes('const SAVE_KEY = "odea_save_v2"') && html.includes('const SAGA_KEY = "odea_sagas_v1"'));
 
 // ---------- Resultado ----------
 console.log();

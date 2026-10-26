@@ -1,8 +1,8 @@
 # ODEA — Operación Dominio de Datos e IA
 
 Ruta gamificada de **56 días** para convertirte en analista de datos, con misiones diarias,
-proyectos por capítulo, jefes, logros, tienda e inventario. Funciona como PWA instalable y
-guarda el progreso en `localStorage`.
+una **Campaña de Datos** de 10 mundos, jefes, logros, tienda e inventario. Funciona como
+PWA instalable y guarda el progreso en `localStorage`.
 
 **App en vivo:** https://josean03.github.io/plan-analista-datos/
 
@@ -13,19 +13,20 @@ guarda el progreso en `localStorage`.
 | Archivo | Qué es |
 |---|---|
 | `odea.html` | **La aplicación completa** (HTML + CSS + JS en un solo archivo) |
+| `flujos_odea.js` | Fuente de la **Campaña de Datos**: El Taller de Flujos v2, con 10 mundos, 74 misiones, jefes, rangos y checklist de producción |
 | `index.html` | Redirección a `odea.html` (la raíz del sitio) |
-| `assets/` | Imágenes (WebP), CSS y JS de la interfaz v7 |
+| `assets/` | Imágenes (WebP/SVG), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70 + Campaña de Datos v5.72). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
 
 - **168 misiones diarias** = 56 días × 3 misiones (slots A/B/C)
-- **54 misiones de campaña** + **4 jefes** = 58
+- **Campaña de Datos:** 10 mundos, **74 misiones** (64 regulares + 10 jefes), **21.100 XP** y **162,75 h** (~163 h). Checklist de producción obligatorio desde el Mundo 5.
 - **8 misiones semanales**
-- **8 capítulos** (día 0 y días 1–56)
+- **8 semanas** de plan diario (56 días)
 - **2 sagas · 12 capítulos** (5 de video + 7 de Roblox), con XP para Legado y Poder & Imagen
 - **La Cacería v2:** 4 misiones base repetibles, 3 diarias automáticas, 6 plataformas, jefe semanal de 30 HP, crítico 12%, combo de 30 min, cadena de días, anti-spam desde el disparo 13 y 5 rangos. Las postulaciones viejas se migran como disparos legacy.
 
@@ -50,10 +51,13 @@ Luego abre `http://localhost:8080/odea.html`.
 node tests/smoke.mjs
 ```
 
-Solo requiere Node 18+. Valida la sintaxis del JS inline, la coherencia de versión
-HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los 56 días, las Sagas,
-el Nivel ODEA, la curva de XP, la racha global, el diario persistente, Mi Plan expandible,
-el perfil y el estado/migración de La Cacería.
+Solo requiere Node 18+. Valida la sintaxis del JS inline y de `flujos_odea.js`, la
+coherencia de versión HTML/sw.js, los respaldos, los IDs del DOM, el contenido de los
+56 días, las Sagas, el Nivel ODEA, la curva de XP, la racha global, el diario persistente,
+Mi Plan expandible, el perfil, el estado/migración de La Cacería y la Campaña de Datos:
+10 mundos, 64 misiones regulares + 10 jefes = 74, 21.100 XP, 9.765 minutos, categorías,
+desbloqueo de jefes por mundo, checklist de producción, migración desde `capital.fl` y
+la ausencia del Taller duplicado en Capital.
 El workflow `.github/workflows/smoke.yml` lo ejecuta en cada push a `main` y en cada PR.
 (`tests/smoke.py` se conserva como variante antigua, pero el CI ya no lo usa).
 
@@ -118,8 +122,9 @@ Un solo ecosistema para todo el progreso:
   Nv.50 = 79.495 y Nv.63 = 120.000. Así 5.000 XP ya no disparan al nivel 35:
   equivalen al Nv.11. Es el nivel que se ve en el HUD, la identidad lateral y el mapa.
 - **Día del plan:** `gameState.level` se conserva como día de campaña
-  (`campaignLevel()`); los días se desbloquean con `unlockedDay()` y los jefes
-  usan ese día. La UI lo llama **DÍA** y el perfil lo muestra como dato aparte.
+  (`campaignLevel()`); los días se desbloquean con `unlockedDay()`. El **DÍA** es
+  independiente de la Campaña de Datos: sus jefes se desbloquean al completar las
+  misiones regulares de cada mundo, no por días del plan diario.
 - **XP completo:** `gameState.totalXP = carrera + logros + vida + capital + enfoque +
   diario + jefes`. Los jefes (`GOD_BOSSES`, `TITAN_BOSSES`, `VIDA_BOSSES`) ya suman
   de verdad, no solo en el toast. El diario guarda un historial `diary.log` y su XP
@@ -148,6 +153,68 @@ Un solo ecosistema para todo el progreso:
 
 No cambian `SAVE_KEY` (`odea_save_v2`) ni `SAGA_KEY` (`odea_sagas_v1`); todos los
 campos nuevos son aditivos y `loadGame()` los normaliza.
+
+### Campaña de Datos = El Taller de Flujos v2 (v5.72)
+
+La Campaña de Datos reemplazó su recorrido anterior de 55 misiones + 4 jefes por
+El Taller de Flujos v2 completo. Ya no hay dos lugares con el mismo contenido: las
+74 misiones viven únicamente en **DATOS → Campaña de Datos** y el Taller dejó de ser
+un frente de Capital.
+
+- **Fuente única:** `flujos_odea.js` define `FL_CHAPTERS`, `FL_MISSIONS`,
+  `FL_LADDER`, `FL_OBJ`, `FL_BOSS_IDS` y `FL_PROD_CHECKLIST`. En `odea.html`,
+  `CHAPTERS`, `flCampaignMissions`, `campaignMissions`, `bossMissions` y
+  `campaignAll` se derivan de esos datos. No hay una segunda copia de las misiones.
+- **10 mundos · 74 misiones · 10 jefes · 21.100 XP · 162,75 h:**
+
+  | Mundo | Misiones | XP | Horas |
+  |---|---:|---:|---:|
+  | 1. Cimientos del Flujo | 6 | 1.200 | 6,25 |
+  | 2. Conectores: Traé los Datos | 6 | 1.500 | 10,5 |
+  | 3. El LLM como Componente | 8 | 1.900 | 14 |
+  | 4. Documentos Inteligentes | 8 | 2.150 | 16,5 |
+  | 5. Reportes que Piensan | 8 | 2.200 | 17 |
+  | 6. Pregúntale a tus Datos | 8 | 2.500 | 20,5 |
+  | 7. Orquestación y Canales | 8 | 2.350 | 19 |
+  | 8. Calidad, Costos y Seguridad | 10 | 2.800 | 22 |
+  | 9. Rent-a-Car y Turismo | 7 | 2.400 | 20 |
+  | 10. La Maestría | 5 | 2.100 | 17 |
+- **Rangos:** Aprendiz (0) → Armador de Flujos (800) → Orquestador (1.850) →
+  Ingeniero de Automatización (3.200) → Arquitecto de Agentes (5.500) →
+  Estratega de Datos e IA (9.000) → Experto en Flujos (14.000) →
+  **Maestro de Flujos (21.100)**.
+- **Jefes:** `fl1_6`, `fl2_6`, `fl3_8`, `fl4_8`, `fl5_8`, `fl6_8`,
+  `fl7_8`, `fl8_10`, `fl9_7` y `fl10_5`. Se desbloquean cuando todas las
+  misiones regulares de su mundo están completas; no dependen de `campaignLevel()`
+  ni de los días del plan diario. Se renderizan con corona, borde dorado y la
+  etiqueta **PROYECTO FINAL**.
+- **Checklist de producción desde el Mundo 5:** idempotencia, observabilidad,
+  control de costos, seguridad, human override, runbook, tests y data
+  contract/quality gates. `renderChapters` lo muestra con
+  `capChapterExtrasHTML(ch)` dentro de cada mundo.
+- **Progreso:** `gameState.completedMissions` guarda los IDs `fl…`;
+  `CAMP_TOTAL = 74` y `campaignAll` conserva el orden del Taller. Las tarjetas
+  usan `m.time`/`b.time` para mostrar los minutos reales.
+- **Migración:** `loadGame()` mantiene los IDs nuevos y migra a
+  `completedMissions` el progreso que estaba en el viejo `data.capital.fl`.
+  Los IDs de la campaña vieja (`d0_1`…`d7_8`, `b2`, `b4`, `b6`, `b7`,
+  `d5_6`) ya no existen y se descartan. `capital` queda en
+  `{ done, eng, ai }` y `resetGame()` no crea `fl`.
+- **Capital:** 3 frentes (`cap`, `eng`, `ai`) y 3 pestañas. Se eliminaron
+  `data-csub="fl"`, `cap-fl`, `vm-fl`, `fronts.fl` y
+  `assets/fronts/fl.svg`. El perfil y el mapa muestran 3 frentes; el mapa de la
+  Campaña muestra 10 nodos con espaciado dinámico.
+- **Logros:** `ach_ch0`…`ach_ch9` cubren los 10 mundos; se añadieron
+  `ach_ch8` y `ach_ch9`. `ach_ai` usa las misiones de categoría `ai`
+  (Mundos 3–8). `rw_cat_an` conserva la Lupa de Datos y `rw_cat_emp` se
+  reutilizó como Núcleo de Agentes.
+- **UI:** el modal del mapa busca el mundo por `id`, no por índice. El mapa
+  calcula el espaciado vertical para 10 nodos y el perfil ya no muestra Flujos.
+- **Tests:** `node tests/smoke.mjs` comprueba la fuente, los 10 mundos,
+  64+10=74, XP/minutos, jefes exactos, categorías, desbloqueo, checklist,
+  migración, ausencia de `fl` en Capital y la versión v5.72.
+- **Sin cambios de claves:** `SAVE_KEY` sigue en `odea_save_v2` y
+  `SAGA_KEY` en `odea_sagas_v1`.
 
 ### La Cacería v2 (v5.70)
 
@@ -204,17 +271,25 @@ Detalles de implementación:
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.70 y comprueba que mapa, misiones, XP, racha y arsenal siguen igual.
+2. Abre v5.72 y comprueba que mapa, misiones diarias, XP, racha y arsenal siguen igual.
+   La Campaña de Datos debe mostrar los 10 mundos nuevos y ya no las misiones `d0_1`…`d7_8`/`b2`…`b7`.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Entra en **LA CACERÍA**: no debe haber formularios. Elige una plataforma y pulsa **DISPARAR** varias veces.
    Debe subir el anillo, el total, el XP/monedas, la barra del jefe y aparecer combo/cadena cuando corresponda.
    Comprueba que las tarjetas diarias se cobran solas y que **Deshacer último disparo** revierte todo.
    Si había postulaciones viejas, deben aparecer como disparos totales y el rango debe reflejarlas.
-5. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas y `hunt.v2`.
-6. Importa un respaldo viejo (sin `odea_sagas_v1`, `diary.log`, `activity` ni `hunt.v2`): debe cargar sin errores,
-   con Sagas en 0, La Cacería limpia/migrada, el diario migrado y la racha y misiones intactas.
-7. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
-8. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
+5. Entra en **DATOS → CAMPAÑA DE DATOS**: verifica los 10 mundos, las 74 misiones, los 10 jefes con corona
+   y el checklist de producción desde el Mundo 5. Marca una misión, recarga y comprueba que sigue marcada
+   y que suma XP. El jefe de un mundo debe seguir bloqueado hasta completar las misiones regulares de ese mundo.
+6. Entra en **CAPITAL**: debe haber solo 3 pestañas (capital, inglés e IA), sin Taller de Flujos duplicado.
+   El perfil y el mapa deben hablar de 3 frentes.
+7. Exporta, borra los datos del sitio y restaura: el respaldo debe traer las Sagas, `hunt.v2` y las misiones nuevas
+   de la Campaña (`completedMissions`).
+8. Importa un respaldo viejo con `capital.fl`: ese progreso del Taller debe migrar a la Campaña. Los IDs de la
+   campaña vieja (`d…`, `b2`, `b4`, `b6`, `b7`) se descartan porque ya no existen. También debe cargar sin errores
+   un respaldo sin `odea_sagas_v1`, `diary.log`, `activity` ni `hunt.v2`.
+9. Abre **INVENTARIO → PERFIL**, revisa el Nivel ODEA, el ritmo de la curva y el día de campaña; toca un frente: debe cerrar el inventario y llevarte a esa pestaña.
+10. En la barra lateral, abre **⚙️ AJUSTES**: deben seguir ahí el salón de logros, respaldar, restaurar y los dos reinicios.
 
 ---
 
