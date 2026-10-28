@@ -1,0 +1,701 @@
+/*
+ * ODEA Anomalías v1 — estilos de la carta diaria y su economía de Fragmentos.
+ *
+ * Solo pinta los elementos que inyecta assets/odea-anomalias.js.
+ * Todos los ids/clases nuevos usan el prefijo anm- y respetan
+ * prefers-reduced-motion.
+ */
+
+/* ==========================================================
+   Botón ◆ N junto al sonido de la capa de jugo
+   ========================================================== */
+.anm-frag-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 34px;
+  margin: 2px 0 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 86, 216, 0.28);
+  border-radius: 10px;
+  background: rgba(10, 10, 26, 0.58);
+  color: var(--tx, #eaf0ff);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.anm-frag-btn:hover,
+.anm-frag-btn:focus-visible {
+  border-color: #ff56d8;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(255, 86, 216, 0.28);
+  outline: none;
+}
+
+.anm-frag-btn.anm-has-card {
+  border-color: rgba(255, 86, 216, 0.58);
+  color: #ffd7fb;
+  box-shadow: 0 0 14px rgba(255, 86, 216, 0.14);
+}
+
+.anm-frag-btn.anm-has-card::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff56d8;
+  box-shadow: 0 0 9px rgba(255, 86, 216, 0.95);
+}
+
+.anm-frag-btn.anm-is-compact {
+  width: auto;
+  min-width: 58px;
+  min-height: 34px;
+  margin: 0;
+  padding: 0 10px;
+}
+
+.anm-frag-btn.anm-pulse {
+  animation: anmButtonPulse 0.85s ease-out;
+}
+
+@keyframes anmButtonPulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  35% {
+    filter: brightness(1.7);
+    box-shadow: 0 0 28px rgba(255, 86, 216, 0.75);
+  }
+}
+
+/* ==========================================================
+   Panel / modal
+   ========================================================== */
+.anm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(25, 217, 255, 0.08), transparent 42%),
+    rgba(3, 5, 14, 0.74);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.anm-overlay.anm-on {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.anm-panel {
+  --anm-accent: #19d9ff;
+  --anm-accent-soft: rgba(25, 217, 255, 0.16);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10030;
+  width: min(560px, calc(100vw - 28px));
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--anm-accent) 48%, transparent);
+  border-radius: 20px;
+  background:
+    linear-gradient(160deg, rgba(15, 22, 48, 0.985), rgba(7, 9, 22, 0.995)),
+    radial-gradient(circle at 82% 0%, var(--anm-accent-soft), transparent 46%);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.78),
+    0 0 46px var(--anm-accent-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -48%) scale(0.97);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+}
+
+.anm-panel.anm-on {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.anm-panel[data-tipo="trivia"] {
+  --anm-accent: #19d9ff;
+  --anm-accent-soft: rgba(25, 217, 255, 0.16);
+}
+
+.anm-panel[data-tipo="objetivo"] {
+  --anm-accent: #ff56d8;
+  --anm-accent-soft: rgba(255, 86, 216, 0.16);
+}
+
+.anm-panel[data-tipo="caza"] {
+  --anm-accent: #71f6b2;
+  --anm-accent-soft: rgba(113, 246, 178, 0.15);
+}
+
+.anm-panel[data-tipo="cofre"] {
+  --anm-accent: #ffd866;
+  --anm-accent-soft: rgba(255, 216, 102, 0.16);
+}
+
+.anm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.anm-head-txt {
+  min-width: 0;
+}
+
+.anm-kicker {
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  color: var(--anm-accent);
+  text-transform: uppercase;
+}
+
+.anm-title {
+  margin: 4px 0 0;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: 0 0 18px var(--anm-accent-soft);
+}
+
+.anm-close {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(160, 160, 192, 0.28);
+  border-radius: 50%;
+  background: rgba(10, 10, 26, 0.58);
+  color: var(--tx2, #a0a0c0);
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.anm-close:hover,
+.anm-close:focus-visible {
+  border-color: var(--anm-accent);
+  color: #fff;
+  box-shadow: 0 0 14px var(--anm-accent-soft);
+  outline: none;
+}
+
+.anm-content {
+  margin-top: 16px;
+}
+
+.anm-kicker2 {
+  margin-bottom: 8px;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  color: var(--anm-accent);
+  text-transform: uppercase;
+}
+
+.anm-question {
+  margin: 0 0 14px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.anm-options {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.anm-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid rgba(160, 160, 192, 0.2);
+  border-radius: 10px;
+  background: rgba(10, 10, 26, 0.58);
+  color: var(--tx, #eaf0ff);
+  font: inherit;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.anm-opt:hover,
+.anm-opt:focus-visible {
+  border-color: var(--anm-accent);
+  background: var(--anm-accent-soft);
+  box-shadow: 0 0 16px var(--anm-accent-soft);
+  outline: none;
+}
+
+.anm-opt-letter {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid color-mix(in srgb, var(--anm-accent) 55%, transparent);
+  border-radius: 50%;
+  color: var(--anm-accent);
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.anm-note {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--anm-accent);
+  border-radius: 8px;
+  background: var(--anm-accent-soft);
+  color: var(--tx, #eaf0ff);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.anm-note.anm-is-ok {
+  border-left-color: var(--ok, #00ff88);
+  background: rgba(0, 255, 136, 0.08);
+}
+
+.anm-note.anm-is-warn {
+  border-left-color: var(--glow-amber, #ffaa00);
+  background: rgba(255, 170, 0, 0.08);
+}
+
+.anm-objective {
+  padding: 14px;
+  border: 1px dashed color-mix(in srgb, var(--anm-accent) 55%, transparent);
+  border-radius: 12px;
+  background: rgba(10, 10, 26, 0.52);
+}
+
+.anm-objective-title {
+  margin-bottom: 6px;
+  color: #fff;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.anm-progress-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 1.2px;
+  color: var(--tx2, #a0a0c0);
+}
+
+.anm-progress-label b {
+  color: var(--anm-accent);
+  font-size: 0.76rem;
+}
+
+.anm-progress {
+  height: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--anm-accent) 28%, transparent);
+  border-radius: 999px;
+  background: rgba(10, 10, 26, 0.8);
+}
+
+.anm-progress > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--anm-accent), #fff);
+  box-shadow: 0 0 14px var(--anm-accent);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.anm-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 12px;
+  padding: 11px 14px;
+  border: 1px solid color-mix(in srgb, var(--anm-accent) 55%, transparent);
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--anm-accent), rgba(255, 255, 255, 0.9));
+  color: #061018;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  box-shadow: 0 0 18px var(--anm-accent-soft);
+  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.anm-cta:hover,
+.anm-cta:focus-visible {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 0 26px var(--anm-accent-soft);
+  outline: none;
+}
+
+.anm-cta:disabled {
+  cursor: default;
+  opacity: 0.62;
+  filter: grayscale(0.25);
+  transform: none;
+}
+
+.anm-cta.anm-is-short {
+  opacity: 0.82;
+}
+
+.anm-claimed {
+  padding: 18px 10px 14px;
+  text-align: center;
+}
+
+.anm-claimed-ico {
+  margin-bottom: 6px;
+  font-size: 2.4rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 14px var(--anm-accent-soft));
+}
+
+.anm-claimed-title {
+  margin-bottom: 7px;
+  color: #fff;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.98rem;
+}
+
+.anm-muted {
+  margin: 0;
+  color: var(--tx2, #a0a0c0);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.anm-foot {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(160, 160, 192, 0.22);
+}
+
+.anm-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.anm-balance-label {
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.54rem;
+  letter-spacing: 1.6px;
+  color: var(--tx2, #a0a0c0);
+}
+
+.anm-balance-num {
+  color: var(--anm-accent);
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-shadow: 0 0 14px var(--anm-accent-soft);
+}
+
+.anm-balance-life {
+  color: var(--tx2, #a0a0c0);
+  font-size: 0.68rem;
+}
+
+.anm-milestones {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.anm-mile {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid rgba(160, 160, 192, 0.18);
+  border-radius: 999px;
+  background: rgba(10, 10, 26, 0.52);
+  color: var(--tx2, #a0a0c0);
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.6rem;
+  opacity: 0.48;
+  filter: grayscale(0.7);
+}
+
+.anm-mile.anm-is-on {
+  border-color: color-mix(in srgb, var(--anm-accent) 48%, transparent);
+  color: #fff;
+  opacity: 1;
+  filter: none;
+  background: var(--anm-accent-soft);
+  box-shadow: 0 0 12px var(--anm-accent-soft);
+}
+
+.anm-mile-ico {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.anm-pulse-buy {
+  margin-top: 4px;
+}
+
+.anm-foot-hint {
+  margin-top: 8px;
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+/* ==========================================================
+   Marca de objetivo sobre la tarjeta diaria existente
+   ========================================================== */
+#daily-hero .dm-row.anm-objetivo {
+  position: relative;
+  border-color: rgba(255, 86, 216, 0.58) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 86, 216, 0.28),
+    0 0 24px rgba(255, 86, 216, 0.16),
+    inset 0 0 22px rgba(255, 86, 216, 0.04);
+}
+
+#daily-hero .dm-row.anm-objetivo::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: 0;
+  border: 1px solid rgba(255, 86, 216, 0.42);
+  border-radius: 14px;
+  pointer-events: none;
+  animation: anmObjectiveRing 2.8s ease-in-out infinite;
+}
+
+#daily-hero .dm-row.anm-objetivo::after {
+  content: "ANOMALÍA";
+  position: absolute;
+  top: -8px;
+  left: 14px;
+  z-index: 3;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff56d8, #ffd866);
+  color: #0a0a1a;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  box-shadow: 0 0 14px rgba(255, 86, 216, 0.55);
+  pointer-events: none;
+}
+
+#daily-hero .dm-row.anm-pulse {
+  animation: anmObjectivePulse 0.9s ease-out;
+}
+
+@keyframes anmObjectiveRing {
+  0%, 100% {
+    opacity: 0.45;
+    box-shadow: 0 0 0 rgba(255, 86, 216, 0);
+  }
+  50% {
+    opacity: 0.95;
+    box-shadow: 0 0 18px rgba(255, 86, 216, 0.22);
+  }
+}
+
+@keyframes anmObjectivePulse {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 86, 216, 0);
+  }
+  30% {
+    box-shadow:
+      0 0 0 2px rgba(255, 86, 216, 0.72),
+      0 0 38px rgba(255, 86, 216, 0.55);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 86, 216, 0.28),
+      0 0 24px rgba(255, 86, 216, 0.16);
+  }
+}
+
+/* ==========================================================
+   Texto flotante propio
+   ========================================================== */
+.anm-float {
+  position: fixed;
+  z-index: 10040;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #ffd866;
+  text-shadow:
+    0 0 10px rgba(255, 216, 102, 0.85),
+    0 2px 12px rgba(4, 10, 24, 0.98);
+  animation: anmFloatUp 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes anmFloatUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.84);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -44px) scale(1.04);
+  }
+}
+
+/* ==========================================================
+   Pulso neón comprado: brillo sutil hasta fin del día
+   ========================================================== */
+body.anm-pulso .hud,
+body.anm-pulso .side-settings,
+body.anm-pulso .dm-row,
+body.anm-pulso .mission,
+body.anm-pulso .chapter,
+body.anm-pulso .card {
+  border-color: rgba(124, 108, 255, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(25, 217, 255, 0.08),
+    0 0 18px rgba(124, 108, 255, 0.12);
+}
+
+body.anm-pulso .side-logo,
+body.anm-pulso .hud .logo,
+body.anm-pulso h1,
+body.anm-pulso h2,
+body.anm-pulso h3 {
+  text-shadow:
+    0 0 10px rgba(25, 217, 255, 0.38),
+    0 0 24px rgba(124, 108, 255, 0.18);
+}
+
+body.anm-pulso #hud-bar {
+  box-shadow: 0 0 14px rgba(124, 108, 255, 0.55);
+}
+
+body.anm-pulso .anm-frag-btn {
+  border-color: rgba(124, 108, 255, 0.58);
+  box-shadow: 0 0 16px rgba(124, 108, 255, 0.18);
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width: 560px) {
+  .anm-panel {
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .anm-title {
+    font-size: 1.05rem;
+  }
+
+  .anm-opt {
+    font-size: 0.82rem;
+    padding: 10px;
+  }
+
+  .anm-balance-num {
+    font-size: 1.08rem;
+  }
+}
+
+/* ==========================================================
+   Movimiento reducido: sin animaciones ni flotantes
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .anm-frag-btn,
+  .anm-overlay,
+  .anm-panel,
+  .anm-close,
+  .anm-opt,
+  .anm-cta,
+  .anm-progress > span {
+    transition: none !important;
+  }
+
+  .anm-frag-btn.anm-pulse,
+  #daily-hero .dm-row.anm-objetivo::before,
+  #daily-hero .dm-row.anm-pulse,
+  .anm-float {
+    animation: none !important;
+  }
+
+  .anm-float {
+    display: none !important;
+  }
+
+  body.anm-pulso .hud,
+  body.anm-pulso .side-settings,
+  body.anm-pulso .dm-row,
+  body.anm-pulso .mission,
+  body.anm-pulso .chapter,
+  body.anm-pulso .card {
+    transition: none !important;
+  }
+}

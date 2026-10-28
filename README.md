@@ -18,7 +18,7 @@ PWA instalable y guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP/SVG), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70 + Campaña de Datos v5.72 + correcciones de auditoría v5.73 + capa de jugo v5.74). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70 + Campaña de Datos v5.72 + correcciones de auditoría v5.73 + capa de jugo v5.74 + anomalía diaria v5.75). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -147,7 +147,7 @@ La auditoría del 27/10/2026 dejó estos arreglos, todos cubiertos por `tests/sm
   retos) y Sagas. El pie muestra **649 misiones y retos**.
 - **L-08 · móvil pequeño:** a 320–380 px la navegación inferior usa dos filas con
   áreas táctiles de al menos 44 px y el contenido reserva espacio para ambas.
-- **Versión:** app **v5.74** y caché `odea-v5.74-20261028-jugo`.
+- **Versión:** app **v5.75** y caché `odea-v5.75-20261028-anomalias`.
 
 ### Capa de celebración (v5.74)
 
@@ -157,6 +157,17 @@ La auditoría del 27/10/2026 dejó estos arreglos, todos cubiertos por `tests/sm
 - **Único dato persistido:** `odea_juice_v1` (sonido activado/silenciado).
 - **Accesibilidad:** respeta `prefers-reduced-motion` (sin confeti, flotantes ni pulsos) y no crea el `AudioContext` hasta la primera interacción.
 - **Verificación:** `node tests/smoke.mjs` y `python tests/smoke.py`; prueba manual en navegador con misión diaria, desmarcado, subida de nivel, jefe, Vida, silencio y movimiento reducido.
+
+### Anomalía diaria y Fragmentos (v5.75)
+
+- **Archivos nuevos:** `assets/odea-anomalias.js` y `assets/odea-anomalias.css`.
+- **Qué agrega:** una carta diaria con cuatro tipos (trivia, objetivo, caza, cofre), economía propia de Fragmentos `◆`, botón `◆ N` junto al sonido de Ajustes, panel accesible y Pulso neón.
+- **Sin tocar el núcleo:** solo envuelve funciones globales y lee `gameState.totalXP` / misiones diarias; no modifica `saveGame`, `sumXP`, las funciones existentes, las claves `odea_*` ni `odea-juice.*`.
+- **Único dato persistido:** `odea_anomalia_v1` con `{ ultimaCarta, tipo, progreso, reclamada, fragmentos, fragmentosVida, pulsoHasta }`.
+- **Reglas:** la carta se genera una vez por día con pesos 35/30/25/10; si se cierra, se reabre desde `◆ N`; no se autoabre de nuevo el mismo día. Trivia: 4 opciones, 3 intentos, +1 ◆ al acertar. Objetivo: marca una misión diaria pendiente y da +1 ◆ al completarla. Caza: 3 compleciones reales, desmarcar no resta. Cofre: +1 ◆ directo. Pulso neón: 5 ◆ y brillo hasta medianoche.
+- **Hitos visuales:** 🔰 3, 🛰️ 7, 🌌 15 Fragmentos de por vida.
+- **Accesibilidad:** prefijo `anm-`, foco atrapado, Escape/overlay para cerrar y `prefers-reduced-motion`.
+- **Verificación:** smoke tests + E2E con Chrome/CDP para los cuatro tipos, reintentos, objetivo, caza, cofre, pulso, hitos, movimiento reducido y Vida.
 
 ### Niveles, racha y perfil (v5.66)
 
@@ -260,7 +271,7 @@ un frente de Capital.
   calcula el espaciado vertical para 10 nodos y el perfil ya no muestra Flujos.
 - **Tests:** `node tests/smoke.mjs` comprueba la fuente, los 10 mundos,
   64+10=74, XP/minutos, jefes exactos, categorías, desbloqueo, checklist,
-  migración, ausencia de `fl` en Capital, la versión v5.74 y las correcciones
+  migración, ausencia de `fl` en Capital, la versión v5.75 y las correcciones
   de auditoría (Mi Plan bloqueado, guardado nuevo, teclado y contador).
 - **Sin cambios de claves:** `SAVE_KEY` sigue en `odea_save_v2` y
   `SAGA_KEY` en `odea_sagas_v1`.
@@ -320,7 +331,7 @@ Detalles de implementación:
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.74 y comprueba que mapa, misiones diarias, XP, racha y arsenal siguen igual.
+2. Abre v5.75 y comprueba que mapa, misiones diarias, XP, racha y arsenal siguen igual.
    La Campaña de Datos debe mostrar los 10 mundos nuevos y ya no las misiones `d0_1`…`d7_8`/`b2`…`b7`.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Entra en **LA CACERÍA**: no debe haber formularios. Elige una plataforma y pulsa **DISPARAR** varias veces.
