@@ -1,0 +1,129 @@
+/* ==========================================================
+   ODEA Quiz v1 — Fase 3: micro-quiz diario de entrevista
+   Capa independiente: prefijo qz-, no toca estilos del núcleo.
+   ========================================================== */
+
+.qz-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 224, 255, 0.45);
+  background: rgba(10, 18, 32, 0.85);
+  color: #bfefff;
+  font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.qz-open-btn:hover { border-color: rgba(56, 224, 255, 0.8); color: #fff; }
+.qz-open-btn.qz-is-done {
+  border-color: rgba(64, 255, 170, 0.5);
+  color: #c9ffe6;
+}
+
+.qz-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(3, 6, 14, 0.72);
+}
+.qz-overlay[hidden] { display: none; }
+
+.qz-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 224, 255, 0.35);
+  background: linear-gradient(160deg, #0a1224, #0d1830);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 24px rgba(56, 224, 255, 0.12);
+  color: #e8f6ff;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.qz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+}
+.qz-title { font-weight: 700; font-size: 16px; letter-spacing: 0.02em; }
+.qz-close {
+  border: 0;
+  background: transparent;
+  color: #9fd8ef;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.qz-close:hover { color: #fff; }
+
+.qz-body { padding: 4px 18px 18px; }
+
+.qz-progress { font-size: 12px; color: #8fb8cc; margin-bottom: 8px; }
+.qz-tema { color: #7ce7ff; }
+
+.qz-question {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 0 0 14px;
+}
+
+.qz-options { display: flex; flex-direction: column; gap: 8px; }
+.qz-option {
+  text-align: left;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(140, 180, 210, 0.35);
+  background: rgba(16, 28, 48, 0.9);
+  color: #e8f6ff;
+  font: 500 14px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.qz-option:hover:not(:disabled) { border-color: rgba(56, 224, 255, 0.75); }
+.qz-option:disabled { cursor: default; opacity: 0.75; }
+.qz-option.qz-is-correct {
+  border-color: rgba(64, 255, 170, 0.9);
+  background: rgba(16, 60, 40, 0.9);
+  opacity: 1;
+}
+.qz-option.qz-is-wrong {
+  border-color: rgba(255, 92, 92, 0.9);
+  background: rgba(66, 18, 22, 0.9);
+  opacity: 1;
+}
+
+.qz-feedback {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border-left: 3px solid rgba(56, 224, 255, 0.7);
+  background: rgba(12, 22, 40, 0.9);
+}
+.qz-verdict { margin: 0 0 6px; font-weight: 700; }
+.qz-explain { margin: 0 0 12px; font-size: 13.5px; line-height: 1.45; color: #cfe9f7; }
+.qz-next {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 224, 255, 0.6);
+  background: rgba(14, 42, 66, 0.95);
+  color: #dff6ff;
+  font: 600 13.5px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.qz-next:hover { color: #fff; border-color: #38e0ff; }
+
+.qz-score { font-size: 17px; font-weight: 700; margin: 6px 0 8px; }
+.qz-stats { font-size: 13.5px; line-height: 1.5; color: #cfe9f7; margin: 0 0 10px; }
+.qz-note { font-size: 13px; line-height: 1.5; color: #8fb8cc; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .qz-card { scroll-behavior: auto; }
+}
