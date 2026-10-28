@@ -1,0 +1,145 @@
+/*
+ * ODEA Juice v1 — estilos de celebración y feedback.
+ *
+ * Solo pinta los elementos que inyecta assets/odea-juice.js.
+ * No redefine layouts, estados ni selectores usados por la lógica.
+ */
+
+/* Canvas propio de confeti: siempre por encima, nunca captura clics. */
+#odea-juice-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: none;
+  pointer-events: none;
+}
+
+/* Texto flotante "+N XP" / "¡Nivel N!". */
+.odea-juice-float {
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: "Orbitron", "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--glow-green, #71f6b2);
+  text-shadow:
+    0 0 8px rgba(113, 246, 178, 0.8),
+    0 2px 10px rgba(4, 10, 24, 0.95);
+  animation: odeaJuiceFloat 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.odea-juice-float.is-level {
+  font-size: 1.35rem;
+  color: var(--glow-amber, #ffd866);
+  text-shadow:
+    0 0 12px rgba(255, 216, 102, 0.9),
+    0 2px 12px rgba(4, 10, 24, 0.98);
+}
+
+@keyframes odeaJuiceFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.82);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -46px) scale(1.04);
+  }
+}
+
+/* La barra ya cambia de width desde el núcleo; aquí solo suavizamos el cambio. */
+#hud-bar {
+  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hud-bar.odea-juice-pulse {
+  animation: odeaJuiceBarPulse 0.78s ease-out;
+}
+
+@keyframes odeaJuiceBarPulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  35% {
+    filter: brightness(1.55);
+    box-shadow: 0 0 24px rgba(25, 217, 255, 0.85);
+  }
+}
+
+/* Botón de sonido inyectado dentro de Ajustes. */
+.odea-juice-sound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 34px;
+  margin: 2px 0 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(25, 217, 255, 0.32);
+  border-radius: 10px;
+  background: rgba(10, 10, 26, 0.58);
+  color: var(--tx, #eaf0ff);
+  font: inherit;
+  font-size: 0.66rem;
+  letter-spacing: 1.4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.odea-juice-sound:hover,
+.odea-juice-sound:focus-visible {
+  border-color: var(--glow-cyan, #19d9ff);
+  box-shadow: 0 0 14px rgba(25, 217, 255, 0.28);
+  outline: none;
+}
+
+.odea-juice-sound[aria-pressed="false"] {
+  opacity: 0.62;
+}
+
+.odea-juice-sound-ico {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.odea-juice-sound.is-compact {
+  width: 34px;
+  min-height: 34px;
+  padding: 0;
+}
+
+.odea-juice-sound.is-compact .odea-juice-sound-label {
+  display: none;
+}
+
+/* Con movimiento reducido no hay confeti, flotantes ni pulsos. */
+@media (prefers-reduced-motion: reduce) {
+  #odea-juice-confetti {
+    display: none !important;
+  }
+
+  .odea-juice-float {
+    display: none !important;
+    animation: none !important;
+  }
+
+  #hud-bar {
+    transition: none !important;
+  }
+
+  #hud-bar.odea-juice-pulse {
+    animation: none !important;
+  }
+}

@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.73-20261027-auditoria';
+const CACHE_VERSION = 'odea-v5.73-20261027-auditoria-jugo';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -15,6 +15,8 @@ const SHELL = [
   './manifest.json',
   './assets/odea-ui-v7.css?v=8m',
   './assets/odea-icons-v7.js?v=8f',
+  './assets/odea-juice.css?v=1',
+  './assets/odea-juice.js?v=1',
   './flujos_odea.js',
   './icon-192.png',
   './icon-512.png',
