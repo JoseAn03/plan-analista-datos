@@ -146,13 +146,14 @@ check('Sagas: regla de seguridad visible',
 
 // ---------- 12) Botón "＋" añadir a Mi Plan (v5.64) ----------
 check('＋ de Mi Plan: helper definido', html.includes('function planAddBtnHTML'));
-check('＋ en tarjetas elegibles (vida, imperio, noticias, b2b, sagas)',
-  html.includes('planAddBtnHTML("vida"') && /planAddBtnHTML\(front\.k/.test(html) &&
+check('＋ en tarjetas elegibles (campaña, vida, imperio, noticias, b2b, sagas)',
+  html.includes('planAddBtnHTML("campaign"') && html.includes('planAddBtnHTML("vida"') &&
+  /planAddBtnHTML\(front\.k/.test(html) &&
   html.includes('planAddBtnHTML("jobs"') && html.includes('planAddBtnHTML("b2b"') &&
   html.includes('planAddBtnHTML("sagas"'));
-check('＋ fuera de la campaña principal',
-  !/function campaignCard[\s\S]{0,900}planAddBtnHTML/.test(html) &&
-  !/function bossCard[\s\S]{0,900}planAddBtnHTML/.test(html));
+check('＋ en campaña incluye misiones y jefe, con has-plan',
+  /function campaignCard[\s\S]{0,500}has-plan[\s\S]{0,300}planAddBtnHTML\("campaign"/.test(html) &&
+  /function bossCard[\s\S]{0,600}has-plan[\s\S]{0,300}planAddBtnHTML\("campaign"/.test(html));
 check('＋ fuera de "Hoy"',
   !/function renderHero[\s\S]{0,1500}planAddBtnHTML/.test(html) &&
   !/function renderWeekly[\s\S]{0,900}planAddBtnHTML/.test(html) &&
@@ -162,7 +163,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.72: APP_VERSION y caché', html.includes('const APP_VERSION = "5.72"') && /odea-v5\.72-20261025-campana-taller/.test(sw));
+check('v5.73: APP_VERSION y caché', html.includes('const APP_VERSION = "5.73"') && /odea-v5\.73-20261027-auditoria/.test(sw));
 check('v5.72: Taller cargado como fuente de la Campaña',
   html.includes('<script src="flujos_odea.js"></script>') &&
   sw.includes("'./flujos_odea.js'") && !sw.includes("'./assets/fronts/fl.svg'"));
@@ -478,6 +479,44 @@ check('v5.72: CHAPTERS incluye requisito y checklist de producción',
   C.CHAPTERS.every((ch) => (ch.id >= 5) === !!ch.prod));
 check('v5.72: se conserva SAVE_KEY y SAGA_KEY',
   html.includes('const SAVE_KEY = "odea_save_v2"') && html.includes('const SAGA_KEY = "odea_sagas_v1"'));
+
+// ---------- 17) Correcciones de auditoría (v5.73) ----------
+check('H-01: guardar marca la migración para no borrar el primer día',
+  html.includes('const SAVE_SCHEMA = 3') &&
+  /function saveGame\(\)[\s\S]{0,420}gameState\.saveVersion = SAVE_SCHEMA[\s\S]{0,300}localStorage\.setItem\("odea_empleo_v2", "1"\)/.test(html) &&
+  /const hadSave = loadGame\(\)[\s\S]{0,350}legacySaveNeedsDailyReset/.test(html));
+check('H-02: Mi Plan no completa misiones de Imperio bloqueadas',
+  /function capToggleMission[\s\S]{0,1400}!before\.unlockMap\[o\.cap\]/.test(html) &&
+  /function plannerInfo[\s\S]{0,2800}locked: !done && !capMissionUnlocked/.test(html) &&
+  html.includes('function capMissionUnlocked('));
+check('H-02: B2B y Sagas también respetan su secuencia',
+  /function toggleB2B[\s\S]{0,500}!b2bUnlocked\(m\)/.test(html) &&
+  /function toggleSagaChapter[\s\S]{0,700}!sagaChapterUnlocked\(id\)/.test(html));
+check('M-01: el botón visible reinicia La Cacería',
+  html.includes('⟲ REINICIAR LA CACERÍA') && !html.includes('⟲ REINICIAR CAMPAÑA DE EMPLEO') &&
+  /getElementById\("btn-reset-daily"\)[\s\S]{0,220}huntReset\(\)/.test(html));
+check('M-02/M-03: teclado en Imperio y roles en Vida',
+  /view\.addEventListener\("keydown"[\s\S]{0,280}head\.click\(\)/.test(html) &&
+  /head\.setAttribute\("aria-expanded", os\.has\(capNum\) \? "true" : "false"\)/.test(html) &&
+  /function vidaCardHTML[\s\S]{0,450}role="checkbox" tabindex="0" aria-checked/.test(html));
+check('M-04: modales de bienvenida/diagnóstico atrapan el foco',
+  /const LAYERS = \["modal-layer", "diag-layer"/.test(html) &&
+  /modalBtn\.dataset\.mode === "welcome"\) return;/.test(html) &&
+  /layer\.id === "modal-layer" && modalBtn\.dataset\.mode === "welcome"/.test(html));
+check('L-01/L-02/L-03: ruta, logo, holograma y diario accesibles',
+  /day-card[\s\S]{0,400}role="button" tabindex="0"/.test(html) &&
+  /id="logo" role="button" tabindex="0"/.test(html) &&
+  /id="side-holo"[\s\S]{0,180}role="button" tabindex="0"/.test(html) &&
+  html.includes('<label for="diary-input" class="sr-only">'));
+check('L-04/L-05: jefes bloqueados y subpestañas aisladas',
+  /bossCard[\s\S]{0,800}aria-disabled="true"/.test(html) &&
+  html.includes('document.querySelector("#view-vida .sub-tabs")') &&
+  !/document\.querySelectorAll\("\.sub-tab"\)\.forEach/.test(html));
+check('L-06/L-07/L-08: reset limpio, contador completo y nav de dos filas',
+  /function resetGame[\s\S]{0,500}localStorage\.removeItem\(FOCUS_TIMER_KEY\)/.test(html) &&
+  /function totalMissionCount[\s\S]{0,900}vidaMissionIndex\(\)[\s\S]{0,500}RETOS\.length[\s\S]{0,700}SAGAS\.reduce/.test(html) &&
+  html.includes('misiones y retos') && /@media \(max-width:380px\)/.test(html) &&
+  /\.nav-bottom\{flex-wrap:wrap/.test(html));
 
 // ---------- Resultado ----------
 console.log();

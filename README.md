@@ -18,7 +18,7 @@ PWA instalable y guarda el progreso en `localStorage`.
 | `assets/` | Imágenes (WebP/SVG), CSS y JS de la interfaz v7 |
 | `manifest.json` | Manifest de la PWA |
 | `sw.js` | Service worker (offline + auto-actualización) |
-| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70 + Campaña de Datos v5.72). Es el que usa el CI |
+| `tests/smoke.mjs` | Smoke test Node (sintaxis JS + invariantes + Sagas + curva de niveles/perfil + La Cacería v5.70 + Campaña de Datos v5.72 + correcciones de auditoría v5.73). Es el que usa el CI |
 | `quiz.html`, `quiz-definitivo.html` | Cuestionarios sueltos, no enlazados desde la app |
 
 ### Cifras del contenido
@@ -29,6 +29,7 @@ PWA instalable y guarda el progreso en `localStorage`.
 - **8 semanas** de plan diario (56 días)
 - **2 sagas · 12 capítulos** (5 de video + 7 de Roblox), con XP para Legado y Poder & Imagen
 - **La Cacería v2:** 4 misiones base repetibles, 3 diarias automáticas, 6 plataformas, jefe semanal de 30 HP, crítico 12%, combo de 30 min, cadena de días, anti-spam desde el disparo 13 y 5 rangos. Las postulaciones viejas se migran como disparos legacy.
+- **649 misiones y retos** en el contador del ecosistema: 168 diarias + 8 semanales + 74 de Campaña + 30 de Noticias + 18 de B2B + 101 de Imperio + 192 de Vida (170 misiones + 22 retos) + 12 de Sagas + 9 jefes + 37 de La Cacería.
 
 ---
 
@@ -92,13 +93,13 @@ con tu hijo. Guardan su progreso en una **clave nueva**, `odea_sagas_v1`, separa
 ### Mi Plan desde cualquier frente (v5.64)
 
 Cada tarjeta de misión elegible lleva un botón **＋** que la agrega a *Mi Plan*.
-Las misiones de la campaña principal y las de la pestaña *Hoy* no lo llevan.
+La pestaña *Hoy* y las misiones diarias del **Campamento Base** no lo llevan.
 Reutiliza `gameState.planner.items` con refs `{f, id}`: no hay clave nueva,
 no hay migración y el progreso guardado sigue intacto.
 
-- **Frentes con ＋:** Vida (sus 7 zonas), Imperio (`cap`/`eng`/`ai`), Noticias,
-  B2B y Sagas. También aparece en los modales del mapa, que reutilizan los
-  mismos renders (`vida-zona`, `cap-zona`, `jobs-blk`, `b2b-ch`).
+- **Frentes con ＋:** Campaña de Datos (misiones y jefes de mundo), Vida (sus 7 zonas),
+  Imperio (`cap`/`eng`/`ai`), Noticias, B2B y Sagas. También aparece en los modales
+  del mapa, que reutilizan los mismos renders (`vida-zona`, `cap-zona`, `jobs-blk`, `b2b-ch`).
 - **Estados:** ＋ = no está en el plan · ✓ = ya está (tocar de nuevo la quita).
   El estado se lee de `gameState.planner`, así que siempre coincide con el
   panel «Agregar misiones».
@@ -108,7 +109,45 @@ no hay migración y el progreso guardado sigue intacto.
 - **Vida completa:** `vidaMissionIndex()` indexa las 18 listas de Vida
   (Equilibrio, Legado, Alianza, Poder, Sabios, Planes y Orden) en diferido.
   `RETOS` queda fuera a propósito: es el reto del día y vive en *Hoy*.
-- **Verificación:** `node tests/smoke.mjs` incluye 4 checks del ＋.
+- **Verificación:** `node tests/smoke.mjs` comprueba el ＋ en Campaña (misión y jefe),
+  Vida, Imperio, Noticias, B2B y Sagas, y que quede fuera de *Hoy* y Campamento Base.
+
+### Correcciones de auditoría (v5.73)
+
+La auditoría del 27/10/2026 dejó estos arreglos, todos cubiertos por `tests/smoke.mjs`:
+
+- **H-01 · guardado nuevo:** `SAVE_SCHEMA = 3` versiona el guardado y `saveGame()`
+  marca `odea_empleo_v2` en cada guardado. La migración destructiva del Taller solo
+  corre en guardados realmente antiguos con `capital.fl`; un guardado de v5.72 sin
+  marca conserva su día, semana y racha. Así un usuario nuevo tampoco pierde su
+  primera sesión al recargar.
+- **H-02 · progresión:** `capMissionUnlocked()` valida el mundo anterior antes de
+  completar una misión de Imperio; Mi Plan muestra las misiones bloqueadas con 🔒
+  y no las completa. B2B (`b2bUnlocked()`) y Sagas (`sagaChapterUnlocked()`) tienen
+  la misma defensa secuencial.
+- **M-01 · Ajustes:** el botón visible dice **⟲ REINICIAR LA CACERÍA** y sigue
+  llamando a `huntReset()`; no reinicia toda la Campaña de Empleo.
+- **M-02 · Imperio:** los encabezados de mundo se abren con Enter/Espacio y
+  sincronizan `aria-expanded`.
+- **M-03 · Vida:** las tarjetas usan `role="checkbox"`, `tabindex="0"`,
+  `aria-checked` y una etiqueta accesible.
+- **M-04 · modales:** `modal-layer` y `diag-layer` entran en la trampa de foco.
+  La bienvenida no se cierra por fondo ni con Escape antes de completar el onboarding.
+- **L-01/L-02 · teclado:** las tarjetas de día, el logo, el logo lateral, el
+  holograma y las zonas de Aldea/Imperio se activan con Enter/Espacio. El logo
+  vuelve a hacer solo lo que dice su título: ir al Mapa de Mundos.
+- **L-03 · diario:** el campo tiene un `<label for="diary-input">` oculto.
+- **L-04 · estados bloqueados:** los jefes de Campaña y los encabezados de mundo
+  bloqueados exponen `aria-disabled="true"`.
+- **L-05 · pestañas:** las subpestañas de Vida se buscan dentro de `#view-vida`;
+  entrar a Vida ya no borra la pestaña activa de Imperio.
+- **L-06 · reinicio total:** `resetGame()` borra también `focus_timer_v1`,
+  `odea_events`, el estado de enfoque y `hunt`.
+- **L-07 · contador:** `totalMissionCount()` suma Imperio, Vida (incluidos los 22
+  retos) y Sagas. El pie muestra **649 misiones y retos**.
+- **L-08 · móvil pequeño:** a 320–380 px la navegación inferior usa dos filas con
+  áreas táctiles de al menos 44 px y el contenido reserva espacio para ambas.
+- **Versión:** app **v5.73** y caché `odea-v5.73-20261027-auditoria`.
 
 ### Niveles, racha y perfil (v5.66)
 
@@ -212,7 +251,8 @@ un frente de Capital.
   calcula el espaciado vertical para 10 nodos y el perfil ya no muestra Flujos.
 - **Tests:** `node tests/smoke.mjs` comprueba la fuente, los 10 mundos,
   64+10=74, XP/minutos, jefes exactos, categorías, desbloqueo, checklist,
-  migración, ausencia de `fl` en Capital y la versión v5.72.
+  migración, ausencia de `fl` en Capital, la versión v5.73 y las correcciones
+  de auditoría (Mi Plan bloqueado, guardado nuevo, teclado y contador).
 - **Sin cambios de claves:** `SAVE_KEY` sigue en `odea_save_v2` y
   `SAGA_KEY` en `odea_sagas_v1`.
 
@@ -260,7 +300,7 @@ Detalles de implementación:
   cadena 7/30. Se reutilizan los IDs globales `ach_hunt_*`.
 - **Respaldo:** `exportSave` incluye `hunt.v2`; `importSave` lo normaliza. Un respaldo
   viejo sin `v2` carga con `legacyShots = applications.length` y el resto intacto.
-- **Reinicio:** **AJUSTES → REINICIAR CAMPAÑA DE EMPLEO** ahora llama a `huntReset()` y
+- **Reinicio:** **AJUSTES → REINICIAR LA CACERÍA** llama a `huntReset()` y
   borra solo La Cacería, con confirmación. No toca otros mundos.
 - **Móvil:** pantalla verificada a 390 px sin overflow horizontal (`docScroll=390`).
 - **Verificación:** `tests/smoke.mjs` comprueba versión, estado `hunt.v2`, migración,
@@ -271,7 +311,7 @@ Detalles de implementación:
 ### Verificar que el progreso viejo se conserva
 
 1. Exporta un respaldo con la versión anterior (o conserva el `localStorage` actual).
-2. Abre v5.72 y comprueba que mapa, misiones diarias, XP, racha y arsenal siguen igual.
+2. Abre v5.73 y comprueba que mapa, misiones diarias, XP, racha y arsenal siguen igual.
    La Campaña de Datos debe mostrar los 10 mundos nuevos y ya no las misiones `d0_1`…`d7_8`/`b2`…`b7`.
 3. Entra en **Sagas** (pestaña o mundo del mapa), marca un capítulo y recarga: debe seguir marcado y sumar 1 moneda.
 4. Entra en **LA CACERÍA**: no debe haber formularios. Elige una plataforma y pulsa **DISPARAR** varias veces.
@@ -307,9 +347,15 @@ a los usuarios que ya tienen la app instalada**.
 - `<h1>` y `<main>` presentes; un solo `<h1>`.
 - Modales con `role="dialog"` / `aria-modal` / `aria-labelledby`.
 - `Escape` cierra modales, con trampa de foco y restauración del foco al cerrar.
-- `role="checkbox"` operable con teclado (Espacio/Enter).
+  La bienvenida y el diagnóstico inicial también están dentro de la trampa.
+- `role="checkbox"` operable con teclado (Espacio/Enter), con `aria-checked` y
+  etiqueta accesible en Vida.
+- Tarjetas de día, encabezados de mundo, logo, holograma y zonas del mapa se
+  activan con Enter/Espacio.
+- Estados bloqueados con `aria-disabled="true"`; el diario tiene etiqueta asociada.
 - Toasts anunciados con `aria-live="polite"`.
 - Contraste de la paleta: AA o superior en todas las combinaciones.
+- Navegación inferior de dos filas y objetivos táctiles de 44 px a 320–380 px.
 
 ---
 

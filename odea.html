@@ -740,11 +740,13 @@ html{-webkit-text-size-adjust:100%}
 .pk-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:10px;
   background:rgba(10,10,26,.5);border:1px solid rgba(140,150,220,.14)}
 .pk-item.done{opacity:.55}
+.pk-item.locked{opacity:.6;border-style:dashed}
 .pk-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
 .pk-title{font-size:.76rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pk-xp{font-size:.62rem;color:var(--tx2)}
 .pk-btn{cursor:pointer;width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,255,136,.35);
   background:rgba(0,255,136,.07);color:var(--glow-green);font-size:1rem;font-weight:700;flex-shrink:0}
+.pk-btn:disabled{cursor:not-allowed;opacity:.55;border-color:rgba(160,160,192,.35);background:rgba(10,10,26,.5);color:var(--tx2)}
 .pk-btn.in{background:var(--glow-green);color:#04120b;border-color:var(--glow-green)}
 .planner-back{display:block;margin:14px auto 0}
 #planner-close{position:absolute;top:12px;right:12px}
@@ -1557,6 +1559,14 @@ header{padding:10px 14px}
 @media (max-width:999px){
   .layout{padding-bottom:84px}
   footer{padding-bottom:72px}
+}
+/* L-08: a 320–380 px, dos filas para que cada botón tenga un área táctil cómoda */
+@media (max-width:380px){
+  .nav-bottom{flex-wrap:wrap;row-gap:2px;padding-left:4px;padding-right:4px}
+  .navb{flex:1 1 20%;min-height:44px;padding:4px 2px}
+  .navb span{font-size:.47rem;letter-spacing:.2px}
+  .layout{padding-bottom:148px}
+  footer{padding-bottom:136px}
 }
 
 
@@ -2650,8 +2660,8 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo">ODEA<small id="ver-logo">APP DE VIDA · v5.72</small></div>
-  <div class="side-holo" id="side-holo" title="Tu personaje · toca para abrir tu inventario"></div>
+  <div class="side-logo" id="side-logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">ODEA<small id="ver-logo">APP DE VIDA · v5.73</small></div>
+  <div class="side-holo" id="side-holo" role="button" tabindex="0" title="Tu personaje · toca para abrir tu inventario" aria-label="Abrir inventario del personaje"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
@@ -2677,12 +2687,12 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
         <input type="file" id="import-file" accept=".json,application/json" hidden>
       </div>
       <button class="btn-reset" id="btn-reset" aria-label="Reiniciar todo el progreso">⟲ REINICIAR TODO EL PROGRESO</button>
-      <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar solo La Cacería" title="Reinicia solo los disparos, rango, combo, cadena y jefe de La Cacería">⟲ REINICIAR CAMPAÑA DE EMPLEO</button>
+      <button class="btn-reset" id="btn-reset-daily" aria-label="Reiniciar solo La Cacería" title="Reinicia solo los disparos, rango, combo, cadena y jefe de La Cacería">⟲ REINICIAR LA CACERÍA</button>
     </div>
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.72</span>
+    <span class="ver" id="ver-badge">v5.73</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2704,7 +2714,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
      ========================================================== -->
 <header>
   <button id="nav-burger" title="Menú" aria-label="Abrir menú">☰</button>
-  <div class="logo" id="logo" title="Ir al Mapa de Mundos">
+  <div class="logo" id="logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">
     ODEA<small>PLAN MAESTRO AVANZADO</small>
   </div>
   <div class="hud">
@@ -2873,7 +2883,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.72</span> — <span id="mission-count">0</span> misiones · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.73</span> — <span id="mission-count">0</span> misiones y retos · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3965,7 +3975,8 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
    ========================================================== */
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
-const APP_VERSION = "5.72"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
+const APP_VERSION = "5.73"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4112,10 +4123,18 @@ function isDayUnlocked(day) { return day <= unlockedDay(); }
 
 /* --- Persistencia --- */
 function saveGame() {
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); }
+  try {
+    gameState.saveVersion = SAVE_SCHEMA;
+    localStorage.setItem(SAVE_KEY, JSON.stringify(gameState));
+    /* v5.73: todo guardado creado por esta versión ya está migrado.
+       Sin esta marca, la migración de odea_empleo_v2 borraba el primer
+       día/semana/racha del usuario en la primera recarga (H-01). */
+    localStorage.setItem("odea_empleo_v2", "1");
+  }
   catch (e) { console.warn("No se pudo guardar:", e); }
 }
 let corruptSave = false;
+let legacySaveNeedsDailyReset = false;
 function loadGame() {
   try {
     const old = localStorage.getItem(OLD_KEY);
@@ -4131,10 +4150,15 @@ function loadGame() {
     if (!raw) return false;
     const data = JSON.parse(raw);
     if (!data) return false;
+    const rawSchema = Number(data.saveVersion) || 0;
+    gameState.saveVersion = rawSchema;
     gameState.playerName = data.playerName || "Recluta";
     gameState.completedMissions = (data.completedMissions || []).filter(id => campaignAll.some(m => m.id === id));
     /* Migración v5.72: el Taller estaba en Capital. Su progreso pasa a la Campaña. */
     const legacyFl = (data.capital && Array.isArray(data.capital.fl)) ? data.capital.fl : [];
+    /* Solo los guardados sin versión y con capital.fl son anteriores a v5.72.
+       Un guardado v5.72 sin versión no debe perder sus diarias (H-01). */
+    legacySaveNeedsDailyReset = rawSchema === 0 && legacyFl.length > 0;
     gameState.completedMissions = Array.from(new Set(gameState.completedMissions.concat(
       legacyFl.filter(id => campaignAll.some(m => m.id === id))
     )));
@@ -4565,6 +4589,11 @@ function toggleSagaChapter(id) {
   if (!cap) return;
   const beforeOde = odeLevelNow();
   const was = !!sagaState.chapters[id];
+  if (!was && !sagaChapterUnlocked(id)) {
+    toast("🔒", "Capítulo bloqueado", "Completa el capítulo anterior de esta saga para avanzar.");
+    try { playSfx("error"); } catch (e) {}
+    return;
+  }
   if (was) delete sagaState.chapters[id];
   else sagaState.chapters[id] = true;
   saveSagas();
@@ -4801,6 +4830,9 @@ loadSagas();
 
 function resetGame() {
   localStorage.removeItem(SAVE_KEY);
+  localStorage.removeItem(FOCUS_TIMER_KEY);
+  localStorage.removeItem(EVENTS_KEY);
+  localStorage.removeItem("odea_empleo_v2");
   resetSagas();
   gameState = {
     playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [],
@@ -4809,10 +4841,15 @@ function resetGame() {
     sound: true, reto: { date: null, id: null, done: false },
     rewards: { unlocked: [], queue: [], equipped: {} },
     planner: { items: [] },
-    diary: { date: null, text: "", log: [] }, activity: {}, freezers: 0, applications: [], focus: { log: [], date: null }
+    diary: { date: null, text: "", log: [] }, activity: {}, freezers: 0, applications: [], focus: { log: [], date: null },
+    hunt: defaultHunt()
   };
+  focusRunning = false;
+  if (focusTick) { clearInterval(focusTick); focusTick = null; }
+  focusMode = "focus"; focusDomain = "estudio"; focusEnd = 0; focusRemaining = 25 * 60;
   selectedDay = 1;
   renderAll();
+  renderFocus();
   showWelcome();
   toast("🔄", "Progreso reiniciado", "El camino comienza de nuevo, recluta.");
 }
@@ -5122,8 +5159,13 @@ function toast(ico, title, sub, cls) {
 /* --- 🏷️ Versión única + conteo dinámico (Fase 0.5 P0) --- */
 function totalMissionCount() {
   try {
+    /* Vida = misiones de las 7 zonas + los 22 retos de "Hoy". */
+    const vidaCount = Object.keys(vidaMissionIndex()).length +
+      (typeof RETOS !== "undefined" ? RETOS.length : 0);
+    const capCount = CAP_FRONTS.reduce(function (s, fr) { return s + (fr.missions ? fr.missions.length : 0); }, 0);
+    const sagaCount = SAGAS.reduce(function (s, x) { return s + x.chapters.length; }, 0);
     return (campaignAll.length || 0) + (dailyMissions.length || 0) + (weeklyMissions.length || 0) +
-      (employmentMissions.length || 0) + (B2B_MISSIONS.length || 0) +
+      (employmentMissions.length || 0) + (B2B_MISSIONS.length || 0) + capCount + vidaCount + sagaCount +
       (GOD_BOSSES.length || 0) + (TITAN_BOSSES.length || 0) +
       ((typeof HUNT_MISSIONS !== "undefined" ? HUNT_MISSIONS.length : 0) || 0);
   } catch (e) { return 0; }
@@ -5285,7 +5327,8 @@ function dayCard(day) {
   const xpSum = list.reduce((s, m) => s + m.xp, 0);
   const stateIco = full ? "✓" : (locked ? "🔒" : (isToday ? "🔥" : (doneN > 0 ? "◐" : "○")));
   return '<div class="day-card' + (full ? " done" : "") + (isToday ? " today" : "") + (locked ? " locked" : "") + sel +
-    '" data-day="' + day + '">' +
+    '" data-day="' + day + '" role="button" tabindex="0" aria-label="Día ' + day +
+    (isToday ? " · hoy" : "") + (locked ? " · bloqueado" : "") + '"' + (locked ? ' aria-disabled="true"' : '') + '>' +
     '<span class="dc-state">' + stateIco + '</span>' +
     '<div class="dc-day">DÍA ' + day + (isToday ? " · HOY" : "") + '</div>' +
     '<div class="dc-title">' + escapeHtml(list[0].title.replace(/^[^ ]+ /, "")) + (doneN > 0 && !full ? " (+" + doneN + ")" : "") + '</div>' +
@@ -5469,6 +5512,7 @@ function plannerInfo(f, id, vsCache) {
     m = B2B_MISSIONS.find(function (x) { return x.id === id; });
     return m ? {
       title: m.title, xp: m.xp, done: (gameState.completedB2b || []).includes(id),
+      locked: !(gameState.completedB2b || []).includes(id) && !b2bUnlocked(m),
       desc: m.description, verif: m.verification,
       meta: ["💸 Fase " + m.chapter, "⏱️ " + m.estimatedTime]
     } : null;
@@ -5481,6 +5525,7 @@ function plannerInfo(f, id, vsCache) {
     const done = (gameState.capital[fr.store] || []).includes(id);
     return {
       title: m.t, xp: m.xp, done: done,
+      locked: !done && !capMissionUnlocked(fr, m),
       desc: m.d, verif: m.v,
       meta: [fr.ico + " " + fr.n, "🌍 Mundo " + m.cap, "⏱️ " + fmtMins(m.time)]
     };
@@ -5515,6 +5560,7 @@ function plannerInfo(f, id, vsCache) {
     });
     return cap ? {
       title: cap.title, xp: cap.xp, done: sagaChapterDone(id),
+      locked: !sagaChapterDone(id) && !sagaChapterUnlocked(id),
       desc: cap.objective, verif: cap.record || "",
       teach: cap.teach || "",
       steps: Array.isArray(cap.steps) ? cap.steps : [],
@@ -5525,6 +5571,23 @@ function plannerInfo(f, id, vsCache) {
   return null;
 }
 function plannerRefKey(it) { return it.f + ":" + it.id; }
+function b2bUnlocked(m) {
+  if (!m) return false;
+  if (m.chapter === 0) return true;
+  const prev = B2B_MISSIONS.filter(function (x) { return x.chapter === m.chapter - 1; });
+  const done = gameState.completedB2b || [];
+  return prev.length > 0 && prev.every(function (x) { return done.includes(x.id); });
+}
+function sagaChapterUnlocked(id) {
+  for (let i = 0; i < SAGAS.length; i++) {
+    const chapters = SAGAS[i].chapters;
+    const idx = chapters.findIndex(function (c) { return c.id === id; });
+    if (idx < 0) continue;
+    if (idx === 0) return true;
+    return !!sagaState.chapters[chapters[idx - 1].id];
+  }
+  return false;
+}
 function plannerFakeEl() {
   const r = { left: window.innerWidth / 2 - 60, top: 220, width: 120, height: 40, right: window.innerWidth / 2 + 60, bottom: 260 };
   return { getBoundingClientRect: function () { return r; } };
@@ -5659,12 +5722,16 @@ function renderPlannerPicker() {
       if (onlyPending && info.done) return;
       const key = plannerRefKey(c);
       const added = !!inPlan[key];
-      rows += '<div class="pk-item' + (info.done ? " done" : "") + '">' +
+      const locked = !!info.locked && !added;
+      rows += '<div class="pk-item' + (info.done ? " done" : "") + (locked ? " locked" : "") + '">' +
         '<div class="pk-body">' +
           '<span class="pk-title">' + escapeHtml(info.title) + '</span>' +
-          '<span class="pk-xp">+' + info.xp + ' XP' + (info.done ? " · ✓" : "") + '</span>' +
+          '<span class="pk-xp">' + (locked ? "🔒 Bloqueada · completa el mundo anterior" : "+" + info.xp + ' XP' + (info.done ? " · ✓" : "")) + '</span>' +
         '</div>' +
-        '<button class="pk-btn' + (added ? " in" : "") + '" data-pk-add="' + c.f + '" data-pk-id="' + c.id + '" aria-label="' + (added ? "Quitar del plan" : "Agregar al plan") + '">' + (added ? "✓" : "+") + '</button>' +
+        '<button class="pk-btn' + (added ? " in" : "") + '" data-pk-add="' + c.f + '" data-pk-id="' + c.id + '"' +
+          (locked ? ' disabled aria-disabled="true" title="Completa el mundo anterior"' : '') +
+          ' aria-label="' + (added ? "Quitar del plan" : locked ? "Misión bloqueada" : "Agregar al plan") + '">' +
+          (added ? "✓" : locked ? "🔒" : "+") + '</button>' +
       '</div>';
     });
     if (!rows) return;
@@ -5773,7 +5840,7 @@ function renderDiary() {
       (done
         ? '<p class="diary-text">' + escapeHtml(d.text) + '</p>' +
           '<button class="btn-neon ghost" id="diary-edit">✏️ Editar</button>'
-        : '<textarea id="diary-input" maxlength="220" placeholder="Una línea sobre tu día: qué lograste, qué aprendiste, por qué estás agradecido…"></textarea>' +
+        : '<label for="diary-input" class="sr-only">Tu línea del diario</label><textarea id="diary-input" maxlength="220" placeholder="Una línea sobre tu día: qué lograste, qué aprendiste, por qué estás agradecido…"></textarea>' +
           '<button class="btn-neon" id="diary-save">💾 Guardar (+15 XP)</button>') +
     '</div>';
   const sv = document.getElementById("diary-save");
@@ -6060,7 +6127,8 @@ function renderChapters() {
 }
 function campaignCard(m, isDone) {
   const cat = CAT[m.category];
-  return '<div class="mission' + (isDone ? " done" : "") + '" data-id="' + m.id + '">' +
+  return '<div class="mission has-plan' + (isDone ? " done" : "") + '" data-id="' + m.id + '">' +
+    planAddBtnHTML("campaign", m.id) +
     '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + isDone + '"></div>' +
     '<div class="m-body">' +
       '<div class="m-title">' + escapeHtml(m.title) + '</div>' +
@@ -6073,8 +6141,10 @@ function bossCard(b, isDone) {
   const cat = CAT[b.category];
   const locked = !isDone && !bossUnlocked(b.chapter);
   const pending = chapterPending(b.chapter);
-  return '<div class="mission boss' + (isDone ? " done" : "") + (locked ? " locked" : "") + '" data-id="' + b.id + '">' +
-    '<div class="m-check' + (locked ? " locked" : "") + '" role="checkbox" tabindex="0" aria-checked="' + isDone + '">' + (locked ? "🔒" : "") + '</div>' +
+  return '<div class="mission boss has-plan' + (isDone ? " done" : "") + (locked ? " locked" : "") + '" data-id="' + b.id + '">' +
+    planAddBtnHTML("campaign", b.id) +
+    '<div class="m-check' + (locked ? " locked" : "") + '" role="checkbox" tabindex="0" aria-checked="' + isDone + '"' +
+      (locked ? ' aria-disabled="true" aria-label="Proyecto final bloqueado"' : '') + '>' + (locked ? "🔒" : "") + '</div>' +
     '<div class="m-body">' +
       '<div class="m-title">👑 ' + escapeHtml(b.title) + '</div>' +
       '<div class="m-desc">' + escapeHtml(b.description) + '</div>' +
@@ -8676,6 +8746,11 @@ function toggleB2B(id, el) {
   if (!m) return;
   const oldLevel = odeLevelNow();
   const wasDone = (gameState.completedB2b || []).includes(id);
+  if (!wasDone && !b2bUnlocked(m)) {
+    toast("🔒", "Fase bloqueada", "Completa las misiones de la fase anterior antes de avanzar.");
+    playSfx("error");
+    return;
+  }
   if (wasDone) {
     gameState.completedB2b = gameState.completedB2b.filter(x => x !== id);
   } else {
@@ -8895,6 +8970,13 @@ document.getElementById("roadmap").addEventListener("click", e => {
   renderHero();
   renderRoadmap();
 });
+document.getElementById("roadmap").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const card = e.target.closest(".day-card");
+  if (!card) return;
+  e.preventDefault();
+  card.click();
+});
 document.getElementById("jobs-root").addEventListener("click", e => {
   const check = e.target.closest(".m-check");
   if (check) toggleJob(check.closest(".mission").dataset.id, check);
@@ -8944,7 +9026,13 @@ modalBtn.addEventListener("click", () => {
     modalLayer.classList.remove("show");
   }
 });
-modalLayer.addEventListener("click", e => { if (e.target === modalLayer) modalLayer.classList.remove("show"); });
+modalLayer.addEventListener("click", e => {
+  if (e.target !== modalLayer) return;
+  /* La bienvenida no debe cerrarse por accidente: sin startDate el
+     onboarding quedaría incompleto (M-04). */
+  if (modalBtn.dataset.mode === "welcome") return;
+  modalLayer.classList.remove("show");
+});
 document.getElementById("modal-input").addEventListener("keydown", e => {
   if (e.key === "Enter") modalBtn.click();
 });
@@ -8954,7 +9042,6 @@ const achLayer = document.getElementById("ach-layer");
 function openAchievements() { renderAchievements(); achLayer.classList.add("show"); }
 const achQuick = document.getElementById("ach-link");
 if (achQuick) achQuick.addEventListener("click", openAchievements);
-document.getElementById("logo").addEventListener("click", openAchievements);
 document.getElementById("ach-close").addEventListener("click", () => achLayer.classList.remove("show"));
 achLayer.addEventListener("click", e => { if (e.target === achLayer) achLayer.classList.remove("show"); });
 
@@ -9222,7 +9309,8 @@ function vidaCardHTML(o, vs, extra) {
   const done = vidaIsDone(vs, o);
   return '<div class="mission small has-plan' + (done ? " done" : "") + '" data-mid="' + o.id + '">' +
     planAddBtnHTML("vida", o.id) +
-    '<div class="m-check"></div><div class="m-body">' +
+    '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '" aria-label="' +
+      (done ? "Desmarcar: " : "Completar: ") + escapeHtml(o.t) + '"></div><div class="m-body">' +
     '<div class="m-title">' + o.t + "</div>" +
     '<div class="m-desc">' + o.d + "</div>" +
     (o.v ? '<div class="m-verif">' + o.v + "</div>" : "") +
@@ -9413,7 +9501,7 @@ function renderVidaSide(vs) {
 function renderVidaSubActiva() {
   const vs = vidaCompute();
   renderVidaSide(vs);
-  const st = document.querySelector(".sub-tab.active");
+  const st = document.querySelector("#view-vida .sub-tab.active");
   if (!st) return;
   if (st.dataset.sub === "eq") renderVidaEq(vs);
   else if (st.dataset.sub === "kid") renderVidaKid(vs);
@@ -9429,7 +9517,7 @@ function renderVida() {
   renderVidaSide(vs);
   const view = document.getElementById("view-vida");
   if (view && view.classList.contains("active")) {
-    const st = document.querySelector(".sub-tab.active");
+    const st = view.querySelector(".sub-tab.active");
     const name = st ? st.dataset.sub : "eq";
     if (name === "eq") renderVidaEq(vs);
     else if (name === "kid") renderVidaKid(vs);
@@ -9501,12 +9589,12 @@ function vidaToggle(ev) {
 }
 /* --- Eventos: pestañas internas + delegación de clics --- */
 (function () {
-  const subTabs = document.querySelector(".sub-tabs");
+  const subTabs = document.querySelector("#view-vida .sub-tabs");
   if (subTabs) {
     subTabs.addEventListener("click", function (e) {
       const b = e.target.closest(".sub-tab");
       if (!b) return;
-      document.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
+      subTabs.querySelectorAll(".sub-tab").forEach(x => x.classList.toggle("active", x === b));
       ["eq", "kid", "cpl", "pow", "men", "plan", "orden", "hist"].forEach(n => {
         const v = document.getElementById("vida-" + n);
         if (v) v.classList.toggle("active", b.dataset.sub === n);
@@ -9535,6 +9623,20 @@ function capFrontMissionsOf(front, cap) { return front.missions.filter(m => m.ca
 function capFrontBossOf(front, cap) {
   const list = capFrontMissionsOf(front, cap);
   return list.length ? list[list.length - 1] : null;
+}
+/* Una misión solo está disponible si su mundo ya se abrió.
+   Se usa tanto en la vista Imperio como en Mi Plan para que no se
+   pueda saltar la progresión secuencial (H-02). */
+function capMissionUnlocked(front, mission) {
+  if (!front || !mission) return false;
+  const idx = front.chapters.findIndex(function (ch) { return ch.cap === mission.cap; });
+  if (idx < 0) return false;
+  if (idx === 0) return true;
+  const arr = gameState.capital && Array.isArray(gameState.capital[front.store]) ? gameState.capital[front.store] : [];
+  const doneSet = new Set(arr);
+  const prevCap = front.chapters[idx - 1].cap;
+  const prevMissions = front.missions.filter(function (m) { return m.cap === prevCap; });
+  return prevMissions.length > 0 && prevMissions.every(function (m) { return doneSet.has(m.id); });
 }
 function capFrontCompute(front) {
   const key = front.store;
@@ -9608,7 +9710,7 @@ function capChaptersHTML(front, vs) {
     const open = capOpenSet[front.k].has(ch.cap);
     const lockedCls = unlocked ? "" : " clocked";
     html += '<div class="chapter' + (open ? " open" : "") + lockedCls + '" data-front="' + front.k + '" data-cap="' + ch.cap + '" style="--ch-color:' + ch.color + '">' +
-      '<div class="chapter-head" role="button" tabindex="0" aria-expanded="' + open + '">' +
+      '<div class="chapter-head" role="button" tabindex="0" aria-expanded="' + open + '"' + (unlocked ? "" : ' aria-disabled="true"') + '>' +
       '<span class="chapter-ico">' + (unlocked ? ch.ico : "🔒") + "</span>" +
       '<div class="chapter-title"><small>' + ch.code + (pc.complete ? " · COMPLETADO ✓" : "") + "</small>" +
       ch.title + (unlocked ? "" : ' <small style="color:var(--glow-amber)">· bloqueado</small>') + "</div>" +
@@ -9684,6 +9786,11 @@ function capToggleMission(card) {
   const beforeLvl = before.ladder.lvl;
   const beforeOde = odeLevelNow();
   const wasDone = done.includes(id);
+  if (!wasDone && !before.unlockMap[o.cap]) {
+    toast("🔒", "Mundo bloqueado", "Completa el mundo anterior entero para desbloquear esta misión.");
+    playSfx("error");
+    return;
+  }
   const pcBefore = before.perCap.find(p => p.cap === o.cap);
   const capCompletedNow = !wasDone && pcBefore.done + 1 === pcBefore.total;
   if (wasDone) {
@@ -9761,10 +9868,18 @@ function capToggleMission(card) {
       const os = capOpenSet[frontK];
       if (os.has(capNum)) os.delete(capNum); else os.add(capNum);
       ch.classList.toggle("open", os.has(capNum));
+      head.setAttribute("aria-expanded", os.has(capNum) ? "true" : "false");
       return;
     }
     const card = e.target.closest(".mission[data-cid]");
     if (card) capToggleMission(card);
+  });
+  view.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const head = e.target.closest(".chapter-head");
+    if (!head) return;
+    e.preventDefault();
+    head.click();
   });
 })();
 
@@ -11091,7 +11206,7 @@ function bovedaHTML() {
   CAP_FRONTS.forEach(f => {
     const fv = vs.fronts[f.k];
     const pct = f.chapters.length ? Math.round((fv.capsDone / f.chapters.length) * 100) : 0;
-    html += '<div class="aldea-zone' + (fv.capsDone === f.chapters.length ? " done" : "") + '" data-w="cap-zona" data-sub="' + f.k + '" style="--mc:' + f.c + '">' +
+    html += '<div class="aldea-zone' + (fv.capsDone === f.chapters.length ? " done" : "") + '" data-w="cap-zona" data-sub="' + f.k + '" style="--mc:' + f.c + '" role="button" tabindex="0" aria-label="Entrar a ' + f.n + '">' +
       '<span class="az-pct">' + pct + '%</span><span class="az-ico">' +
       (CAP_FRONT_IMG[f.k] ? '<img src="' + CAP_FRONT_IMG[f.k] + '" alt="' + f.n + '">' : f.ico) + '</span>' +
       '<span class="az-name">' + f.n + '</span>' +
@@ -11159,7 +11274,7 @@ function aldeaHTML() {
   ];
   let html = '<div class="aldea-grid">';
   zonas.forEach(z => {
-    html += '<div class="aldea-zone" data-w="aldea-zone" data-sub="' + z.k + '" style="--mc:' + z.c + '">' +
+    html += '<div class="aldea-zone" data-w="aldea-zone" data-sub="' + z.k + '" style="--mc:' + z.c + '" role="button" tabindex="0" aria-label="Entrar a ' + z.n + '">' +
       '<span class="az-pct">' + z.pct + "%</span><span class='az-ico'>" + z.ico + "</span>" +
       '<span class="az-name">' + z.n + "</span>" +
       '<span class="az-sub">' + (AZ_METAFORA[z.k] || "") + "</span>" +
@@ -11331,6 +11446,13 @@ function renderMap() {
         if (node.classList.contains("locked")) { playSfx("error"); toast("🔒", "Zona bloqueada", "Completa el capítulo anterior para desbloquearla."); return; }
         mapOpenModal(node.dataset.act, node.dataset.id);
       }
+    });
+    stage.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const zone = e.target.closest(".aldea-zone");
+      if (!zone) return;
+      e.preventDefault();
+      zone.click();
     });
   }
   const back = document.getElementById("map-back");
@@ -11767,23 +11889,35 @@ function rwOpenArsenalFrom(ev) {
   if (burger) burger.addEventListener("click", openSide);
   const overlay = document.getElementById("side-overlay");
   if (overlay) overlay.addEventListener("click", closeSide);
+  function keyActivate(el) {
+    if (!el) return;
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); }
+    });
+  }
   const logo = document.getElementById("logo");
-  if (logo) logo.addEventListener("click", function () { goTab("map"); });
+  if (logo) { logo.addEventListener("click", function () { goTab("map"); }); keyActivate(logo); }
   const fab = document.getElementById("fab-continue");
   if (fab) fab.addEventListener("click", function () { goTab("daily"); });
   const sideLogo = document.getElementById("side-logo");
-  if (sideLogo) sideLogo.addEventListener("click", function () { goTab("map"); closeSide(); });
+  if (sideLogo) {
+    sideLogo.addEventListener("click", function () { goTab("map"); closeSide(); });
+    keyActivate(sideLogo);
+  }
   document.querySelectorAll(".nav-item, .navb[data-tab]").forEach(function (el) {
     el.addEventListener("click", function () { goTab(el.dataset.tab); });
   });
   const openers = ["side-inv", "bottom-inv", "side-holo", "holo-stage"];
   openers.forEach(function (id) {
     const el = document.getElementById(id);
-    if (el) el.addEventListener("click", function (e) {
-      if (el.dataset && el.dataset.dragged) { delete el.dataset.dragged; return; }
-      if (id === "holo-stage" || id === "side-holo") { e.stopPropagation(); }
-      rwOpenArsenalFrom(e);
-    });
+    if (el) {
+      el.addEventListener("click", function (e) {
+        if (el.dataset && el.dataset.dragged) { delete el.dataset.dragged; return; }
+        if (id === "holo-stage" || id === "side-holo") { e.stopPropagation(); }
+        rwOpenArsenalFrom(e);
+      });
+      if (id === "side-holo" || id === "holo-stage") keyActivate(el);
+    }
   });
 })();
 
@@ -12106,12 +12240,15 @@ window.addEventListener("resize", sizeCanvas);
 loopParticles();
 
 const hadSave = loadGame();
-// Migración única: arrancar la campaña de empleo desde el día 1
+/* v5.73 (H-01): migrar solo guardados realmente antiguos (capital.fl).
+   Un guardado nuevo o de v5.72 sin marca se conserva y se marca como migrado. */
 if (hadSave && !localStorage.getItem("odea_empleo_v2")) {
-  gameState.completedDaily = [];
-  gameState.completedWeekly = [];
-  gameState.lastDailyDate = null;
-  gameState.streak = 0;
+  if (legacySaveNeedsDailyReset) {
+    gameState.completedDaily = [];
+    gameState.completedWeekly = [];
+    gameState.lastDailyDate = null;
+    gameState.streak = 0;
+  }
   localStorage.setItem("odea_empleo_v2", "1");
   saveGame();
 }
@@ -12133,7 +12270,7 @@ focusRestore();
 
 /* --- Accesibilidad: Escape, trampa de foco y teclado en checkboxes --- */
 (function a11yOverlays() {
-  const LAYERS = ["node-layer", "god-layer", "rw-layer", "planner-layer",
+  const LAYERS = ["modal-layer", "diag-layer", "node-layer", "god-layer", "rw-layer", "planner-layer",
                   "shop-layer", "focus-layer", "hunt-layer", "ach-layer", "confirm-layer"];
   const els = LAYERS.map(function (id) { return document.getElementById(id); }).filter(Boolean);
   const triggers = new WeakMap();
@@ -12168,6 +12305,7 @@ focusRestore();
       const layer = openLayer();
       if (!layer) return;
       e.preventDefault();
+      if (layer.id === "modal-layer" && modalBtn.dataset.mode === "welcome") return;
       if (layer.id === "focus-layer" && typeof focusClose === "function") focusClose();
       else if (layer.id === "hunt-layer" && typeof huntBossClose === "function") huntBossClose();
       else layer.classList.remove("show");
