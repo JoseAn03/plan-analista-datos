@@ -35,7 +35,10 @@
   width: 100%;
   max-width: 520px;
   max-height: 88vh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(255, 215, 64, 0.4);
   background: linear-gradient(160deg, #16130a, #1e1a08);
@@ -61,7 +64,11 @@
 }
 .ts-close:hover { color: #fff; }
 
-.ts-body { padding: 4px 18px 18px; }
+.ts-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0; padding: 4px 18px 18px; }
 .ts-balance { font-size: 15px; margin: 4px 0 12px; }
 .ts-dim { color: #bfa964; font-size: 12px; }
 

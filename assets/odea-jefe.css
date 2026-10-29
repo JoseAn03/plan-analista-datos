@@ -34,7 +34,10 @@
   width: 100%;
   max-width: 520px;
   max-height: 88vh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(255, 170, 0, 0.4);
   background: linear-gradient(160deg, #171106, #1d1503);
@@ -60,7 +63,11 @@
 }
 .jf-close:hover { color: #fff; }
 
-.jf-body { padding: 4px 18px 18px; }
+.jf-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0; padding: 4px 18px 18px; }
 
 .jf-boss-name { font-size: 18px; font-weight: 800; margin: 2px 0 2px; }
 .jf-boss-title { font-size: 12.5px; color: #e8b34b; margin: 0 0 10px; letter-spacing: 0.03em; }
