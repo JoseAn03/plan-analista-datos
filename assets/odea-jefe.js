@@ -85,6 +85,13 @@
       } catch (e) {}
       return null;
     }
+    function busOn(tipo, fn) {
+      try {
+        if (window.ODEA && ODEA.bus && typeof ODEA.bus.on === "function") {
+          ODEA.bus.on(tipo, fn);
+        }
+      } catch (e) {}
+    }
 
     /* ---------------- estado ---------------- */
     function defaultState() {
@@ -253,6 +260,11 @@
             state.victoriaEn = state.semana;
             state.victorias += 1;
             saveState();
+            try {
+              if (window.ODEA && ODEA.bus && typeof ODEA.bus.emit === "function") {
+                ODEA.bus.emit("jefe.superado", { fecha: dateStr(new Date()), ganancia: g, fantasma: ghost });
+              }
+            } catch (e) {}
           }
           html += '<p class="jf-quote jf-quote-win">' + esc(boss.desenlace) + "</p>";
         } else {
@@ -284,6 +296,16 @@
       ensureWeek();
       injectOpenButton();
       buildPanel();
+      // Fase 6: la carrera contra el fantasma se refresca en vivo con el bus.
+      var XP_EVENTS = ["mission.completed", "job.applied", "focus.completed",
+        "diary.written", "boss.defeated"];
+      for (var i = 0; i < XP_EVENTS.length; i++) {
+        busOn(XP_EVENTS[i], function () {
+          ensureWeek();
+          updateOpenButton();
+          if (overlay && !overlay.hidden) render();
+        });
+      }
     }
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", install, { once: true });

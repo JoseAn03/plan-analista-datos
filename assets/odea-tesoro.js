@@ -83,7 +83,9 @@
         propios: [],       // ids comprados
         tema: "",          // "", "tema-aurora", "tema-synthwave"
         marco: false,      // cosmético activo
-        titulo: false      // cosmético activo
+        titulo: false,     // cosmético activo
+        sinergias: {},     // Fase 6: bonus por evento ya cobrados ("quiz:YYYY-MM-DD": n)
+        reclamos: []       // Fase 6: ids de bonus del buzón (Hub) ya cobrados
       };
     }
     var state = defaultState();
@@ -106,6 +108,14 @@
         d.tema = (s.tema === "tema-aurora" || s.tema === "tema-synthwave") ? s.tema : "";
         d.marco = !!s.marco;
         d.titulo = !!s.titulo;
+        if (s.sinergias && typeof s.sinergias === "object" && !Array.isArray(s.sinergias)) {
+          for (var key in s.sinergias) {
+            if (Object.prototype.hasOwnProperty.call(s.sinergias, key)) {
+              d.sinergias[key] = clampInt(s.sinergias[key], 0, 999999);
+            }
+          }
+        }
+        d.reclamos = Array.isArray(s.reclamos) ? s.reclamos.slice(-60) : [];
         state = d;
       } catch (e) { /* estado corrupto: default */ }
     }
@@ -113,6 +123,145 @@
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
     }
     function owns(id) { return state.propios.indexOf(id) !== -1; }
+
+    /* ---------------- Fase 6: conexión con el ecosistema ---------------- */
+    function busOn(tipo, fn) {
+      try {
+        if (window.ODEA && ODEA.bus && typeof ODEA.bus.on === "function") {
+          ODEA.bus.on(tipo, fn);
+        }
+      } catch (e) {}
+    }
+    function busEmit(tipo, datos) {
+      try {
+        if (window.ODEA && ODEA.bus && typeof ODEA.bus.emit === "function") {
+          ODEA.bus.emit(tipo, datos);
+        }
+      } catch (e) {}
+    }
+    function readKey(key) {
+      try {
+        var raw = localStorage.getItem(key);
+        if (!raw) return null;
+        var o = JSON.parse(raw);
+        return (o && typeof o === "object") ? o : null;
+      } catch (e) { return null; }
+    }
+    function showToast(txt) {
+      try {
+        var el = document.createElement("div");
+        el.className = "ts-toast";
+        el.textContent = txt;
+        document.body.appendChild(el);
+        setTimeout(function () {
+          try { if (el.parentNode) el.parentNode.removeChild(el); } catch (e) {}
+        }, 2300);
+      } catch (e) {}
+    }
+    function panelOpen() { return !!(overlay && !overlay.hidden); }
+
+    /* Bonus de sinergia: una vez por tipo y día. */
+    function grantSinergia(tipo, monto) {
+      var key = tipo + ":" + todayStr();
+      if (state.sinergias[key]) return;
+      state.sinergias[key] = monto;
+      // Poda: conservar solo los últimos 14 días.
+      var limite = dayOffsetStr(todayStr(), -14);
+      for (var k in state.sinergias) {
+        if (Object.prototype.hasOwnProperty.call(state.sinergias, k)) {
+          var f = k.split(":")[1] || "";
+          if (f && f < limite) delete state.sinergias[k];
+        }
+      }
+      state.monedas += monto;
+      saveState();
+      showToast("🤝 Sinergia +" + monto + " 🪙");
+      updateOpenButton();
+      if (panelOpen()) render();
+    }
+
+    /* Buzón del Hub: bonus dejados por el Centro de Comando (Ruta del día). */
+    function claimMailbox() {
+      var hub = readKey("odea_hub_v1");
+      if (!hub || !Array.isArray(hub.pendientes)) return;
+      var cambio = false;
+      for (var i = 0; i < hub.pendientes.length; i++) {
+        var p = hub.pendientes[i];
+        if (!p || !p.id || state.reclamos.indexOf(p.id) !== -1) continue;
+        state.reclamos.push(p.id);
+        state.monedas += clampInt(p.monedas, 0, 999999);
+        showToast("🧭 Bonus de ruta +" + clampInt(p.monedas, 0, 999999) + " 🪙");
+        cambio = true;
+      }
+      if (state.reclamos.length > 60) {
+        state.reclamos = state.reclamos.slice(-60);
+      }
+      if (cambio) {
+        saveState();
+        updateOpenButton();
+        if (panelOpen()) render();
+      }
+    }
+
+    /* Conversión ◆ → 🪙: apretón de manos por el bus con Anomalías. */
+    var cambioPendienteId = null;
+    var cambioNota = "";
+    function onCambio() {
+      if (cambioPendienteId) return;
+      var id = "cambio-" + Date.now() + "-" + Math.floor(Math.random() * 1000000);
+      cambioPendienteId = id;
+      cambioNota = "Pidiendo el cambio a Anomalías…";
+      busEmit("tesoro.cambio.solicitado", { id: id });
+      render();
+      setTimeout(function () {
+        if (cambioPendienteId === id) {
+          cambioPendienteId = null;
+          cambioNota = "Anomalías no respondió; no se cambió nada.";
+          if (panelOpen()) render();
+        }
+      }, 1800);
+    }
+
+    function installBus() {
+      var XP_EVENTS = ["mission.completed", "job.applied", "focus.completed",
+        "diary.written", "boss.defeated", "achievement.unlocked"];
+      function onXpEvent() {
+        var g = syncProgress();
+        if (g > 0) showToast("+" + g + " 🪙 por tu progreso");
+        claimMailbox();
+        updateOpenButton();
+        if (panelOpen()) render();
+        // Segundo pase por si el núcleo recalcula el XP justo después del evento.
+        setTimeout(function () {
+          var g2 = syncProgress();
+          if (g2 > 0) {
+            showToast("+" + g2 + " 🪙 por tu progreso");
+            updateOpenButton();
+            if (panelOpen()) render();
+          }
+        }, 400);
+      }
+      for (var i = 0; i < XP_EVENTS.length; i++) busOn(XP_EVENTS[i], onXpEvent);
+      busOn("quiz.completed", function () { grantSinergia("quiz", 5); });
+      busOn("anomalia.claimed", function () { grantSinergia("anomalia", 3); });
+      busOn("jefe.superado", function () { grantSinergia("jefe", 10); });
+      busOn("anomalia.cambio.confirmado", function (d) {
+        if (!d || d.id !== cambioPendienteId) return;
+        cambioPendienteId = null;
+        state.monedas += 5;
+        cambioNota = "Cambio hecho: −1 ◆, +5 🪙.";
+        saveState();
+        showToast("+5 🪙 conversión");
+        updateOpenButton();
+        if (panelOpen()) render();
+      });
+      busOn("anomalia.cambio.rechazado", function (d) {
+        if (!d || d.id !== cambioPendienteId) return;
+        cambioPendienteId = null;
+        cambioNota = "Anomalías no tenía ◆ disponibles; no se cambió nada.";
+        if (panelOpen()) render();
+      });
+    }
 
     /* Conversión de progreso y cierre de día. Devuelve monedas ganadas ahora. */
     function syncProgress() {
@@ -251,6 +400,7 @@
     function openPanel() {
       buildPanel();
       syncProgress();
+      claimMailbox();
       applyCosmetics();
       render();
       overlay.hidden = false;
@@ -300,6 +450,17 @@
       }
       html += "</div>";
 
+      var anmTs = readKey("odea_anomalia_v1");
+      var frags = anmTs ? clampInt(anmTs.fragmentos, 0, 999999) : null;
+      html += '<div class="ts-streak">' +
+        '<p class="ts-streak-line">◆ <b>Fragmentos</b> (Anomalías): ' +
+        (frags === null ? "sin datos" : frags) + '</p>' +
+        '<button type="button" class="ts-buy" data-cambio="1"' +
+        ((frags === null || frags < 1 || cambioPendienteId) ? " disabled" : "") +
+        '>Cambiar 1 ◆ = 5 🪙</button>' +
+        (cambioNota ? '<p class="ts-saved">' + esc(cambioNota) + "</p>" : "") +
+        "</div>";
+
       html += '<p class="ts-shop-title">Tienda cosmética</p>';
       for (var i = 0; i < SHOP.length; i++) {
         var item = SHOP[i];
@@ -331,6 +492,8 @@
       for (var k = 0; k < toggles.length; k++) {
         toggles[k].addEventListener("click", onToggle);
       }
+      var cambioBtn = body.querySelector("[data-cambio]");
+      if (cambioBtn) cambioBtn.addEventListener("click", onCambio);
     }
 
     function onBuy(ev) {
@@ -370,6 +533,8 @@
       injectOpenButton();
       buildPanel();
       applyCosmetics();
+      installBus();
+      claimMailbox();
     }
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", install, { once: true });
