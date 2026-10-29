@@ -251,6 +251,14 @@
       }
       saveState();
 
+      if (last) {
+        try {
+          if (window.ODEA && ODEA.bus && typeof ODEA.bus.emit === "function") {
+            ODEA.bus.emit("quiz.completed", { fecha: todayStr(), aciertos: todayScore() });
+          }
+        } catch (e) {}
+      }
+
       var buttons = body.querySelectorAll(".qz-option");
       for (var i = 0; i < buttons.length; i++) {
         var idx = parseInt(buttons[i].getAttribute("data-idx"), 10);

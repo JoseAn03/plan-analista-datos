@@ -1,0 +1,79 @@
+/* ==========================================================
+   ODEA Hub v1 — Fase 6: Centro de Comando del ecosistema
+   Capa independiente: prefijo hub-, no toca estilos del núcleo.
+   ========================================================== */
+
+.hub-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 108, 255, 0.6);
+  background: rgba(16, 12, 38, 0.9);
+  color: #d6d0ff;
+  font: 700 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.hub-open-btn:hover { border-color: rgba(124, 108, 255, 0.9); color: #fff; }
+
+.hub-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10070;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(3, 6, 14, 0.74);
+}
+.hub-overlay[hidden] { display: none; }
+
+.hub-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(124, 108, 255, 0.45);
+  background: linear-gradient(160deg, #0d0a24, #141033);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 24px rgba(124, 108, 255, 0.14);
+  color: #ece9ff;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.hub-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+}
+.hub-title { font-weight: 700; font-size: 16px; }
+.hub-close {
+  border: 0;
+  background: transparent;
+  color: #bdb2ff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.hub-close:hover { color: #fff; }
+
+.hub-body { padding: 4px 18px 18px; }
+.hub-status { font-size: 14px; margin: 2px 0 12px; }
+.hub-sec { font-weight: 700; font-size: 14px; margin: 12px 0 6px; }
+
+.hub-ruta {
+  border: 1px solid rgba(124, 108, 255, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  background: rgba(8, 6, 22, 0.55);
+}
+.hub-ruta .hub-sec { margin-top: 2px; }
+.hub-check { font-size: 13.5px; margin: 0 0 5px; }
+.hub-ruta-done { font-size: 13.5px; color: #ffe082; margin: 8px 0 0; }
+.hub-dim { color: #9d94d6; font-size: 12.5px; }
+
+.hub-layer { font-size: 13.5px; line-height: 1.5; margin: 0 0 4px; }
+.hub-note { font-size: 12.5px; line-height: 1.5; color: #9d94d6; margin: 12px 0 0; }

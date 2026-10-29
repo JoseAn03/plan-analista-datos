@@ -417,6 +417,31 @@
       }
     }
 
+    /* Fase 6 (Ecosistema): conversión de Fragmentos a Monedas del Tesoro.
+       El Tesoro pide por el bus; SOLO esta capa descuenta de su clave
+       y confirma. Dedup por id dentro de la sesión (el intercambio es
+       sincrónico dentro de la misma página). */
+    var cambiosVistos = {};
+    function installCambio() {
+      try {
+        if (!(window.ODEA && ODEA.bus && typeof ODEA.bus.on === "function")) return;
+        ODEA.bus.on("tesoro.cambio.solicitado", function (d) {
+          try {
+            if (!d || !d.id || cambiosVistos[d.id]) return;
+            cambiosVistos[d.id] = true;
+            if (!state || state.fragmentos < 1) {
+              ODEA.bus.emit("anomalia.cambio.rechazado", { id: d.id, motivo: "sin-fragmentos" });
+              return;
+            }
+            state.fragmentos = clampInt(state.fragmentos - 1, 0, 999999);
+            saveState();
+            updateUI();
+            ODEA.bus.emit("anomalia.cambio.confirmado", { id: d.id });
+          } catch (e) {}
+        });
+      } catch (e) {}
+    }
+
     function claimReward(kind, opts) {
       if (!state || state.reclamada) return false;
       opts = opts || {};
@@ -438,6 +463,11 @@
       }
 
       saveState();
+      try {
+        if (window.ODEA && ODEA.bus && typeof ODEA.bus.emit === "function") {
+          ODEA.bus.emit("anomalia.claimed", { fecha: todayStr(), kind: kind });
+        }
+      } catch (e) {}
       lastNote = opts.note || (reward ? "+1 ◆ Fragmento" : "Carta reclamada.");
       lastNoteKind = reward ? "ok" : "warn";
       updateUI();
@@ -1149,6 +1179,7 @@
       injectOpenButton();
       buildPanel();
       updateUI();
+      installCambio();
       installObjectiveObserver();
       installVidaHook();
       wrapActions();

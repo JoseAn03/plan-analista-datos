@@ -120,3 +120,28 @@ body.ts-marco-on .side-holo {
   border-radius: 12px;
 }
 .ts-titulo { color: #ffd740; font-weight: 700; font-size: 0.85em; }
+
+/* Toast de monedas en vivo (Fase 6) */
+.ts-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 92px;
+  transform: translateX(-50%);
+  z-index: 10080;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 64, 0.65);
+  background: rgba(24, 20, 4, 0.95);
+  color: #ffecb3;
+  font: 700 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  animation: ts-toast-in 0.25s ease;
+}
+@keyframes ts-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-toast { animation: none; }
+}
