@@ -38,7 +38,10 @@
   width: 100%;
   max-width: 520px;
   max-height: 88vh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(56, 224, 255, 0.35);
   background: linear-gradient(160deg, #0a1224, #0d1830);
@@ -64,7 +67,11 @@
 }
 .qz-close:hover { color: #fff; }
 
-.qz-body { padding: 4px 18px 18px; }
+.qz-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0; padding: 4px 18px 18px; }
 
 .qz-progress { font-size: 12px; color: #8fb8cc; margin-bottom: 8px; }
 .qz-tema { color: #7ce7ff; }

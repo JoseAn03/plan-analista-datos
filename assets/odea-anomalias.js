@@ -636,12 +636,26 @@
       openBtn.setAttribute("aria-label", "Abrir anomalía diaria. Tenés " + n + " Fragmentos.");
     }
 
+    function ecoHost() {
+      var side = document.querySelector(".app-side");
+      var eco = document.getElementById("odea-eco");
+      if (!eco && side) {
+        eco = document.createElement("div");
+        eco.id = "odea-eco";
+        eco.className = "odea-eco";
+        eco.innerHTML = '<p class="odea-eco-title">🌐 ECOSISTEMA</p>';
+        var settings = document.getElementById("side-settings");
+        if (settings && settings.parentNode === side) side.insertBefore(eco, settings);
+        else side.appendChild(eco);
+      }
+      return eco || document.querySelector("#side-settings .side-settings-body") ||
+        document.querySelector(".hud") || document.body;
+    }
+
     function injectOpenButton() {
       if (openBtn && document.body.contains(openBtn)) return;
 
-      var juice = document.getElementById("odea-juice-snd");
-      var host = document.querySelector("#side-settings .side-settings-body") ||
-        document.querySelector(".hud") || document.body;
+      var host = ecoHost();
 
       var btn = document.createElement("button");
       btn.type = "button";
@@ -657,13 +671,7 @@
         openPanel();
       });
 
-      if (juice && juice.parentNode) {
-        juice.parentNode.insertBefore(btn, juice.nextSibling);
-      } else if (host.firstChild) {
-        host.insertBefore(btn, host.firstChild);
-      } else {
-        host.appendChild(btn);
-      }
+      host.appendChild(btn);
 
       openBtn = btn;
       updateOpenButton();

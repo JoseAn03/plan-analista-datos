@@ -34,7 +34,10 @@
   width: 100%;
   max-width: 520px;
   max-height: 88vh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(124, 108, 255, 0.45);
   background: linear-gradient(160deg, #0d0a24, #141033);
@@ -60,7 +63,11 @@
 }
 .hub-close:hover { color: #fff; }
 
-.hub-body { padding: 4px 18px 18px; }
+.hub-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0; padding: 4px 18px 18px; }
 .hub-status { font-size: 14px; margin: 2px 0 12px; }
 .hub-sec { font-weight: 700; font-size: 14px; margin: 12px 0 6px; }
 
@@ -77,3 +84,23 @@
 
 .hub-layer { font-size: 13.5px; line-height: 1.5; margin: 0 0 4px; }
 .hub-note { font-size: 12.5px; line-height: 1.5; color: #9d94d6; margin: 12px 0 0; }
+
+/* Sección ECOSISTEMA en el panel lateral (Fase 6.1): visible sin
+   desplegar Ajustes; la crea la primera capa que se monta. */
+.odea-eco {
+  margin-top: 10px;
+  border-top: 1px dashed rgba(160, 160, 192, 0.18);
+  padding: 8px 2px 2px;
+}
+.odea-eco-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+  color: #bdb2ff;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+.odea-eco > button {
+  width: 100%;
+  justify-content: flex-start;
+}
