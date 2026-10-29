@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.81-20261028-garaje';
+const CACHE_VERSION = 'odea-v5.82-20261028-garajejs';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
