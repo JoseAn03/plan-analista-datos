@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.85-20261029-arte2';
+const CACHE_VERSION = 'odea-v5.86-20261029-arte3';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -53,6 +53,7 @@ const SHELL = [
   './assets/worlds/academia.webp',
   './assets/worlds/fortaleza.webp',
   './assets/worlds/hub-nebula.webp',
+  './assets/worlds/mapa-puentes.webp',
   './assets/worlds/camp.webp',
   './assets/worlds/torre.webp',
   './assets/worlds/aldea.webp',
