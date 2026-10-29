@@ -873,3 +873,14 @@ body.odea-ui-v7 #map-stage .mworld.has-art .mw-rank { position: absolute; top: c
 @media (max-width: 640px) {
   body.odea-ui-v7 #map-stage .mworld.has-art .mw-name { bottom: 7%; }
 }
+
+
+/* === v5.89 · Adiós a las líneas viejas bajo los puentes pintados; esferas un punto más chicas === */
+body.odea-ui-v7 #map-stage .hub-bridge { display: none; }
+body.odea-ui-v7 #map-stage .mworld.has-art { width: 130px; height: 130px; }
+@media (max-width: 1100px) {
+  body.odea-ui-v7 #map-stage .mworld.has-art { width: 118px; height: 118px; }
+}
+@media (max-width: 640px) {
+  body.odea-ui-v7 #map-stage .mworld.has-art { width: 104px; height: 104px; }
+}
