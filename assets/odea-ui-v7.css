@@ -839,3 +839,23 @@ body.odea-ui-v7 #view-map > * {
       linear-gradient(180deg, transparent 0%, rgba(4, 7, 22, .04) 50%, rgba(4, 7, 22, .14) 100%);
   }
 }
+
+
+/* === v5.87 · Escena de puentes galácticos y esferas a tamaño completo ===
+   Estas reglas usan los mismos selectores que las base de este archivo y van
+   al final a propósito: son las que mandan sobre el fondo del hub y el
+   tamaño de los mundos con arte. */
+body.odea-ui-v7 #map-stage .hub-wrap {
+  background:
+    url("worlds/mapa-puentes.webp") center / 100% 100% no-repeat,
+    radial-gradient(circle at 50% 42%, rgba(25, 217, 255, .08), transparent 20%),
+    radial-gradient(circle at 50% 100%, rgba(124, 92, 255, .1), transparent 54%),
+    linear-gradient(135deg, rgba(5, 11, 33, .28), rgba(7, 9, 28, .24));
+}
+body.odea-ui-v7 #map-stage .mworld.has-art { width: 140px; height: 140px; }
+@media (max-width: 1100px) {
+  body.odea-ui-v7 #map-stage .mworld.has-art { width: 128px; height: 128px; }
+}
+@media (max-width: 640px) {
+  body.odea-ui-v7 #map-stage .mworld.has-art { width: 116px; height: 116px; }
+}
