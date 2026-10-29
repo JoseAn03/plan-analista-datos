@@ -161,6 +161,20 @@
     function panelOpen() { return !!(overlay && !overlay.hidden); }
 
     /* Bonus de sinergia: una vez por tipo y día. */
+    // Sinergia Garaje (Fase 7): +2 monedas por mision de mantenimiento,
+    // maximo 2 misiones al dia (contador propio bajo la clave garaje:fecha).
+    function onGarajeMision() {
+      var st = load();
+      var clave = "garaje:" + hoyStr();
+      var n = Number(st.sinergias[clave]) || 0;
+      if (n >= 2) return;
+      st.sinergias[clave] = n + 1;
+      st.monedas += 2;
+      save(st);
+      showToast("+2 🪙 mantenimiento del Garaje");
+      refresh();
+    }
+
     function grantSinergia(tipo, monto) {
       var key = tipo + ":" + todayStr();
       if (state.sinergias[key]) return;
@@ -245,6 +259,7 @@
       busOn("quiz.completed", function () { grantSinergia("quiz", 5); });
       busOn("anomalia.claimed", function () { grantSinergia("anomalia", 3); });
       busOn("jefe.superado", function () { grantSinergia("jefe", 10); });
+      busOn("garaje.mision", onGarajeMision);
       busOn("anomalia.cambio.confirmado", function (d) {
         if (!d || d.id !== cambioPendienteId) return;
         cambioPendienteId = null;

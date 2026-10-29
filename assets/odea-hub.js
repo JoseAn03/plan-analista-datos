@@ -64,6 +64,7 @@
       var qz = readJSON("odea_quiz_v1");
       var jf = readJSON("odea_jefe_v1");
       var ts = readJSON("odea_tesoro_v1");
+    var gr = readJSON("odea_garaje_v1");
 
       var rankEl = document.querySelector("#side-rank");
       var s = {
@@ -113,7 +114,23 @@
           superado: num(jf.mejorGanancia) > 0 && ganSemana > num(jf.mejorGanancia)
         };
       }
-      if (ts) {
+      if (gr) {
+      var pend = 0, venc = 0;
+      ["carro", "moto"].forEach(function (vk) {
+        var ms = (gr.misiones && gr.misiones[vk]) || [];
+        ms.forEach(function (m) {
+          if (!m || !m.ultima) { pend += 1; return; }
+          var d = diasEntre(m.ultima, s.fecha) - (Number(m.dias) || 0);
+          if (d > 0) { venc += 1; pend += 1; }
+          else if (d >= -3) pend += 1;
+        });
+      });
+      s.gr = { pendientes: pend, vencidas: venc };
+      rows.push({ icon: "🚗", nombre: "Garaje",
+        texto: pend === 0 ? "todo al d\u00eda \u2713" :
+          (pend + " por atender" + (venc > 0 ? " \u00b7 " + venc + " vencida(s)" : "")) });
+    }
+    if (ts) {
         s.ts = {
           monedas: num(ts.monedas),
           escudos: num(ts.escudos),

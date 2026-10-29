@@ -163,7 +163,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.80: APP_VERSION y caché', html.includes('const APP_VERSION = "5.80"') && /odea-v5\.80-20261028-visible/.test(sw));
+check('v5.81: APP_VERSION y caché', html.includes('const APP_VERSION = "5.81"') && /odea-v5\.81-20261028-garaje/.test(sw));
 check('v5.72: Taller cargado como fuente de la Campaña',
   html.includes('<script src="flujos_odea.js"></script>') &&
   sw.includes("'./flujos_odea.js'") && !sw.includes("'./assets/fronts/fl.svg'"));
