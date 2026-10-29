@@ -1,0 +1,122 @@
+/* ==========================================================
+   ODEA Tesoro v1 — Fase 5: economía cosmética + escudo
+   Capa independiente: prefijo ts-, no toca estilos del núcleo
+   salvo los cosméticos propios (clases ts-* sobre body).
+   ========================================================== */
+
+.ts-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 64, 0.5);
+  background: rgba(26, 22, 4, 0.88);
+  color: #ffecb3;
+  font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.ts-open-btn:hover { border-color: rgba(255, 215, 64, 0.85); color: #fff; }
+
+.ts-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(3, 6, 14, 0.74);
+}
+.ts-overlay[hidden] { display: none; }
+
+.ts-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 64, 0.4);
+  background: linear-gradient(160deg, #16130a, #1e1a08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 24px rgba(255, 215, 64, 0.12);
+  color: #fdf6e0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.ts-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+}
+.ts-title { font-weight: 700; font-size: 16px; }
+.ts-close {
+  border: 0;
+  background: transparent;
+  color: #efe0a8;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.ts-close:hover { color: #fff; }
+
+.ts-body { padding: 4px 18px 18px; }
+.ts-balance { font-size: 15px; margin: 4px 0 12px; }
+.ts-dim { color: #bfa964; font-size: 12px; }
+
+.ts-streak {
+  border: 1px solid rgba(255, 215, 64, 0.28);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(10, 9, 3, 0.55);
+  margin-bottom: 14px;
+}
+.ts-streak-line { font-size: 13.5px; margin: 0 0 6px; }
+.ts-saved { font-size: 13px; color: #ffe082; margin: 6px 0 0; }
+
+.ts-shop-title { font-weight: 700; font-size: 14.5px; margin: 0 0 8px; }
+.ts-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  background: rgba(14, 12, 5, 0.6);
+}
+.ts-item-info { display: flex; flex-direction: column; gap: 2px; font-size: 13.5px; }
+.ts-item-info span { color: #cfc090; font-size: 12.5px; }
+
+.ts-buy, .ts-toggle {
+  flex: none;
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 64, 0.6);
+  background: rgba(52, 42, 6, 0.95);
+  color: #ffecb3;
+  font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.ts-buy:hover:not(:disabled), .ts-toggle:hover { color: #fff; border-color: #ffd740; }
+.ts-buy:disabled { opacity: 0.45; cursor: default; }
+.ts-toggle { border-color: rgba(140, 220, 160, 0.55); background: rgba(10, 34, 18, 0.9); color: #c9f2d4; }
+
+.ts-note { font-size: 12.5px; line-height: 1.5; color: #a68d5f; margin: 10px 0 0; }
+
+/* -------- cosméticos aplicados por la capa -------- */
+body.ts-tema-aurora .app-side {
+  background: linear-gradient(165deg, rgba(6, 40, 34, 0.96), rgba(24, 10, 46, 0.96)) !important;
+}
+body.ts-tema-synthwave .app-side {
+  background: linear-gradient(165deg, rgba(46, 8, 34, 0.96), rgba(52, 22, 4, 0.96)) !important;
+}
+body.ts-marco-on .side-logo,
+body.ts-marco-on .side-holo {
+  border: 1px solid rgba(255, 215, 64, 0.85) !important;
+  box-shadow: 0 0 14px rgba(255, 215, 64, 0.45) !important;
+  border-radius: 12px;
+}
+.ts-titulo { color: #ffd740; font-weight: 700; font-size: 0.85em; }
