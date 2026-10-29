@@ -175,6 +175,20 @@
       refresh();
     }
 
+    // Sinergia Academia (Fase 8): +3 monedas por mision, maximo 3 al dia.
+    function onAcademiaMision() {
+      loadState();
+      var clave = "academia:" + todayStr();
+      var n = Number(state.sinergias[clave]) || 0;
+      if (n >= 3) return;
+      state.sinergias[clave] = n + 1;
+      state.monedas += 3;
+      saveState();
+      showToast("+3 🪙 misión de la Academia");
+      updateOpenButton();
+      if (panelOpen()) render();
+    }
+
     function grantSinergia(tipo, monto) {
       var key = tipo + ":" + todayStr();
       if (state.sinergias[key]) return;
@@ -260,6 +274,12 @@
       busOn("anomalia.claimed", function () { grantSinergia("anomalia", 3); });
       busOn("jefe.superado", function () { grantSinergia("jefe", 10); });
       busOn("garaje.mision", onGarajeMision);
+      busOn("academia.mision", onAcademiaMision);
+      busOn("academia.ruta", function (d) {
+        loadState();
+        var r = d && d.ruta ? d.ruta : "desconocida";
+        grantSinergia("ruta:" + r, 15);
+      });
       busOn("anomalia.cambio.confirmado", function (d) {
         if (!d || d.id !== cambioPendienteId) return;
         cambioPendienteId = null;

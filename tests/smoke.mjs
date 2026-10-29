@@ -132,8 +132,8 @@ check('Sagas: XP va a Legado y Poder',
   html.includes('xp.kid += sagaAreaXP("kid")') && html.includes('xp.pow += sagaAreaXP("pow")'));
 check('Sagas: recompensas finales', html.includes('rw_sg_video') && html.includes('rw_sg_roblox'));
 check('Sagas: pestaña y vista', html.includes('data-tab="sagas"') && html.includes('id="view-sagas"'));
-check('Sagas: mundo integrado en el mapa',
-  html.includes('{ k: "sagas"') && html.includes('sagas: s.sagas') && html.includes('assets/worlds/sagas.svg'));
+check('Sagas: sale del hub y conserva vista/asset',
+  !html.includes('{ k: "sagas"') && html.includes('data-tab="sagas"') && html.includes('assets/worlds/sagas.svg'));
 check('Sagas: monedas integradas',
   html.includes('function sagaCoinsEarned()') && html.includes('sagaCoinsEarned() +'));
 check('Sagas: evalúa logros al completar',
@@ -163,7 +163,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.82: APP_VERSION y caché', html.includes('const APP_VERSION = "5.82"') && /odea-v5\.82-20261028-garajejs/.test(sw));
+check('v5.83: APP_VERSION y caché', html.includes('const APP_VERSION = "5.83"') && /odea-v5\.83-20261029-academia/.test(sw));
 check('v5.72: Taller cargado como fuente de la Campaña',
   html.includes('<script src="flujos_odea.js"></script>') &&
   sw.includes("'./flujos_odea.js'") && !sw.includes("'./assets/fronts/fl.svg'"));

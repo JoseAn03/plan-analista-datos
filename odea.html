@@ -2168,6 +2168,7 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <link rel="stylesheet" href="./assets/odea-tesoro.css?v=1">
 <link rel="stylesheet" href="./assets/odea-hub.css?v=1">
 <link rel="stylesheet" href="./assets/odea-garaje.css?v=1">
+<link rel="stylesheet" href="./assets/odea-academia.css?v=1">
 <style id="sagas-css">
 /* ==========================================================
    📹 SAGAS (v5.61+) — estilos
@@ -2667,7 +2668,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">ODEA<small id="ver-logo">APP DE VIDA · v5.82</small></div>
+  <div class="side-logo" id="side-logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">ODEA<small id="ver-logo">APP DE VIDA · v5.83</small></div>
   <div class="side-holo" id="side-holo" role="button" tabindex="0" title="Tu personaje · toca para abrir tu inventario" aria-label="Abrir inventario del personaje"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2699,7 +2700,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.82</span>
+    <span class="ver" id="ver-badge">v5.83</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2890,7 +2891,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.82</span> — <span id="mission-count">0</span> misiones y retos · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.83</span> — <span id="mission-count">0</span> misiones y retos · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3983,7 +3984,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.82"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.83"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4010,6 +4011,7 @@ const ODEA = {
     }
   }
 };
+window.ODEA = ODEA;
 function recordEvent(tipo, datos) {
   try {
     let arr = [];
@@ -11059,6 +11061,21 @@ function mapWorldStats() {
     return 3 - dayDoneCount(d);
   })();
   const retoPend = !(gameState.vida.log || []).some(e => e.indexOf("reto") === 0 && e.indexOf("|" + todayStr()) > 0);
+  let acPct = 0;
+  try {
+    const rawAc = localStorage.getItem("odea_academia_v1");
+    if (rawAc) {
+      const ac = JSON.parse(rawAc);
+      const hechas = ac && ac.hechas && typeof ac.hechas === "object" && !Array.isArray(ac.hechas) ? ac.hechas : {};
+      let n = 0;
+      for (const id in hechas) {
+        if (Object.prototype.hasOwnProperty.call(hechas, id)) n++;
+      }
+      n = Math.min(28, n);
+      if (n >= 28) n = 29;
+      acPct = Math.round((n / 29) * 100);
+    }
+  } catch (e) {}
   return {
     camp: {
       pct: Math.min(100, Math.round(((campaignLevel() - 1) / DAILY_TOTAL) * 100)),
@@ -11088,6 +11105,11 @@ function mapWorldStats() {
       rank: sg.caps + "/" + sg.total + " cap. · " + sg.xp + " XP",
       badge: sgCoins ? "🪙" + sgCoins : ""
     },
+    academia: {
+      pct: acPct,
+      rank: "Academia",
+      badge: acPct > 0 ? acPct + "%" : "NUEVO"
+    },
     boveda: {
       pct: Math.round((cap.doneCount / cap.totalMissions) * 100),
       rank: cap.ladder.name
@@ -11107,14 +11129,14 @@ function mapHubHTML() {
   const nar = mapNarrow();
   const W = [
     { k: "camp", ico: "🏕️", n: nar ? "Campamento" : "Campamento Base", x: 50, y: 13, c: "#00ff88", lit: true },
-    { k: "sagas", ico: "📹", n: nar ? "Sagas" : "Sagas con mi hijo", x: 50, y: 44, c: "#ff4fd8", lit: s.sagas.pct > 0 },
+    { k: "academia", ico: "🎓", n: nar ? "Currículum" : "Mundo del Currículum", x: 50, y: 44, c: "#ffd166", lit: true },
     { k: "fortaleza", ico: "📡", n: nar ? "Radar" : "Radar del Mundo", x: 18, y: 44, c: "#ffaa00", lit: s.fortaleza.pct > 0 },
     { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 82, y: 44, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 79, c: "#ff00ff", lit: s.aldea.pct > 0 },
     { k: "boveda", ico: "👑", n: nar ? "Imperio" : "El Imperio", x: 80, y: 79, c: "#7c6cff", lit: s.boveda.pct > 0 },
     { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 79, c: "#ffaa00", lit: s.b2b.pct > 0 }
   ];
-  const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b, sagas: s.sagas };
+  const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b, academia: s.academia };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
   W.slice(1).forEach(ww => {
     svg += '<defs><linearGradient id="bg-' + ww.k + '" gradientUnits="userSpaceOnUse" x1="50" y1="20" x2="' + ww.x + '" y2="' + ww.y + '">'
@@ -11329,6 +11351,10 @@ function mapGoHome() {
   renderMapStage();
 }
 function mapEnter(w) {
+  if (w === "academia") {
+    if (window.ODEA_ACADEMIA && typeof window.ODEA_ACADEMIA.open === "function") window.ODEA_ACADEMIA.open();
+    return;
+  }
   playSfx("travel");
   if (w === "sagas") { goTab("sagas"); return; }
   if (w === "aldea") {
@@ -12369,5 +12395,6 @@ focusRestore();
 <script src="./assets/odea-tesoro.js?v=1" defer></script>
 <script src="./assets/odea-hub.js?v=1" defer></script>
 <script src="./assets/odea-garaje.js?v=1" defer></script>
+<script src="./assets/odea-academia.js?v=1" defer></script>
 </body>
 </html>

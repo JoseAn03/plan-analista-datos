@@ -25,6 +25,13 @@
       var d = new Date();
       return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
     }
+    function dayDiff(a, b) {
+      var pa = String(a || "").split("-"), pb = String(b || "").split("-");
+      if (pa.length !== 3 || pb.length !== 3) return 0;
+      var da = Date.UTC(parseInt(pa[0], 10), parseInt(pa[1], 10) - 1, parseInt(pa[2], 10));
+      var db = Date.UTC(parseInt(pb[0], 10), parseInt(pb[1], 10) - 1, parseInt(pb[2], 10));
+      return Math.round((db - da) / 86400000);
+    }
     function esc(s) {
       return String(s == null ? "" : s)
         .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -64,14 +71,17 @@
       var qz = readJSON("odea_quiz_v1");
       var jf = readJSON("odea_jefe_v1");
       var ts = readJSON("odea_tesoro_v1");
-    var gr = readJSON("odea_garaje_v1");
+      var gr = readJSON("odea_garaje_v1");
+      var ac = readJSON("odea_academia_v1");
+      var rows = [];
 
       var rankEl = document.querySelector("#side-rank");
       var s = {
         xp: xp,
         rachaNucleo: null,
         nivelTxt: rankEl ? rankEl.textContent.trim() : "",
-        anm: null, qz: null, jf: null, ts: null,
+        anm: null, qz: null, jf: null, ts: null, gr: null, ac: null,
+        rows: rows,
         xpHoy: null
       };
       try {
@@ -115,22 +125,36 @@
         };
       }
       if (gr) {
-      var pend = 0, venc = 0;
-      ["carro", "moto"].forEach(function (vk) {
-        var ms = (gr.misiones && gr.misiones[vk]) || [];
-        ms.forEach(function (m) {
-          if (!m || !m.ultima) { pend += 1; return; }
-          var d = diasEntre(m.ultima, s.fecha) - (Number(m.dias) || 0);
-          if (d > 0) { venc += 1; pend += 1; }
-          else if (d >= -3) pend += 1;
-        });
-      });
-      s.gr = { pendientes: pend, vencidas: venc };
-      rows.push({ icon: "🚗", nombre: "Garaje",
-        texto: pend === 0 ? "todo al d\u00eda \u2713" :
-          (pend + " por atender" + (venc > 0 ? " \u00b7 " + venc + " vencida(s)" : "")) });
-    }
-    if (ts) {
+        var pend = 0, venc = 0;
+        var gms = Array.isArray(gr.misiones) ? gr.misiones : [];
+        for (var gi = 0; gi < gms.length; gi++) {
+          var gm = gms[gi];
+          if (!gm || !gm.ultima) { pend += 1; continue; }
+          var gd = dayDiff(gm.ultima, t) - (Number(gm.dias) || 0);
+          if (gd > 0) { venc += 1; pend += 1; }
+          else if (gd >= -3) pend += 1;
+        }
+        s.gr = { pendientes: pend, vencidas: venc };
+        rows.push({ icon: "🚗", nombre: "Garaje",
+          texto: pend === 0 ? "todo al día ✓" :
+            (pend + " por atender" + (venc > 0 ? " · " + venc + " vencida(s)" : "")) });
+      }
+      if (ac) {
+        var hechas = (ac.hechas && typeof ac.hechas === "object" && !Array.isArray(ac.hechas)) ? ac.hechas : {};
+        var hn = 0;
+        for (var hk in hechas) {
+          if (Object.prototype.hasOwnProperty.call(hechas, hk)) hn++;
+        }
+        hn = Math.min(28, hn);
+        if (hn >= 28) hn = 29;
+        var hpct = Math.round((hn / 29) * 100);
+        s.ac = { hechas: hn, pct: hpct };
+        rows.push({ icon: "🎓", nombre: "Academia",
+          texto: hn + "/29 misiones · " + hpct + "%" });
+      } else {
+        rows.push({ icon: "🎓", nombre: "Academia", texto: "sin empezar" });
+      }
+      if (ts) {
         s.ts = {
           monedas: num(ts.monedas),
           escudos: num(ts.escudos),
@@ -148,6 +172,7 @@
         xp: s.xpHoy !== null && s.xpHoy > 0
       };
       s.rutaCount = (s.ruta.anomalia ? 1 : 0) + (s.ruta.quiz ? 1 : 0) + (s.ruta.xp ? 1 : 0);
+      s.rows = rows;
       return s;
     }
 
@@ -201,6 +226,11 @@
       openBtn.setAttribute("aria-label",
         "Abrir el Centro de Comando del ecosistema ODEA. Ruta del día: " +
         s.rutaCount + " de 3.");
+    }
+
+    function refreshFromAcademia() {
+      updateOpenButton();
+      if (overlay && !overlay.hidden) render();
     }
 
     function ecoHost() {
@@ -321,6 +351,12 @@
       html += '<p class="hub-layer">🪙 <b>Tesoro</b> — ' +
         (s.ts ? s.ts.monedas + " monedas · 🛡️ " + s.ts.escudos +
           " · racha de capa " + s.ts.racha + " días" : "sin datos") + "</p>";
+      if (s.rows && s.rows.length) {
+        for (var ri = 0; ri < s.rows.length; ri++) {
+          html += '<p class="hub-layer">' + s.rows[ri].icon + ' <b>' + esc(s.rows[ri].nombre) +
+            '</b> — ' + esc(s.rows[ri].texto) + '</p>';
+        }
+      }
 
       html += '<p class="hub-note">Todo conectado por el bus de eventos del núcleo: ' +
         'completar misiones paga monedas en vivo, el quiz y la anomalía dan ' +
@@ -341,6 +377,8 @@
           if (overlay && !overlay.hidden) render();
         });
       }
+      busOn("academia.mision", refreshFromAcademia);
+      busOn("academia.ruta", refreshFromAcademia);
     }
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", install, { once: true });
