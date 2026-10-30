@@ -360,6 +360,52 @@
       return null;
     }
 
+    function goToMission(mission) {
+      closePanel();
+      var navigated = false;
+      try {
+        if (typeof goTab === "function") {
+          goTab("daily");
+          navigated = true;
+        }
+      } catch (e) {}
+      if (!navigated) {
+        try {
+          var navBtn = document.querySelector(
+            '.navb[data-tab="daily"], .nav-item[data-tab="daily"]'
+          );
+          if (navBtn) navBtn.click();
+        } catch (e) {}
+      }
+      var tries = 0;
+      function attempt() {
+        tries++;
+        var card = mission ? findObjectiveCard(mission) : null;
+        var el = card || document.getElementById("daily-hero");
+        if (el) {
+          try {
+            el.scrollIntoView({
+              behavior: reducedMotion ? "auto" : "smooth",
+              block: "center"
+            });
+          } catch (e) {
+            try { el.scrollIntoView(); } catch (e2) {}
+          }
+          if (card) {
+            try {
+              card.classList.add("anm-goto-flash");
+              setTimeout(function () {
+                try { card.classList.remove("anm-goto-flash"); } catch (e) {}
+              }, 2800);
+            } catch (e) {}
+          }
+          return;
+        }
+        if (tries < 8) setTimeout(attempt, 90);
+      }
+      setTimeout(attempt, 60);
+    }
+
     function currentXP() {
       try {
         if (typeof gameState !== "undefined" && gameState) {
@@ -931,6 +977,22 @@
       card.appendChild(text);
 
       host.appendChild(card);
+
+      if (!isDailyDone(target.id)) {
+        var go = document.createElement("button");
+        go.type = "button";
+        go.className = "anm-cta anm-goto";
+        go.textContent = "🧭 IR A LA MISIÓN";
+        go.addEventListener("click", function () {
+          goToMission(target);
+        });
+        host.appendChild(go);
+
+        var hint = document.createElement("p");
+        hint.className = "anm-muted";
+        hint.textContent = "Está en tu plan de hoy (pestaña HOY). Te llevo directo a su tarjeta.";
+        host.appendChild(hint);
+      }
     }
 
     function renderCaza(host) {
@@ -957,6 +1019,15 @@
       text.className = "anm-muted";
       text.textContent = "Completá 3 misiones cualesquiera hoy. Desmarcar no resta.";
       host.appendChild(text);
+
+      var goCaza = document.createElement("button");
+      goCaza.type = "button";
+      goCaza.className = "anm-cta anm-goto";
+      goCaza.textContent = "🧭 VER MISIONES DE HOY";
+      goCaza.addEventListener("click", function () {
+        goToMission(null);
+      });
+      host.appendChild(goCaza);
     }
 
     function renderCofre(host) {
