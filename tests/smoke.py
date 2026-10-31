@@ -29,7 +29,8 @@ check("Sintaxis JS inline (node --check)", r.returncode == 0)
 
 # 2) Símbolos clave existen
 for sym in ["CAP_FRONTS", "capCompute", "renderCapital", "capToggleMission",
-            "ENG_OBJ", "AI_OBJ", "CAPF_LADDER", "bovedaHTML", "exportSave", "importSave"]:
+            "ENG_OBJ", "AI_OBJ", "CAPF_LADDER", "bovedaHTML", "exportSave", "importSave",
+            "PUENTE_MISSIONS", "PUENTE_CHAPTERS", "B2B_LEGACY_XP", "completedPuente"]:
     check(f"Símbolo definido: {sym}", re.search(rf"\b{sym}\b", html) is not None)
 
 # 3) Tres frentes del Imperio
@@ -39,6 +40,7 @@ check("CAP_FRONTS con cap/eng/ai", bool(m) and all(k in m.group(1) for k in ['k:
 # 4) Sin etiquetas viejas de mundo "Capital"
 check("Sin '📈 Capital' residual (UI)", '"📈 Capital"' not in html)
 check("Sin 'Insignia … del Capital' residual (UI)", re.search(r'Insignia[^"]{0,40}del Capital', html) is None)
+check("Sin 'Ingreso Extra B2B' residual (UI)", "Ingreso Extra B2B" not in html and "const B2B_MISSIONS" not in html)
 
 # 5) Versión coherente entre odea.html y sw.js
 ver_html = sorted(set(re.findall(r"v(\d+\.\d+)", html)), key=lambda s: [int(x) for x in s.split(".")])

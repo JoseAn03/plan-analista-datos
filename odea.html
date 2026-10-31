@@ -12,7 +12,7 @@
      consolidar ≈ 2.5-3 h). Al completar un día entero se
      desbloquea el siguiente día y sube tu racha.
   4. Tu NIVEL ODEA sube con TODO el XP: campaña, diarias,
-     noticias, B2B, imperio, vida, sagas, logros, jefes,
+     noticias, Puente, imperio, vida, sagas, logros, jefes,
      enfoque y diario.
   5. La CAMPAÑA incluye 👑 PROYECTOS FINALES por capítulo que se
      desbloquean al completar los días indicados.
@@ -2701,7 +2701,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 <div id="grid-layer"></div>
 <canvas id="particles-canvas"></canvas>
 <div class="app-side" id="app-side">
-  <div class="side-logo" id="side-logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">ODEA<small id="ver-logo">APP DE VIDA · v5.91</small></div>
+  <div class="side-logo" id="side-logo" role="button" tabindex="0" title="Ir al Mapa de Mundos" aria-label="Ir al Mapa de Mundos">ODEA<small id="ver-logo">APP DE VIDA · v5.92</small></div>
   <div class="side-holo" id="side-holo" role="button" tabindex="0" title="Tu personaje · toca para abrir tu inventario" aria-label="Abrir inventario del personaje"></div>
   <span class="side-gear-name" id="side-gear-name"></span>
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
@@ -2733,7 +2733,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </details>
   <div class="side-foot">
     <span class="side-streak" id="side-streak">🔥 Racha 0</span>
-    <span class="ver" id="ver-badge">v5.91</span>
+    <span class="ver" id="ver-badge">v5.92</span>
   </div>
 </div>
 <div class="side-overlay" id="side-overlay"></div>
@@ -2924,7 +2924,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
 </div>
 
 <button id="fab-continue" class="fab-continue" type="button" title="Ir al plan de hoy" aria-label="Ir al plan de hoy">▶ CONTINUAR HOY</button>
-<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.91</span> — <span id="mission-count">0</span> misiones y retos · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
+<footer><b>ODEA</b> · App de Vida · <span id="ver-foot">v5.92</span> — <span id="mission-count">0</span> misiones y retos · 🗺️ Mapa de Mundos · 🎒 Arsenal del Héroe · 🎲 Reto diario · Progreso guardado 🔒</footer>
 
 <div id="node-layer">
   <div class="node-modal" role="dialog" aria-modal="true" aria-label="Detalle de la misión">
@@ -3127,36 +3127,64 @@ const CAT = {
 const CAT_COLORS = { analyst:"#00ff88", ai:"#ff00ff", employability:"#ffaa00" };
 
 /* ==========================================================
-   💸 B2B — Ingreso Extra Estable (automatización de datos)
+   🌉 EL PUENTE GLOBAL — Inglés + Ventas Tech (SDR)
+   (reemplaza al antiguo mundo B2B en v5.92; la clave interna
+   del mundo sigue siendo "b2b" y el progreso B2B previo se
+   conserva como crédito XP legacy — ver B2B_LEGACY_XP)
    ========================================================== */
-const B2B_CHAPTERS = [
-  { id:0, code:"FASE 0", title:"Fundamentos", color:"#00ff88", icon:"🏗️", narrative:"Semanas 1–6: base fiscal, protección familiar y colchón financiero antes de facturar." },
-  { id:1, code:"FASE 1", title:"Portafolio y Marca", color:"#00ccff", icon:"🎨", narrative:"Mes 1–3: dos casos publicados y marca activa en el nicho rent-a-car/turismo." },
-  { id:2, code:"FASE 2", title:"Primeros Ingresos", color:"#7c6cff", icon:"💰", narrative:"Mes 3–8: primer cliente facturado correctamente y $300/mes al mes 6." },
-  { id:3, code:"FASE 3", title:"Inversión", color:"#ffaa00", icon:"📈", narrative:"Mes 6–12+: solo tras el fondo de emergencia completo, compras trimestrales VOO/CSPX." },
-  { id:4, code:"FASE 4", title:"Marca Transversal", color:"#ff6600", icon:"📣", narrative:"Mes 1–24: contenido constante, casos reales y 1 lead calificado al mes." },
-  { id:5, code:"FASE 5", title:"Escalado", color:"#ff3355", icon:"🚀", narrative:"Mes 12–30: retainers, 3 clientes recurrentes y salida de ANC al 150%." }
+/* XP legacy del mundo B2B eliminado: los ids ya completados en
+   gameState.completedB2b siguen sumando EXACTAMENTE este XP para
+   que el nivel ODEA de un guardado existente nunca baje. */
+const B2B_LEGACY_XP = {
+  "b0_1":150, "b0_2":150, "b0_3":200,
+  "b1_1":300, "b1_2":300, "b1_3":150,
+  "b2_1":100, "b2_2":250, "b2_3":300,
+  "b3_1":250, "b3_2":200, "b3_3":150,
+  "b4_1":150, "b4_2":200, "b4_3":200,
+  "b5_1":300, "b5_2":350, "b5_3":400
+};
+
+const PUENTE_CHAPTERS = [
+  { id:0, code:"FASE 0", title:"Inglés con Puntería", color:"#00ccff", icon:"🗣️", narrative:"Medí tu nivel, sacá el certificado EF SET y entrená oído y voz a diario: el inglés es tu pasaporte a los puestos remotos." },
+  { id:1, code:"FASE 1", title:"Fundamentos de Ventas Tech", color:"#00ff88", icon:"🎯", narrative:"HubSpot certificado y gratis, el mapa del rol SDR y tus primeros guiones: la teoría exacta que piden las vacantes." },
+  { id:2, code:"FASE 2", title:"Práctica Real", color:"#7c6cff", icon:"📞", narrative:"Llamadas simuladas con objeciones y un outreach completo registrado en el CRM: aquí el conocimiento se vuelve reflejo." },
+  { id:3, code:"FASE 3", title:"Salida al Mercado", color:"#ffaa00", icon:"🚀", narrative:"CV de ventas, LinkedIn en inglés y postulaciones reales a vacantes SDR abiertas a Costa Rica." },
+  { id:4, code:"FASE FINAL", title:"El Reclutador · Jefe Final", color:"#ff3355", icon:"👹", narrative:"El proceso completo de contratación en inglés, en una sola sesión. Cruzá el puente." }
 ];
 
-const B2B_MISSIONS = [
-  { id:"b0_1", chapter:0, title:"Inscripción TRIBU-CR", description:"Régimen Tradicional (Servicios Profesionales) y confirmar el código CAECR exacto.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"TRIBU-CR activo + CAECR confirmado" },
-  { id:"b0_2", chapter:0, title:"Contador + 3 Preguntas de IVA", description:"Contratar contador/gestoría y obtener por escrito las 3 respuestas de IVA.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Contador + respuestas IVA escritas" },
-  { id:"b0_3", chapter:0, title:"Seguro de Vida + Fondo de Emergencia", description:"Seguro temporal básico y canalizar TODO el ahorro al fondo (3 meses de gasto).", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Seguro vigente + primer aporte al fondo" },
-  { id:"b1_1", chapter:1, title:"Caso 1: Pipeline de Reservas", description:"Pipeline de reservas y analítica de flota para rent-a-car (GitHub + demo en video).", xp:300, category:"analyst", estimatedTime:"10-12 horas", verification:"Caso 1 publicado en GitHub" },
-  { id:"b1_2", chapter:1, title:"Caso 2: Dashboard o Agente IA", description:"Dashboard financiero Power BI + Python, o agente de IA para soporte/leads vía n8n.", xp:300, category:"analyst", estimatedTime:"10-12 horas", verification:"Caso 2 publicado" },
-  { id:"b1_3", chapter:1, title:"Marca y Nicho rent-a-car", description:"LinkedIn 2 contenidos/semana, nicho 'automatización de datos para rent-a-car y turismo'.", xp:150, category:"employability", estimatedTime:"3-4 horas", verification:"8–10 publicaciones + nicho definido" },
-  { id:"b2_1", chapter:2, title:"Perfil Upwork y Tarifa", description:"Crear perfil con tarifa inicial $20–25/h (subir $5 por cada 3 reviews).", xp:100, category:"employability", estimatedTime:"1-2 horas", verification:"Upwork listo" },
-  { id:"b2_2", chapter:2, title:"Primera Factura Correcta", description:"Facturar al extranjero con IVA resuelto y declarar en colones al tipo de cambio BCCR.", xp:250, category:"employability", estimatedTime:"3-4 horas", verification:"Primera factura emitida" },
-  { id:"b2_3", chapter:2, title:"Meta $300/mes", description:"Primer ingreso sostenido al mes 6 (la prospección real es LinkedIn directo).", xp:300, category:"employability", estimatedTime:"20-30 horas", verification:"$300/mes al mes 6" },
-  { id:"b3_1", chapter:3, title:"Fondo Completo + IBKR", description:"Completar el fondo de emergencia y abrir Interactive Brokers.", xp:250, category:"employability", estimatedTime:"2-3 horas", verification:"Fondo completo + cuenta IBKR" },
-  { id:"b3_2", chapter:3, title:"Compras Trimestrales VOO/CSPX", description:"Primera compra trimestral de $200–300 en lugar de aportes pequeños mensuales.", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"Primera compra realizada" },
-  { id:"b3_3", chapter:3, title:"Reinvertir en Herramientas", description:"Reinvertir en n8n/APIs de LLM solo si ya pagan por sí mismas.", xp:150, category:"analyst", estimatedTime:"2-3 horas", verification:"Herramienta rentable en producción" },
-  { id:"b4_1", chapter:4, title:"Contenido Constante", description:"Mantener 2 contenidos/semana en LinkedIn durante todo el plan.", xp:150, category:"employability", estimatedTime:"2-3 horas", verification:"Racha de contenido sostenida" },
-  { id:"b4_2", chapter:4, title:"Documentar Casos Reales", description:"Documentar casos de clientes (con permiso) como prueba social.", xp:200, category:"employability", estimatedTime:"3-4 horas", verification:"Caso real documentado" },
-  { id:"b4_3", chapter:4, title:"1 Lead Calificado/mes", description:"A partir del mes 4, conseguir al menos un lead calificado al mes.", xp:200, category:"employability", estimatedTime:"5-6 horas", verification:"Lead calificado registrado" },
-  { id:"b5_1", chapter:5, title:"Transición a Retainers", description:"Pasar de horas sueltas a retainers de $500–1.000/mes por cliente.", xp:300, category:"employability", estimatedTime:"10-12 horas", verification:"Primer retainer firmado" },
-  { id:"b5_2", chapter:5, title:"3 Clientes Recurrentes", description:"Meta de $1.500–2.500/mes extra con 3 clientes recurrentes.", xp:350, category:"employability", estimatedTime:"20-30 horas", verification:"3 retainers activos" },
-  { id:"b5_3", chapter:5, title:"Salida de ANC al 150%", description:"Ingreso de consultoría > 150% del salario durante 6 meses consecutivos.", xp:400, category:"employability", estimatedTime:"6 meses", verification:"Independencia financiera alcanzada" }
+const PUENTE_MISSIONS = [
+  { id:"pg1", chapter:0, title:"Test de Nivel EF SET", description:"Hacer el test de nivel de EF SET (efset.org) y registrar tu nivel inicial (A1–C2) como punto de partida.", xp:100, category:"employability", estimatedTime:"20 min", verification:"Nivel EF SET registrado" },
+  { id:"pg2", chapter:0, title:"Certificado EF SET", description:"Aprobar el examen EF SET Certificate de 50 minutos (listening + reading) y descargar el certificado oficial.", xp:200, category:"employability", estimatedTime:"1 hora", verification:"Certificado EF SET descargado" },
+  { id:"pg3", chapter:0, title:"EF SET en LinkedIn", description:"Agregar el certificado EF SET a la sección de licencias y certificaciones de tu LinkedIn.", xp:100, category:"employability", estimatedTime:"15 min", verification:"Certificado visible en LinkedIn" },
+  { id:"pg4", chapter:0, title:"Shadowing x5", description:"5 sesiones de 10 minutos de shadowing: escuchar audio de un nativo y repetirlo en voz alta a la par, sin pausar.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"5 sesiones de shadowing hechas" },
+  { id:"pg5", chapter:0, title:"Podcast en Inglés x3", description:"Escuchar 3 episodios de un podcast en inglés (negocios o ventas) sin subtítulos en español y anotar 5 frases útiles por episodio.", xp:150, category:"employability", estimatedTime:"2 horas", verification:"3 episodios + 15 frases anotadas" },
+  { id:"pg6", chapter:0, title:"50 Frases de Small Talk", description:"Dominar 50 frases de small talk y reuniones en inglés con tarjetas de estudio, hasta decirlas sin pensar.", xp:150, category:"employability", estimatedTime:"2 horas", verification:"50 frases dominadas" },
+  { id:"pg7", chapter:0, title:"Tu Presentación en Inglés", description:"Escribir tu presentación personal en inglés (~100 palabras): quién sos, tu experiencia y qué buscás. Grabarla en audio.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"Texto + audio de presentación" },
+  { id:"pg8", chapter:0, title:"Video Pitch de 60 Segundos", description:"Grabar tu video pitch de 60 segundos en inglés, presentándote como futuro SDR: energía, claridad y cierre con llamada a la acción.", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"Video pitch grabado" },
+  { id:"pg9", chapter:0, title:"Pronunciación: la Misma Frase x5 Días", description:"Grabar la misma frase de ventas 5 días seguidos y comparar las grabaciones: ritmo, claridad y acento cada vez más limpio.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"5 grabaciones comparadas" },
+  { id:"pg10", chapter:0, title:"15 Minutos 100% en Inglés", description:"Sostener una conversación de 15 minutos totalmente en inglés (con Astra o un compañero), sin cambiar a español ni una vez.", xp:200, category:"employability", estimatedTime:"30 min", verification:"Conversación de 15 min completada" },
+  { id:"pg11", chapter:1, title:"Curso Inbound Sales de HubSpot", description:"Completar las 7 lecciones del curso Inbound Sales de HubSpot Academy (gratuito): prospección, contacto y conversaciones exploratorias.", xp:150, category:"employability", estimatedTime:"3 horas", verification:"7 lecciones completadas" },
+  { id:"pg12", chapter:1, title:"Certificado HubSpot Inbound Sales", description:"Aprobar el examen oficial y obtener el certificado Inbound Sales de HubSpot Academy (gratuito, con reintentos gratis).", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"Certificado HubSpot obtenido" },
+  { id:"pg13", chapter:1, title:"HubSpot en LinkedIn", description:"Agregar el certificado HubSpot Inbound Sales a tu LinkedIn, junto al de EF SET.", xp:100, category:"employability", estimatedTime:"15 min", verification:"Certificado visible en LinkedIn" },
+  { id:"pg14", chapter:1, title:"El Mapa del Rol SDR", description:"Estudiar el pipeline SDR→AE: qué es un ICP, prospección, calificación (BANT) y cómo se mide a un SDR (actividad, reuniones, pipeline).", xp:150, category:"employability", estimatedTime:"1-2 horas", verification:"Resumen del rol en tus palabras" },
+  { id:"pg15", chapter:1, title:"Tu HubSpot CRM de Práctica", description:"Crear tu cuenta gratuita de HubSpot CRM y registrar 10 prospectos de práctica con empresa, cargo y datos de contacto.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"CRM con 10 prospectos registrados" },
+  { id:"pg16", chapter:1, title:"Guion de Apertura (30 seg)", description:"Escribir tu guion de apertura de llamada fría en inglés: quién sos, por qué llamás y el permiso para 30 segundos.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"Guion de apertura escrito" },
+  { id:"pg17", chapter:1, title:"Secuencia de 3 Correos en Frío", description:"Escribir una secuencia de 3 correos en frío en inglés para un mismo prospecto: valor, prueba y ruptura, cortos y personales.", xp:150, category:"employability", estimatedTime:"1-2 horas", verification:"Secuencia de 3 correos escrita" },
+  { id:"pg18", chapter:1, title:"Mensajes de LinkedIn en Inglés", description:"Escribir 2 mensajes de LinkedIn en inglés: uno de conexión (sin vender) y uno de seguimiento con valor.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"2 mensajes escritos" },
+  { id:"pg19", chapter:1, title:"Respuestas a las 5 Objeciones", description:"Escribir y practicar tu respuesta a las 5 objeciones clásicas: «no tengo tiempo», «ya tenemos proveedor», «mandame un correo», «muy caro», «no me interesa».", xp:150, category:"employability", estimatedTime:"1-2 horas", verification:"5 respuestas escritas y practicadas" },
+  { id:"pg20", chapter:2, title:"Role-Play #1: Descubrimiento", description:"Llamada de descubrimiento completa en inglés (con Astra de prospecto): apertura, preguntas y siguiente paso acordado.", xp:200, category:"employability", estimatedTime:"30 min", verification:"Role-play #1 completado" },
+  { id:"pg21", chapter:2, title:"Role-Play #2: Objeciones Duras", description:"Llamada en inglés contra objeciones duras desde el primer minuto: mantener la calma, aislar la objeción y seguir conversando.", xp:200, category:"employability", estimatedTime:"30 min", verification:"Role-play #2 completado" },
+  { id:"pg22", chapter:2, title:"Role-Play #3: Llamada Cronometrada", description:"Llamada completa de 10 minutos cronometrados en inglés, con calificación del prospecto (BANT) y reunión agendada al cierre.", xp:200, category:"employability", estimatedTime:"30 min", verification:"Llamada de 10 min con calificación" },
+  { id:"pg23", chapter:2, title:"Outreach Simulado Completo en el CRM", description:"Ejecutar la secuencia completa contra un prospecto de práctica (correo + LinkedIn + llamada) y registrar cada paso en HubSpot CRM.", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"Secuencia registrada en el CRM" },
+  { id:"pg24", chapter:2, title:"Pitch Mejorado v2", description:"Grabar la versión mejorada de tu pitch de 60 segundos y compararla con la de la Fase 0: claridad, ritmo y confianza.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"Pitch v2 grabado y comparado" },
+  { id:"pg25", chapter:2, title:"Mock Interview de SDR", description:"Entrevista simulada de SDR en inglés con preguntas reales del rol: por qué ventas, tu experiencia con clientes y cómo manejás el rechazo.", xp:200, category:"employability", estimatedTime:"45 min", verification:"Mock interview completada" },
+  { id:"pg26", chapter:3, title:"CV en Inglés Versión Ventas", description:"Terminar tu CV en inglés orientado a ventas: call center medido por KPIs (TMO, nivel de servicio), clientes internacionales en ANC, inglés avanzado certificado.", xp:200, category:"employability", estimatedTime:"2-3 horas", verification:"CV de ventas en inglés listo" },
+  { id:"pg27", chapter:3, title:"LinkedIn en Modo Ventas", description:"Reescribir tu titular y tu sección About de LinkedIn en inglés, orientados a SDR: inglés, experiencia con clientes y métricas.", xp:150, category:"employability", estimatedTime:"1 hora", verification:"LinkedIn actualizado en inglés" },
+  { id:"pg28", chapter:3, title:"Barrido de 5 Vacantes SDR", description:"Revisar 5 vacantes SDR reales abiertas a Costa Rica y mapear sus requisitos contra tu perfil: qué cumplís y qué brecha queda.", xp:150, category:"employability", estimatedTime:"1-2 horas", verification:"5 vacantes mapeadas" },
+  { id:"pg29", chapter:3, title:"Primera Postulación SDR", description:"Postular a tu primera vacante SDR real, con el CV de ventas y una nota de presentación en inglés.", xp:200, category:"employability", estimatedTime:"1 hora", verification:"Primera postulación enviada" },
+  { id:"pg30", chapter:3, title:"Dos Postulaciones Más + Seguimiento", description:"Postular a 2 vacantes SDR más y dejar todo registrado en tu tracker: empresa, fecha, estado y siguiente paso.", xp:200, category:"employability", estimatedTime:"1-2 horas", verification:"3 postulaciones registradas" },
+  { id:"pg31", chapter:3, title:"Respuestas STAR en Inglés", description:"Preparar y practicar 5 respuestas STAR (situación, tarea, acción, resultado) para entrevistas de SDR, en inglés y con tus historias reales.", xp:200, category:"employability", estimatedTime:"2 horas", verification:"5 respuestas STAR practicadas" },
+  { id:"pg32", chapter:4, boss:true, title:"👹 JEFE FINAL — El Reclutador", description:"En una sola sesión y todo en inglés: pitch de 60 segundos + llamada de descubrimiento con objeciones + entrevista con el hiring manager. El proceso completo, como el real.", xp:500, category:"employability", estimatedTime:"1 hora", verification:"Proceso completo superado — 🌉 Puente cruzado" }
 ];
 
 
@@ -3184,8 +3212,11 @@ const bossMissions = flCampaignMissions.filter(function (m) { return m.boss; });
 const campaignAll = flCampaignMissions;
 /* 🔗 Enlaces de recursos por misión */
 const MISSION_LINKS = {
-  "b1_1": "https://n8n.io/",
-  "b2_1": "https://www.upwork.com/"
+  "pg1": "https://www.efset.org/",
+  "pg2": "https://www.efset.org/",
+  "pg11": "https://academy.hubspot.com/",
+  "pg12": "https://academy.hubspot.com/",
+  "pg15": "https://www.hubspot.com/products/crm"
 };
 function linkTag(id) {
   const link = MISSION_LINKS[id];
@@ -4017,7 +4048,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.91"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.92"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4117,7 +4148,8 @@ let gameState = {
   completedDaily: [],      // días 1..56
   completedWeekly: [],     // semanas 1..8
   completedJobs: [],       // noticias: ids n1..n30
-  completedB2b: [],        // 💸 b2b: ids b0_1..
+  completedB2b: [],        // 💸 b2b (histórico): ids b0_1.. — solo crédito XP legacy
+  completedPuente: [],     // 🌉 puente global: ids pg1..pg32
   unlockedAch: [],         // ids de logros ganados
   startDate: null,         // YYYY-MM-DD del día 1
   lastDailyDate: null,     // última fecha con misión diaria completada
@@ -4208,7 +4240,8 @@ function loadGame() {
       /^\d+[ABC]$/.test(String(id)) && parseInt(id, 10) >= 1 && parseInt(id, 10) <= DAILY_TOTAL);
     gameState.completedWeekly = (data.completedWeekly || []).filter(n => n >= 1 && n <= WEEKLY_TOTAL);
     gameState.completedJobs = (data.completedJobs || []).filter(id => employmentMissions.some(m => m.id === id));
-    gameState.completedB2b = (data.completedB2b || []).filter(id => B2B_MISSIONS.some(m => m.id === id));
+    gameState.completedB2b = (data.completedB2b || []).filter(id => Object.prototype.hasOwnProperty.call(B2B_LEGACY_XP, id));
+    gameState.completedPuente = (data.completedPuente || []).filter(id => PUENTE_MISSIONS.some(m => m.id === id));
     gameState.unlockedAch = (data.unlockedAch || []).filter(id => achievements.some(a => a.id === id));
     gameState.startDate = data.startDate || null;
     gameState.lastDailyDate = data.lastDailyDate || null;
@@ -4877,7 +4910,7 @@ function resetGame() {
   localStorage.removeItem("odea_empleo_v2");
   resetSagas();
   gameState = {
-    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [],
+    playerName: "Recluta", completedMissions: [], completedDaily: [], completedWeekly: [], completedJobs: [], completedB2b: [], completedPuente: [],
     unlockedAch: [], startDate: null, lastDailyDate: null, streak: 0, shieldWeek: null, vida: { log: [], growth: [], kid: [], couple: [], pow: [], men: [], plan: [], orden: [] }, capital: { done: [], eng: [], ai: [] },
     gods: {}, shop: { spent: 0, owned: [], equipped: {} },
     sound: true, reto: { date: null, id: null, done: false },
@@ -4930,8 +4963,15 @@ function weeklyXPGain() {
 function jobsXPGain() {
   return employmentMissions.filter(m => gameState.completedJobs.includes(m.id)).reduce((s, m) => s + m.xp, 0);
 }
+function legacyB2bXPGain() {
+  return (gameState.completedB2b || []).reduce((s, id) => s + (B2B_LEGACY_XP[id] || 0), 0);
+}
+function puenteXPGain() {
+  return PUENTE_MISSIONS.filter(m => (gameState.completedPuente || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+}
 function b2bXPGain() {
-  return B2B_MISSIONS.filter(m => (gameState.completedB2b || []).includes(m.id)).reduce((s, m) => s + m.xp, 0);
+  /* XP total del slot del mapa (mundo Puente Global + crédito legacy B2B). */
+  return legacyB2bXPGain() + puenteXPGain();
 }
 /* --- 🎯 La Cacería: XP y monedas se calculan desde su historial (no se duplican) --- */
 function huntXPGain() {
@@ -5022,7 +5062,7 @@ const DOMAINS = [
   { id:"carrera",   n:"Carrera",   s:"Carrera",   ico:"💼", c:"#ffaa00", xp: function(){ return jobsXPGain() + focusXPGain("carrera"); },                                  max: function(){ return sumXP(employmentMissions); } },
   { id:"estudio",   n:"Estudio",   s:"Estudio",   ico:"📚", c:"#00ff88", xp: function(){ return dailyXPGain() + weeklyXPGain() + focusXPGain("estudio"); },                max: function(){ return sumXP(dailyMissions) + sumXP(weeklyMissions); } },
   { id:"proyectos", n:"Proyectos", s:"Proyectos", ico:"🛠️", c:"#00ccff", xp: function(){ return campaignXPGain() + focusXPGain("proyectos"); },                              max: function(){ return sumXP(campaignAll); } },
-  { id:"negocio",   n:"Negocio",   s:"Negocio",   ico:"💸", c:"#7c6cff", xp: function(){ return b2bXPGain() + focusXPGain("negocio"); },                                   max: function(){ return sumXP(B2B_MISSIONS); } },
+  { id:"negocio",   n:"Puente",   s:"Puente",   ico:"🌉", c:"#7c6cff", xp: function(){ return b2bXPGain() + focusXPGain("negocio"); },                                   max: function(){ return sumXP(PUENTE_MISSIONS) + 4100; } },
   { id:"cuerpo",    n:"Cuerpo",    s:"Cuerpo",    ico:"🧬", c:"#ff00ff", xp: function(){ return vidaCompute().total + focusXPGain("cuerpo") + diaryXPGain(); },            max: function(){ return LIFE_LADDER[LIFE_LADDER.length-1].xp; } },
   { id:"capital",   n:"Capital",   s:"Capital",   ico:"💰", c:"#ffd700", xp: function(){ return capCompute().xp + focusXPGain("capital"); },                                max: function(){ return CAP_LADDER[CAP_LADDER.length-1].xp; } }
 ];
@@ -5062,7 +5102,7 @@ function recomputeState() {
   /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
   gameState.campaignLevel = campaignLevel();
   gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
-  /* Nivel ODEA: sube con TODO el XP (campaña, diarias, noticias, B2B, imperio, vida, sagas, logros, jefes, enfoque y diario). */
+  /* Nivel ODEA: sube con TODO el XP (campaña, diarias, noticias, Puente, imperio, vida, sagas, logros, jefes, enfoque y diario). */
   gameState.odeLevel = odeInfo(gameState.totalXP).lvl;
   gameState.stats = { domains: domainLevels() };
 }
@@ -5207,7 +5247,7 @@ function totalMissionCount() {
     const capCount = CAP_FRONTS.reduce(function (s, fr) { return s + (fr.missions ? fr.missions.length : 0); }, 0);
     const sagaCount = SAGAS.reduce(function (s, x) { return s + x.chapters.length; }, 0);
     return (campaignAll.length || 0) + (dailyMissions.length || 0) + (weeklyMissions.length || 0) +
-      (employmentMissions.length || 0) + (B2B_MISSIONS.length || 0) + capCount + vidaCount + sagaCount +
+      (employmentMissions.length || 0) + (PUENTE_MISSIONS.length || 0) + capCount + vidaCount + sagaCount +
       (GOD_BOSSES.length || 0) + (TITAN_BOSSES.length || 0) +
       ((typeof HUNT_MISSIONS !== "undefined" ? HUNT_MISSIONS.length : 0) || 0);
   } catch (e) { return 0; }
@@ -5433,7 +5473,7 @@ const PLANNER_FRONTS = [
   { f: "campaign", ico: "📜", n: "Campaña" },
   { f: "weekly", ico: "📯", n: "Semanal" },
   { f: "jobs", ico: "📡", n: "Noticias" },
-  { f: "b2b", ico: "💸", n: "B2B" },
+  { f: "b2b", ico: "🌉", n: "Puente" },
   { f: "cap", ico: "💰", n: "Capital" },
   { f: "eng", ico: "🌎", n: "Inglés" },
   { f: "ai", ico: "🤖", n: "IA" },
@@ -5503,7 +5543,7 @@ function plannerCatalog() {
   campaignAll.forEach(function (m) { out.push({ f: "campaign", id: m.id }); });
   weeklyMissions.forEach(function (m) { out.push({ f: "weekly", id: String(m.week) }); });
   employmentMissions.forEach(function (m) { out.push({ f: "jobs", id: m.id }); });
-  B2B_MISSIONS.forEach(function (m) { out.push({ f: "b2b", id: m.id }); });
+  PUENTE_MISSIONS.forEach(function (m) { out.push({ f: "b2b", id: m.id }); });
   CAP_FRONTS.forEach(function (fr) { fr.missions.forEach(function (m) { out.push({ f: fr.k, id: m.id }); }); });
   /* v5.64: todas las zonas de Vida (Equilibrio, Legado, Alianza,
      Poder, Sabios, Planes y Orden) desde un único índice */
@@ -5551,12 +5591,12 @@ function plannerInfo(f, id, vsCache) {
     } : null;
   }
   if (f === "b2b") {
-    m = B2B_MISSIONS.find(function (x) { return x.id === id; });
+    m = PUENTE_MISSIONS.find(function (x) { return x.id === id; });
     return m ? {
-      title: m.title, xp: m.xp, done: (gameState.completedB2b || []).includes(id),
-      locked: !(gameState.completedB2b || []).includes(id) && !b2bUnlocked(m),
+      title: m.title, xp: m.xp, done: (gameState.completedPuente || []).includes(id),
+      locked: !(gameState.completedPuente || []).includes(id) && !b2bUnlocked(m),
       desc: m.description, verif: m.verification,
-      meta: ["💸 Fase " + m.chapter, "⏱️ " + m.estimatedTime]
+      meta: ["🌉 Fase " + m.chapter, "⏱️ " + m.estimatedTime]
     } : null;
   }
   if (CAP_FRONTS.some(function (fr) { return fr.k === f; })) {
@@ -5616,8 +5656,8 @@ function plannerRefKey(it) { return it.f + ":" + it.id; }
 function b2bUnlocked(m) {
   if (!m) return false;
   if (m.chapter === 0) return true;
-  const prev = B2B_MISSIONS.filter(function (x) { return x.chapter === m.chapter - 1; });
-  const done = gameState.completedB2b || [];
+  const prev = PUENTE_MISSIONS.filter(function (x) { return x.chapter === m.chapter - 1; });
+  const done = gameState.completedPuente || [];
   return prev.length > 0 && prev.every(function (x) { return done.includes(x.id); });
 }
 function sagaChapterUnlocked(id) {
@@ -8759,17 +8799,17 @@ function toggleCampaign(id, el) {
 
 /* --- Racha: día completo de "Hoy" (3/3) o 5 misiones de cualquier frente --- */
 /* ==========================================================
-   💸 B2B — planeta de Ingreso Extra (navegación del mapa)
+   🌉 Puente Global — planeta de Inglés & Ventas (navegación del mapa)
    ========================================================== */
 function b2bNodes() {
-  const doneSet = new Set(gameState.completedB2b || []);
+  const doneSet = new Set(gameState.completedPuente || []);
   const out = { nodes: [], points: [] };
-  const firstPend = B2B_CHAPTERS.findIndex(ch => {
-    const list = B2B_MISSIONS.filter(m => m.chapter === ch.id);
+  const firstPend = PUENTE_CHAPTERS.findIndex(ch => {
+    const list = PUENTE_MISSIONS.filter(m => m.chapter === ch.id);
     return list.filter(m => doneSet.has(m.id)).length < list.length;
   });
-  B2B_CHAPTERS.forEach((ch, i) => {
-    const list = B2B_MISSIONS.filter(m => m.chapter === ch.id);
+  PUENTE_CHAPTERS.forEach((ch, i) => {
+    const list = PUENTE_MISSIONS.filter(m => m.chapter === ch.id);
     const d = list.filter(m => doneSet.has(m.id)).length;
     const x = mapNarrow() ? 50 : (i % 2 === 0 ? 50 : 30);
     const y = (mapNarrow() ? (60 + i * 112) : (822 - i * 106));
@@ -8784,19 +8824,19 @@ function b2bNodes() {
   return out;
 }
 function toggleB2B(id, el) {
-  const m = B2B_MISSIONS.find(x => x.id === id);
+  const m = PUENTE_MISSIONS.find(x => x.id === id);
   if (!m) return;
   const oldLevel = odeLevelNow();
-  const wasDone = (gameState.completedB2b || []).includes(id);
+  const wasDone = (gameState.completedPuente || []).includes(id);
   if (!wasDone && !b2bUnlocked(m)) {
     toast("🔒", "Fase bloqueada", "Completa las misiones de la fase anterior antes de avanzar.");
     playSfx("error");
     return;
   }
   if (wasDone) {
-    gameState.completedB2b = gameState.completedB2b.filter(x => x !== id);
+    gameState.completedPuente = gameState.completedPuente.filter(x => x !== id);
   } else {
-    gameState.completedB2b.push(id);
+    gameState.completedPuente.push(id);
     ODEA.bus.emit("mission.completed", { id: id, source: "b2b", xp: m.xp });
     if (el) { const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, CAT_COLORS[m.category], 26); xpFloat(r.left + r.width / 2, r.top, m.xp); }
   }
@@ -8810,7 +8850,11 @@ function toggleB2B(id, el) {
   if (wasDone) {
     toast("↩️", "Misión desmarcada", "-" + m.xp + " XP · " + m.title);
   } else {
-    toast("💸", "¡Misión B2B cumplida! +" + m.xp + " XP", m.title);
+    if (m.boss) {
+      toast("👹", "¡JEFE FINAL DERROTADO! +" + m.xp + " XP", "El Reclutador cayó — 🌉 ¡Puente cruzado!");
+    } else {
+      toast("🌉", "¡Misión del Puente cumplida! +" + m.xp + " XP", m.title);
+    }
     playSfx("coin");
     cheerRandom();
   }
@@ -10093,10 +10137,10 @@ const REWARDS = [
   { id: "rw_auto1", ico: "🤖", sec: "🛡️ Campaña", n: "Visor del Automatizador", cond: () => (gameState.completedMissions || []).length >= 8 },
   { id: "rw_auto2", ico: "🛰️", sec: "🛡️ Campaña", n: "Núcleo de la Transición", cond: () => (gameState.completedMissions || []).length >= 28 },
   { id: "rw_auto3", ico: "🏆", sec: "🛡️ Campaña", n: "Corona de la Campaña", cond: () => (gameState.completedMissions || []).length >= CAMP_TOTAL },
-  /* 💸 B2B */
-  { id: "rw_b2b1", ico: "💸", sec: "💸 B2B", n: "Moneda del Fundador", cond: () => (gameState.completedB2b || []).length >= 3 },
-  { id: "rw_b2b2", ico: "🏦", sec: "💸 B2B", n: "Cofre del Ingreso Extra", cond: () => (gameState.completedB2b || []).length >= 9 },
-  { id: "rw_b2b3", ico: "👑", sec: "💸 B2B", n: "Trono del Ingreso Estable", cond: () => (gameState.completedB2b || []).length >= B2B_MISSIONS.length },
+  /* 🌉 Puente Global (recompensas del antiguo B2B) */
+  { id: "rw_b2b1", ico: "🌉", sec: "🌉 Puente", n: "Primera Llamada", cond: () => ((gameState.completedB2b || []).length + (gameState.completedPuente || []).length) >= 3 },
+  { id: "rw_b2b2", ico: "🎓", sec: "🌉 Puente", n: "Cofre del Puente", cond: () => ((gameState.completedB2b || []).length + (gameState.completedPuente || []).length) >= 9 },
+  { id: "rw_b2b3", ico: "👑", sec: "🌉 Puente", n: "Trono del Puente Global", cond: () => (gameState.completedPuente || []).length >= PUENTE_MISSIONS.length },
   /* ✨ Accesorios extra — Campaña de Datos */
   { id: "rw_cat_an", ico: "🔬", sec: "🛡️ Campaña", n: "Lupa de Datos", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "analyst").length >= 15 },
   { id: "rw_cat_emp", ico: "🎯", sec: "🛡️ Campaña", n: "Núcleo de Agentes", cond: () => campaignMissions.filter(m => gameState.completedMissions.includes(m.id) && m.category === "ai").length >= 20 },
@@ -10107,7 +10151,7 @@ const REWARDS = [
   { id: "rw_ch7", ico: "🔀", sec: "🛡️ Campaña", n: "Orquestación y Canales", cond: () => campaignMissions.filter(m => m.chapter === 7).every(m => gameState.completedMissions.includes(m.id)) },
   { id: "rw_first", ico: "🌱", sec: "🎖️ General", n: "Semilla del Primer Paso", cond: () => (gameState.completedMissions || []).length >= 1 },
   { id: "rw_st14", ico: "⚡", sec: "🎖️ General", n: "Rayo de la Constancia", cond: () => (gameState.streak || 0) >= 14 },
-  { id: "rw_b2b5", ico: "🚀", sec: "💸 B2B", n: "Cohete del Escalado", cond: () => B2B_MISSIONS.filter(m => m.chapter === 5).every(m => (gameState.completedB2b || []).includes(m.id)) },
+  { id: "rw_b2b5", ico: "🚀", sec: "🌉 Puente", n: "Cohete del Despegue Global", cond: () => PUENTE_MISSIONS.filter(m => m.chapter === 4).every(m => (gameState.completedPuente || []).includes(m.id)) },
 
   /* 👟 Pies */
   { id: "rw_boot1", ico: "👟", sec: "🛡️ Campaña", n: "Botas del Recluta", cond: () => fullDaysCount() >= 3 },
@@ -10286,7 +10330,7 @@ function rwProfileRender() {
   const capitalDone = cap.doneCount || 0;
   const totalDone = (gameState.completedDaily || []).length + (gameState.completedMissions || []).length +
     (gameState.completedWeekly || []).length + (gameState.completedJobs || []).length +
-    (gameState.completedB2b || []).length + capitalDone + vidaLifetime + sg.caps + (sagaWeeklyDone() ? 1 : 0);
+    (gameState.completedB2b || []).length + (gameState.completedPuente || []).length + capitalDone + vidaLifetime + sg.caps + (sagaWeeklyDone() ? 1 : 0);
   const activeDays = Math.max(Object.keys(gameState.activity || {}).length, Number(gameState.streak) || 0);
   const todayN = activityToday();
   const coins = coinsBalance();
@@ -10308,7 +10352,7 @@ function rwProfileRender() {
     { ico: "📜", n: "Campaña", pct: ((gameState.completedMissions || []).length / CAMP_TOTAL) * 100, count: (gameState.completedMissions || []).length + "/" + CAMP_TOTAL, sub: "+" + campaignXPGain() + " XP", go: "campaign" },
     { ico: "📯", n: "Semanal", pct: ((gameState.completedWeekly || []).length / WEEKLY_TOTAL) * 100, count: (gameState.completedWeekly || []).length + "/" + WEEKLY_TOTAL, sub: "+" + weeklyXPGain() + " XP", go: "daily" },
     { ico: "📡", n: "Noticias", pct: (jobsDoneCount() / employmentMissions.length) * 100, count: jobsDoneCount() + "/" + employmentMissions.length, sub: "+" + jobsXPGain() + " XP", go: "jobs" },
-    { ico: "💸", n: "B2B", pct: (((gameState.completedB2b || []).length / B2B_MISSIONS.length) * 100), count: (gameState.completedB2b || []).length + "/" + B2B_MISSIONS.length, sub: "+" + b2bXPGain() + " XP", go: "map", world: "b2b" },
+    { ico: "🌉", n: "Puente Global", pct: (((gameState.completedPuente || []).length / PUENTE_MISSIONS.length) * 100), count: (gameState.completedPuente || []).length + "/" + PUENTE_MISSIONS.length, sub: "+" + puenteXPGain() + " XP", go: "map", world: "b2b" },
     { ico: "💰", n: "Capital · Inglés · IA", pct: (capitalDone / cap.totalMissions) * 100, count: capitalDone + "/" + cap.totalMissions, sub: "+" + cap.xp + " XP", go: "capital" },
     { ico: "🧬", n: "Vida integral", pct: vs.hero.pct, count: "Nv." + vs.hero.lvl, sub: vs.hero.name + " · +" + vs.total + " XP", go: "vida" },
     { ico: "📹", n: "Sagas", pct: sg.pct, count: sg.caps + "/" + sg.total, sub: "+" + sg.xp + " XP (va a Vida)", go: "sagas" }
@@ -10379,7 +10423,7 @@ function rwProfileRender() {
     '<div class="pf-rank-card"><b>📹 Sagas · ' + sg.caps + "/" + sg.total + '</b><small>' + sg.pct + '% de capítulos completados</small>' + pfBar(sg.pct, "#00ccff") + '</div>' +
     '</div>';
 
-  html += '<div class="pf-note"><b>Un solo ecosistema:</b> tu <b>Nivel ODEA</b> sube con todo el XP (campaña, diarias, noticias, B2B, imperio, vida, sagas, logros, jefes, enfoque y diario). La <b>racha</b> sube al completar un día entero de “Hoy” (3/3) o al llegar a <b>' + STREAK_MIN_MISSIONS + ' misiones</b> en cualquier frente durante el día. Los días del plan se desbloquean completando el día anterior; por eso ahora se muestran como “Día”, no como “Nivel”.</div>';
+  html += '<div class="pf-note"><b>Un solo ecosistema:</b> tu <b>Nivel ODEA</b> sube con todo el XP (campaña, diarias, noticias, Puente, imperio, vida, sagas, logros, jefes, enfoque y diario). La <b>racha</b> sube al completar un día entero de “Hoy” (3/3) o al llegar a <b>' + STREAK_MIN_MISSIONS + ' misiones</b> en cualquier frente durante el día. Los días del plan se desbloquean completando el día anterior; por eso ahora se muestran como “Día”, no como “Nivel”.</div>';
 
   root.innerHTML = html;
 }
@@ -10968,7 +11012,7 @@ function godPower(world) {
 }
 function godWorldLabel(world) {
   return { camp:"Campamento Base", torre:"Campaña de Datos", fortaleza:"Radar del Mundo",
-    aldea:"Aldea de la Vida", boveda:"El Imperio", b2b:"B2B · Ingreso Extra" }[world] || world;
+    aldea:"Aldea de la Vida", boveda:"El Imperio", b2b:"Puente · Inglés & Ventas" }[world] || world;
 }
 function godBossHTML(boss) {
   const defeated = godDefeated(boss.id);
@@ -11129,8 +11173,8 @@ function mapWorldStats() {
       rank: vs.hero.name + " · Nv." + vs.hero.lvl
     },
     b2b: {
-      pct: Math.round(((gameState.completedB2b || []).length / B2B_MISSIONS.length) * 100),
-      rank: (gameState.completedB2b || []).length + "/" + B2B_MISSIONS.length + " misiones",
+      pct: Math.round(((gameState.completedPuente || []).length / PUENTE_MISSIONS.length) * 100),
+      rank: (gameState.completedPuente || []).length + "/" + PUENTE_MISSIONS.length + " misiones",
       badge: ""
     },
     sagas: {
@@ -11169,7 +11213,7 @@ function mapHubHTML() {
     { k: "torre", ico: "📜", n: nar ? "Datos" : "Campaña de Datos", x: 82, y: 50, c: "#00ccff", lit: s.torre.pct > 0 },
     { k: "aldea", ico: "🧬", n: nar ? "Aldea" : "Aldea de la Vida", x: 20, y: 82, c: "#ff00ff", lit: s.aldea.pct > 0 },
     { k: "boveda", ico: "👑", n: nar ? "Imperio" : "El Imperio", x: 84, y: 82, c: "#7c6cff", lit: s.boveda.pct > 0 },
-    { k: "b2b", ico: "💸", n: nar ? "B2B" : "Ingreso Extra B2B", x: 50, y: 82, c: "#ffaa00", lit: s.b2b.pct > 0 }
+    { k: "b2b", ico: "🌉", n: nar ? "Puente" : "El Puente Global", x: 50, y: 82, c: "#00ccff", lit: s.b2b.pct > 0 }
   ];
   const map = { camp: s.camp, torre: s.torre, fortaleza: s.fortaleza, aldea: s.aldea, boveda: s.boveda, b2b: s.b2b, academia: s.academia };
   let svg = '<svg class="hub-svg" viewBox="0 0 100 100" preserveAspectRatio="none">';
@@ -11367,7 +11411,7 @@ function renderMapStage() {
     fortaleza: { t: "📡 RADAR DEL MUNDO", s: "5 bloques: IA, tecnología, ganar dinero, finanzas/trading y actualización diaria" },
     aldea: { t: "🧬 ALDEA DE LA VIDA", s: "7 zonas: equilibrio, legado, alianza, poder, sabiduría, planes y orden" },
     boveda: { t: "👑 EL IMPERIO", s: "3 frentes: 💰 capital · 🌎 inglés · 🤖 IA — domina tu imperio" },
-    b2b: { t: "💸 B2B — INGRESO EXTRA", s: "6 fases: fundamentos, portafolio, ingresos, inversión, marca y escalado" }
+    b2b: { t: "🌉 EL PUENTE GLOBAL", s: "5 fases: inglés, fundamentos de ventas, práctica real, salida al mercado y el jefe final 👹" }
   };
   const h = H[mapSt.w] || H.null;
   title.textContent = h.t;
@@ -11453,10 +11497,10 @@ function mapOpenModal(kind, id) {
     body.innerHTML = html;
   } else if (kind === "b2b-ch") {
     const n = Number(String(id).replace("b2b", ""));
-    const ch = B2B_CHAPTERS[n];
+    const ch = PUENTE_CHAPTERS[n];
     if (!ch) return;
-    const doneSet = new Set(gameState.completedB2b || []);
-    const list = B2B_MISSIONS.filter(m => m.chapter === ch.id);
+    const doneSet = new Set(gameState.completedPuente || []);
+    const list = PUENTE_MISSIONS.filter(m => m.chapter === ch.id);
     const d = list.filter(m => doneSet.has(m.id)).length;
     let html = '<div style="--mc:' + ch.color + '"><div class="nm-head"><span class="nm-ico">' + ch.icon + "</span>" +
       '<div><div class="nm-code">' + ch.code + ' · ' + d + "/" + list.length + " misiones</div>" +
@@ -11464,7 +11508,7 @@ function mapOpenModal(kind, id) {
       '<p class="ch-narrative">' + ch.narrative + "</p>" +
       list.map(m => {
         const done = doneSet.has(m.id);
-        return '<div class="mission has-plan' + (done ? " done" : '') + '" data-id="' + m.id + '">' +
+        return '<div class="mission has-plan' + (done ? " done" : '') + (m.boss ? " boss" : '') + '" data-id="' + m.id + '">' +
           planAddBtnHTML("b2b", m.id) +
           '<div class="m-check" role="checkbox" tabindex="0" aria-checked="' + done + '"></div><div class="m-body">' +
           '<div class="m-title">' + (done ? "✓ " : "") + escapeHtml(m.title) + '</div>' +
@@ -11472,7 +11516,7 @@ function mapOpenModal(kind, id) {
           '<div class="m-verif">' + escapeHtml(m.verification) + '</div>' +
           '<div class="m-tags">' + catTag(m.category) + xpTag(m.xp) + timeTag(parseHours(m.estimatedTime).min * 60) + linkTag(m.id) + '</div>' +
           "</div></div>";
-      }).join("") + (d === list.length ? '<div class="nm-done">✓ FASE COMPLETADA</div>' : "") + "</div>";
+      }).join("") + (d === list.length ? (ch.id === 4 ? '<div class="nm-done">👹 ¡JEFE FINAL DERROTADO! 🌉 PUENTE CRUZADO</div>' : '<div class="nm-done">✓ FASE COMPLETADA</div>') : "") + "</div>";
     body.innerHTML = html;
   }
   playSfx("pop");
@@ -12051,7 +12095,7 @@ function shopState() { return gameState.shop = gameState.shop || { spent: 0, own
 function coinsEarned() {
   const st = gameState;
   return (st.completedDaily.length + st.completedMissions.length + st.completedWeekly.length +
-    st.completedJobs.length + ((st.completedB2b || []).length) +
+    st.completedJobs.length + ((st.completedB2b || []).length) + ((st.completedPuente || []).length) +
     ((st.vida && st.vida.log) ? st.vida.log.length : 0) +
     ((st.capital ? Object.keys(st.capital).reduce(function (s, k) {
       return s + (Array.isArray(st.capital[k]) ? st.capital[k].length : 0);

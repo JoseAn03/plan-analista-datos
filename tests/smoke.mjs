@@ -163,7 +163,15 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.91: APP_VERSION y caché', html.includes('const APP_VERSION = "5.91"') && /odea-v5\.91-20261030-anomalia-ir/.test(sw));
+check('v5.92: APP_VERSION y caché', html.includes('const APP_VERSION = "5.92"') && /odea-v5\.92-20261030-puente/.test(sw));
+check('v5.92: mundo Puente Global (32 misiones, 5 fases, jefe final)',
+  html.includes('const PUENTE_MISSIONS') && html.includes('const PUENTE_CHAPTERS') &&
+  html.includes('El Puente Global') && html.includes('"pg32"') && html.includes('boss:true') &&
+  !html.includes('Ingreso Extra B2B') && !html.includes('const B2B_MISSIONS') && !html.includes('const B2B_CHAPTERS'));
+check('v5.92: XP legacy B2B + completedPuente sin perder guardado',
+  html.includes('const B2B_LEGACY_XP') && html.includes('function legacyB2bXPGain(') &&
+  html.includes('function puenteXPGain(') && html.includes('completedPuente: []') &&
+  html.includes('gameState.completedPuente = (data.completedPuente || [])'));
 check('v5.72: Taller cargado como fuente de la Campaña',
   html.includes('<script src="flujos_odea.js"></script>') &&
   sw.includes("'./flujos_odea.js'") && !sw.includes("'./assets/fronts/fl.svg'"));
