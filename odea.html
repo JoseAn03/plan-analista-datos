@@ -973,6 +973,28 @@ html{-webkit-text-size-adjust:100%}
 .shop-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px;line-height:1.5}
 .shop-sub b{color:#fff}
 .shop-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+#event-layer{display:none;position:fixed;inset:0;z-index:1200;background:rgba(2,6,16,.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:18px 10px}
+#event-layer.show{display:flex}
+.ev-bar-wrap{height:12px;border:1px solid rgba(0,255,170,.4);border-radius:7px;overflow:hidden;margin:10px 0 4px;background:rgba(0,0,0,.35)}
+.ev-bar{height:100%;width:0;background:linear-gradient(90deg,#00ffaa,#ffd700);transition:width .4s}
+.ev-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
+.ev-item{border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.03)}
+.ev-item.done{border-color:rgba(0,255,170,.55);background:rgba(0,255,170,.06)}
+.ev-item.locked{opacity:.45}
+.ev-item.final{border-color:rgba(255,215,0,.65);background:rgba(255,215,0,.06)}
+.ev-top{display:flex;align-items:center;gap:8px}
+.ev-ico{font-size:1.25rem}
+.ev-name{flex:1;font-weight:700;font-size:.92rem}
+.ev-day{font-size:.68rem;letter-spacing:.06em;color:var(--glow-cyan,#00ccff);border:1px solid rgba(0,204,255,.4);padding:2px 7px;border-radius:20px}
+.ev-reward{font-size:.78rem;color:#ffd700;white-space:nowrap}
+.ev-desc{font-size:.8rem;opacity:.85;margin-top:3px}
+.ev-item details{margin-top:6px;font-size:.82rem}
+.ev-item summary{cursor:pointer;color:var(--glow-green);font-weight:700;font-size:.8rem}
+.ev-brief{margin-top:5px;line-height:1.5;opacity:.92}
+.ev-btn{margin-top:8px}
+.ev-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
+.ev-phrases{margin-top:14px;border-top:1px solid rgba(255,215,0,.25);padding-top:10px;font-size:.84rem;line-height:1.6}
+.ev-phrases h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.9rem;margin:0 0 5px}
 .canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
 .canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
 .shop-item.canje-item{position:relative}
@@ -2722,6 +2744,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
+  <button class="side-inv event" id="side-event" type="button" aria-label="Abrir evento Rumbo a la Entrevista">🎙️ EVENTO ENTREVISTA<em class="coin-badge" id="event-badge">…</em></button>
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
@@ -3021,6 +3044,31 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <button class="shop-btn" id="canje-add" type="button">＋ CREAR</button>
     </div>
     <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
+  </div>
+</div>
+
+<div id="event-layer">
+  <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="event-title">
+    <div class="shop-head">
+      <h2 id="event-title">🎙️ EVENTO: RUMBO A LA ENTREVISTA</h2>
+      <button class="close-x" id="event-close" aria-label="Cerrar evento">✕</button>
+    </div>
+    <p class="shop-sub">Evento especial hasta el <b>lunes 9 de noviembre</b>: tu entrevista con <b>Remote Leverage</b> (10:40 a. m., Zoom, en inglés). Cada misión te enseña algo y paga <b>XP y monedas reales</b>. Al final del camino espera el jefe: 👹 <b>LA ENTREVISTA</b>.</p>
+    <div class="shop-stats">
+      <span class="bal-pill" id="event-countdown">⏳ …</span>
+      <span class="bal-pill">⭐ Evento: <b id="event-xp">0</b> XP · 🪙 <b id="event-coins">0</b></span>
+    </div>
+    <div class="ev-bar-wrap"><div class="ev-bar" id="event-bar"></div></div>
+    <div class="ev-list" id="event-missions"></div>
+    <div class="ev-phrases">
+      <h3>🗣️ Frases que tenés que dominar</h3>
+      <p><b>“I am in charge of validating the data.”</b> — Me encargo de validar los datos.<br>
+      <b>“The workflow runs on a schedule.”</b> — El flujo corre con horario programado.<br>
+      <b>“I check the execution log, node by node.”</b> — Reviso el registro de ejecución, nodo por nodo.<br>
+      <b>“Sorry, could you repeat that, please?”</b> — Perdón, ¿podría repetirlo, por favor?<br>
+      <b>“Five hundred plus reservations a day.”</b> — Más de 500 reservaciones al día.</p>
+    </div>
+    <button class="btn-neon shop-back" id="event-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
 </div>
 
@@ -4075,7 +4123,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.93"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.94"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -5009,6 +5057,16 @@ function huntCoinsEarned() {
   const log = (gameState.hunt && Array.isArray(gameState.hunt.log)) ? gameState.hunt.log : [];
   return log.reduce(function (s, e) { return s + Math.max(0, Number(e.coins) || 0); }, 0);
 }
+/* --- 🎙️ EVENTO Rumbo a la Entrevista: XP y monedas desde su propio log --- */
+function eventState() { return gameState.eventRL = gameState.eventRL || { log: [] }; }
+function eventXPGain() {
+  const log = (gameState.eventRL && Array.isArray(gameState.eventRL.log)) ? gameState.eventRL.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.xp) || 0); }, 0);
+}
+function eventCoinsEarned() {
+  const log = (gameState.eventRL && Array.isArray(gameState.eventRL.log)) ? gameState.eventRL.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.coins) || 0); }, 0);
+}
 /* --- 🍅 Enfoque (pomodoro) --- */
 function focusXPGain(id) {
   const f = gameState.focus || {};
@@ -5124,8 +5182,9 @@ function recomputeState() {
   const diary = diaryXPGain();
   const bosses = bossXPSum();
   const hunt = huntXPGain();
-  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt };
-  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt;
+  const evento = eventXPGain();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento };
+  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt + evento;
   /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
   gameState.campaignLevel = campaignLevel();
   gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
@@ -12129,6 +12188,7 @@ function coinsEarned() {
     }, 0) : 0)) +
     sagaCoinsEarned() +
     huntCoinsEarned() +
+    eventCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
 }
 function coinsBalance() { return Math.max(0, coinsEarned() - (shopState().spent || 0)); }
@@ -12316,6 +12376,153 @@ function canjeDel(id) {
 (function () {
   const add = document.getElementById("canje-add");
   if (add) add.addEventListener("click", canjeAdd);
+})();
+/* --- 🎙️ v5.94 EVENTO Rumbo a la Entrevista (Remote Leverage, 5–9 nov) ---
+   Misiones con la lección DENTRO (briefing). Recompensas reales: el log
+   gameState.eventRL alimenta eventXPGain/eventCoinsEarned (patrón Cacería).
+   Ventana: misiones desde su día y hasta el 2026-11-09; el jefe final se
+   puede reclamar también el 2026-11-10 (gracia). Después: solo resumen. */
+const EVENT_END = "2026-11-09";
+const EVENT_FINAL_GRACE = "2026-11-10";
+const EVENT_MISSIONS = [
+  { id: "ev_n8n", day: "2026-11-05", ico: "🎙️", kind: "once",
+    t: "Tu historia de n8n, en voz alta",
+    d: "Contala 3 veces grabándote hasta que salga sin leer.",
+    briefing: "Tu diferenciador #1. Estructura: problema → construcción → antes → ahora.<br><b>“At ANC, I use n8n to automate data workflows. I built a pipeline that pulls reservation data automatically, cleans it, and feeds my reports. Before, that process was manual and took about two hours. Now it takes fifteen minutes.”</b><br>Si piden detalle: <b>“If something fails, I check the execution log node by node.”</b>",
+    xp: 15, coins: 3 },
+  { id: "ev_bq", day: "2026-11-05", ico: "🐘", kind: "once",
+    t: "BigQuery: las 3 diferencias + sandbox",
+    d: "Aprendé las diferencias con tu MySQL y corré 5 consultas en el sandbox gratis de BigQuery.",
+    briefing: "Las 3 diferencias: <b>1)</b> Tablas con backticks: `proyecto.dataset.tabla`. <b>2)</b> Nada de TOP: se usa LIMIT, igual que en MySQL. <b>3)</b> Fechas: DATE_DIFF(fin, inicio, DAY) y EXTRACT(YEAR FROM fecha).<br>Tu frase honesta: <b>“My daily SQL is MySQL and MariaDB. I have not used BigQuery in production yet, but I have been practicing in the sandbox — the logic transfers.”</b>",
+    xp: 20, coins: 4 },
+  { id: "ev_nums", day: "2026-11-06", ico: "🔢", kind: "once",
+    t: "Tus números en inglés",
+    d: "Practicá tus 4 números hasta decirlos sin pensar.",
+    briefing: "<b>“More than five hundred reservations every day.”</b> (500+ al día)<br><b>“From two hours down to fifteen minutes.”</b> (reportes)<br><b>“More than ten manual hours a week, eliminated.”</b> (automatización)<br><b>“Satisfaction KPIs over ninety-five percent.”</b> (>95%)<br>Los números son tu credibilidad: quien da cifras, trabajó de verdad.",
+    xp: 10, coins: 2 },
+  { id: "ev_star", day: "2026-11-06", ico: "⭐", kind: "once",
+    t: "Tu historia STAR de troubleshooting",
+    d: "Armá y practicá tu historia de un problema real que resolviste.",
+    briefing: "STAR: <b>S</b>ituación → <b>T</b>area → <b>A</b>cción → <b>R</b>esultado. Tu material: en Dokka resolvías casos de clientes bajo KPIs (handle time, service level); en ANC, cuando un número se ve mal: <b>“First I check the source data and the filters, I reproduce the issue, and then I trace the pipeline step by step.”</b> Método, no pánico.",
+    xp: 15, coins: 3 },
+  { id: "ev_rate", day: "2026-11-06", ico: "💲", kind: "once",
+    t: "Línea de tarifa y preguntas para ellos",
+    d: "Memorizá tu línea de tarifa y tus 3 preguntas de cierre.",
+    briefing: "Tarifa (sin renegociar el 11 que ya escribiste): <b>“I put eleven dollars as my expectation; I am flexible within eleven to thirteen, depending on the hours and the scope.”</b><br>Tus preguntas: <b>1)</b> “How many hours per week is the contract?” <b>2)</b> “What does a typical week look like for this role?” <b>3)</b> “What are the next steps?” Tener preguntas = interés real.",
+    xp: 10, coins: 2 },
+  { id: "ev_mock1", day: "2026-11-07", ico: "🎤", kind: "once",
+    t: "Mock interview #1 con Astra (20 min)",
+    d: "Pedime por chat: «Astra, mock interview». Todo en inglés, como la real.",
+    briefing: "El ensayo que más cuenta. Preparate: cámara encendida, temporizador de 20 minutos, tus números a mano. Yo hago de entrevistador de Remote Leverage: presentación, n8n, BigQuery, STAR y cierre. Al final te doy notas honestas, sin maquillaje.",
+    xp: 30, coins: 6 },
+  { id: "ev_phrases", day: "2026-11-08", ico: "🗣️", kind: "once",
+    t: "Frases difíciles en voz alta",
+    d: "Repetí cada frase 5 veces: scheduled, troubleshoot, workflow…",
+    briefing: "Las que más traban: <b>scheduled</b> («ské-chuld»), <b>troubleshoot</b> («tróbl-shut»), <b>throughout</b> no — mejor estas útiles: <b>“I am in charge of…”</b>, <b>“Could you repeat that, please?”</b>, <b>“Let me think for a second…”</b> (ganás tiempo sin quedarte en blanco).<br>Regla de oro: si no entendés, pedí que repitan. Es profesional, no debilidad.",
+    xp: 10, coins: 2 },
+  { id: "ev_mock2", day: "2026-11-08", ico: "🎤", kind: "once",
+    t: "Mock corto #2 + logística lista",
+    d: "Repaso breve con Astra y checklist de Zoom cerrado.",
+    briefing: "Checklist: Zoom probado (audio y cámara) · audífonos cargados · notas con tus números visibles · agua a mano · entrar 5 minutos antes (10:35 a. m.).<br>Pendiente tuyo: decidir tu frase de disponibilidad si preguntan cuándo podrías empezar (aviso en ANC). Pensala hoy, no en vivo.",
+    xp: 25, coins: 5 },
+  { id: "ev_warm", day: "2026-11-09", ico: "🔥", kind: "once",
+    t: "Calentamiento de 10 minutos",
+    d: "La mañana del lunes: una pasada suave, sin estudiar nada nuevo.",
+    briefing: "Rutina: tu historia de n8n 1 vez · tus números 1 vez · tu cierre 1 vez · respirá. Nada nuevo hoy: el trabajo ya está hecho. Zoom abierto desde las 10:35 a. m., entrevista 10:40–11:00 a. m.",
+    xp: 15, coins: 3 },
+  { id: "ev_quiz", day: "2026-11-05", ico: "🧠", kind: "daily",
+    t: "Micro-quiz del evento (3 preguntas)",
+    d: "Jugá el micro-quiz de hoy: el banco es el mazo de esta entrevista. Repetible cada día del evento.",
+    briefing: "Buscá el botón 🧠 Quiz en el juego: 3 preguntas del mazo «Entrevista Remote Leverage» — tu experiencia, BigQuery, n8n y frases en inglés, con la explicación al final de cada una. Marcar esta misión cuando hayás jugado la ronda de hoy.",
+    xp: 10, coins: 2 },
+  { id: "ev_final", day: "2026-11-09", ico: "👹", kind: "final",
+    t: "JEFE FINAL: LA ENTREVISTA",
+    d: "Lunes 9, 10:40 a. m. por Zoom. Reclamá la recompensa cuando la hayás dado.",
+    briefing: "Todo el evento fue la preparación para este momento. Entrá 5 minutos antes, sonreí, y acordate: ya practicás esto todos los días en el quiz y los mocks. Si algo no lo sabés, decilo con tu frase honesta y seguí. ¡A darla, José! 💪",
+    xp: 50, coins: 10 }
+];
+function eventMission(id) { return EVENT_MISSIONS.find(function (m) { return m.id === id; }); }
+function eventDoneOn(id, dateStrV) {
+  return (eventState().log || []).some(function (e) { return e.id === id && (dateStrV ? e.d === dateStrV : true); });
+}
+function eventAvailable(m) {
+  const t = todayStr();
+  if (t < m.day) return false;
+  if (m.kind === "final") return t <= EVENT_FINAL_GRACE;
+  return t <= EVENT_END;
+}
+function eventDaysLeft() {
+  const a = todayStr().split("-"), b = EVENT_END.split("-");
+  const da = Date.UTC(+a[0], +a[1] - 1, +a[2]), db = Date.UTC(+b[0], +b[1] - 1, +b[2]);
+  return Math.round((db - da) / 86400000);
+}
+function eventProgress() {
+  const once = EVENT_MISSIONS.filter(function (m) { return m.kind !== "daily"; });
+  const done = once.filter(function (m) { return eventDoneOn(m.id); }).length;
+  return { done: done, total: once.length, pct: once.length ? Math.round(done * 100 / once.length) : 0 };
+}
+function eventRender() {
+  const cd = document.getElementById("event-countdown");
+  const xpEl = document.getElementById("event-xp");
+  const coinEl = document.getElementById("event-coins");
+  const bar = document.getElementById("event-bar");
+  const list = document.getElementById("event-missions");
+  if (!list) return;
+  const dl = eventDaysLeft();
+  if (cd) cd.textContent = dl > 0 ? ("⏳ Faltan " + dl + (dl === 1 ? " día" : " días") + " · Lun 9 nov, 10:40 a. m.")
+    : (dl === 0 ? "👹 ¡HOY ES LA ENTREVISTA! 10:40 a. m." : "🏁 Evento terminado");
+  if (xpEl) xpEl.textContent = eventXPGain().toLocaleString("es-CR");
+  if (coinEl) coinEl.textContent = eventCoinsEarned().toLocaleString("es-CR");
+  const pr = eventProgress();
+  if (bar) bar.style.width = pr.pct + "%";
+  const dayName = { "2026-11-05": "JUE 5", "2026-11-06": "VIE 6", "2026-11-07": "SÁB 7", "2026-11-08": "DOM 8", "2026-11-09": "LUN 9" };
+  list.innerHTML = EVENT_MISSIONS.map(function (m) {
+    const done = m.kind === "daily" ? eventDoneOn(m.id, todayStr()) : eventDoneOn(m.id);
+    const avail = eventAvailable(m) && !done;
+    let btn;
+    if (done) btn = '<div class="ev-done-tag">✅ COMPLETADA</div>';
+    else if (!eventAvailable(m)) btn = '<div class="ev-done-tag" style="color:#ffb3b3">' + (todayStr() < m.day ? "🔒 Se abre el " + (dayName[m.day] || m.day) : "🏁 Evento cerrado") + '</div>';
+    else btn = '<button class="shop-btn ev-btn" data-event-do="' + m.id + '">COMPLETAR · ⭐ ' + m.xp + ' XP · 🪙 ' + m.coins + '</button>';
+    return '<div class="ev-item' + (done ? " done" : "") + (!eventAvailable(m) && !done ? " locked" : "") + (m.kind === "final" ? " final" : "") + '">' +
+      '<div class="ev-top"><span class="ev-ico">' + m.ico + '</span><span class="ev-name">' + canjeEsc(m.t) + '</span>' +
+      '<span class="ev-day">' + (dayName[m.day] || m.day) + (m.kind === "daily" ? " · DIARIA" : "") + '</span>' +
+      '<span class="ev-reward">⭐ ' + m.xp + ' · 🪙 ' + m.coins + '</span></div>' +
+      '<div class="ev-desc">' + canjeEsc(m.d) + '</div>' +
+      '<details><summary>📖 Briefing: lo que tenés que aprender</summary><div class="ev-brief">' + m.briefing + '</div></details>' +
+      btn + '</div>';
+  }).join("");
+  list.querySelectorAll("[data-event-do]").forEach(function (el) { el.addEventListener("click", function () { eventComplete(el.dataset.eventDo); }); });
+  const badge = document.getElementById("event-badge");
+  if (badge) badge.textContent = dl > 0 ? (dl + (dl === 1 ? " día" : " días")) : (dl === 0 ? "¡HOY!" : "Fin");
+}
+function eventComplete(id) {
+  const m = eventMission(id);
+  if (!m) return;
+  if (!eventAvailable(m)) { toast("🔒", "Todavía no", "Esta misión se abre en su día del evento."); return; }
+  if (m.kind === "daily" ? eventDoneOn(id, todayStr()) : eventDoneOn(id)) { toast("✅", "Ya estaba", "Esta misión ya la completaste."); return; }
+  eventState().log.push({ id: id, d: todayStr(), xp: m.xp, coins: m.coins });
+  ODEA.bus.emit("mission.completed", { id: id, source: "event", xp: m.xp });
+  playSfx(m.kind === "final" ? "win" : "coin");
+  if (m.kind === "final") confetti(window.innerWidth / 2, window.innerHeight * 0.4, 120);
+  toast(m.ico, m.kind === "final" ? "👹 ¡JEFE DERROTADO!" : "¡Misión del evento completada!", m.t + " · ⭐ +" + m.xp + " XP · 🪙 +" + m.coins);
+  saveGame();
+  eventRender();
+  shopCoinSync();
+  const badge = document.getElementById("coin-badge");
+  if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
+}
+function eventOpen() { eventRender(); document.getElementById("event-layer").classList.add("show"); playSfx("click"); }
+function eventClose() { document.getElementById("event-layer").classList.remove("show"); }
+(function () {
+  const btn = document.getElementById("side-event");
+  if (btn) btn.addEventListener("click", eventOpen);
+  const c1 = document.getElementById("event-close");
+  if (c1) c1.addEventListener("click", eventClose);
+  const c2 = document.getElementById("event-close2");
+  if (c2) c2.addEventListener("click", eventClose);
+  const layer = document.getElementById("event-layer");
+  if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) eventClose(); });
+  eventRender();
 })();
 function shopCoinSync() {
   const bal = coinsBalance();
@@ -12600,8 +12807,8 @@ focusRestore();
 <script src="./assets/odea-icons-v7.js?v=8f" defer></script>
 <script src="./assets/odea-juice.js?v=1" defer></script>
 <script src="./assets/odea-anomalias.js?v=2" defer></script>
-<script src="./assets/odea-quiz-bank.js?v=1" defer></script>
-<script src="./assets/odea-quiz.js?v=1" defer></script>
+<script src="./assets/odea-quiz-bank.js?v=2" defer></script>
+<script src="./assets/odea-quiz.js?v=2" defer></script>
 <script src="./assets/odea-jefe.js?v=1" defer></script>
 <script src="./assets/odea-tesoro.js?v=1" defer></script>
 <script src="./assets/odea-hub.js?v=1" defer></script>

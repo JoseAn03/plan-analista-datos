@@ -163,7 +163,16 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.93: APP_VERSION y caché', html.includes('const APP_VERSION = "5.93"') && /odea-v5\.93-20261105-canje/.test(sw));
+check('v5.94: APP_VERSION y caché', html.includes('const APP_VERSION = "5.94"') && /odea-v5\.94-20261105-evento/.test(sw));
+const bank94 = readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8');
+const quiz94 = readFileSync(join(ROOT, 'assets/odea-quiz.js'), 'utf8');
+check('v5.94: EVENTO Rumbo a la Entrevista (misiones, log derivado, panel)',
+  html.includes('const EVENT_MISSIONS') && html.includes('function eventComplete(') &&
+  html.includes('function eventXPGain(') && html.includes('function eventCoinsEarned(') &&
+  html.includes('gameState.eventRL') && html.includes('id="event-layer"') && html.includes('id="side-event"'));
+check('v5.94: mazo entrevistaRL (24) y la capa quiz lo prefiere',
+  bank94.includes('ODEA_QUIZ_BANK.entrevistaRL') && quiz94.includes('entrevistaRL') &&
+  html.includes('odea-quiz-bank.js?v=2') && sw.includes('odea-quiz-bank.js?v=2'));
 check('v5.93: recompensas reales (canje) con el libro de gasto de la tienda',
   html.includes('const LIFE_REWARDS') && html.includes('function canjeBuy(') &&
   html.includes('id="canje-grid"') && html.includes('function canjeState(') &&
@@ -326,7 +335,7 @@ check('v5.70: render v2 y acciones de disparo/deshacer',
 check('v5.70: XP y monedas desde hunt.log sin duplicar',
   html.includes('function huntXPGain()') && html.includes('function huntCoinsEarned()') &&
   html.includes('huntCoinsEarned() +') && html.includes('const hunt = huntXPGain()') &&
-  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt }'));
+  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento }'));
 check('v5.70: Ajustes reinicia solo La Cacería',
   /getElementById\("btn-reset-daily"\)[\s\S]{0,220}huntReset\(\)/.test(html) &&
   !html.includes('resetDailyCampaign();'));

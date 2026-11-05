@@ -707,3 +707,301 @@ window.ODEA_QUIZ_BANK.entrevista = [
   "explicacion": "Cierre con valor + pregunta de seguimiento. Terminás vos al mando, no en falso."
  }
 ];
+
+/*
+ * Mazo v5.94 — 🎙️ EVENTO Rumbo a la Entrevista (Remote Leverage, Data Analyst).
+ * 24 preguntas construidas desde la experiencia REAL de José (ANC: 500+
+ * reservaciones/día, reportes de 2 h a 15 min, n8n; Dokka: KPIs de call
+ * center) y su brecha declarada (BigQuery/GCP). La capa quiz prefiere
+ * este mazo mientras exista; el genérico `entrevista` queda de respaldo.
+ */
+window.ODEA_QUIZ_BANK.entrevistaRL = [
+ {
+  "tema": "Tu historia",
+  "pregunta": "The interviewer says: “Tell me about yourself.” What do they really want?",
+  "opciones": [
+   "Your life story since childhood",
+   "A 60-second summary: current role, experience, top skills, and what you are looking for",
+   "A list of every tool you know",
+   "Your salary history"
+  ],
+  "correcta": 1,
+  "explicacion": "Estructura presente → pasado breve → futuro. Decila en voz alta: “I work as a Data Analyst at ANC Rent a Car. I have two years of experience with SQL, Python and Power BI, and I am looking for a remote role where I can grow in automation and analytics.”"
+ },
+ {
+  "tema": "Tus números",
+  "pregunta": "Which opening line about your current role is strongest?",
+  "opciones": [
+   "“I work in a car rental company doing reports.”",
+   "“I am a Data Analyst at ANC Rent a Car, at the San José airport, and I process more than five hundred reservations every day.”",
+   "“I do many things with Excel.”",
+   "“I have a job, but I want a remote one.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Rol + empresa + lugar + NÚMERO. Los números son tu credibilidad: 500+ reservaciones al día es tu frase ancla."
+ },
+ {
+  "tema": "Tus números",
+  "pregunta": "“How did you reduce your reporting time?” — your best answer:",
+  "opciones": [
+   "“I just work faster now.”",
+   "“The reports are easier than before.”",
+   "“I automated the process with Python and VBA: what took two hours now takes fifteen minutes.”",
+   "“My boss gave me less work.”"
+  ],
+  "correcta": 2,
+  "explicacion": "Antes → acción → resultado con números: two hours → fifteen minutes. Sumá: “That eliminated more than ten hours of manual work every week.”"
+ },
+ {
+  "tema": "Tus números",
+  "pregunta": "How do you say this in English? «Nuestros KPIs de satisfacción se mantienen sobre el 95%»",
+  "opciones": [
+   "“Our satisfaction KPIs stay over ninety-five percent.”",
+   "“Our KPIs of satisfaction are up of 95.”",
+   "“We have 95 satisfactions.”",
+   "“The clients are 95 happy.”"
+  ],
+  "correcta": 0,
+  "explicacion": "“Stay over ninety-five percent.” Practicá los números grandes en inglés: five hundred, ninety-five percent, fifteen minutes."
+ },
+ {
+  "tema": "n8n",
+  "pregunta": "What is n8n used for?",
+  "opciones": [
+   "Editing photos",
+   "Workflow automation: connecting apps and APIs to move and transform data on a schedule",
+   "Writing video games",
+   "Designing dashboards only"
+  ],
+  "correcta": 1,
+  "explicacion": "Definición en una frase, lista para la entrevista: “n8n is a workflow automation tool.” Es tu diferenciador: pocos analistas junior lo dominan."
+ },
+ {
+  "tema": "n8n",
+  "pregunta": "Your strongest n8n story — which version wins?",
+  "opciones": [
+   "“I know n8n, it is a good tool.”",
+   "“Once I watched a tutorial about n8n.”",
+   "“I built a pipeline in n8n that pulls reservation data automatically, cleans it, and feeds my reports — and when something fails, I check the execution log node by node.”",
+   "“n8n is like Excel but online.”"
+  ],
+  "correcta": 2,
+  "explicacion": "Historia completa: qué hace el pipeline + cómo resolvés fallos (execution log, node by node). Eso es exactamente el “pipeline monitoring and troubleshooting” del puesto."
+ },
+ {
+  "tema": "n8n",
+  "pregunta": "“The workflow runs on a schedule” means…",
+  "opciones": [
+   "El flujo se ejecuta automáticamente según un horario programado",
+   "El flujo solo corre si alguien lo mira",
+   "El flujo es muy rápido",
+   "El flujo no tiene errores"
+  ],
+  "correcta": 0,
+  "explicacion": "Vocabulario del puesto: schedule = horario programado. Otras dos que vas a oír: trigger (lo que dispara el flujo) y execution (cada corrida)."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "Which query is correct in BigQuery?",
+  "opciones": [
+   "SELECT TOP 10 * FROM ventas",
+   "SELECT * FROM ventas WHERE ROWNUM <= 10",
+   "SELECT * FROM ventas LIMIT 10; -- con la tabla como `proyecto.dataset.tabla`",
+   "SELECT FIRST 10 * FROM ventas"
+  ],
+  "correcta": 2,
+  "explicacion": "BigQuery usa LIMIT (como tu MySQL) y las tablas se escriben con backticks: `project.dataset.table`. TOP es de SQL Server y ROWNUM de Oracle."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "“Have you worked with BigQuery?” — your best honest answer:",
+  "opciones": [
+   "“Yes, I am an expert.” (aunque no sea cierto)",
+   "“No.” (y nada más)",
+   "“My daily SQL is MySQL and MariaDB. I have not used BigQuery in production yet, but I have been practicing in the sandbox — the logic transfers, only some syntax changes.”",
+   "“BigQuery is the same as Excel.”"
+  ],
+  "correcta": 2,
+  "explicacion": "Honestidad + plan + fortaleza. Nunca afirmés experiencia que no tenés: si te prueban con una consulta, la verdad bien contada gana."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "In BigQuery, how do you get the number of days between two dates?",
+  "opciones": [
+   "DATEDIFF(day, start, end)",
+   "DATE_DIFF(end_date, start_date, DAY)",
+   "end_date - start_date DAYS",
+   "DAYS_BETWEEN(start, end)"
+  ],
+  "correcta": 1,
+  "explicacion": "DATE_DIFF(fin, inicio, DAY): primero la fecha final, y la unidad (DAY, MONTH, YEAR) va al final. En tu MySQL sería DATEDIFF(fin, inicio) a secas."
+ },
+ {
+  "tema": "SQL",
+  "pregunta": "Which query finds DUPLICATE reservations (same booking code more than once)?",
+  "opciones": [
+   "SELECT * FROM reservations WHERE code = code",
+   "SELECT code, COUNT(*) FROM reservations GROUP BY code HAVING COUNT(*) > 1",
+   "SELECT DISTINCT code FROM reservations",
+   "SELECT code FROM reservations ORDER BY code"
+  ],
+  "correcta": 1,
+  "explicacion": "GROUP BY + HAVING COUNT(*) > 1: el patrón clásico de duplicados. Es una validación de calidad de datos que ya hacés en ANC."
+ },
+ {
+  "tema": "Calidad de datos",
+  "pregunta": "“How do you make sure your data is correct?” — best answer:",
+  "opciones": [
+   "“I trust the source system.”",
+   "“I check the final dashboard only.”",
+   "“I validate row counts, check for duplicates and nulls, and compare the totals against the source before publishing.”",
+   "“I ask my boss to check.”"
+  ],
+  "correcta": 2,
+  "explicacion": "Tu rutina real, en orden: conteos, duplicados, nulos, totales contra la fuente. Decila completa y sonás a analista de producción, no de tutoriales."
+ },
+ {
+  "tema": "Troubleshooting",
+  "pregunta": "“A dashboard number looks wrong. What do you do first?”",
+  "opciones": [
+   "Tell the user the number is fine",
+   "Rebuild the whole dashboard",
+   "Check the source data and the filters first, reproduce the issue, then trace the pipeline step by step",
+   "Wait until tomorrow"
+  ],
+  "correcta": 2,
+  "explicacion": "Método, no pánico: fuente → filtros → reproducir → rastrear el pipeline. Es tu historia de Dokka y ANC aplicada: primero se aisla, después se arregla."
+ },
+ {
+  "tema": "Tu experiencia",
+  "pregunta": "“Tell me about a high-pressure situation.” Your best real story:",
+  "opciones": [
+   "“I have never had pressure at work.”",
+   "“At Grupo Dokka I handled customer cases under strict KPIs — handle time, service level and wait times — and I learned to prioritize and stay calm under pressure.”",
+   "“Pressure is bad, I avoid it.”",
+   "“Once I was late to work.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu etapa de call center ES experiencia de troubleshooting con clientes y métricas (TMO, nivel de servicio). No la escondás: es oro para un puesto que habla con equipos internos."
+ },
+ {
+  "tema": "Inglés de entrevista",
+  "pregunta": "Complete your sentence: “I am responsible for…”",
+  "opciones": [
+   "“…do reports and dashboards.”",
+   "“…building automated reports and dashboards for the operations team.”",
+   "“…the boss tells me.”",
+   "“…to work hard.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Después de “responsible for” va verbo en -ing: building, validating, automating. Tu frase completa describe tu trabajo real en ANC."
+ },
+ {
+  "tema": "Inglés de entrevista",
+  "pregunta": "How do you say «Me encargo de validar los datos antes de publicar el reporte»?",
+  "opciones": [
+   "“I am in charge of validating the data before publishing the report.”",
+   "“I charge the data before the report.”",
+   "“My charge is the data.”",
+   "“I validate responsible of data.”"
+  ],
+  "correcta": 0,
+  "explicacion": "“I am in charge of...” = me encargo de. Cuidado con el falso amigo: charge no es encargo. Frase lista para usar el lunes."
+ },
+ {
+  "tema": "Inglés de entrevista",
+  "pregunta": "You did not understand a question. The best move:",
+  "opciones": [
+   "Say “What?” and wait",
+   "Guess and answer something else",
+   "“Sorry, could you repeat that, please?” — it is normal and professional to ask",
+   "Pretend you understood"
+  ],
+  "correcta": 2,
+  "explicacion": "Pedir que repitan es profesional; adivinar es el error. También sirve: “Could you say that again, please?” o “Let me make sure I understood…”"
+ },
+ {
+  "tema": "Herramientas",
+  "pregunta": "“What tools do you use in your day-to-day work?” — best structure:",
+  "opciones": [
+   "Name one tool and stop",
+   "“SQL, Python with pandas, Power BI, Excel, n8n and Git.” — then one short line about how you use the most relevant one",
+   "List fifteen tools with no context",
+   "“Mostly Excel.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Lista corta en orden de relevancia para EL puesto (SQL y n8n primeros para Remote Leverage) + una línea de uso. 45 segundos, no más."
+ },
+ {
+  "tema": "Herramientas",
+  "pregunta": "“What is DAX?”",
+  "opciones": [
+   "A database server",
+   "The formula language used to build measures and calculations in Power BI",
+   "A Python library",
+   "A type of chart"
+  ],
+  "correcta": 1,
+  "explicacion": "DAX = lenguaje de fórmulas de Power BI (medidas, columnas calculadas). Si te piden un ejemplo: “I use DAX for measures like total reservations and no-show rate.”"
+ },
+ {
+  "tema": "Herramientas",
+  "pregunta": "“What do you use Python for?” — your real answer:",
+  "opciones": [
+   "“Games and fun.”",
+   "“With pandas I clean and transform data, read Excel and CSV files, and prepare datasets for Power BI.”",
+   "“I do not really use Python.”",
+   "“For hacking.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu uso real de pandas en ANC, en una frase. Si sigue la conversación: “I also automate repetitive Excel work with VBA and n8n.”"
+ },
+ {
+  "tema": "Tu brecha, bien contada",
+  "pregunta": "“What is your biggest gap for this role?” — the winning answer:",
+  "opciones": [
+   "“I am a perfectionist.”",
+   "“I have no weaknesses.”",
+   "“BigQuery and GCP are new for me. I am already practicing in the sandbox, and my core SQL is strong, so the ramp-up is about syntax, not concepts.”",
+   "“English is very hard for me.”"
+  ],
+  "correcta": 2,
+  "explicacion": "Brecha real + acción en curso + fortaleza que la compensa. El cliché de “perfeccionista” y el “no tengo debilidades” restan credibilidad."
+ },
+ {
+  "tema": "Preguntas para ellos",
+  "pregunta": "Which is the BEST question to ask them near the end?",
+  "opciones": [
+   "“How much is the salary?” (as the only question)",
+   "“How many hours per week is the contract, and what does a typical week look like for this role?”",
+   "“Nothing, I have no questions.”",
+   "“Can I start next month?”"
+  ],
+  "correcta": 1,
+  "explicacion": "Las horas por semana son EL dato que falta para valorar la oferta de contratista. También sirven: “What tools does the team use day to day?” y “What are the next steps?”. Tener preguntas = interés real."
+ },
+ {
+  "tema": "Tarifa",
+  "pregunta": "If they bring up the rate again, your line is:",
+  "opciones": [
+   "“I need twenty dollars or nothing.”",
+   "“I put eleven dollars as my expectation; I am flexible within eleven to thirteen, depending on the hours and the scope.”",
+   "“Whatever you want to pay is fine.”",
+   "“Money is not important, do not worry.”"
+  ],
+  "correcta": 1,
+  "explicacion": "La línea acordada: no renegociás el 11 que ya escribiste, abrís rango 11–13 atado a horas y alcance, y la negociación fuerte queda para la oferta. Decila con calma, sin disculparte."
+ },
+ {
+  "tema": "Cierre",
+  "pregunta": "The best way to close the interview:",
+  "opciones": [
+   "“Okay, bye.”",
+   "“Thank you for your time. I am very interested in the role, and I believe my experience with SQL and automation with n8n is a strong match. I look forward to the next steps.”",
+   "“Please hire me, I really need this.”",
+   "“When do I sign?”"
+  ],
+  "correcta": 1,
+  "explicacion": "Cierre completo: gracias + interés + tu match (SQL + n8n) + próximos pasos. Es la última impresión: practícala hasta que salga sola."
+ }
+];
