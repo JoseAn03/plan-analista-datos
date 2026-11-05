@@ -163,7 +163,11 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.92: APP_VERSION y caché', html.includes('const APP_VERSION = "5.92"') && /odea-v5\.92-20261030-puente/.test(sw));
+check('v5.93: APP_VERSION y caché', html.includes('const APP_VERSION = "5.93"') && /odea-v5\.93-20261105-canje/.test(sw));
+check('v5.93: recompensas reales (canje) con el libro de gasto de la tienda',
+  html.includes('const LIFE_REWARDS') && html.includes('function canjeBuy(') &&
+  html.includes('id="canje-grid"') && html.includes('function canjeState(') &&
+  html.includes('gameState.canje') && html.includes('shopState().spent'));
 check('v5.92: mundo Puente Global (32 misiones, 5 fases, jefe final)',
   html.includes('const PUENTE_MISSIONS') && html.includes('const PUENTE_CHAPTERS') &&
   html.includes('El Puente Global') && html.includes('"pg32"') && html.includes('boss:true') &&

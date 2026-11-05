@@ -973,6 +973,21 @@ html{-webkit-text-size-adjust:100%}
 .shop-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px;line-height:1.5}
 .shop-sub b{color:#fff}
 .shop-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
+.canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
+.shop-item.canje-item{position:relative}
+.canje-del{position:absolute;top:4px;right:6px;background:none;border:none;color:#ff7b7b;cursor:pointer;font-size:.8rem;z-index:2}
+.canje-pending{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.canje-pend-title{font-size:.82rem;color:var(--glow-green);font-weight:700}
+.canje-pend{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(0,255,170,.35);border-radius:9px;background:rgba(0,255,170,.06);font-size:.82rem}
+.canje-pend b{flex:1}
+.canje-pend .shop-btn{margin-top:0}
+.canje-done-count{font-size:.78rem;opacity:.75}
+.canje-form{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.canje-form input{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.22);border-radius:9px;color:#fff;padding:8px;font-size:.82rem}
+.canje-form #canje-name{flex:1;min-width:150px}
+.canje-form #canje-ico{width:52px;text-align:center}
+.canje-form #canje-price{width:74px}
 .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-height:46vh;overflow-y:auto;padding:4px}
 .shop-item{background:rgba(10,10,26,.6);border:1px solid rgba(160,160,192,.18);border-radius:14px;padding:12px 8px 10px;
   text-align:center;transition:.2s;position:relative;border-top:3px solid var(--tc, #b58a5a)}
@@ -2993,6 +3008,18 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <div class="freeze-info">🧊 Congelador de racha<small>Protege un día perdido sin romper tu racha. Máx 2.</small></div>
       <button class="shop-btn" id="shop-freeze" aria-label="Comprar congelador de racha">🪙 150 · <span id="freeze-count">0</span>/2</button>
     </div>
+        <div class="canje-head">
+      <h3>🎁 RECOMPENSAS REALES</h3>
+      <p class="shop-sub">Tu esfuerzo también se cobra en la vida real. Canjeá monedas por premios de verdad: vos ponés las reglas, el juego lleva la cuenta.</p>
+    </div>
+    <div class="shop-grid" id="canje-grid"></div>
+    <div class="canje-pending" id="canje-pending"></div>
+    <div class="canje-form">
+      <input id="canje-name" type="text" maxlength="48" placeholder="Tu recompensa (ej.: Ir al cine)" aria-label="Nombre de tu recompensa">
+      <input id="canje-ico" type="text" maxlength="4" placeholder="🎁" aria-label="Emoji de tu recompensa">
+      <input id="canje-price" type="number" min="1" max="9999" placeholder="🪙" aria-label="Precio en monedas">
+      <button class="shop-btn" id="canje-add" type="button">＋ CREAR</button>
+    </div>
     <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
 </div>
@@ -4048,7 +4075,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.92"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.93"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -12185,10 +12212,111 @@ function shopEquip(id) {
 }
 function shopOpen() {
   shopRender();
+  canjeRender();
   document.getElementById("shop-layer").classList.add("show");
   playSfx("click");
 }
 function shopClose() { document.getElementById("shop-layer").classList.remove("show"); }
+/* --- 🎁 v5.93 Recompensas reales: canje de monedas por premios de la vida real ---
+   El gasto usa el MISMO libro que la tienda de equipo y el congelador
+   (shopState().spent), asi coinsBalance() no cambia su formula.
+   Estado propio y aditivo: gameState.canje = { custom: [], log: [] }. */
+const LIFE_REWARDS = [
+  { id: "lr_movie", ico: "🍿", n: "Noche de película con palomitas", price: 30 },
+  { id: "lr_sleep", ico: "😴", n: "Dormir hasta tarde, sin alarma", price: 35 },
+  { id: "lr_game1h", ico: "🎮", n: "1 hora de videojuegos sin culpa", price: 40 },
+  { id: "lr_ian", ico: "🧩", n: "Tarde de juegos con Ian", price: 45 },
+  { id: "lr_cheat", ico: "🍔", n: "Comida trampa: antojo libre", price: 50 },
+  { id: "lr_moto", ico: "🏍️", n: "Salida en moto sin destino", price: 60 },
+  { id: "lr_gustito", ico: "🛍️", n: "Gustito personal (hasta ₡5.000)", price: 100 },
+  { id: "lr_libre", ico: "🌴", n: "Medio día libre de obligaciones", price: 120 }
+];
+function canjeEsc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function canjeState() { return gameState.canje = gameState.canje || { custom: [], log: [] }; }
+function canjeCatalog() { return LIFE_REWARDS.concat(canjeState().custom || []); }
+function canjeRender() {
+  const grid = document.getElementById("canje-grid");
+  if (!grid) return;
+  const bal = coinsBalance();
+  grid.innerHTML = canjeCatalog().map(function (r) {
+    const afford = bal >= r.price;
+    return '<div class="shop-item canje-item">' +
+      (r.custom ? '<button class="canje-del" data-canje-del="' + r.id + '" aria-label="Borrar recompensa">✕</button>' : '') +
+      '<span class="si-ico">' + canjeEsc(r.ico || "🎁") + '</span>' +
+      '<span class="si-name">' + canjeEsc(r.n) + '</span>' +
+      '<span class="si-tier">RECOMPENSA REAL</span>' +
+      '<button class="shop-btn' + (afford ? "" : " no") + '" data-canje-buy="' + r.id + '">🪙 ' + r.price + ' CANJEAR</button></div>';
+  }).join("");
+  grid.querySelectorAll("[data-canje-buy]").forEach(function (el) { el.addEventListener("click", function () { canjeBuy(el.dataset.canjeBuy); }); });
+  grid.querySelectorAll("[data-canje-del]").forEach(function (el) { el.addEventListener("click", function () { canjeDel(el.dataset.canjeDel); }); });
+  const pend = document.getElementById("canje-pending");
+  if (pend) {
+    const log = canjeState().log || [];
+    const items = [];
+    log.forEach(function (e, i) { if (!e.done) items.push({ e: e, i: i }); });
+    const doneCount = log.filter(function (e) { return e.done; }).length;
+    let h = "";
+    if (items.length) {
+      h = '<div class="canje-pend-title">🎉 Por disfrutar (' + items.length + '):</div>' + items.map(function (x) {
+        return '<div class="canje-pend"><span>' + canjeEsc(x.e.ico || "🎁") + '</span><b>' + canjeEsc(x.e.n) + '</b><small>' + canjeEsc(x.e.d || "") + '</small><button class="shop-btn" data-canje-enjoy="' + x.i + '">✓ YA LA DISFRUTÉ</button></div>';
+      }).join("");
+    }
+    if (doneCount) h += '<div class="canje-done-count">✅ Recompensas disfrutadas: ' + doneCount + '</div>';
+    pend.innerHTML = h;
+    pend.querySelectorAll("[data-canje-enjoy]").forEach(function (el) { el.addEventListener("click", function () { canjeEnjoy(parseInt(el.dataset.canjeEnjoy, 10)); }); });
+  }
+}
+function canjeBuy(id) {
+  const r = canjeCatalog().find(function (x) { return x.id === id; });
+  if (!r) return;
+  const bal = coinsBalance();
+  if (bal < r.price) { playSfx("error"); toast("🪙", "No te alcanza", "Te faltan " + (r.price - bal).toLocaleString("es-CR") + " monedas para «" + r.n + "»."); return; }
+  shopState().spent = (shopState().spent || 0) + r.price;
+  canjeState().log.push({ id: r.id, n: r.n, ico: r.ico || "🎁", price: r.price, d: todayStr(), done: false });
+  ODEA.bus.emit("coins.spent", { id: "canje:" + id, price: r.price });
+  playSfx("coin");
+  confetti(window.innerWidth / 2, window.innerHeight * 0.4, 70);
+  toast("🎁", "¡Recompensa canjeada!", "«" + r.n + "» quedó en tu lista por disfrutar. ¡Te la ganaste!");
+  saveGame();
+  canjeRender();
+  shopRender();
+  shopCoinSync();
+}
+function canjeEnjoy(i) {
+  const log = canjeState().log || [];
+  if (!log[i] || log[i].done) return;
+  log[i].done = true; log[i].doneDate = todayStr();
+  playSfx("click");
+  toast("✅", "¡Que la hayás disfrutado!", "«" + log[i].n + "» marcada como disfrutada.");
+  saveGame();
+  canjeRender();
+}
+function canjeAdd() {
+  const nameEl = document.getElementById("canje-name");
+  const icoEl = document.getElementById("canje-ico");
+  const priceEl = document.getElementById("canje-price");
+  if (!nameEl || !priceEl) return;
+  const n = (nameEl.value || "").trim();
+  const price = Math.round(Number(priceEl.value) || 0);
+  if (!n) { toast("🎁", "Falta el nombre", "Escribí qué recompensa querés crear."); return; }
+  if (!(price > 0)) { toast("🎁", "Falta el precio", "Poné un precio en monedas mayor a 0."); return; }
+  canjeState().custom.push({ id: "cx" + Date.now(), ico: (icoEl && icoEl.value.trim()) || "🎁", n: n, price: price, custom: true });
+  nameEl.value = ""; if (icoEl) icoEl.value = ""; priceEl.value = "";
+  playSfx("click");
+  toast("🎁", "Recompensa creada", "«" + n + "» por 🪙 " + price + ". ¡A ganársela!");
+  saveGame();
+  canjeRender();
+}
+function canjeDel(id) {
+  const st = canjeState();
+  st.custom = (st.custom || []).filter(function (x) { return x.id !== id; });
+  saveGame();
+  canjeRender();
+}
+(function () {
+  const add = document.getElementById("canje-add");
+  if (add) add.addEventListener("click", canjeAdd);
+})();
 function shopCoinSync() {
   const bal = coinsBalance();
   document.querySelectorAll(".coin-num").forEach(function (el) { el.textContent = bal.toLocaleString("es-CR"); });
