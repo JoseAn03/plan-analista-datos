@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.94-20261105-evento';
+const CACHE_VERSION = 'odea-v5.95-20261105-intensivo';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',

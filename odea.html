@@ -3053,7 +3053,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <h2 id="event-title">🎙️ EVENTO: RUMBO A LA ENTREVISTA</h2>
       <button class="close-x" id="event-close" aria-label="Cerrar evento">✕</button>
     </div>
-    <p class="shop-sub">Evento especial hasta el <b>lunes 9 de noviembre</b>: tu entrevista con <b>Remote Leverage</b> (10:40 a. m., Zoom, en inglés). Cada misión te enseña algo y paga <b>XP y monedas reales</b>. Al final del camino espera el jefe: 👹 <b>LA ENTREVISTA</b>.</p>
+    <p class="shop-sub">Evento especial hasta el <b>lunes 9 de noviembre</b>: tu entrevista con <b>Remote Leverage</b> (10:40 a. m., Zoom, en inglés). Cada misión te enseña algo y paga <b>XP y monedas reales</b>. <b>🔥 MODO INTENSIVO: todas las misiones de preparación están abiertas desde ya</b> — el día de cada una es la ruta sugerida, vos ponés el ritmo. Al final del camino espera el jefe: 👹 <b>LA ENTREVISTA</b>.</p>
     <div class="shop-stats">
       <span class="bal-pill" id="event-countdown">⏳ …</span>
       <span class="bal-pill">⭐ Evento: <b id="event-xp">0</b> XP · 🪙 <b id="event-coins">0</b></span>
@@ -4123,7 +4123,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.94"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.95"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -12507,8 +12507,11 @@ function eventDoneOn(id, dateStrV) {
 }
 function eventAvailable(m) {
   const t = todayStr();
-  if (t < m.day) return false;
-  if (m.kind === "final") return t <= EVENT_FINAL_GRACE;
+  /* v5.95 MODO INTENSIVO (pedido por José el 2026-11-05): todas las misiones de
+     preparación están abiertas desde el inicio del evento; el día de cada
+     misión queda como ruta sugerida. El jefe final sí espera al lunes:
+     es la entrevista misma, se reclama al darla (gracia: el martes). */
+  if (m.kind === "final") return t >= m.day && t <= EVENT_FINAL_GRACE;
   return t <= EVENT_END;
 }
 function eventDaysLeft() {
@@ -12541,7 +12544,7 @@ function eventRender() {
     const avail = eventAvailable(m) && !done;
     let btn;
     if (done) btn = '<div class="ev-done-tag">✅ COMPLETADA</div>';
-    else if (!eventAvailable(m)) btn = '<div class="ev-done-tag" style="color:#ffb3b3">' + (todayStr() < m.day ? "🔒 Se abre el " + (dayName[m.day] || m.day) : "🏁 Evento cerrado") + '</div>';
+    else if (!eventAvailable(m)) btn = '<div class="ev-done-tag" style="color:#ffb3b3">' + (m.kind === "final" ? "👹 El jefe final espera al lunes 9" : "🏁 Evento cerrado") + '</div>';
     else btn = '<button class="shop-btn ev-btn" data-event-do="' + m.id + '">COMPLETAR · ⭐ ' + m.xp + ' XP · 🪙 ' + m.coins + '</button>';
     return '<div class="ev-item' + (done ? " done" : "") + (!eventAvailable(m) && !done ? " locked" : "") + (m.kind === "final" ? " final" : "") + '">' +
       '<div class="ev-top"><span class="ev-ico">' + m.ico + '</span><span class="ev-name">' + canjeEsc(m.t) + '</span>' +
@@ -12588,6 +12591,7 @@ function shopCoinSync() {
   const bal = coinsBalance();
   document.querySelectorAll(".coin-num").forEach(function (el) { el.textContent = bal.toLocaleString("es-CR"); });
 }
+(function () { var vl = document.getElementById("ver-logo"); if (vl) vl.textContent = "APP DE VIDA · v" + APP_VERSION; })();
 (function () {
   const btn = document.getElementById("side-shop");
   if (btn) btn.addEventListener("click", shopOpen);
