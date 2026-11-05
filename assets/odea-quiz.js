@@ -14,7 +14,9 @@
     var STORAGE_KEY = "odea_quiz_v1";
     var DAILY_COUNT = 3;
 
-    var BANK = (window.ODEA_QUIZ_BANK && window.ODEA_QUIZ_BANK.entrevista) || [];
+    var BANK = (window.ODEA_QUIZ_BANK && window.ODEA_QUIZ_BANK.entrevistaRL && window.ODEA_QUIZ_BANK.entrevistaRL.length >= DAILY_COUNT)
+      ? window.ODEA_QUIZ_BANK.entrevistaRL
+      : ((window.ODEA_QUIZ_BANK && window.ODEA_QUIZ_BANK.entrevista) || []);
     if (!BANK || BANK.length < DAILY_COUNT) return;
 
     /* ---------------- utilidades ---------------- */
