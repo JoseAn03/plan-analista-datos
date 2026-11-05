@@ -163,7 +163,10 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.94: APP_VERSION y caché', html.includes('const APP_VERSION = "5.94"') && /odea-v5\.94-20261105-evento/.test(sw));
+check('v5.95: APP_VERSION y caché', html.includes('const APP_VERSION = "5.95"') && /odea-v5\.95-20261105-intensivo/.test(sw));
+check('v5.95: MODO INTENSIVO (preparación abierta, jefe final el lunes) y logo desde APP_VERSION',
+  html.includes('MODO INTENSIVO') && html.includes('m.kind === "final") return t >= m.day') &&
+  html.includes('getElementById("ver-logo")') && html.includes('"APP DE VIDA · v" + APP_VERSION'));
 const bank94 = readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8');
 const quiz94 = readFileSync(join(ROOT, 'assets/odea-quiz.js'), 'utf8');
 check('v5.94: EVENTO Rumbo a la Entrevista (misiones, log derivado, panel)',
