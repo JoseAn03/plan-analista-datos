@@ -1003,5 +1003,437 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   ],
   "correcta": 1,
   "explicacion": "Cierre completo: gracias + interés + tu match (SQL + n8n) + próximos pasos. Es la última impresión: practícala hasta que salga sola."
- }
+ },
+{
+ "tema": "n8n a fondo",
+ "pregunta": "In n8n, your workflow fails at 2 a.m. and nobody notices until morning. What is the professional fix?",
+ "opciones": [
+  "Run it manually every day",
+  "An Error Workflow that catches failures and sends you an alert (email or Telegram) with the execution details",
+  "Delete the failing node",
+  "Hope it does not fail again"
+ ],
+ "correcta": 1,
+ "explicacion": "Los pipelines serios se vigilan solos. Decilo: “I always attach an error workflow that notifies me, so failures are visible the moment they happen, not the next day.”"
+},
+{
+ "tema": "n8n a fondo",
+ "pregunta": "What is the difference between a Webhook trigger and a Schedule trigger in n8n?",
+ "opciones": [
+  "There is no difference",
+  "A webhook reacts to an external event in real time; a schedule runs at fixed times",
+  "The webhook is only for emails",
+  "The schedule is faster"
+ ],
+ "correcta": 1,
+ "explicacion": "Evento vs reloj. Tu ejemplo real: en ANC tus procesos corren por horario; un webhook sería, por ejemplo, que cada reserva nueva dispare el flujo al instante."
+},
+{
+ "tema": "n8n a fondo",
+ "pregunta": "A node receives 500 items and you need to call an API for each one. What should you watch out for?",
+ "opciones": [
+  "Nothing, n8n is infinite",
+  "Rate limits and execution time: process in batches or loop with pauses so the API does not block you",
+  "Rename the workflow",
+  "Use more colors in the canvas"
+ ],
+ "correcta": 1,
+ "explicacion": "Decilo con tus palabras: “I process items in batches and respect the API rate limits, so the workflow is stable instead of fast and fragile.”"
+},
+{
+ "tema": "n8n a fondo",
+ "pregunta": "Where do API keys and passwords live inside an n8n workflow?",
+ "opciones": [
+  "Hard-coded in a Set node",
+  "In the credentials store, referenced by the node — never written in plain text inside the flow",
+  "In the workflow name",
+  "In a sticky note"
+ ],
+ "correcta": 1,
+ "explicacion": "Seguridad básica que un entrevistador valora: credenciales cifradas y referenciadas, jamás pegadas en el canvas."
+},
+{
+ "tema": "n8n a fondo",
+ "pregunta": "How do you debug a workflow that produces wrong data but no error?",
+ "opciones": [
+  "Rebuild everything",
+  "Check the execution history node by node and compare input vs output items until the transformation that breaks the data appears",
+  "Turn it off and on",
+  "Ask the client to check"
+ ],
+ "correcta": 1,
+ "explicacion": "Método, no magia: ejecuciones pasadas → ítems de entrada y salida por nodo. Es el mismo instinto que usás depurando un pandas raro."
+},
+{
+ "tema": "n8n a fondo",
+ "pregunta": "Your workflow sometimes processes the same record twice. What concept fixes that?",
+ "opciones": [
+  "Idempotency: design each run so repeating it does not duplicate the result (unique keys, upserts, checks before insert)",
+  "A faster server",
+  "More nodes",
+  "Luck"
+ ],
+ "correcta": 0,
+ "explicacion": "Palabra de entrevista: idempotency. Si el flujo corre dos veces, el resultado debe ser el mismo. Decila y explicala con un ejemplo simple."
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "Why do BigQuery tables get partitioned by date?",
+ "opciones": [
+  "To look organized",
+  "Queries that filter by date scan only the needed partitions, so they are faster and cheaper",
+  "To change the colors",
+  "Partitioning is only visual"
+ ],
+ "correcta": 1,
+ "explicacion": "Costo y velocidad: BigQuery cobra por datos escaneados. Filtrar por la partición = escanear menos = pagar menos."
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "In BigQuery, what does SELECT * cost you on a huge table?",
+ "opciones": [
+  "Nothing extra",
+  "You pay for every column scanned — selecting only the columns you need is a basic cost habit",
+  "Double storage",
+  "It deletes data"
+ ],
+ "correcta": 1,
+ "explicacion": "Frase lista: “I avoid SELECT star on big tables; I select only the columns the analysis needs, because BigQuery charges for data scanned.”"
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "A column contains an ARRAY of values (for example, tags per client). How do you analyze its elements in BigQuery?",
+ "opciones": [
+  "It is impossible",
+  "UNNEST turns each array element into its own row so you can filter and aggregate",
+  "With a screenshot",
+  "Export to Paint"
+ ],
+ "correcta": 1,
+ "explicacion": "UNNEST es LA diferencia famosa de BigQuery frente a MySQL. Nombrala aunque sea a nivel conceptual: es exactamente lo que un entrevistador quiere oír de alguien que viene de MySQL."
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "What is the honest, strong way to present your BigQuery level?",
+ "opciones": [
+  "“I am a BigQuery expert.”",
+  "“My SQL is MySQL and MariaDB in production. The logic transfers directly; in BigQuery I already know the key differences — backticks for full table paths, LIMIT, DATE_DIFF with the end date first, and partitioning for cost.”",
+  "“SQL is SQL, there are no differences.”",
+  "Avoid the topic"
+ ],
+ "correcta": 1,
+ "explicacion": "Honestidad + conocimiento concreto de las diferencias = la respuesta que contrata. Nunca digás experto: decí la verdad con detalle."
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "BigQuery: what does DATE_DIFF(ending, start, DAY) return?",
+ "opciones": [
+  "An error",
+  "The number of days between the two dates — note the END date goes first, the opposite of MySQL DATEDIFF",
+  "A string",
+  "The month only"
+ ],
+ "correcta": 1,
+ "explicacion": "Detalle que delata práctica real: DATE_DIFF(end, start, DAY). En MySQL era DATEDIFF(end, start) sin la unidad."
+},
+{
+ "tema": "BigQuery",
+ "pregunta": "Why would a company keep marketing data in BigQuery instead of spreadsheets?",
+ "opciones": [
+  "Spreadsheets crash with volume; BigQuery handles millions of rows, connects to dashboards, and many people can query the same source of truth",
+  "Spreadsheets are illegal",
+  "BigQuery has better colors",
+  "No reason"
+ ],
+ "correcta": 0,
+ "explicacion": "Tu puente perfecto: “At ANC I hit the limits of Excel files; that is exactly the problem BigQuery solves — one source of truth at scale.”"
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "RANK() vs ROW_NUMBER(): what is the difference?",
+ "opciones": [
+  "No difference",
+  "ROW_NUMBER always gives unique consecutive numbers; RANK ties share the same rank and the next rank skips",
+  "RANK is slower by law",
+  "ROW_NUMBER is only for dates"
+ ],
+ "correcta": 1,
+ "explicacion": "Ejemplo rápido para decir: dos clientes empatados en el puesto 1 → RANK da 1,1,3; ROW_NUMBER da 1,2,3."
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "How do you compare this month's sales with last month's in one query?",
+ "opciones": [
+  "Two separate queries and a calculator",
+  "Aggregate by month and use LAG() over the monthly column to bring the previous month's value onto the same row",
+  "ORDER BY only",
+  "A pivot table screenshot"
+ ],
+ "correcta": 1,
+ "explicacion": "LAG() es la ventana estrella para comparaciones de período: “I use LAG to compare each month with the previous one inside the same query.”"
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "A table has duplicate client rows. How do you keep only the newest one per client?",
+ "opciones": [
+  "DELETE everything",
+  "ROW_NUMBER() OVER (PARTITION BY client ORDER BY date DESC) and keep the rows where it equals 1",
+  "GROUP BY and pray",
+  "Copy the table"
+ ],
+ "correcta": 1,
+ "explicacion": "La receta de deduplicación que todo analista debe tener de memoria: particionar por cliente, ordenar por fecha, quedarse con el 1."
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "LEFT JOIN: when do rows from the left table appear with NULLs on the right?",
+ "opciones": [
+  "Never",
+  "When there is no matching row in the right table — that is exactly how you find, for example, clients with no purchases",
+  "When the query is wrong",
+  "Only on Fridays"
+ ],
+ "correcta": 1,
+ "explicacion": "Truco de entrevista: LEFT JOIN + WHERE right.id IS NULL = encontrar los que faltan (clientes sin compras, reservas sin pago)."
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "WHERE vs HAVING: what is the rule?",
+ "opciones": [
+  "They are interchangeable",
+  "WHERE filters rows before grouping; HAVING filters groups after aggregation",
+  "HAVING is only for dates",
+  "WHERE is deprecated"
+ ],
+ "correcta": 1,
+ "explicacion": "Frase corta y correcta: “WHERE filters rows, HAVING filters groups.” Si te piden un ejemplo: HAVING SUM(amount) > 1000."
+},
+{
+ "tema": "SQL en vivo",
+ "pregunta": "Why use a CTE (WITH ...) instead of nested subqueries?",
+ "opciones": [
+  "It runs 10x faster by magic",
+  "Readability and maintenance: each step has a name, so the logic reads top to bottom and is easier to debug",
+  "CTEs are mandatory",
+  "To impress the interviewer only"
+ ],
+ "correcta": 1,
+ "explicacion": "Decilo como hábito profesional: “I write CTEs so each transformation step is named and testable — the next person can read my logic.”"
+},
+{
+ "tema": "Dashboards y KPI",
+ "pregunta": "A landing page gets 10,000 visits and 350 people buy. What is the conversion rate?",
+ "opciones": [
+  "35%",
+  "3.5%",
+  "0.35%",
+  "350%"
+ ],
+ "correcta": 1,
+ "explicacion": "350 / 10,000 = 3.5%. Las cuentas de marketing que te pueden pedir en vivo son así de directas: practicá decir el cálculo en voz alta."
+},
+{
+ "tema": "Dashboards y KPI",
+ "pregunta": "What does CTR measure?",
+ "opciones": [
+  "Total revenue",
+  "Click-through rate: clicks divided by impressions — how effective an ad or link is at generating clicks",
+  "Cost per client",
+  "Time on page"
+ ],
+ "correcta": 1,
+ "explicacion": "CTR = clicks ÷ impressions. Y su pareja: conversion rate = buyers ÷ visitors. Las dos definiciones, de memoria."
+},
+{
+ "tema": "Dashboards y KPI",
+ "pregunta": "What makes a metric a vanity metric?",
+ "opciones": [
+  "It is green",
+  "It looks good but does not change any decision — for example, total followers when the goal is sales",
+  "It is hard to calculate",
+  "It comes from Excel"
+ ],
+ "correcta": 1,
+ "explicacion": "Tu frase: “I focus on metrics that drive decisions: conversion, revenue and retention — not numbers that only look good in a report.”"
+},
+{
+ "tema": "Dashboards y KPI",
+ "pregunta": "Who is the audience? Why does that question come BEFORE building a dashboard?",
+ "opciones": [
+  "It does not matter",
+  "A manager needs three headline KPIs; an analyst needs detail to drill down. The audience decides the design",
+  "Dashboards are all the same",
+  "Design first, always"
+ ],
+ "correcta": 1,
+ "explicacion": "Experiencia real tuya: tus reportes de ANC cambiaron cuando entendiste quién los leía. Contalo así, con ese ejemplo."
+},
+{
+ "tema": "Dashboards y KPI",
+ "pregunta": "A funnel shows 1,000 visits → 400 sign-ups → 90 purchases. Where do you investigate first?",
+ "opciones": [
+  "The colors",
+  "The biggest drop: sign-ups to purchases loses 310 — that step is where the money leaks",
+  "The visits",
+  "Nothing, it is normal"
+ ],
+ "correcta": 1,
+ "explicacion": "Leer un funnel = buscar la caída más grande. 400 → 90 es una pérdida del 77.5% en el último paso: ahí va la investigación."
+},
+{
+ "tema": "Calidad de datos",
+ "pregunta": "Before loading data into a report, what three checks do you run?",
+ "opciones": [
+  "Open, look, send",
+  "Row counts vs source, nulls in key columns, and duplicates — then spot-check a few values by hand",
+  "Trust the file",
+  "Check the file name"
+ ],
+ "correcta": 1,
+ "explicacion": "Tu rutina real de ANC, en inglés: “I check row counts, nulls in key fields and duplicates before anything reaches a dashboard.”"
+},
+{
+ "tema": "Calidad de datos",
+ "pregunta": "A stakeholder says: “your dashboard numbers do not match mine.” What do you do first?",
+ "opciones": [
+  "Defend your numbers",
+  "Compare definitions and filters calmly: same date range? same status filter? Most mismatches are definition differences, not errors",
+  "Rebuild the dashboard",
+  "Ignore it"
+ ],
+ "correcta": 1,
+ "explicacion": "Respuesta de adulto profesional: primero definiciones, después datos. El 90% de los “errores” son filtros distintos."
+},
+{
+ "tema": "Calidad de datos",
+ "pregunta": "Why do you reconcile totals against the source system after an automated load?",
+ "opciones": [
+  "Boredom",
+  "Automation can fail silently; reconciling totals (rows and sums) proves the load is complete before anyone makes decisions with it",
+  "It is a legal ritual",
+  "To fill time"
+ ],
+ "correcta": 1,
+ "explicacion": "Silent failures son el enemigo de los pipelines. Reconciliar = tu red de seguridad, y conecta con tus error workflows de n8n."
+},
+{
+ "tema": "Conductual",
+ "pregunta": "“Tell me about a mistake you made.” What makes an answer strong?",
+ "opciones": [
+  "“I never make mistakes.”",
+  "A real, small story with the STAR arc: what happened, what you did to fix it, and what you changed so it does not repeat",
+  "Blame a coworker",
+  "A joke"
+ ],
+ "correcta": 1,
+ "explicacion": "La estructura que contrata: error honesto → acción inmediata → aprendizaje permanente (un checklist, una validación). Prepará UNA historia real tuya."
+},
+{
+ "tema": "Conductual",
+ "pregunta": "“Why do you want to work remotely for a company abroad?” Best angle?",
+ "opciones": [
+  "“To work less.”",
+  "Growth and reach: access to bigger teams and tools, full English environment, and you bring LATAM cost-efficiency with US-hours overlap",
+  "“My current job is terrible.”",
+  "“For the dollars only.”"
+ ],
+ "correcta": 1,
+ "explicacion": "Nunca hables mal de ANC: hablá de crecimiento. “I want an international environment where English and automation are the center of the role.”"
+},
+{
+ "tema": "Conductual",
+ "pregunta": "You do not know a tool the interviewer mentions. What do you say?",
+ "opciones": [
+  "Invent a project with it",
+  "Be direct: you have not used it in production, name the closest thing you HAVE used, and say how fast you learned a similar tool before",
+  "Stay silent",
+  "Change the topic"
+ ],
+ "correcta": 1,
+ "explicacion": "Tu patrón ya probado en postulaciones: brecha declarada + experiencia adyacente + velocidad de aprendizaje demostrada (Power BI y n8n los aprendiste trabajando)."
+},
+{
+ "tema": "Conductual",
+ "pregunta": "“Tell me about a time you automated something.” Your best story?",
+ "opciones": [
+  "A made-up story",
+  "Your real one: ANC reports took 2 hours by hand; you automated them with Python, VBA and templates down to 15 minutes, removing 10+ manual hours every week",
+  "A story from a course",
+  "Something tiny"
+ ],
+ "correcta": 1,
+ "explicacion": "Es tu historia estrella: números, herramientas y resultado. La decís en STAR: situación (2 horas manuales), tarea, acción (scripts + macros), resultado (15 minutos)."
+},
+{
+ "tema": "Cierre y logística",
+ "pregunta": "The interviewer asks: “Do you have any questions for us?” You say…",
+ "opciones": [
+  "“No, all clear.”",
+  "Yes: ask about the team, the data stack, what success looks like in the first 90 days, and the working hours",
+  "“How much is the salary?” (only)",
+  "“When do I start?”"
+ ],
+ "correcta": 1,
+ "explicacion": "Preguntar bien te sube puntos: equipo, stack, éxito a 90 días y horario. El horario además TE importa como contratista: es tu pregunta clave."
+},
+{
+ "tema": "Cierre y logística",
+ "pregunta": "They ask about your rate expectation. Your line?",
+ "opciones": [
+  "“Whatever you offer.”",
+  "“I put eleven dollars as my expectation, and I am flexible within eleven to thirteen depending on the hours and the scope.”",
+  "“Twenty or nothing.”",
+  "“Let me think for a week.”"
+ ],
+ "correcta": 1,
+ "explicacion": "Tu línea ya decidida: no renegociás el 11 que escribiste; dejás la banda 11–13 abierta según horas y alcance. La negociación real es en la oferta."
+},
+{
+ "tema": "Cierre y logística",
+ "pregunta": "“When could you start?” — the professional answer without overcommitting:",
+ "opciones": [
+  "“Tomorrow, no problem.” (without knowing)",
+  "“I want to leave my current role professionally, with a proper handover; once we agree, I can confirm my exact start date.”",
+  "“In six months.”",
+  "“Whenever.”"
+ ],
+ "correcta": 1,
+ "explicacion": "Salida profesional y segura: compromiso con una transición ordenada y fecha exacta al acordar — no prometés una fecha que no decidiste."
+},
+{
+ "tema": "Cierre y logística",
+ "pregunta": "What is your greatest weakness? The strong, honest format:",
+ "opciones": [
+  "“I am a perfectionist.”",
+  "A real one with your countermeasure: “BigQuery is new for me in production, so I am actively studying its differences from MySQL and practicing queries before starting.”",
+  "“I have none.”",
+  "Something dramatic"
+ ],
+ "correcta": 1,
+ "explicacion": "Debilidad real + plan activo = madurez. Tu brecha de BigQuery, dicha así, suma en vez de restar."
+},
+{
+ "tema": "Inglés bajo presión",
+ "pregunta": "You do not understand a question in the interview. The rescue phrase?",
+ "opciones": [
+  "Silence",
+  "“Sorry, could you rephrase that, please?” — or “Just to make sure I understood: are you asking about…?”",
+  "“Yes.” (without understanding)",
+  "Laugh and move on"
+ ],
+ "correcta": 1,
+ "explicacion": "Pedir que reformulen es profesional, no debilidad. La segunda variante — repetir lo que entendiste — además demuestra escucha activa."
+},
+{
+ "tema": "Inglés bajo presión",
+ "pregunta": "The call freezes mid-answer. What do you do?",
+ "opciones": [
+  "Keep talking to nobody",
+  "Reconnect calmly and say: “Sorry, the call froze — I was saying that…” and continue from your last complete idea",
+  "End the interview",
+  "Blame the company internet"
+ ],
+ "correcta": 1,
+ "explicacion": "Los fallos técnicos en remoto son normales: lo que evalúan es tu calma. Tené el Zoom probado y esta frase lista."
+}
 ];
