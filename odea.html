@@ -4152,7 +4152,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.97"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.98"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4425,6 +4425,31 @@ function loadGame() {
     /* 🎯 Migración aditiva: los guardados viejos no tienen hunt; se crea vacío.
        Los datos existentes de otros mundos no se tocan. */
     gameState.hunt = normalizeHunt(data.hunt);
+    /* 🛠️ v5.98 FIX: eventRL (v5.94), canje (v5.93) y farm (v5.96) se escribían
+       con saveGame pero NUNCA se restauraban aquí: en cada recarga volvían
+       vacíos y se perdían el XP/monedas del evento y del farmeo y las
+       recompensas reales canjeadas. Se restauran con validación de forma. */
+    const ev9 = (data.eventRL && typeof data.eventRL === "object") ? data.eventRL : {};
+    gameState.eventRL = { log: Array.isArray(ev9.log) ? ev9.log.filter(function (e) {
+      return e && typeof e.id === "string" && typeof e.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.d);
+    }).map(function (e) {
+      return { id: e.id, d: e.d, xp: Math.max(0, Math.min(60, Number(e.xp) || 0)), coins: Math.max(0, Math.min(12, Number(e.coins) || 0)) };
+    }) : [] };
+    const fm9 = (data.farm && typeof data.farm === "object") ? data.farm : {};
+    gameState.farm = { log: Array.isArray(fm9.log) ? fm9.log.filter(function (e) {
+      return e && typeof e.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.d);
+    }).map(function (e) { return { d: e.d, c: e.c ? 1 : 0 }; }) : [] };
+    const cj9 = (data.canje && typeof data.canje === "object") ? data.canje : {};
+    gameState.canje = {
+      custom: Array.isArray(cj9.custom) ? cj9.custom.filter(function (r) {
+        return r && typeof r.id === "string" && typeof r.n === "string" && typeof r.price === "number" && r.price >= 0;
+      }).map(function (r) { return { id: r.id, ico: (typeof r.ico === "string" ? r.ico : "🎁"), n: r.n, price: r.price, custom: true }; }) : [],
+      log: Array.isArray(cj9.log) ? cj9.log.filter(function (e) {
+        return e && typeof e.id === "string" && typeof e.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.d);
+      }).map(function (e) {
+        return { id: e.id, n: (typeof e.n === "string" ? e.n : ""), ico: (typeof e.ico === "string" ? e.ico : "🎁"), price: Math.max(0, Number(e.price) || 0), d: e.d, done: !!e.done };
+      }) : []
+    };
     return true;
   } catch (e) { if (localStorage.getItem(SAVE_KEY)) corruptSave = true; return false; }
 }
