@@ -164,8 +164,8 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
 check('v5.96: APP_VERSION y caché', html.includes('const APP_VERSION = "5.96"') && /odea-v5\.96-20261105-farmeo/.test(sw));
-check('v5.96: Quiz Farmeo (panel, recompensas derivadas con tope diario, banco ampliado)',
-  html.includes('id="farm-layer"') && html.includes('id="side-farm"') && html.includes('function farmXPGain()') &&
+check('v5.96: Quiz Farmeo dentro del evento (botón en el panel, recompensas derivadas con tope diario, banco ampliado)',
+  html.includes('id="farm-layer"') && html.includes('id="event-farm-btn"') && !html.includes('id="side-farm"') && html.includes('function farmXPGain()') &&
   html.includes('function farmCoinsEarned()') && html.includes('FARM_DAY_CAP = 40') && html.includes('evento, farm') &&
   html.includes('odea-quiz-bank.js?v=3') && sw.includes('odea-quiz-bank.js?v=3') && readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').split('"tema"').length > 100);
 check('v5.95: MODO INTENSIVO (preparación abierta, jefe final el lunes) y logo desde APP_VERSION',

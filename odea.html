@@ -977,6 +977,9 @@ html{-webkit-text-size-adjust:100%}
 #event-layer.show{display:flex}
 .ev-bar-wrap{height:12px;border:1px solid rgba(0,255,170,.4);border-radius:7px;overflow:hidden;margin:10px 0 4px;background:rgba(0,0,0,.35)}
 .ev-bar{height:100%;width:0;background:linear-gradient(90deg,#00ffaa,#ffd700);transition:width .4s}
+.ev-farm-btn{display:block;width:100%;margin:10px 0 2px;padding:11px 12px;border:1px solid rgba(255,215,0,.55);border-radius:10px;background:linear-gradient(180deg,rgba(255,215,0,.16),rgba(255,140,0,.10));color:#ffe98a;font-family:'Orbitron',sans-serif;font-size:.9rem;cursor:pointer;text-align:center}
+.ev-farm-btn .ev-farm-sub{display:block;margin-top:4px;font-family:inherit;font-size:.76rem;color:#cfd8dc;letter-spacing:.02em}
+.ev-farm-btn:active{transform:scale(.99)}
 .ev-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
 .ev-item{border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.03)}
 .ev-item.done{border-color:rgba(0,255,170,.55);background:rgba(0,255,170,.06)}
@@ -994,7 +997,7 @@ html{-webkit-text-size-adjust:100%}
 .ev-btn{margin-top:8px}
 .ev-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
 .ev-phrases{margin-top:14px;border-top:1px solid rgba(255,215,0,.25);padding-top:10px;font-size:.84rem;line-height:1.6}
-#farm-layer{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,12,.72);backdrop-filter:blur(3px);overflow-y:auto;padding:18px 10px}
+#farm-layer{position:fixed;inset:0;z-index:1300;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,12,.72);backdrop-filter:blur(3px);overflow-y:auto;padding:18px 10px}
 #farm-layer.show{display:flex}
 .fm-prog{height:8px;border:1px solid rgba(0,204,255,.35);border-radius:99px;overflow:hidden;margin:8px 0 12px}
 .fm-prog>span{display:block;height:100%;background:linear-gradient(90deg,#00ccff,#00ff88)}
@@ -2758,7 +2761,6 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
   <button class="side-inv event" id="side-event" type="button" aria-label="Abrir evento Rumbo a la Entrevista">🎙️ EVENTO ENTREVISTA<em class="coin-badge" id="event-badge">…</em></button>
-    <button class="side-inv" id="side-farm" type="button" aria-label="Abrir Quiz Farmeo de entrevista">🧠 QUIZ FARMEO<em class="coin-badge" id="farm-badge"></em></button>
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
@@ -3085,6 +3087,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <span class="bal-pill">⭐ Evento: <b id="event-xp">0</b> XP · 🪙 <b id="event-coins">0</b></span>
     </div>
     <div class="ev-bar-wrap"><div class="ev-bar" id="event-bar"></div></div>
+    <button class="ev-farm-btn" id="event-farm-btn" type="button" aria-label="Abrir Quiz Farmeo de entrevista">🧠 QUIZ FARMEO · RONDAS SIN LÍMITE<em class="coin-badge" id="farm-badge"></em><span class="ev-farm-sub">Cada ronda: 7 de entrevista + 3 generales · +2 XP por acierto · tope diario 80 XP / 🪙 10</span></button>
     <div class="ev-list" id="event-missions"></div>
     <div class="ev-phrases">
       <h3>🗣️ Frases que tenés que dominar</h3>
@@ -12699,7 +12702,7 @@ function farmFinish() {
   farmBadgeSync();
 }
 (function () {
-  const btn = document.getElementById("side-farm"); if (btn) btn.addEventListener("click", farmOpen);
+  const btn = document.getElementById("event-farm-btn"); if (btn) btn.addEventListener("click", farmOpen);
   const c2 = document.getElementById("farm-close2"); if (c2) c2.addEventListener("click", farmClose);
   const layer = document.getElementById("farm-layer"); if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) farmClose(); });
   farmBadgeSync();
