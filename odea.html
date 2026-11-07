@@ -994,6 +994,19 @@ html{-webkit-text-size-adjust:100%}
 .ev-btn{margin-top:8px}
 .ev-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
 .ev-phrases{margin-top:14px;border-top:1px solid rgba(255,215,0,.25);padding-top:10px;font-size:.84rem;line-height:1.6}
+#farm-layer{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,12,.72);backdrop-filter:blur(3px);overflow-y:auto;padding:18px 10px}
+#farm-layer.show{display:flex}
+.fm-prog{height:8px;border:1px solid rgba(0,204,255,.35);border-radius:99px;overflow:hidden;margin:8px 0 12px}
+.fm-prog>span{display:block;height:100%;background:linear-gradient(90deg,#00ccff,#00ff88)}
+.fm-q{font-size:1rem;line-height:1.5;margin-bottom:10px}
+.fm-tema{display:inline-block;font-size:.68rem;font-weight:900;letter-spacing:.08em;color:#8be9d9;border:1px solid rgba(0,204,255,.4);border-radius:99px;padding:2px 8px;margin-bottom:8px}
+.fm-opt{display:block;width:100%;text-align:left;margin-bottom:8px;padding:11px 13px;border-radius:12px;border:1px solid rgba(0,204,255,.35);background:rgba(0,204,255,.06);color:#eafff5;font:inherit;font-size:.92rem;cursor:pointer}
+.fm-opt.ok{border-color:#00ff88;background:rgba(0,255,136,.14)}
+.fm-opt.bad{border-color:#ff5577;background:rgba(255,85,119,.12)}
+.fm-opt:disabled{cursor:default;opacity:.92}
+.fm-expl{border:1px dashed rgba(255,209,102,.5);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.6;margin:10px 0}
+.fm-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.fm-chip{border:1px solid rgba(0,204,255,.35);border-radius:10px;padding:7px 10px;font-size:.82rem;background:rgba(0,204,255,.05)}
 .ev-phrases h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.9rem;margin:0 0 5px}
 .canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
 .canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
@@ -2745,6 +2758,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
   <button class="side-inv event" id="side-event" type="button" aria-label="Abrir evento Rumbo a la Entrevista">🎙️ EVENTO ENTREVISTA<em class="coin-badge" id="event-badge">…</em></button>
+    <button class="side-inv" id="side-farm" type="button" aria-label="Abrir Quiz Farmeo de entrevista">🧠 QUIZ FARMEO<em class="coin-badge" id="farm-badge"></em></button>
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
@@ -3044,6 +3058,18 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <button class="shop-btn" id="canje-add" type="button">＋ CREAR</button>
     </div>
     <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
+  </div>
+</div>
+
+
+<div id="farm-layer">
+  <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="farm-title">
+    <div class="shop-head">
+      <h3 id="farm-title">🧠 QUIZ FARMEO · ENTREVISTA</h3>
+    </div>
+    <p class="shop-sub">Rondas de <b>10 preguntas</b> de entrevista, <b>sin límite de rondas</b>: farmeá ⭐ XP y 🪙 monedas mientras practicás. Cada acierto paga <b>⭐ +2 XP</b> y cada <b>4 aciertos, 🪙 +1 moneda</b> (tope de recompensas: 40 aciertos/día = 80 XP y 10 🪙; alcanzado el tope, seguís practicando sin paga hasta mañana). Banco: <span id="farm-pool-n">…</span> preguntas de tu experiencia real.</p>
+    <div id="farm-body"></div>
+    <button class="btn-neon shop-back" id="farm-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
 </div>
 
@@ -4123,7 +4149,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.95"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.96"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -5183,8 +5209,9 @@ function recomputeState() {
   const bosses = bossXPSum();
   const hunt = huntXPGain();
   const evento = eventXPGain();
-  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento };
-  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt + evento;
+  const farm = farmXPGain();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento, farm };
+  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt + evento + farm;
   /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
   gameState.campaignLevel = campaignLevel();
   gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
@@ -10429,7 +10456,8 @@ function rwProfileRender() {
     ["🏆 Jefes", b.bosses || 0, "#ff6600"],
     ["🎯 La Cacería", b.hunt || 0, "#ff4f9a"],
     ["🍅 Enfoque", b.focus || 0, "#00ccff"],
-    ["📓 Diario", b.diary || 0, "#ff00aa"]
+    ["📓 Diario", b.diary || 0, "#ff00aa"],
+    ["🧠 Quiz Farmeo", b.farm || 0, "#37e0a0"]
   ];
   const bMax = Math.max(1, bRows.reduce(function (s, r) { return Math.max(s, r[1]); }, 0));
 
@@ -12189,6 +12217,7 @@ function coinsEarned() {
     sagaCoinsEarned() +
     huntCoinsEarned() +
     eventCoinsEarned() +
+    farmCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
 }
 function coinsBalance() { return Math.max(0, coinsEarned() - (shopState().spent || 0)); }
@@ -12587,6 +12616,95 @@ function eventClose() { document.getElementById("event-layer").classList.remove(
   if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) eventClose(); });
   eventRender();
 })();
+/* --- 🧠 v5.96 Quiz Farmeo: rondas repetibles de trivia de entrevista con XP y monedas reales ---
+   Recompensas derivadas de gameState.farm.log (patrón evento/cacería): cada acierto ⭐+2 XP,
+   cada 4 aciertos 🪙+1; tope diario de 40 aciertos contados (80 XP / 10 🪙). Sin límite de rondas. */
+const FARM_XP_PER = 2, FARM_PER_COIN = 4, FARM_DAY_CAP = 40, FARM_ROUND = 10;
+function farmState() { if (!gameState.farm || typeof gameState.farm !== "object") gameState.farm = { log: [] }; if (!Array.isArray(gameState.farm.log)) gameState.farm.log = []; return gameState.farm; }
+function farmByDay() { const m = {}; farmState().log.forEach(function (e) { if (e && e.d) m[e.d] = (m[e.d] || 0) + (Number(e.c) || 0); }); return m; }
+function farmCounted() { const m = farmByDay(); let c = 0; Object.keys(m).forEach(function (d) { c += Math.min(m[d], FARM_DAY_CAP); }); return c; }
+function farmXPGain() { return farmCounted() * FARM_XP_PER; }
+function farmCoinsEarned() { const m = farmByDay(); let n = 0; Object.keys(m).forEach(function (d) { n += Math.floor(Math.min(m[d], FARM_DAY_CAP) / FARM_PER_COIN); }); return n; }
+function farmTodayRaw() { return farmByDay()[todayStr()] || 0; }
+function farmPool() { const bk = window.ODEA_QUIZ_BANK || {}; return { rl: (bk.entrevistaRL || []).slice(), gen: (bk.entrevista || []).slice() }; }
+function farmShuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function farmBadgeSync() { const b = document.getElementById("farm-badge"); if (b) { const t = farmTodayRaw(); b.textContent = t > 0 ? Math.min(t, FARM_DAY_CAP) + "/" + FARM_DAY_CAP : ""; } }
+let farmS = null;
+function farmOpen() { farmRender(); document.getElementById("farm-layer").classList.add("show"); playSfx("click"); }
+function farmClose() { document.getElementById("farm-layer").classList.remove("show"); }
+function farmRender() {
+  const body = document.getElementById("farm-body"); if (!body) return;
+  const p = farmPool(); const pn = document.getElementById("farm-pool-n"); if (pn) pn.textContent = String(p.rl.length + p.gen.length);
+  const t = farmTodayRaw(), counted = Math.min(t, FARM_DAY_CAP);
+  const capped = t >= FARM_DAY_CAP;
+  body.innerHTML =
+    '<div class="fm-stats"><span class="fm-chip">🎯 Hoy: <b>' + t + '</b> aciertos (' + counted + ' con recompensa)</span>' +
+    '<span class="fm-chip">⭐ Farmeo total: <b>' + farmXPGain() + ' XP</b></span>' +
+    '<span class="fm-chip">🪙 <b>' + farmCoinsEarned() + '</b></span></div>' +
+    '<div class="fm-prog"><span style="width:' + Math.round(counted / FARM_DAY_CAP * 100) + '%"></span></div>' +
+    (capped ? '<p class="fm-q">🏁 <b>Tope de recompensas de hoy alcanzado.</b> Podés seguir practicando; la paga vuelve mañana.</p>' : '') +
+    '<button class="ev-done-btn" onclick="farmStart()">▶ EMPEZAR RONDA DE ' + FARM_ROUND + '</button>' +
+    '<p class="fm-q" style="margin-top:10px;font-size:.85rem;opacity:.85">Cada ronda mezcla 7 preguntas del mazo de TU entrevista (Remote Leverage) y 3 del mazo general. Leé la explicación y decí la frase modelo en voz alta: así se practica.</p>';
+  farmBadgeSync();
+}
+function farmStart() {
+  const p = farmPool();
+  let qs = farmShuffle(p.rl).slice(0, 7).concat(farmShuffle(p.gen).slice(0, 3));
+  if (qs.length < FARM_ROUND) qs = qs.concat(farmShuffle(p.rl.concat(p.gen)).slice(0, FARM_ROUND - qs.length));
+  farmS = { qs: farmShuffle(qs).slice(0, FARM_ROUND), i: 0, ok: 0, answered: false, xp0: farmXPGain(), cn0: farmCoinsEarned() };
+  farmQuestion();
+}
+function farmQuestion() {
+  const body = document.getElementById("farm-body"); if (!body || !farmS) return;
+  const q = farmS.qs[farmS.i];
+  const opts = q.opciones.map(function (t, ix) { return { t: t, ok: ix === q.correcta }; });
+  farmShuffle(opts);
+  let h = '<div class="fm-prog"><span style="width:' + Math.round(farmS.i / farmS.qs.length * 100) + '%"></span></div>' +
+    '<span class="fm-tema">' + escapeHtml(q.tema || "Entrevista") + ' · ' + (farmS.i + 1) + '/' + farmS.qs.length + ' · ✅ ' + farmS.ok + '</span>' +
+    '<p class="fm-q"><b>' + escapeHtml(q.pregunta) + '</b></p>';
+  opts.forEach(function (o, ix) { h += '<button class="fm-opt" data-ok="' + (o.ok ? "1" : "0") + '" onclick="farmAnswer(this)">' + escapeHtml(o.t) + '</button>'; });
+  h += '<div id="farm-expl"></div>';
+  body.innerHTML = h;
+}
+function farmAnswer(btn) {
+  if (!farmS || farmS.answered) return;
+  farmS.answered = true;
+  const good = btn.getAttribute("data-ok") === "1";
+  if (good) { farmS.ok++; playSfx("coin"); } else playSfx("hit");
+  document.querySelectorAll("#farm-body .fm-opt").forEach(function (b) { b.disabled = true; if (b.getAttribute("data-ok") === "1") b.classList.add("ok"); });
+  if (!good) btn.classList.add("bad");
+  const q = farmS.qs[farmS.i];
+  const last = farmS.i >= farmS.qs.length - 1;
+  document.getElementById("farm-expl").innerHTML =
+    '<div class="fm-expl">' + (good ? "✅ <b>¡Correcto!</b> " : "❌ <b>Casi.</b> ") + escapeHtml(q.explicacion || "") + '</div>' +
+    '<button class="ev-done-btn" onclick="farmNext()">' + (last ? "🏁 VER RESULTADO" : "➡ SIGUIENTE") + '</button>';
+}
+function farmNext() { if (!farmS) return; farmS.i++; farmS.answered = false; if (farmS.i >= farmS.qs.length) farmFinish(); else farmQuestion(); }
+function farmFinish() {
+  const ok = farmS.ok, xp0 = farmS.xp0, cn0 = farmS.cn0;
+  farmState().log.push({ d: todayStr(), c: ok });
+  recomputeState(); saveGame(); shopCoinSync();
+  const badge = document.getElementById("coin-badge"); if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
+  const dxp = farmXPGain() - xp0, dcn = farmCoinsEarned() - cn0;
+  farmS = null;
+  if (ok >= 7) confetti();
+  toast("🧠", "¡Ronda completada!", ok + "/" + FARM_ROUND + " aciertos · ⭐ +" + dxp + " XP · 🪙 +" + dcn);
+  const body = document.getElementById("farm-body"); if (!body) return;
+  body.innerHTML =
+    '<p class="fm-q" style="font-size:1.15rem">🏁 <b>' + ok + ' / ' + FARM_ROUND + ' aciertos</b></p>' +
+    '<div class="fm-stats"><span class="fm-chip">⭐ +<b>' + dxp + ' XP</b></span><span class="fm-chip">🪙 +<b>' + dcn + '</b></span><span class="fm-chip">🎯 Hoy: <b>' + farmTodayRaw() + '</b> aciertos</span></div>' +
+    (dxp === 0 && ok > 0 ? '<p class="fm-q">Tope diario de recompensas alcanzado: esta ronda fue práctica pura. Mañana vuelve la paga. 💪</p>' : '') +
+    '<button class="ev-done-btn" onclick="farmStart()">🔁 OTRA RONDA</button>' +
+    '<button class="ev-done-btn" style="margin-left:8px" onclick="farmRender()">📊 VER ESTADO</button>';
+  farmBadgeSync();
+}
+(function () {
+  const btn = document.getElementById("side-farm"); if (btn) btn.addEventListener("click", farmOpen);
+  const c2 = document.getElementById("farm-close2"); if (c2) c2.addEventListener("click", farmClose);
+  const layer = document.getElementById("farm-layer"); if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) farmClose(); });
+  farmBadgeSync();
+})();
+
 function shopCoinSync() {
   const bal = coinsBalance();
   document.querySelectorAll(".coin-num").forEach(function (el) { el.textContent = bal.toLocaleString("es-CR"); });
@@ -12871,7 +12989,7 @@ focusRestore();
 <script src="./assets/odea-icons-v7.js?v=8f" defer></script>
 <script src="./assets/odea-juice.js?v=1" defer></script>
 <script src="./assets/odea-anomalias.js?v=2" defer></script>
-<script src="./assets/odea-quiz-bank.js?v=2" defer></script>
+<script src="./assets/odea-quiz-bank.js?v=3" defer></script>
 <script src="./assets/odea-quiz.js?v=2" defer></script>
 <script src="./assets/odea-jefe.js?v=1" defer></script>
 <script src="./assets/odea-tesoro.js?v=1" defer></script>
