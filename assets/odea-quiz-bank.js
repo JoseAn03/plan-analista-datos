@@ -7,144 +7,147 @@
  * micro-quiz al completar misiones de Empleos/entrevista.
  * Cargado por odea.html desde la Fase 3 (v5.76): lo consume la capa
  * assets/odea-quiz.js (micro-quiz diario de 3 preguntas).
+ * v5.94: mazo entrevistaRL (60, entrevista Remote Leverage).
+ * v5.97: preguntas y opciones de AMBOS mazos en ingles; las explicaciones
+ * quedan en español (andamiaje de estudio, con la frase modelo en ingles).
  */
 window.ODEA_QUIZ_BANK = window.ODEA_QUIZ_BANK || {};
 window.ODEA_QUIZ_BANK.entrevista = [
  {
-  "tema": "El puesto",
-  "pregunta": "¿Cuál es el rol principal del puesto de Analista de Soporte?",
+  "tema": "The role",
+  "pregunta": "What is the main role of the Support Analyst position?",
   "opciones": [
-   "Construir dashboards de Power BI",
-   "Ser el primer punto de contacto de las solicitudes de soporte entrantes",
-   "Gestionar las redes sociales de la empresa",
-   "Hacer auditorías de datos"
+   "Build Power BI dashboards",
+   "Be the first point of contact for incoming support requests",
+   "Manage the company's social media",
+   "Run data audits"
   ],
   "correcta": 1,
   "explicacion": "El puesto es la puerta de entrada de todos los tickets: portal de operaciones, reportes KPI, BI, accesos y nuevas funcionalidades."
  },
  {
-  "tema": "El puesto",
-  "pregunta": "¿Por qué es crítico procesar los incidentes con prontitud?",
+  "tema": "The role",
+  "pregunta": "Why is it critical to process incidents promptly?",
   "opciones": [
-   "Porque los clientes se enojan rápido",
-   "Los retrasos pueden afectar la toma de decisiones informada y la adopción de herramientas",
-   "Porque el gerente lo pide",
-   "Para cumplir con el horario"
+   "Because clients get angry fast",
+   "Delays can affect informed decision-making and tool adoption",
+   "Because the manager asks for it",
+   "To stick to the schedule"
   ],
   "correcta": 1,
   "explicacion": "La descripción lo dice: los retrasos afectan las decisiones informadas y la adopción de herramientas. Esa es la frase que hay que usar."
  },
  {
-  "tema": "El puesto",
-  "pregunta": "¿Cuáles son los tipos de tickets que atiende este puesto?",
+  "tema": "The role",
+  "pregunta": "What types of tickets does this role handle?",
   "opciones": [
-   "Solo reportes de ventas",
-   "Plataformas, informes de KPI, herramientas de BI, gestión de acceso y nuevas funcionalidades",
-   "Solo problemas de hardware",
-   "Únicamente solicitudes de vacaciones"
+   "Only sales reports",
+   "Platforms, KPI reports, BI tools, access management, and new feature requests",
+   "Only hardware problems",
+   "Only vacation requests"
   ],
   "correcta": 1,
   "explicacion": "Los 5 tipos: plataformas, reportes de KPI, herramientas de BI, gestión de acceso y solicitudes de nuevas funcionalidades."
  },
  {
-  "tema": "El puesto",
-  "pregunta": "¿Qué hay que asegurar al recibir un ticket?",
+  "tema": "The role",
+  "pregunta": "What must you make sure of when you receive a ticket?",
   "opciones": [
-   "Responder lo más rápido posible sin preguntar",
-   "Recopilar información completa del solicitante",
-   "Cerrarlo de inmediato",
-   "Reenviarlo al primer correo disponible"
+   "Reply as fast as possible without asking anything",
+   "Collect complete information from the requester",
+   "Close it immediately",
+   "Forward it to the first available email"
   ],
   "correcta": 1,
   "explicacion": "Información completa (qué, desde cuándo, a quién afecta, capturas) para que el ticket se resuelva sin ir y venir."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "¿Cuál es el orden correcto del ciclo de vida de un ticket?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "What is the correct order of a ticket's lifecycle?",
   "opciones": [
-   "Clasificación → Recepción → Cierre → Resolución",
-   "Recepción → Clasificación → Priorización → Asignación → Resolución → Comunicación → Cierre",
-   "Priorización → Recepción → Asignación → Clasificación",
-   "Recepción → Cierre → Documentación → Escalamiento"
+   "Classification → Intake → Closing → Resolution",
+   "Intake → Classification → Prioritization → Assignment → Resolution → Communication → Closing",
+   "Prioritization → Intake → Assignment → Classification",
+   "Intake → Closing → Documentation → Escalation"
   ],
   "correcta": 1,
   "explicacion": "Los 7 pasos: recepción, clasificación, priorización, asignación, resolución, comunicación y cierre."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "¿Qué determina la prioridad de un ticket?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "What determines a ticket's priority?",
   "opciones": [
-   "El orden de llegada",
-   "El nombre del solicitante",
-   "El impacto × la urgencia",
-   "La antigüedad del usuario"
+   "The order of arrival",
+   "The requester's name",
+   "Impact × urgency",
+   "How long the user has been at the company"
   ],
   "correcta": 2,
   "explicacion": "Impacto × urgencia → P1/P2/P3/P4. No es por orden de llegada."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "Un dashboard de KPI está caído y un gerente lo necesita para una reunión en 1 hora. ¿Qué prioridad le das?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "A KPI dashboard is down and a manager needs it for a meeting in 1 hour. What priority do you give it?",
   "opciones": [
-   "P4 — se agenda para la próxima semana",
-   "P3 — se atiende en el día",
-   "P2 — se atiende en 8 horas",
-   "P1 — crítica, respuesta inmediata"
+   "P4 — schedule it for next week",
+   "P3 — handle it during the day",
+   "P2 — handle it within 8 hours",
+   "P1 — critical, immediate response"
   ],
   "correcta": 3,
   "explicacion": "Bloquea una decisión gerencial: P1, respuesta inmediata. Prioridad por impacto y urgencia."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "Una solicitud de nueva funcionalidad ('¿se puede agregar un filtro por región?') ¿cómo se prioriza?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "How do you prioritize a new feature request ('can a filter by region be added?')?",
   "opciones": [
-   "P1 crítica",
-   "P2 alta",
-   "P3 media",
-   "P4 baja — planificada / backlog"
+   "P1 critical",
+   "P2 high",
+   "P3 medium",
+   "P4 low — planned / backlog"
   ],
   "correcta": 3,
   "explicacion": "Las mejoras y solicitudes nuevas son P4: van al backlog con expectativas claras."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "¿Cuál es la diferencia entre un incidente y una solicitud?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "What is the difference between an incident and a request?",
   "opciones": [
-   "Son lo mismo",
-   "Incidente = algo está roto; solicitud = se pide algo nuevo (acceso, funcionalidad)",
-   "Incidente = correo; solicitud = teléfono",
-   "Incidente = interno; solicitud = externo"
+   "They are the same thing",
+   "Incident = something is broken; request = something new is asked for (access, a feature)",
+   "Incident = email; request = phone",
+   "Incident = internal; request = external"
   ],
   "correcta": 1,
   "explicacion": "Incidente: servicio no funciona. Solicitud: pedido de algo nuevo. Cada uno tiene su proceso."
  },
  {
-  "tema": "Ciclo del ticket",
-  "pregunta": "¿Cuándo se escala un ticket y cómo se hace?",
+  "tema": "Ticket lifecycle",
+  "pregunta": "When do you escalate a ticket, and how?",
   "opciones": [
-   "Cuando me da pereza resolverlo",
-   "Nunca se escala",
-   "Cuando vence el tiempo, requiere nivel 2/3 o crece el impacto — SIEMPRE con contexto",
-   "Solo si el usuario es gerente"
+   "When I don't feel like solving it",
+   "Tickets are never escalated",
+   "When the time runs out, it needs level 2/3, or the impact grows — ALWAYS with context",
+   "Only if the user is a manager"
   ],
   "correcta": 2,
   "explicacion": "Escalar con contexto: qué se probó, qué se encontró, qué necesita el siguiente nivel."
  },
  {
   "tema": "Jira",
-  "pregunta": "¿Qué es Jira?",
+  "pregunta": "What is Jira?",
   "opciones": [
-   "Una base de datos",
-   "Una herramienta de seguimiento de trabajo e incidencias (de Atlassian)",
-   "Un lenguaje de programación",
-   "Un antivirus"
+   "A database",
+   "A work and issue tracking tool (by Atlassian)",
+   "A programming language",
+   "An antivirus"
   ],
   "correcta": 1,
   "explicacion": "Jira gestiona issues/tickets con tableros, prioridades y workflows."
  },
  {
   "tema": "Jira",
-  "pregunta": "En Jira, ¿cómo se llama un ticket o tarea?",
+  "pregunta": "In Jira, what is a ticket or task called?",
   "opciones": [
    "Post",
    "Issue",
@@ -156,55 +159,55 @@ window.ODEA_QUIZ_BANK.entrevista = [
  },
  {
   "tema": "Jira",
-  "pregunta": "¿Qué es un tablero Kanban en Jira?",
+  "pregunta": "What is a Kanban board in Jira?",
   "opciones": [
-   "Un tablero con columnas (To Do → In Progress → Done) de flujo continuo",
-   "Un informe financiero",
-   "Una base de conocimiento",
-   "Un chat de equipo"
+   "A board with columns (To Do → In Progress → Done) and continuous flow",
+   "A financial report",
+   "A knowledge base",
+   "A team chat"
   ],
   "correcta": 0,
   "explicacion": "Kanban visualiza el flujo continuo de trabajo; Scrum usa sprints con ciclos."
  },
  {
   "tema": "Jira",
-  "pregunta": "¿Qué es ServiceNow?",
+  "pregunta": "What is ServiceNow?",
   "opciones": [
-   "Un juego de mesa",
-   "Una plataforma de ITSM (IT Service Management) para la mesa de servicio empresarial",
-   "Un editor de fotos",
-   "Una red social"
+   "A board game",
+   "An ITSM (IT Service Management) platform for the enterprise service desk",
+   "A photo editor",
+   "A social network"
   ],
   "correcta": 1,
   "explicacion": "ServiceNow gestiona incidentes, solicitudes, cambios y SLAs en empresas grandes."
  },
  {
   "tema": "Jira",
-  "pregunta": "En ServiceNow, ¿qué mide y alerta los tiempos comprometidos de atención?",
+  "pregunta": "In ServiceNow, what measures and alerts on the committed response times?",
   "opciones": [
-   "La memoria del servidor",
-   "El módulo de nómina",
-   "Los SLAs automáticos",
-   "El historial de chat"
+   "The server's memory",
+   "The payroll module",
+   "The automatic SLAs",
+   "The chat history"
   ],
   "correcta": 2,
   "explicacion": "Los SLAs miden tiempos de respuesta y resolución automáticamente."
  },
  {
   "tema": "Jira",
-  "pregunta": "¿Para qué sirve la Knowledge Base (KB) en soporte?",
+  "pregunta": "What is the Knowledge Base (KB) for in support?",
   "opciones": [
-   "Para guardar contraseñas",
-   "Para consultar soluciones ya documentadas y resolver más rápido",
-   "Para enviar correos masivos",
-   "Para calcular salarios"
+   "To store passwords",
+   "To look up documented solutions and solve faster",
+   "To send mass emails",
+   "To calculate salaries"
   ],
   "correcta": 1,
   "explicacion": "La KB es la primera parada: si la solución ya existe, no se reinicia el problema."
  },
  {
   "tema": "Power BI",
-  "pregunta": "¿Con qué lenguaje se crean las medidas en Power BI?",
+  "pregunta": "What language do you use to create measures in Power BI?",
   "opciones": [
    "SQL",
    "Python",
@@ -216,190 +219,190 @@ window.ODEA_QUIZ_BANK.entrevista = [
  },
  {
   "tema": "Power BI",
-  "pregunta": "Un usuario dice 'el reporte está desactualizado'. ¿Qué revisás primero?",
+  "pregunta": "A user says 'the report is out of date.' What do you check first?",
   "opciones": [
-   "El cable de red",
-   "El refresh (actualización programada) de los datos",
-   "El color del dashboard",
-   "El antivirus"
+   "The network cable",
+   "The data refresh (scheduled update)",
+   "The dashboard's color",
+   "The antivirus"
   ],
   "correcta": 1,
   "explicacion": "Los datos se actualizan en horarios (refresh). Reporte viejo = problema de refresh o del pipeline."
  },
  {
   "tema": "Power BI",
-  "pregunta": "¿Cómo se gestiona el acceso a un dashboard en Power BI?",
+  "pregunta": "How is access to a Power BI dashboard managed?",
   "opciones": [
-   "Con roles de workspace y RLS (Row-Level Security)",
-   "Con contraseñas en un Excel",
-   "Nadie puede ver dashboards",
-   "Solo el gerente decide"
+   "With workspace roles and RLS (Row-Level Security)",
+   "With passwords in an Excel file",
+   "Nobody can view dashboards",
+   "Only the manager decides"
   ],
   "correcta": 0,
   "explicacion": "Roles de workspace (Viewer/Contributor/Admin) + RLS para limitar filas por usuario."
  },
  {
   "tema": "Power BI",
-  "pregunta": "¿Qué es Power Query en Power BI?",
+  "pregunta": "What is Power Query in Power BI?",
   "opciones": [
-   "Un lenguaje para crear medidas",
-   "La herramienta para extraer y transformar datos antes de cargarlos",
-   "Un conector de impresoras",
-   "Un tema de color"
+   "A language for creating measures",
+   "The tool to extract and transform data before loading it",
+   "A printer connector",
+   "A color theme"
   ],
   "correcta": 1,
   "explicacion": "Power Query hace el 'E' y 'T' del ETL: extraer y transformar antes de cargar."
  },
  {
   "tema": "Tableau",
-  "pregunta": "En Tableau, ¿cuál es la diferencia entre una dimensión y una medida?",
+  "pregunta": "In Tableau, what is the difference between a dimension and a measure?",
   "opciones": [
-   "No hay diferencia",
-   "Dimensión = dato numérico; medida = texto",
-   "Dimensión = categoría/texto (ej: región); medida = número (ej: ingresos)",
-   "Dimensión = tabla; medida = gráfico"
+   "There is no difference",
+   "Dimension = numeric data; measure = text",
+   "Dimension = category/text (e.g., region); measure = number (e.g., revenue)",
+   "Dimension = table; measure = chart"
   ],
   "correcta": 2,
   "explicacion": "Dimensiones agrupan (texto/categoría), medidas se calculan (números)."
  },
  {
   "tema": "Tableau",
-  "pregunta": "¿En qué es más fuerte Power BI que Tableau?",
+  "pregunta": "Where is Power BI stronger than Tableau?",
   "opciones": [
-   "En visualización libre",
-   "En reporting corporativo integrado con el ecosistema Microsoft/Excel y DAX",
-   "En animaciones 3D",
-   "En edición de video"
+   "In free-form visualization",
+   "In corporate reporting integrated with the Microsoft/Excel ecosystem and DAX",
+   "In 3D animations",
+   "In video editing"
   ],
   "correcta": 1,
   "explicacion": "Power BI brilla en reporting corporativo e integración Microsoft; Tableau en exploración visual."
  },
  {
-  "tema": "Conceptos",
-  "pregunta": "¿Qué es un KPI?",
+  "tema": "Concepts",
+  "pregunta": "What is a KPI?",
   "opciones": [
-   "Un virus informático",
-   "Una métrica ligada a un objetivo de negocio",
-   "Un tipo de ticket",
-   "Un lenguaje de programación"
+   "A computer virus",
+   "A metric tied to a business goal",
+   "A type of ticket",
+   "A programming language"
   ],
   "correcta": 1,
   "explicacion": "Indicador Clave de Rendimiento: mide si se cumple un objetivo (ej: No-Show rate, satisfacción)."
  },
  {
-  "tema": "Conceptos",
-  "pregunta": "¿Qué es un SLA?",
+  "tema": "Concepts",
+  "pregunta": "What is an SLA?",
   "opciones": [
-   "Un acuerdo de nivel de servicio: tiempos comprometidos de respuesta y resolución",
-   "Una base de datos",
-   "Un tipo de gráfico",
-   "Una encuesta"
+   "A service level agreement: committed response and resolution times",
+   "A database",
+   "A type of chart",
+   "A survey"
   ],
   "correcta": 0,
   "explicacion": "El SLA es la promesa medible: responder en X, resolver en Y."
  },
  {
-  "tema": "Conceptos",
-  "pregunta": "¿Qué es un workaround?",
+  "tema": "Concepts",
+  "pregunta": "What is a workaround?",
   "opciones": [
-   "Una solución temporal mientras se corrige la causa raíz",
-   "Un reporte semanal",
-   "Un permiso de acceso",
-   "Un error crítico"
+   "A temporary solution while the root cause is fixed",
+   "A weekly report",
+   "An access permission",
+   "A critical error"
   ],
   "correcta": 0,
   "explicacion": "Se deja un workaround funcionando y se sigue con la causa raíz."
  },
  {
-  "tema": "Conceptos",
-  "pregunta": "¿Qué significa ETL?",
+  "tema": "Concepts",
+  "pregunta": "What does ETL mean?",
   "opciones": [
-   "Extraer, Transformar, Cargar — el pipeline que alimenta los dashboards",
-   "Editar, Traducir, Limpiar",
-   "Enviar, Transferir, Leer",
-   "Evaluar, Testear, Lanzar"
+   "Extract, Transform, Load — the pipeline that feeds the dashboards",
+   "Edit, Translate, Clean",
+   "Send, Transfer, Read",
+   "Evaluate, Test, Launch"
   ],
   "correcta": 0,
   "explicacion": "Construiste pipelines ETL con Python y n8n: es tu carta para hablar con propiedad de datos."
  },
  {
-  "tema": "Escenarios",
-  "pregunta": "Un usuario llega molesto porque su reporte no funciona. ¿Qué hacés primero?",
+  "tema": "Scenarios",
+  "pregunta": "A user comes in upset because their report doesn't work. What do you do first?",
   "opciones": [
-   "Le digo que espere su turno",
-   "Escucho, reconozco la frustración, separo la persona del problema y doy un plan claro",
-   "Le explico que no es mi culpa",
-   "Cierro el ticket"
+   "Tell them to wait their turn",
+   "Listen, acknowledge the frustration, separate the person from the problem, and give a clear plan",
+   "Explain that it's not my fault",
+   "Close the ticket"
   ],
   "correcta": 1,
   "explicacion": "Escucha activa + reconocer + plan claro con tiempos. El tono resuelve la mitad del conflicto."
  },
  {
-  "tema": "Escenarios",
-  "pregunta": "No sabés cómo resolver un ticket. ¿Qué hacés?",
+  "tema": "Scenarios",
+  "pregunta": "You don't know how to solve a ticket. What do you do?",
   "opciones": [
-   "Invento una solución",
-   "Lo dejo sin responder",
-   "Reviso la knowledge base y tickets similares; si no, escalo con contexto y comunico el estatus",
-   "Lo cierro como resuelto"
+   "Make up a solution",
+   "Leave it unanswered",
+   "Check the knowledge base and similar tickets; if not, escalate with context and communicate the status",
+   "Close it as solved"
   ],
   "correcta": 2,
   "explicacion": "KB primero, escalar con contexto, nunca inventar ni dejar de comunicar."
  },
  {
-  "tema": "Escenarios",
-  "pregunta": "Llegan 10 tickets a la vez. ¿Cómo priorizás?",
+  "tema": "Scenarios",
+  "pregunta": "10 tickets arrive at the same time. How do you prioritize?",
   "opciones": [
-   "Por orden de llegada",
-   "Por impacto y urgencia: P1/P2 primero, mejoras al final; y comunico estatus a todos",
-   "Por el que grite más fuerte",
-   "Al azar"
+   "By order of arrival",
+   "By impact and urgency: P1/P2 first, improvements last; and I communicate the status to everyone",
+   "Whoever shouts the loudest",
+   "At random"
   ],
   "correcta": 1,
   "explicacion": "Impacto y urgencia, no orden de llegada. Comunicación: todos saben que su ticket está recibido."
  },
  {
-  "tema": "Escenarios",
-  "pregunta": "¿Por qué este puesto si sos analista de datos?",
+  "tema": "Scenarios",
+  "pregunta": "Why this position if you are a data analyst?",
   "opciones": [
-   "Porque no encontré nada mejor",
-   "Es el punto de contacto entre las personas y los datos: entiendo los reportes Y atiendo gente; quien entiende el ticket, entiende el negocio",
-   "Porque paga bien",
-   "No sabría decir"
+   "Because I couldn't find anything better",
+   "It's the contact point between people and data: I understand the reports AND I serve people; whoever understands the ticket understands the business",
+   "Because it pays well",
+   "I wouldn't know what to say"
   ],
   "correcta": 1,
   "explicacion": "Esa es tu respuesta estrella: puente entre datos y personas, primer filtro del ciclo de datos."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "En tu trabajo actual (Grupo ANC), ¿cómo recibís las solicitudes de verdad?",
+  "tema": "📥 Receiving requests",
+  "pregunta": "In your current job (Grupo ANC), how do you really receive requests?",
   "opciones": [
-   "Solo por WhatsApp",
-   "Por correo electrónico y de forma directa en la operación (mostrador/teléfono, 24/7)",
-   "Solo por teléfono fijo",
-   "Por un sistema formal de tickets"
+   "Only by WhatsApp",
+   "By email and directly in the operation (counter/phone, 24/7)",
+   "Only by landline phone",
+   "Through a formal ticketing system"
   ],
   "correcta": 1,
   "explicacion": "Correo + directo en la operación. Esa es la verdad y suena genuina: es el 'canal de entrada' del ticket."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "¿Dónde procesás y das seguimiento a las solicitudes en ANC?",
+  "tema": "📥 Receiving requests",
+  "pregunta": "Where do you process and follow up on requests at ANC?",
   "opciones": [
-   "En hojas de control / Excel con trazabilidad (500+ reservas diarias)",
-   "En un CRM de tickets",
-   "En papel",
-   "No se registran"
+   "In control spreadsheets / Excel with traceability (500+ reservations a day)",
+   "In a ticketing CRM",
+   "On paper",
+   "They are not recorded"
   ],
   "correcta": 0,
   "explicacion": "Hojas de control con trazabilidad: eso es tu 'cola de tickets' de hoy. Registro, seguimiento y cierre en Excel."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "En Grupo Dokka (call center), ¿qué herramienta usabas para registrar y dar seguimiento a los casos?",
+  "tema": "📥 Receiving requests",
+  "pregunta": "At Grupo Dokka (call center), what tool did you use to log and follow up on cases?",
   "opciones": [
-   "Solo Excel sin estructura",
-   "Un CRM: registro, priorización y cierre de casos",
+   "Only unstructured Excel",
+   "A CRM: case logging, prioritization, and closing",
    "ServiceNow",
    "Jira"
   ],
@@ -407,104 +410,104 @@ window.ODEA_QUIZ_BANK.entrevista = [
   "explicacion": "CRM. Ahí conocés el flujo completo de casos: registro, priorización, seguimiento y cierre."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "¿Cómo conectás tu experiencia de hoy con Jira o ServiceNow?",
+  "tema": "📥 Receiving requests",
+  "pregunta": "How do you connect your current experience with Jira or ServiceNow?",
   "opciones": [
-   "Son herramientas distintas, no tienen relación",
-   "El flujo es el mismo: registro, clasificación, priorización y cierre; solo cambia la herramienta. Yo ya domino ese flujo",
-   "Las usé por años en ANC",
-   "No sabría conectar los conceptos"
+   "They are different tools, there is no relation",
+   "The flow is the same: log, classify, prioritize, and close; only the tool changes. I already master that flow",
+   "I used them for years at ANC",
+   "I wouldn't know how to connect the concepts"
   ],
   "correcta": 1,
   "explicacion": "Esa es tu frase estrella: el concepto es el mismo, cambia la herramienta. Y eso es 100% real."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "¿Qué información pedís SIEMPRE al recibir una solicitud?",
+  "tema": "📥 Receiving requests",
+  "pregunta": "What information do you ALWAYS ask for when you receive a request?",
   "opciones": [
-   "Solo el nombre del usuario",
-   "Qué pasa, desde cuándo, a quién afecta y capturas / pasos para reproducir",
-   "El cargo del usuario",
-   "Nada, resuelvo directo"
+   "Only the user's name",
+   "What is happening, since when, who is affected, and screenshots / steps to reproduce it",
+   "The user's job title",
+   "Nothing, I solve it directly"
   ],
   "correcta": 1,
   "explicacion": "Información completa para resolver sin ir y venir. Si falta, el ticket se devuelve al solicitante."
  },
  {
-  "tema": "📥 Recepción de solicitudes",
-  "pregunta": "¿Cuál es la respuesta completa para '¿cómo recibís y registrás las solicitudes?'",
+  "tema": "📥 Receiving requests",
+  "pregunta": "What is the complete answer to 'how do you receive and log requests?'?",
   "opciones": [
-   "Solo recibo correos y ya",
-   "Recibo por correo y directo en la operación, registro en hojas de control con trazabilidad (500+ reservas/día), y en Dokka usaba CRM; el concepto es el mismo que Jira o ServiceNow",
-   "Trabajé con Jira 5 años",
-   "Prefiero no hablar de eso"
+   "I just receive emails, that's it",
+   "I receive them by email and directly in the operation, I log them in control spreadsheets with traceability (500+ reservations/day), and at Dokka I used a CRM; the concept is the same as Jira or ServiceNow",
+   "I worked with Jira for 5 years",
+   "I'd rather not talk about that"
   ],
   "correcta": 1,
   "explicacion": "Esa frase lista conecta todo: recepción real, registro real, CRM real y el puente hacia Jira/ServiceNow."
  },
  {
-  "tema": "🔄 Ciclo del ticket",
-  "pregunta": "Un ticket P2 tiene impacto significativo sin workaround. ¿Cuál es su tiempo objetivo típico?",
+  "tema": "🔄 Ticket lifecycle",
+  "pregunta": "A P2 ticket has significant impact and no workaround. What is its typical target time?",
   "opciones": [
-   "Respuesta en ~2 horas hábiles",
-   "Respuesta en minutos",
-   "Respuesta la próxima semana",
-   "No tiene tiempo"
+   "Response in ~2 business hours",
+   "Response in minutes",
+   "Response next week",
+   "It has no target time"
   ],
   "correcta": 0,
   "explicacion": "P1 inmediato · P2 ~2h · P3 ~8h/día hábil · P4 backlog. Memorizá la matriz."
  },
  {
-  "tema": "🔄 Ciclo del ticket",
-  "pregunta": "¿Cuál es la 'regla de oro' al priorizar tickets?",
+  "tema": "🔄 Ticket lifecycle",
+  "pregunta": "What is the 'golden rule' when prioritizing tickets?",
   "opciones": [
-   "Primero el que llegó primero",
-   "Por impacto y urgencia, no por orden de llegada; y siempre comunico el estatus",
-   "El que grite más fuerte",
-   "Al azar"
+   "First come, first served",
+   "By impact and urgency, not by order of arrival; and I always communicate the status",
+   "Whoever shouts the loudest",
+   "At random"
   ],
   "correcta": 1,
   "explicacion": "Un P4 puede esperar, un P1 es inmediato. Y un usuario informado es un usuario tranquilo."
  },
  {
   "tema": "🟢 Jira",
-  "pregunta": "En Jira, ¿cómo se llama un ticket o tarea y qué tipos existen?",
+  "pregunta": "In Jira, what is a ticket or task called, and what types exist?",
   "opciones": [
-   "Post — tipos: Foto, Video, Texto",
-   "Issue — tipos: Bug, Task, Story, Epic",
-   "Card — tipos: Roja, Azul, Verde",
-   "Slide — tipos: A, B, C"
+   "Post — types: Photo, Video, Text",
+   "Issue — types: Bug, Task, Story, Epic",
+   "Card — types: Red, Blue, Green",
+   "Slide — types: A, B, C"
   ],
   "correcta": 1,
   "explicacion": "El issue es el elemento central. Bug (roto), Task (tarea), Story (funcionalidad), Epic (grupo grande)."
  },
  {
   "tema": "🟢 Jira",
-  "pregunta": "¿Cuál es la diferencia entre un tablero Kanban y uno Scrum?",
+  "pregunta": "What is the difference between a Kanban board and a Scrum board?",
   "opciones": [
-   "Kanban = flujo continuo con columnas (To Do → In Progress → Done); Scrum = sprints por ciclos",
-   "Kanban = sprints; Scrum = flujo continuo",
-   "Son lo mismo",
-   "Kanban = reportes; Scrum = gráficos"
+   "Kanban = continuous flow with columns (To Do → In Progress → Done); Scrum = sprints in cycles",
+   "Kanban = sprints; Scrum = continuous flow",
+   "They are the same",
+   "Kanban = reports; Scrum = charts"
   ],
   "correcta": 0,
   "explicacion": "Kanban visualiza el flujo continuo; Scrum planifica por ciclos (sprints)."
  },
  {
   "tema": "🟢 Jira",
-  "pregunta": "¿Qué es el workflow en Jira?",
+  "pregunta": "What is the workflow in Jira?",
   "opciones": [
-   "El horario del equipo",
-   "Los estados y las transiciones de un issue (Abierto → En progreso → En revisión → Cerrado)",
-   "El logo de la empresa",
-   "La contraseña del sistema"
+   "The team's schedule",
+   "The states and transitions of an issue (Open → In Progress → In Review → Closed)",
+   "The company's logo",
+   "The system password"
   ],
   "correcta": 1,
   "explicacion": "El workflow define por dónde pasa el ticket y quién lo mueve. Concepto clave de soporte."
  },
  {
   "tema": "🔵 ServiceNow",
-  "pregunta": "¿Qué módulo de ServiceNow registra y atiende incidentes con formularios estructurados?",
+  "pregunta": "Which ServiceNow module logs and handles incidents with structured forms?",
   "opciones": [
    "Incident Management",
    "Service Catalog",
@@ -516,208 +519,200 @@ window.ODEA_QUIZ_BANK.entrevista = [
  },
  {
   "tema": "🔵 ServiceNow",
-  "pregunta": "¿Qué mide y alerta los tiempos comprometidos de atención en ServiceNow?",
+  "pregunta": "What measures and alerts on committed response times in ServiceNow?",
   "opciones": [
-   "La memoria del servidor",
-   "El módulo de nómina",
-   "Los SLAs automáticos",
-   "El historial de chat"
+   "The server's memory",
+   "The payroll module",
+   "The automatic SLAs",
+   "The chat history"
   ],
   "correcta": 2,
   "explicacion": "Los SLAs miden respuesta (ej: 30 min) y resolución (ej: 4 h) y alertan automáticamente."
  },
  {
   "tema": "🔵 ServiceNow",
-  "pregunta": "Te preguntan '¿Has usado Jira o ServiceNow?'. ¿Cuál es la respuesta honesta y segura?",
+  "pregunta": "They ask you: 'Have you used Jira or ServiceNow?' What is the honest, safe answer?",
   "opciones": [
-   "'Sí, soy experto' (aunque no sea cierto)",
-   "'No, y no sé nada de tickets'",
-   "No los he usado directamente, pero trabajo a diario con sistemas de tickets y CRM y conozco el flujo completo; a nivel conceptual conozco Jira y ServiceNow (issues, tableros, SLAs, KB) y me adapto en la primera semana",
-   "'Pregúntele a otro'"
+   "'Yes, I'm an expert' (even if it's not true)",
+   "'No, and I know nothing about tickets'",
+   "I haven't used them directly, but I work daily with ticketing systems and a CRM and I know the full flow; conceptually I know Jira and ServiceNow (issues, boards, SLAs, KB) and I can adapt within the first week",
+   "'Ask someone else'"
   ],
   "correcta": 2,
   "explicacion": "Honestidad + flujo que sí dominás + velocidad de aprendizaje. Nunca un 'sí' falso que se cae en la prueba técnica."
  },
  {
   "tema": "🟠 Power BI",
-  "pregunta": "TU dashboard real: ¿qué números tenés que decir SIEMPRE?",
+  "pregunta": "YOUR real dashboard: what numbers must you ALWAYS say?",
   "opciones": [
-   "5 medidas y un modelo simple",
-   "10 medidas sin modelo",
-   "30+ medidas DAX, modelo Star Schema, 4,600+ reservas, usado a diario por la gerencia",
-   "100 medidas pero nadie lo usa"
+   "5 measures and a simple model",
+   "10 measures with no model",
+   "30+ DAX measures, Star Schema model, 4,600+ reservations, used daily by management",
+   "100 measures but nobody uses it"
   ],
   "correcta": 2,
   "explicacion": "Tus números: 30+ medidas DAX, Star Schema, 4,600+ reservas. 'Si un ticket de Power BI llega, yo entiendo el DAX, el refresh y los permisos.'"
  },
  {
   "tema": "🟠 Power BI",
-  "pregunta": "'Power BI o Tableau, ¿cuál preferís y por qué?' — tu respuesta:",
+  "pregunta": "'Power BI or Tableau, which do you prefer and why?' — your answer:",
   "opciones": [
-   "Power BI, porque es mi fuerte: 30+ medidas DAX en producción, usado por gerencia; Tableau lo conozco para exploración visual",
-   "Tableau, aunque nunca lo usé",
-   "Ninguno, odio los datos",
-   "Power BI, porque es más barato"
+   "Power BI, because it's my strength: 30+ DAX measures in production, used by management; I know Tableau for visual exploration",
+   "Tableau, even though I never used it",
+   "Neither, I hate data",
+   "Power BI, because it's cheaper"
   ],
   "correcta": 0,
   "explicacion": "Preferencia con argumento real: mi fuerte + producción + complementariedad. Sin inventar experiencia."
  },
  {
-  "tema": "📊 Conceptos",
-  "pregunta": "¿Qué es el escalamiento y cuál es su regla?",
+  "tema": "📊 Concepts",
+  "pregunta": "What is escalation, and what is its rule?",
   "opciones": [
-   "Subir el ticket a nivel 2/3 SIEMPRE con contexto: qué se probó, qué se encontró, qué necesita el siguiente nivel",
-   "Devolver el ticket al usuario",
-   "Cerrarlo sin resolver",
-   "Esperar a que se resuelva solo"
+   "Move the ticket to level 2/3 ALWAYS with context: what was tried, what was found, what the next level needs",
+   "Return the ticket to the user",
+   "Close it without solving it",
+   "Wait for it to solve itself"
   ],
   "correcta": 0,
   "explicacion": "Escalar con contexto completo. Sin contexto, el nivel 2 pierde tiempo — y el usuario nota el retraso."
  },
  {
-  "tema": "📊 Conceptos",
-  "pregunta": "¿Cómo se da el acceso a un sistema o dashboard?",
+  "tema": "📊 Concepts",
+  "pregunta": "How is access to a system or dashboard granted?",
   "opciones": [
-   "A todo el mundo, para que no reclamen",
-   "Según el rol y mínimo privilegio, con revisión periódica; un permiso mal dado es un riesgo",
-   "Según quien lo pida primero",
-   "Nunca se da acceso"
+   "To everyone, so nobody complains",
+   "By role and least privilege, with periodic reviews; a wrongly granted permission is a risk",
+   "To whoever asks first",
+   "Access is never granted"
   ],
   "correcta": 1,
   "explicacion": "Gestión de acceso: dar/revocar según necesidad del rol y revisar periódicamente."
  },
  {
-  "tema": "🎯 Escenarios",
-  "pregunta": "'¿Por qué este puesto si vos sos analista de datos?' — tu respuesta:",
+  "tema": "🎯 Scenarios",
+  "pregunta": "'Why this position if you are a data analyst?' — your answer:",
   "opciones": [
-   "Porque no encontré nada mejor",
-   "Porque es el punto de contacto entre las personas y los datos: entiendo los reportes Y atiendo gente; es el primer filtro del ciclo de datos — quien entiende el ticket, entiende el negocio",
-   "Porque paga bien",
-   "No lo había pensado"
+   "Because I couldn't find anything better",
+   "Because it's the contact point between people and data: I understand the reports AND I serve people; it's the first filter of the data cycle — whoever understands the ticket understands the business",
+   "Because it pays well",
+   "I hadn't thought about it"
   ],
   "correcta": 1,
   "explicacion": "Tu respuesta estrella: puente entre datos y personas. No es un paso atrás, es la puerta de entrada al ciclo de datos."
  },
  {
-  "tema": "🎯 Escenarios",
-  "pregunta": "'¿Dónde te ves en 2 años?' — tu respuesta:",
+  "tema": "🎯 Scenarios",
+  "pregunta": "'Where do you see yourself in 2 years?' — your answer:",
   "opciones": [
-   "En otro país",
-   "No lo he pensado",
-   "En el mismo puesto sin cambios",
-   "Dominando el soporte de las herramientas de datos y creciendo hacia un rol donde ayude a mejorarlas: automatizar lo repetitivo, mejores reportes, mejor knowledge base"
+   "In another country",
+   "I haven't thought about it",
+   "In the same position with no changes",
+   "Mastering support for data tools and growing into a role where I help improve them: automating repetitive work, better reports, a better knowledge base"
   ],
   "correcta": 3,
   "explicacion": "Tu historial dice que automatizás lo repetitivo: eso mismo harías con el soporte. Ambición con dirección."
  },
  {
-  "tema": "🎯 Escenarios",
-  "pregunta": "'¿Por qué te interesa esta empresa / este puesto?' — tu respuesta:",
+  "tema": "🎯 Scenarios",
+  "pregunta": "'Why are you interested in this company / this position?' — your answer:",
   "opciones": [
-   "Porque toca datos y servicio (lo que más me motiva), la modalidad híbrida en Heredia me queda (vivo en Santa Bárbara) y quiero crecer de atender tickets a construir herramientas",
-   "Porque paga bien",
-   "Porque no encontré otra cosa",
-   "Porque me dijeron que viniera"
+   "Because it involves data and service (what motivates me most), the hybrid setup in Heredia works for me (I live in Santa Bárbara), and I want to grow from handling tickets to building tools",
+   "Because it pays well",
+   "Because I couldn't find anything else",
+   "Because someone told me to come"
   ],
   "correcta": 0,
   "explicacion": "Tres razones reales: motivación, logística (híbrido Heredia) y crecimiento. Eso demuestra que ya decidiste."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "¿Cuántas reservas procesás a diario en ANC?",
+  "tema": "💪 Your numbers",
+  "pregunta": "How many reservations do you process daily at ANC?",
   "opciones": [
-   "500+ reservas diarias",
-   "50 reservas diarias",
-   "10 reservas diarias",
-   "No llevo números"
+   "500+ reservations a day",
+   "50 reservations a day",
+   "10 reservations a day",
+   "I don't track numbers"
   ],
   "correcta": 0,
   "explicacion": "500+ reservas/día. Es tu carta de volumen operativo: 'más tickets que cualquiera, solo que en Excel'."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "¿Cuál fue el resultado de tu automatización de reportes?",
+  "tema": "💪 Your numbers",
+  "pregunta": "What was the result of your reporting automation?",
   "opciones": [
-   "Nada cambió",
-   "De 2 horas a 15 minutos por reporte (87.5% menos) y 10+ horas semanales recuperadas",
-   "De 15 minutos a 2 horas",
-   "Perdí los datos"
+   "Nothing changed",
+   "From 2 hours to 15 minutes per report (87.5% less) and 10+ hours a week recovered",
+   "From 15 minutes to 2 hours",
+   "I lost the data"
   ],
   "correcta": 1,
   "explicacion": "2h → 15min y 10+ horas/semana al equipo. El número más poderoso de tu CV."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "Historia STAR 1 (automatización): ¿cuál fue tu ACCIÓN?",
+  "tema": "💪 Your numbers",
+  "pregunta": "STAR Story 1 (automation): what was your ACTION?",
   "opciones": [
-   "Nada, seguí como estaba",
-   "Le pedí a otro que lo hiciera",
-   "Construí pipelines en Python (pandas, openpyxl), macros VBA, flujos n8n y un dashboard Power BI con 30+ medidas DAX y modelo Star Schema",
-   "Compré un software"
+   "Nothing, I kept things as they were",
+   "I asked someone else to do it",
+   "I built pipelines in Python (pandas, openpyxl), VBA macros, n8n flows, and a Power BI dashboard with 30+ DAX measures and a Star Schema model",
+   "I bought a software"
   ],
   "correcta": 2,
   "explicacion": "S: reportes a mano (2h). T: automatizar 500+ reservas/día. A: Python + VBA + n8n + Power BI. R: 2h→15min, 10+ hrs."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "Historia STAR 2 (servicio bilingüe): ¿cuál fue tu RESULTADO?",
+  "tema": "💪 Your numbers",
+  "pregunta": "STAR Story 2 (bilingual service): what was your RESULT?",
   "opciones": [
-   "Perdí clientes",
-   "Satisfacción sostenida por encima del 95% con clientes internacionales atendidos en inglés",
-   "Cerré el call center",
-   "No medí nada"
+   "I lost clients",
+   "Sustained satisfaction above 95% with international clients served in English",
+   "I closed the call center",
+   "I didn't measure anything"
   ],
   "correcta": 1,
   "explicacion": "Operación 24/7, clientes internacionales, inglés diario. Resultado: satisfacción >95% y clientes que volvían."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "Historia STAR 3 (Grupo Dokka): ¿qué analizaste para mejorar la conversión?",
+  "tema": "💪 Your numbers",
+  "pregunta": "STAR Story 3 (Grupo Dokka): what did you analyze to improve conversion?",
   "opciones": [
-   "50+ interacciones diarias y métricas de CRM; identifiqué patrones por horario y guiones de alto rendimiento",
-   "Los precios de la competencia",
-   "Las vacaciones del equipo",
-   "Nada, fue intuición"
+   "50+ daily interactions and CRM metrics; I identified patterns by time of day and high-performing scripts",
+   "Competitors' prices",
+   "The team's vacations",
+   "Nothing, it was intuition"
   ],
   "correcta": 0,
   "explicacion": "Análisis de 50+ interacciones/día + CRM → patrones → superaste KPIs de conversión, tiempo de gestión y satisfacción."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "Historia STAR 4 (No-Shows): ¿qué logró tu dashboard?",
+  "tema": "💪 Your numbers",
+  "pregunta": "STAR Story 4 (No-Shows): what did your dashboard achieve?",
   "opciones": [
-   "Nadie lo usó",
-   "Fue adoptado como herramienta diaria y ayudó a reducir No-Shows ~3% con decisiones basadas en datos",
-   "Se borró solo",
-   "Solo lo vio mi mamá"
+   "Nobody used it",
+   "It was adopted as a daily tool and helped reduce No-Shows by ~3% with data-based decisions",
+   "It deleted itself",
+   "Only my mom saw it"
   ],
   "correcta": 1,
   "explicacion": "S: gerencia sin visibilidad. A: Star Schema + medidas DAX de No-Show e ingresos. R: herramienta diaria, -3% No-Shows."
  },
  {
-  "tema": "💪 Tus números",
-  "pregunta": "Tu cierre de entrevista en una frase:",
+  "tema": "💪 Your numbers",
+  "pregunta": "Your one-line interview closing:",
   "opciones": [
-   "'Bueno, gracias, adiós'",
-   "'Agradezco el tiempo. Este puesto combina entender los datos y atender personas; puedo aportar desde el primer día en gestión de tickets y entiendo rápido las incidencias que lleguen. ¿Cuáles son los siguientes pasos?'",
-   "'¿Cuánto pagan?'",
-   "'Ya me voy, ¿sí?'"
+   "'Well, thanks, bye'",
+   "'Thank you for your time. This position combines understanding data and serving people; I can contribute from day one in ticket management and I pick up on incoming issues fast. What are the next steps?'",
+   "'How much do you pay?'",
+   "'I'm leaving now, OK?'"
   ],
   "correcta": 1,
   "explicacion": "Cierre con valor + pregunta de seguimiento. Terminás vos al mando, no en falso."
  }
 ];
-
-/*
- * Mazo v5.94 — 🎙️ EVENTO Rumbo a la Entrevista (Remote Leverage, Data Analyst).
- * 24 preguntas construidas desde la experiencia REAL de José (ANC: 500+
- * reservaciones/día, reportes de 2 h a 15 min, n8n; Dokka: KPIs de call
- * center) y su brecha declarada (BigQuery/GCP). La capa quiz prefiere
- * este mazo mientras exista; el genérico `entrevista` queda de respaldo.
- */
 window.ODEA_QUIZ_BANK.entrevistaRL = [
  {
-  "tema": "Tu historia",
+  "tema": "Your story",
   "pregunta": "The interviewer says: “Tell me about yourself.” What do they really want?",
   "opciones": [
    "Your life story since childhood",
@@ -729,7 +724,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Estructura presente → pasado breve → futuro. Decila en voz alta: “I work as a Data Analyst at ANC Rent a Car. I have two years of experience with SQL, Python and Power BI, and I am looking for a remote role where I can grow in automation and analytics.”"
  },
  {
-  "tema": "Tus números",
+  "tema": "Your numbers",
   "pregunta": "Which opening line about your current role is strongest?",
   "opciones": [
    "“I work in a car rental company doing reports.”",
@@ -741,7 +736,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Rol + empresa + lugar + NÚMERO. Los números son tu credibilidad: 500+ reservaciones al día es tu frase ancla."
  },
  {
-  "tema": "Tus números",
+  "tema": "Your numbers",
   "pregunta": "“How did you reduce your reporting time?” — your best answer:",
   "opciones": [
    "“I just work faster now.”",
@@ -753,7 +748,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Antes → acción → resultado con números: two hours → fifteen minutes. Sumá: “That eliminated more than ten hours of manual work every week.”"
  },
  {
-  "tema": "Tus números",
+  "tema": "Your numbers",
   "pregunta": "How do you say this in English? «Nuestros KPIs de satisfacción se mantienen sobre el 95%»",
   "opciones": [
    "“Our satisfaction KPIs stay over ninety-five percent.”",
@@ -849,7 +844,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "GROUP BY + HAVING COUNT(*) > 1: el patrón clásico de duplicados. Es una validación de calidad de datos que ya hacés en ANC."
  },
  {
-  "tema": "Calidad de datos",
+  "tema": "Data quality",
   "pregunta": "“How do you make sure your data is correct?” — best answer:",
   "opciones": [
    "“I trust the source system.”",
@@ -873,7 +868,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Método, no pánico: fuente → filtros → reproducir → rastrear el pipeline. Es tu historia de Dokka y ANC aplicada: primero se aisla, después se arregla."
  },
  {
-  "tema": "Tu experiencia",
+  "tema": "Your experience",
   "pregunta": "“Tell me about a high-pressure situation.” Your best real story:",
   "opciones": [
    "“I have never had pressure at work.”",
@@ -885,7 +880,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Tu etapa de call center ES experiencia de troubleshooting con clientes y métricas (TMO, nivel de servicio). No la escondás: es oro para un puesto que habla con equipos internos."
  },
  {
-  "tema": "Inglés de entrevista",
+  "tema": "Interview English",
   "pregunta": "Complete your sentence: “I am responsible for…”",
   "opciones": [
    "“…do reports and dashboards.”",
@@ -897,7 +892,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Después de “responsible for” va verbo en -ing: building, validating, automating. Tu frase completa describe tu trabajo real en ANC."
  },
  {
-  "tema": "Inglés de entrevista",
+  "tema": "Interview English",
   "pregunta": "How do you say «Me encargo de validar los datos antes de publicar el reporte»?",
   "opciones": [
    "“I am in charge of validating the data before publishing the report.”",
@@ -909,7 +904,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "“I am in charge of...” = me encargo de. Cuidado con el falso amigo: charge no es encargo. Frase lista para usar el lunes."
  },
  {
-  "tema": "Inglés de entrevista",
+  "tema": "Interview English",
   "pregunta": "You did not understand a question. The best move:",
   "opciones": [
    "Say “What?” and wait",
@@ -921,7 +916,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Pedir que repitan es profesional; adivinar es el error. También sirve: “Could you say that again, please?” o “Let me make sure I understood…”"
  },
  {
-  "tema": "Herramientas",
+  "tema": "Tools",
   "pregunta": "“What tools do you use in your day-to-day work?” — best structure:",
   "opciones": [
    "Name one tool and stop",
@@ -933,7 +928,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Lista corta en orden de relevancia para EL puesto (SQL y n8n primeros para Remote Leverage) + una línea de uso. 45 segundos, no más."
  },
  {
-  "tema": "Herramientas",
+  "tema": "Tools",
   "pregunta": "“What is DAX?”",
   "opciones": [
    "A database server",
@@ -945,7 +940,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "DAX = lenguaje de fórmulas de Power BI (medidas, columnas calculadas). Si te piden un ejemplo: “I use DAX for measures like total reservations and no-show rate.”"
  },
  {
-  "tema": "Herramientas",
+  "tema": "Tools",
   "pregunta": "“What do you use Python for?” — your real answer:",
   "opciones": [
    "“Games and fun.”",
@@ -957,7 +952,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Tu uso real de pandas en ANC, en una frase. Si sigue la conversación: “I also automate repetitive Excel work with VBA and n8n.”"
  },
  {
-  "tema": "Tu brecha, bien contada",
+  "tema": "Your gap, told well",
   "pregunta": "“What is your biggest gap for this role?” — the winning answer:",
   "opciones": [
    "“I am a perfectionist.”",
@@ -969,7 +964,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Brecha real + acción en curso + fortaleza que la compensa. El cliché de “perfeccionista” y el “no tengo debilidades” restan credibilidad."
  },
  {
-  "tema": "Preguntas para ellos",
+  "tema": "Questions for them",
   "pregunta": "Which is the BEST question to ask them near the end?",
   "opciones": [
    "“How much is the salary?” (as the only question)",
@@ -981,7 +976,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "Las horas por semana son EL dato que falta para valorar la oferta de contratista. También sirven: “What tools does the team use day to day?” y “What are the next steps?”. Tener preguntas = interés real."
  },
  {
-  "tema": "Tarifa",
+  "tema": "Rate",
   "pregunta": "If they bring up the rate again, your line is:",
   "opciones": [
    "“I need twenty dollars or nothing.”",
@@ -993,7 +988,7 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "explicacion": "La línea acordada: no renegociás el 11 que ya escribiste, abrís rango 11–13 atado a horas y alcance, y la negociación fuerte queda para la oferta. Decila con calma, sin disculparte."
  },
  {
-  "tema": "Cierre",
+  "tema": "Closing",
   "pregunta": "The best way to close the interview:",
   "opciones": [
    "“Okay, bye.”",
@@ -1004,436 +999,436 @@ window.ODEA_QUIZ_BANK.entrevistaRL = [
   "correcta": 1,
   "explicacion": "Cierre completo: gracias + interés + tu match (SQL + n8n) + próximos pasos. Es la última impresión: practícala hasta que salga sola."
  },
-{
- "tema": "n8n a fondo",
- "pregunta": "In n8n, your workflow fails at 2 a.m. and nobody notices until morning. What is the professional fix?",
- "opciones": [
-  "Run it manually every day",
-  "An Error Workflow that catches failures and sends you an alert (email or Telegram) with the execution details",
-  "Delete the failing node",
-  "Hope it does not fail again"
- ],
- "correcta": 1,
- "explicacion": "Los pipelines serios se vigilan solos. Decilo: “I always attach an error workflow that notifies me, so failures are visible the moment they happen, not the next day.”"
-},
-{
- "tema": "n8n a fondo",
- "pregunta": "What is the difference between a Webhook trigger and a Schedule trigger in n8n?",
- "opciones": [
-  "There is no difference",
-  "A webhook reacts to an external event in real time; a schedule runs at fixed times",
-  "The webhook is only for emails",
-  "The schedule is faster"
- ],
- "correcta": 1,
- "explicacion": "Evento vs reloj. Tu ejemplo real: en ANC tus procesos corren por horario; un webhook sería, por ejemplo, que cada reserva nueva dispare el flujo al instante."
-},
-{
- "tema": "n8n a fondo",
- "pregunta": "A node receives 500 items and you need to call an API for each one. What should you watch out for?",
- "opciones": [
-  "Nothing, n8n is infinite",
-  "Rate limits and execution time: process in batches or loop with pauses so the API does not block you",
-  "Rename the workflow",
-  "Use more colors in the canvas"
- ],
- "correcta": 1,
- "explicacion": "Decilo con tus palabras: “I process items in batches and respect the API rate limits, so the workflow is stable instead of fast and fragile.”"
-},
-{
- "tema": "n8n a fondo",
- "pregunta": "Where do API keys and passwords live inside an n8n workflow?",
- "opciones": [
-  "Hard-coded in a Set node",
-  "In the credentials store, referenced by the node — never written in plain text inside the flow",
-  "In the workflow name",
-  "In a sticky note"
- ],
- "correcta": 1,
- "explicacion": "Seguridad básica que un entrevistador valora: credenciales cifradas y referenciadas, jamás pegadas en el canvas."
-},
-{
- "tema": "n8n a fondo",
- "pregunta": "How do you debug a workflow that produces wrong data but no error?",
- "opciones": [
-  "Rebuild everything",
-  "Check the execution history node by node and compare input vs output items until the transformation that breaks the data appears",
-  "Turn it off and on",
-  "Ask the client to check"
- ],
- "correcta": 1,
- "explicacion": "Método, no magia: ejecuciones pasadas → ítems de entrada y salida por nodo. Es el mismo instinto que usás depurando un pandas raro."
-},
-{
- "tema": "n8n a fondo",
- "pregunta": "Your workflow sometimes processes the same record twice. What concept fixes that?",
- "opciones": [
-  "Idempotency: design each run so repeating it does not duplicate the result (unique keys, upserts, checks before insert)",
-  "A faster server",
-  "More nodes",
-  "Luck"
- ],
- "correcta": 0,
- "explicacion": "Palabra de entrevista: idempotency. Si el flujo corre dos veces, el resultado debe ser el mismo. Decila y explicala con un ejemplo simple."
-},
-{
- "tema": "BigQuery",
- "pregunta": "Why do BigQuery tables get partitioned by date?",
- "opciones": [
-  "To look organized",
-  "Queries that filter by date scan only the needed partitions, so they are faster and cheaper",
-  "To change the colors",
-  "Partitioning is only visual"
- ],
- "correcta": 1,
- "explicacion": "Costo y velocidad: BigQuery cobra por datos escaneados. Filtrar por la partición = escanear menos = pagar menos."
-},
-{
- "tema": "BigQuery",
- "pregunta": "In BigQuery, what does SELECT * cost you on a huge table?",
- "opciones": [
-  "Nothing extra",
-  "You pay for every column scanned — selecting only the columns you need is a basic cost habit",
-  "Double storage",
-  "It deletes data"
- ],
- "correcta": 1,
- "explicacion": "Frase lista: “I avoid SELECT star on big tables; I select only the columns the analysis needs, because BigQuery charges for data scanned.”"
-},
-{
- "tema": "BigQuery",
- "pregunta": "A column contains an ARRAY of values (for example, tags per client). How do you analyze its elements in BigQuery?",
- "opciones": [
-  "It is impossible",
-  "UNNEST turns each array element into its own row so you can filter and aggregate",
-  "With a screenshot",
-  "Export to Paint"
- ],
- "correcta": 1,
- "explicacion": "UNNEST es LA diferencia famosa de BigQuery frente a MySQL. Nombrala aunque sea a nivel conceptual: es exactamente lo que un entrevistador quiere oír de alguien que viene de MySQL."
-},
-{
- "tema": "BigQuery",
- "pregunta": "What is the honest, strong way to present your BigQuery level?",
- "opciones": [
-  "“I am a BigQuery expert.”",
-  "“My SQL is MySQL and MariaDB in production. The logic transfers directly; in BigQuery I already know the key differences — backticks for full table paths, LIMIT, DATE_DIFF with the end date first, and partitioning for cost.”",
-  "“SQL is SQL, there are no differences.”",
-  "Avoid the topic"
- ],
- "correcta": 1,
- "explicacion": "Honestidad + conocimiento concreto de las diferencias = la respuesta que contrata. Nunca digás experto: decí la verdad con detalle."
-},
-{
- "tema": "BigQuery",
- "pregunta": "BigQuery: what does DATE_DIFF(ending, start, DAY) return?",
- "opciones": [
-  "An error",
-  "The number of days between the two dates — note the END date goes first, the opposite of MySQL DATEDIFF",
-  "A string",
-  "The month only"
- ],
- "correcta": 1,
- "explicacion": "Detalle que delata práctica real: DATE_DIFF(end, start, DAY). En MySQL era DATEDIFF(end, start) sin la unidad."
-},
-{
- "tema": "BigQuery",
- "pregunta": "Why would a company keep marketing data in BigQuery instead of spreadsheets?",
- "opciones": [
-  "Spreadsheets crash with volume; BigQuery handles millions of rows, connects to dashboards, and many people can query the same source of truth",
-  "Spreadsheets are illegal",
-  "BigQuery has better colors",
-  "No reason"
- ],
- "correcta": 0,
- "explicacion": "Tu puente perfecto: “At ANC I hit the limits of Excel files; that is exactly the problem BigQuery solves — one source of truth at scale.”"
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "RANK() vs ROW_NUMBER(): what is the difference?",
- "opciones": [
-  "No difference",
-  "ROW_NUMBER always gives unique consecutive numbers; RANK ties share the same rank and the next rank skips",
-  "RANK is slower by law",
-  "ROW_NUMBER is only for dates"
- ],
- "correcta": 1,
- "explicacion": "Ejemplo rápido para decir: dos clientes empatados en el puesto 1 → RANK da 1,1,3; ROW_NUMBER da 1,2,3."
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "How do you compare this month's sales with last month's in one query?",
- "opciones": [
-  "Two separate queries and a calculator",
-  "Aggregate by month and use LAG() over the monthly column to bring the previous month's value onto the same row",
-  "ORDER BY only",
-  "A pivot table screenshot"
- ],
- "correcta": 1,
- "explicacion": "LAG() es la ventana estrella para comparaciones de período: “I use LAG to compare each month with the previous one inside the same query.”"
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "A table has duplicate client rows. How do you keep only the newest one per client?",
- "opciones": [
-  "DELETE everything",
-  "ROW_NUMBER() OVER (PARTITION BY client ORDER BY date DESC) and keep the rows where it equals 1",
-  "GROUP BY and pray",
-  "Copy the table"
- ],
- "correcta": 1,
- "explicacion": "La receta de deduplicación que todo analista debe tener de memoria: particionar por cliente, ordenar por fecha, quedarse con el 1."
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "LEFT JOIN: when do rows from the left table appear with NULLs on the right?",
- "opciones": [
-  "Never",
-  "When there is no matching row in the right table — that is exactly how you find, for example, clients with no purchases",
-  "When the query is wrong",
-  "Only on Fridays"
- ],
- "correcta": 1,
- "explicacion": "Truco de entrevista: LEFT JOIN + WHERE right.id IS NULL = encontrar los que faltan (clientes sin compras, reservas sin pago)."
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "WHERE vs HAVING: what is the rule?",
- "opciones": [
-  "They are interchangeable",
-  "WHERE filters rows before grouping; HAVING filters groups after aggregation",
-  "HAVING is only for dates",
-  "WHERE is deprecated"
- ],
- "correcta": 1,
- "explicacion": "Frase corta y correcta: “WHERE filters rows, HAVING filters groups.” Si te piden un ejemplo: HAVING SUM(amount) > 1000."
-},
-{
- "tema": "SQL en vivo",
- "pregunta": "Why use a CTE (WITH ...) instead of nested subqueries?",
- "opciones": [
-  "It runs 10x faster by magic",
-  "Readability and maintenance: each step has a name, so the logic reads top to bottom and is easier to debug",
-  "CTEs are mandatory",
-  "To impress the interviewer only"
- ],
- "correcta": 1,
- "explicacion": "Decilo como hábito profesional: “I write CTEs so each transformation step is named and testable — the next person can read my logic.”"
-},
-{
- "tema": "Dashboards y KPI",
- "pregunta": "A landing page gets 10,000 visits and 350 people buy. What is the conversion rate?",
- "opciones": [
-  "35%",
-  "3.5%",
-  "0.35%",
-  "350%"
- ],
- "correcta": 1,
- "explicacion": "350 / 10,000 = 3.5%. Las cuentas de marketing que te pueden pedir en vivo son así de directas: practicá decir el cálculo en voz alta."
-},
-{
- "tema": "Dashboards y KPI",
- "pregunta": "What does CTR measure?",
- "opciones": [
-  "Total revenue",
-  "Click-through rate: clicks divided by impressions — how effective an ad or link is at generating clicks",
-  "Cost per client",
-  "Time on page"
- ],
- "correcta": 1,
- "explicacion": "CTR = clicks ÷ impressions. Y su pareja: conversion rate = buyers ÷ visitors. Las dos definiciones, de memoria."
-},
-{
- "tema": "Dashboards y KPI",
- "pregunta": "What makes a metric a vanity metric?",
- "opciones": [
-  "It is green",
-  "It looks good but does not change any decision — for example, total followers when the goal is sales",
-  "It is hard to calculate",
-  "It comes from Excel"
- ],
- "correcta": 1,
- "explicacion": "Tu frase: “I focus on metrics that drive decisions: conversion, revenue and retention — not numbers that only look good in a report.”"
-},
-{
- "tema": "Dashboards y KPI",
- "pregunta": "Who is the audience? Why does that question come BEFORE building a dashboard?",
- "opciones": [
-  "It does not matter",
-  "A manager needs three headline KPIs; an analyst needs detail to drill down. The audience decides the design",
-  "Dashboards are all the same",
-  "Design first, always"
- ],
- "correcta": 1,
- "explicacion": "Experiencia real tuya: tus reportes de ANC cambiaron cuando entendiste quién los leía. Contalo así, con ese ejemplo."
-},
-{
- "tema": "Dashboards y KPI",
- "pregunta": "A funnel shows 1,000 visits → 400 sign-ups → 90 purchases. Where do you investigate first?",
- "opciones": [
-  "The colors",
-  "The biggest drop: sign-ups to purchases loses 310 — that step is where the money leaks",
-  "The visits",
-  "Nothing, it is normal"
- ],
- "correcta": 1,
- "explicacion": "Leer un funnel = buscar la caída más grande. 400 → 90 es una pérdida del 77.5% en el último paso: ahí va la investigación."
-},
-{
- "tema": "Calidad de datos",
- "pregunta": "Before loading data into a report, what three checks do you run?",
- "opciones": [
-  "Open, look, send",
-  "Row counts vs source, nulls in key columns, and duplicates — then spot-check a few values by hand",
-  "Trust the file",
-  "Check the file name"
- ],
- "correcta": 1,
- "explicacion": "Tu rutina real de ANC, en inglés: “I check row counts, nulls in key fields and duplicates before anything reaches a dashboard.”"
-},
-{
- "tema": "Calidad de datos",
- "pregunta": "A stakeholder says: “your dashboard numbers do not match mine.” What do you do first?",
- "opciones": [
-  "Defend your numbers",
-  "Compare definitions and filters calmly: same date range? same status filter? Most mismatches are definition differences, not errors",
-  "Rebuild the dashboard",
-  "Ignore it"
- ],
- "correcta": 1,
- "explicacion": "Respuesta de adulto profesional: primero definiciones, después datos. El 90% de los “errores” son filtros distintos."
-},
-{
- "tema": "Calidad de datos",
- "pregunta": "Why do you reconcile totals against the source system after an automated load?",
- "opciones": [
-  "Boredom",
-  "Automation can fail silently; reconciling totals (rows and sums) proves the load is complete before anyone makes decisions with it",
-  "It is a legal ritual",
-  "To fill time"
- ],
- "correcta": 1,
- "explicacion": "Silent failures son el enemigo de los pipelines. Reconciliar = tu red de seguridad, y conecta con tus error workflows de n8n."
-},
-{
- "tema": "Conductual",
- "pregunta": "“Tell me about a mistake you made.” What makes an answer strong?",
- "opciones": [
-  "“I never make mistakes.”",
-  "A real, small story with the STAR arc: what happened, what you did to fix it, and what you changed so it does not repeat",
-  "Blame a coworker",
-  "A joke"
- ],
- "correcta": 1,
- "explicacion": "La estructura que contrata: error honesto → acción inmediata → aprendizaje permanente (un checklist, una validación). Prepará UNA historia real tuya."
-},
-{
- "tema": "Conductual",
- "pregunta": "“Why do you want to work remotely for a company abroad?” Best angle?",
- "opciones": [
-  "“To work less.”",
-  "Growth and reach: access to bigger teams and tools, full English environment, and you bring LATAM cost-efficiency with US-hours overlap",
-  "“My current job is terrible.”",
-  "“For the dollars only.”"
- ],
- "correcta": 1,
- "explicacion": "Nunca hables mal de ANC: hablá de crecimiento. “I want an international environment where English and automation are the center of the role.”"
-},
-{
- "tema": "Conductual",
- "pregunta": "You do not know a tool the interviewer mentions. What do you say?",
- "opciones": [
-  "Invent a project with it",
-  "Be direct: you have not used it in production, name the closest thing you HAVE used, and say how fast you learned a similar tool before",
-  "Stay silent",
-  "Change the topic"
- ],
- "correcta": 1,
- "explicacion": "Tu patrón ya probado en postulaciones: brecha declarada + experiencia adyacente + velocidad de aprendizaje demostrada (Power BI y n8n los aprendiste trabajando)."
-},
-{
- "tema": "Conductual",
- "pregunta": "“Tell me about a time you automated something.” Your best story?",
- "opciones": [
-  "A made-up story",
-  "Your real one: ANC reports took 2 hours by hand; you automated them with Python, VBA and templates down to 15 minutes, removing 10+ manual hours every week",
-  "A story from a course",
-  "Something tiny"
- ],
- "correcta": 1,
- "explicacion": "Es tu historia estrella: números, herramientas y resultado. La decís en STAR: situación (2 horas manuales), tarea, acción (scripts + macros), resultado (15 minutos)."
-},
-{
- "tema": "Cierre y logística",
- "pregunta": "The interviewer asks: “Do you have any questions for us?” You say…",
- "opciones": [
-  "“No, all clear.”",
-  "Yes: ask about the team, the data stack, what success looks like in the first 90 days, and the working hours",
-  "“How much is the salary?” (only)",
-  "“When do I start?”"
- ],
- "correcta": 1,
- "explicacion": "Preguntar bien te sube puntos: equipo, stack, éxito a 90 días y horario. El horario además TE importa como contratista: es tu pregunta clave."
-},
-{
- "tema": "Cierre y logística",
- "pregunta": "They ask about your rate expectation. Your line?",
- "opciones": [
-  "“Whatever you offer.”",
-  "“I put eleven dollars as my expectation, and I am flexible within eleven to thirteen depending on the hours and the scope.”",
-  "“Twenty or nothing.”",
-  "“Let me think for a week.”"
- ],
- "correcta": 1,
- "explicacion": "Tu línea ya decidida: no renegociás el 11 que escribiste; dejás la banda 11–13 abierta según horas y alcance. La negociación real es en la oferta."
-},
-{
- "tema": "Cierre y logística",
- "pregunta": "“When could you start?” — the professional answer without overcommitting:",
- "opciones": [
-  "“Tomorrow, no problem.” (without knowing)",
-  "“I want to leave my current role professionally, with a proper handover; once we agree, I can confirm my exact start date.”",
-  "“In six months.”",
-  "“Whenever.”"
- ],
- "correcta": 1,
- "explicacion": "Salida profesional y segura: compromiso con una transición ordenada y fecha exacta al acordar — no prometés una fecha que no decidiste."
-},
-{
- "tema": "Cierre y logística",
- "pregunta": "What is your greatest weakness? The strong, honest format:",
- "opciones": [
-  "“I am a perfectionist.”",
-  "A real one with your countermeasure: “BigQuery is new for me in production, so I am actively studying its differences from MySQL and practicing queries before starting.”",
-  "“I have none.”",
-  "Something dramatic"
- ],
- "correcta": 1,
- "explicacion": "Debilidad real + plan activo = madurez. Tu brecha de BigQuery, dicha así, suma en vez de restar."
-},
-{
- "tema": "Inglés bajo presión",
- "pregunta": "You do not understand a question in the interview. The rescue phrase?",
- "opciones": [
-  "Silence",
-  "“Sorry, could you rephrase that, please?” — or “Just to make sure I understood: are you asking about…?”",
-  "“Yes.” (without understanding)",
-  "Laugh and move on"
- ],
- "correcta": 1,
- "explicacion": "Pedir que reformulen es profesional, no debilidad. La segunda variante — repetir lo que entendiste — además demuestra escucha activa."
-},
-{
- "tema": "Inglés bajo presión",
- "pregunta": "The call freezes mid-answer. What do you do?",
- "opciones": [
-  "Keep talking to nobody",
-  "Reconnect calmly and say: “Sorry, the call froze — I was saying that…” and continue from your last complete idea",
-  "End the interview",
-  "Blame the company internet"
- ],
- "correcta": 1,
- "explicacion": "Los fallos técnicos en remoto son normales: lo que evalúan es tu calma. Tené el Zoom probado y esta frase lista."
-}
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "In n8n, your workflow fails at 2 a.m. and nobody notices until morning. What is the professional fix?",
+  "opciones": [
+   "Run it manually every day",
+   "An Error Workflow that catches failures and sends you an alert (email or Telegram) with the execution details",
+   "Delete the failing node",
+   "Hope it does not fail again"
+  ],
+  "correcta": 1,
+  "explicacion": "Los pipelines serios se vigilan solos. Decilo: “I always attach an error workflow that notifies me, so failures are visible the moment they happen, not the next day.”"
+ },
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "What is the difference between a Webhook trigger and a Schedule trigger in n8n?",
+  "opciones": [
+   "There is no difference",
+   "A webhook reacts to an external event in real time; a schedule runs at fixed times",
+   "The webhook is only for emails",
+   "The schedule is faster"
+  ],
+  "correcta": 1,
+  "explicacion": "Evento vs reloj. Tu ejemplo real: en ANC tus procesos corren por horario; un webhook sería, por ejemplo, que cada reserva nueva dispare el flujo al instante."
+ },
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "A node receives 500 items and you need to call an API for each one. What should you watch out for?",
+  "opciones": [
+   "Nothing, n8n is infinite",
+   "Rate limits and execution time: process in batches or loop with pauses so the API does not block you",
+   "Rename the workflow",
+   "Use more colors in the canvas"
+  ],
+  "correcta": 1,
+  "explicacion": "Decilo con tus palabras: “I process items in batches and respect the API rate limits, so the workflow is stable instead of fast and fragile.”"
+ },
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "Where do API keys and passwords live inside an n8n workflow?",
+  "opciones": [
+   "Hard-coded in a Set node",
+   "In the credentials store, referenced by the node — never written in plain text inside the flow",
+   "In the workflow name",
+   "In a sticky note"
+  ],
+  "correcta": 1,
+  "explicacion": "Seguridad básica que un entrevistador valora: credenciales cifradas y referenciadas, jamás pegadas en el canvas."
+ },
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "How do you debug a workflow that produces wrong data but no error?",
+  "opciones": [
+   "Rebuild everything",
+   "Check the execution history node by node and compare input vs output items until the transformation that breaks the data appears",
+   "Turn it off and on",
+   "Ask the client to check"
+  ],
+  "correcta": 1,
+  "explicacion": "Método, no magia: ejecuciones pasadas → ítems de entrada y salida por nodo. Es el mismo instinto que usás depurando un pandas raro."
+ },
+ {
+  "tema": "n8n deep dive",
+  "pregunta": "Your workflow sometimes processes the same record twice. What concept fixes that?",
+  "opciones": [
+   "Idempotency: design each run so repeating it does not duplicate the result (unique keys, upserts, checks before insert)",
+   "A faster server",
+   "More nodes",
+   "Luck"
+  ],
+  "correcta": 0,
+  "explicacion": "Palabra de entrevista: idempotency. Si el flujo corre dos veces, el resultado debe ser el mismo. Decila y explicala con un ejemplo simple."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "Why do BigQuery tables get partitioned by date?",
+  "opciones": [
+   "To look organized",
+   "Queries that filter by date scan only the needed partitions, so they are faster and cheaper",
+   "To change the colors",
+   "Partitioning is only visual"
+  ],
+  "correcta": 1,
+  "explicacion": "Costo y velocidad: BigQuery cobra por datos escaneados. Filtrar por la partición = escanear menos = pagar menos."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "In BigQuery, what does SELECT * cost you on a huge table?",
+  "opciones": [
+   "Nothing extra",
+   "You pay for every column scanned — selecting only the columns you need is a basic cost habit",
+   "Double storage",
+   "It deletes data"
+  ],
+  "correcta": 1,
+  "explicacion": "Frase lista: “I avoid SELECT star on big tables; I select only the columns the analysis needs, because BigQuery charges for data scanned.”"
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "A column contains an ARRAY of values (for example, tags per client). How do you analyze its elements in BigQuery?",
+  "opciones": [
+   "It is impossible",
+   "UNNEST turns each array element into its own row so you can filter and aggregate",
+   "With a screenshot",
+   "Export to Paint"
+  ],
+  "correcta": 1,
+  "explicacion": "UNNEST es LA diferencia famosa de BigQuery frente a MySQL. Nombrala aunque sea a nivel conceptual: es exactamente lo que un entrevistador quiere oír de alguien que viene de MySQL."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "What is the honest, strong way to present your BigQuery level?",
+  "opciones": [
+   "“I am a BigQuery expert.”",
+   "“My SQL is MySQL and MariaDB in production. The logic transfers directly; in BigQuery I already know the key differences — backticks for full table paths, LIMIT, DATE_DIFF with the end date first, and partitioning for cost.”",
+   "“SQL is SQL, there are no differences.”",
+   "Avoid the topic"
+  ],
+  "correcta": 1,
+  "explicacion": "Honestidad + conocimiento concreto de las diferencias = la respuesta que contrata. Nunca digás experto: decí la verdad con detalle."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "BigQuery: what does DATE_DIFF(ending, start, DAY) return?",
+  "opciones": [
+   "An error",
+   "The number of days between the two dates — note the END date goes first, the opposite of MySQL DATEDIFF",
+   "A string",
+   "The month only"
+  ],
+  "correcta": 1,
+  "explicacion": "Detalle que delata práctica real: DATE_DIFF(end, start, DAY). En MySQL era DATEDIFF(end, start) sin la unidad."
+ },
+ {
+  "tema": "BigQuery",
+  "pregunta": "Why would a company keep marketing data in BigQuery instead of spreadsheets?",
+  "opciones": [
+   "Spreadsheets crash with volume; BigQuery handles millions of rows, connects to dashboards, and many people can query the same source of truth",
+   "Spreadsheets are illegal",
+   "BigQuery has better colors",
+   "No reason"
+  ],
+  "correcta": 0,
+  "explicacion": "Tu puente perfecto: “At ANC I hit the limits of Excel files; that is exactly the problem BigQuery solves — one source of truth at scale.”"
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "RANK() vs ROW_NUMBER(): what is the difference?",
+  "opciones": [
+   "No difference",
+   "ROW_NUMBER always gives unique consecutive numbers; RANK ties share the same rank and the next rank skips",
+   "RANK is slower by law",
+   "ROW_NUMBER is only for dates"
+  ],
+  "correcta": 1,
+  "explicacion": "Ejemplo rápido para decir: dos clientes empatados en el puesto 1 → RANK da 1,1,3; ROW_NUMBER da 1,2,3."
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "How do you compare this month's sales with last month's in one query?",
+  "opciones": [
+   "Two separate queries and a calculator",
+   "Aggregate by month and use LAG() over the monthly column to bring the previous month's value onto the same row",
+   "ORDER BY only",
+   "A pivot table screenshot"
+  ],
+  "correcta": 1,
+  "explicacion": "LAG() es la ventana estrella para comparaciones de período: “I use LAG to compare each month with the previous one inside the same query.”"
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "A table has duplicate client rows. How do you keep only the newest one per client?",
+  "opciones": [
+   "DELETE everything",
+   "ROW_NUMBER() OVER (PARTITION BY client ORDER BY date DESC) and keep the rows where it equals 1",
+   "GROUP BY and pray",
+   "Copy the table"
+  ],
+  "correcta": 1,
+  "explicacion": "La receta de deduplicación que todo analista debe tener de memoria: particionar por cliente, ordenar por fecha, quedarse con el 1."
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "LEFT JOIN: when do rows from the left table appear with NULLs on the right?",
+  "opciones": [
+   "Never",
+   "When there is no matching row in the right table — that is exactly how you find, for example, clients with no purchases",
+   "When the query is wrong",
+   "Only on Fridays"
+  ],
+  "correcta": 1,
+  "explicacion": "Truco de entrevista: LEFT JOIN + WHERE right.id IS NULL = encontrar los que faltan (clientes sin compras, reservas sin pago)."
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "WHERE vs HAVING: what is the rule?",
+  "opciones": [
+   "They are interchangeable",
+   "WHERE filters rows before grouping; HAVING filters groups after aggregation",
+   "HAVING is only for dates",
+   "WHERE is deprecated"
+  ],
+  "correcta": 1,
+  "explicacion": "Frase corta y correcta: “WHERE filters rows, HAVING filters groups.” Si te piden un ejemplo: HAVING SUM(amount) > 1000."
+ },
+ {
+  "tema": "Live SQL",
+  "pregunta": "Why use a CTE (WITH ...) instead of nested subqueries?",
+  "opciones": [
+   "It runs 10x faster by magic",
+   "Readability and maintenance: each step has a name, so the logic reads top to bottom and is easier to debug",
+   "CTEs are mandatory",
+   "To impress the interviewer only"
+  ],
+  "correcta": 1,
+  "explicacion": "Decilo como hábito profesional: “I write CTEs so each transformation step is named and testable — the next person can read my logic.”"
+ },
+ {
+  "tema": "Dashboards & KPIs",
+  "pregunta": "A landing page gets 10,000 visits and 350 people buy. What is the conversion rate?",
+  "opciones": [
+   "35%",
+   "3.5%",
+   "0.35%",
+   "350%"
+  ],
+  "correcta": 1,
+  "explicacion": "350 / 10,000 = 3.5%. Las cuentas de marketing que te pueden pedir en vivo son así de directas: practicá decir el cálculo en voz alta."
+ },
+ {
+  "tema": "Dashboards & KPIs",
+  "pregunta": "What does CTR measure?",
+  "opciones": [
+   "Total revenue",
+   "Click-through rate: clicks divided by impressions — how effective an ad or link is at generating clicks",
+   "Cost per client",
+   "Time on page"
+  ],
+  "correcta": 1,
+  "explicacion": "CTR = clicks ÷ impressions. Y su pareja: conversion rate = buyers ÷ visitors. Las dos definiciones, de memoria."
+ },
+ {
+  "tema": "Dashboards & KPIs",
+  "pregunta": "What makes a metric a vanity metric?",
+  "opciones": [
+   "It is green",
+   "It looks good but does not change any decision — for example, total followers when the goal is sales",
+   "It is hard to calculate",
+   "It comes from Excel"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu frase: “I focus on metrics that drive decisions: conversion, revenue and retention — not numbers that only look good in a report.”"
+ },
+ {
+  "tema": "Dashboards & KPIs",
+  "pregunta": "Who is the audience? Why does that question come BEFORE building a dashboard?",
+  "opciones": [
+   "It does not matter",
+   "A manager needs three headline KPIs; an analyst needs detail to drill down. The audience decides the design",
+   "Dashboards are all the same",
+   "Design first, always"
+  ],
+  "correcta": 1,
+  "explicacion": "Experiencia real tuya: tus reportes de ANC cambiaron cuando entendiste quién los leía. Contalo así, con ese ejemplo."
+ },
+ {
+  "tema": "Dashboards & KPIs",
+  "pregunta": "A funnel shows 1,000 visits → 400 sign-ups → 90 purchases. Where do you investigate first?",
+  "opciones": [
+   "The colors",
+   "The biggest drop: sign-ups to purchases loses 310 — that step is where the money leaks",
+   "The visits",
+   "Nothing, it is normal"
+  ],
+  "correcta": 1,
+  "explicacion": "Leer un funnel = buscar la caída más grande. 400 → 90 es una pérdida del 77.5% en el último paso: ahí va la investigación."
+ },
+ {
+  "tema": "Data quality",
+  "pregunta": "Before loading data into a report, what three checks do you run?",
+  "opciones": [
+   "Open, look, send",
+   "Row counts vs source, nulls in key columns, and duplicates — then spot-check a few values by hand",
+   "Trust the file",
+   "Check the file name"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu rutina real de ANC, en inglés: “I check row counts, nulls in key fields and duplicates before anything reaches a dashboard.”"
+ },
+ {
+  "tema": "Data quality",
+  "pregunta": "A stakeholder says: “your dashboard numbers do not match mine.” What do you do first?",
+  "opciones": [
+   "Defend your numbers",
+   "Compare definitions and filters calmly: same date range? same status filter? Most mismatches are definition differences, not errors",
+   "Rebuild the dashboard",
+   "Ignore it"
+  ],
+  "correcta": 1,
+  "explicacion": "Respuesta de adulto profesional: primero definiciones, después datos. El 90% de los “errores” son filtros distintos."
+ },
+ {
+  "tema": "Data quality",
+  "pregunta": "Why do you reconcile totals against the source system after an automated load?",
+  "opciones": [
+   "Boredom",
+   "Automation can fail silently; reconciling totals (rows and sums) proves the load is complete before anyone makes decisions with it",
+   "It is a legal ritual",
+   "To fill time"
+  ],
+  "correcta": 1,
+  "explicacion": "Silent failures son el enemigo de los pipelines. Reconciliar = tu red de seguridad, y conecta con tus error workflows de n8n."
+ },
+ {
+  "tema": "Behavioral",
+  "pregunta": "“Tell me about a mistake you made.” What makes an answer strong?",
+  "opciones": [
+   "“I never make mistakes.”",
+   "A real, small story with the STAR arc: what happened, what you did to fix it, and what you changed so it does not repeat",
+   "Blame a coworker",
+   "A joke"
+  ],
+  "correcta": 1,
+  "explicacion": "La estructura que contrata: error honesto → acción inmediata → aprendizaje permanente (un checklist, una validación). Prepará UNA historia real tuya."
+ },
+ {
+  "tema": "Behavioral",
+  "pregunta": "“Why do you want to work remotely for a company abroad?” Best angle?",
+  "opciones": [
+   "“To work less.”",
+   "Growth and reach: access to bigger teams and tools, full English environment, and you bring LATAM cost-efficiency with US-hours overlap",
+   "“My current job is terrible.”",
+   "“For the dollars only.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Nunca hables mal de ANC: hablá de crecimiento. “I want an international environment where English and automation are the center of the role.”"
+ },
+ {
+  "tema": "Behavioral",
+  "pregunta": "You do not know a tool the interviewer mentions. What do you say?",
+  "opciones": [
+   "Invent a project with it",
+   "Be direct: you have not used it in production, name the closest thing you HAVE used, and say how fast you learned a similar tool before",
+   "Stay silent",
+   "Change the topic"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu patrón ya probado en postulaciones: brecha declarada + experiencia adyacente + velocidad de aprendizaje demostrada (Power BI y n8n los aprendiste trabajando)."
+ },
+ {
+  "tema": "Behavioral",
+  "pregunta": "“Tell me about a time you automated something.” Your best story?",
+  "opciones": [
+   "A made-up story",
+   "Your real one: ANC reports took 2 hours by hand; you automated them with Python, VBA and templates down to 15 minutes, removing 10+ manual hours every week",
+   "A story from a course",
+   "Something tiny"
+  ],
+  "correcta": 1,
+  "explicacion": "Es tu historia estrella: números, herramientas y resultado. La decís en STAR: situación (2 horas manuales), tarea, acción (scripts + macros), resultado (15 minutos)."
+ },
+ {
+  "tema": "Closing & logistics",
+  "pregunta": "The interviewer asks: “Do you have any questions for us?” You say…",
+  "opciones": [
+   "“No, all clear.”",
+   "Yes: ask about the team, the data stack, what success looks like in the first 90 days, and the working hours",
+   "“How much is the salary?” (only)",
+   "“When do I start?”"
+  ],
+  "correcta": 1,
+  "explicacion": "Preguntar bien te sube puntos: equipo, stack, éxito a 90 días y horario. El horario además TE importa como contratista: es tu pregunta clave."
+ },
+ {
+  "tema": "Closing & logistics",
+  "pregunta": "They ask about your rate expectation. Your line?",
+  "opciones": [
+   "“Whatever you offer.”",
+   "“I put eleven dollars as my expectation, and I am flexible within eleven to thirteen depending on the hours and the scope.”",
+   "“Twenty or nothing.”",
+   "“Let me think for a week.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Tu línea ya decidida: no renegociás el 11 que escribiste; dejás la banda 11–13 abierta según horas y alcance. La negociación real es en la oferta."
+ },
+ {
+  "tema": "Closing & logistics",
+  "pregunta": "“When could you start?” — the professional answer without overcommitting:",
+  "opciones": [
+   "“Tomorrow, no problem.” (without knowing)",
+   "“I want to leave my current role professionally, with a proper handover; once we agree, I can confirm my exact start date.”",
+   "“In six months.”",
+   "“Whenever.”"
+  ],
+  "correcta": 1,
+  "explicacion": "Salida profesional y segura: compromiso con una transición ordenada y fecha exacta al acordar — no prometés una fecha que no decidiste."
+ },
+ {
+  "tema": "Closing & logistics",
+  "pregunta": "What is your greatest weakness? The strong, honest format:",
+  "opciones": [
+   "“I am a perfectionist.”",
+   "A real one with your countermeasure: “BigQuery is new for me in production, so I am actively studying its differences from MySQL and practicing queries before starting.”",
+   "“I have none.”",
+   "Something dramatic"
+  ],
+  "correcta": 1,
+  "explicacion": "Debilidad real + plan activo = madurez. Tu brecha de BigQuery, dicha así, suma en vez de restar."
+ },
+ {
+  "tema": "English under pressure",
+  "pregunta": "You do not understand a question in the interview. The rescue phrase?",
+  "opciones": [
+   "Silence",
+   "“Sorry, could you rephrase that, please?” — or “Just to make sure I understood: are you asking about…?”",
+   "“Yes.” (without understanding)",
+   "Laugh and move on"
+  ],
+  "correcta": 1,
+  "explicacion": "Pedir que reformulen es profesional, no debilidad. La segunda variante — repetir lo que entendiste — además demuestra escucha activa."
+ },
+ {
+  "tema": "English under pressure",
+  "pregunta": "The call freezes mid-answer. What do you do?",
+  "opciones": [
+   "Keep talking to nobody",
+   "Reconnect calmly and say: “Sorry, the call froze — I was saying that…” and continue from your last complete idea",
+   "End the interview",
+   "Blame the company internet"
+  ],
+  "correcta": 1,
+  "explicacion": "Los fallos técnicos en remoto son normales: lo que evalúan es tu calma. Tené el Zoom probado y esta frase lista."
+ }
 ];
