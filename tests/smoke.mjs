@@ -163,7 +163,7 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.97: APP_VERSION y caché', html.includes('const APP_VERSION = "5.97"') && /odea-v5\.97-20261107-quizen/.test(sw));
+check('v5.98: APP_VERSION y caché', html.includes('const APP_VERSION = "5.98"') && /odea-v5\.98-20261107-fixsave/.test(sw));
 check('v5.96: Quiz Farmeo dentro del evento (botón en el panel, recompensas derivadas con tope diario, banco ampliado)',
   html.includes('id="farm-layer"') && html.includes('id="event-farm-btn"') && !html.includes('id="side-farm"') && html.includes('function farmXPGain()') &&
   html.includes('function farmCoinsEarned()') && html.includes('FARM_DAY_CAP = 40') && html.includes('evento, farm') &&
@@ -171,6 +171,9 @@ check('v5.96: Quiz Farmeo dentro del evento (botón en el panel, recompensas der
 check('v5.97: banco del quiz en inglés (preguntas y opciones de ambos mazos)',
   readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').includes('What is the main role of the Support Analyst position?') &&
   !readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').includes('¿Cuál es el rol principal'));
+check('v5.98: loadGame restaura eventRL, farm y canje (fix de persistencia)',
+  (() => { const i = html.indexOf('function loadGame()'); const lg = html.slice(i, i + 24000);
+    return lg.includes('data.eventRL') && lg.includes('data.farm') && lg.includes('data.canje'); })());
 check('v5.95: MODO INTENSIVO (preparación abierta, jefe final el lunes) y logo desde APP_VERSION',
   html.includes('MODO INTENSIVO') && html.includes('m.kind === "final") return t >= m.day') &&
   html.includes('getElementById("ver-logo")') && html.includes('"APP DE VIDA · v" + APP_VERSION'));
