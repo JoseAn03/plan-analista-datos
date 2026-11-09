@@ -973,44 +973,6 @@ html{-webkit-text-size-adjust:100%}
 .shop-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px;line-height:1.5}
 .shop-sub b{color:#fff}
 .shop-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-#event-layer{display:none;position:fixed;inset:0;z-index:1200;background:rgba(2,6,16,.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:18px 10px}
-#event-layer.show{display:flex}
-.ev-bar-wrap{height:12px;border:1px solid rgba(0,255,170,.4);border-radius:7px;overflow:hidden;margin:10px 0 4px;background:rgba(0,0,0,.35)}
-.ev-bar{height:100%;width:0;background:linear-gradient(90deg,#00ffaa,#ffd700);transition:width .4s}
-.ev-farm-btn{display:block;width:100%;margin:10px 0 2px;padding:11px 12px;border:1px solid rgba(255,215,0,.55);border-radius:10px;background:linear-gradient(180deg,rgba(255,215,0,.16),rgba(255,140,0,.10));color:#ffe98a;font-family:'Orbitron',sans-serif;font-size:.9rem;cursor:pointer;text-align:center}
-.ev-farm-btn .ev-farm-sub{display:block;margin-top:4px;font-family:inherit;font-size:.76rem;color:#cfd8dc;letter-spacing:.02em}
-.ev-farm-btn:active{transform:scale(.99)}
-.ev-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
-.ev-item{border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.03)}
-.ev-item.done{border-color:rgba(0,255,170,.55);background:rgba(0,255,170,.06)}
-.ev-item.locked{opacity:.45}
-.ev-item.final{border-color:rgba(255,215,0,.65);background:rgba(255,215,0,.06)}
-.ev-top{display:flex;align-items:center;gap:8px}
-.ev-ico{font-size:1.25rem}
-.ev-name{flex:1;font-weight:700;font-size:.92rem}
-.ev-day{font-size:.68rem;letter-spacing:.06em;color:var(--glow-cyan,#00ccff);border:1px solid rgba(0,204,255,.4);padding:2px 7px;border-radius:20px}
-.ev-reward{font-size:.78rem;color:#ffd700;white-space:nowrap}
-.ev-desc{font-size:.8rem;opacity:.85;margin-top:3px}
-.ev-item details{margin-top:6px;font-size:.82rem}
-.ev-item summary{cursor:pointer;color:var(--glow-green);font-weight:700;font-size:.8rem}
-.ev-brief{margin-top:5px;line-height:1.5;opacity:.92}
-.ev-btn{margin-top:8px}
-.ev-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
-.ev-phrases{margin-top:14px;border-top:1px solid rgba(255,215,0,.25);padding-top:10px;font-size:.84rem;line-height:1.6}
-#farm-layer{position:fixed;inset:0;z-index:1300;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,12,.72);backdrop-filter:blur(3px);overflow-y:auto;padding:18px 10px}
-#farm-layer.show{display:flex}
-.fm-prog{height:8px;border:1px solid rgba(0,204,255,.35);border-radius:99px;overflow:hidden;margin:8px 0 12px}
-.fm-prog>span{display:block;height:100%;background:linear-gradient(90deg,#00ccff,#00ff88)}
-.fm-q{font-size:1rem;line-height:1.5;margin-bottom:10px}
-.fm-tema{display:inline-block;font-size:.68rem;font-weight:900;letter-spacing:.08em;color:#8be9d9;border:1px solid rgba(0,204,255,.4);border-radius:99px;padding:2px 8px;margin-bottom:8px}
-.fm-opt{display:block;width:100%;text-align:left;margin-bottom:8px;padding:11px 13px;border-radius:12px;border:1px solid rgba(0,204,255,.35);background:rgba(0,204,255,.06);color:#eafff5;font:inherit;font-size:.92rem;cursor:pointer}
-.fm-opt.ok{border-color:#00ff88;background:rgba(0,255,136,.14)}
-.fm-opt.bad{border-color:#ff5577;background:rgba(255,85,119,.12)}
-.fm-opt:disabled{cursor:default;opacity:.92}
-.fm-expl{border:1px dashed rgba(255,209,102,.5);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.6;margin:10px 0}
-.fm-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.fm-chip{border:1px solid rgba(0,204,255,.35);border-radius:10px;padding:7px 10px;font-size:.82rem;background:rgba(0,204,255,.05)}
-.ev-phrases h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.9rem;margin:0 0 5px}
 .canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
 .canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
 .shop-item.canje-item{position:relative}
@@ -2249,7 +2211,6 @@ body.perf-low .hub-wrap,body.perf-low .world-scroll{box-shadow:none!important}
 <link rel="stylesheet" href="./assets/odea-ui-v7.css?v=9c">
 <link rel="stylesheet" href="./assets/odea-juice.css?v=1">
 <link rel="stylesheet" href="./assets/odea-anomalias.css?v=2">
-<link rel="stylesheet" href="./assets/odea-quiz.css?v=1">
 <link rel="stylesheet" href="./assets/odea-jefe.css?v=1">
 <link rel="stylesheet" href="./assets/odea-tesoro.css?v=1">
 <link rel="stylesheet" href="./assets/odea-hub.css?v=1">
@@ -2760,7 +2721,6 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
-  <button class="side-inv event" id="side-event" type="button" aria-label="Abrir evento Rumbo a la Entrevista">🎙️ EVENTO ENTREVISTA<em class="coin-badge" id="event-badge">…</em></button>
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
@@ -3063,43 +3023,6 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   </div>
 </div>
 
-
-<div id="farm-layer">
-  <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="farm-title">
-    <div class="shop-head">
-      <h3 id="farm-title">🧠 QUIZ FARMEO · ENTREVISTA</h3>
-    </div>
-    <p class="shop-sub">Rondas de <b>10 preguntas</b> de entrevista, <b>sin límite de rondas</b>: farmeá ⭐ XP y 🪙 monedas mientras practicás. Cada acierto paga <b>⭐ +2 XP</b> y cada <b>4 aciertos, 🪙 +1 moneda</b> (tope de recompensas: 40 aciertos/día = 80 XP y 10 🪙; alcanzado el tope, seguís practicando sin paga hasta mañana). Banco: <span id="farm-pool-n">…</span> preguntas de tu experiencia real.</p>
-    <div id="farm-body"></div>
-    <button class="btn-neon shop-back" id="farm-close2" aria-label="Volver">◀ VOLVER</button>
-  </div>
-</div>
-
-<div id="event-layer">
-  <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="event-title">
-    <div class="shop-head">
-      <h2 id="event-title">🎙️ EVENTO: RUMBO A LA ENTREVISTA</h2>
-      <button class="close-x" id="event-close" aria-label="Cerrar evento">✕</button>
-    </div>
-    <p class="shop-sub">Evento especial hasta el <b>lunes 9 de noviembre</b>: tu entrevista con <b>Remote Leverage</b> (10:40 a. m., Zoom, en inglés). Cada misión te enseña algo y paga <b>XP y monedas reales</b>. <b>🔥 MODO INTENSIVO: todas las misiones de preparación están abiertas desde ya</b> — el día de cada una es la ruta sugerida, vos ponés el ritmo. Al final del camino espera el jefe: 👹 <b>LA ENTREVISTA</b>.</p>
-    <div class="shop-stats">
-      <span class="bal-pill" id="event-countdown">⏳ …</span>
-      <span class="bal-pill">⭐ Evento: <b id="event-xp">0</b> XP · 🪙 <b id="event-coins">0</b></span>
-    </div>
-    <div class="ev-bar-wrap"><div class="ev-bar" id="event-bar"></div></div>
-    <button class="ev-farm-btn" id="event-farm-btn" type="button" aria-label="Abrir Quiz Farmeo de entrevista">🧠 QUIZ FARMEO · RONDAS SIN LÍMITE<em class="coin-badge" id="farm-badge"></em><span class="ev-farm-sub">Cada ronda: 7 de entrevista + 3 generales · +2 XP por acierto · tope diario 80 XP / 🪙 10</span></button>
-    <div class="ev-list" id="event-missions"></div>
-    <div class="ev-phrases">
-      <h3>🗣️ Frases que tenés que dominar</h3>
-      <p><b>“I am in charge of validating the data.”</b> — Me encargo de validar los datos.<br>
-      <b>“The workflow runs on a schedule.”</b> — El flujo corre con horario programado.<br>
-      <b>“I check the execution log, node by node.”</b> — Reviso el registro de ejecución, nodo por nodo.<br>
-      <b>“Sorry, could you repeat that, please?”</b> — Perdón, ¿podría repetirlo, por favor?<br>
-      <b>“Five hundred plus reservations a day.”</b> — Más de 500 reservaciones al día.</p>
-    </div>
-    <button class="btn-neon shop-back" id="event-close2" aria-label="Volver">◀ VOLVER</button>
-  </div>
-</div>
 
 <div id="focus-layer">
   <div class="focus-modal" role="dialog" aria-modal="true" aria-labelledby="focus-title">
@@ -4152,7 +4075,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.98"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "5.99"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -12434,305 +12357,15 @@ function canjeDel(id) {
   const add = document.getElementById("canje-add");
   if (add) add.addEventListener("click", canjeAdd);
 })();
-/* --- 🎙️ v5.94 EVENTO Rumbo a la Entrevista (Remote Leverage, 5–9 nov) ---
-   Misiones con la lección DENTRO (briefing). Recompensas reales: el log
-   gameState.eventRL alimenta eventXPGain/eventCoinsEarned (patrón Cacería).
-   Ventana: misiones desde su día y hasta el 2026-11-09; el jefe final se
-   puede reclamar también el 2026-11-10 (gracia). Después: solo resumen. */
-const EVENT_END = "2026-11-09";
-const EVENT_FINAL_GRACE = "2026-11-10";
-const EVENT_MISSIONS = [
-  { id: "ev_n8n", day: "2026-11-05", ico: "🎙️", kind: "once",
-    t: "Tu historia de n8n, en voz alta",
-    d: "Contala 3 veces grabándote hasta que salga sin leer.",
-    briefing: "Tu diferenciador #1. Estructura: problema → construcción → antes → ahora.<br><b>“At ANC, I use n8n to automate data workflows. I built a pipeline that pulls reservation data automatically, cleans it, and feeds my reports. Before, that process was manual and took about two hours. Now it takes fifteen minutes.”</b><br>Si piden detalle: <b>“If something fails, I check the execution log node by node.”</b>",
-    xp: 15, coins: 3 },
-  { id: "ev_bq", day: "2026-11-05", ico: "🐘", kind: "once",
-    t: "BigQuery: las 3 diferencias + sandbox",
-    d: "Aprendé las diferencias con tu MySQL y corré 5 consultas en el sandbox gratis de BigQuery.",
-    briefing: "Las 3 diferencias: <b>1)</b> Tablas con backticks: `proyecto.dataset.tabla`. <b>2)</b> Nada de TOP: se usa LIMIT, igual que en MySQL. <b>3)</b> Fechas: DATE_DIFF(fin, inicio, DAY) y EXTRACT(YEAR FROM fecha).<br>Tu frase honesta: <b>“My daily SQL is MySQL and MariaDB. I have not used BigQuery in production yet, but I have been practicing in the sandbox — the logic transfers.”</b>",
-    xp: 20, coins: 4 },
-  { id: "ev_nums", day: "2026-11-06", ico: "🔢", kind: "once",
-    t: "Tus números en inglés",
-    d: "Practicá tus 4 números hasta decirlos sin pensar.",
-    briefing: "<b>“More than five hundred reservations every day.”</b> (500+ al día)<br><b>“From two hours down to fifteen minutes.”</b> (reportes)<br><b>“More than ten manual hours a week, eliminated.”</b> (automatización)<br><b>“Satisfaction KPIs over ninety-five percent.”</b> (>95%)<br>Los números son tu credibilidad: quien da cifras, trabajó de verdad.",
-    xp: 10, coins: 2 },
-  { id: "ev_star", day: "2026-11-06", ico: "⭐", kind: "once",
-    t: "Tu historia STAR de troubleshooting",
-    d: "Armá y practicá tu historia de un problema real que resolviste.",
-    briefing: "STAR: <b>S</b>ituación → <b>T</b>area → <b>A</b>cción → <b>R</b>esultado. Tu material: en Dokka resolvías casos de clientes bajo KPIs (handle time, service level); en ANC, cuando un número se ve mal: <b>“First I check the source data and the filters, I reproduce the issue, and then I trace the pipeline step by step.”</b> Método, no pánico.",
-    xp: 15, coins: 3 },
-  { id: "ev_rate", day: "2026-11-06", ico: "💲", kind: "once",
-    t: "Línea de tarifa y preguntas para ellos",
-    d: "Memorizá tu línea de tarifa y tus 3 preguntas de cierre.",
-    briefing: "Tarifa (sin renegociar el 11 que ya escribiste): <b>“I put eleven dollars as my expectation; I am flexible within eleven to thirteen, depending on the hours and the scope.”</b><br>Tus preguntas: <b>1)</b> “How many hours per week is the contract?” <b>2)</b> “What does a typical week look like for this role?” <b>3)</b> “What are the next steps?” Tener preguntas = interés real.",
-    xp: 10, coins: 2 },
-  { id: "ev_mock1", day: "2026-11-07", ico: "🎤", kind: "once",
-    t: "Mock interview #1 con Astra (20 min)",
-    d: "Pedime por chat: «Astra, mock interview». Todo en inglés, como la real.",
-    briefing: "El ensayo que más cuenta. Preparate: cámara encendida, temporizador de 20 minutos, tus números a mano. Yo hago de entrevistador de Remote Leverage: presentación, n8n, BigQuery, STAR y cierre. Al final te doy notas honestas, sin maquillaje.",
-    xp: 30, coins: 6 },
-  { id: "ev_phrases", day: "2026-11-08", ico: "🗣️", kind: "once",
-    t: "Frases difíciles en voz alta",
-    d: "Repetí cada frase 5 veces: scheduled, troubleshoot, workflow…",
-    briefing: "Las que más traban: <b>scheduled</b> («ské-chuld»), <b>troubleshoot</b> («tróbl-shut»), <b>throughout</b> no — mejor estas útiles: <b>“I am in charge of…”</b>, <b>“Could you repeat that, please?”</b>, <b>“Let me think for a second…”</b> (ganás tiempo sin quedarte en blanco).<br>Regla de oro: si no entendés, pedí que repitan. Es profesional, no debilidad.",
-    xp: 10, coins: 2 },
-  { id: "ev_mock2", day: "2026-11-08", ico: "🎤", kind: "once",
-    t: "Mock corto #2 + logística lista",
-    d: "Repaso breve con Astra y checklist de Zoom cerrado.",
-    briefing: "Checklist: Zoom probado (audio y cámara) · audífonos cargados · notas con tus números visibles · agua a mano · entrar 5 minutos antes (10:35 a. m.).<br>Pendiente tuyo: decidir tu frase de disponibilidad si preguntan cuándo podrías empezar (aviso en ANC). Pensala hoy, no en vivo.",
-    xp: 25, coins: 5 },
-  { id: "ev_warm", day: "2026-11-09", ico: "🔥", kind: "once",
-    t: "Calentamiento de 10 minutos",
-    d: "La mañana del lunes: una pasada suave, sin estudiar nada nuevo.",
-    briefing: "Rutina: tu historia de n8n 1 vez · tus números 1 vez · tu cierre 1 vez · respirá. Nada nuevo hoy: el trabajo ya está hecho. Zoom abierto desde las 10:35 a. m., entrevista 10:40–11:00 a. m.",
-    xp: 15, coins: 3 },
-  { id: "ev_deep_n8n", day: "2026-11-05", ico: "🔧", kind: "once",
-    t: "MODO DIFÍCIL: preguntas trampa de n8n",
-    d: "Las preguntas de seguimiento que separan al que usó n8n del que vio un tutorial.",
-    briefing: "Preparate para estas 3: <b>1) “What happens if a node fails?”</b> → “The execution stops or follows the error path; I check the execution log to find the failing node and the input data it received.” <b>2) “How do you trigger your workflows?”</b> → “Mostly on a schedule, and some by webhook when new data arrives.” <b>3) “How do you handle credentials?”</b> → “They live inside n8n as encrypted credentials, never in the workflow export.” Si no sabés algo: “I have not used that feature in production, but I would approach it like this…”",
-    xp: 20, coins: 4 },
-  { id: "ev_sql_drill", day: "2026-11-05", ico: "🧪", kind: "once",
-    t: "MODO DIFÍCIL: drill de SQL de memoria",
-    d: "Escribí 3 consultas SIN mirar apuntes: duplicados, tasa por mes y top 10.",
-    briefing: "Las 3 consultas del drill (escribilas primero, verificá después): <b>1)</b> Duplicados: GROUP BY código HAVING COUNT(*) &gt; 1. <b>2)</b> Tasa de no-show por mes: AVG con CASE WHEN por mes. <b>3)</b> Top 10 clientes: GROUP BY + ORDER BY total DESC + LIMIT 10.<br>Si te piden una en vivo el lunes, narrá mientras escribís: “First I group by… then I filter with HAVING because the condition uses COUNT.” Narrar = pensar en voz alta = puntos.",
-    xp: 20, coins: 4 },
-  { id: "ev_vocab", day: "2026-11-05", ico: "📚", kind: "once",
-    t: "Vocabulario duro: 15 palabras del puesto",
-    d: "Las 15 palabras del job description, cada una en una frase tuya.",
-    briefing: "Decí una frase con cada una: <b>dashboard, pipeline, workflow, schedule, source, target, metrics, insights, requirements, scope, deadline, stakeholder, validation, troubleshooting, follow-up</b>.<br>Ejemplos tuyos: “I validate the <b>source</b> data before building the <b>dashboard</b>.” · “The <b>stakeholder</b> needs the <b>metrics</b> before the <b>deadline</b>.” · “This <b>workflow</b> runs on a <b>schedule</b>.”",
-    xp: 20, coins: 4 },
-  { id: "ev_write", day: "2026-11-05", ico: "✍️", kind: "once",
-    t: "Escribí tu presentación A MANO, sin copiar",
-    d: "Papel y lápiz: tu presentación de 60 segundos escrita de memoria.",
-    briefing: "Escribir de memoria obliga al cerebro a fijar la estructura (presente → pasado breve → futuro). Si te trabás en una parte, ESA es la parte que tenés que practicar en voz alta. Después compará con el guion del briefing de n8n y corregí solo lo que falte: no la reescribás perfecta, hacela tuya.",
-    xp: 15, coins: 3 },
-  { id: "ev_weak", day: "2026-11-06", ico: "❓", kind: "once",
-    t: "MODO DIFÍCIL: «¿Por qué deberíamos contratarte?»",
-    d: "Tu pitch de diferenciación en 3 frases, sin sonar a libreto.",
-    briefing: "Tu respuesta ganadora combina 3 cosas que pocos juniors traen juntas: <b>“I combine data analysis with automation: SQL and Python for the analysis, n8n and VBA for the automation. I also work in English every day with international clients, and I learn new tools fast — BigQuery is my current example.”</b> Cerrá con el puesto: <b>“This role is exactly that mix.”</b>",
-    xp: 15, coins: 3 },
-  { id: "ev_bq_deep", day: "2026-11-06", ico: "🐘", kind: "once",
-    t: "MODO DIFÍCIL: BigQuery nivel 2 (CTEs y particiones)",
-    d: "Dos conceptos que suenan a producción, explicados con tus palabras.",
-    briefing: "<b>CTEs:</b> “I use WITH clauses to break a complex query into readable steps — first I clean, then I aggregate.” Tu MySQL ya las usa: la sintaxis es la misma.<br><b>Particiones:</b> “BigQuery can partition a table by date, so a query only scans the days it needs. That makes it faster and cheaper.” No tenés que ser experto: tenés que sonar como alguien que ya leyó cómo funciona y lo está practicando en el sandbox.",
-    xp: 20, coins: 4 },
-  { id: "ev_speed", day: "2026-11-07", ico: "⚡", kind: "once",
-    t: "Contrarreloj: presentación en 60 segundos",
-    d: "Después del mock: tu presentación con temporizador. 3 intentos, el mejor manda.",
-    briefing: "La entrevista dura 20 minutos: no hay espacio para presentaciones de 3 minutos. Cronómetro en mano: si pasás de 60 segundos, cortá el pasado (Dokka en UNA frase) y dejá aire para n8n y tus números. Grabá el mejor intento y guardalo: es tu referencia del lunes.",
-    xp: 15, coins: 3 },
-  { id: "ev_listen", day: "2026-11-07", ico: "👂", kind: "once",
-    t: "Escucha activa: respuestas CORTAS",
-    d: "5 preguntas de práctica respondidas en máximo 3 frases cada una.",
-    briefing: "El error #1 en entrevistas en segundo idioma: responder de más y perderse. Tu regla: <b>respuesta = idea + ejemplo + cierre</b>. Si la pregunta es de sí/no con detalle, no des un discurso. Practicá con: herramientas, BigQuery, tu mayor logro, tu brecha y por qué este puesto. Grabá y contá las frases: más de 3, se recorta.",
-    xp: 15, coins: 3 },
-  { id: "ev_record2", day: "2026-11-07", ico: "🎙️", kind: "once",
-    t: "Grabación de control: escuchate y corregí UNA cosa",
-    d: "Escuchá tu mejor grabación y elegí una sola cosa para mejorar.",
-    briefing: "No corrijás todo: UNA cosa (la velocidad, las muletillas “ehhh”, una frase que se enreda). Los entrevistadores no buscan perfección: buscan claridad. Si te entendés vos en la grabación con audífonos, te van a entender ellos por Zoom.",
-    xp: 15, coins: 3 },
-  { id: "ev_simfail", day: "2026-11-08", ico: "💥", kind: "once",
-    t: "MODO DIFÍCIL: simulacro de desastre",
-    d: "Practicá qué decir si algo sale mal: Zoom, una pregunta, un blanco mental.",
-    briefing: "Frases de rescate, memorizadas: <b>Zoom falla:</b> “I am sorry, my connection dropped for a moment. Could you repeat the last part?” · <b>No entendiste:</b> “Could you rephrase that, please?” · <b>Blanco mental:</b> “Let me think for a second…” (y respirás: el silencio de 3 segundos no es un error). · <b>No sabés la respuesta:</b> “I have not done that in production, but my approach would be…” Tener el rescate listo baja el miedo a la mitad.",
-    xp: 20, coins: 4 },
-  { id: "ev_dress", day: "2026-11-08", ico: "🧑‍💼", kind: "once",
-    t: "Protocolo de cámara y presencia",
-    d: "Probá hoy cómo te vas a ver el lunes: cámara, luz, fondo y ropa.",
-    briefing: "Checklist visual: cámara a la altura de los ojos (libros debajo de la laptop si hace falta) · luz de frente, nunca a la espalda · fondo ordenado · camisa presentable (es por Zoom, pero es una entrevista) · mirada a la cámara cuando respondés lo importante. Grabá 20 segundos de prueba y miralos: ese es el José que ellos van a conocer.",
-    xp: 10, coins: 2 },
-  { id: "ev_final_check", day: "2026-11-09", ico: "✅", kind: "once",
-    t: "Checklist final de batalla (30 min antes)",
-    d: "Lunes 10:10 a. m.: la última revisión antes de entrar.",
-    briefing: "☐ Zoom abierto y probado ☐ Audífonos con batería ☐ Agua a mano ☐ Notas con tus números visibles ☐ Teléfono en silencio ☐ Puerta cerrada ☐ Respiración: 4 segundos dentro, 4 fuera, 3 veces. A las 10:35 entrás a la llamada. El trabajo ya está hecho: esto es solo ejecución.",
-    xp: 15, coins: 3 },
-  { id: "ev_quiz", day: "2026-11-05", ico: "🧠", kind: "daily",
-    t: "Micro-quiz del evento (3 preguntas)",
-    d: "Jugá el micro-quiz de hoy: el banco es el mazo de esta entrevista. Repetible cada día del evento.",
-    briefing: "Buscá el botón 🧠 Quiz en el juego: 3 preguntas del mazo «Entrevista Remote Leverage» — tu experiencia, BigQuery, n8n y frases en inglés, con la explicación al final de cada una. Marcar esta misión cuando hayás jugado la ronda de hoy.",
-    xp: 10, coins: 2 },
-  { id: "ev_final", day: "2026-11-09", ico: "👹", kind: "final",
-    t: "JEFE FINAL: LA ENTREVISTA",
-    d: "Lunes 9, 10:40 a. m. por Zoom. Reclamá la recompensa cuando la hayás dado.",
-    briefing: "Todo el evento fue la preparación para este momento. Entrá 5 minutos antes, sonreí, y acordate: ya practicás esto todos los días en el quiz y los mocks. Si algo no lo sabés, decilo con tu frase honesta y seguí. ¡A darla, José! 💪",
-    xp: 50, coins: 10 }
-];
-function eventMission(id) { return EVENT_MISSIONS.find(function (m) { return m.id === id; }); }
-function eventDoneOn(id, dateStrV) {
-  return (eventState().log || []).some(function (e) { return e.id === id && (dateStrV ? e.d === dateStrV : true); });
-}
-function eventAvailable(m) {
-  const t = todayStr();
-  /* v5.95 MODO INTENSIVO (pedido por José el 2026-11-05): todas las misiones de
-     preparación están abiertas desde el inicio del evento; el día de cada
-     misión queda como ruta sugerida. El jefe final sí espera al lunes:
-     es la entrevista misma, se reclama al darla (gracia: el martes). */
-  if (m.kind === "final") return t >= m.day && t <= EVENT_FINAL_GRACE;
-  return t <= EVENT_END;
-}
-function eventDaysLeft() {
-  const a = todayStr().split("-"), b = EVENT_END.split("-");
-  const da = Date.UTC(+a[0], +a[1] - 1, +a[2]), db = Date.UTC(+b[0], +b[1] - 1, +b[2]);
-  return Math.round((db - da) / 86400000);
-}
-function eventProgress() {
-  const once = EVENT_MISSIONS.filter(function (m) { return m.kind !== "daily"; });
-  const done = once.filter(function (m) { return eventDoneOn(m.id); }).length;
-  return { done: done, total: once.length, pct: once.length ? Math.round(done * 100 / once.length) : 0 };
-}
-function eventRender() {
-  const cd = document.getElementById("event-countdown");
-  const xpEl = document.getElementById("event-xp");
-  const coinEl = document.getElementById("event-coins");
-  const bar = document.getElementById("event-bar");
-  const list = document.getElementById("event-missions");
-  if (!list) return;
-  const dl = eventDaysLeft();
-  if (cd) cd.textContent = dl > 0 ? ("⏳ Faltan " + dl + (dl === 1 ? " día" : " días") + " · Lun 9 nov, 10:40 a. m.")
-    : (dl === 0 ? "👹 ¡HOY ES LA ENTREVISTA! 10:40 a. m." : "🏁 Evento terminado");
-  if (xpEl) xpEl.textContent = eventXPGain().toLocaleString("es-CR");
-  if (coinEl) coinEl.textContent = eventCoinsEarned().toLocaleString("es-CR");
-  const pr = eventProgress();
-  if (bar) bar.style.width = pr.pct + "%";
-  const dayName = { "2026-11-05": "JUE 5", "2026-11-06": "VIE 6", "2026-11-07": "SÁB 7", "2026-11-08": "DOM 8", "2026-11-09": "LUN 9" };
-  list.innerHTML = EVENT_MISSIONS.map(function (m) {
-    const done = m.kind === "daily" ? eventDoneOn(m.id, todayStr()) : eventDoneOn(m.id);
-    const avail = eventAvailable(m) && !done;
-    let btn;
-    if (done) btn = '<div class="ev-done-tag">✅ COMPLETADA</div>';
-    else if (!eventAvailable(m)) btn = '<div class="ev-done-tag" style="color:#ffb3b3">' + (m.kind === "final" ? "👹 El jefe final espera al lunes 9" : "🏁 Evento cerrado") + '</div>';
-    else btn = '<button class="shop-btn ev-btn" data-event-do="' + m.id + '">COMPLETAR · ⭐ ' + m.xp + ' XP · 🪙 ' + m.coins + '</button>';
-    return '<div class="ev-item' + (done ? " done" : "") + (!eventAvailable(m) && !done ? " locked" : "") + (m.kind === "final" ? " final" : "") + '">' +
-      '<div class="ev-top"><span class="ev-ico">' + m.ico + '</span><span class="ev-name">' + canjeEsc(m.t) + '</span>' +
-      '<span class="ev-day">' + (dayName[m.day] || m.day) + (m.kind === "daily" ? " · DIARIA" : "") + '</span>' +
-      '<span class="ev-reward">⭐ ' + m.xp + ' · 🪙 ' + m.coins + '</span></div>' +
-      '<div class="ev-desc">' + canjeEsc(m.d) + '</div>' +
-      '<details><summary>📖 Briefing: lo que tenés que aprender</summary><div class="ev-brief">' + m.briefing + '</div></details>' +
-      btn + '</div>';
-  }).join("");
-  list.querySelectorAll("[data-event-do]").forEach(function (el) { el.addEventListener("click", function () { eventComplete(el.dataset.eventDo); }); });
-  const badge = document.getElementById("event-badge");
-  if (badge) badge.textContent = dl > 0 ? (dl + (dl === 1 ? " día" : " días")) : (dl === 0 ? "¡HOY!" : "Fin");
-}
-function eventComplete(id) {
-  const m = eventMission(id);
-  if (!m) return;
-  if (!eventAvailable(m)) { toast("🔒", "Todavía no", "Esta misión se abre en su día del evento."); return; }
-  if (m.kind === "daily" ? eventDoneOn(id, todayStr()) : eventDoneOn(id)) { toast("✅", "Ya estaba", "Esta misión ya la completaste."); return; }
-  eventState().log.push({ id: id, d: todayStr(), xp: m.xp, coins: m.coins });
-  ODEA.bus.emit("mission.completed", { id: id, source: "event", xp: m.xp });
-  playSfx(m.kind === "final" ? "win" : "coin");
-  if (m.kind === "final") confetti(window.innerWidth / 2, window.innerHeight * 0.4, 120);
-  toast(m.ico, m.kind === "final" ? "👹 ¡JEFE DERROTADO!" : "¡Misión del evento completada!", m.t + " · ⭐ +" + m.xp + " XP · 🪙 +" + m.coins);
-  saveGame();
-  eventRender();
-  shopCoinSync();
-  const badge = document.getElementById("coin-badge");
-  if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
-}
-function eventOpen() { eventRender(); document.getElementById("event-layer").classList.add("show"); playSfx("click"); }
-function eventClose() { document.getElementById("event-layer").classList.remove("show"); }
-(function () {
-  const btn = document.getElementById("side-event");
-  if (btn) btn.addEventListener("click", eventOpen);
-  const c1 = document.getElementById("event-close");
-  if (c1) c1.addEventListener("click", eventClose);
-  const c2 = document.getElementById("event-close2");
-  if (c2) c2.addEventListener("click", eventClose);
-  const layer = document.getElementById("event-layer");
-  if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) eventClose(); });
-  eventRender();
-})();
-/* --- 🧠 v5.96 Quiz Farmeo: rondas repetibles de trivia de entrevista con XP y monedas reales ---
-   Recompensas derivadas de gameState.farm.log (patrón evento/cacería): cada acierto ⭐+2 XP,
-   cada 4 aciertos 🪙+1; tope diario de 40 aciertos contados (80 XP / 10 🪙). Sin límite de rondas. */
+/* --- 🧠 Crédito permanente del Quiz Farmeo (sección retirada en v5.99):
+   las recompensas se siguen derivando de gameState.farm.log, igual que el crédito
+   legacy B2B. NO borrar: alimenta recomputeState() y coinsEarned(). */
 const FARM_XP_PER = 2, FARM_PER_COIN = 4, FARM_DAY_CAP = 40, FARM_ROUND = 10;
 function farmState() { if (!gameState.farm || typeof gameState.farm !== "object") gameState.farm = { log: [] }; if (!Array.isArray(gameState.farm.log)) gameState.farm.log = []; return gameState.farm; }
 function farmByDay() { const m = {}; farmState().log.forEach(function (e) { if (e && e.d) m[e.d] = (m[e.d] || 0) + (Number(e.c) || 0); }); return m; }
 function farmCounted() { const m = farmByDay(); let c = 0; Object.keys(m).forEach(function (d) { c += Math.min(m[d], FARM_DAY_CAP); }); return c; }
 function farmXPGain() { return farmCounted() * FARM_XP_PER; }
 function farmCoinsEarned() { const m = farmByDay(); let n = 0; Object.keys(m).forEach(function (d) { n += Math.floor(Math.min(m[d], FARM_DAY_CAP) / FARM_PER_COIN); }); return n; }
-function farmTodayRaw() { return farmByDay()[todayStr()] || 0; }
-function farmPool() { const bk = window.ODEA_QUIZ_BANK || {}; return { rl: (bk.entrevistaRL || []).slice(), gen: (bk.entrevista || []).slice() }; }
-function farmShuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-function farmBadgeSync() { const b = document.getElementById("farm-badge"); if (b) { const t = farmTodayRaw(); b.textContent = t > 0 ? Math.min(t, FARM_DAY_CAP) + "/" + FARM_DAY_CAP : ""; } }
-let farmS = null;
-function farmOpen() { farmRender(); document.getElementById("farm-layer").classList.add("show"); playSfx("click"); }
-function farmClose() { document.getElementById("farm-layer").classList.remove("show"); }
-function farmRender() {
-  const body = document.getElementById("farm-body"); if (!body) return;
-  const p = farmPool(); const pn = document.getElementById("farm-pool-n"); if (pn) pn.textContent = String(p.rl.length + p.gen.length);
-  const t = farmTodayRaw(), counted = Math.min(t, FARM_DAY_CAP);
-  const capped = t >= FARM_DAY_CAP;
-  body.innerHTML =
-    '<div class="fm-stats"><span class="fm-chip">🎯 Hoy: <b>' + t + '</b> aciertos (' + counted + ' con recompensa)</span>' +
-    '<span class="fm-chip">⭐ Farmeo total: <b>' + farmXPGain() + ' XP</b></span>' +
-    '<span class="fm-chip">🪙 <b>' + farmCoinsEarned() + '</b></span></div>' +
-    '<div class="fm-prog"><span style="width:' + Math.round(counted / FARM_DAY_CAP * 100) + '%"></span></div>' +
-    (capped ? '<p class="fm-q">🏁 <b>Tope de recompensas de hoy alcanzado.</b> Podés seguir practicando; la paga vuelve mañana.</p>' : '') +
-    '<button class="ev-done-btn" onclick="farmStart()">▶ EMPEZAR RONDA DE ' + FARM_ROUND + '</button>' +
-    '<p class="fm-q" style="margin-top:10px;font-size:.85rem;opacity:.85">Cada ronda mezcla 7 preguntas del mazo de TU entrevista (Remote Leverage) y 3 del mazo general. Leé la explicación y decí la frase modelo en voz alta: así se practica.</p>';
-  farmBadgeSync();
-}
-function farmStart() {
-  const p = farmPool();
-  let qs = farmShuffle(p.rl).slice(0, 7).concat(farmShuffle(p.gen).slice(0, 3));
-  if (qs.length < FARM_ROUND) qs = qs.concat(farmShuffle(p.rl.concat(p.gen)).slice(0, FARM_ROUND - qs.length));
-  farmS = { qs: farmShuffle(qs).slice(0, FARM_ROUND), i: 0, ok: 0, answered: false, xp0: farmXPGain(), cn0: farmCoinsEarned() };
-  farmQuestion();
-}
-function farmQuestion() {
-  const body = document.getElementById("farm-body"); if (!body || !farmS) return;
-  const q = farmS.qs[farmS.i];
-  const opts = q.opciones.map(function (t, ix) { return { t: t, ok: ix === q.correcta }; });
-  farmShuffle(opts);
-  let h = '<div class="fm-prog"><span style="width:' + Math.round(farmS.i / farmS.qs.length * 100) + '%"></span></div>' +
-    '<span class="fm-tema">' + escapeHtml(q.tema || "Entrevista") + ' · ' + (farmS.i + 1) + '/' + farmS.qs.length + ' · ✅ ' + farmS.ok + '</span>' +
-    '<p class="fm-q"><b>' + escapeHtml(q.pregunta) + '</b></p>';
-  opts.forEach(function (o, ix) { h += '<button class="fm-opt" data-ok="' + (o.ok ? "1" : "0") + '" onclick="farmAnswer(this)">' + escapeHtml(o.t) + '</button>'; });
-  h += '<div id="farm-expl"></div>';
-  body.innerHTML = h;
-}
-function farmAnswer(btn) {
-  if (!farmS || farmS.answered) return;
-  farmS.answered = true;
-  const good = btn.getAttribute("data-ok") === "1";
-  if (good) { farmS.ok++; playSfx("coin"); } else playSfx("hit");
-  document.querySelectorAll("#farm-body .fm-opt").forEach(function (b) { b.disabled = true; if (b.getAttribute("data-ok") === "1") b.classList.add("ok"); });
-  if (!good) btn.classList.add("bad");
-  const q = farmS.qs[farmS.i];
-  const last = farmS.i >= farmS.qs.length - 1;
-  document.getElementById("farm-expl").innerHTML =
-    '<div class="fm-expl">' + (good ? "✅ <b>¡Correcto!</b> " : "❌ <b>Casi.</b> ") + escapeHtml(q.explicacion || "") + '</div>' +
-    '<button class="ev-done-btn" onclick="farmNext()">' + (last ? "🏁 VER RESULTADO" : "➡ SIGUIENTE") + '</button>';
-}
-function farmNext() { if (!farmS) return; farmS.i++; farmS.answered = false; if (farmS.i >= farmS.qs.length) farmFinish(); else farmQuestion(); }
-function farmFinish() {
-  const ok = farmS.ok, xp0 = farmS.xp0, cn0 = farmS.cn0;
-  farmState().log.push({ d: todayStr(), c: ok });
-  recomputeState(); saveGame(); shopCoinSync();
-  const badge = document.getElementById("coin-badge"); if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
-  const dxp = farmXPGain() - xp0, dcn = farmCoinsEarned() - cn0;
-  farmS = null;
-  if (ok >= 7) confetti();
-  toast("🧠", "¡Ronda completada!", ok + "/" + FARM_ROUND + " aciertos · ⭐ +" + dxp + " XP · 🪙 +" + dcn);
-  const body = document.getElementById("farm-body"); if (!body) return;
-  body.innerHTML =
-    '<p class="fm-q" style="font-size:1.15rem">🏁 <b>' + ok + ' / ' + FARM_ROUND + ' aciertos</b></p>' +
-    '<div class="fm-stats"><span class="fm-chip">⭐ +<b>' + dxp + ' XP</b></span><span class="fm-chip">🪙 +<b>' + dcn + '</b></span><span class="fm-chip">🎯 Hoy: <b>' + farmTodayRaw() + '</b> aciertos</span></div>' +
-    (dxp === 0 && ok > 0 ? '<p class="fm-q">Tope diario de recompensas alcanzado: esta ronda fue práctica pura. Mañana vuelve la paga. 💪</p>' : '') +
-    '<button class="ev-done-btn" onclick="farmStart()">🔁 OTRA RONDA</button>' +
-    '<button class="ev-done-btn" style="margin-left:8px" onclick="farmRender()">📊 VER ESTADO</button>';
-  farmBadgeSync();
-}
-(function () {
-  const btn = document.getElementById("event-farm-btn"); if (btn) btn.addEventListener("click", farmOpen);
-  const c2 = document.getElementById("farm-close2"); if (c2) c2.addEventListener("click", farmClose);
-  const layer = document.getElementById("farm-layer"); if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) farmClose(); });
-  farmBadgeSync();
-})();
-
 function shopCoinSync() {
   const bal = coinsBalance();
   document.querySelectorAll(".coin-num").forEach(function (el) { el.textContent = bal.toLocaleString("es-CR"); });
@@ -13017,9 +12650,7 @@ focusRestore();
 <script src="./assets/odea-icons-v7.js?v=8f" defer></script>
 <script src="./assets/odea-juice.js?v=1" defer></script>
 <script src="./assets/odea-anomalias.js?v=2" defer></script>
-<!-- v5.97: banco del quiz en inglés (preguntas y opciones; asset ?v=4) -->
-<script src="./assets/odea-quiz-bank.js?v=4" defer></script>
-<script src="./assets/odea-quiz.js?v=2" defer></script>
+<!-- v5.99: evento, Quiz Farmeo y capa quiz retirados; el XP y las monedas ganados quedan como crédito permanente -->
 <script src="./assets/odea-jefe.js?v=1" defer></script>
 <script src="./assets/odea-tesoro.js?v=1" defer></script>
 <script src="./assets/odea-hub.js?v=1" defer></script>

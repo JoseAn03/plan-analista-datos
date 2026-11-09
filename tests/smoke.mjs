@@ -163,29 +163,21 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.98: APP_VERSION y caché', html.includes('const APP_VERSION = "5.98"') && /odea-v5\.98-20261107-fixsave/.test(sw));
-check('v5.96: Quiz Farmeo dentro del evento (botón en el panel, recompensas derivadas con tope diario, banco ampliado)',
-  html.includes('id="farm-layer"') && html.includes('id="event-farm-btn"') && !html.includes('id="side-farm"') && html.includes('function farmXPGain()') &&
-  html.includes('function farmCoinsEarned()') && html.includes('FARM_DAY_CAP = 40') && html.includes('evento, farm') &&
-  html.includes('odea-quiz-bank.js?v=4') && sw.includes('odea-quiz-bank.js?v=4') && readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').split('"tema"').length > 100);
-check('v5.97: banco del quiz en inglés (preguntas y opciones de ambos mazos)',
-  readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').includes('What is the main role of the Support Analyst position?') &&
-  !readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8').includes('¿Cuál es el rol principal'));
+check('v5.99: APP_VERSION y caché', html.includes('const APP_VERSION = "5.99"') && /odea-v5\.99-20261109-cleanup/.test(sw));
+check('v5.99: evento, Quiz Farmeo y capa quiz retirados (UI y assets fuera)',
+  !html.includes('id="event-layer"') && !html.includes('id="side-event"') && !html.includes('const EVENT_MISSIONS') &&
+  !html.includes('id="farm-layer"') && !html.includes('id="event-farm-btn"') &&
+  !html.includes('odea-quiz.js') && !html.includes('odea-quiz-bank.js') && !html.includes('odea-quiz.css') &&
+  !sw.includes('odea-quiz'));
+check('v5.99: crédito permanente del evento y del farmeo (derivaciones intactas)',
+  html.includes('function eventXPGain(') && html.includes('function eventCoinsEarned(') &&
+  html.includes('function farmXPGain()') && html.includes('function farmCoinsEarned()') &&
+  html.includes('gameState.eventRL') && html.includes('gameState.farm'));
 check('v5.98: loadGame restaura eventRL, farm y canje (fix de persistencia)',
   (() => { const i = html.indexOf('function loadGame()'); const lg = html.slice(i, i + 24000);
     return lg.includes('data.eventRL') && lg.includes('data.farm') && lg.includes('data.canje'); })());
-check('v5.95: MODO INTENSIVO (preparación abierta, jefe final el lunes) y logo desde APP_VERSION',
-  html.includes('MODO INTENSIVO') && html.includes('m.kind === "final") return t >= m.day') &&
+check('v5.95: logo de versión desde APP_VERSION',
   html.includes('getElementById("ver-logo")') && html.includes('"APP DE VIDA · v" + APP_VERSION'));
-const bank94 = readFileSync(join(ROOT, 'assets/odea-quiz-bank.js'), 'utf8');
-const quiz94 = readFileSync(join(ROOT, 'assets/odea-quiz.js'), 'utf8');
-check('v5.94: EVENTO Rumbo a la Entrevista (misiones, log derivado, panel)',
-  html.includes('const EVENT_MISSIONS') && html.includes('function eventComplete(') &&
-  html.includes('function eventXPGain(') && html.includes('function eventCoinsEarned(') &&
-  html.includes('gameState.eventRL') && html.includes('id="event-layer"') && html.includes('id="side-event"'));
-check('v5.94: mazo entrevistaRL (24) y la capa quiz lo prefiere',
-  bank94.includes('ODEA_QUIZ_BANK.entrevistaRL') && quiz94.includes('entrevistaRL') &&
-  html.includes('odea-quiz-bank.js?v=4') && sw.includes('odea-quiz-bank.js?v=4'));
 check('v5.93: recompensas reales (canje) con el libro de gasto de la tienda',
   html.includes('const LIFE_REWARDS') && html.includes('function canjeBuy(') &&
   html.includes('id="canje-grid"') && html.includes('function canjeState(') &&

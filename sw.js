@@ -6,7 +6,7 @@
    - Cada vez que publicamos una version nueva, cambiamos
      CACHE_VERSION y la app del celular se auto-actualiza.
    ============================================================ */
-const CACHE_VERSION = 'odea-v5.98-20261107-fixsave';
+const CACHE_VERSION = 'odea-v5.99-20261109-cleanup';
 const CACHE = 'odea-' + CACHE_VERSION;
 const SHELL = [
   './',
@@ -19,9 +19,6 @@ const SHELL = [
   './assets/odea-juice.js?v=1',
   './assets/odea-anomalias.css?v=2',
   './assets/odea-anomalias.js?v=2',
-  './assets/odea-quiz.css?v=1',
-  './assets/odea-quiz-bank.js?v=4',
-  './assets/odea-quiz.js?v=2',
   './assets/odea-jefe.css?v=1',
   './assets/odea-jefe.js?v=1',
   './assets/odea-tesoro.css?v=1',
