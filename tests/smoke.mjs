@@ -163,7 +163,46 @@ check('＋ reutiliza Mi Plan (sin clave nueva)',
   !/odea_plan_/.test(html));
 
 // ---------- 13) v5.65/v5.66: Nivel ODEA, racha global, perfil y plan expandible ----------
-check('v5.99: APP_VERSION y caché', html.includes('const APP_VERSION = "5.99"') && /odea-v5\.99-20261109-cleanup/.test(sw));
+check('v6.00: APP_VERSION y caché', html.includes('const APP_VERSION = "6.00"') && /odea-v6\.00-20261111-decisionlab/.test(sw));
+check('v6.00: EVENTO Decision Lab (14 misiones en 5 fases, 1.020 XP y 510 monedas)', (() => {
+  const i = html.indexOf('const DL_MISSIONS =');
+  const j = html.indexOf('];', i);
+  if (i < 0 || j < 0) return false;
+  const ctx = {};
+  vm.runInNewContext(html.slice(i, j + 2) + '\nthis.out = DL_MISSIONS;', ctx);
+  const ms = ctx.out;
+  const xp = ms.reduce((s, m) => s + m.xp, 0), cn = ms.reduce((s, m) => s + m.coins, 0);
+  const perPhase = [1, 2, 3, 4, 5].map((p) => ms.filter((m) => m.ph === p).length);
+  return ms.length === 14 && xp === 1020 && cn === 510 &&
+    JSON.stringify(perPhase) === JSON.stringify([3, 3, 3, 2, 3]) &&
+    new Set(ms.map((m) => m.id)).size === 14 &&
+    ms.every((m) => /^dl(1[0-4]|[1-9])$/.test(m.id) && m.t && m.d && m.xp > 0 && m.coins > 0);
+})());
+check('v6.00: eventDL derivado como eventRL (log propio, eventRL/farm intactos)',
+  html.includes('function dlXPGain(') && html.includes('function dlCoinsEarned(') &&
+  html.includes('dlCoinsEarned() +') && html.includes('const decision = dlXPGain();') &&
+  html.includes('gameState.eventDL') && html.includes('function eventXPGain(') &&
+  html.includes('function farmXPGain()') && html.includes('function farmCoinsEarned()'));
+check('v6.00: loadGame restaura eventDL (log, insignia y objetos exclusivos)',
+  (() => { const i = html.indexOf('function loadGame()'); const lg = html.slice(i, i + 24000);
+    return lg.includes('data.eventDL') && lg.includes('badge: !!dl9.badge') && lg.includes('dlSeen'); })());
+check('v6.00: panel del evento, botón lateral e insignia',
+  html.includes('id="dl-layer"') && html.includes('id="side-dl"') && html.includes('id="dl-missions"') &&
+  html.includes('function dlComplete(') && html.includes('function dlRender(') &&
+  html.includes('Analista de Decisiones'));
+check('v6.00: Tienda del Evento (5 objetos, gasto por shop.spent, trofeo exige 14/14)',
+  html.includes('id="dlshop-grid"') && html.includes('const DL_SHOP_ITEMS') &&
+  html.includes('function dlShopBuy(') && html.includes('dl_trofeo') &&
+  /function dlShopBuy\([\s\S]{0,500}it\.trophy && !dlAllDone\(\)/.test(html) &&
+  /function dlShopBuy\([\s\S]{0,900}shopState\(\)\.spent/.test(html) &&
+  (() => { const i = html.indexOf('const DL_SHOP_ITEMS ='); const j = html.indexOf('];', i);
+    if (i < 0 || j < 0) return false;
+    const ctx = {};
+    vm.runInNewContext(html.slice(i, j + 2) + '\nthis.out = DL_SHOP_ITEMS;', ctx);
+    const items = ctx.out;
+    return items.length === 5 && items.reduce((s, x) => s + x.price, 0) === 1120 &&
+      items.filter((x) => x.trophy).length === 1; })());
+check('v6.00: pruebas funcionales del evento presentes', existsSync(join(ROOT, 'tests/decision-lab.mjs')));
 check('v5.99: evento, Quiz Farmeo y capa quiz retirados (UI y assets fuera)',
   !html.includes('id="event-layer"') && !html.includes('id="side-event"') && !html.includes('const EVENT_MISSIONS') &&
   !html.includes('id="farm-layer"') && !html.includes('id="event-farm-btn"') &&
@@ -340,7 +379,7 @@ check('v5.70: render v2 y acciones de disparo/deshacer',
 check('v5.70: XP y monedas desde hunt.log sin duplicar',
   html.includes('function huntXPGain()') && html.includes('function huntCoinsEarned()') &&
   html.includes('huntCoinsEarned() +') && html.includes('const hunt = huntXPGain()') &&
-  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento, farm }'));
+  html.includes('gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento, farm, decision }'));
 check('v5.70: Ajustes reinicia solo La Cacería',
   /getElementById\("btn-reset-daily"\)[\s\S]{0,220}huntReset\(\)/.test(html) &&
   !html.includes('resetDailyCampaign();'));

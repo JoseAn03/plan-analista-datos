@@ -973,6 +973,25 @@ html{-webkit-text-size-adjust:100%}
 .shop-sub{text-align:center;color:var(--tx2);font-size:.82rem;margin:6px 0 14px;line-height:1.5}
 .shop-sub b{color:#fff}
 .shop-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.side-inv.dlab{border-color:rgba(0,229,255,.55);color:#aef4ff}
+#dl-layer{display:none;position:fixed;inset:0;z-index:1200;background:rgba(2,6,16,.82);align-items:flex-start;justify-content:center;overflow-y:auto;padding:18px 10px}
+#dl-layer.show{display:flex}
+.dl-bar-wrap{height:12px;border:1px solid rgba(0,229,255,.4);border-radius:7px;overflow:hidden;margin:10px 0 4px;background:rgba(0,0,0,.35)}
+.dl-bar{height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#ffd700);transition:width .4s}
+.dl-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
+.dl-phase{margin-top:12px;font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:.05em;color:#00e5ff}
+.dl-phase span{color:#ffd700}
+.dl-item{border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.03)}
+.dl-item.done{border-color:rgba(0,255,170,.55);background:rgba(0,255,170,.06)}
+.dl-top{display:flex;align-items:center;gap:8px}
+.dl-ico{font-size:1.25rem}
+.dl-name{flex:1;font-weight:700;font-size:.92rem}
+.dl-reward{font-size:.78rem;color:#ffd700;white-space:nowrap}
+.dl-desc{font-size:.8rem;opacity:.85;margin-top:3px}
+.dl-btn{margin-top:8px}
+.dl-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
+.dl-badge-card{margin-top:10px;border:1px solid rgba(255,215,0,.5);border-radius:11px;padding:9px 12px;background:rgba(255,215,0,.07);font-size:.84rem}
+.dl-badge-card.pending{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.03);opacity:.85}
 .canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
 .canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
 .shop-item.canje-item{position:relative}
@@ -2721,6 +2740,7 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
   <div class="side-id"><b id="side-name">Recluta</b><span id="side-rank">NIVEL 1</span></div>
   <button class="side-inv" id="side-inv" type="button" aria-label="Abrir inventario">🎒 INVENTARIO<em class="inv-badge hidden">0</em></button>
   <button class="side-inv shop" id="side-shop" type="button" aria-label="Abrir tienda">🪙 TIENDA<em class="coin-badge" id="coin-badge">0</em></button>
+  <button class="side-inv dlab" id="side-dl" type="button" aria-label="Abrir evento Decision Lab">🧪 DECISION LAB<em class="coin-badge" id="dl-badge">0/14</em></button>
   <div class="side-nav">
     <button class="nav-item active" data-tab="map" aria-label="Mapa de mundos"><span class="ni-ico">🗺️</span> MAPA</button>
     <button class="nav-item" data-tab="daily" aria-label="Plan de hoy"><span class="ni-ico">🗓️</span> HOY</button>
@@ -3019,10 +3039,33 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <input id="canje-price" type="number" min="1" max="9999" placeholder="🪙" aria-label="Precio en monedas">
       <button class="shop-btn" id="canje-add" type="button">＋ CREAR</button>
     </div>
+    <div class="canje-head">
+      <h3>🧪 TIENDA DEL EVENTO — DECISION LAB</h3>
+      <p class="shop-sub">Objetos exclusivos del evento «Decision Lab»: se compran con las monedas del juego y quedan tuyos para siempre. El 🏆 <b>Trofeo «Decision Maker»</b> solo se desbloquea al completar las <b>14 misiones</b> del evento.</p>
+    </div>
+    <div class="shop-grid" id="dlshop-grid"></div>
     <button class="btn-neon shop-back" id="shop-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
 </div>
 
+
+<div id="dl-layer">
+  <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="dl-title">
+    <div class="shop-head">
+      <h2 id="dl-title">🧪 EVENTO ESPECIAL: DECISION LAB</h2>
+      <button class="close-x" id="dl-close" aria-label="Cerrar evento">✕</button>
+    </div>
+    <p class="shop-sub">Tu proyecto estrella, paso a paso: el <b>SJO Decision Lab</b>, un sistema de decisiones para una rentadora (operación simulada 100% sintética, calibrada con datos públicos de turismo de Costa Rica). Nada de XP por nada: <b>cada misión se completa cuando el entregable real existe</b>. Sin fecha límite: el crédito queda para siempre. Al completar las 14 misiones ganás la insignia <b>🏅 Analista de Decisiones</b> y se desbloquea el trofeo exclusivo en la tienda.</p>
+    <div class="shop-stats">
+      <span class="bal-pill">🧪 Progreso: <b id="dl-count">0/14</b></span>
+      <span class="bal-pill">⭐ Evento: <b id="dl-xp">0</b> XP · 🪙 <b id="dl-coins">0</b></span>
+    </div>
+    <div class="dl-bar-wrap"><div class="dl-bar" id="dl-bar"></div></div>
+    <div id="dl-badge-zone"></div>
+    <div class="dl-list" id="dl-missions"></div>
+    <button class="btn-neon shop-back" id="dl-close2" aria-label="Volver">◀ VOLVER</button>
+  </div>
+</div>
 
 <div id="focus-layer">
   <div class="focus-modal" role="dialog" aria-modal="true" aria-labelledby="focus-title">
@@ -4075,7 +4118,7 @@ function campaignLevel() { return Math.min(fullDaysCount() + 1, DAILY_TOTAL + 1)
 const SAVE_KEY = "odea_save_v2";
 const OLD_KEY = "odea_save_v1";
 const SAVE_SCHEMA = 3; // v5.73: guardados versionados (H-01)
-const APP_VERSION = "5.99"; // 🏷️ fuente unica de version (sincronizada con sw.js)
+const APP_VERSION = "6.00"; // 🏷️ fuente unica de version (sincronizada con sw.js)
 
 /* ==========================================================
    🧠 FASE 1 — Bus de eventos (núcleo del ecosistema)
@@ -4195,7 +4238,8 @@ let gameState = {
   freezers: 0,                     // 🧊 congeladores de racha (máx 2)
   applications: [],                // 📡 fuentes que sigo (Noticias)
   focus: { log: [], date: null },  // 🍅 sesiones de enfoque (pomodoro)
-  hunt: defaultHunt()              // 🎯 La Cacería: postulaciones, radar, forja, jefe
+  hunt: defaultHunt(),             // 🎯 La Cacería: postulaciones, radar, forja, jefe
+  eventDL: { log: [], badge: false, owned: [] } // 🧪 EVENTO Decision Lab (v6.00): pasos del proyecto estrella
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -4371,6 +4415,27 @@ function loadGame() {
         return e && typeof e.id === "string" && typeof e.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.d);
       }).map(function (e) {
         return { id: e.id, n: (typeof e.n === "string" ? e.n : ""), ico: (typeof e.ico === "string" ? e.ico : "🎁"), price: Math.max(0, Number(e.price) || 0), d: e.d, done: !!e.done };
+      }) : []
+    };
+    /* 🧪 v6.00: eventDL (EVENTO Decision Lab) se restaura igual que eventRL:
+       log validado por forma (ids dl1..dl14, sin duplicados, topes por misión
+       según la tabla del evento: máx 100 XP y 50 🪙), insignia y objetos
+       exclusivos comprados en la Tienda del Evento. */
+    const dl9 = (data.eventDL && typeof data.eventDL === "object") ? data.eventDL : {};
+    const dlSeen = {};
+    gameState.eventDL = {
+      log: Array.isArray(dl9.log) ? dl9.log.filter(function (e) {
+        if (!e || typeof e.id !== "string" || !/^dl(1[0-4]|[1-9])$/.test(e.id)) return false;
+        if (typeof e.d !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(e.d)) return false;
+        if (dlSeen[e.id]) return false;
+        dlSeen[e.id] = true;
+        return true;
+      }).map(function (e) {
+        return { id: e.id, d: e.d, xp: Math.max(0, Math.min(100, Number(e.xp) || 0)), coins: Math.max(0, Math.min(50, Number(e.coins) || 0)) };
+      }) : [],
+      badge: !!dl9.badge,
+      owned: Array.isArray(dl9.owned) ? dl9.owned.filter(function (id) {
+        return typeof id === "string" && /^dl_(lentes|marco|skin|chaqueta|trofeo)$/.test(id);
       }) : []
     };
     return true;
@@ -5044,6 +5109,21 @@ function eventCoinsEarned() {
   const log = (gameState.eventRL && Array.isArray(gameState.eventRL.log)) ? gameState.eventRL.log : [];
   return log.reduce(function (s, e) { return s + Math.max(0, Number(e.coins) || 0); }, 0);
 }
+/* --- 🧪 EVENTO Decision Lab (v6.00): XP y monedas desde su propio log --- */
+function dlState() {
+  if (!gameState.eventDL || typeof gameState.eventDL !== "object") gameState.eventDL = { log: [], badge: false, owned: [] };
+  if (!Array.isArray(gameState.eventDL.log)) gameState.eventDL.log = [];
+  if (!Array.isArray(gameState.eventDL.owned)) gameState.eventDL.owned = [];
+  return gameState.eventDL;
+}
+function dlXPGain() {
+  const log = (gameState.eventDL && Array.isArray(gameState.eventDL.log)) ? gameState.eventDL.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.xp) || 0); }, 0);
+}
+function dlCoinsEarned() {
+  const log = (gameState.eventDL && Array.isArray(gameState.eventDL.log)) ? gameState.eventDL.log : [];
+  return log.reduce(function (s, e) { return s + Math.max(0, Number(e.coins) || 0); }, 0);
+}
 /* --- 🍅 Enfoque (pomodoro) --- */
 function focusXPGain(id) {
   const f = gameState.focus || {};
@@ -5161,8 +5241,9 @@ function recomputeState() {
   const hunt = huntXPGain();
   const evento = eventXPGain();
   const farm = farmXPGain();
-  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento, farm };
-  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt + evento + farm;
+  const decision = dlXPGain();
+  gameState.xpBreakdown = { career, ach, vida, capital, focus, diary, bosses, hunt, evento, farm, decision };
+  gameState.totalXP = career + ach + vida + capital + focus + diary + bosses + hunt + evento + farm + decision;
   /* Nivel del plan: 1 día completo = 1 día desbloqueado (NO es el nivel global). */
   gameState.campaignLevel = campaignLevel();
   gameState.level = gameState.campaignLevel; // compatibilidad con guardados y lógica existente
@@ -10408,7 +10489,8 @@ function rwProfileRender() {
     ["🎯 La Cacería", b.hunt || 0, "#ff4f9a"],
     ["🍅 Enfoque", b.focus || 0, "#00ccff"],
     ["📓 Diario", b.diary || 0, "#ff00aa"],
-    ["🧠 Quiz Farmeo", b.farm || 0, "#37e0a0"]
+    ["🧠 Quiz Farmeo", b.farm || 0, "#37e0a0"],
+    ["🧪 Decision Lab", b.decision || 0, "#00e5ff"]
   ];
   const bMax = Math.max(1, bRows.reduce(function (s, r) { return Math.max(s, r[1]); }, 0));
 
@@ -12169,6 +12251,7 @@ function coinsEarned() {
     huntCoinsEarned() +
     eventCoinsEarned() +
     farmCoinsEarned() +
+    dlCoinsEarned() +
     (Object.keys(st.gods || {}).length * 50));
 }
 function coinsBalance() { return Math.max(0, coinsEarned() - (shopState().spent || 0)); }
@@ -12253,6 +12336,7 @@ function shopEquip(id) {
 function shopOpen() {
   shopRender();
   canjeRender();
+  dlShopRender();
   document.getElementById("shop-layer").classList.add("show");
   playSfx("click");
 }
@@ -12366,6 +12450,157 @@ function farmByDay() { const m = {}; farmState().log.forEach(function (e) { if (
 function farmCounted() { const m = farmByDay(); let c = 0; Object.keys(m).forEach(function (d) { c += Math.min(m[d], FARM_DAY_CAP); }); return c; }
 function farmXPGain() { return farmCounted() * FARM_XP_PER; }
 function farmCoinsEarned() { const m = farmByDay(); let n = 0; Object.keys(m).forEach(function (d) { n += Math.floor(Math.min(m[d], FARM_DAY_CAP) / FARM_PER_COIN); }); return n; }
+/* --- 🧪 v6.00 EVENTO ESPECIAL «DECISION LAB» (proyecto estrella) ---
+   Las 14 misiones son los pasos REALES del proyecto «SJO Decision Lab»:
+   se completan cuando el entregable existe (sin XP por nada). Sin fecha
+   límite: el evento no caduca y el crédito queda para siempre (lección
+   del cleanup v5.99). Recompensas derivadas de gameState.eventDL.log
+   (dlXPGain/dlCoinsEarned, patrón eventRL). La insignia «Analista de
+   Decisiones» y los objetos exclusivos viven en el mismo campo aditivo. */
+const DL_PHASES = [
+  { n: 1, t: "La operación y los datos" },
+  { n: 2, t: "El pipeline" },
+  { n: 3, t: "Los motores de decisión" },
+  { n: 4, t: "Decisiones y plata" },
+  { n: 5, t: "Publicación e impacto" }
+];
+const DL_MISSIONS = [
+  { id: "dl1", ph: 1, ico: "🏢", t: "Diseñar la operación", d: "Documento de diseño: sucursales, categorías de auto, canales de reserva.", xp: 40, coins: 20 },
+  { id: "dl2", ph: 1, ico: "🎲", t: "Generador de reservas", d: "Script que genera el dataset sintético realista (temporadas, canales, anticipación).", xp: 80, coins: 40 },
+  { id: "dl3", ph: 1, ico: "🌐", t: "Datos públicos reales", d: "Fuentes abiertas registradas (turismo ICT, feriados, tipo de cambio) para calibrar la simulación.", xp: 50, coins: 25 },
+  { id: "dl4", ph: 2, ico: "⭐", t: "Esquema estrella en SQL", d: "Modelo dimensional: hechos de reservas, dimensiones de fecha, auto y canal.", xp: 70, coins: 35 },
+  { id: "dl5", ph: 2, ico: "🧹", t: "Pipeline de limpieza", d: "ETL en Python con reglas documentadas: duplicados, dobles conteos, nulos.", xp: 80, coins: 40 },
+  { id: "dl6", ph: 2, ico: "✅", t: "Controles de calidad", d: "Chequeos automáticos + bitácora de corridas: el pipeline se audita solo.", xp: 70, coins: 35 },
+  { id: "dl7", ph: 3, ico: "📈", t: "Pronóstico de demanda", d: "Modelo por semana y categoría, con backtest honesto (walk-forward).", xp: 100, coins: 50 },
+  { id: "dl8", ph: 3, ico: "📡", t: "Radar de no-show", d: "Score de riesgo por reserva, evaluado con honestidad (matriz de confusión, calibración).", xp: 100, coins: 50 },
+  { id: "dl9", ph: 3, ico: "⚖️", t: "Regla de sobreventa", d: "Política que combina pronóstico + riesgo: cuánto sobrevender sin pasarse.", xp: 90, coins: 45 },
+  { id: "dl10", ph: 4, ico: "📊", t: "Tablero comercial", d: "Dashboard: utilización, ingreso por auto, tarifa vs. ocupación.", xp: 80, coins: 40 },
+  { id: "dl11", ph: 4, ico: "📝", t: "Memo de decisiones", d: "El documento estrella: 3 decisiones concretas y su impacto en $ al mes.", xp: 90, coins: 45 },
+  { id: "dl12", ph: 5, ico: "📦", t: "Repo público profesional", d: "README de analista senior: problema, método, decisiones, límites.", xp: 60, coins: 30 },
+  { id: "dl13", ph: 5, ico: "🚀", t: "Estreno público", d: "Página en vivo + post de LinkedIn del proyecto.", xp: 60, coins: 30 },
+  { id: "dl14", ph: 5, ico: "✉️", t: "Frase para las cartas", d: "La prueba del proyecto integrada a la plantilla de cover letters.", xp: 50, coins: 25 }
+];
+const DL_SHOP_ITEMS = [
+  { id: "dl_lentes", ico: "🕶️", n: "Lentes «Visión de Datos»", price: 120 },
+  { id: "dl_marco", ico: "📊", n: "Marco «Tablero Ejecutivo»", price: 150 },
+  { id: "dl_skin", ico: "🚗", n: "Skin «Flota Optimizada»", price: 200 },
+  { id: "dl_chaqueta", ico: "🧥", n: "Chaqueta «Modo Decisión»", price: 250 },
+  { id: "dl_trofeo", ico: "🏆", n: "Trofeo «Decision Maker»", price: 400, trophy: true }
+];
+function dlMission(id) { return DL_MISSIONS.find(function (m) { return m.id === id; }); }
+function dlDone(id) { return (dlState().log || []).some(function (e) { return e.id === id; }); }
+function dlDoneCount() { return DL_MISSIONS.filter(function (m) { return dlDone(m.id); }).length; }
+function dlAllDone() { return dlDoneCount() >= DL_MISSIONS.length; }
+function dlRender() {
+  const st = dlState();
+  const done = dlDoneCount();
+  const badge = document.getElementById("dl-badge");
+  if (badge) badge.textContent = st.badge ? "🏅" : (done + "/" + DL_MISSIONS.length);
+  const list = document.getElementById("dl-missions");
+  if (!list) return;
+  const cnt = document.getElementById("dl-count");
+  if (cnt) cnt.textContent = done + "/" + DL_MISSIONS.length;
+  const xpEl = document.getElementById("dl-xp");
+  if (xpEl) xpEl.textContent = dlXPGain().toLocaleString("es-CR");
+  const coinEl = document.getElementById("dl-coins");
+  if (coinEl) coinEl.textContent = dlCoinsEarned().toLocaleString("es-CR");
+  const bar = document.getElementById("dl-bar");
+  if (bar) bar.style.width = Math.round(done * 100 / DL_MISSIONS.length) + "%";
+  const zone = document.getElementById("dl-badge-zone");
+  if (zone) zone.innerHTML = st.badge
+    ? '<div class="dl-badge-card">🏅 <b>INSIGNIA: ANALISTA DE DECISIONES</b> — completaste las 14 misiones del Decision Lab. El 🏆 Trofeo «Decision Maker» ya está desbloqueado en la Tienda del Evento.</div>'
+    : (done > 0 ? '<div class="dl-badge-card pending">🏅 Insignia «Analista de Decisiones»: ' + done + '/' + DL_MISSIONS.length + ' misiones. Se gana al completar las 14.</div>' : "");
+  let out = "";
+  DL_PHASES.forEach(function (ph) {
+    const ms = DL_MISSIONS.filter(function (m) { return m.ph === ph.n; });
+    const phDone = ms.filter(function (m) { return dlDone(m.id); }).length;
+    out += '<div class="dl-phase">FASE ' + ph.n + ' · ' + ph.t.toUpperCase() + ' <span>' + phDone + '/' + ms.length + '</span></div>';
+    out += ms.map(function (m) {
+      const isDone = dlDone(m.id);
+      const btn = isDone
+        ? '<div class="dl-done-tag">✅ COMPLETADA</div>'
+        : '<button class="shop-btn dl-btn" data-dl-do="' + m.id + '">COMPLETAR · ⭐ ' + m.xp + ' XP · 🪙 ' + m.coins + '</button>';
+      return '<div class="dl-item' + (isDone ? " done" : "") + '">' +
+        '<div class="dl-top"><span class="dl-ico">' + m.ico + '</span><span class="dl-name">' + canjeEsc(m.t) + '</span>' +
+        '<span class="dl-reward">⭐ ' + m.xp + ' · 🪙 ' + m.coins + '</span></div>' +
+        '<div class="dl-desc">' + canjeEsc(m.d) + '</div>' + btn + '</div>';
+    }).join("");
+  });
+  list.innerHTML = out;
+  list.querySelectorAll("[data-dl-do]").forEach(function (el) { el.addEventListener("click", function () { dlComplete(el.dataset.dlDo); }); });
+}
+function dlComplete(id) {
+  const m = dlMission(id);
+  if (!m) return;
+  if (dlDone(id)) { toast("✅", "Ya estaba", "Esta misión ya la completaste."); return; }
+  dlState().log.push({ id: id, d: todayStr(), xp: m.xp, coins: m.coins });
+  ODEA.bus.emit("mission.completed", { id: id, source: "decisionlab", xp: m.xp });
+  const finished = dlAllDone() && !dlState().badge;
+  if (finished) dlState().badge = true;
+  playSfx(finished ? "win" : "coin");
+  if (finished) confetti(360, 320, 120);
+  toast(m.ico, finished ? "🏅 ¡INSIGNIA GANADA!" : "¡Misión del Decision Lab completada!",
+    finished ? "«Analista de Decisiones»: las 14 misiones están completas. El 🏆 Trofeo «Decision Maker» te espera en la Tienda del Evento." : (m.t + " · ⭐ +" + m.xp + " XP · 🪙 +" + m.coins));
+  saveGame();
+  recomputeState();
+  dlRender();
+  shopCoinSync();
+  const badge = document.getElementById("coin-badge");
+  if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
+}
+function dlShopItem(id) { return DL_SHOP_ITEMS.find(function (x) { return x.id === id; }); }
+function dlShopRender() {
+  const grid = document.getElementById("dlshop-grid");
+  if (!grid) return;
+  const bal = coinsBalance();
+  const owned = dlState().owned || [];
+  const all = dlAllDone();
+  grid.innerHTML = DL_SHOP_ITEMS.map(function (it) {
+    const isOwned = owned.indexOf(it.id) >= 0;
+    const locked = !!it.trophy && !all;
+    let btn;
+    if (isOwned) btn = '<div class="dl-done-tag">✓ TUYO</div>';
+    else if (locked) btn = '<button class="shop-btn no" data-dl-buy="' + it.id + '" aria-label="Trofeo bloqueado">🔒 COMPLETÁ LAS 14 MISIONES</button>';
+    else btn = '<button class="shop-btn' + (bal >= it.price ? "" : " no") + '" data-dl-buy="' + it.id + '" aria-label="Comprar ' + it.n + '">🪙 ' + it.price.toLocaleString("es-CR") + '</button>';
+    return '<div class="shop-item' + (isOwned ? " eq" : "") + '">' +
+      '<span class="si-ico">' + it.ico + '</span>' +
+      '<span class="si-name">' + it.n + '</span>' +
+      '<span class="si-tier">EXCLUSIVO DECISION LAB</span>' + btn + '</div>';
+  }).join("");
+  grid.querySelectorAll("[data-dl-buy]").forEach(function (el) { el.addEventListener("click", function () { dlShopBuy(el.dataset.dlBuy); }); });
+}
+function dlShopBuy(id) {
+  const it = dlShopItem(id);
+  if (!it) return;
+  const st = dlState();
+  if ((st.owned || []).indexOf(id) >= 0) return;
+  if (it.trophy && !dlAllDone()) { playSfx("error"); toast("🔒", "Trofeo bloqueado", "El 🏆 Trofeo «Decision Maker» se desbloquea al completar las 14 misiones del evento (" + dlDoneCount() + "/14)."); return; }
+  const bal = coinsBalance();
+  if (bal < it.price) { playSfx("error"); toast("🪙", "No te alcanza", "Te faltan " + (it.price - bal).toLocaleString("es-CR") + " monedas para «" + it.n + "». ¡Completá misiones!"); return; }
+  shopState().spent = (shopState().spent || 0) + it.price;
+  st.owned.push(id);
+  ODEA.bus.emit("coins.spent", { id: id, price: it.price });
+  playSfx("coin");
+  confetti(360, 320, 70);
+  toast("🧪", "¡Objeto del Decision Lab!", "«" + it.n + "» es tuyo para siempre.");
+  saveGame();
+  dlShopRender();
+  shopRender();
+  shopCoinSync();
+}
+function dlOpen() { dlRender(); document.getElementById("dl-layer").classList.add("show"); playSfx("click"); }
+function dlClose() { document.getElementById("dl-layer").classList.remove("show"); }
+(function () {
+  const btn = document.getElementById("side-dl");
+  if (btn) btn.addEventListener("click", dlOpen);
+  const c1 = document.getElementById("dl-close");
+  if (c1) c1.addEventListener("click", dlClose);
+  const c2 = document.getElementById("dl-close2");
+  if (c2) c2.addEventListener("click", dlClose);
+  const layer = document.getElementById("dl-layer");
+  if (layer) layer.addEventListener("click", function (e) { if (e.target === layer) dlClose(); });
+  dlRender();
+})();
 function shopCoinSync() {
   const bal = coinsBalance();
   document.querySelectorAll(".coin-num").forEach(function (el) { el.textContent = bal.toLocaleString("es-CR"); });

@@ -30,7 +30,7 @@ check("Sintaxis JS inline (node --check)", r.returncode == 0)
 # 2) Símbolos clave existen
 for sym in ["CAP_FRONTS", "capCompute", "renderCapital", "capToggleMission",
             "ENG_OBJ", "AI_OBJ", "CAPF_LADDER", "bovedaHTML", "exportSave", "importSave",
-            "PUENTE_MISSIONS", "PUENTE_CHAPTERS", "B2B_LEGACY_XP", "completedPuente"]:
+            "PUENTE_MISSIONS", "PUENTE_CHAPTERS", "B2B_LEGACY_XP", "completedPuente", "DL_MISSIONS", "DL_SHOP_ITEMS", "dlComplete"]:
     check(f"Símbolo definido: {sym}", re.search(rf"\b{sym}\b", html) is not None)
 
 # 3) Tres frentes del Imperio
@@ -52,6 +52,17 @@ if msw:
 # 6) Respaldos export/import conectados
 check("Botones respaldo en HTML", 'id="btn-export"' in html and 'id="btn-import"' in html)
 check("Funciones exportSave/importSave", "function exportSave" in html and "function importSave" in html)
+
+# 7) v6.00: EVENTO Decision Lab
+check("v6.00: APP_VERSION 6.00", 'const APP_VERSION = "6.00"' in html)
+check("v6.00: eventDL derivado y restaurado (sin tocar eventRL/farm)",
+      "const DL_MISSIONS" in html and "function dlXPGain(" in html and
+      "function dlCoinsEarned(" in html and "function dlComplete(" in html and
+      "gameState.eventDL" in html and "data.eventDL" in html and
+      "function eventXPGain(" in html and "function farmXPGain()" in html)
+check("v6.00: panel y Tienda del Evento con trofeo bloqueado",
+      'id="dl-layer"' in html and 'id="side-dl"' in html and 'id="dlshop-grid"' in html and
+      "dl_trofeo" in html and "function dlShopBuy(" in html and "Analista de Decisiones" in html)
 
 print()
 if fails:
