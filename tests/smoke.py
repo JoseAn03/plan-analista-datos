@@ -30,7 +30,7 @@ check("Sintaxis JS inline (node --check)", r.returncode == 0)
 # 2) Símbolos clave existen
 for sym in ["CAP_FRONTS", "capCompute", "renderCapital", "capToggleMission",
             "ENG_OBJ", "AI_OBJ", "CAPF_LADDER", "bovedaHTML", "exportSave", "importSave",
-            "PUENTE_MISSIONS", "PUENTE_CHAPTERS", "B2B_LEGACY_XP", "completedPuente", "DL_MISSIONS", "DL_SHOP_ITEMS", "dlComplete"]:
+            "PUENTE_MISSIONS", "PUENTE_CHAPTERS", "B2B_LEGACY_XP", "completedPuente", "DL_MISSIONS", "DL_SHOP_ITEMS", "dlComplete", "DL_GEAR_IDS", "dlGrantGearSet", "dlGearRender"]:
     check(f"Símbolo definido: {sym}", re.search(rf"\b{sym}\b", html) is not None)
 
 # 3) Tres frentes del Imperio
@@ -63,6 +63,10 @@ check("v6.00: eventDL derivado y restaurado (sin tocar eventRL/farm)",
 check("v6.00: panel y Tienda del Evento con trofeo bloqueado",
       'id="dl-layer"' in html and 'id="side-dl"' in html and 'id="dlshop-grid"' in html and
       "dl_trofeo" in html and "function dlShopBuy(" in html and "Analista de Decisiones" in html)
+check("v6.00: premio final EXO//ORÁCULO (otorgado al 14/14, no vendido, en eventDL)",
+      "xo_costillar" in html and "xo_nucleo" in html and "grantOnly" in html and
+      "function dlGrantGearSet(" in html and "gearGranted: !!dl9.gearGranted" in html and
+      'id="dl-gear-zone"' in html and "PROTOCOLO: DECISIÓN TOTAL" in html)
 
 print()
 if fails:

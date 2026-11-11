@@ -203,6 +203,25 @@ check('v6.00: Tienda del Evento (5 objetos, gasto por shop.spent, trofeo exige 1
     return items.length === 5 && items.reduce((s, x) => s + x.price, 0) === 1120 &&
       items.filter((x) => x.trophy).length === 1; })());
 check('v6.00: pruebas funcionales del evento presentes', existsSync(join(ROOT, 'tests/decision-lab.mjs')));
+check('v6.00: premio final EXO//ORÁCULO (5 piezas grantOnly, las más fuertes por slot, bono de set)', (() => {
+  const i = html.indexOf('const SHOP_ITEMS =');
+  const j = html.indexOf('];', i);
+  if (i < 0 || j < 0) return false;
+  const ctx = {};
+  vm.runInNewContext(html.slice(i, j + 2) + '\nthis.out = SHOP_ITEMS;', ctx);
+  const items = ctx.out;
+  const xo = items.filter((x) => x.tier === 'oraculo');
+  if (xo.length !== 5 || !xo.every((x) => x.grantOnly)) return false;
+  const slots = ['mano', 'escudo', 'cabeza', 'torso', 'pies'];
+  if (!slots.every((s) => xo.filter((x) => x.slot === s).length === 1)) return false;
+  const strongest = xo.every((x) => items.filter((y) => y.slot === x.slot && y.tier !== 'oraculo').every((y) => x.power > y.power));
+  return strongest &&
+    html.includes('gearGranted: !!dl9.gearGranted') &&
+    html.includes('function dlGrantGearSet(') &&
+    html.includes('SET LEGENDARIO DESBLOQUEADO: EXO//ORÁCULO') &&
+    html.includes('id="dl-gear-zone"') &&
+    html.includes('PROTOCOLO: DECISIÓN TOTAL');
+})());
 check('v5.99: evento, Quiz Farmeo y capa quiz retirados (UI y assets fuera)',
   !html.includes('id="event-layer"') && !html.includes('id="side-event"') && !html.includes('const EVENT_MISSIONS') &&
   !html.includes('id="farm-layer"') && !html.includes('id="event-farm-btn"') &&

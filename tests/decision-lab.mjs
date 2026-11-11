@@ -9,6 +9,8 @@
  *  b) la derivación de XP/monedas incluye el evento SIN alterar eventRL/farm
  *  c) comprar un objeto exclusivo descuenta monedas vía shop.spent
  *  d) el Trofeo «Decision Maker» exige las 14 misiones completas
+ *  e) premio final: el set EXO//ORÁCULO se otorga UNA sola vez al 14/14,
+ *     entra al inventario real, persiste save→load y no mueve XP/monedas
  *
  * Uso: node tests/decision-lab.mjs
  */
@@ -58,7 +60,7 @@ global.gameState = {};
 const stubs = `
 var SAVE_KEY = "odea_save_v2", OLD_KEY = "odea_save_v1", SAVE_SCHEMA = 3;
 var campaignAll = [], employmentMissions = [], PUENTE_MISSIONS = [], achievements = [];
-var B2B_LEGACY_XP = {}, CAP_OBJ = {}, ENG_OBJ = {}, AI_OBJ = {}, SHOP_ITEMS = [], REWARDS = [];
+var B2B_LEGACY_XP = {}, CAP_OBJ = {}, ENG_OBJ = {}, AI_OBJ = {}, REWARDS = [];
 var DAILY_TOTAL = 56, WEEKLY_TOTAL = 8;
 function plannerCatalog() { return []; }
 function migrateEquipped(e) { return e || {}; }
@@ -67,6 +69,7 @@ var corruptSave = false, legacySaveNeedsDailyReset = false;
 var FARM_XP_PER = 2, FARM_PER_COIN = 4, FARM_DAY_CAP = 40;
 function todayStr() { return "2026-11-11"; }
 function toast() {} function playSfx() {} function confetti() {}
+function holoRender() {} function sideHoloRender() {}
 function shopRender() {} function shopCoinSync() {}
 function sagaCoinsEarned() { return 0; }
 function huntCoinsEarned() { return 0; }
@@ -91,10 +94,13 @@ geval([stubs,
   extract('recomputeState'),
   extract('dlMission'), extract('dlDone'), extract('dlDoneCount'), extract('dlAllDone'),
   extract('dlRender'), extract('dlComplete'),
+  extractConst('SHOP_ITEMS'), extract('shopItem'), extract('shopPower'), extract('shopEquip'),
   extract('dlShopItem'), extract('dlShopRender'), extract('dlShopBuy'),
+  extractConst('DL_GEAR_IDS'), (html.match(/const DL_GEAR_BONUS = \d+;/) || [''])[0],
+  extract('dlGearGranted'), extract('dlGrantGearSet'), extract('dlGearEquippedCount'), extract('dlGearRender'),
   'globalThis.__T = { DL_MISSIONS, DL_SHOP_ITEMS, loadGame, saveGame, dlState, dlXPGain, dlCoinsEarned,' +
   ' eventXPGain, farmXPGain, farmCoinsEarned, coinsEarned, coinsBalance, shopState, recomputeState,' +
-  ' dlComplete, dlDoneCount, dlAllDone, dlShopBuy };'
+  ' dlComplete, dlDoneCount, dlAllDone, dlShopBuy, dlGrantGearSet, shopItem, shopPower, shopEquip, DL_GEAR_IDS };'
 ].join('\n'));
 const T = globalThis.__T;
 const gs = () => globalThis.gameState;
@@ -103,7 +109,7 @@ function baseState() {
   return { playerName: 'Test', completedMissions: [], completedDaily: [], completedWeekly: [],
     completedJobs: [], completedB2b: [], completedPuente: [], unlockedAch: [],
     vida: { log: [] }, capital: {}, gods: {}, shop: { spent: 0, owned: [], equipped: {} },
-    eventRL: { log: [] }, farm: { log: [] }, eventDL: { log: [], badge: false, owned: [] } };
+    eventRL: { log: [] }, farm: { log: [] }, eventDL: { log: [], badge: false, owned: [], gearGranted: false } };
 }
 
 const results = [];
@@ -114,7 +120,7 @@ delete store['odea_save_v2']; delete store['odea_save_v1'];
 store['odea_save_v2'] = JSON.stringify({
   saveVersion: 3, playerName: 'Jose',
   eventRL: { log: [{ id: 'ev_x', d: '2026-11-05', xp: 15, coins: 3 }] },
-  eventDL: { badge: true, owned: ['dl_lentes', 'dl_basura'],
+  eventDL: { badge: true, gearGranted: true, owned: ['dl_lentes', 'dl_basura'],
     log: [
       { id: 'dl1', d: '2026-11-11', xp: 40, coins: 20 },
       { id: 'dl7', d: '2026-11-11', xp: 100, coins: 50 },
@@ -130,6 +136,8 @@ check('a2: log restaurado y saneado (2 válidas, sin duplicados ni inventadas)',
   gs().eventDL.log[1].xp === 100 && gs().eventDL.log[1].coins === 50);
 check('a3: insignia y objetos restaurados (objeto inválido fuera)',
   gs().eventDL.badge === true && JSON.stringify(gs().eventDL.owned) === JSON.stringify(['dl_lentes']));
+check('a6: gearGranted (premio EXO//ORÁCULO) restaurado desde el guardado',
+  gs().eventDL.gearGranted === true);
 T.saveGame();
 const written = JSON.parse(store['odea_save_v2']);
 check('a4: saveGame vuelve a escribir eventDL intacto',
@@ -137,7 +145,7 @@ check('a4: saveGame vuelve a escribir eventDL intacto',
 store['odea_save_v2'] = JSON.stringify({ saveVersion: 3, playerName: 'Viejo' });
 globalThis.gameState = {};
 check('a5: guardado viejo sin eventDL carga con default seguro',
-  T.loadGame() === true && gs().eventDL.log.length === 0 && gs().eventDL.badge === false && gs().eventDL.owned.length === 0);
+  T.loadGame() === true && gs().eventDL.log.length === 0 && gs().eventDL.badge === false && gs().eventDL.owned.length === 0 && gs().eventDL.gearGranted === false);
 
 // ---------- b) Derivación: el evento suma sin alterar eventRL/farm ----------
 globalThis.gameState = baseState();
@@ -190,6 +198,43 @@ check('d5: completar dos veces la misma misión es idempotente', gs().eventDL.lo
 T.dlShopBuy('dl_trofeo');
 check('d6: con 14/14 el trofeo se compra por shop.spent (400)',
   T.shopState().spent === 400 && gs().eventDL.owned.includes('dl_trofeo') && T.coinsBalance() === 600 + 510 - 400);
+
+// ---------- e) Premio final: set legendario EXO//ORÁCULO ----------
+globalThis.gameState = baseState();
+gs().eventRL = { log: [{ id: 'ev_x', d: '2026-11-05', xp: 15, coins: 3 }] };
+gs().farm = { log: [{ d: '2026-11-11', c: 1 }, { d: '2026-11-11', c: 1 }] };
+T.DL_MISSIONS.slice(0, 13).forEach((m) => T.dlComplete(m.id));
+T.recomputeState();
+const preEvt = gs().xpBreakdown.evento, preFarm = gs().xpBreakdown.farm;
+check('e1: con 13/14 NO se otorga el set (gearGranted=false, sin piezas xo_)',
+  gs().eventDL.gearGranted === false && !T.shopState().owned.some((id) => id.indexOf('xo_') === 0));
+const spentAntes = T.shopState().spent;
+T.dlComplete('dl14');
+check('e2: al completar la 14ª el set se otorga junto con la insignia',
+  gs().eventDL.badge === true && gs().eventDL.gearGranted === true);
+check('e3: las 5 piezas quedan en el inventario real (shop.owned), una sola vez',
+  T.DL_GEAR_IDS.every((id) => T.shopState().owned.includes(id)) &&
+  T.shopState().owned.filter((id) => id.indexOf('xo_') === 0).length === 5);
+check('e4: el otorgamiento no mueve XP ni monedas del evento ni el gasto',
+  T.dlXPGain() === 1020 && T.dlCoinsEarned() === 510 && T.shopState().spent === spentAntes);
+T.recomputeState();
+check('e5: eventRL/farm intactos tras el otorgamiento',
+  gs().xpBreakdown.evento === preEvt && gs().xpBreakdown.farm === preFarm &&
+  T.eventXPGain() === 15);
+T.dlGrantGearSet();
+T.dlComplete('dl14');
+check('e6: re-otorgar y re-completar es idempotente (5 piezas, sin duplicados)',
+  T.shopState().owned.filter((id) => id.indexOf('xo_') === 0).length === 5 &&
+  new Set(T.shopState().owned).size === T.shopState().owned.length);
+T.DL_GEAR_IDS.forEach((id) => T.shopEquip(id));
+check('e7: set completo equipado = 7.900 de piezas + bono PROTOCOLO 500 = 8.400 ⚔️',
+  T.shopPower() === 8400);
+T.saveGame();
+globalThis.gameState = {};
+check('e8: ida y vuelta save→load conserva set, flag y poder (loadGame no filtra las piezas)',
+  T.loadGame() === true && gs().eventDL.gearGranted === true &&
+  T.DL_GEAR_IDS.every((id) => T.shopState().owned.includes(id)) &&
+  T.shopPower() === 8400);
 
 let fail = 0;
 for (const [name, ok] of results) { console.log((ok ? '  ✓ ' : '  ✗ FALLÓ ') + name); if (!ok) fail++; }

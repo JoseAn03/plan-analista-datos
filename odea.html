@@ -992,6 +992,15 @@ html{-webkit-text-size-adjust:100%}
 .dl-done-tag{margin-top:8px;font-size:.8rem;color:#00ffaa;font-weight:700}
 .dl-badge-card{margin-top:10px;border:1px solid rgba(255,215,0,.5);border-radius:11px;padding:9px 12px;background:rgba(255,215,0,.07);font-size:.84rem}
 .dl-badge-card.pending{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.03);opacity:.85}
+.dl-gear-card{margin-top:12px;border:1px solid rgba(255,46,147,.55);border-radius:11px;padding:10px 12px;background:linear-gradient(160deg,rgba(255,46,147,.08),rgba(0,229,255,.06))}
+.dl-gear-card h4{margin:0 0 4px;font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.05em;color:#FF2E93}
+.dl-gear-sub{font-size:.78rem;opacity:.85}
+.dl-gear-piece{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:.84rem}
+.dl-gear-piece .gp-ico{font-size:1.2rem}
+.dl-gear-piece .gp-name{flex:1;font-weight:700}
+.dl-gear-piece .gp-pow{color:#00E5FF;white-space:nowrap;font-size:.78rem}
+.dl-gear-piece.locked{opacity:.55}
+.dl-gear-bonus{margin-top:9px;font-size:.82rem;color:#ffd700;font-weight:700}
 .canje-head{margin-top:18px;border-top:1px solid rgba(255,215,0,.25);padding-top:12px}
 .canje-head h3{font-family:'Orbitron',sans-serif;color:var(--glow-green);font-size:.95rem;margin:0 0 4px}
 .shop-item.canje-item{position:relative}
@@ -3055,13 +3064,14 @@ body.odea-ui-v7 .sg-back:hover{border-color:var(--glow-cyan);color:#fff;box-shad
       <h2 id="dl-title">🧪 EVENTO ESPECIAL: DECISION LAB</h2>
       <button class="close-x" id="dl-close" aria-label="Cerrar evento">✕</button>
     </div>
-    <p class="shop-sub">Tu proyecto estrella, paso a paso: el <b>SJO Decision Lab</b>, un sistema de decisiones para una rentadora (operación simulada 100% sintética, calibrada con datos públicos de turismo de Costa Rica). Nada de XP por nada: <b>cada misión se completa cuando el entregable real existe</b>. Sin fecha límite: el crédito queda para siempre. Al completar las 14 misiones ganás la insignia <b>🏅 Analista de Decisiones</b> y se desbloquea el trofeo exclusivo en la tienda.</p>
+    <p class="shop-sub">Tu proyecto estrella, paso a paso: el <b>SJO Decision Lab</b>, un sistema de decisiones para una rentadora (operación simulada 100% sintética, calibrada con datos públicos de turismo de Costa Rica). Nada de XP por nada: <b>cada misión se completa cuando el entregable real existe</b>. Sin fecha límite: el crédito queda para siempre. Al completar las 14 misiones ganás la insignia <b>🏅 Analista de Decisiones</b>, se desbloquea el trofeo exclusivo en la tienda y recibís el <b>set legendario EXO//ORÁCULO</b> 🦴, el equipo más fuerte del juego.</p>
     <div class="shop-stats">
       <span class="bal-pill">🧪 Progreso: <b id="dl-count">0/14</b></span>
       <span class="bal-pill">⭐ Evento: <b id="dl-xp">0</b> XP · 🪙 <b id="dl-coins">0</b></span>
     </div>
     <div class="dl-bar-wrap"><div class="dl-bar" id="dl-bar"></div></div>
     <div id="dl-badge-zone"></div>
+    <div id="dl-gear-zone"></div>
     <div class="dl-list" id="dl-missions"></div>
     <button class="btn-neon shop-back" id="dl-close2" aria-label="Volver">◀ VOLVER</button>
   </div>
@@ -4239,7 +4249,7 @@ let gameState = {
   applications: [],                // 📡 fuentes que sigo (Noticias)
   focus: { log: [], date: null },  // 🍅 sesiones de enfoque (pomodoro)
   hunt: defaultHunt(),             // 🎯 La Cacería: postulaciones, radar, forja, jefe
-  eventDL: { log: [], badge: false, owned: [] } // 🧪 EVENTO Decision Lab (v6.00): pasos del proyecto estrella
+  eventDL: { log: [], badge: false, owned: [], gearGranted: false } // 🧪 EVENTO Decision Lab (v6.00): pasos del proyecto estrella + set EXO//ORÁCULO
 };
 let selectedDay = 1;       // misión diaria visible en el héroe
 
@@ -4434,6 +4444,7 @@ function loadGame() {
         return { id: e.id, d: e.d, xp: Math.max(0, Math.min(100, Number(e.xp) || 0)), coins: Math.max(0, Math.min(50, Number(e.coins) || 0)) };
       }) : [],
       badge: !!dl9.badge,
+      gearGranted: !!dl9.gearGranted,
       owned: Array.isArray(dl9.owned) ? dl9.owned.filter(function (id) {
         return typeof id === "string" && /^dl_(lentes|marco|skin|chaqueta|trofeo)$/.test(id);
       }) : []
@@ -5111,9 +5122,10 @@ function eventCoinsEarned() {
 }
 /* --- 🧪 EVENTO Decision Lab (v6.00): XP y monedas desde su propio log --- */
 function dlState() {
-  if (!gameState.eventDL || typeof gameState.eventDL !== "object") gameState.eventDL = { log: [], badge: false, owned: [] };
+  if (!gameState.eventDL || typeof gameState.eventDL !== "object") gameState.eventDL = { log: [], badge: false, owned: [], gearGranted: false };
   if (!Array.isArray(gameState.eventDL.log)) gameState.eventDL.log = [];
   if (!Array.isArray(gameState.eventDL.owned)) gameState.eventDL.owned = [];
+  if (typeof gameState.eventDL.gearGranted !== "boolean") gameState.eventDL.gearGranted = !!gameState.eventDL.gearGranted;
   return gameState.eventDL;
 }
 function dlXPGain() {
@@ -12213,7 +12225,7 @@ const HOLO_POS = { "🛡️ Campaña": "hombro", "🎖️ General": "pecho", "�
 /* ==========================================================
    🪙 V6.8 — TIENDA DEL HÉROE (monedas + equipo Minecraft)
    ========================================================== */
-const SHOP_TIERS = { madera:"#b58a5a", piedra:"#9aa0a6", hierro:"#d8dde4", oro:"#ffd700", diamante:"#4dd0ff" };
+const SHOP_TIERS = { madera:"#b58a5a", piedra:"#9aa0a6", hierro:"#d8dde4", oro:"#ffd700", diamante:"#4dd0ff", oraculo:"#FF2E93" };
 const SHOP_SLOT_LABEL = { mano:"ARMA", escudo:"ESCUDO", cabeza:"CASCO", torso:"PECHERA", pies:"BOTAS" };
 const SHOP_POS = { mano:"pos-mano", escudo:"pos-escudo", cabeza:"pos-cabeza", torso:"pos-torso", pies:"pos-pies" };
 const SHOP_ITEMS = [
@@ -12236,7 +12248,15 @@ const SHOP_ITEMS = [
   { id:"ch_iron", n:"Pechera de Hierro", ico:"🥼", tier:"hierro", price:200, slot:"torso", power:500 },
   { id:"ch_diamond", n:"Pechera de Diamante", ico:"🥼", tier:"diamante", price:750, slot:"torso", power:1800 },
   { id:"bt_iron", n:"Botas de Hierro", ico:"🥾", tier:"hierro", price:120, slot:"pies", power:280 },
-  { id:"bt_diamond", n:"Botas de Diamante", ico:"🥾", tier:"diamante", price:500, slot:"pies", power:1100 }
+  { id:"bt_diamond", n:"Botas de Diamante", ico:"🥾", tier:"diamante", price:500, slot:"pies", power:1100 },
+  /* 🦴 Set legendario EXO//ORÁCULO (premio final del EVENTO Decision Lab):
+     grantOnly — NO se vende; se otorga completo al completar las 14
+     misiones. Cada pieza va +100 sobre la mejor de su slot. */
+  { id:"xo_costillar", n:"Exo-armazón «COSTILLAR NEÓN»", ico:"🦴", tier:"oraculo", price:0, slot:"torso", power:1900, grantOnly:true },
+  { id:"xo_visor", n:"Visor «ORÁCULO»", ico:"👁️", tier:"oraculo", price:0, slot:"cabeza", power:1300, grantOnly:true },
+  { id:"xo_brazo", n:"Servobrazo «PRECISIÓN»", ico:"🦾", tier:"oraculo", price:0, slot:"mano", power:1700, grantOnly:true },
+  { id:"xo_pistones", n:"Pistones «SOBRECARGA»", ico:"🦿", tier:"oraculo", price:0, slot:"pies", power:1200, grantOnly:true },
+  { id:"xo_nucleo", n:"Núcleo «DECISIÓN»", ico:"🔮", tier:"oraculo", price:0, slot:"escudo", power:1800, grantOnly:true }
 ];
 function shopState() { return gameState.shop = gameState.shop || { spent: 0, owned: [], equipped: {} }; }
 function coinsEarned() {
@@ -12261,6 +12281,9 @@ function shopPower() {
   const eq = shopState().equipped || {};
   let p = 0;
   Object.keys(eq).forEach(function (slot) { const it = shopItem(eq[slot]); if (it) p += it.power; });
+  /* 🦴 Set EXO//ORÁCULO completo equipado: PROTOCOLO: DECISIÓN TOTAL (+500 ⚔️) */
+  const eqIds = Object.keys(eq).map(function (slot) { return eq[slot]; });
+  if (["xo_costillar", "xo_visor", "xo_brazo", "xo_pistones", "xo_nucleo"].every(function (id) { return eqIds.indexOf(id) >= 0; })) p += 500;
   return p;
 }
 function shopGearHTML() {
@@ -12287,6 +12310,7 @@ function shopRender() {
   if (!grid) return;
   grid.innerHTML = SHOP_ITEMS.map(function (it) {
     const owned = shopOwned(it.id);
+    if (it.grantOnly && !owned) return ""; /* 🦴 EXO//ORÁCULO: no se vende; aparece en la tienda al ganarlo */
     const eqHere = eq[it.slot] === it.id;
     const affordable = bal >= it.price;
     let btn;
@@ -12307,6 +12331,7 @@ function shopRender() {
 function shopBuy(id) {
   const it = shopItem(id);
   if (!it) return;
+  if (it.grantOnly) { toast("🦴", "Pieza legendaria", "«" + it.n + "» no se compra: se gana completando el EVENTO Decision Lab (14/14)."); return; }
   if (shopOwned(id)) return;
   const bal = coinsBalance();
   if (bal < it.price) { playSfx("error"); toast("🪙", "No te alcanza", "Te faltan " + (it.price - bal).toLocaleString("es-CR") + " monedas. ¡Completa misiones!"); return; }
@@ -12493,6 +12518,9 @@ function dlDoneCount() { return DL_MISSIONS.filter(function (m) { return dlDone(
 function dlAllDone() { return dlDoneCount() >= DL_MISSIONS.length; }
 function dlRender() {
   const st = dlState();
+  /* 🦴 Auto-reparación: insignia ya ganada sin registro del set
+     (guardado anterior al premio) → se otorga una sola vez, sin duplicar. */
+  if (st.badge && !st.gearGranted && dlGrantGearSet()) saveGame();
   const done = dlDoneCount();
   const badge = document.getElementById("dl-badge");
   if (badge) badge.textContent = st.badge ? "🏅" : (done + "/" + DL_MISSIONS.length);
@@ -12508,7 +12536,7 @@ function dlRender() {
   if (bar) bar.style.width = Math.round(done * 100 / DL_MISSIONS.length) + "%";
   const zone = document.getElementById("dl-badge-zone");
   if (zone) zone.innerHTML = st.badge
-    ? '<div class="dl-badge-card">🏅 <b>INSIGNIA: ANALISTA DE DECISIONES</b> — completaste las 14 misiones del Decision Lab. El 🏆 Trofeo «Decision Maker» ya está desbloqueado en la Tienda del Evento.</div>'
+    ? '<div class="dl-badge-card">🏅 <b>INSIGNIA: ANALISTA DE DECISIONES</b> — completaste las 14 misiones del Decision Lab. El 🏆 Trofeo «Decision Maker» ya está desbloqueado en la Tienda del Evento y el set legendario <b>EXO//ORÁCULO</b> 🦴 ya es tuyo: equipalo en la vitrina de abajo.</div>'
     : (done > 0 ? '<div class="dl-badge-card pending">🏅 Insignia «Analista de Decisiones»: ' + done + '/' + DL_MISSIONS.length + ' misiones. Se gana al completar las 14.</div>' : "");
   let out = "";
   DL_PHASES.forEach(function (ph) {
@@ -12528,6 +12556,7 @@ function dlRender() {
   });
   list.innerHTML = out;
   list.querySelectorAll("[data-dl-do]").forEach(function (el) { el.addEventListener("click", function () { dlComplete(el.dataset.dlDo); }); });
+  dlGearRender();
 }
 function dlComplete(id) {
   const m = dlMission(id);
@@ -12536,17 +12565,74 @@ function dlComplete(id) {
   dlState().log.push({ id: id, d: todayStr(), xp: m.xp, coins: m.coins });
   ODEA.bus.emit("mission.completed", { id: id, source: "decisionlab", xp: m.xp });
   const finished = dlAllDone() && !dlState().badge;
-  if (finished) dlState().badge = true;
+  if (finished) { dlState().badge = true; dlGrantGearSet(); }
   playSfx(finished ? "win" : "coin");
-  if (finished) confetti(360, 320, 120);
-  toast(m.ico, finished ? "🏅 ¡INSIGNIA GANADA!" : "¡Misión del Decision Lab completada!",
-    finished ? "«Analista de Decisiones»: las 14 misiones están completas. El 🏆 Trofeo «Decision Maker» te espera en la Tienda del Evento." : (m.t + " · ⭐ +" + m.xp + " XP · 🪙 +" + m.coins));
+  if (finished) { confetti(360, 320, 120); confetti(180, 240, 90); confetti(540, 240, 90); }
+  toast(m.ico, finished ? "¡SET LEGENDARIO DESBLOQUEADO: EXO//ORÁCULO!" : "¡Misión del Decision Lab completada!",
+    finished ? "🏅 Insignia «Analista de Decisiones» ganada, y el Esqueleto de las Decisiones completo es tuyo: 🦴 Costillar Neón · 👁️ Visor Oráculo · 🦾 Servobrazo Precisión · 🦿 Pistones Sobrecarga · 🔮 Núcleo Decisión. Es el equipo más fuerte del juego: equipalo en este panel o en la Tienda, y con las 5 piezas activás el PROTOCOLO: DECISIÓN TOTAL (+500 ⚔️). El 🏆 Trofeo «Decision Maker» te espera en la Tienda del Evento." : (m.t + " · ⭐ +" + m.xp + " XP · 🪙 +" + m.coins));
   saveGame();
   recomputeState();
   dlRender();
   shopCoinSync();
   const badge = document.getElementById("coin-badge");
   if (badge) badge.textContent = coinsBalance().toLocaleString("es-CR");
+}
+/* --- 🦴 PREMIO FINAL «EXO//ORÁCULO» — el Esqueleto de las Decisiones ---
+   Set legendario cyberpunk de 5 piezas (una por slot real del equipo).
+   NO se compra ni va a la Tienda del Evento: se OTORGA completo y
+   automático en el mismo momento que la insignia (14/14). El registro
+   vive en eventDL.gearGranted (idempotente, restaurado en loadGame) y
+   las piezas entran al inventario real (shopState().owned) como items
+   grantOnly del catálogo de equipo: se equipan y suman poder por el
+   mecanismo normal (shopEquip/shopPower), con bono de set completo. */
+const DL_GEAR_IDS = ["xo_costillar", "xo_visor", "xo_brazo", "xo_pistones", "xo_nucleo"];
+const DL_GEAR_BONUS = 500;
+function dlGearGranted() { return !!dlState().gearGranted; }
+function dlGrantGearSet() {
+  const st = dlState();
+  if (st.gearGranted) return false;
+  if (!dlAllDone()) return false;
+  const owned = shopState().owned;
+  DL_GEAR_IDS.forEach(function (id) { if (owned.indexOf(id) < 0) owned.push(id); });
+  st.gearGranted = true;
+  return true;
+}
+function dlGearEquippedCount() {
+  const eq = shopState().equipped || {};
+  const eqIds = Object.keys(eq).map(function (s) { return eq[s]; });
+  return DL_GEAR_IDS.filter(function (id) { return eqIds.indexOf(id) >= 0; }).length;
+}
+function dlGearRender() {
+  const zone = document.getElementById("dl-gear-zone");
+  if (!zone) return;
+  const granted = dlGearGranted();
+  const eq = shopState().equipped || {};
+  const eqCount = dlGearEquippedCount();
+  let out = '<div class="dl-gear-card"><h4>🦴 SET LEGENDARIO «EXO//ORÁCULO» — EL ESQUELETO DE LAS DECISIONES</h4>' +
+    '<div class="dl-gear-sub">' + (granted
+      ? 'Es tuyo: el equipo más fuerte del juego. Equipalo aquí mismo o en la Tienda.'
+      : 'Premio final del evento: se otorga COMPLETO y automático al completar las 14 misiones. No se compra.') + '</div>';
+  out += DL_GEAR_IDS.map(function (id) {
+    const it = shopItem(id);
+    if (!it) return "";
+    const isEq = eq[it.slot] === id;
+    const btn = !granted
+      ? '<span class="gp-pow">🔒 14/14</span>'
+      : (isEq
+        ? '<button class="shop-btn eq" data-dl-eq="' + id + '">EQUIPADO ✓</button>'
+        : '<button class="shop-btn" data-dl-eq="' + id + '">EQUIPAR</button>');
+    return '<div class="dl-gear-piece' + (granted ? "" : " locked") + '"><span class="gp-ico">' + it.ico + '</span>' +
+      '<span class="gp-name">' + canjeEsc(it.n) + '</span>' +
+      '<span class="gp-pow">+' + it.power.toLocaleString("es-CR") + ' ⚔️</span>' + btn + '</div>';
+  }).join("");
+  if (granted) {
+    out += eqCount >= DL_GEAR_IDS.length
+      ? '<div class="dl-gear-bonus">⚔️ PROTOCOLO: DECISIÓN TOTAL ACTIVO · +' + DL_GEAR_BONUS + ' de poder de set</div>'
+      : '<div class="dl-gear-bonus">Equipá las 5 piezas para activar el PROTOCOLO: DECISIÓN TOTAL (+' + DL_GEAR_BONUS + ' ⚔️) · ' + eqCount + '/5</div>';
+  }
+  out += '</div>';
+  zone.innerHTML = out;
+  zone.querySelectorAll("[data-dl-eq]").forEach(function (el) { el.addEventListener("click", function () { shopEquip(el.dataset.dlEq); dlRender(); }); });
 }
 function dlShopItem(id) { return DL_SHOP_ITEMS.find(function (x) { return x.id === id; }); }
 function dlShopRender() {
